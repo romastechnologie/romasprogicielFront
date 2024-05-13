@@ -1,20 +1,9 @@
 import { Modal } from "bootstrap";
-import moment from "moment";
 import ApiService from "@/services/ApiService";
 import Swal from "sweetalert2";
 import { format } from 'date-fns';
-import { defineComponent, onMounted, ref, watch } from "vue";
-//import { format } from 'date-fns/esm';
 import { fr } from 'date-fns/locale';
-import tinymce from 'tinymce';
-import JwtService from "@/services/JwtService";
 
-const initTinyMCE = (target, config) => {
-  return tinymce.init({
-    target,
-    ...config,
-  });
-};
 
 const  getDatePlusXDays = (x: number)=>{
   const currentDate = new Date();
@@ -31,13 +20,6 @@ const  getDatePlusXDays = (x: number)=>{
 
   return formattedDate;
 }
-
-const destroyTinyMCE = (editor) => {
-  if (editor) {
-    editor.destroy();
-  }
-};
-
 
 const hideModal = (modalEl: HTMLElement | null): void => {
   if (!modalEl) {
@@ -58,7 +40,7 @@ const showModal = (modalEl: HTMLElement | null): void => {
 
 
 
-const  success = (message) => {
+const  success = (message:string) => {
   Swal.fire({
     title: 'Succès',
     text: message,
@@ -70,7 +52,7 @@ const  success = (message) => {
   });
 }
 
-const error = (message) => {
+const error = (message:string) => {
   Swal.fire({
     title: 'Erreur',
     text: message,
@@ -82,19 +64,19 @@ const error = (message) => {
   });
 }
 
-const  format_date = (value)=>{
+const  format_date = (value:any)=>{
   if (value) {
     return format(new Date(value), 'dd-MM-yyyy HH:mm', { locale: fr });
     //return moment(String(value)).format('DD-MM-YYYY hh:mm')
   }
 }
-const format_Date = (date) => {
+const format_Date = (date:any) => {
   if (date) {
   return format(new Date(date), 'dd-MM-yyyy', { locale: fr });
 }
 }
 
-const separateur = (montant)=>{ 
+const separateur = (montant:any)=>{ 
   if(montant){
     return montant.toLocaleString('fr-FR');
   }
@@ -180,6 +162,6 @@ const suppression = (id:number,element:any, route:string, entite:string) => {
       });
 };
 
-export { getDatePlusXDays, removeModalBackdrop,suppression,separateur, hideModal, getAssetPath,format_Date, showModal, format_date, success, error,initTinyMCE,destroyTinyMCE, getUrlApiForFiles,
+export { getDatePlusXDays, removeModalBackdrop,suppression,separateur, hideModal, getAssetPath,format_Date, showModal, format_date, success, error, getUrlApiForFiles,
 };
 
