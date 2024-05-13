@@ -37,7 +37,6 @@ class ApiService {
   public static setHeader(): void {
     ApiService.vueInstance.axios.defaults.headers.common["Authorization"] = `bearer ${JwtService.getToken()}`;
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] ="application/json";
-    console.log(ApiService.vueInstance.axios.defaults.headers,'ApiService.vueInstance.axios.defaults.headers');
   }
 
   /**
