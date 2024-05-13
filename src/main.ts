@@ -33,6 +33,7 @@ import vueChartist from "vue-chartist"
 import { plugin } from 'vue3-timeline'
 import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import VueTour from 'v3-tour'
+import ApiService from "./services/ApiService";
 
 import English from "@/core/locales/en.json"
 import Russian from "@/core/locales/ru.json"
@@ -85,3 +86,5 @@ createApp(App)
     .component('Datepicker', Datepicker)
     .component('multiselect', Multiselect)
     .mount('#app')
+
+ApiService.init(createApp(App));
