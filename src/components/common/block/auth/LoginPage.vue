@@ -62,7 +62,7 @@
     </div>
 </template>
 <script lang="ts" >
-import { ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import * as Yup from 'yup';
@@ -72,7 +72,7 @@ import { useAuthStore } from '@/services/auth';
 import Swal from 'sweetalert2';
 import store from '@/utils/store';
 
-export default{
+export default defineComponent({
     name: "LoginPage",
     components: {
       Form,
@@ -106,6 +106,7 @@ export default{
     const loginForm = ref(null);
     const onSubmitLogin = async (values: any) => {
      // values = values as User;
+     console.log('fejfelffeefeeffffffff')
       // Clear existing errors
       store.logout();
       if (submitButton.value) {
@@ -149,7 +150,8 @@ export default{
         // }
 
         return {
-            onSubmitLogin, loginForm,
+            onSubmitLogin,
+             loginForm,
             submitButton,
             //showPassword,
             //doLogin,
@@ -158,5 +160,5 @@ export default{
         }
     }
 
-    }
+    });
 </script>
