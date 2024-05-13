@@ -31,15 +31,15 @@
                                 <div class="form-group mb-0">
                                     <div class="checkbox p-0">
                                         <input id="checkbox1" type="checkbox">
-                                        <label class="text-muted" for="checkbox1">Remember password</label>
-                                    </div><a class="link"><router-link to="/authentication/forget_password">Forgot
-                                            password?</router-link></a>
+                                        <label class="text-muted" for="checkbox1">Se souvenir de moi</label>
+                                    </div><a class="link"><router-link to="/authentication/forget_password">Mot de passe oublié
+                                            ?</router-link></a>
                                     <div class="text-end mt-3">
                                         <button ref="submitButton" class="btn btn-primary btn-block w-100" type="submit" >Connectez-vous maintenant
                                             </button>
                                     </div>
                                 </div>
-                                <h6 class="text-muted mt-4 or">Ou connectez-vous avec</h6>
+                                <!-- <h6 class="text-muted mt-4 or">Ou connectez-vous avec</h6>
                                 <div class="social mt-4">
                                     <div class="btn-showcase"><a class="btn btn-light" href="https://www.linkedin.com/login"
                                             target="_blank"><vue-feather class="txt-linkedin" type="linkedin"></vue-feather>
@@ -51,7 +51,7 @@
                                                 type="facebook"></vue-feather>facebook</a></div>
                                 </div>
                                 <p class="mt-4 mb-0 text-center">Don't have account?<router-link class="ms-2"
-                                        to="/auth/register">Create Account</router-link></p>
+                                        to="/auth/register">Create Account</router-link></p> -->
                             </Form>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
     </div>
 </template>
 <script lang="ts" >
-import { ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import * as Yup from 'yup';
@@ -72,7 +72,7 @@ import { useAuthStore } from '@/services/auth';
 import Swal from 'sweetalert2';
 import store from '@/utils/store';
 
-export default{
+export default defineComponent({
     name: "LoginPage",
     components: {
       Form,
@@ -100,12 +100,13 @@ export default{
     // }
 
     const router  = useRouter();
-    //const store = useAuthStore();
+    const store = useAuthStore();
     const submitButton = ref<HTMLButtonElement | null>(null);
 
     const loginForm = ref(null);
     const onSubmitLogin = async (values: any) => {
      // values = values as User;
+     console.log('fejfelffeefeeffffffff', values)
       // Clear existing errors
       store.logout();
       if (submitButton.value) {
@@ -115,9 +116,14 @@ export default{
       // Send login request
       await store.login(values);
       const error = Object.values(store.errors);
+      console.log('Pas de erreurs', error)
+
       if (error.length === 0) {
-          // Go to page after successfully login
-          router.push({ name: "tableauBordPage" });
+          console.log('Dans la fonction je suis')
+          //router.replace('/home');
+          router.replace('/');
+            //localStorage.setItem('user', 'romastechnologie@gmail.com')
+            localStorage.setItem("SidebarType", 'compact-wrapper')
       } else {
         Swal.fire({
           text: error[1] as string,
@@ -149,7 +155,8 @@ export default{
         // }
 
         return {
-            onSubmitLogin, loginForm,
+            onSubmitLogin,
+             loginForm,
             submitButton,
             //showPassword,
             //doLogin,
@@ -158,5 +165,5 @@ export default{
         }
     }
 
-    }
+    });
 </script>
