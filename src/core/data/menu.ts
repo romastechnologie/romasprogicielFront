@@ -145,6 +145,7 @@ export const menu: MenuItem[] = [
                 title: "Product List",
                 type: "link"
             },
+            
             {
                 path: "/ecommerce/payment_details",
                 title: "Payment Details",
