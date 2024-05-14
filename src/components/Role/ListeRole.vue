@@ -170,18 +170,21 @@
 
 <template>
   <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2 g-xl-3">
-    <div class="ol-md-4">
+    <div class="col-md-4">
       <div class="card h-md-100">
         <div class="card-title m-15">
           <h2 class="text-center">Ajouter un rôle</h2>
         </div>
         <!--begin::Card body-->
-        <div class="card-body d-flex flex-column flex-center">
-          <!--begin::Button-->.
-          <i class="flaticon-form" style="font-size: 140px; text-align: center;"></i>
-          <router-link :to="{ name: 'AddRolePage' }" class="btn  btn-primary btn-active-primary ">
-            <span class="fw-bolder"><i class="plus" ></i>Ajouter un rôle</span>
-          </router-link>
+        <div class="card-body flex-column flex-center">
+          <!--begin::Button-->
+          <h2 class="text-center"><i class="fa fa-edit" style="font-size: 120px; text-align: center;"></i></h2>
+
+          <h2 class="text-center"><router-link :to="{ name: 'AddRolePage' }" class="btn btn-primary btn-active-primary text-center">
+            <span class="fw-bolder"><i class="fa fa-plus-circle"></i>Ajouter un rôle</span>
+          </router-link></h2>
+
+          
           <!--begin::Button-->
         </div>
         <!--begin::Card body-->

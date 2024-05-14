@@ -70,11 +70,11 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-            {
-                path: "/permissions/ajouter-permission",
-                title: "Ajouter une permission",
-                type: "link"
-            },
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
             {
                 path: "/permissions/liste-permission",
                 title: "Liste des permissions",

@@ -9,8 +9,9 @@
           <p class="my-15">Date de création: {{  format_date(roleData?.createdAt) }}</p>
           <div class="fw-bolder text-gray-600 mb-15">Nombre total de permission ayant ce rôle: {{ roleData?.rolePermissions?.length }}</div>
           <div class="fw-bolder text-gray-600 mb-15">Nombre total d'utilisateur ayant ce rôle: {{ roleData?.users?.length }}</div>
+
           <router-link :to="{ name: 'EditRolePage', params: { id: roleData?.id } }" class="btn  btn-primary my-15 me-2">
-            <i class="flaticon-plus lh-1 me-8 position-relative top-1"></i>Complèter un privilège
+            <i class="fa fa-plus-circle lh-2 me-8 position-relative top-1"></i> Complèter un privilège
           </router-link>
         </div>
       </div>
@@ -51,7 +52,7 @@
                     {{ user.nomComplet }}
                   </th>
                   <td class="shadow-none lh-1 fw-medium ">{{ user.email }} </td>
-                  <td class="shadow-none lh-1 fw-medium"><span class="badge text-outline-success">Actif</span></td>
+                  <td class="shadow-none lh-1 fw-medium"><span class="btn f-w-500 background-light-success font-success">Actif</span></td>
                 </tr>
               </tbody>
             </table>
@@ -75,12 +76,12 @@
                 <div class="d-flex align-items-center py-2">
                   <div class="col-8"><span class="bullet bg-primary me-3"></span><p class="shadow-none lh-1 fw-medium text-black-emphasis title ps-0">{{ pri?.permission?.description }}</p>   </div>
                   <div class="col-4"><span class="bullet bg-primary me-3"></span>
-                    <span class="badge text-outline-danger">
+                    <span class="btn f-w-500 background-light-danger font-danger">
                   <a
                     class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
                     @click="suppression(pri.id, roleData?.rolePermissions,'rolePermission',`la permission ${pri.permission.nom}`	)" 
                     >
-                    <i class="flaticon-delete lh-1 me-8 position-relative top-1" ></i>
+                    <i class="fa fa-trash-o lh-2 me-8 position-relative top-1" ></i>
                     Supprimer
                   </a>
                   </span>
@@ -119,7 +120,7 @@ export default defineComponent({
       let roleData = ref<RoleData>();
       const users = ref<Array<UserRole>>([]);
 
-      function  format_date(value){
+      function  format_date(value:any){
          if (value) {
            return moment(String(value)).format('DD-MM-YYYY h:m')
           }

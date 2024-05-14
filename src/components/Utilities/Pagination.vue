@@ -14,7 +14,7 @@
         <li class="page-item" :class="{disabled:page === 1 }">
             <a class="page-link" href="javascript:;" aria-label="Previous"
             @click="pagination(page-1, limit)">
-            <i class="flaticon-chevron-1"></i>
+            <i class="fa fa-angle-left"></i>
             </a>
         </li>
         <li v-for="n in pageNumbers" :key="n" @click="pagination(n, limit)" class="page-item">
@@ -23,7 +23,7 @@
         <li class="page-item" :class="{disabled:page === totalPages }">
             <a class="page-link " href="javascript:;" aria-label="Next"
             @click="pagination(page+1, limit)">
-            <i class="flaticon-chevron"></i>
+            <i class="fa fa-angle-right"></i>
             </a>
         </li>
         </ul>

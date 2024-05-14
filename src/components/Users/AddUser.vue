@@ -1,37 +1,37 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing " >
           <Form ref="userForm" @submit="addUser" :validation-schema="userSchema">
             <div class="row">
               <div class="col-md-6">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
+                <div class="form-group">
+                  <label class="d-block text-black fw-semibold">
                     Nom et prénom <span class="text-danger">*</span>
                   </label>
                   <Field name="nomComplet" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom et le prénom"/>
+                class="form-control" placeholder="Entrer le nom et le prénom"/>
                   <ErrorMessage name="nomComplet" class="text-danger"/>
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
+                <div class="form-group">
+                  <label class="d-block text-black fw-semibold">
                     Téléphone <span class="text-danger">*</span>
                   </label>
                   <Field name="telephone" type="text"
-                class="form-control shadow-none fs-md-15 text-black"    placeholder="Entrer le numéro de téléphone"
+                class="form-control"    placeholder="Entrer le numéro de téléphone"
                   />
                   <ErrorMessage name="telephone" class="text-danger"/>
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
+                <div class="form-group">
+                  <label class="d-block text-black fw-semibold">
                     Email <span class="text-danger">*</span>
                   </label>
                   <Field
                     type="email" 
-                    class="form-control shadow-none fs-md-15 text-black"
+                    class="form-control"
                     placeholder="Entrer l'email"
                     name="email"
                   />
@@ -39,41 +39,30 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
+                <div class="form-group">
+                  <label class="d-block text-black fw-semibold">
                     Sexe <span class="text-danger">*</span>
                   </label>
                   <Field  name="sexe"  type="text"  v-slot="{ field }">
-                    <Multiselect
+                    <!-- <Multiselect
                     :searchable = "true"
                     :options = "['Masculin', 'Féminin']"
                     v-model = "field.value"
                     v-bind = "field"
                     placeholder="Sélectionner le sexe"
-                    />
+                    /> -->
+                    <VueMultiselect
+                    v-model = "field.value"
+                    v-bind = "field"
+                    :options="['Masculin', 'Féminin']"
+                    :close-on-select="true"
+                    :clear-on-select="false"
+                    placeholder="Sélectionner le sexe"
+                  />
                   </Field>
                   <ErrorMessage name="sexe" class="text-danger"/>
                 </div>
               </div>
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Rôle <span class="text-danger">*</span>
-                </label>
-                <Field  name="role"  v-slot="{ field }">
-                  <Multiselect
-                    :options="roleOptions"
-                    :searchable="true"
-                    track-by="label"
-                    label="label"
-                    v-model = "field.value"
-                    v-bind = "field"
-                    placeholder="Sélectionner le rôle"
-                  />
-                </Field>
-                <ErrorMessage name="role" class="text-danger"/>
-              </div>
-            </div>
               <div class="col-md-6">
                 <div class="form-group mb-10 mb-sm-15 mb-md-17">
               <label class="d-block text-black fw-semibold mb-10">
@@ -84,18 +73,42 @@
                 <ErrorMessage name="password" class="text-danger"/>
             </div>
               </div>
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Rôle <span class="text-danger">*</span>
+                </label>
+                <Field  name="role"  v-slot="{ field }">
+                  <VueMultiselect
+                    v-model = "field.value"
+                    v-bind = "field"
+                    :options="roleOptions"
+                    :close-on-select="true"
+                    :clear-on-select="false"
+                    :multiple="true"
+                    :searchable="true"
+                    placeholder="Sélectionner le rôle"
+                    label="label"
+                    track-by="label"
+                  />
+                </Field>
+                <ErrorMessage name="role" class="text-danger"/>
+              </div>
+            </div>
+              
           <div class="col-md-12">
-            <div class="d-flex align-items-center ">
+            <div class="mt-4">
               <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success"
+              class="btn btn-success me-3"
                 type="submit">
                   Créer un utilisateur
               </button>
-              <router-link to="/liste-users" 
-                class=" btn btn-danger transition border-0 lh-1 fw-medium"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+              <router-link to="/users/liste-user" 
+                class=" btn btn-danger"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>
+          
         </div>
       </Form>
     </div>
@@ -112,7 +125,8 @@
     import { error, success } from '@/utils/utils';
     import { useRouter } from 'vue-router';
     import { User } from '@/models/users';
-  
+    import VueMultiselect from 'vue-multiselect'
+
   export default defineComponent({
       name: "AddUser",
       components: {
@@ -120,6 +134,7 @@
       Field,
       ErrorMessage,
       Multiselect,
+      VueMultiselect,
   },
   
   setup: () => {
@@ -148,6 +163,7 @@
     const telephone=ref();
     const validPhone=ref<boolean>(false);
     const numberPhone=ref();
+    const value = ref('')
 
     onMounted(() => {
       fetchRoles();
@@ -221,12 +237,12 @@
       return password
     }
 
-    const addUser = async (values:any, {resetForm}) => {
+    const addUser = async (values:any) => {
       ApiService.post("/users",values)
         .then(({ data }) => {
           if(data.code == 201) { 
             success(data.message);
-            resetForm();
+            //resetForm();
             router.push({ name: "ListeUserPage" });
           }
         }).catch(({ response }) => {
@@ -238,9 +254,9 @@
       try {
         const response = await axios.get('/roles');
         const rolesData = response.data.data;
-        roleOptions.value = rolesData.map((role) => ({
+        roleOptions.value = rolesData.map((role:any) => ({
           value: role.id,
-          label: role.nom,
+          label: `${role.nom}`
         }));
       } catch (error) {
         //
@@ -252,6 +268,7 @@
           roleOptions,
           telephone,
           validPhone,
+          value,
           // validate,
           // onInput,
         };

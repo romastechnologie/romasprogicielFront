@@ -66,7 +66,7 @@ export default defineComponent({
     const permissionForm = ref<Permission | null>(null);
     const router = useRouter();
 
-    const addPermission = async (values, {resetForm}) => {
+    const addPermission = async (values:any, {resetForm}: {resetForm: () => void  }) => {
       console.log('donees envoyees', values)
       ApiService.post("/permissions",values)
         .then(({ data }) => {

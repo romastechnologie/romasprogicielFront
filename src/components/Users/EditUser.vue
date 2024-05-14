@@ -44,13 +44,14 @@
                     Sexe <span class="text-danger">*</span>
                   </label>
                   <Field  name="sexe"  type="text"  v-slot="{ field }">
-                    <Multiselect
-                    :searchable = "true"
-                    :options = "['Masculin', 'Féminin']"
+                    <VueMultiselect
                     v-model = "field.value"
                     v-bind = "field"
+                    :options="['Masculin', 'Féminin']"
+                    :close-on-select="true"
+                    :clear-on-select="false"
                     placeholder="Sélectionner le sexe"
-                    />
+                  />
                   </Field>
                   <ErrorMessage name="sexe" class="text-danger"/>
                 </div>
@@ -61,28 +62,31 @@
                   Rôle <span class="text-danger">*</span>
                 </label>
                 <Field  name="role"  v-slot="{ field }">
-                  <Multiselect
-                    :options="roleOptions"
-                    :searchable="true"
-                    track-by="label"
-                    label="label"
+                  <VueMultiselect
                     v-model = "field.value"
                     v-bind = "field"
+                    :options="roleOptions"
+                    :close-on-select="true"
+                    :clear-on-select="false"
+                    :multiple="true"
+                    :searchable="true"
                     placeholder="Sélectionner le rôle"
+                    label="label"
+                    track-by="label"
                   />
                 </Field>
                 <ErrorMessage name="role" class="text-danger"/>
               </div>
             </div>
           <div class="col-md-12">
-            <div class="d-flex align-items-center ">
+            <div class="mt-4">
               <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success"
+              class="btn btn-success me-3"
                 type="submit">
-                 Modifier un utilisateur
+                  Modifier un utilisateur
               </button>
-              <router-link to="/liste-users" 
-                class=" btn btn-danger transition border-0 lh-1 fw-medium"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+              <router-link to="/users/liste-user" 
+                class=" btn btn-danger"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>
@@ -102,6 +106,7 @@
     import { error, success } from '@/utils/utils';
     import { useRouter, useRoute } from 'vue-router';
     import { User } from '@/models/users';
+    import VueMultiselect from 'vue-multiselect'
   
   export default defineComponent({
       name: "EditUser",
@@ -110,6 +115,7 @@
       Field,
       ErrorMessage,
       Multiselect,
+      VueMultiselect
   },
   
   setup: () => {
@@ -154,24 +160,6 @@
       let CharacterSet = '';
       let password = '';
       let size = 12;
-      /* switch (this.strengthLevel) {
-        case 12:
-            size = 10
-            charactersArray = 'a-z,A-Z'.split(',')
-            break
-        case 24:
-            size = 12
-            charactersArray = 'a-z,A-Z,0-9'.split(',')
-            break
-        case 36:
-            size = 14
-            charactersArray = 'a-z,A-Z,0-9,#'.split(',')
-            break
-        case 48:
-            size = 16
-            charactersArray = 'a-z,A-Z,0-9,#'.split(',')
-        break
-      }*/
 
       if (charactersArray.indexOf('a-z') >= 0) {
         CharacterSet += 'abcdefghijklmnopqrstuvwxyz'
@@ -209,12 +197,12 @@
       });
     }
 
-    const editUser = async (values, {resetForm}) => {
+    const editUser = async (values:any) => {
       ApiService.put("/users/"+values.id,values)
         .then(({ data }) => {
           if(data.code == 200) { 
             success(data.message);
-            resetForm();
+            //resetForm();
             router.push({ name: "ListeUserPage" });
           }
         }).catch(({ response }) => {
@@ -226,7 +214,7 @@
       try {
         const response = await axios.get('/roles');
         const rolesData = response.data.data;
-        roleOptions.value = rolesData.map((role) => ({
+        roleOptions.value = rolesData.map((role:any) => ({
           value: role.id,
           label: role.nom,
         }));
@@ -239,7 +227,7 @@
           editUser,
           roleOptions,
           telephone,
-          validPhone,
+          //validPhone,
           // validate,
           // onInput,
           // bureauselect,

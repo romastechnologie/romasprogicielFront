@@ -87,17 +87,17 @@ const routes: Array<RouteRecordRaw> = [
     path: "/permissions",
     component: BodyView,
     children: [
-      {
-        path: "ajouter-permission",
-        name: "AddPermissionPage",
-        component: AddPermissionPage,
-        meta: {
-          title: 'Ajouter une permission',
-        }
-      },
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
       {
         path: "liste-permission",
-        name: "ListePermission",
+        name: "ListePermissionPage",
         component: ListePermissionPage,
         meta: {
           title: 'Liste des permissions',
@@ -119,7 +119,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "liste-role",
-        name: "ListeRole",
+        name: "ListeRolePage",
         component: ListeRolePage,
         meta: {
           title: 'Liste des rôles',
@@ -127,7 +127,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "edit-role/:id",
-        name: "EditRole",
+        name: "EditRolePage",
         component: EditRolePage,
         meta: {
           title: 'Modifier un rôle',
@@ -135,7 +135,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "view-role/:id",
-        name: "ViewRole",
+        name: "ViewRolePage",
         component: ViewRolePage,
         meta: {
           title: 'Détails du rôle',

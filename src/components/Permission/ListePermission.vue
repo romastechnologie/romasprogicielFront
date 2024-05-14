@@ -4,13 +4,16 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <router-link
-          class="default-btn position-relative transition border-0 fw-medium text-white pt-11 pb-11 ps-25 pe-25 pt-md-12 pb-md-12 ps-md-30 pe-md-30 rounded-1 bg-success fs-md-15 fs-lg-16 d-inline-block me-10 mb-10 mb-lg-0 text-decoration-none"
-          to="/permissions/ajouter-permission"
+        <a 
+          class="btn btn-primary"
+          href="#"
+          data-bs-toggle="modal"
+          data-bs-target="#AddPermissionModal"
         >
-          <i class="flaticon-plus position-relative ms-5 fs-12"></i>
+        <i class="fa fa-plus-circle"></i>
+          <!-- <i class="flaticon-plus position-relative ms-5 fs-12"></i> -->
           Ajouter une permission
-        </router-link>
+        </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
           type="button"
@@ -71,21 +74,21 @@
               </th>
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
               >Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(permission, index) in permissions" :key="index">
-              <td class="shadow-none lh-1 fw-medium text-primary">
+              <td class="shadow-none lh-1 fw-medium text-black">
                 {{ permission.nom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ permission.description }}
               </td>
               <td>
-                <div  v-for="(rolePermission,index) in permission.rolePermissions" :key="index">
-                  <span   class="badge text-bg-primary rounded-pill fs-13 me-5">
+                <div >
+                  <span  v-for="(rolePermission,index) in permission.rolePermissions" :key="index" class="badge text-bg-primary rounded-pill fs-13 me-5">
                     <span v-if="rolePermission.role">{{ rolePermission.role.description }}</span>
                   </span>
                 </div>
@@ -94,9 +97,23 @@
                 {{ format_date(permission.createdAt)  }}
               </td>
               <td
-                class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
+                class="shadow-none lh-1 fw-medium text-black pe-0"
               >
-              <div class="dropdown">
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+              <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                <li class="dropdown-item d-flex align-items-center">
+                  <a  href="javascript:void(0);" @click="moddifier(permission)">
+                  <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
+                  </a>
+                </li>
+                <li class="dropdown-item d-flex align-items-center">
+                  <a href="javascript:void(0);"
+                      @click="suppression(permission.id,permissions,'permissions',`le permission ${permission.description}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                       Supprimer
+                  </a>
+                </li>
+              </ul>
+              <!-- <div class="dropdown">
                   <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                       Actions
                       <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
@@ -114,7 +131,7 @@
                       </a>
                     </li>
                   </ul>
-              </div>
+              </div> -->
               </td>
             </tr>
           </tbody>
@@ -126,15 +143,15 @@
       </div>
     </div>
   </div>
-  <!-- <AddPermissionModal
+  <AddPermissionModal
     @get-all-permissions="getAllPermissions"
     :id="idpermission"
     @openmodal="showModalEdite"
-  /> -->
+  />
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref  } from "vue";
-import AddPermissionModal from "./AddPermission.vue";
+import AddPermissionModal from "./AddPermissionModal.vue";
 import ApiService from "@/services/ApiService";
 import { format_date, showModal, suppression, error, } from "../../utils/utils";
 import { useRouter } from "vue-router";
@@ -207,16 +224,16 @@ export default defineComponent({
       idpermission.value = Editpermission.id;
     }
 
-    function showModalEdite(model){
+    function showModalEdite(model:string){
       showModal(model);
       idpermission.value=0;
     }
 
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
-const checkPermission = (name) => {
-  return privileges.value.includes(name);
-}
+    const checkPermission = (name:string) => {
+      return privileges.value.includes(name);
+    }
 
     return {suppression,
       checkPermission,

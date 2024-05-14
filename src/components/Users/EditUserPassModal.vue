@@ -8,6 +8,15 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content p-15 p-md-40">
         <div class="modal-header d-block ps-0 pe-0 pt-0 pb-15 pb-md-25">
+          <div style="float: right">
+          <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          @click="resetValue()"
+        ></button>
+        </div>
           <h5 class="modal-title fw-bold text-black"></h5>
         </div>
         <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
@@ -25,7 +34,7 @@
                 </div>
             </div>
             <button
-              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
+              class="btn btn-primary"
               type="submit"
             >
               Envoyer
@@ -33,12 +42,6 @@
           </div>
         </Form>
         </div>
-        <button
-          type="button"
-          class="btn-close shadow-none"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
       </div>
     </div>
   </div>
@@ -80,7 +83,7 @@ export default {
       const passwords = ref<string>("");
 
 
-      const editUserPass = async (values, {resetForm}) => {
+      const editUserPass = async (values:any) => {
         const passData = {
           id: selectedUser.value?.id,
           newPassword: values.newPassword,
@@ -89,7 +92,7 @@ export default {
         .then(({ data }) => {
           if (data.code == 200) {
           success(data.message);
-          resetForm();
+          //resetForm();
           hideModal(addEditUserPassModalRef.value);
           emit('close');
           emit('getAllUsers',data.data);
@@ -156,11 +159,19 @@ export default {
       passForm.value?.setFieldValue("newPassword",passwords.value);
     });
 
+    const resetValue = () => {
+      const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
+      formFields.forEach(field => {
+        field.value = '';
+      });
+    };
+
     return {passSchema,
       editUserPass,
       passForm,
       addEditUserPassModalRef,
       getUser,
+      resetValue
     };
   },
 };
