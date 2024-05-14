@@ -154,6 +154,10 @@ import indexBreadcrumb from "@/pages/advance/indexBreadcrumb.vue"
 import indexRange from "@/pages/advance/indexRange.vue"
 
 
+
+import indexUserlist from "@/pages/users/indexUserlist.vue"
+import indexCreateUser from "@/pages/users/indexCreateUser.vue"
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -169,6 +173,28 @@ const routes: Array<RouteRecordRaw> = [
         component: indexDefault,
         meta: {
           title: 'Mofi - Premium Vue Admin Template',
+        }
+      }
+    ]
+  },
+  {
+    path: "/users",
+    component: BodyView,
+    children: [
+      {
+        path: "user_list",
+        name: "usersList",
+        component: indexUserlist,
+        meta: {
+          title: 'Liste des utilisateurs',
+        }
+      },
+      {
+        path: "user_add",
+        name: "createUser",
+        component: indexCreateUser,
+        meta: {
+          title: 'Ajouter un utilisateur',
         }
       }
     ]

@@ -120,10 +120,10 @@ export default defineComponent({
 
       if (error.length === 0) {
           console.log('Dans la fonction je suis')
-          //router.replace('/home');
+          //router.push('defaultRoot');
           router.replace('/');
-            //localStorage.setItem('user', 'romastechnologie@gmail.com')
-            localStorage.setItem("SidebarType", 'compact-wrapper')
+          localStorage.setItem('user', 'romastechnologie@gmail.com')
+          localStorage.setItem("SidebarType", 'compact-wrapper')
       } else {
         Swal.fire({
           text: error[1] as string,

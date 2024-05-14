@@ -72,6 +72,76 @@ export const menu: MenuItem[] = [
     },
 
     {
+        headTitle1: "Gestion des utilisateurs",
+        headTitle2: "Utilisateurs, Rôles et permissions",
+        type: "headtitle"
+    },
+    {
+        title: "Utilisateurs",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/users/user_add",
+                title: "Ajouter un utilisateur",
+                type: "link"
+            },
+            {
+                path: "/users/user_list",
+                title: "Liste des utilisateurs",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Rôles",
+        icon: "stroke-editors",
+        icon1: "fill-editors",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/roles/add",
+                title: "Ajouter un rôle",
+                type: "link"
+            },
+            {
+                path: "/roles/liste",
+                title: "Liste des rôles",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Permissions",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/permissions/add",
+                title: "Ajouter une permission",
+                type: "link"
+            },
+            {
+                path: "/permissions/liste",
+                title: "Liste des permissions",
+                type: "link"
+            },
+        ]
+    },
+
+
+    {
         headTitle1: "Applications",
         headTitle2: "Ready to use apps",
         type: "headtitle"
