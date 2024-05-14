@@ -4,15 +4,13 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <a v-if="checkPermission('AddPermission')"
+        <router-link
           class="default-btn position-relative transition border-0 fw-medium text-white pt-11 pb-11 ps-25 pe-25 pt-md-12 pb-md-12 ps-md-30 pe-md-30 rounded-1 bg-success fs-md-15 fs-lg-16 d-inline-block me-10 mb-10 mb-lg-0 text-decoration-none"
-          href="#"
-          data-bs-toggle="modal"
-          data-bs-target="#AddPermissionModal"
+          to="/permissions/ajouter-permission"
         >
           <i class="flaticon-plus position-relative ms-5 fs-12"></i>
           Ajouter une permission
-        </a>
+        </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
           type="button"
@@ -128,15 +126,15 @@
       </div>
     </div>
   </div>
-  <AddPermissionModal
+  <!-- <AddPermissionModal
     @get-all-permissions="getAllPermissions"
     :id="idpermission"
     @openmodal="showModalEdite"
-  />
+  /> -->
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref  } from "vue";
-import AddPermissionModal from "./AddPermissionModal.vue";
+import AddPermissionModal from "./AddPermission.vue";
 import ApiService from "@/services/ApiService";
 import { format_date, showModal, suppression, error, } from "../../utils/utils";
 import { useRouter } from "vue-router";

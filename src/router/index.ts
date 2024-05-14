@@ -21,10 +21,18 @@ import indexPagenation from "@/pages/advance/indexPagenation.vue"
 import indexBreadcrumb from "@/pages/advance/indexBreadcrumb.vue"
 import indexRange from "@/pages/advance/indexRange.vue"
 
-
-
 import indexUserlist from "@/pages/users/indexUserlist.vue"
 import indexCreateUser from "@/pages/users/indexCreateUser.vue"
+
+import AddPermissionPage from "@/pages/Permission/AddPermissionPage.vue";
+import ListePermissionPage from "@/pages/Permission/ListePermissionPage.vue";
+import AddRolePage from "@/pages/Role/AddRolePage.vue";
+import ListeRolePage from "@/pages/Role/ListeRolePage.vue";
+import EditRolePage from "@/pages/Role/EditRolePage.vue";
+import ViewRolePage from "@/pages/Role/ViewRolePage.vue";
+import AddUserPage from '@/pages/Users/AddUserPage.vue';
+import ListeUserPage from "@/pages/Users/ListeUserPage.vue";
+import EditUserPage from "@/pages/Users/EditUserPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -50,19 +58,87 @@ const routes: Array<RouteRecordRaw> = [
     component: BodyView,
     children: [
       {
-        path: "user_list",
-        name: "usersList",
-        component: indexUserlist,
+        path: "ajouter-user",
+        name: "AddUser",
+        component: AddUserPage,
+        meta: {
+          title: 'Ajouter un utilisateur',
+        }
+      },
+      {
+        path: "liste-user",
+        name: "ListeUser",
+        component: ListeUserPage,
         meta: {
           title: 'Liste des utilisateurs',
         }
       },
       {
-        path: "user_add",
-        name: "createUser",
-        component: indexCreateUser,
+        path: "edit-user/:id",
+        name: "EditUser",
+        component: EditUserPage,
         meta: {
-          title: 'Ajouter un utilisateur',
+          title: 'Modifier un utilisateur',
+        }
+      }
+    ]
+  },
+  {
+    path: "/permissions",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-permission",
+        name: "AddPermissionPage",
+        component: AddPermissionPage,
+        meta: {
+          title: 'Ajouter une permission',
+        }
+      },
+      {
+        path: "liste-permission",
+        name: "ListePermission",
+        component: ListePermissionPage,
+        meta: {
+          title: 'Liste des permissions',
+        }
+      }
+    ]
+  },
+  {
+    path: "/roles",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-role",
+        name: "AddRolePage",
+        component: AddRolePage,
+        meta: {
+          title: 'Ajouter un role',
+        }
+      },
+      {
+        path: "liste-role",
+        name: "ListeRole",
+        component: ListeRolePage,
+        meta: {
+          title: 'Liste des rôles',
+        }
+      },
+      {
+        path: "edit-role/:id",
+        name: "EditRole",
+        component: EditRolePage,
+        meta: {
+          title: 'Modifier un rôle',
+        }
+      },
+      {
+        path: "view-role/:id",
+        name: "ViewRole",
+        component: ViewRolePage,
+        meta: {
+          title: 'Détails du rôle',
         }
       }
     ]

@@ -1,16 +1,16 @@
 <template>
-    <AddPermission />
+    <EditUserPassModal />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import AddPermission from "../../components/Permission/AddPermission.vue";
+    import EditUserPassModal from "../../components/Users/EditUserPassModal.vue";
   
     export default defineComponent({
-      name: "AddPermissionPage",
+      name: "EditUserPassPage",
       components: {
-        AddPermission,
+        EditUserPassModal,
       },
     });
   </script>

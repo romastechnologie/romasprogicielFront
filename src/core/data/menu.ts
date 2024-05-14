@@ -29,12 +29,12 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/users/user_add",
+                path: "/users/ajouter-user",
                 title: "Ajouter un utilisateur",
                 type: "link"
             },
             {
-                path: "/users/user_list",
+                path: "/users/liste-user",
                 title: "Liste des utilisateurs",
                 type: "link"
             },
@@ -50,12 +50,12 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/roles/add",
+                path: "/roles/ajouter-role",
                 title: "Ajouter un rôle",
                 type: "link"
             },
             {
-                path: "/roles/liste",
+                path: "/roles/liste-role",
                 title: "Liste des rôles",
                 type: "link"
             },
@@ -71,12 +71,12 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/permissions/add",
+                path: "/permissions/ajouter-permission",
                 title: "Ajouter une permission",
                 type: "link"
             },
             {
-                path: "/permissions/liste",
+                path: "/permissions/liste-permission",
                 title: "Liste des permissions",
                 type: "link"
             },

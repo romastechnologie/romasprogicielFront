@@ -1,16 +1,16 @@
 <template>
-    <AddPermission />
+    <ViewRole />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import AddPermission from "../../components/Permission/AddPermission.vue";
+    import ViewRole from "../../components/Role/ViewRole.vue";
   
     export default defineComponent({
-      name: "AddPermissionPage",
+      name: "ViewRolePage",
       components: {
-        AddPermission,
+        ViewRole,
       },
     });
   </script>
