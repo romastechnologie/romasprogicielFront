@@ -33,6 +33,8 @@ import ViewRolePage from "@/pages/Role/ViewRolePage.vue";
 import AddUserPage from '@/pages/Users/AddUserPage.vue';
 import ListeUserPage from "@/pages/Users/ListeUserPage.vue";
 import EditUserPage from "@/pages/Users/EditUserPage.vue";
+import ViewUserPage from "@/pages/Users/ViewUserPage.vue";
+import TableauBordPage from "@/pages/dashbords/TableauBordPage.vue"
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -54,11 +56,25 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/users",
+    path: "/accueil",
     component: BodyView,
     children: [
       {
-        path: "ajouter-user",
+        path: "tableau-bord",
+        name: "TableauBord",
+        component: TableauBordPage,
+        meta: {
+          title: 'Tableau de bord',
+        }
+      },
+    ]
+  },
+  {
+    path: "/utilisateurs",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-utilisateur",
         name: "AddUser",
         component: AddUserPage,
         meta: {
@@ -66,7 +82,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "liste-user",
+        path: "liste-utilisateur",
         name: "ListeUser",
         component: ListeUserPage,
         meta: {
@@ -74,13 +90,29 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "edit-user/:id",
+        path: "edit-utilisateur/:id",
         name: "EditUser",
         component: EditUserPage,
         meta: {
           title: 'Modifier un utilisateur',
         }
-      }
+      },
+      // {
+      //   path: "profile",
+      //   name: "EditUser",
+      //   component: EditUserPage,
+      //   meta: {
+      //     title: 'Modifier mon profile',
+      //   }
+      // },
+      {
+        path: "view-utilisateur/:id",
+        name: "ViewUser",
+        component: ViewUserPage,
+        meta: {
+          title: 'Détails d\'un utilisateur',
+        }
+      },
     ]
   },
   {
@@ -152,7 +184,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "login",
         component: LoginPage,
         meta: {
-          title: 'Mofi - Premium Vue Admin Template',
+          title: 'RomasProgiciel - Connexion',
         }
       }
     ]

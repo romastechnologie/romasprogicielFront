@@ -4,13 +4,13 @@
     <div class="col-md-4 col-xxl-4 col-sm-4 mb-10">
       <div class="card mb-25 border-0 rounded-0">
         <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-          <h4 class="text-black fw-bold mb-10">{{ roleData?.description}}</h4>
-          <h5 class="my-15">Key: {{ roleData?.nom }}</h5>
-          <p class="my-15">Date de création: {{  format_date(roleData?.createdAt) }}</p>
-          <div class="fw-bolder text-gray-600 mb-15">Nombre total de permission ayant ce rôle: {{ roleData?.rolePermissions?.length }}</div>
-          <div class="fw-bolder text-gray-600 mb-15">Nombre total d'utilisateur ayant ce rôle: {{ roleData?.users?.length }}</div>
+          <h4 class="text-black text-center fw-bold mb-10">{{ roleData?.description}}</h4>
+          <h5 class="my-15 mt-3">Key: <span class="fw-bolder text-black">{{ roleData?.nom }}</span> </h5> 
+          <p class="my-15 mt-3">Date de création: <span class="text-black fw-bold">{{  format_date(roleData?.createdAt) }}</span> </p>
+          <div class="mb-20 mt-3">Total des permission pour ce rôle: <span class="fw-bolder text-black">{{ roleData?.rolePermissions?.length }}</span></div>
+          <div class="mb-20 mt-3">Total des utilisateurs pour ce rôle: <span class="fw-bolder text-black">{{ userData?.userRoles?.length }}</span>  </div>
 
-          <router-link :to="{ name: 'EditRolePage', params: { id: roleData?.id } }" class="btn  btn-primary my-15 me-2">
+          <router-link :to="{ name: 'EditRolePage', params: { id: roleData?.id } }" class="btn  btn-primary mt-3 text-center">
             <i class="fa fa-plus-circle lh-2 me-8 position-relative top-1"></i> Complèter un privilège
           </router-link>
         </div>
@@ -27,7 +27,7 @@
               <form>
                 <div class="input-group">
                   <input type="text" class="form-control shadow-none fw-medium ps-12 pt-8 pb-8 pe-12 letter-spacing" 
-                  placeholder="Search">
+                  placeholder="Rechercher">
                   <button class="default-btn position-relative transition border-0 text-white ps-12 pe-12 rounded-1" type="button">
                     <i class="flaticon-search-interface-symbol position-relative"></i>
                   </button>
@@ -45,13 +45,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for ="(user, index) in roleData?.users" :key="index" >
+                <tr v-for ="(user, index) in userData?.userRoles" :key="index" >
                   <th class="shadow-none lh-1 fw-medium text-black-emphasis title ps-0">
                     {{ getRandomColor()}}
-                    <span  :class="`badge text-outline-${color} me-3 fw-bold rounded-circle`">{{ getFirstletre(user.sexe) }}</span>
-                    {{ user.nomComplet }}
+                    <span  :class="`badge badge-${color} me-3 fw-bold rounded-circle`">{{ getFirstletre(user.user.sexe) }}</span>
+                    {{ user.user.nom }} {{ user.user.prenom }}
                   </th>
-                  <td class="shadow-none lh-1 fw-medium ">{{ user.email }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ user.user.email }} </td>
                   <td class="shadow-none lh-1 fw-medium"><span class="btn f-w-500 background-light-success font-success">Actif</span></td>
                 </tr>
               </tbody>
@@ -107,7 +107,7 @@ import moment from 'moment';
 import { defineComponent, onMounted, ref, } from 'vue';
 import { useRoute } from 'vue-router';
 import { error, suppression } from '@/utils/utils';
-
+import { User, UserData } from "@/models/users";
 
 export default defineComponent({
   name: "ViewRole",
@@ -118,7 +118,9 @@ export default defineComponent({
       const route = useRoute();
       const color = ref("");
       let roleData = ref<RoleData>();
+      let userData = ref<UserData>();
       const users = ref<Array<UserRole>>([]);
+        const user = ref<User | null>(null);
 
       function  format_date(value:any){
          if (value) {
@@ -144,9 +146,21 @@ export default defineComponent({
       });
     } 
 
+    function getUser(id: string) {
+      return ApiService.get("/users/"+id)
+        .then(({ data }) => {
+          userData.value = data.data;
+          user.value = data.data;
+        })
+        .catch(({ response }) => {
+          //Condition pour le onmounted
+          //error(response.data.message);
+        });
+    } 
     onMounted(() => {
       const id = route.params.id as string;
       getRole(id);
+      getUser(id);
     });
 
   
@@ -161,7 +175,10 @@ export default defineComponent({
       getRandomColor,
       format_date,
       users,
-      suppression
+      suppression,
+      userData,
+      user,
+      getUser
     };
   },
 });

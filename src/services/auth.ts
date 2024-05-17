@@ -37,15 +37,21 @@ export interface Data {
 
 export interface User {
   id: number
-  nomComplet: string
+  nom: string
+  prenom: string
   telephone: string
   sexe: string
   email: string
   createdAt: string
   updatedAt: string
   role: Role
+  userRoles: UserRole[];
 }
 
+export interface UserRole {
+  role: Role;
+  roleId: number;
+}
 export interface Role {
   id: number
   nom: string
@@ -75,24 +81,44 @@ export const useAuthStore = defineStore("auth", () => {
     isAuthenticated.value = true;
     user.value = authUser.user;
     errors.value = {};
+    formatRole(authUser.user)
     formatPrivilege(authUser.user)
     JwtService.saveUser(user.value.id.toString());
     JwtService.saveToken(authUser.token);
-    JwtService.saveUserName(authUser.user.nomComplet);
+    JwtService.saveUserName(authUser.user.nom);
+    JwtService.saveUserLastName(authUser.user.prenom);
     JwtService.saveUserPhone(authUser.user.telephone);
     JwtService.setUserEmail(authUser.user.email);
   }
 
-  function formatPrivilege(user:User) {
-    //let privile: string[] ;
-    const privile =ref<Array<string>>([])
-    user.role.rolePermissions.forEach(element => {
-      if (element.permission != null) {
-        privile.value.push(element.permission.nom);
-      }
-    });
-    JwtService.savePrivilege(JSON.stringify(privile.value));
+  function formatPrivilege(user: User) {
+      const privile = ref<Array<string>>([]);
+
+      user.userRoles.forEach(userRole => {
+          if (userRole.role && userRole.role.rolePermissions) {
+              userRole.role.rolePermissions.forEach(element => {
+                  if (element.permission != null) {
+                      privile.value.push(element.permission.nom);
+                  }
+              });
+          }
+      });
+      JwtService.savePrivilege(JSON.stringify(privile.value));
   } 
+
+  function formatRole(user: User) {
+    const rol = ref<Array<string>>([]);
+    
+    if (user && user.userRoles) {
+        user.userRoles.forEach(element => {
+            if (element.role != null) {
+                rol.value.push(element.role.nom);
+            }
+        });
+        
+        JwtService.saveRole(JSON.stringify(rol.value));
+    }
+}
 
   function setError(error: any) {
     errors.value = { ...error };
@@ -110,7 +136,6 @@ export const useAuthStore = defineStore("auth", () => {
     return ApiService.post("auth/login", credentials)
       .then(({ data }) => {
         setAuth(data.data);
-        console.log('login',data.data)
       })
       .catch(({ response }) => {
         setError(response.data);

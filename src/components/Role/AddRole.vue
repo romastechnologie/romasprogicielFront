@@ -3,7 +3,7 @@
   <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing form theme-form">
           <Form ref="roleForm" @submit="addRole" :validation-schema="roleSchema">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Nom <span class="text-danger">*</span>
@@ -13,7 +13,7 @@
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Description <span class="text-danger">*</span>
@@ -27,7 +27,7 @@
                 <ErrorMessage name="description" class="text-danger"/>
               </div>
             </div>
-          <div class="mb-7">
+            
             <!-- <div class="row ">
               <div class="col-sm-3 mb-5" v-for="(privilege, index) in permissions" :key="index">
                   <label class="form-check form-check-sm form-check-custom form-check-solid me-5 mb-5 me-lg-20">
@@ -36,19 +36,13 @@
                   </label>
               </div>
             </div> -->
+          <!-- <div class="mb-7">
             <div class="row">
-              <div class="col-xl-4 col-md-6" v-for="(privilege, index) in permissions" :key="index">
-                <div class="card">
-                  <div class="card-body">
+              <div class="col-xl-3 col-md-3" v-for="(privilege, index) in permissions" :key="index">
                     <div class="d-flex align-items-center">
-                      <Field class="form-check-input m-r-30" type="checkbox" :value="privilege.id" name="privileges"/>
-                      <div class="flex-grow-1">
-                        <h5 class="pb-2 f-w-600">{{ privilege.name }}</h5>
+                      <Field class="form-check-input m-r-5" type="checkbox" :value="privilege.id" name="privileges"/>
                         <p>{{ privilege.description }}</p>
-                      </div>
                     </div>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -57,6 +51,19 @@
                     <ErrorMessage name="privileges" class="text-danger"/>
                   </div>
               </div>
+          </div> -->
+
+          <div class="mb-7">
+            <div class="row">
+                <div class="col-xl-3 col-md-3" v-for="(privilege, index) in permissions" :key="index">
+                      <div class="d-flex align-items-center">
+                        <Field class="form-check-input m-r-5" type="checkbox" :value="privilege.id" name="privileges"/>
+                          <p>{{ privilege.description }}</p>
+                      </div>
+                <ErrorMessage name="privileges" class="text-danger"/>
+                <Field class="form-check-input" type="checkbox" visibility="hidden" :value="null" style="opacity:0;" name="privileges"/>
+                </div>
+            </div>
           </div>
         <div class="col-md-12">
           <div class="d-flex align-items-center ">

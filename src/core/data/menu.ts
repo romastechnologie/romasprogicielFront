@@ -14,6 +14,28 @@ interface MenuItem {
 }
 
 export const menu: MenuItem[] = [
+    
+    {
+        headTitle1: "Acceuil",
+        headTitle2: "Accueil, Tableau de bord",
+        type: "headtitle"
+    },
+    {
+        title: "Accueil",
+        icon: "stroke-home",
+        icon1: "fill-home",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/accueil/tableau-bord",
+                title: "Tableau de bord",
+                type: "link"
+            },
+        ]
+    },
     {
         headTitle1: "Gestion des utilisateurs",
         headTitle2: "Utilisateurs, Rôles et permissions",
@@ -29,12 +51,12 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/users/ajouter-user",
+                path: "/utilisateurs/ajouter-utilisateur",
                 title: "Ajouter un utilisateur",
                 type: "link"
             },
             {
-                path: "/users/liste-user",
+                path: "/utilisateurs/liste-utilisateur",
                 title: "Liste des utilisateurs",
                 type: "link"
             },
@@ -83,90 +105,90 @@ export const menu: MenuItem[] = [
         ]
     },
 
-    {
-        title: "Users",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "sub",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/users/profile",
-                title: "Users Profile",
-                type: "link"
-            },
-            {
-                path: "/users/edit",
-                title: "Users Edit",
-                type: "link"
-            },
-            {
-                path: "/users/cards",
-                title: "Users Cards",
-                type: "link"
-            }
-        ]
-    },
+    // {
+    //     title: "Users",
+    //     icon: "stroke-user",
+    //     icon1: "fill-user",
+    //     type: "sub",
+    //     active: false,
+    //     isPinned: false,
+    //     children: [
+    //         {
+    //             path: "/users/profile",
+    //             title: "Users Profile",
+    //             type: "link"
+    //         },
+    //         {
+    //             path: "/users/edit",
+    //             title: "Users Edit",
+    //             type: "link"
+    //         },
+    //         {
+    //             path: "/users/cards",
+    //             title: "Users Cards",
+    //             type: "link"
+    //         }
+    //     ]
+    // },
    
-    {
-        title: "Animation",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "sub",
-        isPinned: false,
-        active: false,
-        children: [
-            {
-                path: "/animation/animate",
-                title: "Animate",
-                type: "link"
-            },
-            {
-                path: "/animation/aos_animation",
-                title: "AOS Animation",
-                type: "link"
-            }
-        ]
-    },
-    {
-        title: "Icons",
-        icon: "stroke-icons",
-        icon1: "fill-icons",
-        type: "sub",
-        isPinned: false,
-        active: false,
-        children: [
-            {
-                path: "/icons/flag",
-                title: "Flag Icon",
-                type: "link"
-            },
-            {
-                path: "/icons/fontawesome",
-                title: "Fontawesome Icon",
-                type: "link"
-            },
-            {
-                path: "/icons/ico",
-                title: "Ico Icon",
-                type: "link"
-            },
-            {
-                path: "/icons/themify",
-                title: "Themify Icon",
-                type: "link"
-            },
-            {
-                path: "/icons/feather_icon",
-                title: "Feather Icon",
-                type: "link"
-            },
-            {
-                path: "/icons/whether",
-                title: "Whether Icon",
-                type: "link"
-            }
-        ]
-    },
+    // {
+    //     title: "Animation",
+    //     icon: "stroke-animation",
+    //     icon1: "fill-animation",
+    //     type: "sub",
+    //     isPinned: false,
+    //     active: false,
+    //     children: [
+    //         {
+    //             path: "/animation/animate",
+    //             title: "Animate",
+    //             type: "link"
+    //         },
+    //         {
+    //             path: "/animation/aos_animation",
+    //             title: "AOS Animation",
+    //             type: "link"
+    //         }
+    //     ]
+    // },
+    // {
+    //     title: "Icons",
+    //     icon: "stroke-icons",
+    //     icon1: "fill-icons",
+    //     type: "sub",
+    //     isPinned: false,
+    //     active: false,
+    //     children: [
+    //         {
+    //             path: "/icons/flag",
+    //             title: "Flag Icon",
+    //             type: "link"
+    //         },
+    //         {
+    //             path: "/icons/fontawesome",
+    //             title: "Fontawesome Icon",
+    //             type: "link"
+    //         },
+    //         {
+    //             path: "/icons/ico",
+    //             title: "Ico Icon",
+    //             type: "link"
+    //         },
+    //         {
+    //             path: "/icons/themify",
+    //             title: "Themify Icon",
+    //             type: "link"
+    //         },
+    //         {
+    //             path: "/icons/feather_icon",
+    //             title: "Feather Icon",
+    //             type: "link"
+    //         },
+    //         {
+    //             path: "/icons/whether",
+    //             title: "Whether Icon",
+    //             type: "link"
+    //         }
+    //     ]
+    // },
 ]

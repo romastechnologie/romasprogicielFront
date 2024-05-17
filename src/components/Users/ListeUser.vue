@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/users/ajouter-user"
+          to="/utilisateurs/ajouter-utilisateur"
         >
         <i class="fa fa-plus-circle"></i>
           Ajouter un utilisateur
@@ -94,18 +94,28 @@
           <tbody>
             <tr  v-for ="(user, index) in users" :key="index">
                 <th class="shadow-none lh-1 fw-medium text-black-emphasis title ps-0">
-                  {{ user.nomComplet }}
+                  {{ user.nom }} {{ user.prenom }}
                 </th>
                 <td class="shadow-none lh-1 fw-medium ">{{ user.telephone }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ user.email }} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{ user?.role?.nom }} </td>
+                <td class="shadow-none lh-1 fw-medium">
+                    <div class="row">
+                        <span v-for="(userRole,index) in user.userRoles" :key="index" class="text-center">
+                        <div class="col-12">
+                        <div class="col-6">
+                         <span class="badge badge-primary"  v-if="userRole.role">{{ userRole.role.nom }}</span> 
+                        </div><br>
+                        </div>
+                        </span>
+                    </div>
+                </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ user.sexe }} </td>
                 <td class="shadow-none lh-1 fw-medium"><span class="btn f-w-500 background-light-primary font-primary">Actif</span></td>
                 <td class="shadow-none lh-1 fw-medium">{{ format_date(user.createdAt) }} </td>
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
                   <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                   <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                    <li class="dropdown-item d-flex align-items-center">
+                        <li class="dropdown-item d-flex align-items-center">
                           <a
                             href="#"
                             data-bs-toggle="modal"
@@ -121,9 +131,25 @@
                             :to="{ name: 'EditUser',params: { id: user.id } }"
                           >
                           <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i>
-                            Modifier les informations
+                            Voir ou Modifier les informations
                           </router-link>
                         </li>
+                        <li class="dropdown-item d-flex align-items-center">
+                          <a
+                            href="#"
+                            data-bs-toggle="modal"
+                            data-bs-target="#AddRoleModal"
+                            @click="openAddRoleModal(user)"
+                          >
+                          <i class="fa fa-lock lh-2 me-8 position-relative top-1"></i>
+                          Ajouter un rôle
+                          </a>
+                        </li>
+                        <!-- <li class="dropdown-item d-flex align-items-center">
+                          <router-link :to="{ name: 'ViewUser', params: { id: user.id } }" class="dropdown-item d-flex align-items-center">
+                              <i class="fa fa-eye lh-1 me-8 position-relative top-1"></i>Détails
+                          </router-link>
+                        </li> -->
                         <li class="dropdown-item d-flex align-items-center">
                           <a
                             href="javascript:void(0);"
@@ -147,20 +173,24 @@
     </div>
   </div>
 <EditUserPassModal :selectedUser="selectedUser"/>
+<AddRoleModal :selectedUser="selectedUser" :selectedUserId="selectedUserId"/>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref} from "vue";
+import { defineComponent, onMounted, ref, watch} from "vue";
 import ApiService from "@/services/ApiService";
-import { User } from "@/models/users";
-import { format_date, suppression, error, } from "@/utils/utils";
+import { User, UserData } from "@/models/users";
+import { format_date, suppression, error, success, } from "@/utils/utils";
 import EditUserPassModal from "./EditUserPassModal.vue";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
+import AddRoleModal from "./AddRoleModal.vue";
+import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
   name: "ListeUser",
   components: {
+    AddRoleModal,
     EditUserPassModal,
     PaginationComponent
   },
@@ -171,6 +201,7 @@ export default defineComponent({
 
     const users = ref<Array<User>>([]);
     const user = ref<User>();
+    const route = useRoute();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -179,7 +210,7 @@ export default defineComponent({
     const limit = ref(10);
     const totalElements = ref(0);
 
-    const handlePaginate = ({ page_, limit_ }) => {
+    const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
       try {
         page.value = page_;
         getAllUsers(page_, limit_);
@@ -210,9 +241,15 @@ export default defineComponent({
     }
 
     const selectedUser = ref<User | undefined>(undefined);
+    const selectedUserId = ref<number>();
 
     const openEditAgenceModal = (user: User) => {
       selectedUser.value = { ...user };
+    };
+
+    const openAddRoleModal = (user: User) => {
+      selectedUser.value = { ...user };
+      selectedUserId.value = user.id;
     };
 
     const openEditPassModal = (user: User) => {
@@ -239,7 +276,10 @@ export default defineComponent({
       totalElements,
       handlePaginate,
       searchTerm,
-      rechercher
+      rechercher,
+      openAddRoleModal,
+      selectedUserId,
+
     };
   },
 });

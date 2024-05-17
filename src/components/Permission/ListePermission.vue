@@ -87,11 +87,15 @@
                 {{ permission.description }}
               </td>
               <td>
-                <div >
-                  <span  v-for="(rolePermission,index) in permission.rolePermissions" :key="index" class="badge text-bg-primary rounded-pill fs-13 me-5">
-                    <span v-if="rolePermission.role">{{ rolePermission.role.description }}</span>
-                  </span>
-                </div>
+                <div class="row">
+                        <span v-for="(rolePermission,index) in permission.rolePermissions" :key="index" class="text-center">
+                        <div class="col-12">
+                        <div class="col-6">
+                         <span class="badge badge-primary"  v-if="rolePermission.role">{{ rolePermission.role.description }}</span> 
+                        </div><br>
+                        </div>
+                        </span>
+                    </div>
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ format_date(permission.createdAt)  }}
@@ -147,6 +151,7 @@
     @get-all-permissions="getAllPermissions"
     :id="idpermission"
     @openmodal="showModalEdite"
+    @close="recharger"
   />
 </template>
 <script lang="ts">
@@ -184,7 +189,7 @@ export default defineComponent({
     const limit = ref(10);
     const totalElements = ref(0);
 
-    const handlePaginate = ({ page_, limit_ }) => {
+    const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
       try {
         page.value = page_;
         getAllPermissions(page_, limit_);
@@ -197,8 +202,10 @@ export default defineComponent({
       getAllPermissions(page.value, limit.value, searchTerm.value );
     }
 
+    const recharger = () => {
+      getAllPermissions();
+    };
     // END PAGINATE
-      
 
     onMounted(() => {
       loading.value=false;
@@ -224,7 +231,7 @@ export default defineComponent({
       idpermission.value = Editpermission.id;
     }
 
-    function showModalEdite(model:string){
+    function showModalEdite(model:any){
       showModal(model);
       idpermission.value=0;
     }
@@ -249,7 +256,8 @@ export default defineComponent({
       totalElements,
       handlePaginate,
       searchTerm,
-      rechercher
+      rechercher,
+      recharger,
      };
   },
 
