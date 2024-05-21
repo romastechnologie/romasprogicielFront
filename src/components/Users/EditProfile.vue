@@ -6,7 +6,7 @@
       <div class="card">
         <!-- Card Header -->
         <div class="card-header">
-          <h4 class="card-title mb-0">Profile : <span class="badge badge-primary f-w-500 background-light-primary font-primary">Actif</span></h4>
+          <h4 class="card-title mb-0">Profile : <span class="btn f-w-500 background-light-primary font-primary">Actif</span></h4>
           <!-- Card Options -->
           <div class="card-options">
             <a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
@@ -16,7 +16,7 @@
 
         <!-- Card Body For user -->
         <div class="card-body">
-          <Form ref="passForm" @submit="editUserPass"  :validation-schema="editUserPass">
+          <Form ref="userPassForm"  :validation-schema="userPassSchema" :initial-values="userPassForm">
               <div class="row mb-2">
                   <div class="profile-title">
                       <div class="d-flex"> <img class="img-70 rounded-circle" alt="" src="@/assets/images/user/admin.jpg">
@@ -33,10 +33,9 @@
               <label class="d-block text-black fw-semibold mb-10">
                   Mot de passe <span class="text-danger">*</span>
               </label>
-              <Field name="newPassword" type="text" 
-                class="form-control shadow-none fs-md-15 text-black"/>
-                <ErrorMessage name="newPassword" class="text-danger"/>
-                  <ErrorMessage name="newPassword" class="text-danger"/>
+              <Field name="confirmNewPassword" type="password" 
+                  class="form-control shadow-none fs-md-15 text-black"/>
+                  <ErrorMessage name="confirmNewPassword" class="text-danger"/>
               </div>
           </div>
           <div class="form-footer">
@@ -276,14 +275,18 @@ setup: () => {
         value => (value ? /^[0-9]{6}$/.test(value.toString()) : true)
       ),
     });
-      
-    //Utilisateur connexté
-    const passSchema = Yup.object().shape({
+
+    // Profile mot de passe
+    const userPassSchema = Yup.object().shape({
+      password: Yup.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères').required('Le mot de passe est obligatoire'),
       newPassword: Yup.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères').required('Le mot de passe est obligatoire'),
+      confirmNewPassword: Yup.string()
+      .min(8, 'Le mot de passe doit contenir au moins 8 caractères')
+      .oneOf([Yup.ref("newPassword")], "Les champs de mot de passe et de confirmation de mot de passe doivent correspondre")
+      .label("Confirmation de mot"),
     });
 
     const userPassForm = ref<User>();
-    const passForm =  ref<User | null>(null);
     const userForm = ref<User>();
 
     const store = useAuthStore();
@@ -297,7 +300,6 @@ setup: () => {
     const telephone=ref();
     const validPhone=ref<boolean>(false);
     const numberPhone=ref();
-    const passId = ref()
 
     onMounted(() => {
       //fetchRoles();
@@ -306,22 +308,11 @@ setup: () => {
         getUser(parseInt(route.params.id as string));
       }
       const id = route.params.id as string;
-      const passId = id;
-      console.log('rekpek', passId)
       getUserInfo(id);
       if (JwtService.getUserId()) {
           getUserOnly(JwtService.getUserId());
         }
     });
-
-    
-    const selectedUser = ref<User | undefined>(undefined);
-    const selectedUserId = ref<number>();
-
-    const openAddRoleModal = (user: User) => {
-      selectedUser.value = { ...user };
-      selectedUserId.value = user.id;
-    };
 
     function getUserOnly(id: string | null) {
           ApiService.get("/users/" + id)
@@ -385,23 +376,6 @@ setup: () => {
         });
     };
 
-    const editUserPass = async (values:any) => {
-        const passData = {
-          id: parseInt(route.params.id as string),
-          newPassword: values.newPassword,
-        };
-        console.log('rllr,e', passData)
-      ApiService.put("users/password/admin/"+passData.id, passData)
-        .then(({ data }) => {
-          if (data.code == 200) {
-          success(data.message);
-          //resetForm();
-          router.push({ name: "ListeUser" });
-        }
-        }).catch(({ response }) => {
-          error(response.data.message);
-        });
-    };
     // const fetchRoles = async () => {
     //   try {
     //     const response = await axios.get('/roles');
@@ -415,6 +389,13 @@ setup: () => {
     //   }
     // };
 
+    const selectedUser = ref<User | undefined>(undefined);
+    const selectedUserId = ref<number>();
+
+    const openAddRoleModal = (user: User) => {
+      selectedUser.value = { ...user };
+      selectedUserId.value = user.id;
+    };
 
     const reloadData = ref(false);
 
@@ -450,10 +431,9 @@ setup: () => {
       selectedUser,
       reloadData,
       suppRole,
-      editUserPass,
-      userPassForm,
-      passSchema,
-      passId,
+      userPassSchema,
+      //editUserPass,
+      userPassForm
       //validPhone,
       // validate,
       // onInput,

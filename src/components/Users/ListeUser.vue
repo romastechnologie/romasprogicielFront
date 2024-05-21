@@ -110,7 +110,7 @@
                     </div>
                 </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ user.sexe }} </td>
-                <td class="shadow-none lh-1 fw-medium"><span class="btn f-w-500 background-light-primary font-primary">Actif</span></td>
+                <td class="shadow-none lh-1 fw-medium"><span class="badge badge-primary background-light-primary font-primary">Actif</span></td>
                 <td class="shadow-none lh-1 fw-medium">{{ format_date(user.createdAt) }} </td>
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
                   <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>

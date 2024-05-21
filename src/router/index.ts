@@ -33,6 +33,7 @@ import ViewRolePage from "@/pages/Role/ViewRolePage.vue";
 import AddUserPage from '@/pages/Users/AddUserPage.vue';
 import ListeUserPage from "@/pages/Users/ListeUserPage.vue";
 import EditUserPage from "@/pages/Users/EditUserPage.vue";
+import EditProfilePage from "@/pages/Users/EditProfilePage.vue";
 import ViewUserPage from "@/pages/Users/ViewUserPage.vue";
 import TableauBordPage from "@/pages/dashbords/TableauBordPage.vue"
 
@@ -42,15 +43,15 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: BodyView,
     meta: {
-      title: 'Mofi - Premium Vue Admin Template',
+      title: 'Romas progiciel',
     },
     children: [
       {
         path: '',
         name: 'defaultRoot',
-        component: indexDefault,
+        component: TableauBordPage,
         meta: {
-          title: 'Mofi - Premium Vue Admin Template',
+          title: 'Romas progiciel',
         }
       }
     ]
@@ -97,14 +98,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Modifier un utilisateur',
         }
       },
-      // {
-      //   path: "profile",
-      //   name: "EditUser",
-      //   component: EditUserPage,
-      //   meta: {
-      //     title: 'Modifier mon profile',
-      //   }
-      // },
+      {
+        path: "profile",
+        name: "EditProfile",
+        component: EditProfilePage,
+        meta: {
+          title: 'Modifier mon profile',  
+        }
+      },
       {
         path: "view-utilisateur/:id",
         name: "ViewUser",

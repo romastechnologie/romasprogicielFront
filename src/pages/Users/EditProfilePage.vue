@@ -1,16 +1,16 @@
 <template>
-    <EditUser />
+    <EditProfile />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import EditUser from "../../components/Users/EditUser.vue";
+    import EditProfile from "../../components/Users/EditProfile.vue";
   
     export default defineComponent({
-      name: "EditUserPage",
+      name: "EditProfilePage",
       components: {
-        EditUser,
+        EditProfile,
       },
     });
   </script>

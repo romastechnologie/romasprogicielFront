@@ -88,7 +88,7 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Rôle <span class="text-danger">*</span>
                 </label>
-                <Field  name="roles"  v-slot="{ field }">
+                <Field  name="roles" v-model="roles"  v-slot="{ field }">
                   <VueMultiselect
                     v-model = "field.value"
                     v-bind = "field"
@@ -162,7 +162,7 @@
         value => (value ? /^[0-9]{6}$/.test(value.toString()) : true)
       ),
       password: Yup.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères').required('Le mot de passe est obligatoire'),
-      //roles: Yup.array().required('Le rôle est obligatoire'),
+      roles: Yup.array().required('Le rôle est obligatoire'),
     });
 
     const roleOptions = ref([]);
@@ -248,14 +248,17 @@
       return password
     }
 
+    const roles = ref([])
     const addUser = async (values:any, {resetForm}) => {
+      values['roles']=roles.value.map(role => role.value)
       console.log('Données envoyées', values)
       ApiService.post("/users",values)
         .then(({ data }) => {
           if(data.code == 201) { 
             success(data.message);
-            resetForm();
-            router.push({ name: "ListeUserPage" });
+            //resetForm();
+            console.log('flefelef')
+            router.push({ name: "ListeUser" });
           }
         }).catch(({ response }) => {
           error(response.data.message);
@@ -282,7 +285,8 @@
           validPhone,
           value,
           password,
-          passwords
+          passwords,
+          roles,
           // validate,
           // onInput,
         };
