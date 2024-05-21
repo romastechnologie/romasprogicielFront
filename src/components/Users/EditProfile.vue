@@ -16,7 +16,7 @@
 
         <!-- Card Body For user -->
         <div class="card-body">
-          <Form ref="userPassForm"  :validation-schema="userPassSchema" :initial-values="userPassForm">
+          <Form ref="userPassForm"   @submit="editUserPass" :validation-schema="userPassSchema" :initial-values="userPassForm">
               <div class="row mb-2">
                   <div class="profile-title">
                       <div class="d-flex"> <img class="img-70 rounded-circle" alt="" src="@/assets/images/user/admin.jpg">
@@ -28,10 +28,30 @@
                       </div>
                   </div>
               </div>
-          <div class="col-md-12 mb-3">
+              <div class="col-md-12">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
-                  Mot de passe <span class="text-danger">*</span>
+                  Ancien mot de passe
+              </label>
+              <Field name="password" type="password" 
+                  class="form-control shadow-none fs-md-15 text-black"/>
+                  <ErrorMessage name="password" class="text-danger"/>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                  Nouveau mot de passe
+              </label>
+              <Field name="newPassword" type="password" 
+                  class="form-control shadow-none fs-md-15 text-black"/>
+                  <ErrorMessage name="newPassword" class="text-danger"/>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                  Confirmer le nouveau mot de passe
               </label>
               <Field name="confirmNewPassword" type="password" 
                   class="form-control shadow-none fs-md-15 text-black"/>
@@ -51,30 +71,6 @@
           </div>
       </Form>
       </div>
-
-      <!-- Card Body For profile -->
-      <!-- <div class="card-body">
-        <Form ref="passForm" @submit="editUserPass" :validation-schema="passSchema">
-          <div class="row">
-            <div class="col-md-12 mb-4">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                    Nouveau mot de passe
-                </label>
-                <Field name="newPassword" type="text" 
-                    class="form-control shadow-none fs-md-15 text-black"/>
-                    <ErrorMessage name="newPassword" class="text-danger"/>
-                </div>
-            </div>
-            <button
-              class="btn btn-primary"
-              type="submit"
-            >
-              Envoyer
-            </button>
-          </div>
-        </Form>
-      </div> -->
 
       </div>
     </div>
@@ -178,56 +174,6 @@
       </Form>
     </div>
   </div>
-
-  
-  <div class="col-md-12">
-      <div class="card">
-          <div class="card-header">
-                  <div class="card-title">
-                    <h4 >Rôles
-                      <h5 style="float:right">
-                        <a
-                          class="btn btn-primary btn-sm"
-                          href="#"
-                          data-bs-toggle="modal"
-                          data-bs-target="#AddRoleModal"
-                          @click="openAddRoleModal(user)"
-                        >
-                        <i class="fa fa-lock lh-2 me-8 position-relative top-1"></i>
-                        Ajouter un rôle
-                        </a>
-                      </h5>
-                    </h4>
-                  </div>
-          </div>
-          <div class="table-responsive add-project">
-              <table class="table card-table table-vcenter text-nowrap">
-                  <thead>
-                      <tr>
-                          <th class="text-inherit">Nom du rôle</th>
-                          <th class="text-inherit">Description</th>
-                          <th class="text-inherit">Date affectation</th>
-                          <th class="text-inherit">Actions</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr v-for="(rle, index) in userData?.userRoles" :key="index">
-                          <td><a class="text-inherit" href="#">{{ rle?.role?.nom }}</a></td>
-                          <td><a>{{ rle?.role?.description }}</a></td>
-                          <td>{{ rle?.dateAffectation }}</td>
-                          <td >
-                            <!-- <a class="icon" href="javascript:void(0)"></a>
-                            <a class="btn btn-primary btn-sm" href="javascript:void(0)"><i class="fa fa-pencil"></i>
-                            Edit</a> -->
-                            <a class="icon" href="javascript:void(0)"></a><a class="btn btn-danger btn-sm" @click="suppRole(rle.id)"
-                            href="javascript:void(0)"><i class="fa fa-trash"></i> Supprimer</a></td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
-      </div>
-  </div>
-  <AddRoleModal :selectedUser="selectedUser" :selectedUserId="selectedUserId"/>
 </template>
 
 
@@ -247,14 +193,13 @@ import { useAuthStore } from "@/services/auth";
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "EditUser",
+  name: "EditProfile",
   components: {
   Form,
   Field,
   ErrorMessage,
   Multiselect,
   VueMultiselect,
-  AddRoleModal,
 
 },
 
@@ -314,24 +259,6 @@ setup: () => {
         }
     });
 
-    function getUserOnly(id: string | null) {
-          ApiService.get("/users/" + id)
-            .then(({ data }) => {
-              for (const key in data.data) {
-                userPassForm.value?.setFieldValue(
-                  key,
-                  typeof data.data[key] === 'object' && data.data[key] !== null
-                    ? data.data[key].id
-                    : data.data[key]
-                );
-              }
-            })
-            .catch(({ response }) => {
-              error(response.message);
-              //router.push({ name: "userForms-liste" });
-            });
-        }
-
     function getUser(id:number) {
       ApiService.get("/users/"+id.toString())
         .then(({ data }) => {
@@ -345,6 +272,45 @@ setup: () => {
         error(response.message);
       });
     }
+
+    function getUserOnly(id: string | null) {
+      ApiService.get("/users/" + id)
+        .then(({ data }) => {
+          for (const key in data.data) {
+            userPassForm.value?.setFieldValue(
+              key,
+              typeof data.data[key] === 'object' && data.data[key] !== null
+                ? data.data[key].id
+                : data.data[key]
+            );
+          }
+        })
+        .catch(({ response }) => {
+          error(response.message);
+          //router.push({ name: "userForms-liste" });
+        });
+    }
+  
+      function logout() {
+      store.logout()
+      if (!store.isAuthenticated) {
+        router.push({name:'LoginPage'})
+      }
+    }
+
+    const editUserPass = async (values, {resetForm}) => {
+        ApiService.put("/users/password/"+ values.id,values)
+          .then(({ data }) => {
+            if(data.code == 200) { 
+              success(data.message);
+              resetForm();
+              logout();
+              //router.push({ name: "tableauBordPage" });
+            }
+          }).catch(({ response }) => {
+            error(response.data.message);
+        });
+      };
 
     const user = ref<User | null>(null);
     const users = ref<Array<User>>([]);
@@ -376,27 +342,7 @@ setup: () => {
         });
     };
 
-    // const fetchRoles = async () => {
-    //   try {
-    //     const response = await axios.get('/roles');
-    //     const rolesData = response.data.data;
-    //     roleOptions.value = rolesData.map((role:any) => ({
-    //       value: role.id,
-    //       label: role.nom,
-    //     }));
-    //   } catch (error) {
-    //     //
-    //   }
-    // };
-
-    const selectedUser = ref<User | undefined>(undefined);
-    const selectedUserId = ref<number>();
-
-    const openAddRoleModal = (user: User) => {
-      selectedUser.value = { ...user };
-      selectedUserId.value = user.id;
-    };
-
+    
     const reloadData = ref(false);
 
     const suppRole = async (id:any) => {
@@ -426,20 +372,14 @@ setup: () => {
       user,
       users,
       userData,
-      openAddRoleModal,
-      selectedUserId,
-      selectedUser,
       reloadData,
-      suppRole,
       userPassSchema,
-      //editUserPass,
-      userPassForm
+      editUserPass,
+      userPassForm,
+      logout,
       //validPhone,
       // validate,
       // onInput,
-      // bureauselect,
-      // getBureau,
-      // bureauxOptions
     };
 },
 });

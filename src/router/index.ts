@@ -99,14 +99,6 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "profile",
-        name: "EditProfile",
-        component: EditProfilePage,
-        meta: {
-          title: 'Modifier mon profile',  
-        }
-      },
-      {
         path: "view-utilisateur/:id",
         name: "ViewUser",
         component: ViewUserPage,
@@ -114,6 +106,20 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Détails d\'un utilisateur',
         }
       },
+    ]
+  },
+  {
+    path: "",
+    component: BodyView,
+    children: [
+      {
+        path: "profile",
+        name: "EditProfile",
+        component: EditProfilePage,
+        meta: {
+          title: 'Modifier mon profile',
+        }
+      }
     ]
   },
   {

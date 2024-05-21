@@ -88,9 +88,10 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Rôle <span class="text-danger">*</span>
                 </label>
-                <Field  name="roles" v-model="roles"  v-slot="{ field }">
+                <Field  name="roles"  v-slot="{ field }">
                   <VueMultiselect
                     v-model = "field.value"
+                    @update:model-value="val => field.value = val"
                     v-bind = "field"
                     :options="roleOptions"
                     :close-on-select="true"
@@ -162,7 +163,7 @@
         value => (value ? /^[0-9]{6}$/.test(value.toString()) : true)
       ),
       password: Yup.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères').required('Le mot de passe est obligatoire'),
-      roles: Yup.array().required('Le rôle est obligatoire'),
+      //roles: Yup.array().required('Le rôle est obligatoire'),
     });
 
     const roleOptions = ref([]);
