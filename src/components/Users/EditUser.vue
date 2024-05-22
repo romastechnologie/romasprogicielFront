@@ -273,7 +273,7 @@ setup: () => {
       .test(
         'is-six-digits',
         'Le téléphone doit avoir exactement 6 chiffres',
-        value => (value ? /^[0-9]{6}$/.test(value.toString()) : true)
+        value => (value ? /^[0-9]{8}$/.test(value.toString()) : true)
       ),
     });
       

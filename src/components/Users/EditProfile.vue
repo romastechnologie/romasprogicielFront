@@ -217,7 +217,7 @@ setup: () => {
       .test(
         'is-six-digits',
         'Le téléphone doit avoir exactement 6 chiffres',
-        value => (value ? /^[0-9]{6}$/.test(value.toString()) : true)
+        value => (value ? /^[0-9]{8}$/.test(value.toString()) : true)
       ),
     });
 
@@ -239,27 +239,19 @@ setup: () => {
     const roleOptions = ref([]);
     const passwords = ref<string>("");
     const router = useRouter();
-    const route = useRoute();
-    const  codepay= ref();
-    const  nationalnumlber= ref();
     const telephone=ref();
-    const validPhone=ref<boolean>(false);
-    const numberPhone=ref();
 
     onMounted(() => {
-      //fetchRoles();
       //userForm.value?.setFieldValue("password",passwords.value);
-      if(route.params.id) {
-        getUser(parseInt(route.params.id as string));
+      if(JwtService.getUser()) {
+        getUser(JwtService.getUser());
       }
-      const id = route.params.id as string;
-      getUserInfo(id);
-      if (JwtService.getUserId()) {
-          getUserOnly(JwtService.getUserId());
-        }
+      if (JwtService.getUser()) {
+        getUserOnly(JwtService.getUser());
+      }
     });
 
-    function getUser(id:number) {
+    function getUser(id:string | null) {
       ApiService.get("/users/"+id.toString())
         .then(({ data }) => {
           for (const key in data.data) {
@@ -271,6 +263,14 @@ setup: () => {
       .catch(({ response }) => {
         error(response.message);
       });
+    }
+
+  
+      function logout() {
+      store.logout()
+      if (!store.isAuthenticated) {
+        router.push({name:'login'})
+      }
     }
 
     function getUserOnly(id: string | null) {
@@ -290,22 +290,15 @@ setup: () => {
           //router.push({ name: "userForms-liste" });
         });
     }
-  
-      function logout() {
-      store.logout()
-      if (!store.isAuthenticated) {
-        router.push({name:'LoginPage'})
-      }
-    }
 
     const editUserPass = async (values, {resetForm}) => {
+      console.log('eemege', values)
         ApiService.put("/users/password/"+ values.id,values)
           .then(({ data }) => {
             if(data.code == 200) { 
               success(data.message);
               resetForm();
               logout();
-              //router.push({ name: "tableauBordPage" });
             }
           }).catch(({ response }) => {
             error(response.data.message);
@@ -314,18 +307,6 @@ setup: () => {
 
     const user = ref<User | null>(null);
     const users = ref<Array<User>>([]);
-    let userData = ref<UserData>();
-
-    function getUserInfo(id: string) {
-      return ApiService.get("/users/"+id)
-        .then(({ data }) => {
-          userData.value = data.data;
-          user.value = data.data; 
-        })
-        .catch(({ response }) => {
-          error(response.data.message);
-        });
-    } 
 
     const editUser = async (values) => {
       ApiService.put("/users/" + values.id, values)
@@ -333,8 +314,9 @@ setup: () => {
           if (data.code === 200) { 
             console.log('Fait avec succès ');
             success(data.message);
+            logout();
             //resetForm();
-            router.push({ name: "ListeUser" });
+            //router.push({ name: "ListeUser" });
           }
         })
         .catch(({ response }) => {
@@ -342,41 +324,18 @@ setup: () => {
         });
     };
 
-    
-    const reloadData = ref(false);
-
-    const suppRole = async (id:any) => {
-      console.log('Supprimer', id)
-      ApiService.delete("/roles/users/"+id)
-        .then(({ data }) => {
-          if(data.code == 200) { 
-            console.log('Supprimé')
-            success(data.message);
-            reloadData.value = !reloadData.value; 
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-        });
-    };
-
-    // watch(reloadData, () => {
-    //   getUserInfo(route.params.id as string);
-    // });
-
   return {userForm,
       userSchema,
       editUser,
       roleOptions,
       telephone,
-      //getUserInfo,
       user,
       users,
-      userData,
-      reloadData,
       userPassSchema,
       editUserPass,
       userPassForm,
       logout,
+      
       //validPhone,
       // validate,
       // onInput,
