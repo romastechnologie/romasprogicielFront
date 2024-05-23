@@ -60,7 +60,7 @@
             <tr v-for="demande in filterDemande" :key="demande.personnel">
               <td> {{ demande.create_at.toString().slice(0, 10) }} </td>
               <td> {{ demande.categorie ? demande.categorie.libelle : "null" }} </td>
-              <td> <a :href="'http://localhost:3001/upload/' + demande.demandeFileName" target="_blank"> {{
+              <td> <a :href="'/upload/' + demande.demandeFileName" target="_blank"> {{
                 demande.demandeFileName }}
                 </a>
               </td>
@@ -93,15 +93,14 @@
                     </a>
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
-                    <router-link :to="{ name: 'EditDemandePage', params: { id: demande.id } }" class="text-decoration-none p-1"
+                    <router-link :to="{ name: 'EditDemandePage', params: { id: demande.id } }"
+                      class="text-decoration-none p-1"
                       v-if="demande.statut != 'Refusée' && demande.statut != 'Acceptée'">
                       <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
                     </router-link>
                   </li>
-                  <li class="dropdown-item d-flex align-items-center"
-                    v-if="demande.statut != 'Refusée'">
-                    <a v-if="demande.statut != 'Refusée'" href="#"
-                      @click="deleteDemande(demande.id)">
+                  <li class="dropdown-item d-flex align-items-center" v-if="demande.statut != 'Refusée'">
+                    <a v-if="demande.statut != 'Refusée'" href="#" @click="deleteDemande(demande.id)">
                       <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
                       Supprimé
                     </a>
@@ -167,7 +166,7 @@
           <tr v-for="demande in filterDemande" :key="demande.personnel">
             <td> {{ demande.create_at.toString().slice(0, 10) }} </td>
             <td> {{ demande.categorie ? demande.categorie.libelle : "null" }} </td>
-            <td> <a :href="'http://localhost:3001/upload/' + demande.demandeFileName" target="_blank"> {{
+            <td> <a :href="'/upload/' + demande.demandeFileName" target="_blank"> {{
               demande.demandeFileName }}
               </a>
             </td>
@@ -309,7 +308,7 @@ export default defineComponent({
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            const response = await axios.delete(`http://localhost:3001/api/demandes/${id}`);
+            const response = await ApiService.delete(`/demandes/${id}`);
             getAllDemande()
             Swal.fire("Demande supprimé avec succès!", "", "success");
             console.log(response);
@@ -334,7 +333,7 @@ export default defineComponent({
         if (result.isConfirmed) {
 
           try {
-            const response = await axios.patch(`http://localhost:3001/api/demandes/${id}`, {
+            const response = await ApiService.patch(`/demandes/${id}`, {
               statut: "Refusée"
             });
             Swal.fire("Demande refusée avec succès", "", "success");
@@ -364,7 +363,7 @@ export default defineComponent({
         if (result.isConfirmed) {
 
           try {
-            const response = await axios.patch(`http://localhost:3001/api/demandes/${id}`, {
+            const response = await ApiService.patch(`/demandes/${id}`, {
               statut: "Acceptée"
             });
             Swal.fire("Demande acceptée avec succès", "", "success");
@@ -393,7 +392,7 @@ export default defineComponent({
 
     const getAllDemande = async () => {
       try {
-        const response  = await ApiService.get("/demandes");
+        const response = await ApiService.get("/demandes");
         demande.value = response.data;
 
       } catch (error) {

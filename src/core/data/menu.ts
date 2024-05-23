@@ -238,7 +238,7 @@ export const menu: MenuItem[] = [
     },
     
     {
-        title: "Conge",
+        title: "Demande de conge",
         icon: "stroke-task",
         icon1: "fill-task",
         type: "sub",
@@ -301,7 +301,7 @@ export const menu: MenuItem[] = [
         ]
     },
     {
-        title: "Permission p",
+        title: "Demande de permission",
         icon: "stroke-task",
         icon1: "fill-task",
         type: "sub",

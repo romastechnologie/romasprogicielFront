@@ -362,7 +362,7 @@ function schemaHorairePerso() {
 // async function sendPersonnel() {
 
 //     // try {
-//     //     const response = await axios.post('http://localhost:3000/personnels', personnel.value);
+//     //     const response = await ApiService.post('/personnels', personnel.value);
 //     //     if (response.data) {
 
 //     //         currentPersonnel.value = response.data.id;
@@ -370,7 +370,7 @@ function schemaHorairePerso() {
 //     //         const dateDebut = document.getElementById("dateDebut") as HTMLInputElement;
 
 //     //         try {
-//     //             await axios.post(`http://localhost:3000/personnelServiceFonctions/${response.data.id}/${serviceFonction.value}`, {
+//     //             await ApiService.post(`/personnelServiceFonctions/${response.data.id}/${serviceFonction.value}`, {
 //     //                 dateDebut: dateDebut.value
 //     //             });
 //     //         } catch (error) {
@@ -388,7 +388,7 @@ function schemaHorairePerso() {
 // async function sendContrat() {
 
 //     // try {
-//     //     const response = await axios.post(`http://localhost:3000/contrats`, contrat.value);
+//     //     const response = await ApiService.post(`/contrats`, contrat.value);
 //     //     if (response.data) {
 //     //         for (let index = 0; index < horairePersonnels.value.length; index++) {
 //     //             horairePersonnels.value[index].contrat = response.data.id;
@@ -404,7 +404,7 @@ function schemaHorairePerso() {
 // async function sendHorairePerso() {
 
 //     // try {
-//     //     await axios.post(`http://localhost:3000/horairePersonnels`, horairePersonnels.value);
+//     //     await ApiService.post(`/horairePersonnels`, horairePersonnels.value);
 
 //     // } catch (error) {
 //     //     console.error('Erreur lors de la création de l\'horaire personnel:', error);

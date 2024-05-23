@@ -80,6 +80,7 @@
   import multiMonthPlugin from '@fullcalendar/multimonth'
   import interactionPlugin from '@fullcalendar/interaction'
   import frLocale from '@fullcalendar/core/locales/fr'
+import ApiService from '@/services/ApiService';
   
   const permissions = ref([] as any[]);
   
@@ -158,7 +159,7 @@
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete(`http://localhost:3000/permissions/${id}`);
+          const response = await ApiService.delete(`/permissionps/${id}`);
           getAllPermissions()
           Swal.fire("Permission supprimé avec succès!", "", "success");
           console.log(response);
@@ -173,7 +174,7 @@
   // ------------------------------------------------- GET ------------------------------------------------
   const getAllPermissions = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/permissions');
+      const response = await ApiService.get('/permissionps');
       permissions.value = response.data;
   
       calendarOptions.value.events = permissions.value.map(permissions => {

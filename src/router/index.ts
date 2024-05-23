@@ -46,8 +46,8 @@ import AddHeureSuppPage from '@/pages/GestionPersonnel/HeureSupp/AddHeureSuppPag
 import ListeHeureSuppPage from "@/pages/GestionPersonnel/HeureSupp/ListeHeureSuppPage.vue";
 import AddJustificatifPage from '@/pages/GestionPersonnel/Justificatif/AddJustificatifPage.vue';
 import ListeJustificatifPage from "@/pages/GestionPersonnel/Justificatif/ListeJustificatifPage.vue";
-// import AddPermissionPage from '@/pages/GestionPersonnel/Permission/AddPermissionPage.vue';
-// import ListePermissionPage from "@/pages/GestionPersonnel/Permission/ListePermissionPage.vue";
+import AddPermissionPPage from '@/pages/GestionPersonnel/PermissionP/AddPermissionPPage.vue';
+import ListePermissionPPage from "@/pages/GestionPersonnel/PermissionP/ListePermissionPPage.vue";
 import AddDemandePage from '@/pages/GestionPersonnel/Demandes/AddDemandeModalPage.vue';
 import ListeDemandePage from '@/pages/GestionPersonnel/Demandes/ListeDemandePage.vue';
 import EditDemandePage from '@/pages/GestionPersonnel/Demandes/EditDemandePage.vue'
@@ -317,7 +317,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "liste-justificatifs",
+        path: "liste-justificatif",
         name: "ListeJustificatifPage",
         component: ListeJustificatifPage,
         meta: {
@@ -327,21 +327,21 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/prmissionsp",
+    path: "/permissionsp",
     component: BodyView,
     children: [
       {
         path: "ajouter-permissionp",
-        name: "AddPermissionPage",
-        component: AddPermissionPage,
+        name: "AddPermissionPPage",
+        component: AddPermissionPPage,
         meta: {
           title: 'Ajouter une permission',
         }
       },
       {
-        path: "liste-permissionps",
-        name: "ListePermissionPage",
-        component: ListePermissionPage,
+        path: "liste-permissionp",
+        name: "ListePermissionPPage",
+        component: ListePermissionPPage,
         meta: {
           title: 'Liste des permissionps',
         }

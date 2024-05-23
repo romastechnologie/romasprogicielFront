@@ -66,6 +66,7 @@
   import axios from 'axios';
   import Swal from 'sweetalert2'
   import { useRouter } from 'vue-router';
+import ApiService from '@/services/ApiService';
   
   const router = useRouter()
   
@@ -325,7 +326,7 @@
           formData.append('fichier', target.files[0])
   
           try {
-            const response = await axios.post(`http://localhost:3000/justificatifs/${personnelId.value}/${presenceId.value}`, formData);
+            const response = await ApiService.post(`/justificatifs/${personnelId.value}/${presenceId.value}`, formData);
             Swal.fire({
               timer: 1500,
               position: "top-end",
@@ -333,8 +334,8 @@
               text: "Le justificatifs a été envoyé avec succès!",
               icon: "success"
             });
-            // $store.commit('ADD_DEMANDE', response.data);
-            router.push("/")
+            
+            router.push("/justificatifs/liste-justificatif")
             if (closeJustificatifModal.value) {
               (closeJustificatifModal.value as HTMLButtonElement).click();
             }
@@ -354,7 +355,7 @@
   // --------------------------------------------------- GET ---------------------------------------
   const getAllPresences = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/presences');
+      const response = await ApiService.get('/presences');
       presences.value = response.data;
       // router.push("/");
       console.log(response);
@@ -366,7 +367,7 @@
   
   const getAllDemande = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/demandes');
+      const response = await ApiService.get('/demandes');
       demande.value = response.data;
   
     } catch (error) {
@@ -377,7 +378,7 @@
   
   const getAllPersonnel = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/personnels');
+      const response = await ApiService.get('/personnels');
       personnels.value = response.data;
   
       const allPersonnelIds = response.data.map((personnel: any) => personnel.id);

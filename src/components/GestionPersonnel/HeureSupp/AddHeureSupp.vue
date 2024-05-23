@@ -54,6 +54,7 @@
   import axios from 'axios';
   import Swal from 'sweetalert2'
   import { useRouter } from 'vue-router';
+import ApiService from '@/services/ApiService';
   
   const router = useRouter()
   
@@ -356,7 +357,7 @@
     const personnelId = document.getElementById("heureSupPersonnelId") as HTMLInputElement;
   
     try {
-      const response = await axios.post(`http://localhost:3000/heureSups/${personnelId.value}`, value);
+      const response = await ApiService.post(`/heureSups/${personnelId.value}`, value);
       Swal.fire({
         timer: 1500,
         position: "top-end",
@@ -374,11 +375,22 @@
   
   // --------------------------------------------------- GET ---------------------------------------
 
+  const getAllPersonnels = async () => {
+  try {
+    const response = await ApiService.get("/personnels");
+    personnels.value = response.data;
+     
+    console.log(personnels);
+  } catch (error) {
+    console.error('Erreur lors de la recupération des personnels:', error);
+    throw error;
+  }
+}
+
+onMounted(() => {
+  getAllPersonnels();
+})
   
-  onMounted(() => {
-  
-  //  
-  })
   
   </script>
   
