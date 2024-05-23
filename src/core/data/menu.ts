@@ -248,7 +248,7 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/conges/ajouter-conge",
-                title: "Ajouter un congé",
+                title: "Programmer un congé",
                 type: "link"
             },
             {

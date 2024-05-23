@@ -18,13 +18,6 @@
         <div class="overflow-auto">
           <template v-for="personnel in filterPersonnel" :key="personnel.id">
             <template v-for="fonction in personnel.personnel_service_fonctions" :key="fonction.id">
-              <PersonnelProfile v-if="fonction.statut == 'Actif'" :endpoint="'/personnels/' + personnel.id"
-                :fonction="fonction ? fonction.service_fonction.fonction.libelle : 'Pas de fonction'" image=""
-                :libelle="personnel.nom + ' ' + personnel.prenom" />
-            </template>
-          </template>
-          <template v-for="personnel in filterPersonnel" :key="personnel.id">
-            <template v-for="fonction in personnel.personnel_service_fonctions" :key="fonction.id">
               <router-link v-if="fonction.statut == 'Actif'" :to="'/personnels/liste-personnel/' + personnel.id"
                 class="card border border-secondary d-flex flex-row justify-content-start align-items-center px-3 py- mb-2 mx-md-2">
                 <img :src="personnel.image"

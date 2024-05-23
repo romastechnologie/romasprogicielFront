@@ -8,12 +8,20 @@
             {{ personnel.nom + " " + personnel.prenom }}
           </h3>
         </div>
-        <div class="row gx-3 flex-wrap mb-4">
+        <div class="row gx-3 flex-wrap m-2">
           <div class="col-4">
-            <PersonnelElement target="contrat" icone="handshake" libelle="Ajouter un contrat" />
+            <div type="button"
+              class="card d-flex flex-row p-2 bg-secondary justify-content-center align-items-center mb-2"
+              data-bs-toggle="modal" :data-bs-target="`#contrat`">
+              <h6> Ajouter un contrat </h6>
+            </div>
           </div>
           <div class="col-4">
-            <PersonnelElement target="fonctionService" icone="engineering" libelle="Ajouter une fonction" />
+            <div type="button"
+              class="card d-flex flex-row p-2 bg-secondary justify-content-center align-items-center mb-2"
+              data-bs-toggle="modal" :data-bs-target="`#fonctionService`">
+              <h6> Ajouter une fonction </h6>
+            </div>
           </div>
           <!-- <div class="col-4">
                 <PersonnelElement target="horairePerso" icone="schedule" libelle="Ajouter une horaire personnel" />
@@ -53,7 +61,11 @@
                   </td>
                   <td> {{ (personnel_service_fonction.dateDebut as Date).toString().slice(0, 10) }} </td>
                   <td> {{ personnel_service_fonction.dateFin }} </td>
-                  <td> {{ personnel_service_fonction.statut }} </td>
+                  <td v-if="personnel_service_fonction.statut === 'Actif'" class="text-center"> <span
+                      class="badge badge-success">Actif</span> </td>
+                  <td v-else-if="personnel_service_fonction.statut === 'Inactif'" class="text-center"> <span
+                      class="badge badge-danger">Inactif</span>
+                  </td>
                 </tr>
               </template>
             </template>
@@ -103,7 +115,11 @@
                 <td> {{ contrat.datePriseFonction ? (contrat.datePriseFonction as Date).toString().slice(0, 10) : "" }}
                 </td>
                 <td> {{ contrat.dateFin }} </td>
-                <td> {{ contrat.statut }} </td>
+                <td v-if="contrat.statut === 'Actif'" class="text-center"> <span
+                    class="badge badge-success">Actif</span> </td>
+                <td v-else-if="contrat.statut === 'Inactif'" class="text-center"> <span
+                    class="badge badge-danger">Inactif</span>
+                </td>
               </tr>
             </template>
           </tbody>
@@ -491,7 +507,7 @@ const updateHeurePerso = async (id: any) => {
         heureDepart: formValues[1],
       });
       Swal.fire("Horaire modifié avec succès", "", "success");
-      
+
     } catch (error) {
       console.error('Erreur lors de la modification de l\'horaire du personnel:', error);
       throw error;
@@ -516,7 +532,7 @@ async function updateContrat(value: object) {
       text: "Contrat mise à jour avec succès!",
       icon: "success"
     });
-    
+
     if (closeContratModal.value) {
       (closeContratModal.value as HTMLElement).click();
     }
@@ -562,7 +578,7 @@ const getAllHoraire = async () => {
 const getAllFonctions = async () => {
   try {
     const response = await ApiService.get('/fonctions');
-    
+
 
   } catch (error) {
     console.error('Erreur lors de la recupération des fonctions:', error);
@@ -573,7 +589,7 @@ const getAllFonctions = async () => {
 const getAllContratPersos = async () => {
   try {
     const response = await ApiService.get('/contrats');
-   
+
 
   } catch (error) {
     console.error('Erreur lors de la recupération des contrats:', error);
@@ -595,7 +611,7 @@ const getAllHorairePersos = async () => {
 const getAllServices = async () => {
   try {
     const response = await ApiService.get('/services');
-    services.value = response.data
+    services.value = response.data.data.data
 
     console.log(response);
   } catch (error) {
@@ -618,13 +634,13 @@ const getAllServiceFonctions = async () => {
 
 onMounted(() => {
   getAllContrat(),
-  getAllHoraire(),
-  getAllServices(),
-  getAllFonctions(),
-  getAllContratPersos(),
-  getAllHorairePersos(),
-  getAllServiceFonctions(),
-  getAllPersonnel()
+    getAllHoraire(),
+    getAllServices(),
+    getAllFonctions(),
+    getAllContratPersos(),
+    getAllHorairePersos(),
+    getAllServiceFonctions(),
+    getAllPersonnel()
 })
 
 </script>

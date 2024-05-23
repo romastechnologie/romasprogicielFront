@@ -269,7 +269,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "AddCongePage",
         component: AddCongePage,
         meta: {
-          title: 'Ajouter un congé',
+          title: 'Programmer un congé',
         }
       },
       {
