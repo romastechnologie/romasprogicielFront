@@ -190,10 +190,10 @@
   import dayGridPlugin from '@fullcalendar/daygrid'
   import timeGridPlugin from '@fullcalendar/timegrid'
   import listPlugin from '@fullcalendar/list'
-  //import FullCalendar from '@fullcalendar/vue'
-  //import multiMonthPlugin from '@fullcalendar/multi-month'
+  import multiMonthPlugin from '@fullcalendar/multimonth'
   import interactionPlugin from '@fullcalendar/interaction'
   import frLocale from '@fullcalendar/core/locales/fr'
+import ApiService from '@/services/ApiService';
   
   const conges = ref([] as any[]);
   
@@ -202,7 +202,7 @@
       dayGridPlugin,
       timeGridPlugin,
       listPlugin,
-      //multiMonthPlugin,
+      multiMonthPlugin,
       interactionPlugin
     ],
     headerToolbar: {
@@ -304,7 +304,7 @@
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete(`http://localhost:3000/personnelConges/${id}`);
+          const response = await ApiService.delete(`/personnelConges/${id}`);
           Swal.fire("Congé supprimé avec succès!", "", "success");
           getAllPersonnelConges()
           console.log(response);
@@ -339,7 +339,7 @@
         });
         if (formValues) {
           try {
-            const response = await axios.patch(`http://localhost:3000/personnelConges/${id}`, {
+            const response = await ApiService.put(`/personnelConges/${id}`, {
               statut: "Interrompu",
               dateFin: formValues[0]
             });
@@ -365,7 +365,7 @@
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.patch(`http://localhost:3000/personnelConges/${id}`, {
+          const response = await ApiService.put(`/personnelConges/${id}`, {
             statut: "Annulé"
           });
           Swal.fire("Congé annulé avec succès!", "", "success");
@@ -381,7 +381,7 @@
   
   // const getAllConges = async () => {
   //   try {
-  //     const response = await axios.get('http://localhost:3000/conges');
+  //     const response = await ApiService.get('/conges');
   //     conges.value = response.data;
   //     filterCongeDemande.value = conges.value.filter(conge => conge.intitule === "");
   //     filterConge.value = conges.value.filter(conge => conge.intitule !== "");
@@ -411,7 +411,7 @@
   
   const getAllPersonnelConges = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/personnelConges');
+      const response = await ApiService.get('/personnelConges');
       conges.value = response.data;
       // filterCongeDemande.value = conges.value.filter(personnelConge => personnelConge.conge.demande === undefined);
       filterConge.value = conges.value.filter(personnelConge => personnelConge.conge.demande !== "");

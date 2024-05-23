@@ -78,8 +78,8 @@
                   <td> {{ horaire_personnel.heureDepart }} H </td>
                   <td class="d-flex justify-content-center">
                     <span type="button"
-                      class="material-symbols-outlined card fs-3 d-flex justify-content-center align-items-center text-success text-center"
-                      @click="updateHeurePerso(horaire_personnel.id)" style="height: 40px; width: 40px;">
+                      class="material-symbols-outlined card fs-6 d-flex justify-content-center align-items-center text-success text-center my-0"
+                      @click="updateHeurePerso(horaire_personnel.id)">
                       update
                     </span>
                   </td>
@@ -540,8 +540,8 @@ const getAllPersonnel = async () => {
 
 const getAllContrat = async () => {
   try {
-    // const response = await ApiService.get('/contrats');
-    // contrats.value = response.data;
+    const response = await ApiService.get('/contrats');
+    contrats.value = response.data;
 
   } catch (error) {
     console.error('Erreur lors de la recupération des contrats:', error);
@@ -551,8 +551,7 @@ const getAllContrat = async () => {
 
 const getAllHoraire = async () => {
   try {
-    // const response = await ApiService.get('/horaires');
-    
+    const response = await ApiService.get('/horaires');
 
   } catch (error) {
     console.error('Erreur lors de la recupération des horaires:', error);
@@ -562,7 +561,7 @@ const getAllHoraire = async () => {
 
 const getAllFonctions = async () => {
   try {
-    // const response = await ApiService.get('/fonctions');
+    const response = await ApiService.get('/fonctions');
     
 
   } catch (error) {
@@ -573,7 +572,7 @@ const getAllFonctions = async () => {
 
 const getAllContratPersos = async () => {
   try {
-    // const response = await ApiService.get('/contrats');
+    const response = await ApiService.get('/contrats');
    
 
   } catch (error) {
@@ -584,8 +583,8 @@ const getAllContratPersos = async () => {
 
 const getAllHorairePersos = async () => {
   try {
-    // const response = await ApiService.get('/horairePersonnels');
-    // horairePersos.value = response.data;
+    const response = await ApiService.get('/horairePersonnels');
+    horairePersos.value = response.data;
 
   } catch (error) {
     console.error('Erreur lors de la recupération des horaires personnels :', error);
@@ -595,10 +594,10 @@ const getAllHorairePersos = async () => {
 
 const getAllServices = async () => {
   try {
-    // const response = await ApiService.get('/services');
-    // services.value = response.data
+    const response = await ApiService.get('/services');
+    services.value = response.data
 
-    // console.log(response);
+    console.log(response);
   } catch (error) {
     console.error('Erreur lors de la recupération des services:', error);
     throw error;
@@ -607,10 +606,10 @@ const getAllServices = async () => {
 
 const getAllServiceFonctions = async () => {
   try {
-    // const response = await ApiService.get('/servicefonctions');
-    // service_fonctions.value = response.data
+    const response = await ApiService.get('/servicefonctions');
+    service_fonctions.value = response.data
 
-    // console.log(response);
+    console.log(response);
   } catch (error) {
     console.error('Erreur lors de la recupération des services fonctions:', error);
     throw error;

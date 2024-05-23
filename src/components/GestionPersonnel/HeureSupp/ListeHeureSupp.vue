@@ -60,6 +60,7 @@
   import axios from 'axios';
   import Swal from 'sweetalert2';
 import router from '@/router';
+import ApiService from '@/services/ApiService';
   
   const heuresups = ref([] as any[]);
   
@@ -94,7 +95,7 @@ import router from '@/router';
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete(`http://localhost:3000/heureSups/${id}`);
+          const response = await ApiService.delete(`/heureSups/${id}`);
           getAllHeureSup()
           Swal.fire("Heure supplémentaire supprimé avec succès!", "", "success");
           console.log(response);
@@ -109,7 +110,7 @@ import router from '@/router';
   // -------------------------------------------------- GET ------------------------------------------------
   const getAllHeureSup = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/heureSups');
+      const response = await ApiService.get('/heureSups');
       heuresups.value = response.data;
   
     } catch (error) {

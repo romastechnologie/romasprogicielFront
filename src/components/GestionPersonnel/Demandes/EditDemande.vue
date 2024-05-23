@@ -107,7 +107,7 @@ async function updateDemande() {
 const getAllCategorieDemandes = async () => {
     try {
         const response = await ApiService.get("/categorieDemandes");
-        categorieDemandes.value = response.data;
+        categorieDemandes.value = response.data.data.data;
 
         console.log(response);
     } catch (error) {

@@ -207,8 +207,7 @@ async function sendPresence() {
       text: "Presence ajouté avec succès!",
       icon: "success"
     });
-    $store.commit('ADD_PRESENCE', response.data);
-    router.push("/presences")
+    router.push("/presences/liste-presence")
   } catch (error) {
     console.error('Erreur lors de la création du presence:', error);
     throw error;

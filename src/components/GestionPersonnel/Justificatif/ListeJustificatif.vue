@@ -32,7 +32,7 @@
             <td> {{ justificatif.dateDebut ? justificatif.dateDebut.toString().slice(0, 10) : '' }} </td>
             <td> {{ justificatif.dateFin ? justificatif.dateFin.toString().slice(0, 10) : '' }} </td>
             <td>
-              <a :href="'http://localhost:3000/upload/' + justificatif.preuveFileName" target="_blank"> {{ justificatif.preuveFileName
+              <a :href="'/upload/' + justificatif.preuveFileName" target="_blank"> {{ justificatif.preuveFileName
                 }}
               </a>
             </td>
@@ -81,6 +81,7 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import ApiService from '@/services/ApiService';
 
 const justificatifs = ref([] as any[]);
 
@@ -117,7 +118,7 @@ function deleteJustificatif(id: number) {
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
-        const response = await axios.delete(`http://localhost:3000/justificatifs/${id}`);
+        const response = await ApiService.delete(`/justificatifs/${id}`);
         getAllJustificatif()
         Swal.fire("Justificatif supprimé avec succès!", "", "success");
         console.log(response);
@@ -142,7 +143,7 @@ const refusedJustificatif = (id: number) => {
     if (result.isConfirmed) {
 
       try {
-        const response = await axios.patch(`http://localhost:3000/justificatifs/${id}/${id}/${id}`, {
+        const response = await ApiService.put(`/justificatifs/${id}/${id}/${id}`, {
           statut: "Refusée"
         });
         Swal.fire("Justificatif refusée avec succès", "", "success");
@@ -172,7 +173,7 @@ const acceptedJustificatif = (id: number, presenceId: number) => {
     if (result.isConfirmed) {
 
       try {
-        const response = await axios.patch(`http://localhost:3000/justificatifs/${id}/${presenceId}`, {
+        const response = await ApiService.put(`/justificatifs/${id}/${presenceId}`, {
           statut: "Acceptée"
         });
         Swal.fire("Justificatif acceptée avec succès", "", "success");
@@ -192,7 +193,7 @@ const acceptedJustificatif = (id: number, presenceId: number) => {
 // ---------------------------------------------------- GET -------------------------------------------------------
 const getAllJustificatif = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/justificatifs');
+    const response = await ApiService.get('/justificatifs');
     justificatifs.value = response.data;
     console.log(response);
   } catch (error) {
