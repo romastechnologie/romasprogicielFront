@@ -159,7 +159,7 @@
                   class="material-symbols-outlined card fs-6 mx-1 d-flex justify-content-center align-items-center text-danger text-center">
                   cancel
                 </span>
-                <router-link :to="`/updateConge/${personnelConge.id}`" class="text-decoration-none"
+                <router-link :to="`/conges/edit-conge/${personnelConge.id}`" class="text-decoration-none"
                   v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
                   <span type="button"
                     class="material-symbols-outlined card fs-6 d-flex justify-content-center align-items-center text-success text-center">

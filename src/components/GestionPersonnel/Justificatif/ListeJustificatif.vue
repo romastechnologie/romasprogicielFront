@@ -53,7 +53,7 @@
                   @click="acceptedJustificatif(justificatif.id, justificatif.presence.id)" style="height: 40px; width: 40px;">
                   check
                 </span>
-                <router-link :to="`/updateJustificatif/${justificatif.id}`" class="text-decoration-none" v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée' ">
+                <router-link :to="`/justificatifs/edit-justificatif/${justificatif.id}`" class="text-decoration-none" v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée' ">
                   <span type="button"
                     class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-primary text-center"
                     style="height: 40px; width: 40px;">

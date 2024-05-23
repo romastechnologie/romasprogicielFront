@@ -43,7 +43,7 @@
               <td> {{ permission.dateReprise.toString().slice(0, 10) }} </td>
               <td>
                 <div class="d-flex justify-content-center">
-                  <router-link :to="`/updatePermission/${permission.id}`" class="text-decoration-none">
+                  <router-link :to="`/permissionps/edit-permissionp/${permission.id}`" class="text-decoration-none">
                     <span type="button"
                       class="material-symbols-outlined card fs-3 d-flex justify-content-center align-items-center text-success text-center"
                       style="height: 40px; width: 40px;">

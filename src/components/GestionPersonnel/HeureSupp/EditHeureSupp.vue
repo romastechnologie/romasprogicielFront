@@ -23,10 +23,11 @@
   import { Form, Field, ErrorMessage } from 'vee-validate';
   import * as yup from 'yup';
   import { configure } from 'vee-validate'
-  import $store from '@/store';
   import { useRouter, useRoute } from 'vue-router';
   import Swal from 'sweetalert2';
   import axios from 'axios';
+import ApiService from '@/services/ApiService';
+import { onMounted, ref } from 'vue';
   
   const router = useRouter()
   const route = useRoute()
@@ -38,7 +39,7 @@
     validateOnModelUpdate: false,
   });
   
-  const heuresups = $store.state.heuresups;
+  const heuresups = ref([] as any[]);
   
   // ------------------------------------------------ SCHEMA -------------------------------------------------
   
@@ -54,20 +55,34 @@
   async function updateHeureSup(value: object) {
   
     try {
-      const response = await axios.patch(`http://localhost:3000/heureSups/${route.params.id}`, value);
+      const response = await ApiService.put(`/heureSups/${route.params.id}`, value);
       Swal.fire({
         timer: 1500,
         position: "top-end",
         text: "Heure supplémentaire modifié avec succès!",
         icon: "success"
       });
-      $store.commit('UPDATE_HEURESUP', response.data);
-      router.push("/heureSups")
+      router.push("/heureSupps/liste-heureSupp")
     } catch (error) {
       console.error('Erreur lors de la modification due l\'heure supplementaire:', error);
       throw error;
     }
   }
+
+  const getAllHeureSupps = async () => {
+    try {
+      const response = await ApiService.get('/heureSups');
+      heuresups.value = response.data;
+      
+    } catch (error) {
+      console.error('Erreur lors de la recupération des congés:', error);
+      throw error;
+    }
+  }
+  
+  onMounted(() => {
+    getAllHeureSupps();
+  })
   
   </script>
   

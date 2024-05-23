@@ -24,10 +24,10 @@
   import { Form, Field, ErrorMessage } from 'vee-validate';
   import * as yup from 'yup';
   import { configure } from 'vee-validate'
-  import $store from '@/store';
   import { useRouter, useRoute } from 'vue-router';
   import Swal from 'sweetalert2';
   import axios from 'axios';
+import ApiService from '@/services/ApiService';
   
   const router = useRouter()
   const route = useRoute()
@@ -74,16 +74,14 @@
         formData.append('fichier', target.files[0])
   
         try {
-          const response = await axios.patch(`http://localhost:3000/justificatifs/${route.params.id}`, formData);
+          const response = await ApiService.put(`/justificatifs/${route.params.id}`, formData);
           Swal.fire({
             timer: 1500,
             position: "top-end",
             text: "Le justificatif a été modifié avec succès!",
             icon: "success"
           });
-          $store.commit('UPDATE_JUSTIFICATIF', response.data);
-          console.log('Réponse de la requête axios :', response.data);
-          router.push("/justificatifs")
+          router.push("/justificatifs/liste-justificatif")
         } catch (error) {
           console.error('Erreur lors de l\'envoie du justificatif:', error);
           throw error;

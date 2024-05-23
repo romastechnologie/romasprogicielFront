@@ -111,7 +111,7 @@ export const menu: MenuItem[] = [
     },
     {
         title: "Demandes",
-        icon: "file",
+        icon: "stroke-task",
         icon1: "fill-task",
         type: "sub",
         badgeType: "light-primary",
@@ -132,7 +132,7 @@ export const menu: MenuItem[] = [
     },
     {
         title: "Présences",
-        icon: "file",
+        icon: "stroke-task",
         icon1: "fill-task",
         type: "sub",
         badgeType: "light-primary",
@@ -153,7 +153,7 @@ export const menu: MenuItem[] = [
     },
     {
         title: "Personnels",
-        icon: "file",
+        icon: "stroke-task",
         icon1: "fill-task",
         type: "sub",
         badgeType: "light-primary",
@@ -310,12 +310,12 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/permissionsp/ajouter-permissionp",
+                path: "/permissionps/ajouter-permissionp",
                 title: "Ajouter une permission ",
                 type: "link"
             },
             {
-                path: "/permissionsp/liste-permissionp",
+                path: "/permissionps/liste-permissionp",
                 title: "Liste des permission",
                 type: "link"
             },

@@ -31,7 +31,7 @@
               <td> {{ heureSup.duree }} </td>
               <td>
                 <div class="d-flex justify-content-center">
-                  <router-link :to="`/updateHeureSup/${heureSup.id}`" class="text-decoration-none">
+                  <router-link :to="`/heureSupps/edit-heureSupp/${heureSup.id}`" class="text-decoration-none">
                     <span type="button"
                       class="material-symbols-outlined card fs-3 d-flex justify-content-center align-items-center text-success text-center"
                       style="height: 40px; width: 40px;">

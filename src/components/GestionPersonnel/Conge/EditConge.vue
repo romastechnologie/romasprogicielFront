@@ -26,11 +26,11 @@
   import { Form, Field, ErrorMessage } from 'vee-validate';
   import * as yup from 'yup';
   import { configure } from 'vee-validate'
-  import $store from '@/store';
   import { useRouter, useRoute } from 'vue-router';
   import Swal from 'sweetalert2';
   import axios from 'axios';
   import { onMounted, ref } from 'vue';
+import ApiService from '@/services/ApiService';
   
   const router = useRouter()
   const route = useRoute()
@@ -59,15 +59,14 @@
   async function updateConge(value: object) {
   
     try {
-      const response = await axios.patch(`http://localhost:3000/personnelConges/${route.params.id}`, value);
+      const response = await ApiService.put(`/personnelConges/${route.params.id}`, value);
       Swal.fire({
         timer: 1500,
         position: "top-end",
         text: "Congé mise à jour avec succès!",
         icon: "success"
       });
-      $store.commit('UPDATE_CONGE', response.data);
-      router.push("/conges")
+      router.push("/conges/liste-conge")
     } catch (error) {
       console.error('Erreur lors de la mise à jour du congé:', error);
       throw error;
@@ -76,7 +75,7 @@
   
   const getAllPersonnelConges = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/personnelConges');
+      const response = await ApiService.get('/personnelConges');
       conges.value = response.data;
       
     } catch (error) {

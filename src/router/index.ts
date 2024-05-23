@@ -283,7 +283,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Modifier un conge',
         }
-      }
+      },
       {
         path: "liste-conge",
         name: "ListeCongePage",
@@ -313,7 +313,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Modifier une heure supplémentaire',
         }
-      }
+      },
       {
         path: "liste-heureSupp",
         name: "ListeHeureSuppPage",
@@ -343,7 +343,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Modifier un justificatif',
         }
-      }
+      },
       {
         path: "liste-justificatif",
         name: "ListeJustificatifPage",
@@ -355,7 +355,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/permissionsp",
+    path: "/permissionps",
     component: BodyView,
     children: [
       {
@@ -367,13 +367,13 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "edit-permisisonp/:id",
+        path: "edit-permissionp/:id",
         name: "EditPermissionPPage",
         component: EditPermissionPPage,
         meta: {
           title: 'Modifier une demande de permission',
         }
-      }
+      },
       {
         path: "liste-permissionp",
         name: "ListePermissionPPage",
