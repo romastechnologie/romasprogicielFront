@@ -104,7 +104,74 @@ export const menu: MenuItem[] = [
             },
         ]
     },
-
+    {
+        headTitle1: "Gestion du personnel",
+        headTitle2: "Demandes, Permissions, Congés, Présences, Justificatifs et Heures supplémentaires",
+        type: "headtitle"
+    },
+    {
+        title: "Demandes",
+        icon: "file",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/demandes/ajouter-demande",
+            //     title: "Ajouter une demande",
+            //     type: "link"
+            // },
+            {
+                path: "/demandes/liste-demande",
+                title: "Liste des demandes",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Présences",
+        icon: "file",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/presences/ajouter-presence",
+                title: "Ajouter une présence",
+                type: "link"
+            },
+            {
+                path: "/presences/liste-presence",
+                title: "Liste des présences",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Personnels",
+        icon: "file",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/personnels/ajouter-personnel",
+                title: "Ajouter un personnel",
+                type: "link"
+            },
+            {
+                path: "/personnels/liste-personnel",
+                title: "Liste des personnels",
+                type: "link"
+            }
+        ]
+    }
     // {
     //     title: "Users",
     //     icon: "stroke-user",

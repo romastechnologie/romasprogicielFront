@@ -35,6 +35,16 @@ import ListeUserPage from "@/pages/Users/ListeUserPage.vue";
 import EditUserPage from "@/pages/Users/EditUserPage.vue";
 import ViewUserPage from "@/pages/Users/ViewUserPage.vue";
 import TableauBordPage from "@/pages/dashbords/TableauBordPage.vue"
+import AddDemandePage from '@/pages/GestionPersonnel/Demandes/AddDemandeModalPage.vue';
+import ListeDemandePage from '@/pages/GestionPersonnel/Demandes/ListeDemandePage.vue';
+import EditDemandePage from '@/pages/GestionPersonnel/Demandes/EditDemandePage.vue'
+import AddPresencePage from '@/pages/GestionPersonnel/Presences/AddPresencePage.vue';
+import ListePresencePage from '@/pages/GestionPersonnel/Presences/ListePresencePage.vue';
+import EditPresencePage from '@/pages/GestionPersonnel/Presences/EditPresencePage.vue'
+import AddPersonnelPage from '@/pages/GestionPersonnel/Personnels/AddPersonnelPage.vue';
+import ListePersonnelPage from '@/pages/GestionPersonnel/Personnels/ListePersonnelPage.vue';
+import EditPersonnelPage from '@/pages/GestionPersonnel/Personnels/EditPersonnelPage.vue'
+import DetailsPersonnelPage from '@/pages/GestionPersonnel/Personnels/DetailsPersonnelPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -171,6 +181,106 @@ const routes: Array<RouteRecordRaw> = [
         component: ViewRolePage,
         meta: {
           title: 'Détails du rôle',
+        }
+      }
+    ]
+  },
+  {
+    path: "/demandes",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-demande",
+        name: "AddDemandePage",
+        component: AddDemandePage,
+        meta: {
+          title: 'Ajouter une demande',
+        }
+      },
+      {
+        path: "liste-demande",
+        name: "ListeDemandePage",
+        component: ListeDemandePage,
+        meta: {
+          title: 'Liste des demandes',
+        }
+      },
+      {
+        path: "edit-demande/:id",
+        name: "EditDemandePage",
+        component: EditDemandePage,
+        meta: {
+          title: 'Modifier une demande',
+        }
+      }
+    ]
+  },
+  {
+    path: "/presences",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-presence",
+        name: "AddPresencePage",
+        component: AddPresencePage,
+        meta: {
+          title: 'Ajouter une présence',
+        }
+      },
+      {
+        path: "liste-presence",
+        name: "ListePresencePage",
+        component: ListePresencePage,
+        meta: {
+          title: 'Liste des présences',
+        }
+      },
+      {
+        path: "edit-presence/:id",
+        name: "EditPresencePage",
+        component: EditPresencePage,
+        meta: {
+          title: 'Modifier une présence',
+        }
+      }
+    ]
+  },
+  {
+    path: "/personnels",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-personnel",
+        name: "AddPersonnelPage",
+        component: AddPersonnelPage,
+        meta: {
+          title: 'Ajouter un personnel',
+        }
+      },
+      {
+        path: "liste-personnel",
+        name: "ListePersonnelPage",
+        component: ListePersonnelPage,
+        meta: {
+          title: 'Liste des personnels',
+        },
+        children: [
+          {
+            path: ':id',
+            name: 'id',
+            component: DetailsPersonnelPage,
+            meta: {
+              title: 'Details du personnel',
+            }
+          }
+        ]
+      },
+      {
+        path: "edit-personnel/:id",
+        name: "EditPersonnelPage",
+        component: EditPersonnelPage,
+        meta: {
+          title: 'Modifier un personnel',
         }
       }
     ]
