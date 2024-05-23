@@ -42,12 +42,16 @@ import EditUserPage from "@/pages/Users/EditUserPage.vue";
 import EditProfilePage from "@/pages/Users/EditProfilePage.vue";
 import ViewUserPage from "@/pages/Users/ViewUserPage.vue";
 import TableauBordPage from "@/pages/dashbords/TableauBordPage.vue"
-import AddHeureSuppPage from '@/pages/HeureSupp/AddHeureSuppPage.vue';
-import ListeHeureSuppPage from "@/pages/HeureSupp/ListeHeureSuppPage.vue";
-import AddJustificatifPage from '@/pages/Justificatif/AddJustificatifPage.vue';
-import ListeJustificatifPage from "@/pages/Justificatif/ListeJustificatifPage.vue";
-import AddPermissionPPage from '@/pages/PermissionP/AddPermissionPPage.vue';
-import ListePermissionPPage from "@/pages/PermissionP/ListePermissionPPage.vue";
+import AddDemandePage from '@/pages/GestionPersonnel/Demandes/AddDemandeModalPage.vue';
+import ListeDemandePage from '@/pages/GestionPersonnel/Demandes/ListeDemandePage.vue';
+import EditDemandePage from '@/pages/GestionPersonnel/Demandes/EditDemandePage.vue'
+import AddPresencePage from '@/pages/GestionPersonnel/Presences/AddPresencePage.vue';
+import ListePresencePage from '@/pages/GestionPersonnel/Presences/ListePresencePage.vue';
+import EditPresencePage from '@/pages/GestionPersonnel/Presences/EditPresencePage.vue'
+import AddPersonnelPage from '@/pages/GestionPersonnel/Personnels/AddPersonnelPage.vue';
+import ListePersonnelPage from '@/pages/GestionPersonnel/Personnels/ListePersonnelPage.vue';
+import EditPersonnelPage from '@/pages/GestionPersonnel/Personnels/EditPersonnelPage.vue'
+import DetailsPersonnelPage from '@/pages/GestionPersonnel/Personnels/DetailsPersonnelPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -195,147 +199,103 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/services",
+    path: "/demandes",
     component: BodyView,
     children: [
       {
-        path: "liste-service",
-        name: "ListeServicePage",
-        component: ListeServicePage,
+        path: "ajouter-demande",
+        name: "AddDemandePage",
+        component: AddDemandePage,
         meta: {
-          title: 'Liste des services',
+          title: 'Ajouter une demande',
         }
       },
+      {
+        path: "liste-demande",
+        name: "ListeDemandePage",
+        component: ListeDemandePage,
+        meta: {
+          title: 'Liste des demandes',
+        }
+      },
+      {
+        path: "edit-demande/:id",
+        name: "EditDemandePage",
+        component: EditDemandePage,
+        meta: {
+          title: 'Modifier une demande',
+        }
+      }
     ]
   },
   {
-    path: "/categories",
+    path: "/presences",
     component: BodyView,
     children: [
       {
-        path: "liste-categorie",
-        name: "ListeCategoriePage",
-        component: ListeCategoriePage,
+        path: "ajouter-presence",
+        name: "AddPresencePage",
+        component: AddPresencePage,
         meta: {
-          title: 'Liste des categories',
+          title: 'Ajouter une présence',
         }
       },
+      {
+        path: "liste-presence",
+        name: "ListePresencePage",
+        component: ListePresencePage,
+        meta: {
+          title: 'Liste des présences',
+        }
+      },
+      {
+        path: "edit-presence/:id",
+        name: "EditPresencePage",
+        component: EditPresencePage,
+        meta: {
+          title: 'Modifier une présence',
+        }
+      }
     ]
   },
   {
-    path: "/fonctions",
+    path: "/personnels",
     component: BodyView,
     children: [
       {
-        path: "liste-fonction",
-        name: "ListeFonctionPage",
-        component: ListeFonctionPage,
+        path: "ajouter-personnel",
+        name: "AddPersonnelPage",
+        component: AddPersonnelPage,
         meta: {
-          title: 'Liste des fonctions',
-        }
-      },
-    ]
-  },
-  {
-    path: "/typeConges",
-    component: BodyView,
-    children: [
-      {
-        path: "liste-typeConge",
-        name: "ListeTypeCongePage",
-        component: ListeTypeCongePage,
-        meta: {
-          title: 'Liste des types de congés',
-        }
-      },
-    ]
-  },
-  {
-    path: "/conges",
-    component: BodyView,
-    children: [
-      {
-        path: "ajouter-conge",
-        name: "AddCongePage",
-        component: AddCongePage,
-        meta: {
-          title: 'Ajouter un congé',
+          title: 'Ajouter un personnel',
         }
       },
       {
-        path: "liste-conge",
-        name: "ListeCongePage",
-        component: ListeCongePage,
+        path: "liste-personnel",
+        name: "ListePersonnelPage",
+        component: ListePersonnelPage,
         meta: {
-          title: 'Liste des congés',
-        }
-      },
-    ]
-  },
-  {
-    path: "/heureSupps",
-    component: BodyView,
-    children: [
-      {
-        path: "ajouter-heureSupp",
-        name: "AddHeureSuppPage",
-        component: AddHeureSuppPage,
-        meta: {
-          title: 'Ajouter une heure supplémentaire',
-        }
+          title: 'Liste des personnels',
+        },
+        children: [
+          {
+            path: ':id',
+            name: 'id',
+            component: DetailsPersonnelPage,
+            meta: {
+              title: 'Details du personnel',
+            }
+          }
+        ]
       },
       {
-        path: "liste-heureSupp",
-        name: "ListeHeureSuppPage",
-        component: ListeHeureSuppPage,
+        path: "edit-personnel/:id",
+        name: "EditPersonnelPage",
+        component: EditPersonnelPage,
         meta: {
-          title: 'Liste des heures supplémentaires',
+          title: 'Modifier un personnel',
         }
-      },
-    ]
-  },
-  {
-    path: "/justificatifs",
-    component: BodyView,
-    children: [
-      {
-        path: "ajouter-justificatif",
-        name: "AddJustificatifPage",
-        component: AddJustificatifPage,
-        meta: {
-          title: 'Ajouter un justificatif',
-        }
-      },
-      {
-        path: "liste-justificatifs",
-        name: "ListeJustificatifPage",
-        component: ListeJustificatifPage,
-        meta: {
-          title: 'Liste des justificatifs',
-        }
-      },
-    ]
-  },
-  {
-    path: "/prmissionsp",
-    component: BodyView,
-    children: [
-      {
-        path: "ajouter-permissionp",
-        name: "AddPermissionPage",
-        component: AddPermissionPage,
-        meta: {
-          title: 'Ajouter une permission',
-        }
-      },
-      {
-        path: "liste-permissionps",
-        name: "ListePermissionPage",
-        component: ListePermissionPage,
-        meta: {
-          title: 'Liste des permissionps',
-        }
-      },
+      }
     ]
   },
   {

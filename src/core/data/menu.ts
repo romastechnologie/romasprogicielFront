@@ -105,8 +105,34 @@ export const menu: MenuItem[] = [
         ]
     },
     {
-        title: "Services",
-        icon: "stroke-task",
+        headTitle1: "Gestion du personnel",
+        headTitle2: "Demandes, Permissions, Congés, Présences, Justificatifs et Heures supplémentaires",
+        type: "headtitle"
+    },
+    {
+        title: "Demandes",
+        icon: "file",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/demandes/ajouter-demande",
+            //     title: "Ajouter une demande",
+            //     type: "link"
+            // },
+            {
+                path: "/demandes/liste-demande",
+                title: "Liste des demandes",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Présences",
+        icon: "file",
         icon1: "fill-task",
         type: "sub",
         badgeType: "light-primary",
@@ -118,141 +144,33 @@ export const menu: MenuItem[] = [
                 title: "Liste des services",
                 type: "link"
             },
+            {
+                path: "/presences/liste-presence",
+                title: "Liste des présences",
+                type: "link"
+            }
         ]
     },
     {
-        title: "Categories",
-        icon: "stroke-task",
+        title: "Personnels",
+        icon: "file",
         icon1: "fill-task",
         type: "sub",
         badgeType: "light-primary",
         active: false,
-        isPinned: false,
         children: [
             {
-                path: "/categories/liste-categorie",
-                title: "Liste des categories",
+                path: "/personnels/ajouter-personnel",
+                title: "Ajouter un personnel",
                 type: "link"
             },
+            {
+                path: "/personnels/liste-personnel",
+                title: "Liste des personnels",
+                type: "link"
+            }
         ]
-    },
-    {
-        title: "Fonctions",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/fonctions/liste-fonction",
-                title: "Liste des fonctions",
-                type: "link"
-            },
-        ]
-    },
-    {
-        title: "TypeConge",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/typeConges/liste-typeConge",
-                title: "Liste des types de conges",
-                type: "link"
-            },
-        ]
-    },
-    
-    {
-        title: "Conge",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/conges/ajouter-conge",
-                title: "Ajouter un congé",
-                type: "link"
-            },
-            {
-                path: "/conges/liste-conge",
-                title: "Liste des congés",
-                type: "link"
-            },
-        ]
-    },
-    {
-        title: "HeureSupp",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/heureSupps/ajouter-heureSupp",
-                title: "Ajouter une heure supplémentaire",
-                type: "link"
-            },
-            {
-                path: "/heureSupps/liste-heureSupp",
-                title: "Liste des heures supplémentaires",
-                type: "link"
-            },
-        ]
-    },
-    {
-        title: "Justificatif",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/justificatifs/ajouter-justificatif",
-                title: "Ajouter un justificatif",
-                type: "link"
-            },
-            {
-                path: "/justificatifs/liste-justificatif",
-                title: "Liste des justificatifs",
-                type: "link"
-            },
-        ]
-    },
-    {
-        title: "Permission",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/permissionsp/ajouter-permissionp",
-                title: "Ajouter une permission ",
-                type: "link"
-            },
-            {
-                path: "/permissionsp/liste-permissionp",
-                title: "Liste des permissions",
-                type: "link"
-            },
-        ]
-    },
+    }
     // {
     //     title: "Users",
     //     icon: "stroke-user",
