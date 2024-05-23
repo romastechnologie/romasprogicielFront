@@ -88,12 +88,11 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Rôle <span class="text-danger">*</span>
                 </label>
-                <Field  name="roles"  v-slot="{ field }">
                   <VueMultiselect
-                    v-model = "field.value"
-                    v-bind = "field"
+                    v-model = "roles"
                     :options="roleOptions"
-                    :close-on-select="true"
+                    :close-on-select="false"
+                    :preserve-search="true"
                     :clear-on-select="false"
                     :multiple="true"
                     :searchable="true"
@@ -101,8 +100,7 @@
                     label="label"
                     track-by="label"
                   />
-                </Field>
-                <ErrorMessage name="roles" class="text-danger"/>
+                  <span class="text-danger" v-if="showMErr">Le rôle est obligatoire</span>
               </div>
             </div>
               
@@ -159,7 +157,7 @@
       .test(
         'is-six-digits',
         'Le téléphone doit avoir exactement 6 chiffres',
-        value => (value ? /^[0-9]{6}$/.test(value.toString()) : true)
+        value => (value ? /^[0-9]{8}$/.test(value.toString()) : true)
       ),
       password: Yup.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères').required('Le mot de passe est obligatoire'),
       //roles: Yup.array().required('Le rôle est obligatoire'),
@@ -247,19 +245,30 @@
       }
       return password
     }
-
+    const showMErr = ref(false);
+    const roles = ref([])
     const addUser = async (values:any, {resetForm}) => {
+      values['roles']=roles.value.map(role => role.value)
+      if(roles.value.length === 0) {
+          showMErr.value = true;
+        }
+        else {
+          showMErr.value = false;
+        }
       console.log('Données envoyées', values)
+      if(showMErr.value === false) {
       ApiService.post("/users",values)
         .then(({ data }) => {
           if(data.code == 201) { 
             success(data.message);
-            resetForm();
-            router.push({ name: "ListeUserPage" });
+            //resetForm();
+            console.log('flefelef')
+            router.push({ name: "ListeUser" });
           }
         }).catch(({ response }) => {
           error(response.data.message);
         });
+      }
     };
 
     const fetchRoles = async () => {
@@ -282,7 +291,9 @@
           validPhone,
           value,
           password,
-          passwords
+          passwords,
+          roles,
+          showMErr
           // validate,
           // onInput,
         };

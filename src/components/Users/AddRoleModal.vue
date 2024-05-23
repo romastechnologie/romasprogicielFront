@@ -15,21 +15,19 @@
                               <label class="d-block text-black fw-semibold mb-10">
                                 Rôle <span class="text-danger">*</span>
                               </label>
-                              <Field  name="roles" v-model="roles"  v-slot="{ field }">
-                                <VueMultiselect
-                                  v-model = "field.value"
-                                  v-bind = "field"
-                                  :options="roleOptions"
-                                  :close-on-select="true"
-                                  :clear-on-select="false"
-                                  :multiple="true"
-                                  :searchable="true"
-                                  placeholder="Sélectionner le rôle"
-                                  label="label"
-                                  track-by="label"
-                                />
-                              </Field>
-                              <ErrorMessage name="roles" class="text-danger"/>
+                              <VueMultiselect
+                                v-model = "roles"
+                                :options="roleOptions"
+                                :close-on-select="false"
+                                :preserve-search="true"
+                                :clear-on-select="false"
+                                :multiple="true"
+                                :searchable="true"
+                                placeholder="Sélectionner le rôle"
+                                label="label"
+                                track-by="label"
+                              />
+                              <span class="text-danger" v-if="showMErr">Le rôle est obligatoire</span>
                             </div>
                           </div>
                           <button
@@ -80,7 +78,7 @@ export default {
   },
   setup: (props : any, { emit }: { emit: Function }) => {
     const passSchema = Yup.object().shape({
-      roles: Yup.array().required('Le rôle est obligatoire'),
+      //roles: Yup.array().required('Le rôle est obligatoire'),
     });
 
       const passForm =  ref<User | null>(null);
@@ -90,12 +88,19 @@ export default {
       const route = useRoute();
       const roleOptions = ref([]);
       const roles = ref([])
+      const showMErr = ref(false);
       const addRole = async (values:any, {resetForm}: {resetForm: () => void  }) => {
         values['userId']=selectedUser.value?.id
         values['roles']=roles.value.map(role => role.value)
+        if(roles.value.length === 0) {
+          showMErr.value = true;
+        }
+        else {
+          showMErr.value = false;
+        }
       console.log('eokeok', values)
-
-      ApiService.post("/roles/users/"+selectedUser.value?.id, values)
+      if(showMErr.value === false) {
+        ApiService.post("/roles/users/"+selectedUser.value?.id, values)
         .then(({ data }) => {
           if (data.code == 200) {
           success(data.message);
@@ -107,6 +112,11 @@ export default {
         }).catch(({ response }) => {
           error(response.data.message);
         });
+      }
+      // else{
+      //   showMErr.value = true;
+      // }
+      
     };
 
     function getUser(id:number) {
@@ -162,6 +172,7 @@ export default {
       getUser,roleOptions,
       selectedUserId,
       roles,
+      showMErr
     };
   },
 };
