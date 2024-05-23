@@ -26,6 +26,12 @@ import indexCreateUser from "@/pages/users/indexCreateUser.vue"
 
 import AddPermissionPage from "@/pages/Permission/AddPermissionPage.vue";
 import ListePermissionPage from "@/pages/Permission/ListePermissionPage.vue";
+import ListeServicePage from "@/pages/Service/ListeServicePage.vue";
+import ListeCategoriePage from "@/pages/Categorie/ListeCategoriePage.vue";
+import ListeFonctionPage from "@/pages/Fonction/ListeFonctionPage.vue";
+import ListeTypeCongePage from "@/pages/TypeConge/ListeTypeCongePage.vue";
+import AddCongePage from "@/pages/Conge/AddCongePage.vue";
+import ListeCongePage from "@/pages/Conge/ListeCongePage.vue";
 import AddRolePage from "@/pages/Role/AddRolePage.vue";
 import ListeRolePage from "@/pages/Role/ListeRolePage.vue";
 import EditRolePage from "@/pages/Role/EditRolePage.vue";
@@ -36,6 +42,12 @@ import EditUserPage from "@/pages/Users/EditUserPage.vue";
 import EditProfilePage from "@/pages/Users/EditProfilePage.vue";
 import ViewUserPage from "@/pages/Users/ViewUserPage.vue";
 import TableauBordPage from "@/pages/dashbords/TableauBordPage.vue"
+import AddHeureSuppPage from '@/pages/HeureSupp/AddHeureSuppPage.vue';
+import ListeHeureSuppPage from "@/pages/HeureSupp/ListeHeureSuppPage.vue";
+import AddJustificatifPage from '@/pages/Justificatif/AddJustificatifPage.vue';
+import ListeJustificatifPage from "@/pages/Justificatif/ListeJustificatifPage.vue";
+import AddPermissionPPage from '@/pages/PermissionP/AddPermissionPPage.vue';
+import ListePermissionPPage from "@/pages/PermissionP/ListePermissionPPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -180,6 +192,150 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Détails du rôle',
         }
       }
+    ]
+  },
+  {
+    path: "/services",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-service",
+        name: "ListeServicePage",
+        component: ListeServicePage,
+        meta: {
+          title: 'Liste des services',
+        }
+      },
+    ]
+  },
+  {
+    path: "/categories",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-categorie",
+        name: "ListeCategoriePage",
+        component: ListeCategoriePage,
+        meta: {
+          title: 'Liste des categories',
+        }
+      },
+    ]
+  },
+  {
+    path: "/fonctions",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-fonction",
+        name: "ListeFonctionPage",
+        component: ListeFonctionPage,
+        meta: {
+          title: 'Liste des fonctions',
+        }
+      },
+    ]
+  },
+  {
+    path: "/typeConges",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-typeConge",
+        name: "ListeTypeCongePage",
+        component: ListeTypeCongePage,
+        meta: {
+          title: 'Liste des types de congés',
+        }
+      },
+    ]
+  },
+  {
+    path: "/conges",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-conge",
+        name: "AddCongePage",
+        component: AddCongePage,
+        meta: {
+          title: 'Ajouter un congé',
+        }
+      },
+      {
+        path: "liste-conge",
+        name: "ListeCongePage",
+        component: ListeCongePage,
+        meta: {
+          title: 'Liste des congés',
+        }
+      },
+    ]
+  },
+  {
+    path: "/heureSupps",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-heureSupp",
+        name: "AddHeureSuppPage",
+        component: AddHeureSuppPage,
+        meta: {
+          title: 'Ajouter une heure supplémentaire',
+        }
+      },
+      {
+        path: "liste-heureSupp",
+        name: "ListeHeureSuppPage",
+        component: ListeHeureSuppPage,
+        meta: {
+          title: 'Liste des heures supplémentaires',
+        }
+      },
+    ]
+  },
+  {
+    path: "/justificatifs",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-justificatif",
+        name: "AddJustificatifPage",
+        component: AddJustificatifPage,
+        meta: {
+          title: 'Ajouter un justificatif',
+        }
+      },
+      {
+        path: "liste-justificatifs",
+        name: "ListeJustificatifPage",
+        component: ListeJustificatifPage,
+        meta: {
+          title: 'Liste des justificatifs',
+        }
+      },
+    ]
+  },
+  {
+    path: "/prmissionsp",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-permissionp",
+        name: "AddPermissionPage",
+        component: AddPermissionPage,
+        meta: {
+          title: 'Ajouter une permission',
+        }
+      },
+      {
+        path: "liste-permissionps",
+        name: "ListePermissionPage",
+        component: ListePermissionPage,
+        meta: {
+          title: 'Liste des permissionps',
+        }
+      },
     ]
   },
   {

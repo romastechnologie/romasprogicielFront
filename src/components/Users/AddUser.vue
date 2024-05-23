@@ -283,6 +283,8 @@
         //
       }
     };
+
+    
       return {userForm,
          userSchema,
           addUser,
@@ -290,8 +292,6 @@
           telephone,
           validPhone,
           value,
-          password,
-          passwords,
           roles,
           showMErr
           // validate,

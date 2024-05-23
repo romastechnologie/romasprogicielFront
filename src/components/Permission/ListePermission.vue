@@ -29,7 +29,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un privelege"
+            placeholder="Rechercher un privilege"
           />
           <button
             type="submit"
@@ -117,25 +117,6 @@
                   </a>
                 </li>
               </ul>
-              <!-- <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item d-flex align-items-center"  href="javascript:void(0);" @click="moddifier(permission)">
-                        <i class="flaticon-pen lh-1 me-8 position-relative top-1"  ></i>  Modifier
-                      </a>
-                    </li>
-                    <li>
-                      <a  class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
-                         @click="suppression(permission.id,permissions,'permissions',`le permission ${permission.description}`)">  <i class="flaticon-delete lh-1 me-8 position-relative top-1" ></i>
-                         Supprimer
-                      </a>
-                    </li>
-                  </ul>
-              </div> -->
               </td>
             </tr>
           </tbody>
