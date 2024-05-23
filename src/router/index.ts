@@ -27,11 +27,11 @@ import indexCreateUser from "@/pages/users/indexCreateUser.vue"
 import AddPermissionPage from "@/pages/Permission/AddPermissionPage.vue";
 import ListePermissionPage from "@/pages/Permission/ListePermissionPage.vue";
 import ListeServicePage from "@/pages/Service/ListeServicePage.vue";
-import ListeCategoriePage from "@/pages/Categorie/ListeCategoriePage.vue";
-import ListeFonctionPage from "@/pages/Fonction/ListeFonctionPage.vue";
-import ListeTypeCongePage from "@/pages/TypeConge/ListeTypeCongePage.vue";
-import AddCongePage from "@/pages/Conge/AddCongePage.vue";
-import ListeCongePage from "@/pages/Conge/ListeCongePage.vue";
+import ListeCategoriePage from "@/pages/GestionPersonnel/Categorie/ListeCategoriePage.vue";
+import ListeFonctionPage from "@/pages/GestionPersonnel/Fonction/ListeFonctionPage.vue";
+import ListeTypeCongePage from "@/pages/GestionPersonnel/TypeConge/ListeTypeCongePage.vue";
+import AddCongePage from "@/pages/GestionPersonnel/Conge/AddCongePage.vue";
+import ListeCongePage from "@/pages/GestionPersonnel/Conge/ListeCongePage.vue";
 import AddRolePage from "@/pages/Role/AddRolePage.vue";
 import ListeRolePage from "@/pages/Role/ListeRolePage.vue";
 import EditRolePage from "@/pages/Role/EditRolePage.vue";
@@ -42,12 +42,12 @@ import EditUserPage from "@/pages/Users/EditUserPage.vue";
 import EditProfilePage from "@/pages/Users/EditProfilePage.vue";
 import ViewUserPage from "@/pages/Users/ViewUserPage.vue";
 import TableauBordPage from "@/pages/dashbords/TableauBordPage.vue"
-import AddHeureSuppPage from '@/pages/HeureSupp/AddHeureSuppPage.vue';
-import ListeHeureSuppPage from "@/pages/HeureSupp/ListeHeureSuppPage.vue";
-import AddJustificatifPage from '@/pages/Justificatif/AddJustificatifPage.vue';
-import ListeJustificatifPage from "@/pages/Justificatif/ListeJustificatifPage.vue";
-import AddPermissionPPage from '@/pages/PermissionP/AddPermissionPPage.vue';
-import ListePermissionPPage from "@/pages/PermissionP/ListePermissionPPage.vue";
+import AddHeureSuppPage from '@/pages/GestionPersonnel/HeureSupp/AddHeureSuppPage.vue';
+import ListeHeureSuppPage from "@/pages/GestionPersonnel/HeureSupp/ListeHeureSuppPage.vue";
+import AddJustificatifPage from '@/pages/GestionPersonnel/Justificatif/AddJustificatifPage.vue';
+import ListeJustificatifPage from "@/pages/GestionPersonnel/Justificatif/ListeJustificatifPage.vue";
+// import AddPermissionPage from '@/pages/GestionPersonnel/Permission/AddPermissionPage.vue';
+// import ListePermissionPage from "@/pages/GestionPersonnel/Permission/ListePermissionPage.vue";
 import AddDemandePage from '@/pages/GestionPersonnel/Demandes/AddDemandeModalPage.vue';
 import ListeDemandePage from '@/pages/GestionPersonnel/Demandes/ListeDemandePage.vue';
 import EditDemandePage from '@/pages/GestionPersonnel/Demandes/EditDemandePage.vue'

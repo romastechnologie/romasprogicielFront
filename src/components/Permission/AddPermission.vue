@@ -42,9 +42,9 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import { error, success } from '../../utils/utils';
+import { error, success } from '@/utils/utils';
 import { useRouter } from "vue-router";
-import ApiService from '../../services/ApiService';
+import ApiService from '@/services/ApiService';
 import { Permission } from '@/models/Permission';
 import * as Yup from 'yup';
 import Multiselect from '@vueform/multiselect'

@@ -1,17 +1,16 @@
 <template>
-    <ListePermission />
+    <AddJustificatif />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import ListePermission from "@/components/Permission/ListePermission.vue";
-
+    import AddJustificatif from "@/components/GestionPersonnel/Justificatif/AddJustificatif.vue";
   
     export default defineComponent({
-      name: "ListePermissionPage",
+      name: "AddJustificatifPage",
       components: {
-        ListePermission,
+        AddJustificatif,
       },
     });
   </script>

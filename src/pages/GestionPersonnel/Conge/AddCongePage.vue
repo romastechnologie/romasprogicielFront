@@ -1,17 +1,16 @@
 <template>
-    <ListePermission />
+    <AddConge />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import ListePermission from "@/components/Permission/ListePermission.vue";
-
+    import AddConge from "@/components/GestionPersonnel/Conge/AddConge.vue";
   
     export default defineComponent({
-      name: "ListePermissionPage",
+      name: "AddCongePage",
       components: {
-        ListePermission,
+        AddConge,
       },
     });
   </script>

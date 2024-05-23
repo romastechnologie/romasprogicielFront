@@ -14,34 +14,18 @@
           <Form @submit="sendDemande" :validation-schema="schemaDemande()">
             <p class="my-0"> Catégorie de la demande </p>
             <Field name="categorieId" v-model="cate" v-slot="{ field }">
-              <VueMultiselect 
-              v-model="field.value" 
-              v-bind="field" 
-              :options="categorieOptions" 
-              :close-on-select="true"
-              :clear-on-select="false" 
-              :multiple="false" 
-              :searchable="true" 
-              placeholder="Sélectionner la catégorie"
-              label="label" 
-              track-by="label" />
+              <VueMultiselect v-model="field.value" v-bind="field" :options="categorieOptions" :close-on-select="true"
+                :clear-on-select="false" :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie"
+                label="label" track-by="label" />
             </Field>
-            
+
             <p class="my-0"> Personnel </p>
             <Field name="personnelId" v-model="perso" v-slot="{ field }">
-              <VueMultiselect 
-              v-model="field.value" 
-              v-bind="field" 
-              :options="personnelOptions" 
-              :close-on-select="true"
-              :clear-on-select="false" 
-              :multiple="false" 
-              :searchable="true" 
-              placeholder="Sélectionner le personnel"
-              label="label" 
-              track-by="label" />
+              <VueMultiselect v-model="field.value" v-bind="field" :options="personnelOptions" :close-on-select="true"
+                :clear-on-select="false" :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
+                label="label" track-by="label" />
             </Field>
-           
+
             <p class="my-0"> Demande </p>
             <Field type="file" name="demandeFile" id="demandeFile" class="form-control mb-1" />
             <ErrorMessage name="demandeFile" class="text-danger text-start mb-2" />
@@ -62,7 +46,6 @@ import * as yup from 'yup';
 import { configure } from 'vee-validate'
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
 import Swal from 'sweetalert2'
 import Multiselect from '@vueform/multiselect'
 import VueMultiselect from 'vue-multiselect'
@@ -133,10 +116,10 @@ const getAllPersonnels = async () => {
   try {
     const response = await ApiService.get("/personnels");
     // personnels.value = response.data;
-    personnelOptions.value = response.data.map((personnel: any) => ({
-      value: personnel.id,
-      label: `${personnel.nom  + " " + personnel.prenom}`
-    }));
+      personnelOptions.value = response.data.map((personnel: any) => ({
+        value: personnel.id,
+        label: `${personnel.nom + " " + personnel.prenom}`
+      }));
     console.log(personnelOptions);
   } catch (error) {
     console.error('Erreur lors de la recupération des personnels:', error);
@@ -148,10 +131,11 @@ const getAllCategorieDemandes = async () => {
   try {
     const response = await ApiService.get("/categorieDemandes");
     // categorieDemandes.value = response.data;
-    categorieOptions.value = response.data.map((categorie: any) => ({
-      value: categorie.id,
-      label: `${categorie.libelle}`
-    }));
+      categorieOptions.value = response.data.data.data.map((categorie: any) => ({
+        value: categorie.id,
+        label: `${categorie.libelle}`
+      }));
+
     console.log(response);
   } catch (error) {
     console.error('Erreur lors de la recupération des categories de demandes:', error);

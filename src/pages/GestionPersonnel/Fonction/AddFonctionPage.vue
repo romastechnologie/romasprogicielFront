@@ -1,17 +1,16 @@
 <template>
-    <ListePermission />
+    <AddFonctionModal />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import ListePermission from "@/components/Permission/ListePermission.vue";
-
+    import AddFonctionModal from "@/components/GestionPersonnel/Fonction/AddFonctionModal.vue";
   
     export default defineComponent({
-      name: "ListePermissionPage",
+      name: "AddFonctionPage",
       components: {
-        ListePermission,
+        AddFonctionModal,
       },
     });
   </script>

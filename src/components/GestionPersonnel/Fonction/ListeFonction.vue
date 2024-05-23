@@ -4,15 +4,13 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <a 
+        <a
           class="btn btn-primary"
           href="#"
           data-bs-toggle="modal"
-          data-bs-target="#AddPermissionModal"
-        >
-        <i class="fa fa-plus-circle"></i>
-          <!-- <i class="flaticon-plus position-relative ms-5 fs-12"></i> -->
-          Ajouter une permission
+          data-bs-target="#AddFonctionModal">
+          <i class="fa fa-plus-circle"></i>
+          Ajouter un fonction
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -29,7 +27,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un privilege"
+            placeholder="Rechercher un fonction"
           />
           <button
             type="submit"
@@ -53,52 +51,38 @@
             <tr>
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Nom
-              </th>
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Description
-                
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                CODE
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >Rôle
-                
+              >
+                LIBELLE
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >DATE DE CREATION
-                
+              >
+                Date
               </th>
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
               >Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(permission, index) in permissions" :key="index">
+            <tr v-for="(fonction, index) in fonctions" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black">
-                {{ permission.nom }}
+                {{ fonction.code }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ permission.description }}
-              </td>
-              <td>
-                <div class="row">
-                        <span v-for="(rolePermission,index) in permission.rolePermissions" :key="index" class="text-center">
-                        <div class="col-12">
-                        <div class="col-6">
-                         <span class="badge badge-primary"  v-if="rolePermission.role">{{ rolePermission.role.description }}</span> 
-                        </div><br>
-                        </div>
-                        </span>
-                    </div>
+                {{ fonction.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ format_date(permission.createdAt)  }}
+                {{ format_date(fonction.createdAt)  }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-black pe-0"
@@ -106,62 +90,60 @@
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
               <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                 <li class="dropdown-item d-flex align-items-center">
-                  <a  href="javascript:void(0);" @click="moddifier(permission)">
+                  <a  href="javascript:void(0);" @click="moddifier(fonction)">
                   <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                   </a>
                 </li>
                 <li class="dropdown-item d-flex align-items-center">
                   <a href="javascript:void(0);"
-                      @click="suppression(permission.id,permissions,'permissions',`le permission ${permission.description}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                      @click="suppression(fonction.id,fonctions,'fonctions',`le fonction ${fonction.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                        Supprimer
                   </a>
                 </li>
               </ul>
               </td>
+
+              
             </tr>
           </tbody>
         </table>
       </div>
       <div
-        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
-        <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
+        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
+      >
+       <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
       </div>
     </div>
   </div>
-  <AddPermissionModal
-    @get-all-permissions="getAllPermissions"
-    :id="idpermission"
-    @openmodal="showModalEdite"
-    @close="recharger"
-  />
+  <AddFonctionModal 
+  @get-all-fonctions="getAllFonctions"
+  :id="idfonction"
+  @openmodal="showModalEdite"/>
 </template>
+
 <script lang="ts">
 import { defineComponent, onMounted, ref  } from "vue";
-import AddPermissionModal from "./AddPermissionModal.vue";
+import AddFonctionModal from "./AddFonctionModal.vue";
 import ApiService from "@/services/ApiService";
-import { format_date, showModal, suppression, error, } from "@/utils/utils";
-import { useRouter } from "vue-router";
-import { PermissionData } from "@/models/Permission";
+import { format_date, showModal, suppression,separateur, error, } from "@/utils/utils";
+import { Fonction } from "@/models/Fonction";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
-import JwtService from "@/services/JwtService";
+import JwtFonction from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListePermission",
+  name: "ListeFonction",
   components: {
-    AddPermissionModal,
+    AddFonctionModal,
     PaginationComponent
   },
   setup: () => {
 
     onMounted(() => {
-      getAllPermissions();
+      getAllFonctions();
     });
 
-    const permissions = ref<Array<PermissionData>>([]);
-    const idpermission = ref(0);
-    // const permission = ref<Permission>();
-    const loading = ref<boolean>(false);
-    const router = useRouter();
+    const fonctions = ref<Array<Fonction>>([]);
+    const idfonction = ref(0);
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -170,65 +152,56 @@ export default defineComponent({
     const limit = ref(10);
     const totalElements = ref(0);
 
-    const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
+    const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllPermissions(page_, limit_);
+        getAllFonctions(page_, limit_);
       } catch (error) {
         //
+        
       }
     };
-
-     function rechercher(){
-      getAllPermissions(page.value, limit.value, searchTerm.value );
+    function rechercher(){
+      getAllFonctions(page.value, limit.value, searchTerm.value );
     }
-
-    const recharger = () => {
-      getAllPermissions();
-    };
     // END PAGINATE
 
-    onMounted(() => {
-      loading.value=false;
-      getAllPermissions()
-    });
-
-
-    function getAllPermissions(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/permissions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllFonctions(page = 1, limi = 10, searchTerm = '') {
+      // return ApiService.get(`/all/fonctions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get('/fonctions')
         .then(({ data }) => {
-          permissions.value = data.data.data;
-          totalPages.value = data.data.totalPages;
-          limit.value = data.data.limit;
-          totalElements.value = data.data.totalElements;
-          return data.data;
+          fonctions.value = data.data.data;
+          // totalPages.value = data.data.totalPages;
+          // limit.value = data.data.limit;
+          // totalElements.value = data.data.totalElements;
         })
         .catch(({ response }) => {
           error(response.data.message)
       });
     }
     
-    function moddifier(Editpermission:PermissionData) {
-      idpermission.value = Editpermission.id;
+    function moddifier(obj:Fonction) {
+      idfonction.value = obj.id;
     }
 
-    function showModalEdite(model:any){
-      showModal(model);
-      idpermission.value=0;
+    function showModalEdite(el){
+      showModal(el);
+      idfonction.value = 0;
     }
 
-    const privileges = ref<Array<string>>(JwtService.getPrivilege());
+    const privileges = ref<Array<string>>(JwtFonction.getPrivilege());
 
-    const checkPermission = (name:string) => {
+    const checkPermission = (name) => {
       return privileges.value.includes(name);
     }
 
-    return {suppression,
+
+    return { suppression,
       checkPermission,
-     permissions,
+      fonctions,
       format_date,
-      getAllPermissions,
-      idpermission,
+      getAllFonctions,
+      idfonction,
       moddifier,
       showModalEdite,
       page, 
@@ -237,9 +210,9 @@ export default defineComponent({
       totalElements,
       handlePaginate,
       searchTerm,
-      rechercher,
-      recharger,
-     };
+      separateur,
+      rechercher
+    };
   },
 
  

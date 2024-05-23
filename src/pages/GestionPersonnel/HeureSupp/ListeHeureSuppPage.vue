@@ -1,17 +1,16 @@
 <template>
-    <ListePermission />
+    <ListeHeureSupp/>
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import ListePermission from "@/components/Permission/ListePermission.vue";
+    import ListeHeureSupp from "@/components/GestionPersonnel/HeureSupp/ListeHeureSupp.vue";
 
-  
     export default defineComponent({
-      name: "ListePermissionPage",
+      name: "ListeHeureSuppPage",
       components: {
-        ListePermission,
+        ListeHeureSupp,
       },
     });
   </script>
