@@ -42,6 +42,12 @@ import EditUserPage from "@/pages/Users/EditUserPage.vue";
 import EditProfilePage from "@/pages/Users/EditProfilePage.vue";
 import ViewUserPage from "@/pages/Users/ViewUserPage.vue";
 import TableauBordPage from "@/pages/dashbords/TableauBordPage.vue"
+import AddHeureSuppPage from '@/pages/HeureSupp/AddHeureSuppPage.vue';
+import ListeHeureSuppPage from "@/pages/HeureSupp/ListeHeureSuppPage.vue";
+import AddJustificatifPage from '@/pages/Justificatif/AddJustificatifPage.vue';
+import ListeJustificatifPage from "@/pages/Justificatif/ListeJustificatifPage.vue";
+import AddPermissionPPage from '@/pages/PermissionP/AddPermissionPPage.vue';
+import ListePermissionPPage from "@/pages/PermissionP/ListePermissionPPage.vue";
 import AddDemandePage from '@/pages/GestionPersonnel/Demandes/AddDemandeModalPage.vue';
 import ListeDemandePage from '@/pages/GestionPersonnel/Demandes/ListeDemandePage.vue';
 import EditDemandePage from '@/pages/GestionPersonnel/Demandes/EditDemandePage.vue'
@@ -199,6 +205,150 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: "/services",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-service",
+        name: "ListeServicePage",
+        component: ListeServicePage,
+        meta: {
+          title: 'Liste des services',
+        }
+      },
+    ]
+  },
+  {
+    path: "/categories",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-categorie",
+        name: "ListeCategoriePage",
+        component: ListeCategoriePage,
+        meta: {
+          title: 'Liste des categories',
+        }
+      },
+    ]
+  },
+  {
+    path: "/fonctions",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-fonction",
+        name: "ListeFonctionPage",
+        component: ListeFonctionPage,
+        meta: {
+          title: 'Liste des fonctions',
+        }
+      },
+    ]
+  },
+  {
+    path: "/typeConges",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-typeConge",
+        name: "ListeTypeCongePage",
+        component: ListeTypeCongePage,
+        meta: {
+          title: 'Liste des types de congés',
+        }
+      },
+    ]
+  },
+  {
+    path: "/conges",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-conge",
+        name: "AddCongePage",
+        component: AddCongePage,
+        meta: {
+          title: 'Ajouter un congé',
+        }
+      },
+      {
+        path: "liste-conge",
+        name: "ListeCongePage",
+        component: ListeCongePage,
+        meta: {
+          title: 'Liste des congés',
+        }
+      },
+    ]
+  },
+  {
+    path: "/heureSupps",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-heureSupp",
+        name: "AddHeureSuppPage",
+        component: AddHeureSuppPage,
+        meta: {
+          title: 'Ajouter une heure supplémentaire',
+        }
+      },
+      {
+        path: "liste-heureSupp",
+        name: "ListeHeureSuppPage",
+        component: ListeHeureSuppPage,
+        meta: {
+          title: 'Liste des heures supplémentaires',
+        }
+      },
+    ]
+  },
+  {
+    path: "/justificatifs",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-justificatif",
+        name: "AddJustificatifPage",
+        component: AddJustificatifPage,
+        meta: {
+          title: 'Ajouter un justificatif',
+        }
+      },
+      {
+        path: "liste-justificatifs",
+        name: "ListeJustificatifPage",
+        component: ListeJustificatifPage,
+        meta: {
+          title: 'Liste des justificatifs',
+        }
+      },
+    ]
+  },
+  {
+    path: "/prmissionsp",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-permissionp",
+        name: "AddPermissionPage",
+        component: AddPermissionPage,
+        meta: {
+          title: 'Ajouter une permission',
+        }
+      },
+      {
+        path: "liste-permissionps",
+        name: "ListePermissionPage",
+        component: ListePermissionPage,
+        meta: {
+          title: 'Liste des permissionps',
+        }
+      }
+    ]
+    },
+      {
     path: "/demandes",
     component: BodyView,
     children: [
