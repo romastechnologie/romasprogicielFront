@@ -70,7 +70,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'defaultRoot',
+        name: 'TableauBord',
         component: TableauBordPage,
         meta: {
           title: 'Romas progiciel',
