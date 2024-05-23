@@ -31,6 +31,7 @@ import ListeCategoriePage from "@/pages/GestionPersonnel/Categorie/ListeCategori
 import ListeFonctionPage from "@/pages/GestionPersonnel/Fonction/ListeFonctionPage.vue";
 import ListeTypeCongePage from "@/pages/GestionPersonnel/TypeConge/ListeTypeCongePage.vue";
 import AddCongePage from "@/pages/GestionPersonnel/Conge/AddCongePage.vue";
+import EditCongePage from '@/pages/GestionPersonnel/Conge/EditCongePage.vue'
 import ListeCongePage from "@/pages/GestionPersonnel/Conge/ListeCongePage.vue";
 import AddRolePage from "@/pages/Role/AddRolePage.vue";
 import ListeRolePage from "@/pages/Role/ListeRolePage.vue";
@@ -43,10 +44,13 @@ import EditProfilePage from "@/pages/Users/EditProfilePage.vue";
 import ViewUserPage from "@/pages/Users/ViewUserPage.vue";
 import TableauBordPage from "@/pages/dashbords/TableauBordPage.vue"
 import AddHeureSuppPage from '@/pages/GestionPersonnel/HeureSupp/AddHeureSuppPage.vue';
+import EditHeureSuppPage from '@/pages/GestionPersonnel/HeureSupp/EditHeureSuppPage.vue'
 import ListeHeureSuppPage from "@/pages/GestionPersonnel/HeureSupp/ListeHeureSuppPage.vue";
 import AddJustificatifPage from '@/pages/GestionPersonnel/Justificatif/AddJustificatifPage.vue';
+import EditJustificatifPage from '@/pages/GestionPersonnel/Justificatif/EditJustificatifPage.vue'
 import ListeJustificatifPage from "@/pages/GestionPersonnel/Justificatif/ListeJustificatifPage.vue";
 import AddPermissionPPage from '@/pages/GestionPersonnel/PermissionP/AddPermissionPPage.vue';
+import EditPermissionPPage from '@/pages/GestionPersonnel/PermissionP/EditPermissionPPage.vue'
 import ListePermissionPPage from "@/pages/GestionPersonnel/PermissionP/ListePermissionPPage.vue";
 import AddDemandePage from '@/pages/GestionPersonnel/Demandes/AddDemandeModalPage.vue';
 import ListeDemandePage from '@/pages/GestionPersonnel/Demandes/ListeDemandePage.vue';
@@ -70,7 +74,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'defaultRoot',
+        name: 'TableauBord',
         component: TableauBordPage,
         meta: {
           title: 'Romas progiciel',
@@ -273,6 +277,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: "edit-conge/:id",
+        name: "EditCongePage",
+        component: EditCongePage,
+        meta: {
+          title: 'Modifier un conge',
+        }
+      }
+      {
         path: "liste-conge",
         name: "ListeCongePage",
         component: ListeCongePage,
@@ -294,6 +306,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Ajouter une heure supplémentaire',
         }
       },
+      {
+        path: "edit-heureSupp/:id",
+        name: "EditHeureSuppPage",
+        component: EditHeureSuppPage,
+        meta: {
+          title: 'Modifier une heure supplémentaire',
+        }
+      }
       {
         path: "liste-heureSupp",
         name: "ListeHeureSuppPage",
@@ -317,6 +337,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: "edit-justificatif/:id",
+        name: "EditJustificatifPage",
+        component: EditJustificatifPage,
+        meta: {
+          title: 'Modifier un justificatif',
+        }
+      }
+      {
         path: "liste-justificatif",
         name: "ListeJustificatifPage",
         component: ListeJustificatifPage,
@@ -338,6 +366,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Ajouter une permission',
         }
       },
+      {
+        path: "edit-permisisonp/:id",
+        name: "EditPermissionPPage",
+        component: EditPermissionPPage,
+        meta: {
+          title: 'Modifier une demande de permission',
+        }
+      }
       {
         path: "liste-permissionp",
         name: "ListePermissionPPage",
