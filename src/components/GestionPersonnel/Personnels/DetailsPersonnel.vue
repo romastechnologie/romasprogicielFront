@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+  <div class="mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing form theme-form">
       <div class="px-2 pt-3 pb-1 m-1">
         <div v-for="personnel in personnels" :key="personnel.id" class="d-flex justify-content-center">
@@ -88,12 +88,8 @@
                   <td> {{ horaire_personnel.jour }} </td>
                   <td> {{ horaire_personnel.heureArrivee }} H </td>
                   <td> {{ horaire_personnel.heureDepart }} H </td>
-                  <td class="d-flex justify-content-center">
-                    <span type="button"
-                      class="material-symbols-outlined card fs-6 d-flex justify-content-center align-items-center text-success text-center my-0"
-                      @click="updateHeurePerso(horaire_personnel.id)">
-                      update
-                    </span>
+                  <td class="d-flex justify-content-center align-items-center">
+                    <i class="fa fa-pencil card rounded-1 p-1 bg-secondary m-2" @click="updateHeurePerso(horaire_personnel.id)"></i>
                   </td>
                 </tr>
               </template>
@@ -163,128 +159,8 @@
           </div>
         </div>
       </div>
-      <!-- Fonction -->
-      <div class="modal fade" id="fonctionService" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel"> Ajouter une fonction personnel </h5>
-              <button ref="closeFonctionModal" type="button" class="btn-close" data-bs-dismiss="modal"
-                aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <Form @submit="sendFonctionPerso($event, $route.params.id)" :validation-schema="schemaFonctionPerso()">
-                <p class="my-0"> Service </p>
-                <Field name="service" id="service" class="form-select mb-1"
-                  @click="sortServiceFonctionWithService($event.target)" as="select">
-                  <option disabled selected> Choisir le service </option>
-                  <option :value=service.libelle v-for="service in services" :key="service.id">
-                    {{ service.libelle }}
-                  </option>
-                </Field>
-                <ErrorMessage name="service" class="text-danger text-start" />
-                <p class="my-0"> Fonction </p>
-                <Field name="serviceFonction" id="serviceFonction" class="form-select mb-1" as="select">
-                  <option disabled selected> Choisir la fonction </option>
-                  <option :value=service_fonction.id v-for="service_fonction in filterServiceFonction"
-                    :key="service_fonction.id">
-                    {{ service_fonction.fonction.libelle }}
-                  </option>
-                </Field>
-                <ErrorMessage name="serviceFonction" class="text-danger text-start" />
-                <p class="my-0"> Date debut </p>
-                <Field type="date" name="dateDebut" id="dateDebut" class="form-control mb-1" />
-                <ErrorMessage name="dateDebut" class="text-danger text-start" />
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                  <button type="submit" class="btn btn-primary"> Envoyer </button>
-                </div>
-              </Form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Update Contrat -->
-      <div class="modal fade" id="contratPerso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel"> Mettre à jour un contrat </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <template v-for="contrat in contrats" :key="contrat.id">
-                <Form v-if="contrat.personnel.id == $route.params.id" @submit="updateContrat"
-                  :validation-schema="schemaContrat()">
-                  <p class="my-0"> Date de prise de fonction </p>
-                  <Field type="date" name="datePriseFonction" id="datePriseFonction" :value="contrat.datePriseFonction"
-                    class="form-control mb-1" />
-                  <ErrorMessage name="datePriseFonction" class="text-danger text-start mb-2" />
-                  <p class="my-0"> Salaire </p>
-                  <Field type="number" name="salaire" id="salaire" :value="contrat.salaire" class="form-control mb-1" />
-                  <ErrorMessage name="salaire" class="text-danger text-start mb-2" />
-                  <p class="my-0"> Duration </p>
-                  <Field type="number" name="duration" id="duration" :value="contrat.duration"
-                    class="form-control mb-1" />
-                  <ErrorMessage name="duration" class="text-danger text-start mb-2" />
-                  <p class="my-0"> Conditions de licenciement </p>
-                  <Field type="text" name="conditionLicenciement" id="conditionLicenciement"
-                    :value="contrat.conditionLicenciement" class="form-control mb-1" />
-                  <ErrorMessage name="conditionLicenciement" class="text-danger text-start mb-2" />
-                  <p class="my-0"> Nombre de jour de congé </p>
-                  <Field type="number" name="nbJourConge" id="nbJourConge" :value="contrat.nbJourConge"
-                    class="form-control mb-1" />
-                  <ErrorMessage name="nbJourConge" class="text-danger text-start mb-2" />
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary"> Envoyer </button>
-                  </div>
-                </Form>
-              </template>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Modal -->
-      <!-- Contrat -->
-      <div class="modal fade" id="contrat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel"> Ajouter un contrat </h5>
-              <button ref="closeContratModal" type="button" class="btn-close" data-bs-dismiss="modal"
-                aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <Form @submit="sendContrat" :validation-schema="schemaContrat()">
-                <p class="my-0"> Date de prise de fonction </p>
-                <Field type="date" name="datePriseFonction" id="datePriseFonction" class="form-control mb-1" />
-                <ErrorMessage name="datePriseFonction" class="text-danger text-start mb-2" />
-                <p class="my-0"> Salaire </p>
-                <Field type="number" name="salaire" id="salaire" class="form-control mb-1" />
-                <ErrorMessage name="salaire" class="text-danger text-start mb-2" />
-                <p class="my-0"> Duration </p>
-                <Field type="number" name="duration" id="duration" class="form-control mb-1" />
-                <ErrorMessage name="duration" class="text-danger text-start mb-2" />
-                <p class="my-0"> Conditions de licenciement </p>
-                <Field type="text" name="conditionLicenciement" id="conditionLicenciement" class="form-control mb-1" />
-                <ErrorMessage name="conditionLicenciement" class="text-danger text-start mb-2" />
-                <p class="my-0"> Nombre de jour de congé </p>
-                <Field type="number" name="nbJourConge" id="nbJourConge" class="form-control mb-1" />
-                <ErrorMessage name="nbJourConge" class="text-danger text-start mb-2" />
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                  <button type="submit" class="btn btn-primary"> Envoyer </button>
-                </div>
-              </Form>
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- Fonction -->
       <div class="modal fade" id="fonctionService" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -507,6 +383,7 @@ const updateHeurePerso = async (id: any) => {
         heureDepart: formValues[1],
       });
       Swal.fire("Horaire modifié avec succès", "", "success");
+      getAllContrat()
 
     } catch (error) {
       console.error('Erreur lors de la modification de l\'horaire du personnel:', error);

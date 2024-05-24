@@ -44,26 +44,25 @@
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <div class="modal-footer mt-2">
               <button type="submit" class="btn btn-primary"> Programmer </button>
+              <router-link to="/conges/liste-conge">
+                <button type="submit" class="btn btn-danger"> Annuler </button>
+              </router-link>
+
             </div>
           </Form>
         </div>
       </div>
     </div>
-    <div v-if="!changeConge" class="modal-dialog">
+    <div v-if="!changeConge" class="card rounded-1 p-3 modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <!-- <div class="my-3">
             {{ personnelCongeDemande }}
           </div> -->
-          <h5 class="modal-title" id="staticBackdropLabel"> Programmer un congé </h5>
-          <!-- <h5 v-if="!changeConge" class="modal-title" id="staticBackdropLabel"> Accorder un congé </h5> -->
-          <button ref="closeCongeModal" type="button" class="btn-close" data-bs-dismiss="modal"
-            aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body col-6 mx-auto">
           <div class="my-3">
           </div>
           <div class="d-flex justify-content-center">
@@ -100,9 +99,11 @@
             <Field v-model="personnelCongeDemande.personnelConge.dateReprise" type="date" name="dateReprise"
               id="dateReprise" class="form-control mb-1" />
             <ErrorMessage name="dateReprise" class="text-danger text-start mb-2" />
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <div class="modal-footer mt-2">
               <button type="submit" class="btn btn-primary"> Programmer </button>
+              <router-link to="/conges/liste-conge">
+                <button type="submit" class="btn btn-danger"> Annuler </button>
+              </router-link>
             </div>
           </Form>
         </div>
@@ -251,7 +252,15 @@ const personnelConges: PersonnelConge = {
     demande: 0,
     type: 0
   },
-  personnelConge: []
+  personnelConge: [{
+    personnel: 0,
+    conge: 0,
+    statut: "Confirmé",
+    dateDebut: dateDebut.value,
+    dateFinPrevu: dateFinPrevu.value,
+    dateFin: dateFin.value,
+    dateReprise: dateReprise.value,
+  }]
 }
 
 const personnelCongeDemande = ref<PersonnelCongeDemande>({
@@ -483,13 +492,23 @@ const getAllPersonnelConges = async () => {
   }
 }
 
+const getAllTypeConge = async () => {
+  try {
+    const response = await ApiService.get('/typeConges');
+    typeConges.value = response.data.data.data;
+    console.log(response);
+  } catch (error) {
+    console.error('Erreur lors de la recupération des personnels:', error);
+    throw error;
+  }
+}
 
 onMounted(() => {
-
   getAllPresences();
   getAllDemande();
   getAllPersonnelConges();
   getAllPersonnel();
+  getAllTypeConge()
 })
 </script>
 
@@ -508,5 +527,4 @@ a {
     color: white;
   }
 }
-
 </style>
