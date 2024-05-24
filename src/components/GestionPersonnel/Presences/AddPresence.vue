@@ -1,7 +1,7 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing form theme-form">
-      <div class="card rounded rounded-4 px-2 pt-4 py-4 overflow-auto">
+      <div class="card rounded rounded-4 px-2 pt-4 py-4 ">
         <div class="d-flex mb-2">
           <div class="col-3 mx-2 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
             <h6> Date </h6>
@@ -173,6 +173,8 @@ const calculateDuration = (presence: Presence) => {
 const personnels = ref([] as any[]);
 const conges = ref([] as any[]);
 const personnelsEnConge = ref<number[]>([]);
+const statutJustifieOptions = ref([] as any[]);
+const cate = ref();
 
 let filterPersonnel = ref(personnels);
 

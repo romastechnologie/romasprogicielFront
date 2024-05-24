@@ -85,12 +85,13 @@
                 {{ format_date(fonction.createdAt)  }}
               </td>
               <td
-                class="shadow-none lh-1 fw-medium text-black pe-0"
+                class="shadow-none lh-1 fw-medium text-black pe-0 text-end"
               >
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
               <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                 <li class="dropdown-item d-flex align-items-center">
-                  <a  href="javascript:void(0);" @click="moddifier(fonction)">
+                  <a  href="javascript:void(0);" @click="moddifier(fonction)" data-bs-toggle="modal"
+          data-bs-target="#AddFonctionModal">
                   <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                   </a>
                 </li>

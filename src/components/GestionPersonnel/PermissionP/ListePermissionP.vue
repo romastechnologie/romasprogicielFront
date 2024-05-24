@@ -21,7 +21,7 @@
           <input type="date" class="form-control" @input="sortPermissionWithDateDebut($event.target)" />
         </div>
       </div>
-      <div class="card rounded rounded-4 px-2 pt-4 py-1 overflow-auto">
+      <div class="card rounded rounded-4 px-2 pt-4 py-1 ">
         <table class="table m-0">
           <thead>
             <tr>
@@ -30,7 +30,7 @@
               <th scope="col"> Date de debut </th>
               <th scope="col"> Date de fin </th>
               <th scope="col"> Date de reprise </th>
-              <th scope="col"> </th>
+              <th scope="col" class="text-end"> Actions </th>
             </tr>
           </thead>
           <tbody>
@@ -41,22 +41,26 @@
               <td> {{ permission.dateDebut.toString().slice(0, 10) }} </td>
               <td> {{ permission.dateFin.toString().slice(0, 10) }} </td>
               <td> {{ permission.dateReprise.toString().slice(0, 10) }} </td>
-              <td>
-                <div class="d-flex justify-content-center">
-                  <router-link :to="`/permissionps/edit-permissionp/${permission.id}`" class="text-decoration-none">
-                    <span type="button"
-                      class="material-symbols-outlined card fs-3 d-flex justify-content-center align-items-center text-success text-center"
-                      style="height: 40px; width: 40px;">
-                      update
-                    </span>
+              <td class="shadow-none lh-1 fw-medium text-black pe-0  text-end">
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">Actions</button>
+              <ul class="dropdown-menu dropdown-block"
+                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
+                data-popper-placement="bottom-start">
+                <li class="dropdown-item d-flex align-items-center">
+                  <router-link :to="`/permissionps/edit-permissionp/${permission.id}`"
+                    class="text-decoration-none p-1">
+                    <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
                   </router-link>
-                  <!-- <span @click="deletePermission(permission.id)" type="button"
-                    class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger text-center"
-                    style="height: 40px; width: 40px;">
-                    delete
-                  </span> -->
-                </div>
-              </td>
+                </li>
+                <li class="dropdown-item d-flex align-items-center">
+                  <a @click="deletePermission(permission.id)">
+                    <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
+                    Supprimé
+                  </a>
+                </li>
+              </ul>
+            </td>
             </tr>
           </tbody>
         </table>

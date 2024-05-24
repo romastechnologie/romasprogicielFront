@@ -5,7 +5,7 @@
                 <Form @submit="updateDemande" :validation-schema="schemaDemande()" name="sendPresence"
                     :initial-values="demandes">
                     <p class="my-0"> Catégorie de la demande </p>
-                    <!-- <select name="categorieId" id="categorieId" class="form-select mb-1 text-black">
+                    <select name="categorieId" id="categorieId" class="form-select mb-1 text-black">
                         <template v-if="category">
                             <option v-if="category" :value="category.id" selected> {{ category.libelle }} </option>
                             <template v-for="categorie in categorieDemandes" :key="categorie.id">
@@ -14,19 +14,12 @@
                                 </option>
                             </template>
                         </template>
-                    </select> -->
-                    <VueMultiselect
-                    v-model = "category"
-                    :options="categorieOptions"
-                    :close-on-select="false"
-                    :preserve-search="true"
-                    :clear-on-select="false"
-                    :multiple="true"
-                    :searchable="true"
-                    placeholder="Sélectionner le rôle"
-                    label="label"
-                    track-by="label"
-                  />
+                    </select>
+                    <!-- <Field name="categorieId" v-model="cate" v-slot="{ field }">
+                        <VueMultiselect v-model="field.value" v-bind="field" :options="categorieOptions"
+                            :close-on-select="true" :clear-on-select="false" :multiple="false" :searchable="true"
+                            placeholder="Sélectionner la catégorie" label="label" track-by="label" />
+                    </Field> -->
                     <p class="my-0"> Personnel </p>
                     <input type="text"
                         :value="demandes.personnel ? demandes.personnel.nom + ' ' + demandes.personnel.prenom : ''"
@@ -35,7 +28,7 @@
                     <Field type="file" name="demandeFileName" id="demandeFileName" class="form-control mb-1" />
                     <ErrorMessage name="demandeFileName" class="text-danger text-start mb-2" />
                     <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary" style="background-color: #00247E;">
+                        <button type="submit" class="btn btn-primary" style="background-">
                             Modifier </button>
                         <router-link to="/demandes/liste-demande">
                             <button type="submit" class="btn btn-danger">
@@ -56,8 +49,8 @@ import { useRouter, useRoute } from 'vue-router';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import ApiService from '@/services/ApiService';
 import VueMultiselect from 'vue-multiselect'
+import ApiService from '@/services/ApiService';
 
 const router = useRouter()
 const route = useRoute()
@@ -71,6 +64,8 @@ configure({
 
 const demandes = ref([] as any[]);
 const categorieDemandes = ref([] as any[]);
+const cate = ref();
+const categorieOptions = ref([] as any[]);
 const category = ref(null as any);
 
 // ------------------------------------------------ SCHEMA -------------------------------------------------
@@ -116,7 +111,6 @@ async function updateDemande() {
         }
     }
 }
-const categorieOptions = ref([] as any[]);
 
 const getAllCategorieDemandes = async () => {
     try {

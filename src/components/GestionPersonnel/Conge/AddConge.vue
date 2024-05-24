@@ -1,6 +1,6 @@
 <template>
   <div class="p-5">
-    <div v-if="changeConge" class="card rounded-1 p-3 modal-dialog modal-xl">
+    <div v-if="changeConge" class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-body">
           <!-- <div class="my-3">
@@ -45,8 +45,11 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
               <button type="submit" class="btn btn-primary"> Programmer </button>
+              <router-link to="/conges/liste-conge">
+                <button type="submit" class="btn btn-danger">
+                  Annuler </button>
+              </router-link>
             </div>
           </Form>
         </div>
@@ -54,16 +57,7 @@
     </div>
     <div v-if="!changeConge" class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <!-- <div class="my-3">
-            {{ personnelCongeDemande }}
-          </div> -->
-          <h5 class="modal-title" id="staticBackdropLabel"> Programmer un congé </h5>
-          <!-- <h5 v-if="!changeConge" class="modal-title" id="staticBackdropLabel"> Accorder un congé </h5> -->
-          <button ref="closeCongeModal" type="button" class="btn-close" data-bs-dismiss="modal"
-            aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
+        <div class="modal-body col-6 mx-auto">
           <div class="my-3">
           </div>
           <div class="d-flex justify-content-center">
@@ -101,15 +95,17 @@
               id="dateReprise" class="form-control mb-1" />
             <ErrorMessage name="dateReprise" class="text-danger text-start mb-2" />
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
               <button type="submit" class="btn btn-primary"> Programmer </button>
+              <router-link to="/conges/liste-conge">
+                <button type="submit" class="btn btn-danger">
+                  Annuler </button>
+              </router-link>
             </div>
           </Form>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -122,6 +118,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router';
 import ApiService from '@/services/ApiService';
+
+
 
 const router = useRouter()
 
@@ -160,7 +158,6 @@ watch(selectAll, (newSelectAll) => {
 
 const admin = ref(window.localStorage.getItem("adminOnline"));
 
-const closeDemandeModal = ref(null);
 const closeCongeModal = ref(null);
 
 const personnels = ref([] as any[]);
@@ -270,42 +267,8 @@ const personnelCongeDemande = ref<PersonnelCongeDemande>({
   }
 })
 
-// const conge = ref<Conge>({
-//   dateDebut: "",
-//   dateFinPrevu: "",
-//   dateReprise: "",
-//   demande: 0,
-//   type: 0
-// })
 
-let filterPresence = ref([] as any[]);
 let filterDemande = ref([] as any[]);
-
-function sortPresenceWithDate(choseedDate: HTMLInputElement) {
-
-  if (presences.value) {
-    const presenceOnSelectedDate = presences.value.filter(entry => {
-      const entryDate = new Date(entry.date);
-      const selectedDate = new Date(choseedDate.value);
-      return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.statutJustifie === "Non";
-    });
-
-    filterPresence.value = presenceOnSelectedDate;
-  }
-}
-
-// function sortPresenceForJustificatifWithDate(choseedDate: HTMLInputElement) {
-
-// if (presences.value) {
-//   const presenceOnSelectedDate = presences.value.filter(entry => {
-//     const entryDate = new Date(entry.date);
-//     const selectedDate = new Date(choseedDate.value);
-//     return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.statutJustifie === "Non";
-//   });
-
-//   filterPresence.value = presenceOnSelectedDate;
-// }
-// }
 
 function sortDemandeCongeWithDate(choseedDate: HTMLInputElement) {
 
@@ -320,9 +283,7 @@ function sortDemandeCongeWithDate(choseedDate: HTMLInputElement) {
   filterDemande.value = demandeOnSelectedDate;
 }
 
-
 // ----------------------------------------- SCHEMA -----------------------------------------
-
 function schemaCongeDemande() {
   return yup.object().shape({
     dateDemande: yup.string().required("La date de la demande est requise."),
@@ -342,8 +303,8 @@ function schemaCongeNDemande() {
 
 // --------------------------------------- SEND FORMULAIRE ------------------------------------
 
-async function sendCongeDemande() {
 
+async function sendCongeDemande() {
 
   const dateDebut = document.getElementById("dateDebut") as HTMLInputElement;
   const dateFin = document.getElementById("dateFinPrevu") as HTMLInputElement;
@@ -359,10 +320,6 @@ async function sendCongeDemande() {
         text: "Congé ajoutée avec succès!",
         icon: "success"
       });
-      router.push("/conges/liste-conge")
-      if (closeCongeModal.value) {
-        (closeCongeModal.value as HTMLButtonElement).click();
-      }
       router.push("/conges/liste-conge")
     } catch (error) {
       console.error('Erreur lors de la création du congé:', error);
@@ -391,10 +348,6 @@ async function sendCongeNDemande() {
         icon: "success"
       });
       router.push("/conges/liste-conge")
-      if (closeCongeModal.value) {
-        (closeCongeModal.value as HTMLButtonElement).click();
-      }
-      router.push("/conges/liste-conge")
     } catch (error) {
       console.error('Erreur lors de la création du congé:', error);
       throw error;
@@ -406,22 +359,21 @@ async function sendCongeNDemande() {
 }
 
 // --------------------------------------------------- GET ---------------------------------------
-const getAllPresences = async () => {
-  try {
-    const response = await ApiService.get('/presences');
-    presences.value = response.data;
-    // router.push("/");
-    console.log(response);
-  } catch (error) {
-    console.error('Erreur lors de la recupération des présences:', error);
-    throw error;
-  }
-}
-
 const getAllDemande = async () => {
   try {
     const response = await ApiService.get('/demandes');
     demande.value = response.data;
+
+  } catch (error) {
+    console.error('Erreur lors de la recupération des demandes:', error);
+    throw error;
+  }
+}
+
+const getAlltypeConges = async () => {
+  try {
+    const response = await ApiService.get('/typeConges');
+    typeConges.value = response.data.data.data;
 
   } catch (error) {
     console.error('Erreur lors de la recupération des demandes:', error);
@@ -485,23 +437,26 @@ const getAllPersonnelConges = async () => {
 
 
 onMounted(() => {
-
-  getAllPresences();
   getAllDemande();
   getAllPersonnelConges();
   getAllPersonnel();
+  getAlltypeConges()
 })
 </script>
 
 <style>
 a {
   font-weight: bold;
-  color: #00247E;
   text-decoration: none;
+  color: white;
 
   &.router-link-exact-active {
     color: white;
-    background-color: #00247E
+    background-color: #7A70BA
+  }
+
+  &.router-link-exact-active:hover {
+    color: white;
   }
 }
 </style>

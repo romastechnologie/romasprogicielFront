@@ -1,20 +1,11 @@
 <template>
-  <div class="px-lg-4 py-lg-5 p-md-3 p-3 text-start">
-    <!-- <div class='demo-app-sidebar-section'>
-        <label>
-          <input type='checkbox' :checked='calendarOptions.weekends' @change='handleWeekendsToggle' />
-          Afficher les weekends
-        </label>
-      </div> -->
-    <!-- <div>
-        <h2>All Events ({{ currentEvents.length }})</h2>
-        <ul>
-          <li v-for='event in currentEvents' :key='event.id'>
-            <b>{{ event.startStr }}</b>
-            <i>{{ event.title }}</i>
-          </li>
-        </ul>
-      </div> -->
+  <div class="px-lg-4 py-lg- p-md-3 p-3 text-start">
+    <router-link to="/conges/ajouter-conge">
+      <button class="btn btn-primary mb-3">
+        <i class="fa fa-plus-circle mx-2"></i>
+        Programmer un congé
+      </button>
+    </router-link>
     <div class="mb-5">
       <FullCalendar class='demo-app-calendar' :options='calendarOptions'>
         <template v-slot:eventContent='arg'>
@@ -117,7 +108,7 @@
         <input type="date" class="form-control" @input="sortCongeWithDateDebut($event.target)" />
       </div>
     </div>
-    <div v-if="changeConge" class="card rounded rounded-4 px-2 pt-4 py-1 overflow-auto">
+    <div v-if="changeConge" class="card rounded rounded-4 px-2 pt-4 py-1">
       <table class="table m-0">
         <thead>
           <tr>
@@ -127,7 +118,7 @@
             <th scope="col"> Date de fin </th>
             <th scope="col"> Date de reprise </th>
             <th scope="col"> Statut </th>
-            <th scope="col"> </th>
+            <th scope="col"> Actions </th>
           </tr>
         </thead>
         <tbody>
@@ -139,15 +130,18 @@
             <td> {{ personnelConge.dateFinPrevu.toString().slice(0, 10) }} </td>
             <td> {{ personnelConge.dateFin.toString().slice(0, 10) }} </td>
             <td> {{ personnelConge.dateReprise.toString().slice(0, 10) }} </td>
-            <td v-if="personnelConge.statut === 'Confirmé'" class="text-center"> <span class="badge badge-success">Confirmé</span>
+            <td v-if="personnelConge.statut === 'Confirmé'" class="text-center"> <span
+                class="badge badge-success">Confirmé</span>
             </td>
-            <td v-else-if="personnelConge.statut === 'Annulé'" class="text-center"> <span class="badge badge-danger">Annulé</span>
+            <td v-else-if="personnelConge.statut === 'Annulé'" class="text-center"> <span
+                class="badge badge-danger">Annulé</span>
             </td>
-            <td v-else-if="personnelConge.statut === 'Interrompu'" class="text-center"> <span class="badge badge-primary">Interrompu</span>
+            <td v-else-if="personnelConge.statut === 'Interrompu'" class="text-center"> <span
+                class="badge badge-primary">Interrompu</span>
             </td>
             <!-- <td v-else-if="personnelConge.statut === 'Terminé'" class="text-center"> <span class="badge badge-danger">Terminé</span>
             </td> -->
-            <td>
+            <!-- <td>
               <div class="d-flex justify-content-center">
                 <span @click="pauseConge(personnelConge.id)" type="button"
                   v-if="personnelConge.statut != 'Annulé' && personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Terminé'"
@@ -166,12 +160,45 @@
                     update
                   </span>
                 </router-link>
-                <!-- <span @click="deleteConge(conge.id)" type="button" 
-                    class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger text-center"
-                    >
-                    delete
-                  </span> -->
+                <span @click="deleteConge(personnelConge.id)" type="button"
+                  class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger text-center">
+                  delete
+                </span>
               </div>
+            </td> -->
+            <td class="shadow-none lh-1 fw-medium text-black pe-0  text-end">
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false" v-if="personnelConge.statut != 'Annulé'">Actions</button>
+              <ul class="dropdown-menu dropdown-block"
+                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
+                data-popper-placement="bottom-start">
+                <li class="dropdown-item d-flex align-items-center"
+                  v-if="personnelConge.statut != 'Annulé' && personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Terminé'">
+                  <a @click="pauseConge(personnelConge.id)" type="button">
+                    <i class="fa fa-pause lh-2 me-8 p-1 position-relative top-1"></i>
+                    Interrompre
+                  </a>
+                </li>
+                <li class="dropdown-item d-flex align-items-center"
+                v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
+                  <a @click="cancelConge(personnelConge.id)">
+                    <i class="fa fa-check lh-2 me-8 p-1 position-relative top-1"></i>
+                    Accepté
+                  </a>
+                </li>
+                <li class="dropdown-item d-flex align-items-center" v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
+                  <router-link :to="`/conges/edit-conge/${personnelConge.id}`"
+                    class="text-decoration-none p-1">
+                    <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
+                  </router-link>
+                </li>
+                <li class="dropdown-item d-flex align-items-center">
+                  <a @click="deleteConge(personnelConge.id)">
+                    <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
+                    Supprimé
+                  </a>
+                </li>
+              </ul>
             </td>
           </tr>
         </tbody>

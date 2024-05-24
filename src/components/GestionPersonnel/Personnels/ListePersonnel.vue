@@ -9,28 +9,28 @@
     <div class="d-lg-flex d-md-flex d-none flex-lg-row " style="height: 530px;">
       <div class="col-lg-4 col-md-4 shadow rounded-0 bg-light px-2 py-1">
         <div class="card m-2 p-1 d-flex flex-row align-items-center rounded rounded-pill">
-          <span class="material-symbols-outlined mx-2">
-            search
-          </span>
+          <i class="fa fa-search mx-2"></i>
           <input type="search" class="form-control border-0 rounded rounded-pill"
             @input="sortPersonnelWithSearch($event.target)" placeholder="Rechercher par personnel">
         </div>
-        <div class="overflow-auto">
+        <div class="overflow-auto" style="height: 465px;">
           <template v-for="personnel in filterPersonnel" :key="personnel.id">
             <template v-for="fonction in personnel.personnel_service_fonctions" :key="fonction.id">
               <router-link v-if="fonction.statut == 'Actif'" :to="'/personnels/liste-personnel/' + personnel.id"
                 class="card border border-secondary d-flex flex-row justify-content-start align-items-center px-3 py- mb-2 mx-md-2">
                 <img :src="personnel.image"
                   class="rounded rounded-circle m-2 card d-flex flex-row justify-content-center align-items-center"
-                  style="color: #00247E; height: 40px; width: 40px" />
-                <div class="d-flex flex-column">
+                  style=" height: 40px; width: 40px" />
+                <div class="d-flex flex-column m-2">
                   <span> {{ personnel.nom + ' ' + personnel.prenom }} </span>
                   <span id="fonction" style="font-size: 10px;"> {{ fonction ? fonction.service_fonction.fonction.libelle : 'Pas de fonction' }} </span>
                 </div>
               </router-link>
             </template>
           </template>
+          
         </div>
+
 
       </div>
       <div class="col overflow-auto">
@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { onBeforeMount, onMounted, ref, defineComponent, defineProps } from 'vue'
-import { format_date, suppression, error, success, } from "@/utils/utils";
+// import { format_date, suppression, error, success, } from "@/utils/utils";
 import Swal from 'sweetalert2';
 import ApiService from '@/services/ApiService';
 import { useRouter } from "vue-router";

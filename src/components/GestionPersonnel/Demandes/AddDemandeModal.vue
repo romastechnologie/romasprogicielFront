@@ -11,7 +11,7 @@
             aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <Form @submit="sendDemande" :validation-schema="schemaDemande()">
+          <Form :validation-schema="schemaDemande()">
             <p class="my-0"> Catégorie de la demande </p>
             <Field name="categorieId" v-model="cate" v-slot="{ field }">
               <VueMultiselect v-model="field.value" v-bind="field" :options="categorieOptions" :close-on-select="true"
@@ -47,7 +47,6 @@ import { configure } from 'vee-validate'
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2'
-import Multiselect from '@vueform/multiselect'
 import VueMultiselect from 'vue-multiselect'
 import ApiService from '@/services/ApiService';
 
@@ -92,6 +91,7 @@ async function sendDemande(values: any) {
       });
     } else {
       formData.append('fichier', target.files[0])
+      console.log(formData.get("fichier"))
       try {
         const response = await ApiService.post(`/demandes/${perso.value.value}/${cate.value.value}`, formData);
         Swal.fire({
@@ -99,11 +99,7 @@ async function sendDemande(values: any) {
           position: "top-end",
           text: "La demande a été soumise avec succès!",
           icon: "success"
-        });
-        location.reload()
-        if (closeDemandeModal.value) {
-          (closeDemandeModal.value as HTMLButtonElement).click();
-        }
+        })
       } catch (error) {
         console.error('Erreur lors de l\'envoie de la demande:', error);
         throw error;
