@@ -6,7 +6,21 @@
         Programmer un congé
       </button>
     </router-link>
-    <div class="mb-5">
+    <div class="d-flex justify-content-around">
+      <button v-if="!onListe" class="btn btn-secondary mb-3" @click="onListe = true">
+        Liste
+      </button>
+      <button v-if="onListe" class="btn btn-primary mb-3" @click="onListe = true">
+        Liste
+      </button>
+      <button v-if="onListe" class="btn btn-secondary mb-3" @click="onListe = false">
+        Calendrier
+      </button>
+      <button v-if="!onListe" class="btn btn-primary mb-3" @click="onListe = false">
+        Calendrier
+      </button>
+    </div>
+    <div v-if="!onListe" class="mb-5">
       <FullCalendar class='demo-app-calendar' :options='calendarOptions'>
         <template v-slot:eventContent='arg'>
           <b>{{ arg.timeText }}</b>
@@ -95,11 +109,9 @@
           La liste est vide
         </div>
       </div> -->
-    <div v-if="changeConge" class="col-12 mb-2 d-flex justify-content-around align-items-center flex-wrap">
+    <div v-if="onListe" class="col-12 mb-2 d-flex justify-content-around align-items-center flex-wrap">
       <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
-        <span class="material-symbols-outlined mx-2">
-          search
-        </span>
+        <i class="fa fa-search mx-2"></i>
         <input type="search" class="form-control" @input="sortCongeWithSearch($event.target)"
           placeholder="Rechercher par intitulé">
       </div>
@@ -108,7 +120,7 @@
         <input type="date" class="form-control" @input="sortCongeWithDateDebut($event.target)" />
       </div>
     </div>
-    <div v-if="changeConge" class="card rounded rounded-4 px-2 pt-4 py-1">
+    <div v-if="onListe" class="card rounded rounded-4 px-2 pt-4 py-1">
       <table class="table m-0">
         <thead>
           <tr>
@@ -180,15 +192,15 @@
                   </a>
                 </li>
                 <li class="dropdown-item d-flex align-items-center"
-                v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
+                  v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
                   <a @click="cancelConge(personnelConge.id)">
                     <i class="fa fa-check lh-2 me-8 p-1 position-relative top-1"></i>
                     Accepté
                   </a>
                 </li>
-                <li class="dropdown-item d-flex align-items-center" v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
-                  <router-link :to="`/conges/edit-conge/${personnelConge.id}`"
-                    class="text-decoration-none p-1">
+                <li class="dropdown-item d-flex align-items-center"
+                  v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
+                  <router-link :to="`/conges/edit-conge/${personnelConge.id}`" class="text-decoration-none p-1">
                     <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
                   </router-link>
                 </li>
@@ -267,6 +279,8 @@ function handleEventClick(clickInfo: any) {
 }
 
 //  ----------------------------------------------- END CALENDAR LIBRARY ---------------------------------------------
+
+const onListe = ref(true);
 
 const formatDate = (date: Date): string => {
   const year = date.getFullYear();
@@ -479,4 +493,21 @@ td,
 th {
   border: 1px solid gray;
 }
+
+a {
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+
+  &.router-link-exact-active {
+    color: white;
+    background-color: #7A70BA
+  }
+
+  &.router-link-exact-active:hover {
+    color: white;
+  }
+
+}
+
 </style>

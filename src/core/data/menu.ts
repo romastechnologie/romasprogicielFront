@@ -14,12 +14,6 @@ interface MenuItem {
 }
 
 export const menu: MenuItem[] = [
-    
-    {
-        headTitle1: "Acceuil",
-        headTitle2: "Accueil, Tableau de bord",
-        type: "headtitle"
-    },
     {
         title: "Accueil",
         icon: "stroke-home",
