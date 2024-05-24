@@ -2,50 +2,46 @@
   <div class="p-5">
     <div class="card px-2 pt-3 pb-1">
       <div class="row gx-3 flex-wrap">
-        <div class="col-6">
+        <div class="col-6 mx-auto">
           <div class="" id="permission">
-            <div class="">
-              <div class="">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="staticBackdropLabel"> Accorder une permission </h5>
+            <div class="modal-body">
+              <Form @submit="sendPermission" :validation-schema="schemaPermission()">
+                <p class="my-0"> Date de la demande </p>
+                <Field type="date" name="dateDemande" id="dateDemande" class="form-control mb-1"
+                  @input="sortDemandePermissionWithDate($event.target)" />
+                <ErrorMessage name="dateDemande" class="text-danger text-start mb-2" />
+                <p class="my-0"> Demande </p>
+                <select name="permissionDemandeId" id="permissionDemandeId" class="form-select mb-1">
+                  <option disabled selected> Choisir la demande </option>
+                  <option :value="demande.id" v-for="demande in filterDemande" :key="demande.id"> Demande ==> {{
+                    demande.personnel.nom + " " + demande.personnel.prenom }} </option>
+                </select>
+                <p class="my-0"> Personnel </p>
+                <select name="permissionPersonnelId" id="permissionPersonnelId" class="form-select mb-1">
+                  <option disabled selected> Choisir le personnel </option>
+                  <option :value=personnel.id v-for="personnel in personnels" :key="personnel.id"> {{
+                    personnel.nom + " " + personnel.prenom }} </option>
+                </select>
+                <p class="my-0"> Motif de la permission </p>
+                <Field type="text" name="motif" id="motif" class="form-control mb-1 " />
+                <ErrorMessage name="motif" class="text-danger text-start mb-2" />
+                <p class="my-0"> Date de debut </p>
+                <Field type="date" name="dateDebut" id="dateDebut" class="form-control mb-1 " />
+                <ErrorMessage name="dateDebut" class="text-danger text-start mb-2" />
+                <p class="my-0"> Date de fin </p>
+                <Field type="date" name="dateFin" id="dateFin" class="form-control mb-1" />
+                <ErrorMessage name="dateFin" class="text-danger text-start mb-2" />
+                <p class="my-0"> Date de reprise </p>
+                <Field type="date" name="dateReprise" id="dateReprise" class="form-control mb-1" />
+                <ErrorMessage name="dateReprise" class="text-danger text-start mb-2" />
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary"> Accorder </button>
+                  <router-link to="/permissionps/liste-permissionp">
+                    <button type="submit" class="btn btn-danger">
+                      Annuler </button>
+                  </router-link>
                 </div>
-                <div class="modal-body">
-                  <Form @submit="sendPermission" :validation-schema="schemaPermission()">
-                    <p class="my-0"> Date de la demande </p>
-                    <Field type="date" name="dateDemande" id="dateDemande" class="form-control mb-1"
-                      @input="sortDemandePermissionWithDate($event.target)" />
-                    <ErrorMessage name="dateDemande" class="text-danger text-start mb-2" />
-                    <p class="my-0"> Demande </p>
-                    <select name="permissionDemandeId" id="permissionDemandeId" class="form-select mb-1">
-                      <option disabled selected> Choisir la demande </option>
-                      <option :value="demande.id" v-for="demande in filterDemande" :key="demande.id"> Demande ==> {{
-                        demande.personnel.nom + " " + demande.personnel.prenom }} </option>
-                    </select>
-                    <p class="my-0"> Personnel </p>
-                    <select name="permissionPersonnelId" id="permissionPersonnelId" class="form-select mb-1">
-                      <option disabled selected> Choisir le personnel </option>
-                      <option :value=personnel.id v-for="personnel in personnels" :key="personnel.id"> {{
-                        personnel.nom + " " + personnel.prenom }} </option>
-                    </select>
-                    <p class="my-0"> Motif de la permission </p>
-                    <Field type="text" name="motif" id="motif" class="form-control mb-1 " />
-                    <ErrorMessage name="motif" class="text-danger text-start mb-2" />
-                    <p class="my-0"> Date de debut </p>
-                    <Field type="date" name="dateDebut" id="dateDebut" class="form-control mb-1 " />
-                    <ErrorMessage name="dateDebut" class="text-danger text-start mb-2" />
-                    <p class="my-0"> Date de fin </p>
-                    <Field type="date" name="dateFin" id="dateFin" class="form-control mb-1" />
-                    <ErrorMessage name="dateFin" class="text-danger text-start mb-2" />
-                    <p class="my-0"> Date de reprise </p>
-                    <Field type="date" name="dateReprise" id="dateReprise" class="form-control mb-1" />
-                    <ErrorMessage name="dateReprise" class="text-danger text-start mb-2" />
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                      <button type="submit" class="btn btn-primary"> Accorder </button>
-                    </div>
-                  </Form>
-                </div>
-              </div>
+              </Form>
             </div>
           </div>
         </div>
@@ -102,7 +98,7 @@ function sortDemandePermissionWithDate(choseedDate: HTMLInputElement) {
     const entryDate = new Date(entry.create_at);
     const selectedDate = new Date(choseedDate.value);
     if (entry.categorie) {
-      return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.categorie.libelle === "Permission" && entry.statut === "Acceptée" && entry.conge === null;
+      return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.categorie.libelle === "Permission" && entry.statut === "Acceptée" && entry.permission === null ;
     }
   });
 
@@ -137,7 +133,7 @@ async function sendPermission(value: object) {
       text: "Permission ajoutée avec succès!",
       icon: "success"
     });
-    router.push("/permissionsp/liste-permissionp")
+    router.push("/permissionps/liste-permissionp")
   } catch (error) {
     console.error('Erreur lors de la création de la permission:', error);
     throw error;

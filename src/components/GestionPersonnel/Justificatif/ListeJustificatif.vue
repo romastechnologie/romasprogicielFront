@@ -1,10 +1,12 @@
 <template>
   <div class="px-lg-4 py-lg-5 p-md-3 p-3 text-start">
+    <router-link to="/justificatifs/ajouter-justificatif" class="btn btn-primary my-1">
+      <i class="fa fa-plus-circle"></i>
+      Ajouter un justificatif
+    </router-link>
     <div class="col-12 mb-2 d-flex justify-content-around flex-wrap">
       <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
-        <span class="material-symbols-outlined mx-2">
-          search
-        </span>
+        <i class="fa fa-search mx-2"></i>
         <input type="search" class="form-control" @input="sortJustificatifWithSearch($event.target)"
           placeholder="Rechercher par personnel">
       </div>
@@ -13,7 +15,7 @@
         <input type="date" class="form-control" @input="sortJustificatifWithDateDebut($event.target)" />
       </div>
     </div>
-    <div class="card rounded rounded-4 px-2 pt-4 py-1 overflow-auto">
+    <div class="card rounded rounded-4 px-2 pt-4 py-1">
       <table class="table m-0">
         <thead>
           <tr>
@@ -22,7 +24,7 @@
             <th scope="col"> Date de fin </th>
             <th scope="col"> Preuve </th>
             <th scope="col"> Statut </th>
-            <th scope="col"> </th>
+            <th scope="col"> Actions </th>
           </tr>
         </thead>
         <tbody>
@@ -36,36 +38,49 @@
                 }}
               </a>
             </td>
-            <td v-if="justificatif.statut === 'Acceptée'" class="text-center"> ✅ Acceptée</td>
-            <td v-else-if="justificatif.statut === 'Refusée'" class="text-center"> ❌ Refusée</td>
-            <td v-else-if="justificatif.statut === 'En cours de traitement'" class="text-center"> 🔄 En cours de
-              traitement
+            <td v-if="justificatif.statut === 'Acceptée'" class="text-center">
+              <span class="badge badge-success">Acceptée</span>
             </td>
-            <td>
-              <div class="d-flex justify-content-center">
-                <span type="button" v-if="justificatif.statut != 'Refusée'"
-                  class="material-symbols-outlined card fs-3 d-flex justify-content-center align-items-center text-danger"
-                  @click="refusedJustificatif(justificatif.id)" style="height: 40px; width: 40px;">
-                  close
-                </span>
-                <span type="button" v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée' "
-                  class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-success"
-                  @click="acceptedJustificatif(justificatif.id, justificatif.presence.id)" style="height: 40px; width: 40px;">
-                  check
-                </span>
-                <router-link :to="`/justificatifs/edit-justificatif/${justificatif.id}`" class="text-decoration-none" v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée' ">
-                  <span type="button"
-                    class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-primary text-center"
-                    style="height: 40px; width: 40px;">
-                    update
-                  </span>
-                </router-link>
-                <!-- <span @click="deleteJustificatif(justificatif.id)" type="button"
-                  class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger text-center"
-                  style="height: 40px; width: 40px;">
-                  delete
-                </span> -->
-              </div>
+            <td v-else-if="justificatif.statut === 'Refusée'" class="text-center">
+              <span class="badge badge-danger">Refusée</span>
+            </td>
+            <td v-else-if="justificatif.statut === 'En cours de traitement'" class="text-center">
+              <span class="badge badge-primary">En cours</span>
+            </td>
+            <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false" v-if="justificatif.statut != 'Refusée'">Actions</button>
+              <ul class="dropdown-menu dropdown-block"
+                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
+                data-popper-placement="bottom-start">
+                <li class="dropdown-item d-flex align-items-center" v-if="justificatif.statut != 'Refusée'">
+                  <a v-if="justificatif.statut != 'Refusée'" href="#" @click="refusedJustificatif(justificatif.id)">
+                    <i class="fa fa-close lh-2 me-8 p-1 position-relative top-1"></i>
+                    Refusé
+                  </a>
+                </li>
+                <li class="dropdown-item d-flex align-items-center"
+                  v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée'">
+                  <a v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée'" href="#"
+                    @click="acceptedJustificatif(justificatif.id, justificatif.presence.id)">
+                    <i class="fa fa-check lh-2 me-8 p-1 position-relative top-1"></i>
+                    Accepté
+                  </a>
+                </li>
+                <li class="dropdown-item d-flex align-items-center">
+                  <router-link :to="`/justificatifs/edit-justificatif/${justificatif.id}`"
+                    class="text-decoration-none p-1"
+                    v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée'">
+                    <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
+                  </router-link>
+                </li>
+                <li class="dropdown-item d-flex align-items-center" v-if="justificatif.statut != 'Refusée'">
+                  <a v-if="justificatif.statut != 'Refusée'" href="#" @click="deleteJustificatif(justificatif.id)">
+                    <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
+                    Supprimé
+                  </a>
+                </li>
+              </ul>
             </td>
           </tr>
         </tbody>
@@ -79,7 +94,6 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import ApiService from '@/services/ApiService';
 

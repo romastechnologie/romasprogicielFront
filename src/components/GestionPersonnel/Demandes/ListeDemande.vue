@@ -99,8 +99,8 @@
                       <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
                     </router-link>
                   </li>
-                  <li class="dropdown-item d-flex align-items-center" v-if="demande.statut != 'Refusée'">
-                    <a v-if="demande.statut != 'Refusée'" href="#" @click="deleteDemande(demande.id)">
+                  <li class="dropdown-item d-flex align-items-center" v-if="demande.statut != 'Refusée' && demande.statut != 'Acceptée'">
+                    <a href="#" @click="deleteDemande(demande.id)">
                       <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
                       Supprimé
                     </a>
@@ -120,99 +120,6 @@
 
   <AddDemandeModal />
 </template>
-
-<!-- 
-<template>
-  <div class="px-lg-4 py-lg-5 p-md-3 p-3 text-start">
-    <div class="col-12 mb-2 d-flex justify-content-around">
-      <div class="col-4 d-flex align-items-center">
-        <span class="material-symbols-outlined mx-2">
-          search
-        </span>
-        <input type="search" class="form-control" @input="sortProductWithSearch($event.target)"
-          placeholder="Rechercher par personnel">
-      </div>
-      <div class="col-3">
-        <select name="filtrer" id="filter" class="form-select" @click="sortDemandeWithCategorie($event.target)">
-          <option selected disabled> Filtrer par catégorie </option>
-          <option value="tout"> Tout </option>
-          <option value="conge"> Congé </option>
-          <option value="permission"> Permission </option>
-        </select>
-      </div>
-      <div class="col-3">
-        <select name="filtrer" id="filter" class="form-select" @click="sortDemandeWithStatut($event.target)">
-          <option selected disabled> Filtrer par statut </option>
-          <option value="tout"> Tout </option>
-          <option value="acceptée"> Acceptée </option>
-          <option value="refusée"> Refusée </option>
-          <option value="traitement"> En cours de traitement </option>
-        </select>
-      </div>
-    </div>
-    <div class="card rounded rounded-4 px-2 pt-4 py-1 overflow-auto">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th scope="col"> Date </th>
-            <th scope="col"> Catégorie</th>
-            <th scope="col"> Fichier </th>
-            <th scope="col"> Personnel </th>
-            <th scope="col"> Statut </th>
-            <th scope="col"> </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="demande in filterDemande" :key="demande.personnel">
-            <td> {{ demande.create_at.toString().slice(0, 10) }} </td>
-            <td> {{ demande.categorie ? demande.categorie.libelle : "null" }} </td>
-            <td> <a :href="'/upload/' + demande.demandeFileName" target="_blank"> {{
-              demande.demandeFileName }}
-              </a>
-            </td>
-            <td> {{ demande.personnel ? demande.personnel.nom + " " + demande.personnel.prenom : "null" }} </td>
-            <td v-if="demande.statut === 'Acceptée'" class="text-center"> ✅ Acceptée</td>
-            <td v-else-if="demande.statut === 'Refusée'" class="text-center"> ❌ Refusée</td>
-            <td v-else-if="demande.statut === 'En cours de traitement'" class="text-center"> 🔄 En cours de traitement
-            </td>
-            <td>
-              <div class="d-flex justify-content-center">
-                <span type="button" v-if="demande.statut != 'Refusée'"
-                  class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger"
-                  @click="refusedDemande(demande.id)" style="height: 40px; width: 40px;">
-                  close
-                </span>
-                <span type="button" v-if="demande.statut != 'Refusée' && demande.statut != 'Acceptée'"
-                  class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-success"
-                  @click="acceptedDemande(demande.id)" style="height: 40px; width: 40px;">
-                  check
-                </span>
-                <router-link :to="`/updateDemande/${demande.id}`" class="text-decoration-none"
-                  v-if="demande.statut != 'Refusée' && demande.statut != 'Acceptée'">
-                  <span type="button"
-                    class="mx-1 material-symbols-outlined card fs-3 d-flex justify-content-center align-items-center text-primary text-center"
-                    style="height: 40px; width: 40px;">
-                    update
-                  </span>
-                </router-link>
-                <span @click="deleteDemande(demande.id)" type="button"
-                  class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger text-center"
-                  style="height: 40px; width: 40px;">
-                  delete
-                </span> 
-              </div>
-            </td>
-            v-if="demande.statut === 'En cours de traitement' && admin" 
-            <td v-else> </td> 
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="filterDemande.length == 0" class="fs-5 d-flex justify-content-center">
-        La liste est vide
-      </div>
-    </div>
-  </div>
-</template> -->
 
 <script lang="ts">
 import axios from 'axios';

@@ -21,7 +21,7 @@
           <input type="date" class="form-control" @input="sortPermissionWithDateDebut($event.target)" />
         </div>
       </div>
-      <div class="card rounded rounded-4 px-2 pt-4 py-1 overflow-auto">
+      <div class="card rounded rounded-4 px-2 pt-4 py-1 ">
         <table class="table m-0">
           <thead>
             <tr>
