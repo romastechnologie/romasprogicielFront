@@ -5,7 +5,7 @@
                 <Form @submit="updateDemande" :validation-schema="schemaDemande()" name="sendPresence"
                     :initial-values="demandes">
                     <p class="my-0"> Catégorie de la demande </p>
-                    <select name="categorieId" id="categorieId" class="form-select mb-1 text-black">
+                    <!-- <select name="categorieId" id="categorieId" class="form-select mb-1 text-black">
                         <template v-if="category">
                             <option v-if="category" :value="category.id" selected> {{ category.libelle }} </option>
                             <template v-for="categorie in categorieDemandes" :key="categorie.id">
@@ -14,7 +14,19 @@
                                 </option>
                             </template>
                         </template>
-                    </select>
+                    </select> -->
+                    <VueMultiselect
+                    v-model = "category"
+                    :options="categorieOptions"
+                    :close-on-select="false"
+                    :preserve-search="true"
+                    :clear-on-select="false"
+                    :multiple="true"
+                    :searchable="true"
+                    placeholder="Sélectionner le rôle"
+                    label="label"
+                    track-by="label"
+                  />
                     <p class="my-0"> Personnel </p>
                     <input type="text"
                         :value="demandes.personnel ? demandes.personnel.nom + ' ' + demandes.personnel.prenom : ''"
@@ -45,6 +57,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import ApiService from '@/services/ApiService';
+import VueMultiselect from 'vue-multiselect'
 
 const router = useRouter()
 const route = useRoute()
@@ -103,12 +116,16 @@ async function updateDemande() {
         }
     }
 }
+const categorieOptions = ref([] as any[]);
 
 const getAllCategorieDemandes = async () => {
     try {
         const response = await ApiService.get("/categorieDemandes");
         categorieDemandes.value = response.data.data.data;
-
+        categorieOptions.value = response.data.data.data.map((categorie: any) => ({
+        value: categorie.id,
+        label: `${categorie.libelle}`
+      }));
         console.log(response);
     } catch (error) {
         console.error('Erreur lors de la recupération des categories de demandes:', error);

@@ -75,7 +75,7 @@
           default:0
         },
       },
-      emits: ["getAllPermissions",'openmodal'],
+      emits: ["refreshPermissions",'openmodal'],
     
       setup: (props:any, { emit }: { emit: Function }) => {
     
@@ -138,8 +138,8 @@
                 hideModal(addPermissionModalRef.value);
                 isupdate.value=false;
                 btnTitle();
-                emit("getAllPermissions");
-                router.push({ name: "ListePermissionPage" });
+                emit("refreshPermissions");
+                router.push('/permissions/liste-permission');
               }
             }).catch(({ response }) => {
               error(response.message);
@@ -151,10 +151,8 @@
                 success(data.message)
                 resetForm();
                 hideModal(addPermissionModalRef.value);
-                //emit("getAllPermissions");
-                //emit('close');
-                //router.push('/permissions//liste-permission');
-                //window.location.reload();
+                //router.push('/permissions/liste-permission');
+                emit("refreshPermissions");
     
               }
             }).catch(({ response }) => {
@@ -174,6 +172,7 @@
     
         return {permissions, title,btntext, resetValue, permissionSchema,
            addPermission, permissionForm,addPermissionModalRef,permissionnew,
+           //refreshPermissions
            };
       },
     };

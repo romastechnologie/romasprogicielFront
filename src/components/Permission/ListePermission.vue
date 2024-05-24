@@ -133,6 +133,7 @@
     :id="idpermission"
     @openmodal="showModalEdite"
     @close="recharger"
+    @refreshPermissions="refreshPermissions"
   />
 </template>
 <script lang="ts">
@@ -193,6 +194,9 @@ export default defineComponent({
       getAllPermissions()
     });
 
+    const refreshPermissions = () => {
+        getAllPermissions();
+    };
 
     function getAllPermissions(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/permissions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
@@ -239,6 +243,7 @@ export default defineComponent({
       searchTerm,
       rechercher,
       recharger,
+      refreshPermissions,
      };
   },
 
