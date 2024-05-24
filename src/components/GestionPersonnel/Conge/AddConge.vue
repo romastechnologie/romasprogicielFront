@@ -496,12 +496,17 @@ onMounted(() => {
 <style>
 a {
   font-weight: bold;
-  color: #00247E;
   text-decoration: none;
+  color: white;
 
   &.router-link-exact-active {
     color: white;
-    background-color: #00247E
+    background-color: #7A70BA
+  }
+
+  &.router-link-exact-active:hover {
+    color: white;
   }
 }
+
 </style>

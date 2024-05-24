@@ -173,6 +173,8 @@ const calculateDuration = (presence: Presence) => {
 const personnels = ref([] as any[]);
 const conges = ref([] as any[]);
 const personnelsEnConge = ref<number[]>([]);
+const statutJustifieOptions = ref([] as any[]);
+const cate = ref();
 
 let filterPersonnel = ref(personnels);
 

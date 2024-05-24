@@ -60,7 +60,7 @@
             <tr v-for="demande in filterDemande" :key="demande.personnel">
               <td> {{ demande.create_at.toString().slice(0, 10) }} </td>
               <td> {{ demande.categorie ? demande.categorie.libelle : "null" }} </td>
-              <td> <a :href="'/upload/' + demande.demandeFileName" target="_blank"> {{
+              <td> <a :href="'http://localhost:3001/uploads/' + demande.demandeFileName" target="_blank"> {{
                 demande.demandeFileName }}
                 </a>
               </td>

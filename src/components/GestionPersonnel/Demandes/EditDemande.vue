@@ -15,6 +15,11 @@
                             </template>
                         </template>
                     </select>
+                    <!-- <Field name="categorieId" v-model="cate" v-slot="{ field }">
+                        <VueMultiselect v-model="field.value" v-bind="field" :options="categorieOptions"
+                            :close-on-select="true" :clear-on-select="false" :multiple="false" :searchable="true"
+                            placeholder="Sélectionner la catégorie" label="label" track-by="label" />
+                    </Field> -->
                     <p class="my-0"> Personnel </p>
                     <input type="text"
                         :value="demandes.personnel ? demandes.personnel.nom + ' ' + demandes.personnel.prenom : ''"
@@ -23,7 +28,7 @@
                     <Field type="file" name="demandeFileName" id="demandeFileName" class="form-control mb-1" />
                     <ErrorMessage name="demandeFileName" class="text-danger text-start mb-2" />
                     <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary" style="background-color: #00247E;">
+                        <button type="submit" class="btn btn-primary" style="background-">
                             Modifier </button>
                         <router-link to="/demandes/liste-demande">
                             <button type="submit" class="btn btn-danger">
@@ -44,6 +49,7 @@ import { useRouter, useRoute } from 'vue-router';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import VueMultiselect from 'vue-multiselect'
 import ApiService from '@/services/ApiService';
 
 const router = useRouter()
@@ -58,6 +64,8 @@ configure({
 
 const demandes = ref([] as any[]);
 const categorieDemandes = ref([] as any[]);
+const cate = ref();
+const categorieOptions = ref([] as any[]);
 const category = ref(null as any);
 
 // ------------------------------------------------ SCHEMA -------------------------------------------------
@@ -108,7 +116,10 @@ const getAllCategorieDemandes = async () => {
     try {
         const response = await ApiService.get("/categorieDemandes");
         categorieDemandes.value = response.data.data.data;
-
+        categorieOptions.value = response.data.data.data.map((categorie: any) => ({
+        value: categorie.id,
+        label: `${categorie.libelle}`
+      }));
         console.log(response);
     } catch (error) {
         console.error('Erreur lors de la recupération des categories de demandes:', error);

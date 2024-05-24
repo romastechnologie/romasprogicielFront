@@ -47,7 +47,6 @@ import { configure } from 'vee-validate'
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2'
-import Multiselect from '@vueform/multiselect'
 import VueMultiselect from 'vue-multiselect'
 import ApiService from '@/services/ApiService';
 

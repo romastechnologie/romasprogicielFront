@@ -14,7 +14,7 @@
             <Field type="date" name="dateReprise" id="dateReprise" class="form-control mb-1" />
             <ErrorMessage name="dateReprise" class="text-danger text-start mb-2" />
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary col-12" style="background-color: #00247E;"> Modifier </button>
+              <button type="submit" class="btn btn-primary col-12" style="background-"> Modifier </button>
             </div>
           </Form>
         </div>

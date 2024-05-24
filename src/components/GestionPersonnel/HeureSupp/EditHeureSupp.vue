@@ -11,7 +11,7 @@
             <Field type="text" name="duree" id="duree" class="form-control mb-1" />
             <ErrorMessage name="duree" class="text-danger text-start mb-2" />
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary col-12" style="background-color: #00247E;"> Modifier </button>
+              <button type="submit" class="btn btn-primary col-12" style="background-"> Modifier </button>
             </div>
           </Form>
         </div>

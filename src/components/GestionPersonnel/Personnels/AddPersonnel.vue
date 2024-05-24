@@ -173,7 +173,7 @@
         </div>
         <div>
           <button @click="createPersonnel" class="btn btn-primary m-2"> Envoyer </button>
-          <router-link to="/presences/liste-personnel">
+          <router-link to="/personnels/liste-personnel">
             <button type="submit" class="btn btn-danger">
               Annuler </button>
           </router-link>
@@ -435,7 +435,7 @@ async function createPersonnel() {
             text: "Personnel ajouté avec succès!",
             icon: "success"
           });
-          router.push(`/personnels/${response.data.id}`)
+          router.push(`/personnels/liste-personnel/${response.data.id}`)
         }
 
       } else {
@@ -455,7 +455,7 @@ async function createPersonnel() {
 const getAllServices = async () => {
   try {
     const response = await ApiService.get('/services');
-    services.value = response.data
+    services.value = response.data.data.data
 
     console.log(response);
   } catch (error) {

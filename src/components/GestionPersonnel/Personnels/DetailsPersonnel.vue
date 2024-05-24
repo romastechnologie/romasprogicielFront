@@ -8,7 +8,7 @@
             {{ personnel.nom + " " + personnel.prenom }}
           </h3>
         </div>
-        <div class="row gx-3 flex-wrap m-2">
+        <div class="row gx-3 flex-wrap d-flex justify-content-center m-2">
           <div class="col-4">
             <div type="button"
               class="card d-flex flex-row p-2 bg-secondary justify-content-center align-items-center mb-2"

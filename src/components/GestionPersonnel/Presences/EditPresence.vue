@@ -36,7 +36,7 @@
                                 <option value="Non"> Non </option>
                             </select>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary col-12" style="background-color: #00247E;">
+                                <button type="submit" class="btn btn-primary col-12" style="background-">
                                     Envoyer </button>
                             </div>
                         </Form>
@@ -76,7 +76,7 @@ function schemaPresence() {
         presenceDate: yup.date().required("La date est requise."),
         heureArrivee: yup.string().required("L'heure d'arrivée est requise."),
         heureDepart: yup.string().required("L'heure de départ est requise."),
-        duree: yup.number().required("La durée est requise."),
+        duree: yup.string().required("La durée est requise."),
     })
 }
 
