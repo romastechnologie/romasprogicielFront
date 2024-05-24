@@ -146,7 +146,7 @@ const getAllDemande = async () => {
   try {
     const response = await ApiService.get('/demandes');
     demande.value = response.data;
-
+    console.log(response);
   } catch (error) {
     console.error('Erreur lors de la recupération des demandes:', error);
     throw error;
