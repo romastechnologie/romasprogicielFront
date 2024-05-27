@@ -95,7 +95,7 @@ async function sendDemande(values: any) {
       formData.append('fichier', target.files[0])
       console.log(formData.get("fichier"))
       try {
-        const response = await axios.post(`http://localhost:3001/api/demandes/${perso.value.value}/${cate.value.value}`, target.files[0])
+        const response = await ApiService.post(`/demandes/${perso.value.value}/${cate.value.value}`, formData)
         Swal.fire({
           timer: 1500,
           position: "top-end",
