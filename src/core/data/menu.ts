@@ -105,29 +105,18 @@ export const menu: MenuItem[] = [
     },
     {
         title: "Demandes",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
+        icon: "stroke-file",
+        icon1: "fill-file",
+        type: "link",
         badgeType: "light-primary",
+        path: "/demandes/liste-demande",
         active: false,
-        isPinned: false,
-        children: [
-            // {
-            //     path: "/demandes/ajouter-demande",
-            //     title: "Ajouter une demande",
-            //     type: "link"
-            // },
-            {
-                path: "/demandes/liste-demande",
-                title: "Liste des demandes",
-                type: "link"
-            }
-        ]
+        isPinned: false
     },
     {
         title: "Présences",
-        icon: "stroke-task",
-        icon1: "fill-task",
+        icon: "stroke-to-do",
+        icon1: "fill-to-do",
         type: "sub",
         badgeType: "light-primary",
         active: false,
@@ -147,8 +136,8 @@ export const menu: MenuItem[] = [
     },
     {
         title: "Personnels",
-        icon: "stroke-task",
-        icon1: "fill-task",
+        icon: "stroke-user",
+        icon1: "fill-user",
         type: "sub",
         badgeType: "light-primary",
         active: false,
@@ -168,73 +157,49 @@ export const menu: MenuItem[] = [
     },
     {
         title: "Services",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/services/liste-service",
         badgeType: "light-primary",
         active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/services/liste-service",
-                title: "Liste des services",
-                type: "link"
-            },
-        ]
+        isPinned: false
     },
     {
         title: "Categories",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/categories/liste-categorie",
         badgeType: "light-primary",
         active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/categories/liste-categorie",
-                title: "Liste des categories",
-                type: "link"
-            },
-        ]
+        isPinned: false
     },
     {
         title: "Fonctions",
-        icon: "stroke-task",
-        icon1: "fill-task",
-        type: "sub",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/fonctions/liste-fonction",
         badgeType: "light-primary",
         active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/fonctions/liste-fonction",
-                title: "Liste des fonctions",
-                type: "link"
-            },
-        ]
+        isPinned: false
     },
     {
         title: "TypeConge",
         icon: "stroke-task",
         icon1: "fill-task",
-        type: "sub",
+        type: "link",
+        path: "/typeConges/liste-typeConge",
         badgeType: "light-primary",
         active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/typeConges/liste-typeConge",
-                title: "Liste des types de conges",
-                type: "link"
-            },
-        ]
+        isPinned: false
     },
     
     {
         title: "Demande de conge",
-        icon: "stroke-task",
-        icon1: "fill-task",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
         type: "sub",
         badgeType: "light-primary",
         active: false,
@@ -254,8 +219,8 @@ export const menu: MenuItem[] = [
     },
     {
         title: "HeureSupp",
-        icon: "stroke-task",
-        icon1: "fill-task",
+        icon: "stroke-form",
+        icon1: "fill-form",
         type: "sub",
         badgeType: "light-primary",
         active: false,
@@ -275,8 +240,8 @@ export const menu: MenuItem[] = [
     },
     {
         title: "Justificatif",
-        icon: "stroke-task",
-        icon1: "fill-task",
+        icon: "stroke-table",
+        icon1: "fill-table",
         type: "sub",
         badgeType: "light-primary",
         active: false,
@@ -296,8 +261,8 @@ export const menu: MenuItem[] = [
     },
     {
         title: "Demande de permission",
-        icon: "stroke-task",
-        icon1: "fill-task",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
         type: "sub",
         badgeType: "light-primary",
         active: false,
