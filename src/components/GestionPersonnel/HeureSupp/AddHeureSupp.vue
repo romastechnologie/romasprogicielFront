@@ -10,11 +10,16 @@
                 <Field type="date" name="date" id="date" class="form-control mb-1" />
                 <ErrorMessage name="date" class="text-danger text-start mb-2" />
                 <p class="my-0"> Personnel </p>
-                <select name="heureSupPersonnelId" id="heureSupPersonnelId" class="form-select mb-1">
+                <!-- <select name="heureSupPersonnelId" id="heureSupPersonnelId" class="form-select mb-1">
                   <option disabled selected> Choisir le personnel </option>
                   <option :value=personnel.id v-for="personnel in personnels" :key="personnel.id"> {{
                     personnel.nom + " " + personnel.prenom }} </option>
-                </select>
+                </select> -->
+                <Field name="personnelId" v-model="perso" v-slot="{ field }">
+                  <VueMultiselect v-model="field.value" v-bind="field" :options="personnelOptions"
+                    :close-on-select="true" :clear-on-select="false" :multiple="false" :searchable="true"
+                    placeholder="Sélectionner le personnel" label="label" track-by="label" />
+                </Field>
                 <p class="my-0"> Durée </p>
                 <Field type="text" name="duree" id="duree" class="form-control mb-1" />
                 <ErrorMessage name="duree" class="text-danger text-start mb-2" />
@@ -49,6 +54,7 @@ import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router';
+import VueMultiselect from 'vue-multiselect'
 import ApiService from '@/services/ApiService';
 
 const router = useRouter()
@@ -60,43 +66,10 @@ configure({
   validateOnModelUpdate: false,
 });
 
+const personnelOptions = ref([] as any[]);
 const changeConge = ref(true);
 const selectAll = ref<boolean>(true);
 const selectedPersonnels = ref<number[]>([])
-
-watch(selectAll, (newSelectAll) => {
-
-  if (!newSelectAll) {
-    // si le checkbox tout déselectionner
-    personnelConges.personnelConge = [];
-    selectedPersonnels.value = [];
-  } else {
-    // sinon
-    selectedPersonnels.value = personnels.value.map(personnel => personnel.id);
-
-    personnelConges.personnelConge = personnels.value.map((personnel) => ({
-      personnel: personnel.id,
-      conge: 0,
-      statut: "Confirmé",
-      dateDebut: "",
-      dateFinPrevu: "",
-      dateFin: "",
-      dateReprise: "",
-    }));
-  }
-});
-
-const admin = ref(window.localStorage.getItem("adminOnline"));
-
-const closeHeureSupModal = ref(null);
-const closeDemandeModal = ref(null);
-const closePersonnelModal = ref(null);
-const closeJustificatifModal = ref(null);
-const closePresenceModal = ref(null);
-const closeCongeModal = ref(null);
-const closePermissionModal = ref(null);
-const today = ref('');
-const defaultDate = new Date().toISOString().slice(0, 10);
 
 const personnels = ref([] as any[]);
 const presences = ref([] as any[]);
@@ -111,193 +84,7 @@ const formatDate = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
-
-const dateDebut = ref(formatDate(new Date()));
-const dateFinPrevu = ref(formatDate(new Date()));
-const dateFin = ref("");
-const dateReprise = ref(formatDate(new Date()));
-
-function updateCurrentPersonnel(event: any) {
-  const selectedDemandeId = event.value;
-  const selectedDemande = demande.value.find(demande => demande.id == selectedDemandeId);
-  selectedDemande ? personnelCongeDemande.value.personnelConge = {
-    personnel: selectedDemande.personnel.id,
-    conge: 0,
-    statut: "Confirmé",
-    dateDebut: dateDebut.value,
-    dateFinPrevu: dateFinPrevu.value,
-    dateFin: dateFin.value,
-    dateReprise: dateReprise.value,
-  } : null;
-}
-
-function updateBeneficiaireList(id: number) {
-  const personnelIndex = personnelConges.personnelConge.findIndex(item => item.personnel === id);
-
-  if (personnelIndex !== -1) {
-    personnelConges.personnelConge.splice(personnelIndex, 1); // Retirer l'élément de la liste
-  } else {
-    personnelConges.personnelConge.push({
-      personnel: id,
-      conge: 0,
-      statut: "Confirmé",
-      dateDebut: dateDebut.value,
-      dateFinPrevu: dateFinPrevu.value,
-      dateFin: dateFin.value,
-      dateReprise: dateReprise.value,
-    });
-  }
-}
-
-interface Conge {
-  type: number;
-  demande: number;
-}
-
-interface PersonnelConge {
-  conge: Conge;
-  personnelConge: Array<{
-    personnel: number;
-    conge: number;
-    statut: string;
-    dateDebut: string;
-    dateFinPrevu: string;
-    dateReprise: string;
-    dateFin: string;
-  }>;
-}
-
-interface PersonnelCongeDemande {
-  conge: Conge;
-  personnelConge: {
-    personnel: number;
-    conge: number;
-    statut: string;
-    dateDebut: string;
-    dateFinPrevu: string;
-    dateReprise: string;
-    dateFin: string;
-  };
-}
-
-const personnelConges: PersonnelConge = {
-  conge: {
-    demande: 0,
-    type: 0
-  },
-  personnelConge: []
-}
-
-const personnelCongeDemande = ref<PersonnelCongeDemande>({
-  conge: {
-    demande: 0,
-    type: 0
-  },
-  personnelConge: {
-    personnel: 0,
-    conge: 0,
-    statut: "Confirmé",
-    dateDebut: dateDebut.value,
-    dateFinPrevu: dateFinPrevu.value,
-    dateFin: dateFin.value,
-    dateReprise: dateReprise.value,
-  }
-})
-
-// const conge = ref<Conge>({
-//   dateDebut: "",
-//   dateFinPrevu: "",
-//   dateReprise: "",
-//   demande: 0,
-//   type: 0
-// })
-
-let filterPresence = ref([] as any[]);
-let filterDemande = ref([] as any[]);
-
-function sortPresenceWithDate(choseedDate: HTMLInputElement) {
-
-  if (presences.value) {
-    const presenceOnSelectedDate = presences.value.filter(entry => {
-      const entryDate = new Date(entry.date);
-      const selectedDate = new Date(choseedDate.value);
-      return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.statutJustifie === "Non";
-    });
-
-    filterPresence.value = presenceOnSelectedDate;
-  }
-}
-
-// function sortPresenceForJustificatifWithDate(choseedDate: HTMLInputElement) {
-
-// if (presences.value) {
-//   const presenceOnSelectedDate = presences.value.filter(entry => {
-//     const entryDate = new Date(entry.date);
-//     const selectedDate = new Date(choseedDate.value);
-//     return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.statutJustifie === "Non";
-//   });
-
-//   filterPresence.value = presenceOnSelectedDate;
-// }
-// }
-
-function sortDemandeCongeWithDate(choseedDate: HTMLInputElement) {
-
-  const demandeOnSelectedDate = demande.value.filter(entry => {
-    const entryDate = new Date(entry.create_at);
-    const selectedDate = new Date(choseedDate.value);
-    if (entry.categorie) {
-      return (entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.categorie.libelle === "Congé" && entry.statut === "Acceptée" && entry.conge === null);
-    }
-  });
-
-  filterDemande.value = demandeOnSelectedDate;
-}
-
-function sortDemandePermissionWithDate(choseedDate: HTMLInputElement) {
-
-  const demandeOnSelectedDate = demande.value.filter(entry => {
-    const entryDate = new Date(entry.create_at);
-    const selectedDate = new Date(choseedDate.value);
-    if (entry.categorie) {
-      return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.categorie.libelle === "Permission" && entry.statut === "Acceptée" && entry.conge === null;
-    }
-  });
-
-  filterDemande.value = demandeOnSelectedDate;
-}
-
 // ----------------------------------------- SCHEMA -----------------------------------------
-function schemaDemande() {
-  return yup.object().shape({
-    categorieId: yup.string().required("La catégorie est requise."),
-    personnelId: yup.string().required("Le personnel est requis."),
-    demandeFile: yup.string().required("Le fichier de la demande est requis."),
-  })
-}
-
-function schemaPresence() {
-  return yup.object().shape({
-    presenceDate: yup.date().required("La date est requise."),
-    // presencePersonnelId: yup.string().required("Le personnel est requise."),
-    heureArrivee: yup.string().required("L'heure d'arrivée est requise."),
-    heureDepart: yup.string().required("L'heure de départ est requise."),
-    // presenceStatut: yup.string().required("Le statut est requis."),
-    duree: yup.string().required("La durée est requise."),
-    // statutJustifie: yup.string().required("La justification du statut est requise."),
-  })
-}
-
-function schemaJustificatif() {
-  return yup.object().shape({
-    dateJustificatif: yup.string().required("La date de la presence est requise."),
-    // presenceJustificatif: yup.string().required("La presence est requise."),
-    // personnelJustificatif: yup.string().required("Le personnel est requis."),
-    dateDebutJustificatif: yup.string().required("La date de début est requise."),
-    dateFinJustificatif: yup.string().required("La date de fin est requise."),
-    fileJustificatif: yup.string().required("La preuve est requise."),
-  })
-}
 
 function schemaHeureSup() {
   return yup.object().shape({
@@ -307,52 +94,13 @@ function schemaHeureSup() {
   })
 }
 
-function schemaPersonnel() {
-  return yup.object().shape({
-    nom: yup.string().required("Le nom est requis."),
-    prenom: yup.string().required("Le prenom est requis."),
-    birthdate: yup.string().required("La date d'anniversaire est requise."),
-    email: yup.string().email("L'adresse e-mail n'est pas valide.").required("L'adresse e-mail est requise."),
-    telephone: yup.string().required("Le numéro de telephone est requis."),
-    dateEmbauche: yup.string().required("La date d'embauche est requise."),
-  })
-}
-
-function schemaCongeDemande() {
-  return yup.object().shape({
-    dateDemande: yup.string().required("La date de la demande est requise."),
-    dateDebut: yup.string().required("La date de début est requise."),
-    dateFinPrevu: yup.string().required("La date de fin est requise."),
-    dateReprise: yup.string().required("La date de reprise est requise."),
-  })
-}
-
-function schemaCongeNDemande() {
-  return yup.object().shape({
-    dateDebut: yup.string().required("La date de débu est requise."),
-    dateFinPrevu: yup.string().required("La date de fin est requise."),
-    dateReprise: yup.string().required("La date de reprise est requise."),
-  })
-}
-
-function schemaPermission() {
-  return yup.object().shape({
-    motif: yup.string().required("Le motif est requis."),
-    dateDemande: yup.string().required("La date de la demande est requise."),
-    dateDebut: yup.string().required("La date de début est requise."),
-    dateFin: yup.string().required("La date de fin est requise."),
-    dateReprise: yup.string().required("La date de reprise est requise."),
-  })
-}
-
 // --------------------------------------- SEND FORMULAIRE ------------------------------------
+const perso = ref();
 
 async function sendHeureSup(value: object) {
 
-  const personnelId = document.getElementById("heureSupPersonnelId") as HTMLInputElement;
-
   try {
-    const response = await ApiService.post(`/heureSups/${personnelId.value}`, value);
+    const response = await ApiService.post(`/heureSups/${perso.value.value}`, value);
     Swal.fire({
       timer: 1500,
       position: "top-end",
@@ -372,7 +120,10 @@ const getAllPersonnels = async () => {
   try {
     const response = await ApiService.get("/personnels");
     personnels.value = response.data;
-
+    personnelOptions.value = response.data.map((personnel: any) => ({
+      value: personnel.id,
+      label: `${personnel.nom + " " + personnel.prenom}`
+    }));
     console.log(personnels);
   } catch (error) {
     console.error('Erreur lors de la recupération des personnels:', error);

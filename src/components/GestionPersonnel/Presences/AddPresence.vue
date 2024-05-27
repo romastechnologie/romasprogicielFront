@@ -1,7 +1,7 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing form theme-form">
-      <div class="card rounded rounded-4 px-2 pt-4 py-4 ">
+      <div class="card rounded rounded-4 px-2 pt-4 py-4 overflow-auto">
         <div class="d-flex mb-2">
           <div class="col-3 mx-2 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
             <h6> Date </h6>
@@ -62,7 +62,7 @@
               <ErrorMessage name="heureDepart" class="text-danger text-start mb-2" />
             </div>
             <div class="col-2 mx-2">
-              <Field v-model="presence.duree" type="text" name="duree" id="duree" class="form-control mb-1" readonly />
+              <Field v-model="presence.duree" type="text" name="duree" id="duree" class="form-control mb-1" disabled/>
               <ErrorMessage name="duree" class="text-danger text-start mb-2" />
             </div>
             <div class="col-3 mx-1 d-flex justify-content-center align-items-center">

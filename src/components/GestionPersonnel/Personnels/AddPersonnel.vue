@@ -53,26 +53,38 @@
             <div class="d-flex mb-2">
               <div class="col mx-2">
                 <p class="my-0"> Service </p>
+                <Field name="service" v-model="service" v-slot="{ field }">
+                  <VueMultiselect @select="sortServiceFonctionWithService(field.value)" v-model="field.value"
+                    v-bind="field" :options="serviceOptions" :close-on-select="true" :clear-on-select="false"
+                    :multiple="false" :searchable="true" placeholder="Sélectionner le service" label="label"
+                    track-by="label" />
+                </Field>
+                <!-- <p class="my-0"> Service </p>
                 <Field name="service" id="service" class="form-select mb-1"
-                  @click="sortServiceFonctionWithService($event.target)" as="select">
+                   as="select">
                   <option disabled selected> Choisir le service </option>
                   <option :value=service.libelle v-for="service in services" :key="service.id">
                     {{ service.libelle }}
                   </option>
-                </Field>
-                <ErrorMessage name="service" class="text-danger text-start" />
+                </Field> -->
+                <!-- <ErrorMessage name="service" class="text-danger text-start" /> -->
               </div>
               <div class="col mx-2">
                 <p class="my-0"> Fonction </p>
-                <Field v-model="newPersonnel.personnelServiceFonction.service_fonction" name="serviceFonction"
+                <Field name="serviceFonction" v-model="serviceFonction" v-slot="{ field }">
+                  <VueMultiselect v-model="field.value" v-bind="field" :options="fonctionOptions"
+                    :close-on-select="true" :clear-on-select="false" :multiple="false" :searchable="true"
+                    placeholder="Sélectionner la fonction" label="label" track-by="label" />
+                </Field>
+                <!-- <Field v-model="newPersonnel.personnelServiceFonction.service_fonction" name="serviceFonction"
                   id="serviceFonction" class="form-select mb-1" as="select">
                   <option disabled selected> Choisir la fonction </option>
                   <option :value=service_fonction.id v-for="service_fonction in filterServiceFonction"
                     :key="service_fonction.id">
                     {{ service_fonction.fonction.libelle }}
                   </option>
-                </Field>
-                <ErrorMessage name="serviceFonction" class="text-danger text-start" />
+                </Field> -->
+                <!-- <ErrorMessage name="serviceFonction" class="text-danger text-start" /> -->
               </div>
               <button ref="clickPersonnelForm" type="submit" class="d-none"> Envoyer </button>
             </div>
@@ -187,10 +199,11 @@
 import { Form, Field, ErrorMessage, FormContext } from 'vee-validate';
 import * as yup from 'yup';
 import { configure } from 'vee-validate'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, toValue } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import router from '@/router';
+import VueMultiselect from 'vue-multiselect'
 import ApiService from '@/services/ApiService';
 
 configure({
@@ -248,7 +261,10 @@ const personnels = ref([] as any[]);
 const horaires = ref([] as any[]);
 const currentPersonnel = ref();
 const currentContrat = ref();
-
+const service = ref();
+const serviceFonction = ref();
+const fonctionOptions = ref([] as any[]);
+const serviceOptions = ref([] as any[]);
 const horairePersonnels = ref<Horairepersonnel[]>([]);
 
 const newPersonnel = ref<PERSONNEL>({
@@ -321,7 +337,13 @@ const verifyPersonnelDateEmbauche = () => {
 let filterServiceFonction = ref([] as any[]);
 
 function sortServiceFonctionWithService(choseed: any) {
-  filterServiceFonction.value = service_fonctions.value.filter(service_fonction => service_fonction.service.libelle === choseed.value);
+  fonctionOptions.value = [] as any[];
+  filterServiceFonction.value = service_fonctions.value.filter(service_fonction => service_fonction.service.id === choseed.value);
+  fonctionOptions.value = filterServiceFonction.value.map((fonction: any) => ({
+    value: fonction.fonction.id,
+    label: `${fonction.fonction.libelle}`
+  }));
+  console.log("Service choisit", filterServiceFonction.value)
 }
 
 // --------------------------------------------------- SCHEMA ----------------------------------------------
@@ -333,8 +355,8 @@ function schemaPersonnel() {
     email: yup.string().email("L'adresse e-mail n'est pas valide.").required("L'adresse e-mail est requise."),
     telephone: yup.string().required("Le numéro de telephone est requis."),
     dateEmbauche: yup.string().required("La date d'embauche est requise."),
-    service: yup.string().required("Le service est requis."),
-    serviceFonction: yup.string().required("La fonction est requise."),
+    // service: yup.string().required("Le service est requis."),
+    // serviceFonction: yup.string().required("La fonction est requise."),
     dateDebut: yup.string().required("La date de début est requise."),
   })
 }
@@ -425,6 +447,7 @@ async function createPersonnel() {
 
       if (differenceAnnees >= 18 && datePriseFonction >= dateEmbauche) {
 
+        newPersonnel.value.personnelServiceFonction.service_fonction = serviceFonction.value.value;
 
         const response = await ApiService.post('/personnels', newPersonnel.value);
 
@@ -456,8 +479,11 @@ const getAllServices = async () => {
   try {
     const response = await ApiService.get('/services');
     services.value = response.data.data.data
-
-    console.log(response);
+    serviceOptions.value = response.data.data.data.map((service: any) => ({
+      value: service.id,
+      label: `${service.libelle}`
+    }));
+    console.log(response.data.data.data);
   } catch (error) {
     console.error('Erreur lors de la recupération des services:', error);
     throw error;
