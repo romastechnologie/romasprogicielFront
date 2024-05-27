@@ -3,9 +3,12 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing form theme-form">
       <div class="px-2 pt-3 pb-1 m-1">
         <div v-for="personnel in personnels" :key="personnel.id" class="d-flex justify-content-center">
-          <h3 v-if="$route.params.id == personnel.id" class="bg-secondary text-center text-light py-1 px-2"
+          <h3 v-if="$route.params.id == personnel.id" class="d-flex align-items-center bg-secondary text-center text-light py-1 px-2"
             style="border-radius: 0px 15px 0px 15px;">
-            {{ personnel.nom + " " + personnel.prenom }}
+            {{ personnel.nom + " " + personnel.prenom }} : 
+            <router-link :to="{ name: 'EditPersonnelPage', params: { id: personnel.id } }">
+              <i class="fa fa-pencil card rounded-1 p-1 bg-light text-secondary m-0"></i>
+            </router-link>
           </h3>
         </div>
         <div class="row gx-3 flex-wrap d-flex justify-content-center m-2">
@@ -89,7 +92,8 @@
                   <td> {{ horaire_personnel.heureArrivee }} H </td>
                   <td> {{ horaire_personnel.heureDepart }} H </td>
                   <td class="d-flex justify-content-center align-items-center">
-                    <i class="fa fa-pencil card rounded-1 p-1 bg-secondary m-2" @click="updateHeurePerso(horaire_personnel.id)"></i>
+                    <i class="fa fa-pencil card rounded-1 p-1 bg-secondary m-2"
+                      @click="updateHeurePerso(horaire_personnel.id)"></i>
                   </td>
                 </tr>
               </template>

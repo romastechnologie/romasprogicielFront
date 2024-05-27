@@ -9,7 +9,7 @@
                 Personnel <span class="text-danger">*</span>
               </label>
               <Field name="personnelId" v-model="personnelId" v-slot="{ field }">
-                <VueMultiselect @select="selectPersonnel" v-model="field.value" v-bind="field"
+                <VueMultiselect @select="selectPersonnel(field.value)" v-model="field.value" v-bind="field"
                   :options="personnelOptions" :close-on-select="true" :clear-on-select="false" :multiple="false"
                   :searchable="true" placeholder="Sélectionner le personnel" label="label" track-by="label" />
               </Field>
@@ -297,16 +297,14 @@ export default defineComponent({
       }
     }
 
-    const selectPersonnel = () => {
-      if (personnelId.value) {
-        console.log("L'id du personnel sélectionné: ", personnelId.value)
-        const personnel = personnels.value.find(personnel => personnel.id == personnelId.value.value)
-        selectpersonnel.value.nom = personnel.nom;
-        selectpersonnel.value.prenom = personnel.prenom;
-        selectpersonnel.value.telephone = personnel.telephone;
-        selectpersonnel.value.email = personnel.email;
-        console.log("Personnel sélectionné: ", personnel)
-      }
+    const selectPersonnel = (id: any) => {
+      console.log("L'id du personnel sélectionné: ", id)
+      const personnel = personnels.value.find(personnel => personnel.id == id.value)
+      selectpersonnel.value.nom = personnel.nom;
+      selectpersonnel.value.prenom = personnel.prenom;
+      selectpersonnel.value.telephone = personnel.telephone;
+      selectpersonnel.value.email = personnel.email;
+      console.log("Personnel sélectionné: ", personnel)
     }
 
     onMounted(() => {

@@ -104,6 +104,27 @@ export const menu: MenuItem[] = [
         type: "headtitle"
     },
     {
+        title: "Personnels",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/personnels/ajouter-personnel",
+                title: "Ajouter un personnel",
+                type: "link"
+            },
+            {
+                path: "/personnels/liste-personnel",
+                title: "Liste des personnels",
+                type: "link"
+            }
+        ]
+    },
+    {
         title: "Demandes",
         icon: "stroke-file",
         icon1: "fill-file",
@@ -130,27 +151,6 @@ export const menu: MenuItem[] = [
             {
                 path: "/presences/liste-presence",
                 title: "Liste des présences",
-                type: "link"
-            }
-        ]
-    },
-    {
-        title: "Personnels",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/personnels/ajouter-personnel",
-                title: "Ajouter un personnel",
-                type: "link"
-            },
-            {
-                path: "/personnels/liste-personnel",
-                title: "Liste des personnels",
                 type: "link"
             }
         ]
