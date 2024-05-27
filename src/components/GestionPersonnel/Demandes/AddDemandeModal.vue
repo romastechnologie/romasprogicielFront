@@ -11,7 +11,7 @@
             aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <Form :validation-schema="schemaDemande()">
+          <Form :validation-schema="schemaDemande()" enctype="multipart/form-data">
             <p class="my-0"> Catégorie de la demande </p>
             <Field name="categorieId" v-model="cate" v-slot="{ field }">
               <VueMultiselect v-model="field.value" v-bind="field" :options="categorieOptions" :close-on-select="true"
@@ -49,6 +49,7 @@ import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2'
 import VueMultiselect from 'vue-multiselect'
 import ApiService from '@/services/ApiService';
+import axios from 'axios';
 
 const router = useRouter();
 
@@ -75,6 +76,7 @@ function schemaDemande() {
 
 const perso = ref();
 const cate = ref();
+
 async function sendDemande(values: any) {
 
   const formData = new FormData();
@@ -93,7 +95,7 @@ async function sendDemande(values: any) {
       formData.append('fichier', target.files[0])
       console.log(formData.get("fichier"))
       try {
-        const response = await ApiService.post(`/demandes/${perso.value.value}/${cate.value.value}`, formData);
+        const response = await axios.post(`http://localhost:3001/api/demandes/${perso.value.value}/${cate.value.value}`, target.files[0])
         Swal.fire({
           timer: 1500,
           position: "top-end",

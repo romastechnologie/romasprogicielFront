@@ -79,23 +79,22 @@
                   style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
                   data-popper-placement="bottom-start">
                   <li class="dropdown-item d-flex align-items-center" v-if="demande.statut != 'Refusée'">
-                    <a v-if="demande.statut != 'Refusée'" href="#" @click="refusedDemande(demande.id)">
+                    <a href="#" @click="refusedDemande(demande.id)">
                       <i class="fa fa-close lh-2 me-8 p-1 position-relative top-1"></i>
                       Refusé
                     </a>
                   </li>
                   <li class="dropdown-item d-flex align-items-center"
                     v-if="demande.statut != 'Refusée' && demande.statut != 'Acceptée'">
-                    <a v-if="demande.statut != 'Refusée' && demande.statut != 'Acceptée'" href="#"
-                      @click="acceptedDemande(demande.id)">
+                    <a @click="acceptedDemande(demande.id)">
                       <i class="fa fa-check lh-2 me-8 p-1 position-relative top-1"></i>
                       Accepté
                     </a>
                   </li>
-                  <li class="dropdown-item d-flex align-items-center">
-                    <router-link :to="{ name: 'EditDemandePage', params: { id: demande.id } }"
-                      class="text-decoration-none p-1"
+                  <li class="dropdown-item d-flex align-items-center"
                       v-if="demande.statut != 'Refusée' && demande.statut != 'Acceptée'">
+                    <router-link :to="{ name: 'EditDemandePage', params: { id: demande.id } }"
+                      class="text-decoration-none p-1">
                       <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
                     </router-link>
                   </li>

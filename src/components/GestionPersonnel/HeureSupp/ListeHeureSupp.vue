@@ -1,6 +1,6 @@
 <template>
   <div class="px-lg-4 py-lg-5 p-md-3 p-3 text-start">
-    <router-link to="/heureSupps/ajouter-heureSupp" class="btn btn-primary my-1">
+    <router-link to="/heureSupps/ajouter-heureSupp" class="btn btn-primary my-1 mb-3">
       <i class="fa fa-plus-circle"></i>
       Ajouter une heure supplémentaire
     </router-link>
