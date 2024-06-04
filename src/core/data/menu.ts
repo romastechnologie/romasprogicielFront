@@ -280,6 +280,126 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+
+    {
+        headTitle1: "Gestion de trésorerie",
+        headTitle2: "Tresorerie, TypeTresorerie, Transfert, Finance, UserCompte et Ouverture/Fermeture de caisse",
+        type: "headtitle"
+    },
+
+    {
+        title: "Tresorerie",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/tresoreries/ajouter-tresorerie",
+                title: "Ajouter une tresorerie ",
+                type: "link"
+            },
+            {
+                path: "/tresoreries/liste-tresorerie",
+                title: "Liste des tresoreries",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type de Tresorerie",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/typeTresoreries/liste-typeTresorerie",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
+    {
+        title: "Transfert",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/transferts/ajouter-transfert",
+                title: "Faire un transfert ",
+                type: "link"
+            },
+            {
+                path: "/transferts/liste-transfert",
+                title: "Liste des transferts",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Finance",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/finances/ajouter-finance",
+                title: "Faire un financement ",
+                type: "link"
+            },
+            {
+                path: "/finances/liste-finance",
+                title: "Liste des financements",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Ouverture/Fermeture de caisse",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/ouv_fers/ajouter-ouv_fer",
+                title: "Faire une ouverture de caisse ",
+                type: "link"
+            },
+            {
+                path: "/ouv_fers/liste-ouv_fer",
+                title: "Liste des ouvertures/fermetures",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Monnaie",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/monnaies/liste-monnaie",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
+
+    
+
     // {
     //     title: "Users",
     //     icon: "stroke-user",

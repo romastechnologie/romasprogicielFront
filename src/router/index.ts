@@ -62,6 +62,21 @@ import AddPersonnelPage from '@/pages/GestionPersonnel/Personnels/AddPersonnelPa
 import ListePersonnelPage from '@/pages/GestionPersonnel/Personnels/ListePersonnelPage.vue';
 import EditPersonnelPage from '@/pages/GestionPersonnel/Personnels/EditPersonnelPage.vue'
 import DetailsPersonnelPage from '@/pages/GestionPersonnel/Personnels/DetailsPersonnelPage.vue'
+import AddTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/AddTresoreriePage.vue'
+import ListeTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/ListeTresoreriePage.vue'
+import EditTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/EditTresoreriePage.vue'
+import ListeTypeTresoreriePage from '@/pages/GestionTresorerie/TypeTresorerie/ListeTypeTresoreriePage.vue'
+import AddTransfertPage from '@/pages/GestionTresorerie/Transfert/AddTransfertPage.vue'
+import ListeTransfertPage from '@/pages/GestionTresorerie/Transfert/ListeTransfertPage.vue'
+import EditTransfertPage from '@/pages/GestionTresorerie/Transfert/EditTransfertPage.vue'
+import AddFinancePage from '@/pages/GestionTresorerie/Finance/AddFinancePage.vue'
+import ListeFinancePage from '@/pages/GestionTresorerie/Finance/ListeFinancePage.vue'
+import EditFinancePage from '@/pages/GestionTresorerie/Finance/EditFinancePage.vue'
+import AddOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddOuvFerPage.vue'
+import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/ListeOuvFerPage.vue'
+import EditOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/EditOuvFerPage.vue'
+import ListeMonnaiePage from '@/pages/GestionTresorerie/Monnaie/ListeMonnaiePage.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -484,6 +499,162 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
+  {
+    path: "/tresoreries",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-tresorerie",
+        name: "AddTresoreriePage",
+        component: AddTresoreriePage,
+        meta: {
+          title: 'Ajouter une tresorerie',
+        }
+      },
+      {
+        path: "liste-tresorerie",
+        name: "ListeTresoreriePage",
+        component: ListeTresoreriePage,
+        meta: {
+          title: 'Liste des tresoreries',
+        },
+      },
+      {
+        path: "edit-tresorerie/:id",
+        name: "EditTresoreriePage",
+        component: EditTresoreriePage,
+        meta: {
+          title: 'Modifier une tresorerie',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/typeTresoreries",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-typeTresorerie",
+        name: "ListeTypeTresoreriePage",
+        component: ListeTypeTresoreriePage,
+        meta: {
+          title: 'Liste des types de trésorerie',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/transferts",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-transfert",
+        name: "AddTransfertPage",
+        component: AddTransfertPage,
+        meta: {
+          title: 'Faire un transfert',
+        }
+      },
+      {
+        path: "liste-transfert",
+        name: "ListeTransfertPage",
+        component: ListeTransfertPage,
+        meta: {
+          title: 'Liste des transferts',
+        },
+      },
+      {
+        path: "edit-transfert/:id",
+        name: "EditTransfertPage",
+        component: EditTransfertPage,
+        meta: {
+          title: 'Modifier un transfert',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/finances",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-finance",
+        name: "AddFinancePage",
+        component: AddFinancePage,
+        meta: {
+          title: 'Faire un financement',
+        }
+      },
+      {
+        path: "liste-finance",
+        name: "ListeFinancePage",
+        component: ListeFinancePage,
+        meta: {
+          title: 'Liste des financements',
+        },
+      },
+      {
+        path: "edit-finance/:id",
+        name: "EditFinancePage",
+        component: EditFinancePage,
+        meta: {
+          title: 'Modifier un financement',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/monnaies",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-monnaie",
+        name: "ListeMonnaiePage",
+        component: ListeMonnaiePage,
+        meta: {
+          title: 'Liste des monnaies',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/ouv_fers",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-ouv_fer",
+        name: "AddOuvFerPage",
+        component: AddOuvFerPage,
+        meta: {
+          title: 'Faire une ouverture de caisse',
+        }
+      },
+      {
+        path: "liste-ouv_fer",
+        name: "ListeOuvFerPage",
+        component: ListeOuvFerPage,
+        meta: {
+          title: 'Liste des ouvertures',
+        },
+      },
+      {
+        path: "edit-ouv_fer/:id",
+        name: "EditOuvFerPage",
+        component: EditOuvFerPage,
+        meta: {
+          title: 'Modifier une ouverture',
+        }
+      }
+    ]
+  },
+
+
   {
     path: "/auth",
     component: AuthView,
