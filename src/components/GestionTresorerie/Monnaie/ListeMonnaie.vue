@@ -70,7 +70,7 @@
                                 {{ monnaie.valeur }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ format_date(monnaie.createdAt) }}
+                                {{ format_date(monnaie.created_at) }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black pe-0">
                                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
@@ -104,7 +104,7 @@
         </div>
     </div>
     <AddMonnaieModal @get-all-monnaies="getAllMonnaies" :id="idmonnaie" @openmodal="showModalEdite" @close="recharger"
-        @refreshPermissions="refreshMonnaies" />
+        @refreshMonnaies="refreshMonnaies" />
 </template>
 
 <script lang="ts">

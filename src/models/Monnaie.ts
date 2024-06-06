@@ -1,6 +1,6 @@
 export interface MonnaieObject {
     code: number;
-    libelle: string;
+    message: string;
     data: Monnaie[];
 }
 
@@ -8,6 +8,6 @@ export interface Monnaie {
     id: number;
     libelle: string;
     valeur: number;
-    createdAt?: string;
+    created_at?: Date;
     setFieldValue: (field: string, value: any) => void;
 }

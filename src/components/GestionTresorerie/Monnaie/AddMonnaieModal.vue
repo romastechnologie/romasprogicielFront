@@ -101,10 +101,10 @@ export default {
     
         const getMonnaie = async (id: number) => {
           return ApiService.get("/monnaies/"+id)
-          .then(({ data }) => {
-            monnaieForm.value?.setFieldValue("id",data.data.id);
-            monnaieForm.value?.setFieldValue("nom",data.data.libelle);
-            monnaieForm.value?.setFieldValue("description",data.data.valeur);
+          .then((res) => {
+            monnaieForm.value?.setFieldValue("id",res.data.id);
+            monnaieForm.value?.setFieldValue("libelle",res.data.libelle);
+            monnaieForm.value?.setFieldValue("valeur",res.data.valeur);
             emit('openmodal', addMonnaieModalRef.value);
           })
           .catch(({ response }) => {
@@ -127,9 +127,9 @@ export default {
           loading.value = false;
           if(isupdate.value) {
             ApiService.put(`/monnaies/${values.id}`,values)
-            .then(({ data }) => {
-              if(data.code == 200) { 
-                success(data.message);
+            .then((res) => {
+              if(res.data.code == 200) { 
+                success(res.data.message);
                 resetForm();
                 hideModal(addMonnaieModalRef.value);
                 isupdate.value=false;
@@ -142,9 +142,10 @@ export default {
             });
           }else{
             ApiService.post("/monnaies",values)
-            .then(({ data }) => {
-              if(data.code == 201) { 
-                success(data.message)
+            .then((res) => {
+              console.log(res.data)
+              if(res.data.code == 201) { 
+                success(res.data.message)
                 resetForm();
                 hideModal(addMonnaieModalRef.value);
                 //router.push('/monnaies/liste-monnaie');

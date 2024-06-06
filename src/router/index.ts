@@ -73,6 +73,7 @@ import AddFinancePage from '@/pages/GestionTresorerie/Finance/AddFinancePage.vue
 import ListeFinancePage from '@/pages/GestionTresorerie/Finance/ListeFinancePage.vue'
 import EditFinancePage from '@/pages/GestionTresorerie/Finance/EditFinancePage.vue'
 import AddOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddOuvFerPage.vue'
+import AddFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddFerPage.vue'
 import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/ListeOuvFerPage.vue'
 import EditOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/EditOuvFerPage.vue'
 import ListeMonnaiePage from '@/pages/GestionTresorerie/Monnaie/ListeMonnaiePage.vue'
@@ -633,6 +634,14 @@ const routes: Array<RouteRecordRaw> = [
         component: AddOuvFerPage,
         meta: {
           title: 'Faire une ouverture de caisse',
+        }
+      },
+      {
+        path: "ajouter-fermeture",
+        name: "AddFerPage",
+        component: AddFerPage,
+        meta: {
+          title: 'Faire une fermeture de caisse',
         }
       },
       {
