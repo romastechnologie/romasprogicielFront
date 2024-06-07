@@ -19,8 +19,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="type">Type de Finance</label>
-                            <Field type="text" id="type" name="type" class="form-select" 
-                                v-model="finance.type" v-slot="{field}">
+                            <Field type="text" id="type" name="type" class="form-select" v-model="finance.type"
+                                v-slot="{ field }">
                                 <VueMultiselect v-model="field.value" v-bind="field" :options="['recettes', 'depenses']"
                                     :close-on-select="true" :clear-on-select="false"
                                     placeholder="Sélectionner le type de finance" />
@@ -36,16 +36,16 @@
                         <div class="mb-3">
                             <label for="prenomBeneficiaire">Prénom du Bénéficiaire</label>
                             <Field type="text" id="prenomBeneficiaire" name="prenomBeneficiaire" class="form-control"
-                                v-model="finance.nomBeneficiaire" />
+                                v-model="finance.prenomBeneficiaire" />
                             <ErrorMessage name="prenomBeneficiaire" class="text-danger" />
                         </div>
                         <div class="mb-3">
                             <label for="utilisateurName">Utilisateur</label>
                             <Field type="text" id="utilisateurName" name="utilisateurName" class="form-select"
                                 as="select">
-                                <!--<option v-for="" :key=".id"
-                                            :value="utilisateur.id">{{ utilisateur.nom }} {{ utilisateur.prenom }}
-                                        </option>-->
+                                <option v-for="user in users" :key="user.id" :value="user.id">{{ user.nom }} {{
+                                    user.prenom }}
+                                </option>
                             </Field>
 
                         </div>
@@ -68,13 +68,13 @@
                             <p class="col-md-3">
                                 Quantité de billet
                             </p>
-                            <p class="col-md-3">
+                            <p class="col-md-4">
                                 Montant
                             </p>
                         </div>
                         <template v-for="billetage in billetageList" :key="billetage.monnaie">
-                            <Form :validation-schema="schema" class="card">
-                                <div class="card-body">
+                            <Form :validation-schema="schema" class="container m-3">
+                                <div class="">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <select name="monnaie" id="monnaie" disabled
@@ -87,14 +87,12 @@
                                             </select>
                                         </div>
                                         <div class="col-md-3">
-
                                             <Field name="qteBillet" id="qteBillet" v-model="billetage.qteBillet"
                                                 type="number" placeholder="Entrer la quantité" class="form-control"
                                                 @change="billetage.montant = billetage.valueAct * billetage.qteBillet" />
                                             <ErrorMessage name="qteBillet" />
-
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
 
                                             <Field name="montant" id="montant" type="text" v-model="billetage.montant"
                                                 placeholder="Entrer le montant" disabled class="form-control" />
@@ -111,6 +109,8 @@
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Envoyer</button>
+                    <router-link to="/finances/liste-finance/" type="button"
+                        class="btn btn-danger mx-1">Annuler</router-link>
                 </div>
 
 
@@ -131,13 +131,14 @@ import { onMounted, ref, reactive, watch, computed } from "vue";
 import axios from "axios";
 import { Form, Field, ErrorMessage, configure } from "vee-validate";
 import * as Yup from "yup"
-import { User } from "@/services/auth";
 import { Tresorerie } from "@/models/Tresorerie";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import VueMultiselect from 'vue-multiselect'
+import router from "@/router";
+import { User } from "@/models/users";
 
-
+const users = ref<User[]>([])
 let finance = ref<Finance>({})
 const utilisateurList = ref<User[]>([])
 let tresorerie = ref<Tresorerie>({})
@@ -181,7 +182,7 @@ configure({
 async function sendFinance(value: Object) {
     try {
         value['type'] = finance.value.type
-        const type =  value['type']
+        const type = value['type']
         const formData = new FormData()
         const fichier = (document.getElementById('fichier') as HTMLInputElement)
         const montant = (document.getElementById('montant') as HTMLInputElement).value
@@ -215,10 +216,14 @@ async function sendFinance(value: Object) {
 
                 await ApiService.post(`/billetages/`, billetageData)
 
+                router.push('/finances/liste-finance')
                 Swal.fire({
-                    timer: 1000,
+                    timer: 2000,
                     position: "top-end",
-                    text: "billetage réussi avec succès",
+                    toast: true,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    text: "Financement réussi avec succès",
                     icon: "success"
                 })
             } catch (error) {
@@ -241,6 +246,16 @@ async function sendFinance(value: Object) {
     }
 }
 
+function getAllUsers() {
+    return ApiService.get(`/users`)
+        .then(({ data }) => {
+            users.value = data.data.data;
+            return data.data;
+        })
+        .catch(({ response }) => {
+
+        });
+}
 
 
 const getTresorerie = () => {
@@ -279,7 +294,8 @@ watch(billetageList, () => {
 onMounted(() => {
     getTresorerie(),
         getMonnaie(),
-        calculateTotal()
+        calculateTotal(),
+        getAllUsers()
 })
 
 </script>

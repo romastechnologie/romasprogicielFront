@@ -52,7 +52,7 @@
                             <th>{{ transfert.tresorerie?.nom }}</th>
                             <th>{{ transfert.tresorerie2?.nom }}</th>
                             <th>{{ transfert.montant }}</th>
-                            <th>{{ transfert.created_at }}</th>
+                            <th>{{ format_date(transfert.created_at) }}</th>
                             <td class="shadow-none lh-1 fw-medium text-black pe-0">
                                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">Actions</button>
@@ -60,7 +60,7 @@
                                     style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
                                     data-popper-placement="bottom-start">
                                     <li class="dropdown-item d-flex align-items-center">
-                                        <router-link type="button" :to="`/updateTresorerie/${transfert.id}`">
+                                        <router-link type="button" :to="`/transferts/edit-transfert/${transfert.id}`">
                                             <i class="fa fa-pencil lh-2 me-8 position-relative top-1">
                                                 Modifier
                                             </i>
@@ -92,6 +92,7 @@ import { onMounted, ref } from "vue";
 import axios from "axios";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
+import { format_date } from "@/utils/utils";
 
 const transfertList = ref<Transfert[]>([])
 

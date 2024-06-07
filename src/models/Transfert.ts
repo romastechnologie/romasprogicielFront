@@ -14,5 +14,5 @@ export interface Transfert {
     tresorerie?: Tresorerie
     tresorerie2?: Tresorerie
     created_at?: Date;
-    setFieldValue: (field: string, value: any) => void;
+    setFieldValue?: (field: string, value: any) => void;
 }

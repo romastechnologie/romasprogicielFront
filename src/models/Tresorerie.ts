@@ -12,5 +12,6 @@ export interface Tresorerie {
     operation?: string   
     dateCreation?: string
     created_at?: Date;
+    typeTresorerieId?: string
     setFieldValue?: (field: string, value: any) => void;
 }

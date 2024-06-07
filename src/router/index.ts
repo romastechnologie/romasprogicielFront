@@ -77,6 +77,7 @@ import AddFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddFerPage
 import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/ListeOuvFerPage.vue'
 import EditOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/EditOuvFerPage.vue'
 import ListeMonnaiePage from '@/pages/GestionTresorerie/Monnaie/ListeMonnaiePage.vue'
+import ListeUserComptePage from '@/pages/GestionTresorerie/UserCompte/ListeUserComptePage.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -619,6 +620,21 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeMonnaiePage,
         meta: {
           title: 'Liste des monnaies',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/userComptes",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-userCompte",
+        name: "ListeUserComptePage",
+        component: ListeUserComptePage,
+        meta: {
+          title: 'Liste des compte de trésorerie',
         }
       },
     ]

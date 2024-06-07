@@ -397,6 +397,17 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
+    {
+        title: "User Compte",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/userComptes/liste-userCompte",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
 
     
 

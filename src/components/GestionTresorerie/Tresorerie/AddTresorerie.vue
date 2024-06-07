@@ -12,14 +12,14 @@
                         <div class="col-6 my-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="operation" id="nonOperationnelle"
-                                    checked value="Non Opérationnelle" />
+                                    checked value="Non Opérationnelle" v-model="tresorerie.operation"/>
                                 <label class="form-check-label" for="nonOperationnelle">
                                     Non Opérationnelle
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="operation" id="operationnelle"
-                                    value="Opérationnelle" />
+                                    value="Opérationnelle" v-model="tresorerie.operation"/>
                                 <label class="form-check-label" for="operationnelle">
                                     Opérationnelle
                                 </label>
@@ -36,7 +36,7 @@
                                     :searchable="true" placeholder="Sélectionner le type de trésorerie" label="label"
                                     track-by="label" />
                             </Field>
-                            <ErrorMessage name="typeTresorerieId" class="text-danger" />
+                            <!--<ErrorMessage name="typeTresorerieId" class="text-danger" />-->
                         </div>
 
 
@@ -86,6 +86,7 @@ import VueMultiselect from 'vue-multiselect'
 
 const router = useRouter()
 
+const tresorerie = ref<Tresorerie>({})
 const typeTresorerieId = ref()
 const tresorerieOptions = ref([]);
 const tresorerieList = ref<Tresorerie[]>([])
@@ -97,7 +98,7 @@ const tresorerieschema = Yup.object().shape({
     nom: Yup.string().required('Le nom est obligatoire').label('Nom'),
     montant: Yup.number().required('Le montant est obligatoire').label('Montant'),
     dateCreation: Yup.string().required('La date de création est obligatoire').label('Date de création'),
-    typeTresorerieId: Yup.number().required('Le type de trésorerie est obligatoire').label('Type de trésorerie')
+    // typeTresorerieId: Yup.number().required('Le type de trésorerie est obligatoire').label('Type de trésorerie')
     // operation: Yup.string().required('L\'opération est obligatoire')
 })
 

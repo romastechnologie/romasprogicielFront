@@ -62,7 +62,7 @@
                                     style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
                                     data-popper-placement="bottom-start">
                                     <li class="dropdown-item d-flex align-items-center">
-                                        <router-link type="button" :to="`/updateTresorerie/${finance.id}`">
+                                        <router-link type="button" :to="`/finances/edit-finance/${finance.id}`">
                                             <i class="fa fa-pencil lh-2 me-8 position-relative top-1">
                                                 Modifier
                                             </i>

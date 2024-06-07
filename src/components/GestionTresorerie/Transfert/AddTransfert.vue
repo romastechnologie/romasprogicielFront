@@ -66,6 +66,7 @@ import * as Yup from "yup"
 import Swal from "sweetalert2";
 import router from "@/router";
 import ApiService from "@/services/ApiService";
+import { User } from "@/models/users";
 
 const transfert = ref<Transfert>({})
 const tresorerieList = ref<Tresorerie[]>([])
@@ -109,7 +110,7 @@ const addTransfert = async () => {
             showConfirmButton: false,
             timer: 1500
         })
-        router.push('/transfert')
+        router.push('/transferts/liste-transfert')
         transfert.value = {
             id: 0,
             source: '',
@@ -133,6 +134,8 @@ const getTresorerie = async () => {
             console.log(res)
         })
 }
+
+
 
 
 

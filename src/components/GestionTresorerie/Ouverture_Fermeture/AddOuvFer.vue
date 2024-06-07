@@ -16,8 +16,8 @@
                         </p>
                     </div>
                     <template v-for="billetage in billetageList" :key="billetage.monnaie">
-                        <Form :validation-schema="schema" class="card">
-                            <div class="container">
+                        <Form :validation-schema="schema" class="container m-3">
+                            <div class="">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="">
@@ -100,6 +100,7 @@ import { configure, Form, Field, ErrorMessage } from "vee-validate"
 import { Monnaie } from "@/models/Monnaie";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
+import router from "@/router";
 
 const ouvFer = ref<Ouv_Fer>({})
 const ouvFerList = ref<Ouv_Fer[]>([])
@@ -158,11 +159,14 @@ async function sendOuvFer() {
                 }));
 
                 await ApiService.post('/billetages/', billetageData)
-
+                router.push('/ouv_fers/liste-ouv_fer')
                 Swal.fire({
-                    timer: 1000,
+                    timer: 2000,
                     position: "top-end",
-                    text: "billetage réussi avec succès",
+                    toast: true,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    text: "Ouverture réussi avec succès",
                     icon: "success"
                 })
             } catch (error) {
@@ -267,10 +271,6 @@ onMounted(() => {
 .overview {
     margin: auto;
 
-}
-
-.container {
-    padding: 10px ;
 }
 
 .text-title {
