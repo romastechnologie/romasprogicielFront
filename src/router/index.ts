@@ -78,6 +78,24 @@ import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/Liste
 import EditOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/EditOuvFerPage.vue'
 import ListeMonnaiePage from '@/pages/GestionTresorerie/Monnaie/ListeMonnaiePage.vue'
 import ListeUserComptePage from '@/pages/GestionTresorerie/UserCompte/ListeUserComptePage.vue'
+import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
+import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
+import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
+import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
+import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
+import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
+import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
+import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
+import ListeMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue";
+import AddAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/AddAmortissementPage.vue";
+import EditAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/EditAmortissementPage.vue";
+import ListeAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/ListeAmortissementPage.vue";
+import AddCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/AddCategorieBienPage.vue";
+import EditCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/EditCategorieBienPage.vue";
+import ListeCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/ListeCategorieBienPage.vue";
+import AddTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/AddTypeBienPage.vue";
+import ListeTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue";
+
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -187,6 +205,103 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
+
+  { 
+    path: "/ajouter-bien",
+    name: "AddBienPage",
+    component: AddBienPage,
+  },
+  {
+    path: "/modifier-bien/:id",
+    name: "EditBienPage",
+    component: EditBienPage,
+  },
+  {
+    path: "/liste-biens",
+    name: "ListeBienPage",
+    component: ListeBienPage,
+  },
+
+  { 
+    path: "/ajouter-mouvementbien",
+    name: "AddMouvementBienPage",
+    component: AddMouvementBienPage,
+  },
+  {
+    path: "/modifier-mouvementbien/:id",
+    name: "EditMouvementBienPage",
+    component: EditMouvementBienPage,
+  },
+  {
+    path: "/liste-mouvementbiens",
+    name: "ListeMouvementBienPage",
+    component: ListeMouvementBienPage,
+  },
+
+
+  { 
+    path: "/ajouter-fournisseur",
+    name: "AddFournisseurPage",
+    component: AddFournisseurPage,
+  },
+   {
+    path: "/modifier-fournisseur/:id",
+    name: "EditFournisseurPage",
+    component: EditFournisseurPage,
+  },
+  {
+    path: "/liste-fournisseurs",
+    name: "ListeFournisseurPage",
+    component: ListeFournisseurPage,
+  },
+  { 
+    path: "/ajouter-amortissement",
+    name: "AddAmortissementPage",
+    component: AddAmortissementPage,
+  },
+  {
+    path: "/modifier-amortissement/:id",
+    name: "EditAmortissementPage",
+    component: EditAmortissementPage,
+  },
+  {
+    path: "/liste-amortissements",
+    name: "ListeAmortissementPage",
+    component: ListeAmortissementPage,
+  },
+  { 
+    path: "/ajouter-categorieBien",
+    name: "AddCategorieBienPage",
+    component: AddCategorieBienPage,
+  },
+  { 
+    path: "/modifier-categorieBien/:id",
+    name: "EditCategorieBienPage",
+    component: EditCategorieBienPage,
+  },
+  
+  {
+    path: "/liste-categoriebiens",
+    name: "ListeCategorieBienPage",
+    component: ListeCategorieBienPage,
+  },
+
+  { 
+    path: "/ajouter-typeBien",
+    name: "AddTypeBienPage",
+    component: AddTypeBienPage,
+  },
+  
+  {
+    path: "/liste-typebiens",
+    name: "ListeTypeBienPage",
+    component: ListeTypeBienPage,
+  },
+
+
+
+
   {
     path: "/roles",
     component: BodyView,
