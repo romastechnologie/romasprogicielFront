@@ -6,10 +6,10 @@
         <div class="d-sm-flex align-items-center">
           <router-link 
             class="default-btn position-relative transition border-0 fw-medium text-white pt-11 pb-11 ps-25 pe-25 pt-md-12 pb-md-12 ps-md-30 pe-md-30 rounded-1 bg-success fs-md-15 fs-lg-16 d-inline-block me-10 mb-10 mb-lg-0 text-decoration-none"
-            to="/ajouter-typeBien"
+            to="/typebiens/ajouter-typeBien"
           >
             <i class="flaticon-plus position-relative ms-5 fs-12"></i>
-            Ajouter une type de bien
+            Ajouter un type de bien
           </router-link>
           <!-- <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"

@@ -365,6 +365,117 @@ export const menu: MenuItem[] = [
     },
 
     {
+        headTitle1: "Gestion des immobilisations",
+        headTitle2: "Bien, Amortissement,Mouvement des biens,Fournisseur,Type de Bien, Catégorie de Bien ",
+        type: "headtitle"
+    },
+    {
+        title: "Bien",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/biens/ajouter-bien",
+                title: "Ajouter un bien",
+                type: "link"
+            },
+            {
+                path: "/biens/liste-biens",
+                title: "Liste des biens",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Amortissement",
+        icon: "stroke-to-do",
+        icon1: "fill-to-do",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/amortissements/ajouter-amortissement",
+                title: "Ajouter un amortissement",
+                type: "link"
+            },
+            {
+                path: "/amortissements/liste-amortissements",
+                title: "Liste des amortissements",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Mouvement des biens",
+        icon: "stroke-to-do",
+        icon1: "fill-to-do",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/mouvementBiens/ajouter-mouvementbien",
+                title: "Ajouter un mouvement de bien",
+                type: "link"
+            },
+            {
+                path: "/mouvementBiens/liste-mouvementbiens",
+                title: "Liste des mouvements",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Type de Bien",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/typeBiens/liste-typebiens",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Categorie des Biens",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/categorieBiens/liste-categoriebiens",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Fournisseur",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/fournisseurs/ajouter-fournisseur",
+                title:"Ajouter un fournisseur",
+                type: "link"
+            },
+            {
+                path: "/fourniseurs/liste-fournisseurs",
+                title: "Liste des fournisseurs",
+                type: "link"
+             },
+        ]
+    },
+    
+
+    {
         title: "Ouverture/Fermeture de caisse",
         icon: "stroke-calendar",
         icon1: "fill-calendar",

@@ -6,7 +6,7 @@
         <div class="d-sm-flex align-items-center">
           <router-link
             class="default-btn position-relative transition border-0 fw-medium text-white pt-11 pb-11 ps-25 pe-25 pt-md-12 pb-md-12 ps-md-30 pe-md-30 rounded-1 bg-success fs-md-15 fs-lg-16 d-inline-block me-10 mb-10 mb-lg-0 text-decoration-none"
-            to="/ajouter-mouvementbien"
+            to="/mouvementBiens/ajouter-mouvementbien"
           >
             <i class="flaticon-plus position-relative ms-5 fs-12"></i>
             Ajouter un mouvement
@@ -104,7 +104,7 @@
                           <li>
                             <router-link
                               class="dropdown-item d-flex align-items-center"
-                              :to="{ name: 'EditMouvementBienPage',params: { id: mouvementBien.id } }"
+                              :to="{ name: 'EditMouvementBien',params: { id: mouvementBien.id } }"
                             >
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Modifier

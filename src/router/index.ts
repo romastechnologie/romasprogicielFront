@@ -205,102 +205,189 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+  {
+    path: "/biens",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-bien",
+        name: "AddBien",
+        component: AddBienPage,
+        meta: {
+          title: 'Ajouter un bien',
+        }
+      },
+      {
+        path: "liste-biens",
+        name: "ListeBien",
+        component: ListeBienPage,
+        meta: {
+          title: 'Liste des biens',
+        }
+      },
+      {
+        path: "edit-bien/:id",
+        name: "EditBien",
+        component: EditBienPage,
+        meta: {
+          title: 'Modifier un bien',
+        }
+      }
+      // {
+      //   path: "view-utilisateur/:id",
+      //   name: "ViewUser",
+      //   component: ViewUserPage,
+      //   meta: {
+      //     title: 'Détails d\'un utilisateur',
+      //   }
+      // },
+    ]
+  },
+  {
+    path: "/amortissements",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-amortissement",
+        name: "AddAmortissement",
+        component: AddAmortissementPage,
+        meta: {
+          title: 'Ajouter un amortissement',
+        }
+      },
+      {
+        path: "liste-amortissements",
+        name: "ListeAmortissement",
+        component: ListeAmortissementPage,
+        meta: {
+          title: 'Liste des amortissements',
+        }
+      },
+      {
+        path: "edit-amortissement/:id",
+        name: "EditAmortissement",
+        component: EditAmortissementPage,
+        meta: {
+          title: 'Modifier un amortissement',
+        }
+      },
+    ]
+    },
+    {
+      path: "/mouvementBiens",
+      component: BodyView,
+      children: [
+        {
+          path: "ajouter-mouvementbien",
+          name: "AddMouvementBien",
+          component: AddMouvementBienPage,
+          meta: {
+            title: 'Ajouter un mouvement',
+          }
+        },
+        {
+          path: "liste-mouvementbiens",
+          name: "ListeMouvementBien",
+          component: ListeMouvementBienPage,
+          meta: {
+            title: 'Liste des mouvements',
+          }
+        },
+        {
+          path: "edit-mouvementBien/:id",
+          name: "EditMouvementBien",
+          component: EditMouvementBienPage,
+          meta: {
+            title: 'Modifier un mouvement',
+          }
+        },
+      ]
+      },
 
-
-  { 
-    path: "/ajouter-bien",
-    name: "AddBienPage",
-    component: AddBienPage,
-  },
-  {
-    path: "/modifier-bien/:id",
-    name: "EditBienPage",
-    component: EditBienPage,
-  },
-  {
-    path: "/liste-biens",
-    name: "ListeBienPage",
-    component: ListeBienPage,
-  },
-
-  { 
-    path: "/ajouter-mouvementbien",
-    name: "AddMouvementBienPage",
-    component: AddMouvementBienPage,
-  },
-  {
-    path: "/modifier-mouvementbien/:id",
-    name: "EditMouvementBienPage",
-    component: EditMouvementBienPage,
-  },
-  {
-    path: "/liste-mouvementbiens",
-    name: "ListeMouvementBienPage",
-    component: ListeMouvementBienPage,
-  },
-
-
-  { 
-    path: "/ajouter-fournisseur",
-    name: "AddFournisseurPage",
-    component: AddFournisseurPage,
-  },
-   {
-    path: "/modifier-fournisseur/:id",
-    name: "EditFournisseurPage",
-    component: EditFournisseurPage,
-  },
-  {
-    path: "/liste-fournisseurs",
-    name: "ListeFournisseurPage",
-    component: ListeFournisseurPage,
-  },
-  { 
-    path: "/ajouter-amortissement",
-    name: "AddAmortissementPage",
-    component: AddAmortissementPage,
-  },
-  {
-    path: "/modifier-amortissement/:id",
-    name: "EditAmortissementPage",
-    component: EditAmortissementPage,
-  },
-  {
-    path: "/liste-amortissements",
-    name: "ListeAmortissementPage",
-    component: ListeAmortissementPage,
-  },
-  { 
-    path: "/ajouter-categorieBien",
-    name: "AddCategorieBienPage",
-    component: AddCategorieBienPage,
-  },
-  { 
-    path: "/modifier-categorieBien/:id",
-    name: "EditCategorieBienPage",
-    component: EditCategorieBienPage,
-  },
+      {
+        path: "/fournisseurs",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-fournisseur",
+            name: "AddFournisseur",
+            component: AddFournisseurPage,
+            meta: {
+              title: 'Ajouter un fournisseur',
+            }
+          },
+          {
+            path: "liste-fournisseurs",
+            name: "ListeFournisseur",
+            component: ListeFournisseurPage,
+            meta: {
+              title: 'Liste des fournisseurs',
+            }
+          },
+          {
+            path: "edit-fournisseur/:id",
+            name: "EditFournisseur",
+            component: EditFournisseurPage,
+            meta: {
+              title: 'Modifier un fournisseur',
+            }
+          },
+        ]
+        },
   
-  {
-    path: "/liste-categoriebiens",
-    name: "ListeCategorieBienPage",
-    component: ListeCategorieBienPage,
-  },
+        {
+          path: "/categorieBiens",
+          component: BodyView,
+          children: [
+            {
+              path: "ajouter-categorieBien",
+              name: "AddCategorieBien",
+              component: AddCategorieBienPage,
+              meta: {
+                title: 'Ajouter une catégorie de biens',
+              }
+            },
+            {
+              path: "liste-categoriebiens",
+              name: "ListeCategorieBien",
+              component: ListeCategorieBienPage,
+              meta: {
+                title: 'Liste des catégories de biens',
+              }
+            },
+            {
+              path: "edit-categorieBien/:id",
+              name: "EditCategorieBien",
+              component: EditCategorieBienPage,
+              meta: {
+                title: 'Modifier une catégorie de bien',
+              }
+            },
+          ]
+          },
 
-  { 
-    path: "/ajouter-typeBien",
-    name: "AddTypeBienPage",
-    component: AddTypeBienPage,
-  },
-  
-  {
-    path: "/liste-typebiens",
-    name: "ListeTypeBienPage",
-    component: ListeTypeBienPage,
-  },
-
-
-
+          {
+            path: "/typebiens",
+            component: BodyView,
+            children: [
+              {
+                path: "ajouter-typeBien",
+                name: "AddTypeBien",
+                component: AddTypeBienPage,
+                meta: {
+                  title: 'Ajouter un type de bien',
+                }
+              },
+              {
+                path: "liste-typebiens",
+                name: "ListeTypeBien",
+                component: ListeTypeBienPage,
+                meta: {
+                  title: 'Liste des types de biens',
+                }
+              },
+            ]
+            },
 
   {
     path: "/roles",

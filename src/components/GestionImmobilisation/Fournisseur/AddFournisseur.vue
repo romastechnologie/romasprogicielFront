@@ -22,12 +22,12 @@
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success"
+                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success m-2"
                 type="submit"
               >
                   Créer un Fournisseur
               </button>
-              <router-link to="/liste-fournisseurs" 
+              <router-link to="/fournisseurs/liste-fournisseurs" 
                   class=" btn btn-danger transition border-0 lh-1 fw-medium"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
                   <span class="position-relative"></span>Annuler</router-link>
             </div>

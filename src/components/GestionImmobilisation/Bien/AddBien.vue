@@ -68,66 +68,45 @@
          <div class="col-md-4">
                     <label for="valeurNetteComptable" class="form-label">Valeur Nette Comptable</label>
                     <Field name="valeurNetteComptable" class="form-control" type="number"/>
-                    <ErrorMessage name="valeurNettecomptable" class="text-danger" />
-                    
+                    <ErrorMessage name="valeurNettecomptable" class="text-danger" />         
           </div>
-              <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Type Bien <span class="text-danger">*</span>
-                </label>
-                <Field  name="type"  v-slot="{ field }">
-                  <Multiselect
-                    :options="typeOptions"
-                    :searchable="true"
-                    track-by="label"
-                    label="label"
-                    v-model = "field.value"
-                    v-bind = "field"
-                    placeholder="Sélectionner le type"
-                  />
-                </Field>
-                <ErrorMessage name="type" class="text-danger"/>
-              </div>
+
+          <div class="col-md-6 mb-4">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Type Bien <span class="text-danger">*</span>
+              </label>
+              <Field name="types" v-model="types" type="text" v-slot="{ field }">
+              <VueMultiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le type"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le type de bien est obligatoire</span>
             </div>
-              <div class="fv-plugins-message-container">
-                    <div class="fv-help-block">
-                      <ErrorMessage name="privileges" class="text-danger"/>
-                    </div>
-                </div>
-                <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Categorie Bien <span class="text-danger">*</span>
-                </label>
-                <Field  name="categorie"  v-slot="{ field }">
-                  <Multiselect
-                    :options="categorieOptions"
-                    :searchable="true"
-                    track-by="label"
-                    label="label"
-                    v-model = "field.value"
-                    v-bind = "field"
-                    placeholder="Sélectionner la catégorie"
-                  />
-                </Field>
-                <ErrorMessage name="categorie" class="text-danger"/>
-              </div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Catégorie Bien <span class="text-danger">*</span>
+              </label>
+              <Field name="categories" v-model="categories" type="text" v-slot="{ field }">
+              <VueMultiselect v-model="field.value" v-bind="field" :options="categorieOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">La catégorie de bien est obligatoire</span>
             </div>
-              <div class="fv-plugins-message-container">
-                    <div class="fv-help-block">
-                      <ErrorMessage name="privileges" class="text-danger"/>
-                    </div>
-                </div>
+          </div>
           <div class="col-md-12">
             <div class="d-flex align-items-center ">
               <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success"
+                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success m-2"
                 type="submit"
               >
                   Ajouter un bien
               </button>
-              <router-link to="/liste-biens" 
+              <router-link to="/biens/liste-biens" 
                   class=" btn btn-danger transition border-0 lh-1 fw-medium"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
                   <span class="position-relative"></span>Annuler</router-link>
             </div>
@@ -143,11 +122,14 @@
   import { defineComponent, onMounted, ref} from 'vue';
   import { Form, Field, ErrorMessage } from 'vee-validate';
   import * as Yup from 'yup';
+  import axios from 'axios';
   import ApiService from '@/services/ApiService';
   import { Bien } from '@/models/Bien';
   import { error, success } from '@/utils/utils';
   import { useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
+  import VueMultiselect from 'vue-multiselect'
+
 
   
   
@@ -157,7 +139,8 @@
       Form,
       Field,
       ErrorMessage,
-      Multiselect
+      Multiselect,
+      VueMultiselect
     },
   
     setup: () => {
@@ -183,25 +166,36 @@
       });
   
       const bienForm =  ref(null);
+      const showMErr = ref(false);
+      const types = ref();
+      const categories = ref();
+      
       //const permissions = ref(null);
       const typeOptions = ref([]);
       const categorieOptions = ref([]);
       const router = useRouter();
       //const permissions= ref<Array<Permission>>([]);
-      const addBien = async (values,{ resetForm }) => {
-        values = values as Bien;
-        ApiService.post("/biens",values)
-        .then(({ data }) => {
-          if(data.code == 201) { 
-            success(data.message)
-            resetForm();
-            router.push({ name: "ListeBienPage" });
-          }
-        }).catch(({ response }) => {
-          error(response.message);
-        });
-      }
   
+
+      const addBien = async (values: any, { resetForm }) => {
+      values['types'] = types.value.value
+      values['categories'] = categories.value.value
+      console.log('Données envoyées', values)
+      if (showMErr.value === false) {
+        ApiService.post("/biens", values)
+           .then(({ data }) => {
+             if (data.code == 201) {
+              success(data.message);
+               //resetForm();
+             console.log('flefelef')
+              router.push({ name: "ListeBien" });
+           }
+           }).catch(({ response }) => {
+            error(response.data.message);
+          });
+       }
+    };
+
       const getAllTypeBien = async () => {
         try{
         const response = await ApiService.get('/all/types');
@@ -232,7 +226,7 @@
         }
       } 
   
-      return { bienSchema, addBien, bienForm,typeOptions,categorieOptions};
+      return { bienSchema, addBien, bienForm,typeOptions,showMErr,categorieOptions,types,categories};
     },
   });
   </script>
