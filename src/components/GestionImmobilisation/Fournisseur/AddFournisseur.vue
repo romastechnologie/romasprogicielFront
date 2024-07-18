@@ -4,12 +4,12 @@
             <Form ref="fournisseurForm" @submit="addFournisseur" :validation-schema="fournisseurSchema">
               <div class="row">
               <div class="col-md-6 mt-3">
-                    <label for="nom" class="form-label">Nom Fournisseur</label>
+                    <label for="nom" class="form-label">Nom Fournisseur<span class="text-danger">*</span></label>
                     <Field name="nom" class="form-control" type="text"/>
                     <ErrorMessage name="nom" class="text-danger" />
             </div>
             <div class="col-md-6 mt-3">
-                    <label for="telephone" class="form-label">Téléphone</label>
+                    <label for="telephone" class="form-label">Téléphone<span class="text-danger">*</span></label>
                     <Field name="telephone" class="form-control" type="text"/>
                     <ErrorMessage name="telephone" class="text-danger" />
             </div>
@@ -21,14 +21,11 @@
            
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
-              <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success m-2"
-                type="submit"
-              >
-                  Créer un Fournisseur
+              <button class="btn btn-success me-3" type="submit">
+                  Créer un fournisseur
               </button>
               <router-link to="/fournisseurs/liste-fournisseurs" 
-                  class=" btn btn-danger transition border-0 lh-1 fw-medium"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+                  class=" btn btn-danger "><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
                   <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>

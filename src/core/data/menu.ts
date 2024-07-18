@@ -467,7 +467,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/fourniseurs/liste-fournisseurs",
+                path: "/fournisseurs/liste-fournisseurs",
                 title: "Liste des fournisseurs",
                 type: "link"
              },

@@ -95,6 +95,7 @@ import EditCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/E
 import ListeCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/ListeCategorieBienPage.vue";
 import AddTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/AddTypeBienPage.vue";
 import ListeTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue";
+import EditTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/EditTypeBienPage.vue";
 
 
 
@@ -386,6 +387,14 @@ const routes: Array<RouteRecordRaw> = [
                   title: 'Liste des types de biens',
                 }
               },
+              {
+              path: "modifier-typeBien",
+              name: "EditTypeBien",
+              component: EditTypeBienPage,
+              meta: {
+                title: 'Modifier un type de bien',
+              }
+            },
             ]
             },
 

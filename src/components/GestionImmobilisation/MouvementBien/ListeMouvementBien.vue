@@ -5,10 +5,10 @@
       >
         <div class="d-sm-flex align-items-center">
           <router-link
-            class="default-btn position-relative transition border-0 fw-medium text-white pt-11 pb-11 ps-25 pe-25 pt-md-12 pb-md-12 ps-md-30 pe-md-30 rounded-1 bg-success fs-md-15 fs-lg-16 d-inline-block me-10 mb-10 mb-lg-0 text-decoration-none"
+           class="btn btn-primary"
             to="/mouvementBiens/ajouter-mouvementbien"
           >
-            <i class="flaticon-plus position-relative ms-5 fs-12"></i>
+          <i class="fa fa-plus-circle"></i>
             Ajouter un mouvement
           </router-link>
           <!-- <button
@@ -58,7 +58,7 @@
                   Type Mouvement
                 </th>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                  Date
+                  Date du mouvement
                 </th>
                 <th
                   scope="col"
@@ -88,31 +88,26 @@
               <tr  v-for ="(mouvementBien, index) in mouvementBiens" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.refMouvement }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.typeMouvement }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.dateMouvement }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(mouvementBien.dateMouvement) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.infosComplementaire }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.ancienEmplacement }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.nouvelEmplacement }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(mouvementBien.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
-                        <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Actions
-                            <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                        </span>
+                      <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                         <ul class="dropdown-menu">
-                          
-                          <li>
+                          <li class="dropdown-item d-flex align-items-center">
                             <router-link
-                              class="dropdown-item d-flex align-items-center"
+                              
                               :to="{ name: 'EditMouvementBien',params: { id: mouvementBien.id } }"
                             >
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Modifier
                             </router-link>
                           </li>
-                          <li>
+                          <li class="dropdown-item d-flex align-items-center">
                             <a
-                              class="dropdown-item d-flex align-items-center"
+                              
                               href="javascript:void(0);"
                               @click="suppression(mouvementBien.id, mouvementBiens, 'mouvementBiens', 'un utilisateur')"
                             >

@@ -8,7 +8,7 @@
     import AddMouvementBien from "@/components/GestionImmobilisation/MouvementBien/AddMouvementBien.vue";
   
     export default defineComponent({
-      name: "AddMouvementPage",
+      name: "AddMouvementBienPage",
       components: {
 
         AddMouvementBien,

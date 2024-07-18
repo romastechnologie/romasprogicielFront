@@ -19,33 +19,27 @@
                     <ErrorMessage name="dureeUtilisation" class="text-danger" />
             </div>
           
-              <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Bien <span class="text-danger">*</span>
-                </label>
-                <Field  name="amortissement"  v-slot="{ field }">
-                  <Multiselect
-                    :options="typeOptions"
-                    :searchable="true"
-                    track-by="label"
-                    label="label"
-                    v-model = "field.value"
-                    v-bind = "field"
-                    placeholder="Sélectionner le bien"
-                  />
-                </Field>
-                <ErrorMessage name="amortissement" class="text-danger"/>
-              </div>
-          </div> 
+            <div class="col-md-6 mb-4">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Bien <span class="text-danger">*</span>
+              </label>
+              <Field name="biens" v-model="biens" type="text" v-slot="{ field }">
+              <VueMultiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le bien"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le bien est obligatoire</span>
+            </div>
+          </div>
           <div class="col-md-12">
             <div class="d-flex align-items-center ">
               <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success"
+                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success m-2"
                 type="submit">
                   Modifier un amortissement
               </button>
-              <router-link to="/liste-amortissements" 
+              <router-link to="/amortissements/liste-amortissements" 
                   class=" btn btn-danger transition border-0 lh-1 fw-medium"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
                   <span class="position-relative"></span>Annuler</router-link>
             </div>
@@ -66,6 +60,7 @@
     import { useRouter, useRoute } from 'vue-router';
     import { Amortissement } from '@/models/Amortissement';
     import Multiselect from '@vueform/multiselect/src/Multiselect';
+    import VueMultiselect from 'vue-multiselect'
   
   export default defineComponent({
       name: "EditAmortissement",
@@ -73,7 +68,8 @@
       Form,
       Field,
       ErrorMessage,
-      Multiselect
+      Multiselect,
+      VueMultiselect
       
   },
   
@@ -88,6 +84,8 @@
     const router = useRouter();
     const amortissementForm = ref<Amortissement>();
     const route = useRoute();
+    const showMErr = ref(false);
+    const biens = ref();
    
 
     onMounted(() => {
@@ -142,6 +140,8 @@
          amortissementSchema,
           editAmortissement,
           typeOptions,
+          showMErr,
+          biens
           
         };
     },

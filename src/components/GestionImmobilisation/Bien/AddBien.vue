@@ -4,39 +4,39 @@
             <Form ref="bienForm" @submit="addBien" :validation-schema="bienSchema">
               <div class="row">
               <div class="col-md-4">
-                    <label for="ref" class="form-label">Référence</label>
+                    <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
                     <Field name="refBien" class="form-control" type="text"/>
                     <ErrorMessage name="refBien" class="text-danger" />
             </div>
             <div class="col-md-4">
-                    <label for="nomBien" class="form-label">Nom</label>
+                    <label for="nomBien" class="form-label">Nom du Bien<span class="text-danger">*</span></label>
                     <Field name="nomBien" class="form-control" type="text"/>
                     <ErrorMessage name="nomBien" class="text-danger" />
             </div>
             <div class="col-md-4">
-                    <label for="coutAcquisition" class="form-label">Cout Acquisition</label>
+                    <label for="coutAcquisition" class="form-label">Cout Acquisition<span class="text-danger">*</span></label>
                     <Field name="coutAcquisition" class="form-control" type="number"/>
                     <ErrorMessage name="coutAcquisition" class="text-danger" />
             </div>
   
             <div class="col-md-4">
-                    <label for="dateAcquisition" class="form-label"> Date d'Acquisition</label>
+                    <label for="dateAcquisition" class="form-label"> Date d'Acquisition<span class="text-danger">*</span></label>
                     <Field name="dateAcquisition"  class="form-control" type="Date"/>
                     <ErrorMessage name="dateAcquisition" class="text-danger" />
             </div>
             <div class="col-md-4">
-                    <label for="dureeVie" class="form-label">Duree de Vie</label>
+                    <label for="dureeVie" class="form-label">Duree de Vie<span class="text-danger">*</span></label>
                     <Field name="dureeVie" class="form-control" type="number"/>
                     <ErrorMessage name="dureeVie" class="text-danger" />
             </div>
 
             <div class="col-md-4">
-                    <label for="dateMiseEnService" class="form-label">Date Mise Service</label>
+                    <label for="dateMiseEnService" class="form-label">Date Mise En Service<span class="text-danger">*</span></label>
                     <Field name="dateMiseEnService" class="form-control" type="Date"/>
                     <ErrorMessage name="dateMiseEnService" class="text-danger" />
             </div>
             <div class="col-md-4">
-                    <label for="numeroEnregistrement" class="form-label">Numero Enregistrement</label>
+                    <label for="numeroEnregistrement" class="form-label">Numero Enregistrement<span class="text-danger">*</span></label>
                     <Field name="numeroEnregistrement" class="form-control" type="number"/>
                     <ErrorMessage name="numeroEnregistrement" class="text-danger" />
             </div>
@@ -61,19 +61,26 @@
                     <ErrorMessage name="latitude" class="text-danger" />
          </div>
          <div class="col-md-4">
-                    <label for="modeAmortissement" class="form-label">Mode Amortissement</label>
-                    <Field name="modeAmortissement" class="form-control" type="text"/>
-                    <ErrorMessage name="modeAmortissement"  class="text-danger"/>
-         </div>
+            <div class="form-group">
+              <label class="d-block text-black">
+                Mode Amortissement <span class="text-danger">*</span>
+              </label>
+              <Field name="modeAmortissement" type="text" v-slot="{ field }">
+                <VueMultiselect v-model="field.value" v-bind="field" :options="['Linéaire', 'Dégressif']"
+                  :close-on-select="true" :clear-on-select="false" placeholder="Sélectionner le mode" />
+              </Field>
+              <ErrorMessage name="modeAmortissement" class="text-danger" />
+            </div>
+          </div>
          <div class="col-md-4">
-                    <label for="valeurNetteComptable" class="form-label">Valeur Nette Comptable</label>
+                    <label for="valeurNetteComptable" class="form-label">Valeur Nette Comptable<span class="text-danger">*</span></label>
                     <Field name="valeurNetteComptable" class="form-control" type="number"/>
-                    <ErrorMessage name="valeurNettecomptable" class="text-danger" />         
+                    <ErrorMessage name="valeurNetteComptable" class="text-danger" />         
           </div>
 
           <div class="col-md-6 mb-4">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label class="d-block text-black mb-10">
                 Type Bien <span class="text-danger">*</span>
               </label>
               <Field name="types" v-model="types" type="text" v-slot="{ field }">
@@ -87,7 +94,7 @@
 
           <div class="col-md-6 mb-4">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label class="d-block text-black  mb-10">
                 Catégorie Bien <span class="text-danger">*</span>
               </label>
               <Field name="categories" v-model="categories" type="text" v-slot="{ field }">
@@ -100,14 +107,12 @@
           </div>
           <div class="col-md-12">
             <div class="d-flex align-items-center ">
-              <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success m-2"
-                type="submit"
-              >
+              <button class="btn btn-success me-3" type="submit">
                   Ajouter un bien
               </button>
               <router-link to="/biens/liste-biens" 
-                  class=" btn btn-danger transition border-0 lh-1 fw-medium"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+              class=" btn btn-danger"><i
+                  class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
                   <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>

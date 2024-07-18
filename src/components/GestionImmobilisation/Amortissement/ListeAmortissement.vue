@@ -5,10 +5,10 @@
       >
         <div class="d-sm-flex align-items-center">
           <router-link 
-            class="default-btn position-relative transition border-0 fw-medium text-white pt-11 pb-11 ps-25 pe-25 pt-md-12 pb-md-12 ps-md-30 pe-md-30 rounded-1 bg-success fs-md-15 fs-lg-16 d-inline-block me-10 mb-10 mb-lg-0 text-decoration-none"
-            to="/amortissements/ajouter-amortissement"
+          class="btn btn-primary"
+           to="/amortissements/ajouter-amortissement"
           >
-            <i class="flaticon-plus position-relative ms-5 fs-12"></i>
+          <i class="fa fa-plus-circle"></i>
             Ajouter un amortissement
           </router-link>
           <!-- <button
@@ -86,28 +86,26 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ amortissement?.taux }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ amortissement?.valeurNetteComptable }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ amortissement?.dureeUtilisation }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ amortissement?.bien.nomBien }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ amortissement?.bien?.nomBien }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ format_date(amortissement.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
-                        <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Actions
-                            <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                        </span>
+                      <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+
                         <ul class="dropdown-menu">
                           
-                          <li>
+                          <li class="dropdown-item d-flex align-items-center">
                             <router-link
-                              class="dropdown-item d-flex align-items-center"
+                              
                               :to="{ name: 'EditAmortissement',params: { id: amortissement.id } }"
                             >
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Modifier
                             </router-link>
                           </li>
-                          <li>
+                          <li class="dropdown-item d-flex align-items-center">
                             <a
-                              class="dropdown-item d-flex align-items-center"
+                              
                               href="javascript:void(0);"
                               @click="suppression(amortissement.id, amortissements, 'amortissements', 'un utilisateur')"
                             >

@@ -4,24 +4,23 @@
             <Form ref="categorieBienForm" @submit="addCategorieBien" :validation-schema="categorieBienSchema">
               <div class="row">
               <div class="col-md-6 mb-3">
-                    <label for="code" class="form-label">Code</label>
+                    <label for="code" class="form-label">Code<span class="text-danger">*</span></label>
                     <Field name="code" class="form-control" type="text"/>
                     <ErrorMessage name="code" class="text-danger" />
             </div>
             <div class="col-md-6 mb-3">
-                    <label for="libelle" class="form-label">Libellé</label>
+                    <label for="libelle" class="form-label">Libellé<span class="text-danger">*</span></label>
                     <Field name="libelle" class="form-control" type="text"/>
                     <ErrorMessage name="libelle" class="text-danger"/>
             </div>
           <div class="col-md-12">
             <div class="d-flex align-items-center ">
-              <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success m-2"
-                type="submit">
+              <button class="btn btn-success me-3" type="submit">
+
                   Créer une catégorie de bien
               </button>
               <router-link to="/categorieBiens/liste-categorieBiens" 
-                  class=" btn btn-danger transition border-0 lh-1 fw-medium"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+                  class=" btn btn-danger"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
                   <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>
@@ -73,7 +72,7 @@
           if(data.code == 201) { 
             success(data.message)
             resetForm();
-            router.push({ name: "ListeCategorieBienPage" });
+            router.push({ name: "ListeCategorieBien" });
           }
         }).catch(({ response }) => {
           error(response.message);

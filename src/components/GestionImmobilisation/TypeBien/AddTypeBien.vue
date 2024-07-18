@@ -3,9 +3,9 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
       <Form ref="bienForm" @submit="addTypeBien" :validation-schema="typeBienSchema">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label class="d-block text-black  mb-10">
                 Code <span class="text-danger">*</span>
               </label>
 
@@ -15,9 +15,9 @@
             </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label class="d-block text-black mb-10">
                 Libelle <span class="text-danger">*</span>
               </label>
 
@@ -28,12 +28,10 @@
           </div>
           <div class="col-md-12">
             <div class="d-flex align-items-center ">
-              <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success m-2"
-                type="submit" >
-                Créer un Type de Bien
+              <button class="btn btn-success me-3" type="submit">
+                  Créer un type de bien
               </button>
-              <router-link to="/typebiens/liste-typebiens" class=" btn btn-danger transition border-0 lh-1 fw-medium"><i
+              <router-link to="/typebiens/liste-typebiens" class=" btn btn-danger"><i
                   class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
             </div> 
@@ -79,13 +77,13 @@ export default defineComponent({
 
     const addTypeBien = async (values, { resetForm }) => {
       values = values as TypeBien;
-      console.log('DOnnées e voyées', values)
+      console.log('DOnnées envoyées', values)
       ApiService.post("/types", values)
         .then(({ data }) => {
           if (data.code == 201) {
             success(data.message)
             resetForm();
-            router.push({ name: "ListeTypeBienPage" });
+            router.push({ name: "ListeTypeBien" });
           }
         }).catch(({ response }) => {
           error(response.message);
@@ -98,7 +96,7 @@ export default defineComponent({
         const typesData = response.data.data;
 
         typeOptions.value = typesData.map((type) => ({
-          value: type.id,
+          value: type.code,
           label: type.libelle,
         }));
       }
