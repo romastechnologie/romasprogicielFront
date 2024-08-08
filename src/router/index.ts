@@ -279,7 +279,7 @@ const routes: Array<RouteRecordRaw> = [
       component: BodyView,
       children: [
         {
-          path: "ajouter-mouvementbien",
+          path: "ajouter-mouvementbien/:id",
           name: "AddMouvementBien",
           component: AddMouvementBienPage,
           meta: {

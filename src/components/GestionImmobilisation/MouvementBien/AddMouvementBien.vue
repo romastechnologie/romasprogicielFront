@@ -17,6 +17,7 @@
                 <VueMultiselect v-model="field.value" v-bind="field" :options="['Transfert', 'Affectation']"
                   :close-on-select="true" :clear-on-select="false" placeholder="Sélectionner le type" />
               </Field>
+              <Field name="ty" class="form-control" type="text" v-model="typMouv"/>
               <ErrorMessage name="typeMouvement" class="text-danger" />
             </div>
           </div>
@@ -30,16 +31,45 @@
                     <Field name="infosComplementaire" class="form-control" type="text"/>
                     <ErrorMessage name="infosComplementaire" class="text-danger"/>
             </div>
-            <div class="col-md-4">
-                    <label for="ancienEmplacement" class="form-label">Ancien Emplacement<span class="text-danger">*</span></label>
-                    <Field name="ancienEmplacement" class="form-control" type="text"/>
-                    <ErrorMessage name="ancienEmplacement" class="text-danger"/>
+            <!--<div class="col-md-4">
+                    <label for="emplacementDepart" class="form-label">Ancien Emplacement<span class="text-danger">*</span></label>
+                    <Field name="emplacementDepart" class="form-control" type="text"/>
+                    <ErrorMessage name="emplacementDepart" class="text-danger"/>
             </div>
             <div class="col-md-4">
-                    <label for="nouvelEmplacement" class="form-label">Nouvel Emplacement<span class="text-danger">*</span></label>
-                    <Field name="nouvelEmplacement" class="form-control" type="text"/>
-                    <ErrorMessage name="nouvelEmplacement" class="text-danger" />
+                    <label for="emplacementDestination" class="form-label">Nouvel Emplacement<span class="text-danger">*</span></label>
+                    <Field name="emplacementDestination" class="form-control" type="text"/>
+                    <ErrorMessage name="emplacementDestination" class="text-danger" />
+            </div>-->
+
+            <div class="col-md-4">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black  mb-10">
+                Emplacement Départ<span class="text-danger">*</span>
+              </label>
+              <Field name="emplacementDepart" v-model="emplacementDepart" type="text" v-slot="{ field }">
+              <VueMultiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'emplacement"
+                label="label" track-by="label" />
+              </Field>
+              <Field name="service" class="form-control" type="text" v-model="service" v-if="tpValue==2"/>
+              <span class="text-danger" v-if="showMErr">L'ancien emplacement est obligatoire</span>
             </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black  mb-10">
+                Emplacement Destination<span class="text-danger">*</span>
+              </label>
+              <Field name="emplacementDestination" v-model="emplacementDestination" type="text" v-slot="{ field }">
+              <VueMultiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'emplacement"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le nouvel emplacement est obligatoire</span>
+            </div>
+          </div>
 
             <div class="col-md-6 mb-4">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -51,6 +81,7 @@
                  :multiple="false" :searchable="true" placeholder="Sélectionner le bien"
                 label="label" track-by="label" />
               </Field>
+              <Field name="nom" class="form-control" type="text" v-model="nombien"/>
               <span class="text-danger" v-if="showMErr">Le bien est obligatoire</span>
             </div>
           </div>
@@ -78,7 +109,7 @@
   import ApiService from '@/services/ApiService';
   import { MouvementBien } from '@/models/MouvementBien';
   import { error, success } from '@/utils/utils';
-  import { useRouter } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
 
@@ -100,23 +131,60 @@
             typeMouvement: Yup.string().required("Le type est obligatoire."),
             dateMouvement: Yup.date().required("la date est obligatoire."),
             infosComplementaire: Yup.string().notRequired(),
-            ancienEmplacement: Yup.string().notRequired(),
-            nouvelEmplacement: Yup.string().notRequired(),
-            biens: Yup.string().required("Le bien est obligatoire.")
+            emplacementDepart: Yup.string().required(),
+            emplacementDestination: Yup.string().notRequired(),
+            biens: Yup.string().required("Le bien est obligatoire."),
+            //services: Yup.string().required("Le bien est obligatoire.")
       });
-  
+      const route = useRoute();
+      const nombien = ref('');
+      const typMouv = ref("");
+      const tpValue = ref(1);
+      const service = ref("");
+
       onMounted(() => {
-        getAllBiens()
+        getAllBiens(),
+        getAllServices();
+        console.log('id', route.params.id)
+        if(route.params.id) {
+        getBien(parseInt(route.params.id as string));
+      }
       });
+
+      function getBien(id:number) {
+        console.log('cgggg')
+
+      ApiService.get("/biens/"+id.toString())
+        .then(({ data }) => {
+          console.log('then', data.data);
+          nombien.value = data.data.nomBien + "" +"" +"["+  "" +data.data.refBien + "]"
+          tpValue.value = data.data.mouvements.length != 0 ? 2 : 1
+          typMouv.value = tpValue.value == 1 ? "Affectation" : "Transfert"
+          service.value = data.data.mouvements?.emplacementDepart?.libelle
+          console.log('cg', nombien)
+          // for (const key in data.data) {
+          //   bienForm.value?.setFieldValue(key, 
+          //   (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
+          // );
+          // }
+      })
+      .catch(({ response }) => {
+        error(response.message);
+      });
+    }
   
       const bienForm =  ref(null);
       const typeOptions = ref([]);
+      const serviceOptions = ref([]);
       const router = useRouter();
       const showMErr = ref(false);
       const biens = ref();
+      const emplacementDepart = ref();
+      const emplacementDestination =ref()
 
       const addMouvementBien = async (values,{ resetForm }) => {
         values['biens'] = biens.value.value
+        values['emplacementDepart'] = emplacementDepart.value.value
       console.log('Données envoyées', values)
       if (showMErr.value === false) {
         ApiService.post("/mouvementBiens",values)
@@ -139,7 +207,22 @@
 
         typeOptions.value = typesData.map((bien) => ({
           value: bien.id,
-          label: bien.nomBien,
+          label: bien.nombien,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
+
+      const getAllServices = async () => {
+        try{
+        const response = await ApiService.get('/all/services');
+        const servicesData = response.data.data.data;
+
+        serviceOptions.value = servicesData.map((service) => ({
+          value: service.code,
+          label: service.libelle
         }));
         }
         catch(error){
@@ -147,7 +230,10 @@
         }
       } 
   
-      return {mouvementBienSchema, addMouvementBien, bienForm, typeOptions, biens, showMErr};
+  
+      return {mouvementBienSchema, addMouvementBien, bienForm, 
+        typeOptions, biens,serviceOptions,emplacementDepart,
+         showMErr, nombien, emplacementDestination, typMouv, tpValue,service};
     },
   });
   </script>

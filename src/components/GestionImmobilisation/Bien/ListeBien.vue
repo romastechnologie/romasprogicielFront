@@ -126,6 +126,24 @@
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
 
                         <ul class="dropdown-menu">
+                          <li class="dropdown-item d-flex align-items-center" v-if="bien?.mouvements.length != 0">
+                            <router-link
+                              
+                              :to="{ name: 'AddMouvementBien',params: { id: bien.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Transfert
+                            </router-link>
+                          </li>
+                          <li class="dropdown-item d-flex align-items-center" v-if="bien?.mouvements.length == 0">
+                            <router-link
+                              
+                              :to="{ name: 'AddMouvementBien',params: { id: bien.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Affectation
+                            </router-link>
+                          </li>
                           
                           <li class="dropdown-item d-flex align-items-center">
                             <router-link
