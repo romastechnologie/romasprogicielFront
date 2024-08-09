@@ -144,7 +144,15 @@
                               Affectation
                             </router-link>
                           </li>
-                          
+                          <li class="dropdown-item d-flex align-items-center">
+                            <router-link
+                              
+                              :to="{ name: '',params: { id: bien.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Retourner
+                            </router-link>
+                          </li>
                           <li class="dropdown-item d-flex align-items-center">
                             <router-link
                               

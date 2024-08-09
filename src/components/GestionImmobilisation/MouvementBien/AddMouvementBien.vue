@@ -1,38 +1,28 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-      <h2>
-      Vous êtes sur le point de faire un (e) {{ typMouv }} de {{nombien }}
-      </h2>
+  
+    <div class="text-center mb-3">
+        <h2 v-if="tpValue == 1">
+          Vous êtes sur le point de faire une {{ typMouv }} de {{ nombien }}
+        </h2>
+        <h2 v-if="tpValue == 2">
+          Vous êtes sur le point de faire un {{ typMouv }} de {{ nombien }}
+        </h2>
+    </div>
             <Form ref="bienForm" @submit="addMouvementBien" :validation-schema="mouvementBienSchema">
-              <div class="row">
-              <div class="col-md-4">
+              <div class="row" mt-3>
+                <div class="col-md-4 mt-3">
+                    <label for="dateMouvement" class="form-label">Date Mouvement<span class="text-danger">*</span></label>
+                    <Field name="dateMouvement" class="form-control" type="date"/>
+                    <ErrorMessage name="dateMouvement" class="text-danger"/>
+               </div>
+                <div class="col-md-4 mt-3">
                     <label for="refMouvement" class="form-label">Référence<span class="text-danger">*</span></label>
                     <Field name="refMouvement" class="form-control" type="text"/>
                     <ErrorMessage name="refMouvement" class="text-danger"/>
             </div>
-            <div class="col-md-4">
-                    <label for="dateMouvement" class="form-label">Date Mouvement<span class="text-danger">*</span></label>
-                    <Field name="dateMouvement" class="form-control" type="date"/>
-                    <ErrorMessage name="dateMouvement" class="text-danger"/>
-            </div>
-            <div class="col-md-4">
-                    <label for="infosComplementaire" class="form-label">Infos complementaire</label>
-                    <Field name="infosComplementaire" class="form-control" type="text"/>
-                    <ErrorMessage name="infosComplementaire" class="text-danger"/>
-            </div>
-            <!--<div class="col-md-4">
-                    <label for="emplacementDepart" class="form-label">Ancien Emplacement<span class="text-danger">*</span></label>
-                    <Field name="emplacementDepart" class="form-control" type="text"/>
-                    <ErrorMessage name="emplacementDepart" class="text-danger"/>
-            </div>
-            <div class="col-md-4">
-                    <label for="emplacementDestination" class="form-label">Nouvel Emplacement<span class="text-danger">*</span></label>
-                    <Field name="emplacementDestination" class="form-control" type="text"/>
-                    <ErrorMessage name="emplacementDestination" class="text-danger" />
-            </div>-->
-
-            <div v-if="tpValue==1" class="col-md-4">
+            <div v-if="tpValue==1" class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
                 Ancien Emplacement<span class="text-danger">*</span>
@@ -47,7 +37,7 @@
             </div>
           </div>
 
-          <div v-if="tpValue==2" class="col-md-4">
+          <div v-if="tpValue==2" class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
                 Nouvel Emplacement<span class="text-danger">*</span>
@@ -60,7 +50,24 @@
               <span class="text-danger" v-if="showMErr">Le nouvel emplacement est obligatoire</span>
             </div>
           </div>
-          <div class="col-md-12">
+
+            <div class="col-md-12">
+                    <label for="infosComplementaire" class="form-label">Infos complémentaires</label>
+                    <textarea  id="infoComplementaire" class="form-control" col="12" rows="4"></textarea>
+                    <ErrorMessage name="infosComplementaire" class="text-danger"/>
+            </div>
+            <!--<div class="col-md-4">
+                    <label for="emplacementDepart" class="form-label">Ancien Emplacement<span class="text-danger">*</span></label>
+                    <Field name="emplacementDepart" class="form-control" type="text"/>
+                    <ErrorMessage name="emplacementDepart" class="text-danger"/>
+            </div>
+            <div class="col-md-4">
+                    <label for="emplacementDestination" class="form-label">Nouvel Emplacement<span class="text-danger">*</span></label>
+                    <Field name="emplacementDestination" class="form-control" type="text"/>
+                    <ErrorMessage name="emplacementDestination" class="text-danger" />
+            </div>-->
+
+            <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
                   Créer un mouvement
@@ -102,14 +109,10 @@
   
     setup: () => {
       const mouvementBienSchema = Yup.object().shape({
-            refMouvement: Yup.string().required("La référence est obligatoire."),
-            // typeMouvement: Yup.string().required("Le type est obligatoire."),
-            dateMouvement: Yup.date().required("la date est obligatoire."),
-            infosComplementaire: Yup.string().notRequired(),
-            emplacementDepart: Yup.string().required(),
-            // emplacementDestination: Yup.string().notRequired(),
-            // biens: Yup.string().required("Le bien est obligatoire."),
-            //services: Yup.string().required("Le bien est obligatoire.")
+            // refMouvement: Yup.string().required("La référence est obligatoire."),
+            // dateMouvement: Yup.date().required("la date est obligatoire."),
+            // infosComplementaire: Yup.string().notRequired(),
+            // emplacementDepart: Yup.string().required(),
       });
       const route = useRoute();
       const nombien = ref('');
