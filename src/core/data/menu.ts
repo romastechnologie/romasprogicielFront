@@ -420,11 +420,11 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-            {
+           /* {
                 path: "/mouvementBiens/ajouter-mouvementbien",
                 title: "Ajouter un mouvement de bien",
                 type: "link"
-            },
+            },*/
             {
                 path: "/mouvementBiens/liste-mouvementbiens",
                 title: "Liste des mouvements",
