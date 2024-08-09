@@ -103,7 +103,7 @@
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                         <ul class="dropdown-menu">
-                          <li class="dropdown-item d-flex align-items-center">
+                          <!--<li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
                               :to="{ name: 'EditMouvementBien',params: { id: mouvementBien.id } }"
@@ -111,7 +111,7 @@
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Modifier
                             </router-link>
-                          </li>
+                          </li>-->
                           <li class="dropdown-item d-flex align-items-center">
                             <a
                               

@@ -1,6 +1,9 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+      <h2>
+      Vous êtes sur le point de faire un (e) {{ typMouv }} de {{nombien }}
+      </h2>
             <Form ref="bienForm" @submit="addMouvementBien" :validation-schema="mouvementBienSchema">
               <div class="row">
               <div class="col-md-4">
@@ -8,19 +11,6 @@
                     <Field name="refMouvement" class="form-control" type="text"/>
                     <ErrorMessage name="refMouvement" class="text-danger"/>
             </div>
-            <div class="col-md-4">
-            <div class="form-group">
-              <label class="d-block text-black ">
-                Type Mouvement <span class="text-danger">*</span>
-              </label>
-              <!--<Field name="typeMouvement" type="text" v-slot="{ field }">
-                <VueMultiselect v-model="field.value" v-bind="field" :options="['Transfert', 'Affectation']"
-                  :close-on-select="true" :clear-on-select="false" placeholder="Sélectionner le type" />
-              </Field>-->
-              <Field name="ty" class="form-control" type="text" v-model="typMouv"   :readonly/>
-              <ErrorMessage name="typeMouvement" class="text-danger" />
-            </div>
-          </div>
             <div class="col-md-4">
                     <label for="dateMouvement" class="form-label">Date Mouvement<span class="text-danger">*</span></label>
                     <Field name="dateMouvement" class="form-control" type="date"/>
@@ -52,7 +42,7 @@
                  :multiple="false" :searchable="true" placeholder="Sélectionner l'emplacement"
                 label="label" track-by="label" />
               </Field>
-              <Field name="service" class="form-control" type="text" v-model="service" v-if="tpValue==2"/>
+              <Field name="emplacementDepart" class="form-control" type="text" v-model="service" v-if="tpValue == 2"/>
               <span class="text-danger" v-if="showMErr">L'ancien emplacement est obligatoire</span>
             </div>
           </div>
@@ -68,21 +58,6 @@
                 label="label" track-by="label" />
               </Field>
               <span class="text-danger" v-if="showMErr">Le nouvel emplacement est obligatoire</span>
-            </div>
-          </div>
-
-            <div class="col-md-6 mb-4">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black  mb-10">
-                Bien <span class="text-danger">*</span>
-              </label>
-              <!--<Field name="biens" v-model="biens" type="text" v-slot="{ field }">
-              <VueMultiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le bien"
-                label="label" track-by="label" />
-              </Field>-->
-              <Field name="nom" class="form-control" type="text" v-model="nombien"/>
-              <span class="text-danger" v-if="showMErr">Le bien est obligatoire</span>
             </div>
           </div>
           <div class="col-md-12">
@@ -128,12 +103,12 @@
     setup: () => {
       const mouvementBienSchema = Yup.object().shape({
             refMouvement: Yup.string().required("La référence est obligatoire."),
-            typeMouvement: Yup.string().required("Le type est obligatoire."),
+            // typeMouvement: Yup.string().required("Le type est obligatoire."),
             dateMouvement: Yup.date().required("la date est obligatoire."),
             infosComplementaire: Yup.string().notRequired(),
             emplacementDepart: Yup.string().required(),
-            emplacementDestination: Yup.string().notRequired(),
-            biens: Yup.string().required("Le bien est obligatoire."),
+            // emplacementDestination: Yup.string().notRequired(),
+            // biens: Yup.string().required("Le bien est obligatoire."),
             //services: Yup.string().required("Le bien est obligatoire.")
       });
       const route = useRoute();
