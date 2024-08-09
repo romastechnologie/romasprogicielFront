@@ -10,6 +10,7 @@ import "./assets/scss/app.scss"
 import '@vuepic/vue-datepicker/dist/main.css'
 import 'vue-rate/dist/vue-rate.css'
 import "vue-multiselect/dist/vue-multiselect.css"
+import "@vueform/multiselect/themes/default.css";
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css';
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import '@globalhive/vuejs-tour/dist/style.css';
