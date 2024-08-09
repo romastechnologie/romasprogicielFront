@@ -24,7 +24,7 @@ class ApiService {
     //  rejectUnauthorized: false, 
     // });
     // ApiService.vueInstance.axios.defaults.httpsAgent = httpsAgent;
-    ApiService.vueInstance.axios.defaults.baseURL ='http://localhost:3001/api';
+    ApiService.vueInstance.axios.defaults.baseURL ='http://localhost:3009/api';
     // ApiService.vueInstance.axios.defaults.baseURL ='https://back.romastechnologie.com/api';
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] ="application/json";
     ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] ="application/json";
@@ -88,6 +88,16 @@ class ApiService {
    */
   public static put(resource: string, params: any): Promise<AxiosResponse> {
     return ApiService.vueInstance.axios.put(`${resource}`, params);
+  }
+
+  /**
+   * @description Send the PATCH HTTP request
+   * @param resource: string
+   * @param params: AxiosRequestConfig
+   * @returns Promise<AxiosResponse>
+   */
+  public static patch(resource: string, params: any): Promise<AxiosResponse> {
+    return ApiService.vueInstance.axios.patch(`${resource}`, params);
   }
 
   /**

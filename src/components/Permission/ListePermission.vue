@@ -4,13 +4,14 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <a v-if="checkPermission('AddPermission')"
-          class="default-btn position-relative transition border-0 fw-medium text-white pt-11 pb-11 ps-25 pe-25 pt-md-12 pb-md-12 ps-md-30 pe-md-30 rounded-1 bg-success fs-md-15 fs-lg-16 d-inline-block me-10 mb-10 mb-lg-0 text-decoration-none"
+        <a 
+          class="btn btn-primary"
           href="#"
           data-bs-toggle="modal"
           data-bs-target="#AddPermissionModal"
         >
-          <i class="flaticon-plus position-relative ms-5 fs-12"></i>
+        <i class="fa fa-plus-circle"></i>
+          <!-- <i class="flaticon-plus position-relative ms-5 fs-12"></i> -->
           Ajouter une permission
         </a>
         <!-- <button
@@ -28,7 +29,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un privelege"
+            placeholder="Rechercher un privilege"
           />
           <button
             type="submit"
@@ -73,50 +74,49 @@
               </th>
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
               >Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(permission, index) in permissions" :key="index">
-              <td class="shadow-none lh-1 fw-medium text-primary">
+              <td class="shadow-none lh-1 fw-medium text-black">
                 {{ permission.nom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ permission.description }}
               </td>
               <td>
-                <div  v-for="(rolePermission,index) in permission.rolePermissions" :key="index">
-                  <span   class="badge text-bg-primary rounded-pill fs-13 me-5">
-                    <span v-if="rolePermission.role">{{ rolePermission.role.description }}</span>
-                  </span>
-                </div>
+                <div class="row">
+                        <span v-for="(rolePermission,index) in permission.rolePermissions" :key="index" class="text-center">
+                        <div class="col-12">
+                        <div class="col-6">
+                         <span class="badge badge-primary"  v-if="rolePermission.role">{{ rolePermission.role.description }}</span> 
+                        </div><br>
+                        </div>
+                        </span>
+                    </div>
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ format_date(permission.createdAt)  }}
               </td>
               <td
-                class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
+                class="shadow-none lh-1 fw-medium text-black pe-0"
               >
-              <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item d-flex align-items-center"  href="javascript:void(0);" @click="moddifier(permission)">
-                        <i class="flaticon-pen lh-1 me-8 position-relative top-1"  ></i>  Modifier
-                      </a>
-                    </li>
-                    <li>
-                      <a  class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
-                         @click="suppression(permission.id,permissions,'permissions',`le permission ${permission.description}`)">  <i class="flaticon-delete lh-1 me-8 position-relative top-1" ></i>
-                         Supprimer
-                      </a>
-                    </li>
-                  </ul>
-              </div>
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+              <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                <li class="dropdown-item d-flex align-items-center">
+                  <a  href="javascript:void(0);" @click="moddifier(permission)">
+                  <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
+                  </a>
+                </li>
+                <li class="dropdown-item d-flex align-items-center">
+                  <a href="javascript:void(0);"
+                      @click="suppression(permission.id,permissions,'permissions',`le permission ${permission.description}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                       Supprimer
+                  </a>
+                </li>
+              </ul>
               </td>
             </tr>
           </tbody>
@@ -132,13 +132,15 @@
     @get-all-permissions="getAllPermissions"
     :id="idpermission"
     @openmodal="showModalEdite"
+    @close="recharger"
+    @refreshPermissions="refreshPermissions"
   />
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref  } from "vue";
 import AddPermissionModal from "./AddPermissionModal.vue";
 import ApiService from "@/services/ApiService";
-import { format_date, showModal, suppression, error, } from "../../utils/utils";
+import { format_date, showModal, suppression, error, } from "@/utils/utils";
 import { useRouter } from "vue-router";
 import { PermissionData } from "@/models/Permission";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
@@ -169,7 +171,7 @@ export default defineComponent({
     const limit = ref(10);
     const totalElements = ref(0);
 
-    const handlePaginate = ({ page_, limit_ }) => {
+    const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
       try {
         page.value = page_;
         getAllPermissions(page_, limit_);
@@ -182,14 +184,19 @@ export default defineComponent({
       getAllPermissions(page.value, limit.value, searchTerm.value );
     }
 
+    const recharger = () => {
+      getAllPermissions();
+    };
     // END PAGINATE
-      
 
     onMounted(() => {
       loading.value=false;
       getAllPermissions()
     });
 
+    const refreshPermissions = () => {
+        getAllPermissions();
+    };
 
     function getAllPermissions(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/permissions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
@@ -209,16 +216,16 @@ export default defineComponent({
       idpermission.value = Editpermission.id;
     }
 
-    function showModalEdite(model){
+    function showModalEdite(model:any){
       showModal(model);
       idpermission.value=0;
     }
 
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
-const checkPermission = (name) => {
-  return privileges.value.includes(name);
-}
+    const checkPermission = (name:string) => {
+      return privileges.value.includes(name);
+    }
 
     return {suppression,
       checkPermission,
@@ -234,7 +241,9 @@ const checkPermission = (name) => {
       totalElements,
       handlePaginate,
       searchTerm,
-      rechercher
+      rechercher,
+      recharger,
+      refreshPermissions,
      };
   },
 

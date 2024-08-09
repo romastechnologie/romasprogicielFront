@@ -1,13 +1,15 @@
 <template>
-    <div class="d-flex profile-media align-items-center"><img class="img-30" src="@/assets/images/dashboard/profile.png"
+    <div class="d-flex profile-media align-items-center"><img class="img-30" src="@/assets/images/dashboard/profile.jpg"
             alt="">
-        <div class="flex-grow-1"><span>{{ userName? userName : "" }}</span>
-            <p class="mb-0 font-outfit">{{ userName ? userName : "" }}<i class="fa fa-angle-down"></i></p>
+        <div class="flex-grow-1"><span>{{ userName? userName : "" }} {{ userLastName ? userLastName : "" }}</span>
+            <p class="mb-0 font-outfit">{{ userEmail ? userEmail : "" }}<i class="fa fa-angle-down"></i></p>
         </div>
     </div>
     <ul class="profile-dropdown onhover-show-div">
-        <li v-for="(item, index) in profile" :key="index"><router-link :to="item.path"><vue-feather
-                    :type="item.icon"></vue-feather><span>{{ item.title }}</span></router-link></li>
+        <!-- <li v-for="(item, index) in profile" :key="index"><router-link :to="item.path"><vue-feather
+                    :type="item.icon"></vue-feather><span>{{ item.title }}</span></router-link></li> -->
+        <li><router-link
+            to="/profile"><vue-feather type="user"></vue-feather><span>Mon compte</span></router-link></li>
         <li><a @click="logout()"><vue-feather type="log-in"></vue-feather><span>Déconnexion</span></a></li>
     </ul>
 </template>
@@ -34,6 +36,7 @@ export default defineComponent({
     const store = useAuthStore();
     const user = ref<User>();
     const userName = ref("");
+    const userLastName = ref("");
     const userEmail = ref("");
     onMounted(() => {
     //   window.addEventListener("scroll", () => {
@@ -42,6 +45,7 @@ export default defineComponent({
     //   });
       if(JwtService.getUser()){
         userName.value = JwtService.getUserName()!;
+        userLastName.value = JwtService.getUserLastName()!;
         userEmail.value = JwtService.getUserEmail()! ? JwtService.getUserEmail()! : JwtService.getUserPhone()!;
       }
       user.value = store.user;
@@ -62,9 +66,9 @@ export default defineComponent({
       localStorage.clear()
       store.logout()
       if (!store.isAuthenticated) {
-        router.replace('/auth/login');
+        //router.replace('/auth/login');
 
-        //router.push({name:'LoginPage'})
+        router.push({name:'login'})
       }
     }
 
@@ -73,6 +77,7 @@ export default defineComponent({
       //isSticky,
       userEmail,
       userName,
+      userLastName,
       //userPhone,
       stateStoreInstance,
       logout,

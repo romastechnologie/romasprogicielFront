@@ -1,19 +1,21 @@
 <template>
-    <div class="container-fluid p-0">
-        <div class="row m-0">
-            <div class="col-12 p-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-5 b-center bg-size"
+                :style="{ backgroundImage: 'url(' + require('@/assets/images/login/log.jpg') + ')' }"><img
+                    class="bg-img-cover bg-center" src="@/assets/images/login/log.jpg" alt="looginpage"></div>
+            <div class="col-xl-7 p-0">
                 <div class="login-card login-dark">
                     <div>
-                        <div><router-link class="logo" to="/"><img class="img-fluid for-light"
-                                    src="@/assets/images/logo/logo.png" alt="looginpage"><img class="img-fluid for-dark"
-                                    src="@/assets/images/logo/logo_dark.png" alt="looginpage"></router-link></div>
+                        <div><a class="logo "> <router-link to="/"><img class="img-fluid for-light"
+                            src="@/assets/images/logo/logo.png" alt="looginpage"><img class="img-fluid for-dark"
+                            src="@/assets/images/logo/logo_dark.png" alt="looginpage"></router-link></a></div>
                         <div class="login-main">
                             <Form class="theme-form" ref="loginForm" @submit="onSubmitLogin" :validation-schema="loginSchema">
                                 <h4>Connecter-vous à votre compte</h4>
                                 <p>Entrer votre email et votre mot de passe</p>
                                 <div class="form-group">
                                     <label class="col-form-label">Email </label>
-                                    <!-- <input v-model="email" class="form-control" type="email" placeholder="Test@gmail.com"> -->
                                     <Field name="email" type="email" 
                                     class="form-control" placeholder="Entrer votre email"/>
                                     <ErrorMessage name="email" class="text-danger"/>
@@ -21,11 +23,9 @@
                                 <div class="form-group">
                                     <label class="col-form-label">Mot de passe</label>
                                     <div class="form-input position-relative">
-                                        <!-- <input v-model="password" :type="type" class="form-control" name="login[password]"
-                                            placeholder="*********"> -->
-                                            <Field name="password" type="password"  class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer votre mot de passe"/>
-                                            <ErrorMessage name="password" class="text-danger"/>
-                                        <div class="show-hide"><span class="show"> </span></div>
+                                        <Field name="password" :type="showPassword ? 'password' : 'text'" class="form-control pr-5" placeholder="Entrer votre mot de passe"/>
+                                        <i :class="{ 'fa fa-eye': !showPassword, 'fa fa-eye-slash': showPassword }" class="flaticon-eye position-absolute end-0 top-50 translate-middle-y pe-2" @click="toggleShow" :aria-label="buttonLabel"></i>
+                                        <ErrorMessage name="password" class="text-danger"/>
                                     </div>
                                 </div>
                                 <div class="form-group mb-0">
@@ -39,19 +39,6 @@
                                             </button>
                                     </div>
                                 </div>
-                                <!-- <h6 class="text-muted mt-4 or">Ou connectez-vous avec</h6>
-                                <div class="social mt-4">
-                                    <div class="btn-showcase"><a class="btn btn-light" href="https://www.linkedin.com/login"
-                                            target="_blank"><vue-feather class="txt-linkedin" type="linkedin"></vue-feather>
-                                            LinkedIn
-                                        </a><a class="btn btn-light" href="https://twitter.com/login?lang=en"
-                                            target="_blank"><vue-feather class="txt-twitter"
-                                                type="twitter"></vue-feather>twitter</a><a class="btn btn-light"
-                                            href="https://www.facebook.com/" target="_blank"><vue-feather class="txt-fb"
-                                                type="facebook"></vue-feather>facebook</a></div>
-                                </div>
-                                <p class="mt-4 mb-0 text-center">Don't have account?<router-link class="ms-2"
-                                        to="/auth/register">Create Account</router-link></p> -->
                             </Form>
                         </div>
                     </div>
@@ -61,8 +48,9 @@
 
     </div>
 </template>
+
 <script lang="ts" >
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import * as Yup from 'yup';
@@ -86,19 +74,6 @@ export default defineComponent({
     password: Yup.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères').required('Le mot de passe est obligatoire'),
     });
 
-    // let router = useRouter()
-    // let type = ref<string>('password')
-    // let email = ref<string>("test@admin.com")
-    // let password = ref<string>("test@123456")
-
-    // const showPassword = () =>{
-    //     if (type.value === 'password') {
-    //         type.value = 'text';
-    //     } else {
-    //         type.value = 'password';
-    //     }
-    // }
-
     const router  = useRouter();
     const store = useAuthStore();
     const submitButton = ref<HTMLButtonElement | null>(null);
@@ -106,7 +81,6 @@ export default defineComponent({
     const loginForm = ref(null);
     const onSubmitLogin = async (values: any) => {
      // values = values as User;
-     console.log('fejfelffeefeeffffffff', values)
       // Clear existing errors
       store.logout();
       if (submitButton.value) {
@@ -121,8 +95,8 @@ export default defineComponent({
       if (error.length === 0) {
           console.log('Dans la fonction je suis')
           //router.push('defaultRoot');
-          router.replace('/');
-          localStorage.setItem('user', 'romastechnologie@gmail.com')
+          router.replace('/accueil/tableau-bord');
+          localStorage.setItem('user', 'test@gmail.com')
           localStorage.setItem("SidebarType", 'compact-wrapper')
       } else {
         Swal.fire({
@@ -141,27 +115,25 @@ export default defineComponent({
       // eslint-disable-next-line
       submitButton.value!.disabled = false;
     };
-        // const doLogin = () =>{
-        //     if (email.value === "test@admin.com") {
 
-        //         router.replace('/');
-        //         localStorage.setItem('user', email.value)
-        //         localStorage.setItem("SidebarType", 'compact-wrapper')
-        //     }
-        //     else {
-        //         toast.error('Opps... Invalid email and password ', { position: 'top-right', icon: 'times', autoClose: 2000 });
-        //     }
+        const showPassword = ref(true);
+        const password = ref(null);
 
-        // }
+        const toggleShow = () => {
+        showPassword.value = !showPassword.value;
+        };
+
+        const buttonLabel = computed(() => (showPassword.value ? 'Hide' : 'Show'));
 
         return {
             onSubmitLogin,
              loginForm,
             submitButton,
-            //showPassword,
-            //doLogin,
+            showPassword,
+            toggleShow,
+            buttonLabel,
+            password,
             loginSchema,
-
         }
     }
 

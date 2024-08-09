@@ -18,21 +18,21 @@
                     <li class="onhover-dropdown">
                         <NotificationBox />
                     </li>
-                    <li class="onhover-dropdown">
+                    <!-- <li class="onhover-dropdown">
                         <BookmarkSearch />
-                    </li>
+                    </li> -->
                     <li>
                         <ModeView />
                     </li>
-                    <li class="language-nav">
+                    <!-- <li class="language-nav">
                         <LanguageView />
-                    </li>
+                    </li> -->
                     <li class="onhover-dropdown">
                         <MessageBox />
                     </li>
-                    <li class="cart-nav onhover-dropdown">
+                    <!-- <li class="cart-nav onhover-dropdown">
                         <CartBox />
-                    </li>
+                    </li> -->
                     <li class="profile-nav onhover-dropdown px-0 py-0">
                         <ProfileView />
                     </li>
@@ -44,9 +44,9 @@
 <script lang="ts" setup>
 import { defineAsyncComponent, defineEmits, ref } from 'vue'
 import { useMenuStore } from "@/store/menu";
-const LogoView = defineAsyncComponent(() => import("@/components/common/block/header/LogoView.vue"))
+// const LogoView = defineAsyncComponent(() => import("@/components/common/block/header/LogoView.vue"))
 const SearchBar = defineAsyncComponent(() => import("@/components/common/block/header/SearchBar.vue"))
-const HeaderLogo = defineAsyncComponent(() => import("@/components/common/block/header/HeaderLogo.vue"))
+// const HeaderLogo = defineAsyncComponent(() => import("@/components/common/block/header/HeaderLogo.vue"))
 const SearchInput = defineAsyncComponent(() => import("@/components/common/block/header/SearchInput.vue"))
 const HeaderSearch = defineAsyncComponent(() => import("@/components/common/block/header/HeaderSearch.vue"))
 const NotificationBox = defineAsyncComponent(() => import("@/components/common/block/header/NotificationBox.vue"))

@@ -1,10 +1,13 @@
 const ID_TOKEN_KEY = "id_token" as string;
 const ID_USER_KEY = "id_user" as string;
+const ID_USERID_KEY = "id" as string;
 const USER_INFO = "user_info" as string;
 const ID_PHONE_KEY = "user_phone" as string;
 const USER_NAME = "user_name" as string;
+const USER_LASTNAME = "user_lastname" as string;
 const USER_EMAIL = "user_email" as string;
 const USER_PRIVILEGE = "user_privilege" as string;
+const USER_ROLE = "user_role" as string;
 
 /**
  * @description get token form localStorage
@@ -35,6 +38,22 @@ export const savePrivilege = (privilege: string): void => {
   window.localStorage.setItem(USER_PRIVILEGE, privilege);
 };
 
+export const getRole = () => {
+  const roll = window.localStorage.getItem(USER_ROLE);
+  let rollTable= [];
+  if (roll != null) {
+     rollTable = JSON.parse(roll) ;
+  }
+  return rollTable;
+};
+
+export const destroyUserRole = (): void => {
+  window.localStorage.removeItem(USER_ROLE);
+};
+export const saveRole = (role: string): void => {
+  window.localStorage.setItem(USER_ROLE, role);
+};
+
 export const getUserPhone = (): string | null => {
   return window.localStorage.getItem(ID_PHONE_KEY);
 };
@@ -58,12 +77,27 @@ export const getUser = (): string | null => {
   return window.localStorage.getItem(ID_USER_KEY);
 };
 
+/**
+ * @description get user id form localStorage
+ */
+export const getUserId = (): string | null => {
+  return window.localStorage.getItem(ID_USERID_KEY);
+};
+
 export const getUserName = (): string | null => {
   return window.localStorage.getItem(USER_NAME);
 };
 
+export const getUserLastName = (): string | null => {
+  return window.localStorage.getItem(USER_LASTNAME);
+};
+
 export const saveUserName = (name: string): void => {
   window.localStorage.setItem(USER_NAME, name);
+};
+
+export const saveUserLastName = (prenom: string): void => {
+  window.localStorage.setItem(USER_LASTNAME, prenom);
 };
 
 export const destroyUserPhone = (): void => {
@@ -115,4 +149,8 @@ export const destroyUser = (): void => {
   window.localStorage.removeItem(ID_USER_KEY);
 };
 
-export default {destroyUserPrivilege,getPrivilege, savePrivilege, getToken,saveUserName,setUserEmail, getUserEmail,destroyUserEmail,getUserName,getUserPhone,saveUserPhone,destroyUserPhone,destroyUserName, saveToken, destroyToken, saveUser ,destroyUser,getUser };
+export default {destroyUserPrivilege,getPrivilege, savePrivilege,
+   getToken,saveUserName,saveUserLastName,setUserEmail, getUserEmail,destroyUserEmail,
+   getUserName, getUserLastName, getUserPhone,saveUserPhone,destroyUserPhone,destroyUserName,
+    saveToken, destroyToken, saveUser ,destroyUser,getUser,
+    destroyUserRole,getRole, saveRole, getUserId };

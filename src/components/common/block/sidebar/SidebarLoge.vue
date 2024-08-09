@@ -1,5 +1,5 @@
 <template>
-    <div class="logo-wrapper"><router-link to="/"><img class="img-fluid" src="@/assets/images/logo/logo_light.png"
+    <div class="logo-wrapper"><router-link to="/accueil/tableau-bord"><img class="img-fluid" src="@/assets/images/logo/logo_light.png"
                 alt=""></router-link>
         <div class="back-btn" @click="store.toggle_sidebar"><i class="fa fa-angle-left"></i></div>
         <div class="toggle-sidebar" @click="store.toggle_sidebar">
@@ -11,7 +11,7 @@
             </svg>
         </div>
     </div>
-    <div class="logo-icon-wrapper"><router-link to="/"><img class="img-fluid" src="@/assets/images/logo/logo-icon.png"
+    <div class="logo-icon-wrapper"><router-link to="/accueil/tableau-bord"><img class="img-fluid" src="@/assets/images/logo/logo-icon.png"
                 alt=""></router-link></div>
 </template>
 <script lang="ts" setup>

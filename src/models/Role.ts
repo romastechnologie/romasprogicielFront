@@ -35,7 +35,8 @@ export interface RoleData {
 
 export interface UserRole {
     id: number;
-    nomComplet: string;
+    nom: string;
+    prenom: string;
     telephone: string;
     sexe: string;
     email: string;
