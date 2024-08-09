@@ -3,7 +3,7 @@
       <div
         class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
       >
-        <div class="d-sm-flex align-items-center">
+        <!--<div class="d-sm-flex align-items-center">
           <router-link
            class="btn btn-primary"
             to="/mouvementBiens/ajouter-mouvementbien"
@@ -11,14 +11,14 @@
           <i class="fa fa-plus-circle"></i>
             Ajouter un mouvement
           </router-link>
-          <!-- <button
+           <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
             type="button"
           >
             Exporter
             <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
-          </button> -->
-        </div>
+          </button> 
+        </div>-->
         <div class="d-flex align-items-center">
           <form class="search-box position-relative me-15" @submit.prevent="rechercher">
             <input
