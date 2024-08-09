@@ -112,7 +112,7 @@
             <tbody>
               <tr  v-for ="(bien, index) in biens" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.refBien }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien.nomBien }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.nomBien }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien?.coutAcquisition }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(bien?.dateAcquisition) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(bien.dateMiseEnService) }} </td>

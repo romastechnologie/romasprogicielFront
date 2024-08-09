@@ -13,11 +13,11 @@
               <label class="d-block text-black ">
                 Type Mouvement <span class="text-danger">*</span>
               </label>
-              <Field name="typeMouvement" type="text" v-slot="{ field }">
+              <!--<Field name="typeMouvement" type="text" v-slot="{ field }">
                 <VueMultiselect v-model="field.value" v-bind="field" :options="['Transfert', 'Affectation']"
                   :close-on-select="true" :clear-on-select="false" placeholder="Sélectionner le type" />
-              </Field>
-              <Field name="ty" class="form-control" type="text" v-model="typMouv"/>
+              </Field>-->
+              <Field name="ty" class="form-control" type="text" v-model="typMouv"   :readonly/>
               <ErrorMessage name="typeMouvement" class="text-danger" />
             </div>
           </div>
@@ -42,10 +42,10 @@
                     <ErrorMessage name="emplacementDestination" class="text-danger" />
             </div>-->
 
-            <div class="col-md-4">
+            <div v-if="tpValue==1" class="col-md-4">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
-                Emplacement Départ<span class="text-danger">*</span>
+                Ancien Emplacement<span class="text-danger">*</span>
               </label>
               <Field name="emplacementDepart" v-model="emplacementDepart" type="text" v-slot="{ field }">
               <VueMultiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
@@ -57,10 +57,10 @@
             </div>
           </div>
 
-          <div class="col-md-4">
+          <div v-if="tpValue==2" class="col-md-4">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
-                Emplacement Destination<span class="text-danger">*</span>
+                Nouvel Emplacement<span class="text-danger">*</span>
               </label>
               <Field name="emplacementDestination" v-model="emplacementDestination" type="text" v-slot="{ field }">
               <VueMultiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
@@ -76,11 +76,11 @@
               <label class="d-block text-black  mb-10">
                 Bien <span class="text-danger">*</span>
               </label>
-              <Field name="biens" v-model="biens" type="text" v-slot="{ field }">
+              <!--<Field name="biens" v-model="biens" type="text" v-slot="{ field }">
               <VueMultiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le bien"
                 label="label" track-by="label" />
-              </Field>
+              </Field>-->
               <Field name="nom" class="form-control" type="text" v-model="nombien"/>
               <span class="text-danger" v-if="showMErr">Le bien est obligatoire</span>
             </div>
