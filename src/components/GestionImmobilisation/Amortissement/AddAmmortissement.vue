@@ -1,5 +1,9 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+      <h2 v-if="tpValue == 1">
+          Vous êtes sur le point de faire l'amortissement de {{ nombien }}
+        </h2>
+      
       <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <Form ref="amortissementForm" @submit="addAmortissement" :validation-schema="amortissementSchema">
               <div class="row">

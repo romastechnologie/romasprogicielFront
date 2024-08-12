@@ -96,6 +96,7 @@ import ListeCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/
 import AddTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/AddTypeBienPage.vue";
 import ListeTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue";
 import EditTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/EditTypeBienPage.vue";
+import TableauAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/TableauAmortissementPage.vue";
 
 
 
@@ -224,6 +225,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeBienPage,
         meta: {
           title: 'Liste des biens',
+        }
+      },
+      {
+        path: "tableau-amortissements/:id",
+        name: "TableauAmortissement",
+        component: TableauAmortissementPage,
+        meta: {
+          title: 'Tableau des amortissements',
         }
       },
       {

@@ -109,10 +109,11 @@
   
     setup: () => {
       const mouvementBienSchema = Yup.object().shape({
-            // refMouvement: Yup.string().required("La référence est obligatoire."),
+             refMouvement: Yup.string().required("La référence est obligatoire."),
             // dateMouvement: Yup.date().required("la date est obligatoire."),
-            // infosComplementaire: Yup.string().notRequired(),
-            // emplacementDepart: Yup.string().required(),
+            infosComplementaire: Yup.string().notRequired(),
+            emplacementDepart: Yup.string().required(),
+            emplacementDestination: Yup.string().notRequired(),
       });
       const route = useRoute();
       const nombien = ref('');
@@ -195,9 +196,9 @@
 
       const getAllServices = async () => {
         try{
-        const response = await ApiService.get('/all/services');
+        const response = await ApiService.get('/services');
         const servicesData = response.data.data.data;
-
+console.log(response,servicesData)
         serviceOptions.value = servicesData.map((service) => ({
           value: service.code,
           label: service.libelle
