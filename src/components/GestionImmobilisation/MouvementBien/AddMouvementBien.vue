@@ -22,27 +22,13 @@
                     <Field name="refMouvement" class="form-control" type="text"/>
                     <ErrorMessage name="refMouvement" class="text-danger"/>
             </div>
-            <div v-if="tpValue==1" class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black  mb-10">
-                Ancien Emplacement<span class="text-danger">*</span>
-              </label>
-              <Field name="emplacementDepart" v-model="emplacementDepart" type="text" v-slot="{ field }">
-              <VueMultiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner l'emplacement"
-                label="label" track-by="label" />
-              </Field>
-              <Field name="emplacementDepart" class="form-control" type="text" v-model="service" v-if="tpValue == 2"/>
-              <span class="text-danger" v-if="showMErr">L'ancien emplacement est obligatoire</span>
-            </div>
-          </div>
 
-          <div v-if="tpValue==2" class="col-md-4 mt-3">
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
                 Nouvel Emplacement<span class="text-danger">*</span>
               </label>
-              <Field name="emplacementDestination" v-model="emplacementDestination" type="text" v-slot="{ field }">
+              <Field name=" nouvelEmplacement" type="text" v-slot="{ field }">
               <VueMultiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner l'emplacement"
                 label="label" track-by="label" />
@@ -53,20 +39,15 @@
 
             <div class="col-md-12">
                     <label for="infosComplementaire" class="form-label">Infos complémentaires</label>
-                    <textarea  id="infoComplementaire" class="form-control" col="12" rows="4"></textarea>
+                    <Field name="infosComplementaire" cols="20"
+                              rows="12" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
+                                <textarea
+                                  v-model="field.value"
+                                  class="form-control shadow-none rounded-0 text-black"
+                                ></textarea>
+                              </Field>
                     <ErrorMessage name="infosComplementaire" class="text-danger"/>
             </div>
-            <!--<div class="col-md-4">
-                    <label for="emplacementDepart" class="form-label">Ancien Emplacement<span class="text-danger">*</span></label>
-                    <Field name="emplacementDepart" class="form-control" type="text"/>
-                    <ErrorMessage name="emplacementDepart" class="text-danger"/>
-            </div>
-            <div class="col-md-4">
-                    <label for="emplacementDestination" class="form-label">Nouvel Emplacement<span class="text-danger">*</span></label>
-                    <Field name="emplacementDestination" class="form-control" type="text"/>
-                    <ErrorMessage name="emplacementDestination" class="text-danger" />
-            </div>-->
-
             <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -109,17 +90,17 @@
   
     setup: () => {
       const mouvementBienSchema = Yup.object().shape({
-             refMouvement: Yup.string().required("La référence est obligatoire."),
+            //  refMouvement: Yup.string().required("La référence est obligatoire."),
             // dateMouvement: Yup.date().required("la date est obligatoire."),
-            infosComplementaire: Yup.string().notRequired(),
-            emplacementDepart: Yup.string().required(),
-            emplacementDestination: Yup.string().notRequired(),
+            // infosComplementaire: Yup.string().notRequired(),
+            //  nouvelEmplacement: Yup.string().notRequired(),
       });
       const route = useRoute();
       const nombien = ref('');
       const typMouv = ref("");
       const tpValue = ref(1);
       const service = ref("");
+      const bienId = ref()
 
       onMounted(() => {
         getAllBiens(),
@@ -136,6 +117,7 @@
       ApiService.get("/biens/"+id.toString())
         .then(({ data }) => {
           console.log('then', data.data);
+          bienId.value = data.data.id;
           nombien.value = data.data.nomBien + "" +"" +"["+  "" +data.data.refBien + "]"
           tpValue.value = data.data.mouvements.length != 0 ? 2 : 1
           typMouv.value = tpValue.value == 1 ? "Affectation" : "Transfert"
@@ -149,7 +131,7 @@
       })
       .catch(({ response }) => {
         error(response.message);
-      });
+      });  
     }
   
       const bienForm =  ref(null);
@@ -159,24 +141,25 @@
       const showMErr = ref(false);
       const biens = ref();
       const emplacementDepart = ref();
-      const emplacementDestination =ref()
+      const  nouvelEmplacement =ref()
 
       const addMouvementBien = async (values,{ resetForm }) => {
-        values['biens'] = biens.value.value
-        values['emplacementDepart'] = emplacementDepart.value.value
+        // values[' nouvelEmplacement'] =  nouvelEmplacement.value.value
+        values["typeMouvement"]=tpValue.value;
+        values["bien"]=bienId.value;
       console.log('Données envoyées', values)
-      if (showMErr.value === false) {
+      console.log('dataapi')
         ApiService.post("/mouvementBiens",values)
         .then(({ data }) => {
-          if(data.code == 201) { 
+          console.log('data', data)
+          // if(data.code == 201) { 
             success(data.message)
             resetForm();
             router.push({ name: "ListeMouvementBien" });
-          }
+          // }
         }).catch(({ response }) => {
           error(response.message);
         });
-      }
     }
   
       const getAllBiens = async () => {
@@ -200,7 +183,7 @@
         const servicesData = response.data.data.data;
 console.log(response,servicesData)
         serviceOptions.value = servicesData.map((service) => ({
-          value: service.code,
+          value: service.id,
           label: service.libelle
         }));
         }
@@ -212,7 +195,7 @@ console.log(response,servicesData)
   
       return {mouvementBienSchema, addMouvementBien, bienForm, 
         typeOptions, biens,serviceOptions,emplacementDepart,
-         showMErr, nombien, emplacementDestination, typMouv, tpValue,service};
+         showMErr, nombien,  nouvelEmplacement, typMouv, tpValue,service};
     },
   });
   </script>
