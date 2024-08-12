@@ -3,8 +3,6 @@ export  interface MouvementBien {
     refMouvement: string;
     dateMouvement: Date;
     infosComplementaire: number;
-    ancienEmplacement: string;
-    nouvelEmplacement: string;
     typeMouvement:string;
     typeOptions:string;
     createdAt:Date;

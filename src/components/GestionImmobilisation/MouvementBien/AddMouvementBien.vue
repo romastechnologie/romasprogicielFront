@@ -43,11 +43,12 @@
               </label>
               <Field  name="nouvelEmplacement" v-slot="{ field }" v-model="nouvelEmplacement">
                 <Multiselect 
-                    :no-options-text="nooptions"
                     v-model = "field.value"
                     v-bind = "field"
                     :options="serviceOptions"
                     placeholder="Selectionner un emplacement"
+                    label="label" 
+                    track-by="label"
                  />
               </Field>
               <ErrorMessage name="nouvelEmplacement" class="text-danger"/>
@@ -56,7 +57,7 @@
             <div class="col-md-12">
                     <label for="infosComplementaire" class="form-label">Infos complémentaires</label>
                     <Field name="infosComplementaire" cols="20"
-                              rows="12" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
+                              rows="6" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
                                 <textarea
                                   v-model="field.value"
                                   class="form-control shadow-none rounded-0 text-black"
@@ -198,7 +199,7 @@
         try{
         const response = await ApiService.get('/services');
         const servicesData = response.data.data.data;
-console.log(response,servicesData)
+        console.log(response,servicesData)
         serviceOptions.value = servicesData.map((service) => ({
           value: service.id,
           label: service.libelle

@@ -72,17 +72,18 @@
                 >
                   Nom Bien
                 </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                  Ancien Emplacement
-                </th>
+               
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
                   Nouvel Emplacement
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Ancien Emplacement
                 </th>
                 <th
                   scope="col"
@@ -96,9 +97,9 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.typeMouvement }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(mouvementBien.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.infosComplementaire }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.nomBien }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.ancienEmplacement }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.nouvelEmplacement }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien.bien.nomBien }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien?.nouvelEmplacement?.libelle }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ mouvementBien?.ancienEmplacement?.libelle }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
