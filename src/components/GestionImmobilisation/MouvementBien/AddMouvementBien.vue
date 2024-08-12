@@ -23,7 +23,7 @@
                     <ErrorMessage name="refMouvement" class="text-danger"/>
             </div>
 
-          <div class="col-md-4 mt-3">
+          <!--<div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
                 Nouvel Emplacement<span class="text-danger">*</span>
@@ -35,8 +35,24 @@
               </Field>
               <span class="text-danger" v-if="showMErr">Le nouvel emplacement est obligatoire</span>
             </div>
-          </div>
-
+          </div>-->
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Nouvel Emplacement<span class="text-danger">*</span>
+              </label>
+              <Field  name="nouvelEmplacement" v-slot="{ field }" v-model="nouvelEmplacement">
+                <Multiselect 
+                    :no-options-text="nooptions"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    :options="serviceOptions"
+                    placeholder="Selectionner un emplacement"
+                 />
+              </Field>
+              <ErrorMessage name="nouvelEmplacement" class="text-danger"/>
+            </div>
+        </div>
             <div class="col-md-12">
                     <label for="infosComplementaire" class="form-label">Infos complémentaires</label>
                     <Field name="infosComplementaire" cols="20"
@@ -48,6 +64,7 @@
                               </Field>
                     <ErrorMessage name="infosComplementaire" class="text-danger"/>
             </div>
+            
             <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -93,7 +110,7 @@
             //  refMouvement: Yup.string().required("La référence est obligatoire."),
             // dateMouvement: Yup.date().required("la date est obligatoire."),
             // infosComplementaire: Yup.string().notRequired(),
-            //  nouvelEmplacement: Yup.string().notRequired(),
+            nouvelEmplacement: Yup.string().required("Le nouvel emplacement est obligatoire"),
       });
       const route = useRoute();
       const nombien = ref('');

@@ -19,72 +19,72 @@
                     <ErrorMessage name="coutAcquisition" class="text-danger" />
             </div>
   
-            <div class="col-md-4">
+            <div class="col-md-4 mt-3">
                     <label for="dateAcquisition" class="form-label"> Date d'Acquisition<span class="text-danger">*</span></label>
                     <Field name="dateAcquisition"  class="form-control" type="Date"/>
                     <ErrorMessage name="dateAcquisition" class="text-danger" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mt-3">
                     <label for="dureeVie" class="form-label">Duree de Vie<span class="text-danger">*</span></label>
                     <Field name="dureeVie" class="form-control" type="number"/>
                     <ErrorMessage name="dureeVie" class="text-danger" />
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 mt-3">
                     <label for="dateMiseEnService" class="form-label">Date Mise En Service<span class="text-danger">*</span></label>
                     <Field name="dateMiseEnService" class="form-control" type="Date"/>
                     <ErrorMessage name="dateMiseEnService" class="text-danger" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mt-3">
                     <label for="numeroEnregistrement" class="form-label">Numero Enregistrement<span class="text-danger">*</span></label>
                     <Field name="numeroEnregistrement" class="form-control" type="number"/>
                     <ErrorMessage name="numeroEnregistrement" class="text-danger" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mt-3">
                     <label for="codeBar" class="form-label">codeBar</label>
                     <Field name="codeBar" class="form-control" type="text"/>
                     <ErrorMessage name="codeBar" class="text-danger" />
          </div>
-         <div class="col-md-4">
+         <div class="col-md-4 mt-3">
                     <label for="localisation" class="form-label">Localisation</label>
                     <Field name="localisation"  class="form-control" type="text"/>
                     <ErrorMessage name="localisation" class="text-danger" />
          </div>
-         <div class="col-md-4">
+         <div class="col-md-4 mt-3">
                     <label for="longitude" class="form-label">Longitude</label>
                     <Field name="longitude" class="form-control" type="number"/>
                     <ErrorMessage name="longitude" class="text-danger"/>
          </div>
-         <div class="col-md-4">
+         <div class="col-md-4 mt-3">
                     <label for="latitude" class="form-label">Latitude</label>
                     <Field name="latitude" class="form-control" type="number"/>
                     <ErrorMessage name="latitude" class="text-danger" />
          </div>
-         <div class="col-md-4">
+         <div class="col-md-4 mt-3">
             <div class="form-group">
               <label class="d-block text-black">
                 Mode Amortissement <span class="text-danger">*</span>
               </label>
               <Field name="modeAmortissement" type="text" v-slot="{ field }">
-                <VueMultiselect v-model="field.value" v-bind="field" :options="['Linéaire', 'Dégressif']"
+                <Multiselect v-model="field.value" v-bind="field" :options="['Linéaire', 'Dégressif']"
                   :close-on-select="true" :clear-on-select="false" placeholder="Sélectionner le mode" />
               </Field>
               <ErrorMessage name="modeAmortissement" class="text-danger" />
             </div>
           </div>
-         <div class="col-md-4">
+         <div class="col-md-4 mt-3">
                     <label for="valeurNetteComptable" class="form-label">Valeur Nette Comptable<span class="text-danger">*</span></label>
                     <Field name="valeurNetteComptable" class="form-control" type="number"/>
                     <ErrorMessage name="valeurNetteComptable" class="text-danger" />         
           </div>
 
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Type Bien <span class="text-danger">*</span>
               </label>
               <Field name="types" v-model="types" type="text" v-slot="{ field }">
-              <VueMultiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
+              <Multiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le type"
                 label="label" track-by="label" />
               </Field>
@@ -92,20 +92,20 @@
             </div>
           </div>
 
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
                 Catégorie Bien <span class="text-danger">*</span>
               </label>
               <Field name="categories" v-model="categories" type="text" v-slot="{ field }">
-              <VueMultiselect v-model="field.value" v-bind="field" :options="categorieOptions" :preserve-search="true"
+              <Multiselect v-model="field.value" v-bind="field" :options="categorieOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie"
                 label="label" track-by="label" />
               </Field>
               <span class="text-danger" v-if="showMErr">La catégorie de bien est obligatoire</span>
             </div>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
                   Ajouter un bien
