@@ -94,7 +94,7 @@
           if(data.code == 200) { 
             success(data.message);
             resetForm();
-            router.push({ name: "ListeFournisseurPage" });
+            router.push({ name: "ListeFournisseur" });
           }
         }).catch(({ response }) => {
           error(response.data.message);

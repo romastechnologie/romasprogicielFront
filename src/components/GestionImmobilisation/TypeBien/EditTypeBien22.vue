@@ -3,28 +3,38 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="typeBienForm" @submit="editTypeBien" :validation-schema="typeBienSchema" :initial-values="typeBienForm">
             <div class="row">
-              <div class="col-md-6 mb-3">
-                    <label for="code" class="form-label">Code<span class="text-danger">*</span></label>
-                    <Field name="code" class="form-control" type="text"/>
-                    <ErrorMessage name="code" class="text-danger" />
+          <div class="col-md-6 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Code <span class="text-danger">*</span>
+              </label>
+
+              <Field name="code" class="form-control" type="text" />
+
+              <ErrorMessage name="code" class="text-danger" />
             </div>
-            <div class="col-md-6 mb-3">
-                    <label for="libelle" class="form-label">Libellé<span class="text-danger">*</span></label>
-                    <Field name="libelle" class="form-control" type="text"/>
-                    <ErrorMessage name="libelle" class="text-danger"/>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Libelle <span class="text-danger">*</span>
+              </label>
+              <Field name="libelle" class="form-control" type="text" />
+              <ErrorMessage name="libelle" class="text-danger" />
             </div>
+          </div>
           <div class="col-md-12">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
-
-                  Modifier un type de bien
+                Modifier un type de bien
               </button>
-              <router-link to="/typebiens/liste-typebiens" 
-                  class=" btn btn-danger"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
-                  <span class="position-relative"></span>Annuler</router-link>
-            </div>
+              <router-link to="/typebiens/liste-typebiens" class=" btn btn-danger"><i
+                  class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler</router-link>
+            </div> 
           </div>
-          </div>
+        </div>
       </Form>
     </div>
   </div>

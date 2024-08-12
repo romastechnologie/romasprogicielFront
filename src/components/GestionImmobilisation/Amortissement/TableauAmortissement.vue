@@ -2,12 +2,6 @@
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
   
-    <div class="text-center mb-3">
-        <h2>
-          Tableau d'amortissement
-        </h2>
-    </div>
-
   <div class="amortissement-page">
     <!-- Titre de la page -->
     <h1 class="page-title">Tableau d'Amortissement</h1>
@@ -16,20 +10,23 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          
           <th>Année</th>
           <th>Taux Amortissement</th>
           <th>Valeur Nette Comptable</th>
           <th>Amortissement</th>
+          <th>Duree d'utilisation</th>
+          
           
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(ligne, index) in amortissementData" :key="index">
-          <td>{{ ligne.annee }}</td>
-          <td>{{ ligne.taux | currency }}</td>
-          <td>{{ ligne.interet | currency }}</td>
-          <td>{{ ligne.amortissement | currency }}</td>
-          <td>{{ ligne.capitalRestant | currency }}</td>
+        <tr v-for="(amortissement, index) in amortissementData" :key="index">
+          <td>{{ amortissement.annee | currency }}</td>
+          <td>{{ amortissement.taux | currency }}</td>
+          <td>{{ amortissement.valeurNetteComptable | currency }}</td>
+          <td>{{ amortissement.amortissement | currency }}</td>
+          <td>{{ amortissement.dureeUtilisation | currency }}</td>
         </tr>
       </tbody>
     </table>
@@ -44,10 +41,9 @@ export default {
   data() {
     return {
       amortissementData: [
-        // Exemple de données d'amortissement
-        { periode: 1, capitalInitial: 10000, interet: 500, amortissement: 1000, capitalRestant: 9000 },
-        { periode: 2, capitalInitial: 9000, interet: 450, amortissement: 1000, capitalRestant: 8000 },
-        // Ajoutez d'autres lignes ici...
+      { annee: 1, taux: 5, valeurNetteComptable: 9500, amortissement: 500, dureeUtilisation: 10 },
+        { annee: 2, taux: 5, valeurNetteComptable: 9000, amortissement: 500, dureeUtilisation: 9 },
+        { annee: 3, taux: 5, valeurNetteComptable: 8500, amortissement: 500, dureeUtilisation: 8 },
       ],
     };
   },

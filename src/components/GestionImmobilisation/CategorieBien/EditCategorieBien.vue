@@ -88,7 +88,7 @@
           if(data.code == 200) { 
             success(data.message);
             resetForm();
-            router.push({ name: "ListeCategorieBienPage" });
+            router.push({ name: "ListeCategorieBien" });
           }
         }).catch(({ response }) => {
           error(response.data.message);
