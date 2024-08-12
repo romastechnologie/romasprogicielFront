@@ -22,7 +22,7 @@ watch(
     showLoader.value = true;
     setTimeout(() => {
       showLoader.value = false
-    }, 3000);
+    }, 1500);
   },
   { deep: true },
 );
@@ -51,7 +51,6 @@ onMounted(() => {
 })
 onUnmounted(() => {
   window.removeEventListener('beforeunload', add)
-
 })
 </script>
 

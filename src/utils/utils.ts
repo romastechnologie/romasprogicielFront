@@ -72,8 +72,8 @@ const  format_date = (value:any)=>{
 }
 const format_Date = (date:any) => {
   if (date) {
-  return format(new Date(date), 'dd-MM-yyyy', { locale: fr });
-}
+    return format(new Date(date), 'dd-MM-yyyy', { locale: fr });
+  }
 }
 
 const separateur = (montant:any)=>{ 
