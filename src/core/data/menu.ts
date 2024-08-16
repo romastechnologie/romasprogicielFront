@@ -566,7 +566,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/liste-sorties",
+                path: "/sorties/liste-sorties",
                 title: "Liste des sorties",
                 type: "link"
             },
@@ -581,7 +581,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/liste-livraisons",
+                path: "/livraisons/liste-livraisons",
                 title: "Liste des livraisons",
                 type: "link"
             }
@@ -597,27 +597,27 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/liste-comptes",
+                path: "/comptes/liste-comptes",
                 title: "Liste des comptes",
                 type: "link"
             },
             {
-                path: "/liste-transactions",
+                path: "/transactions/liste-transactions",
                 title: "Liste des transactions",
                 type: "link"
             },
             {
-                path: "/ajouter-operationDepot",
+                path: "/operations/ajouter-operation-depot",
                 title: "Ajouter une opération de dépôt",
                 type: "link"
             },
             {
-                path: "/ajouter-operationRetrait",
+                path: "/operations/ajouter-operation-retrait",
                 title: "Ajouter une opération de retrait",
                 type: "link"
             },
             {
-                path: "/liste-operations",
+                path: "/operations/liste-operations",
                 title: "Liste des opérations",
                 type: "link"
             },
@@ -638,17 +638,17 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/liste-depenses",
+                path: "/depenses/liste-depenses",
                 title: "Liste des dépenses",
                 type: "link"
             },
             {
-                path: "/liste-depots",
+                path: "/depots/liste-depots",
                 title: "Liste des dépôts",
                 type: "link"
             },
             {
-                path: "/liste-paiements",
+                path: "/paiements/liste-paiements",
                 title: "Liste des paiements",
                 type: "link"
             }
@@ -674,7 +674,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/liste-demandePrix",
+                path: "/demandes-prix/liste-demande-prix",
                 title: "Liste des demandes de prix",
                 type: "link"
             },
@@ -690,12 +690,12 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/liste-factures",
+                path: "/factures/liste-factures",
                 title: "Liste des factures",
                 type: "link"
             },
             {
-                path: "/liste-factureProformas",
+                path: "/factures/liste-facture-proformas",
                 title: "Liste des factures proforma",
                 type: "link"
             }
@@ -811,22 +811,22 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/liste-typecompte",
+                path: "/type-comptes/liste-typecompte",
                 title: "Liste des types de compte",
                 type: "link"
             },
             {
-                path: "/liste-modeleSignataires",
+                path: "/modele-signataires/liste-modele-signataire",
                 title: "Liste des modèles de signataires",
                 type: "link"
             },
             {
-                path: "/liste-modePaiement",
+                path: "/paiements/liste-mode-paiement",
                 title: "Liste des mods de paiement",
                 type: "link"
             },
             {
-                path: "/liste-commandeClient/",
+                path: "/commandes-clients/liste-commande-client/",
                 title: "Liste des commandes clients",
                 type: "link"
             }
