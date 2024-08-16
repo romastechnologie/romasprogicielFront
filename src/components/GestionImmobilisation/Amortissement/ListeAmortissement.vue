@@ -110,7 +110,7 @@
                               @click="suppression(amortissement.id, amortissements, 'amortissements', 'un utilisateur')"
                             >
                               <i
-                                class="flaticon-delete lh-1 me-8 position-relative top-1"
+                                class="fa fa-trash-o lh-1 me-8 position-relative top-1"
                               ></i>
                               Supprimer
                             </a>

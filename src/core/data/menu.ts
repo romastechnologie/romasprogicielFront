@@ -520,6 +520,318 @@ export const menu: MenuItem[] = [
     },
 
 
+    {
+        headTitle1: "GesCom",
+        headTitle2: "GesCom",
+        type: "headtitle"
+    },
+    {
+        title: "Vente",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/ventes/ajouter-vente",
+                title: "Ajouter une vente",
+                type: "link"
+            },
+            {
+                path: "/ventes/liste-ventes",
+                title: "Liste des ventes",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Stock",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/inventaires/liste-inventaires",
+                title: "Liste des inventaires",
+                type: "link"
+            },
+            {
+                path: "/suivi-stock/liste-suivi-stock",
+                title: "Suivi du stock",
+                type: "link"
+            },
+            {
+                path: "/liste-sorties",
+                title: "Liste des sorties",
+                type: "link"
+            },
+            {
+                path: "/transferts/liste-transferts",
+                title: "Liste des transferts",
+                type: "link"
+            },
+            {
+                path: "/approvisionnements/liste-approvisionnements",
+                title: "Liste des approvisionnements",
+                type: "link"
+            },
+            {
+                path: "/liste-livraisons",
+                title: "Liste des livraisons",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Portefeuilles",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/liste-comptes",
+                title: "Liste des comptes",
+                type: "link"
+            },
+            {
+                path: "/liste-transactions",
+                title: "Liste des transactions",
+                type: "link"
+            },
+            {
+                path: "/ajouter-operationDepot",
+                title: "Ajouter une opération de dépôt",
+                type: "link"
+            },
+            {
+                path: "/ajouter-operationRetrait",
+                title: "Ajouter une opération de retrait",
+                type: "link"
+            },
+            {
+                path: "/liste-operations",
+                title: "Liste des opérations",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Caisses",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/caisses/liste-caisses",
+                title: "Liste des caisses",
+                type: "link"
+            },
+            {
+                path: "/liste-depenses",
+                title: "Liste des dépenses",
+                type: "link"
+            },
+            {
+                path: "/liste-depots",
+                title: "Liste des dépôts",
+                type: "link"
+            },
+            {
+                path: "/liste-paiements",
+                title: "Liste des paiements",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Fournisseurs",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/commande-fournisseurs/liste-commande-fournisseurs",
+                title: "Liste des commandes fournisseurs",
+                type: "link"
+            },
+            {
+                path: "/fournisseurs/liste-fournisseurs",
+                title: "Liste des fournisseurs",
+                type: "link"
+            },
+            {
+                path: "/liste-demandePrix",
+                title: "Liste des demandes de prix",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Factures",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/liste-factures",
+                title: "Liste des factures",
+                type: "link"
+            },
+            {
+                path: "/liste-factureProformas",
+                title: "Liste des factures proforma",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Paramètres",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/produits/liste-produits",
+                title: "Liste des produits",
+                type: "link"
+            },
+            {
+                path: "/clients/liste-clients",
+                title: "Liste des clients",
+                type: "link"
+            },
+            {
+                path: "/familles/liste-familles",
+                title: "Liste des familles",
+                type: "link"
+            },
+            {
+                path: "/medias/liste-medias",
+                title: "Liste des médias",
+                type: "link"
+            },
+            {
+                path: "/produit-conditionnes/liste-produit-conditionnes",
+                title: "Liste des produits conditionnés",
+                type: "link"
+            },
+            {
+                path: "/magasins/liste-magasins",
+                title: "Liste des magasins",
+                type: "link"
+            },
+            {
+                path: "/monnaies/liste-monnaies",
+                title: "Liste des monnaies",
+                type: "link"
+            },
+            {
+                path: "/magasins/liste-magasins",
+                title: "Liste des magasins",
+                type: "link"
+            },
+            {
+                path: "/magasins/liste-magasins",
+                title: "Liste des magasins",
+                type: "link"
+            },
+            {
+                path: "/conditionnements/liste-conditionnements",
+                title: "Liste des conditionnements",
+                type: "link"
+            },
+            {
+                path: "/societes/liste-societes",
+                title: "Liste des sociétés",
+                type: "link"
+            },
+            {
+                path: "/banques/liste-banques",
+                title: "Liste des banques",
+                type: "link"
+            },
+            {
+                path: "/personnels/liste-personnels",
+                title: "Liste des personnels",
+                type: "link"
+            },
+            {
+                path: "/personnel-fonctions/liste-personnel-fonctions",
+                title: "Liste des fonctions du personnel",
+                type: "link"
+            },
+            {
+                path: "/fonctions/liste-fonctions",
+                title: "Liste des fonctions",
+                type: "link"
+            },
+            {
+                path: "/adresse-livraisons/liste-adresse-livraisons",
+                title: "Liste des adresses de livraison",
+                type: "link"
+            },
+            {
+                path: "/taxes/liste-type-taxes",
+                title: "Liste des types de taxes",
+                type: "link"
+            },
+            {
+                path: "/type-operations/liste-type-operations",
+                title: "Liste des types d'opérations",
+                type: "link"
+            },
+            {
+                path: "/type-depenses/liste-type-depenses",
+                title: "Liste des types de dépenses",
+                type: "link"
+            },
+            {
+                path: "/point-ventes/liste-point-ventes",
+                title: "Liste des points de vente",
+                type: "link"
+            },
+            {
+                path: "/liste-typecompte",
+                title: "Liste des types de compte",
+                type: "link"
+            },
+            {
+                path: "/liste-modeleSignataires",
+                title: "Liste des modèles de signataires",
+                type: "link"
+            },
+            {
+                path: "/liste-modePaiement",
+                title: "Liste des mods de paiement",
+                type: "link"
+            },
+            {
+                path: "/liste-commandeClient/",
+                title: "Liste des commandes clients",
+                type: "link"
+            }
+        ]
+    },
     
 
     // {

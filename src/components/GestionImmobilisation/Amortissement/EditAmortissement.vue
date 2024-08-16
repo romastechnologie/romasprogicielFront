@@ -35,12 +35,12 @@
           <div class="col-md-12">
             <div class="d-flex align-items-center ">
               <button
-                class="default-btn me-20 transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16 bg-success m-2"
+                class="btn btn-success me-3 m-2"
                 type="submit">
                   Modifier un amortissement
               </button>
               <router-link to="/amortissements/liste-amortissements" 
-                  class=" btn btn-danger transition border-0 lh-1 fw-medium"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+                  class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                   <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>

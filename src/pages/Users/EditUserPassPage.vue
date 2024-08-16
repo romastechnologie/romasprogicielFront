@@ -5,7 +5,7 @@
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import EditUserPassModal from "../../components/Users/EditUserPassModal.vue";
+    import EditUserPassModal from "@/components/Users/EditUserPassModal.vue";
   
     export default defineComponent({
       name: "EditUserPassPage",

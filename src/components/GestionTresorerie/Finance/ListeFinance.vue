@@ -5,7 +5,7 @@
             <div class="d-sm-flex align-items-center">
                 <router-link class="btn btn-primary" to="/finances/ajouter-finance">
                     <i class="fa fa-plus-circle"></i>
-                    <!-- <i class="flaticon-plus position-relative ms-5 fs-12"></i> -->
+                    <!-- <i class="fa fa-plus-circle"></i> -->
                     Faire une finacement
                 </router-link>
                 <!-- <button
