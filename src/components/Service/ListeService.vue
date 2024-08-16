@@ -98,7 +98,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 import AddServiceModal from "./AddServiceModal.vue";
 import ApiService from "@/services/ApiService";
-import { format_date, showModal, suppression, separateur, error, } from "../../utils/utils";
+import { format_date, showModal, suppression, separateur, error, } from "@/utils/utils";
 import { Service } from "@/models/Service";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";

@@ -5,7 +5,7 @@
             <div class="d-sm-flex align-items-center">
                 <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#AddMonnaieModal">
                     <i class="fa fa-plus-circle"></i>
-                    <!-- <i class="flaticon-plus position-relative ms-5 fs-12"></i> -->
+                    <!-- <i class="fa fa-plus-circle"></i> -->
                     Ajouter une monnaie
                 </a>
                 <!-- <button

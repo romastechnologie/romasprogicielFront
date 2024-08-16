@@ -60,7 +60,7 @@
                 Complèter
             </button>
             <router-link to="/roles/liste-role" 
-                class=" btn btn-danger"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+                class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
           </div>
         </div>

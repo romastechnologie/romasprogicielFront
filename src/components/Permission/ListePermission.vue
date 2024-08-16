@@ -11,7 +11,7 @@
           data-bs-target="#AddPermissionModal"
         >
         <i class="fa fa-plus-circle"></i>
-          <!-- <i class="flaticon-plus position-relative ms-5 fs-12"></i> -->
+          <!-- <i class="fa fa-plus-circle"></i> -->
           Ajouter une permission
         </a>
         <!-- <button
