@@ -1,0 +1,238 @@
+<template>
+  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+  <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+          <Form ref="commandeClientForm" @submit="editCommandeClient" :validation-schema="commandeClientSchema" :initial-values="commandeClientForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                 Statut<span class="text-danger">*</span>
+                </label>
+                <Field  name="statutCommande"  v-slot="{ field }">
+                  <Multiselect
+                    :options="['Total','Partiel']"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner le statut"
+                  />
+                </Field>  
+              </div>
+              <ErrorMessage name="statutCommande" class="text-danger"/>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Client <span class="text-danger">*</span>
+                </label>
+                <Field  name="client"  v-slot="{ field }">
+                  <Multiselect
+                    :options="clientOptions"
+                    :searchable="true"
+                    track-by="label"
+                    label="label"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner le client"
+                  />
+                </Field>  
+              </div>
+              <ErrorMessage name="client" class="text-danger"/>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Adresse Livraison <span class="text-danger">*</span>
+                </label>
+                <Field  name="adresseLivraison"  v-slot="{ field }">
+                  <Multiselect
+                    :options="adresseLivraisonOptions"
+                    :searchable="true"
+                    track-by="label"
+                    label="label"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner l' adresse de livraison"
+                  />
+                </Field>  
+              </div>
+              <ErrorMessage name="adresseLivraison" class="text-danger"/>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Montant HT <span class="text-danger">*</span>
+                </label>
+                <Field name="montHT" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
+                <ErrorMessage name="montHT" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Montant TTC <span class="text-danger">*</span>
+                </label>
+                <Field name="montTTC" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
+                <ErrorMessage name="montTTC" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Montant Total <span class="text-danger">*</span>
+                </label>
+                <Field name="montTotal" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
+                <ErrorMessage name="montTotal" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Remise <span class="text-danger">*</span>
+                </label>
+                <Field name="remise" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la remise"/>
+                <ErrorMessage name="remise" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Date de commande <span class="text-danger">*</span>
+                  </label>
+                  <Field name="dateCommande" type="date" 
+                  class="form-control shadow-none fs-md-15 text-black"/>
+                </div>
+              <ErrorMessage name="dateCommande" class="text-danger"/>
+              </div>
+        <div class="col-md-12">
+          <div class="d-flex align-items-center ">
+            <button
+              class="btn btn-success me-3"
+              type="submit"
+            >
+                Modifier une commande de Client
+            </button>
+            <router-link to="/commandes-clients/liste-commande-client" 
+                class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler</router-link>
+          </div>
+        </div>
+      </div>
+    </Form>
+  </div>
+</div>
+</template>
+
+<script lang="ts">
+
+import { defineComponent, ref, onMounted } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import { error, success } from '@/utils/utils';
+import { useRoute, useRouter } from 'vue-router';
+import ApiService from '@/services/ApiService';
+import { CommandeClient} from '@/models/CommandeClient';
+import * as Yup from 'yup';
+import axios from 'axios';
+import Multiselect from '@vueform/multiselect'
+
+export default defineComponent({
+    name: "EditCommandeClient",
+    components: {
+    Form,
+    Field,
+    ErrorMessage,
+    Multiselect
+  },
+  setup: () => {
+    const commandeClientSchema = Yup.object().shape({
+      statutCommande: Yup.string().required('Le statut de la commande est obligatoire'),
+      client: Yup.string().required('Le client est obligatoire'),
+      adresseLivraison: Yup.string().required("L'adresse de livraison est obligatoire"),
+      montHT: Yup.number().typeError('Veuiller entrer un nombre').required('Le montant HT est obligatoire').positive('Le montant HT doit être positif'),
+      montTTC: Yup.number().typeError('Veuiller entrer un nombre').required('Le montant TTC est obligatoire').positive('Le montant TTC doit être positif'),
+      montTotal: Yup.number().typeError('Veuiller entrer un nombre').required('Le montant total est obligatoire').positive('Le montant total doit être positif'),
+      remise: Yup.number().typeError('Veuiller entrer un nombre').required('La remise est obligatoire').positive('La remise doit être positive'),
+      dateCommande: Yup.date().required('La date de commande est obligatoiree'),
+    });
+
+    const commandeClientForm = ref<CommandeClient>();
+    const router = useRouter();
+    const route = useRoute();
+    const adresseLivraisonOptions = ref([]);
+    const clientOptions = ref([]);
+
+    function getCommandeClient(id:number) {
+      ApiService.get("/commandeClients/"+id.toString())
+        .then(({ data }) => {
+          for (const key in data.data) {
+            commandeClientForm.value?.setFieldValue(key, 
+            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
+          );
+          }
+      })
+      .catch(({ response }) => {
+        error(response.data.message);
+      });
+    }
+
+    const editCommandeClient = async (values, {resetForm}) => {
+      const data = commandeClientForm.value;
+      ApiService.put("/commandeClients/" + data?.id, data)
+        .then(({ data }) => {
+          if (data.code == 200) {
+            success(data.message);
+            resetForm();
+            router.push({ name: "ListeCommandeClientPage" });
+          }
+        }).catch(({ response }) => {
+          error(response.data.message);
+        });
+    };
+
+    const fetchClient = async () => {
+      try {
+        const response = await ApiService.get('/clients');
+        const clientData = response.data.data.data;
+        clientOptions.value = clientData.map((client) => ({
+          value: client.id,
+          label: `${client.nomClient}`,
+        }));
+      } catch (error) {
+        //
+      }
+    };
+
+    const fetchAdresseLivraison = async () => {
+      try {
+        const response = await ApiService.get('/adresselivraisons');
+        const adresseLivraisonData = response.data.data.data;
+        adresseLivraisonOptions.value = adresseLivraisonData.map((adresseLivraison) => ({
+          value: adresseLivraison.id,
+          label: `${adresseLivraison.nom}`,
+        }));
+      } catch (error) {
+        //
+      }
+    };
+
+    onMounted(() => {
+      if(route.params.id) {
+        getCommandeClient(parseInt(route.params.id as string));
+      }
+      fetchClient();
+      fetchAdresseLivraison();
+    });
+
+    return { 
+      commandeClientSchema, editCommandeClient, commandeClientForm,clientOptions,
+      adresseLivraisonOptions
+    };
+  },
+});
+</script>

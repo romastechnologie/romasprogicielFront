@@ -5,7 +5,7 @@
             <div class="d-sm-flex align-items-center">
                 <router-link class="btn btn-primary" to="/transferts/ajouter-transfert">
                     <i class="fa fa-plus-circle"></i>
-                    <!-- <i class="flaticon-plus position-relative ms-5 fs-12"></i> -->
+                    <!-- <i class="fa fa-plus-circle"></i> -->
                     Ajouter un transfert
                 </router-link>
                 <!-- <button

@@ -5,7 +5,7 @@
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import EditUserAgenceModal from "../../components/Users/EditUserAgenceModal.vue";
+    import EditUserAgenceModal from "@/components/Users/EditUserAgenceModal.vue";
   
     export default defineComponent({
       name: "EditUserPage",

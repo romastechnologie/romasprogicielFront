@@ -43,38 +43,44 @@
               </label>
               <Field  name="nouvelEmplacement" v-slot="{ field }" v-model="nouvelEmplacement">
                 <Multiselect 
-                    :no-options-text="nooptions"
                     v-model = "field.value"
                     v-bind = "field"
                     :options="serviceOptions"
                     placeholder="Selectionner un emplacement"
+                    label="label" 
+                    track-by="label"
                  />
               </Field>
               <ErrorMessage name="nouvelEmplacement" class="text-danger"/>
             </div>
         </div>
-            <div class="col-md-12">
-                    <label for="infosComplementaire" class="form-label">Infos complémentaires</label>
-                    <Field name="infosComplementaire" cols="20"
-                              rows="12" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
-                                <textarea
-                                  v-model="field.value"
-                                  class="form-control shadow-none rounded-0 text-black"
-                                ></textarea>
-                              </Field>
-                    <ErrorMessage name="infosComplementaire" class="text-danger"/>
+            <div class="col-md-6">
+                <label for="infosComplementaire" class="form-label">Ancien Emplacement</label>
+                <Field name="" v-model="ancienEmplacement" class="form-control shadow-none rounded-0 text-black">
+                </Field>
             </div>
-            
-            <div class="col-md-12 mt-3">
-            <div class="d-flex align-items-center ">
-              <button class="btn btn-success me-3" type="submit">
-                  Créer un mouvement
-              </button>
-              <router-link to="/mouvementBiens/liste-mouvementbiens" 
-                  class=" btn btn-danger"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
-                  <span class="position-relative"></span>Annuler</router-link>
+            <div class="col-md-6">
+                <label for="infosComplementaire" class="form-label">Infos complémentaires</label>
+                <Field name="infosComplementaire" cols="20"
+                  rows="6" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
+                    <textarea
+                      v-model="field.value"
+                      class="form-control shadow-none rounded-0 text-black"
+                    ></textarea>
+                </Field>
+                <ErrorMessage name="infosComplementaire" class="text-danger"/>
             </div>
-          </div>
+           
+              <div class="col-md-12 mt-3">
+                <div class="d-flex align-items-center ">
+                  <button class="btn btn-success me-3" type="submit">
+                      Créer un mouvement
+                  </button>
+                  <router-link to="/mouvementBiens/liste-mouvementbiens" 
+                      class=" btn btn-danger"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+                      <span class="position-relative"></span>Annuler</router-link>
+                </div>
+            </div>
           </div>
       </Form>
     </div>
@@ -196,13 +202,14 @@
 
       const getAllServices = async () => {
         try{
-        const response = await ApiService.get('/services');
-        const servicesData = response.data.data.data;
-console.log(response,servicesData)
-        serviceOptions.value = servicesData.map((service) => ({
-          value: service.id,
-          label: service.libelle
-        }));
+          const response = await ApiService.get('/services');
+          const servicesData = response.data.data.data;
+          console.log(response,servicesData)
+          serviceOptions.value = servicesData.map((service) => ({
+            value: service.id,
+            label: service.libelle
+          }));
+          
         }
         catch(error){
           //error(response.data.message)

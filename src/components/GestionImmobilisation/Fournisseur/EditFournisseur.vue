@@ -25,7 +25,7 @@
                   Modifier un Fournisseur
               </button>
               <router-link to="/fournisseurs/liste-fournisseurs" 
-                  class=" btn btn-danger"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
+                  class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                   <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>

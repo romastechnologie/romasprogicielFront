@@ -13,20 +13,22 @@
           
           <th>Année</th>
           <th>Taux Amortissement</th>
-          <th>Valeur Nette Comptable</th>
           <th>Amortissement</th>
           <th>Duree d'utilisation</th>
+          <th>Valeur Nette Comptable</th>
+          <th>Date d'Amortissement prévu</th>
           
           
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(amortissement, index) in amortissementData" :key="index">
-          <td>{{ amortissement.annee | currency }}</td>
-          <td>{{ amortissement.taux | currency }}</td>
-          <td>{{ amortissement.valeurNetteComptable | currency }}</td>
-          <td>{{ amortissement.amortissement | currency }}</td>
-          <td>{{ amortissement.dureeUtilisation | currency }}</td>
+        <tr v-for="(amortissement, index) in bien?.amortissements" :key="index">
+          <td>{{ amortissement.annee }}</td>
+          <td>{{ amortissement.taux }}%</td>
+          <td>{{ amortissement.amortissement }}</td>
+          <td>{{ amortissement.dureeUtilisation }}</td>
+          <td>{{ amortissement.valeurNetteComptable }}</td>
+          <td>{{ format_date(amortissement.dateFin)  }}</td>
         </tr>
       </tbody>
     </table>
@@ -36,23 +38,48 @@
 </template>
 
 
-<script>
-export default {
-  data() {
+<script lang="ts">
+import { defineComponent, onMounted, ref} from "vue";
+import ApiService from "@/services/ApiService";
+import { Bien } from "@/models/Bien";
+import { format_date , error, } from "@/utils/utils";
+
+import PaginationComponent from '@/components/Utilities/Pagination.vue';
+import { useRoute } from "vue-router";
+
+export default defineComponent({
+  name: "TableauAmortissement",
+  components: {
+    PaginationComponent
+  },
+  setup(){
+    const bien = ref<Bien>();
+    const route = useRoute();
+    onMounted(() => {
+      if(route.params.id) {
+        console.log(route.params.id,"route.params.idroute.params.id")
+        getBien(route.params.id);
+      }
+    });
+    function getBien(id) {
+       ApiService.get(`/biens/${id}`)
+        .then(({data}) => {
+          console.log(data,"bienbienbienbienbienbienbienbienbien");
+          bien.value = data.data;
+          return data.data;
+        }).catch(({ response }) => {
+            error(response.data.message)
+        });
+    }
+
     return {
-      amortissementData: [
-      { annee: 1, taux: 5, valeurNetteComptable: 9500, amortissement: 500, dureeUtilisation: 10 },
-        { annee: 2, taux: 5, valeurNetteComptable: 9000, amortissement: 500, dureeUtilisation: 9 },
-        { annee: 3, taux: 5, valeurNetteComptable: 8500, amortissement: 500, dureeUtilisation: 8 },
-      ],
+      format_date,
+      bien,
     };
   },
-  filters: {
-    currency(value) {
-      return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value);
-    },
-  },
-};
+});
+
+
 </script>
 
 <style scoped>

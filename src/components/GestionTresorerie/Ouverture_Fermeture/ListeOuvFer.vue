@@ -5,12 +5,12 @@
             <div class="d-sm-flex align-items-center">
                 <router-link class="btn btn-primary" to="/ouv_fers/ajouter-ouv_fer">
                     <i class="fa fa-plus-circle"></i>
-                    <!-- <i class="flaticon-plus position-relative ms-5 fs-12"></i> -->
+                    <!-- <i class="fa fa-plus-circle"></i> -->
                     Add ouverture
                 </router-link>
                 <router-link class="btn btn-primary" to="/ouv_fers/ajouter-fermeture">
                     <i class="fa fa-plus-circle"></i>
-                    <!-- <i class="flaticon-plus position-relative ms-5 fs-12"></i> -->
+                    <!-- <i class="fa fa-plus-circle"></i> -->
                     Add fermeture
                 </router-link>
                 <!-- <button
