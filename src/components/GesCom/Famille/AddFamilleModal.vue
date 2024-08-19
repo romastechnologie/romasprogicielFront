@@ -1,20 +1,15 @@
 <template>
-  <div
-    class="modal fade createNewModal"
-    id="AddFamilleModal"
-    tabindex="-1"
-    ref="addFamilleModalRef"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-15 p-md-40">
-        <div class="modal-header d-block ps-0 pe-0 pt-0 pb-15 pb-md-25">
-          <h5 class="modal-title fw-bold text-black">{{ title }}</h5>
-        </div>
-        <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
+  <div class="modal fade" id="AddFamilleModal" tabindex="-1" role="dialog" ref="addFamilleModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ title }}</h4>
+                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
           <Form ref="familleForm" @submit="addFamille" :validation-schema="familleSchema">
             <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Code famille <span class="text-danger">*</span>
@@ -24,7 +19,7 @@
                 <ErrorMessage name="codeFamille" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Libellé famille <span class="text-danger">*</span>
@@ -34,7 +29,7 @@
                 <ErrorMessage name="libelleFamille" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Parent <span class="text-danger">*</span>
@@ -55,21 +50,20 @@
             </div>
             
             <button
-              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
-              type="submit"
-            >
-            {{ btntext }}
+              class="btn btn-primary"
+              type="submit">
+              {{ btntext }}
             </button>
       </div>
         </Form>
         </div>
-        <button
+        <!-- <button
           type="button"
           class="btn-close shadow-none"
           data-bs-dismiss="modal"
           aria-label="Close"
           @click="resetValue()"
-        ></button>
+        ></button> -->
       </div>
     </div>
   </div>
@@ -104,9 +98,10 @@ export default defineComponent({
     const familleSchema = Yup.object().shape({
       famille: Yup.string().notRequired(),
       codeFamille: Yup.string().required('Le code famille est obligatoire'),
-       libelleFamille: Yup.string()
-        .matches(/^[A-Za-z ]+$/, 'Le libellé famille doit contenir uniquement des lettres alphabétiques')
-        .required('Le libellé famille est obligatoire'),
+      libelleFamille: Yup.string().required('Le libellé famille est obligatoire'),
+      //  libelleFamille: Yup.string()
+      //   .matches(/^[A-Za-z ]+$/, 'Le libellé famille doit contenir uniquement des lettres alphabétiques')
+      //   .required('Le libellé famille est obligatoire'),
     });
 
     const familleForm = ref<Famille | null>(null);
@@ -169,6 +164,7 @@ export default defineComponent({
     onMounted(() => {
       fetchFamille();
     });
+    
 
     const addFamille = async (values: any, familleForm) => {
       values = values as Famille;

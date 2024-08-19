@@ -1,17 +1,13 @@
 <template>
-  <div
-    class="modal fade createNewModal"
-    id="AddTaxeModal"
-    tabindex="-1"
-    ref="addTaxeModalRef"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-15 p-md-40">
-        <div class="modal-header d-block ps-0 pe-0 pt-0 pb-15 pb-md-25">
-          <h5 class="modal-title fw-bold text-black">{{ title }}</h5>
-        </div>
-        <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
+
+<div class="modal fade" id="AddTaxeModal" tabindex="-1" role="dialog" ref="addTaxeModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ title }}</h4>
+                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
           <Form ref="taxeForm" @submit="addTaxe" :validation-schema="taxeSchema">
             <div class="row">
             <div class="col-md-4">
