@@ -209,17 +209,17 @@
             value: service.id,
             label: service.libelle
           }));
-          
         }
         catch(error){
           //error(response.data.message)
         }
       } 
-  
-  
-      return {mouvementBienSchema, addMouvementBien, bienForm, 
+      
+      return { 
+        mouvementBienSchema, addMouvementBien, bienForm, 
         typeOptions, biens,serviceOptions,emplacementDepart,
-         showMErr, nombien,  nouvelEmplacement, typMouv, tpValue,service};
+        showMErr, nombien,  nouvelEmplacement, typMouv, tpValue,service
+      };
     },
   });
   </script>
