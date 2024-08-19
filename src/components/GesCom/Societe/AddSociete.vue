@@ -22,7 +22,7 @@
             </div>
           </div>
         
-            <div class="col-md-4">
+            <div class="col-md-4 mb-20">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Sigle <span class="text-danger">*</span>
@@ -32,7 +32,7 @@
                 <ErrorMessage name="sigle" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Dénomination<span class="text-danger">*</span>
@@ -42,7 +42,7 @@
                 <ErrorMessage name="denomination" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Raison sociale <span class="text-danger">*</span>
@@ -52,7 +52,7 @@
                 <ErrorMessage name="raisonSocial" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   N° RCCM <span class="text-danger">*</span>
@@ -63,7 +63,7 @@
               </div>
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   N° IFU <span class="text-danger">*</span>
@@ -73,7 +73,7 @@
                 <ErrorMessage name="ifu" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone <span class="text-danger">*</span>
@@ -83,7 +83,7 @@
                 <ErrorMessage name="telephone" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Adresse <span class="text-danger">*</span>
@@ -93,7 +93,7 @@
                 <ErrorMessage name="adresse" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Message Commercial
@@ -103,7 +103,7 @@
                 <ErrorMessage name="messageCommercial" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Lieu d'impression des factures
@@ -113,7 +113,7 @@
                 <ErrorMessage name="lieuImpression" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                  Joindre le logo
@@ -124,7 +124,7 @@
               </div>
               <ErrorMessage name="logo" class="text-danger"/>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                  Joindre l'entête<span class="text-danger">*</span>
@@ -135,7 +135,7 @@
               </div>
               <ErrorMessage name="entete" class="text-danger"/>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                  Joindre le pied de page
@@ -146,7 +146,7 @@
               </div>
               <ErrorMessage name="pied" class="text-danger"/>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Lien API
@@ -156,7 +156,7 @@
                 <ErrorMessage name="lienApi" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   API Nim
@@ -166,7 +166,7 @@
                 <ErrorMessage name="apiNim" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   API Token
@@ -331,13 +331,11 @@
             </div>
           </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
                   type="submit"
-                  :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable }"
                 >
                     Ajouter une sociéte
                 </button>
@@ -363,6 +361,7 @@ import { Societe } from '@/models/Societe';
 import * as Yup from 'yup';
 import axios from 'axios';
 import Multiselect from "@vueform/multiselect";
+import VueMultiselect from 'vue-multiselect'
 
 export default defineComponent({
     name: "AddSociete",
@@ -371,13 +370,18 @@ export default defineComponent({
     Field,
     ErrorMessage,
     Multiselect,
+    VueMultiselect,
   },
   setup: () => {
     const societeSchema = Yup.object().shape({
       denomination: Yup.string().required('La dénomination est obligatoire'),
       adresse: Yup.string().required('L\' adresse est obligatoire'),
       raisonSocial: Yup.string().required('La raison sociale est obligatoire'),
-      ifu: Yup.number().typeError('Veuillez entrer des chiffres').required('L\'ifu est obligatoire'),
+      ifu: Yup.string()
+      .matches(/^\d{13}$/, 'La saisie doit avoir exactement 13 chiffres')
+      .min(13,"La saisie doit avoir exactement 13 chiffres").max(13, "La saisie doit avoir exactement 13 chiffres")
+      .required('L\'ifu est obligatoire'),
+      // ifu: Yup.number().typeError('Veuillez entrer des chiffres').required('L\'ifu est obligatoire'),
       sigle: Yup.string().notRequired(),
       messageCommercial: Yup.string().notRequired(),
       lieuImpression: Yup.string().notRequired(),

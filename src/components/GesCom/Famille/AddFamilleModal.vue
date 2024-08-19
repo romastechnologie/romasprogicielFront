@@ -90,8 +90,8 @@ export default defineComponent({
   },
   props: {
     item: {
-      type: Number,
-      default: 0,
+      type: Object as () => Famille | null,
+      default: null
     }
   },
   setup(props, { emit }){
@@ -115,7 +115,7 @@ export default defineComponent({
     const btntext = ref('Ajouter');
 
     watch(() => props.item, (newValue) => {
-      getFamille(newValue);
+      getFamille(newValue.id);
       isUPDATE.value = true;
       btnTitle();
     });
@@ -169,6 +169,7 @@ export default defineComponent({
     const addFamille = async (values: any, familleForm) => {
       values = values as Famille;
       if(isUPDATE.value){
+        console.log('values',values)
         ApiService.put("/familles/"+values.id,values)
         .then(({ data }) => {
             if(data.code == 200) { 

@@ -725,16 +725,16 @@ export const menu: MenuItem[] = [
                 title: "Liste des familles",
                 type: "link"
             },
-            {
-                path: "/medias/liste-medias",
-                title: "Liste des médias",
-                type: "link"
-            },
-            {
-                path: "/produit-conditionnes/liste-produit-conditionnes",
-                title: "Liste des produits conditionnés",
-                type: "link"
-            },
+            // {
+            //     path: "/medias/liste-medias",
+            //     title: "Liste des médias",
+            //     type: "link"
+            // },
+            // {
+            //     path: "/produit-conditionnes/liste-produit-conditionnes",
+            //     title: "Liste des produits conditionnés",
+            //     type: "link"
+            // },
             {
                 path: "/magasins/liste-magasins",
                 title: "Liste des magasins",
