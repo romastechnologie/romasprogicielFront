@@ -196,6 +196,12 @@ import ViewOperationPage from "@/pages/GesCom/Operation/ViewOperationPage.vue";
 import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue";
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
 //Fin GesCom/
+import ListeEthniePage from "@/pages/GestionPaie/Ethnie/ListeEthniePage.vue";
+import ListeTypeRetenuePage from "@/pages/GestionPaie/TypeRetenue/ListeTypeRetenuePage.vue";
+import ListeTypePrimePage from "@/pages/GestionPaie/TypePrime/ListeTypePrimePage.vue";
+import ListeModeTarificationPage from "@/pages/GestionPaie/ModeTarification/ListeModeTarificationPage.vue";
+import ListeReligionPage from "@/pages/GestionPaie/Religion/ListeReligionPage.vue";
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -304,6 +310,122 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
+  {
+    path: "/ethnies",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-ethnie",
+        name: "ListeEthniePage",
+        component: ListeEthniePage,
+        meta: {
+          title: 'Liste des ethnies',
+        }
+      }
+    ]
+  },
+  {
+    path: "/typeRetenues",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-typeRetenue",
+        name: "ListeTypeRetenuePage",
+        component: ListeTypeRetenuePage,
+        meta: {
+          title: 'Liste des types de retenues',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/typePrimes",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-typePrime",
+        name: "ListeTypePrimePage",
+        component: ListeTypePrimePage,
+        meta: {
+          title: 'Liste des types de primes',
+        }
+      }
+    ]
+  },
+  
+  {
+    path: "/modeTarifications",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-modeTarification",
+        name: "ListeModeTarificationPage",
+        component: ListeModeTarificationPage,
+        meta: {
+          title: 'Liste des modes de tarifications',
+        }
+      }
+    ]
+  },
+  
+  {
+    path: "/religions",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-religion",
+        name: "ListeReligionPage",
+        component: ListeReligionPage,
+        meta: {
+          title: 'Liste des religions',
+        }
+      }
+    ]
+  },
+
+
   {
     path: "/biens",
     component: BodyView,
