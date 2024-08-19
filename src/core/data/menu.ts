@@ -101,7 +101,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion de la Paie",
-        headTitle2: "Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie ",
+        headTitle2: "Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
         type: "headtitle"
     },
     {
@@ -165,6 +165,28 @@ export const menu: MenuItem[] = [
             {
                 path: "/typePrimes/liste-typePrime",
                 title: "Liste des types de primes",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Contrat",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typeContrats/liste-typeContrat",
+                title: "Liste des types de contrats",
                 type: "link"
             },
         ]

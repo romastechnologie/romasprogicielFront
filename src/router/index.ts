@@ -199,6 +199,7 @@ import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.v
 import ListeEthniePage from "@/pages/GestionPaie/Ethnie/ListeEthniePage.vue";
 import ListeTypeRetenuePage from "@/pages/GestionPaie/TypeRetenue/ListeTypeRetenuePage.vue";
 import ListeTypePrimePage from "@/pages/GestionPaie/TypePrime/ListeTypePrimePage.vue";
+import ListeTypeContratPage from "@/pages/GestionPaie/TypeContrat/ListeTypeContratPage.vue";
 import ListeModeTarificationPage from "@/pages/GestionPaie/ModeTarification/ListeModeTarificationPage.vue";
 import ListeReligionPage from "@/pages/GestionPaie/Religion/ListeReligionPage.vue";
 
@@ -374,6 +375,30 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeTypePrimePage,
         meta: {
           title: 'Liste des types de primes',
+        }
+      }
+    ]
+  },
+  
+
+  {
+    path: "/typeContrats",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-typeContrat",
+        name: "ListeTypeContratPage",
+        component: ListeTypeContratPage,
+        meta: {
+          title: 'Liste des types de contrats',
         }
       }
     ]
