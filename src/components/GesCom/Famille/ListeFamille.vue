@@ -88,13 +88,9 @@
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
-                    <li >
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                    <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
@@ -102,13 +98,11 @@
                         data-bs-target="#AddFamilleModal"
                         @click="moddifier(famille)"
                       >
-                        <i
-                          class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>
+                      <i class="fa fa-pen lh-2 me-8 position-relative top-1"></i>
                         Modifier
                       </a>
                     </li>
-                    <li >
+                    <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);" @click="suppression(famille.id,familles,'familles','la famille')"
@@ -120,7 +114,6 @@
                       </a>
                     </li>
                   </ul>
-              </div>
               </td>
             </tr>
           </tbody>
@@ -133,8 +126,7 @@
       </div>
     </div>
   </div>
-  <AddFamilleModal :item="selectedItem" @close="recharger"/>
-
+  <AddFamilleModal :item="selectedItem" @openmodal="show_Modal" ref="addFamilleModal" @close="refreshList" />
 </template>
 
 <script lang="ts">
@@ -142,7 +134,7 @@ import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
 import { Famille } from "@/models/Famille";
 import ApiService from "@/services/ApiService";
-import { suppression, error } from "@/utils/utils";
+import { suppression, error, showModal } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 import AddFamilleModal from "./AddFamilleModal.vue";
@@ -168,7 +160,7 @@ export default defineComponent({
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
-    const selectedItem = ref(0);
+    const selectedItem = ref<number | null>(null);
 
     const handlePaginate = ({ page_, limit_ }) => {
       try {
@@ -185,7 +177,14 @@ export default defineComponent({
 
     // END PAGINATE
 
-    const recharger = () => {
+    const openModal = () => {
+      const modal = document.getElementById('AddFamilleModal');
+      if (modal) {
+        showModal(modal);
+      }
+    };
+
+    const refreshList = () => {
       getAllFamilles();
     };
 
@@ -202,9 +201,13 @@ export default defineComponent({
           error(response.data.message)
       });
     }
-    
-    function moddifier(EditFamille:Famille) {
-      famille.value = EditFamille;
+
+    const show_Modal = (el: HTMLElement) => {
+      showModal(el);
+      selectedItem.value = 0;
+    };
+
+    function moddifier(EditFamille: Famille) {
       selectedItem.value = EditFamille.id;
     }
 
@@ -264,7 +267,8 @@ export default defineComponent({
     rechercher,
     searchTerm,
     selectedItem,
-    recharger
+    openModal,
+    refreshList,
   };
   },
 });
