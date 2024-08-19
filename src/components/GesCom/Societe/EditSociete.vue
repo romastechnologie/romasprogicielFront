@@ -327,8 +327,6 @@
                 <button
                   class="btn btn-success me-3"
                   type="submit"
-                   :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable }"
                 >
                     Modifier une sociéte
                 </button>

@@ -668,7 +668,7 @@
                 Ajouter un produit
               </button>
               <router-link
-                to="/liste-produits"
+                to="/produits/liste-produits"
                 class="btn btn-danger"
                 ><i
                   class="fa fa-trash-o lh-1 me-1 position-relative top-2"
