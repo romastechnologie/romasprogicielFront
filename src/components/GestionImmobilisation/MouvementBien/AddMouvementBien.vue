@@ -168,8 +168,8 @@
 
       const addMouvementBien = async (values,{ resetForm }) => {
         // values[' nouvelEmplacement'] =  nouvelEmplacement.value.value
-        values["typeMouvement"]=tpValue.value;
-        values["bien"]=bienId.value;
+      values["typeMouvement"]=tpValue.value;
+      values["bien"]=bienId.value;
       console.log('Données envoyées', values)
       console.log('dataapi')
         ApiService.post("/mouvementBiens",values)
@@ -183,7 +183,7 @@
         }).catch(({ response }) => {
           error(response.message);
         });
-    }
+      }
   
       const getAllBiens = async () => {
         try{

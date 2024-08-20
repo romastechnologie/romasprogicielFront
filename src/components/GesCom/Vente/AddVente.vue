@@ -4,11 +4,10 @@
       <Form
         @submit="addVente"
         :validation-schema="venteSchema"
-        :keep-values="valuess"
-      >
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+        :keep-values="valuess">
+        <div class="row gx-1">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Date commande
               </label>
@@ -22,8 +21,8 @@
               />
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant HT
               </label>
@@ -36,8 +35,8 @@
               />
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant HT RSE
               </label>
@@ -50,8 +49,8 @@
               />
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant TVA
               </label>
@@ -64,8 +63,8 @@
               />
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant AIB
               </label>
@@ -78,8 +77,8 @@
               />
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant Taxe S.
               </label>
@@ -92,8 +91,8 @@
               />
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant TTC
               </label>
@@ -106,8 +105,10 @@
               />
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+        </div>
+        <div class="row gx-1">
+          <div class="col-md-2">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Type Commande <span class="text-danger">*</span>
               </label>
@@ -126,8 +127,8 @@
             </div>
             <ErrorMessage name="groupeTaxe" class="text-danger" />
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-2">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Type Facture <span class="text-danger">*</span>
               </label>
@@ -143,20 +144,20 @@
                   label="label"
                   v-model="field.value"
                   v-bind="field"
-                  placeholder="Sélectionner le mode de prix"
+                  placeholder="Sélectionner"
                 />
               </Field>
             </div>
             <ErrorMessage name="modePrix" class="text-danger" />
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-3">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Client <span class="text-danger">*</span>
                 <a
                   style="float: right"
                   v-if="!selectedClient"
-                  class="btn btn-success me-3"
+                  class="btn btn-success me-3 btn-xs b-r-6"
                   data-bs-toggle="modal"
                   data-bs-target="#AddClientModal"
                   @click="toggleAbonne"
@@ -205,8 +206,8 @@
             </div>
             <ErrorMessage name="client" class="text-danger" />
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-1">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 TAUX AIB <span class="text-danger">*</span>
               </label>
@@ -218,14 +219,14 @@
                   label="label"
                   v-model="field.value"
                   v-bind="field"
-                  placeholder="Sélectionner le taux"
+                  placeholder="Choisir"
                 />
               </Field>
             </div>
             <ErrorMessage name="tauxAIB" class="text-danger" />
           </div>
-          <div class="col-md-4" v-if="showC">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-2" v-if="showC">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant Reçu <span class="text-danger">*</span>
               </label>
@@ -238,8 +239,8 @@
               <ErrorMessage name="montantRecu" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-4" v-if="showC">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-2" v-if="showC">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Reliquat <span class="text-danger">*</span>
               </label>
@@ -1434,4 +1435,8 @@ input[readonly] {
 .flaticon {
   font-size: 1.2rem;
 } */
+
+label {
+    margin-bottom: 0.2rem;
+}
 </style>

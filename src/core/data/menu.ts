@@ -746,16 +746,6 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/magasins/liste-magasins",
-                title: "Liste des magasins",
-                type: "link"
-            },
-            {
-                path: "/magasins/liste-magasins",
-                title: "Liste des magasins",
-                type: "link"
-            },
-            {
                 path: "/conditionnements/liste-conditionnements",
                 title: "Liste des conditionnements",
                 type: "link"
