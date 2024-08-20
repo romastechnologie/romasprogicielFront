@@ -955,7 +955,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/modele-signataires/liste-modele-signataire",
+                path: "/modele-signataires/liste-modele-signataires",
                 title: "modèles de signataires",
                 type: "link"
             },
