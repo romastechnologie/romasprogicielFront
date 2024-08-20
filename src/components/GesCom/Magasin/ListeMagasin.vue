@@ -15,8 +15,7 @@
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
-          type="button"
-        >
+          type="button">
           Exporter
           <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
         </button> -->
@@ -30,10 +29,7 @@
             class="form-control shadow-none text-black rounded-0 border-0"
             placeholder="Rechercher un magasin"
           />
-          <button
-            type="submit"
-            class="bg-transparent text-primary transition p-0 border-0"
-          >
+          <button type="submit" ref="" class="bg-transparent text-primary transition p-0 border-0">
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
