@@ -65,7 +65,7 @@
           <tbody>
             <tr v-for="(typeOperation, index) in typeOperations" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ typeOperation.libelleType }}
+                {{ typeOperation.libelle }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"

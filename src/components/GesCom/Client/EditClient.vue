@@ -84,7 +84,7 @@
               </div>
             </div>
             
-            <div class="col-md-4" v-if="!showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Régistre de commerce <span class="text-danger">*</span>
@@ -94,7 +94,7 @@
                 <ErrorMessage name="rccm" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Adresse 
@@ -104,7 +104,7 @@
                 <ErrorMessage name="adresseClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Email
@@ -114,7 +114,7 @@
                 <ErrorMessage name="emailClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="showAdditionalFields">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Sexe <span class="text-danger">*</span>
@@ -131,7 +131,7 @@
                 <ErrorMessage name="sexe" class="text-danger"/>
             </div>
           </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone 1 <span class="text-danger">*</span>
@@ -141,7 +141,7 @@
                 <ErrorMessage name="telephone1" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone 2 
@@ -151,7 +151,7 @@
                 <ErrorMessage name="telephone2" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="showAdditionalFields">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date de naissance 
@@ -163,7 +163,7 @@
               </div>
             
            
-            <div class="col-md-4" v-if="!showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="!showAdditionalFields">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date de création 
@@ -354,13 +354,11 @@
             </div>
           </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
                   type="submit"
-                  :disabled="isDisable"
-                  :class="{ 'cursor-not-allowed': isDisable }"
                 >
                     Modifier un client
                 </button>
@@ -386,6 +384,9 @@ import { Client} from '@/models/Client';
 import * as Yup from 'yup';
 import axios from 'axios';
 import Multiselect from '@vueform/multiselect'
+import 'vue3-tel-input/dist/vue3-tel-input.css'
+import { VueTelInput } from 'vue3-tel-input'
+import { countries } from '@/utils/countries';
 
 export default defineComponent({
     name: "EditClient",
@@ -393,27 +394,53 @@ export default defineComponent({
     Form,
     Field,
     ErrorMessage,
-    Multiselect
+    Multiselect,
+    VueTelInput
   },
   setup: () => {
     const clientSchema = Yup.object().shape({
-      nomClient: Yup.string().required('Le nom du client est obligatoire'),
-      prenomClient: Yup.string().required('Le prénom du client est obligatoire'),
-      adresseClient: Yup.string().notRequired(),
-      emailClient: Yup.string().email("Veuillez entrer un mail valide").notRequired(),
-      telephone1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone 1 est obligatoire'),
-      telephone2: Yup.number().typeError('Veuillez entrer des chiffres').notRequired(),
-      dateNais: Yup.date().notRequired(),
-      raisonSociale: Yup.string().required('La raison sociale est obligatoire'),
-      // ifu: Yup.number().typeError('Veuillez entrer des chiffres').required('L\'ifu est obligatoire'),
+      nomClient: Yup.string().when([], (value, schema) => {
+        return showAdditionalFields.value
+          ? schema.required("Le nom du client est obligatoire")
+          : schema
+      }),
+      prenomClient: Yup.string().when([], (value, schema) => {
+        return showAdditionalFields.value
+          ? schema.required("Le prénom du client est obligatoire")
+          : schema
+      }),
+      sexe: Yup.string().when([], (value, schema) => {
+        return showAdditionalFields.value
+          ? schema.required("Le sexe est obligatoire")
+          : schema
+      }),
+      raisonSociale: Yup.string().when([], (value, schema) => {
+        return !showAdditionalFields.value
+          ? schema.required("Le nom du client est obligatoire")
+          : schema
+      }),
+      dateCreation: Yup.date().when([], (value, schema) => {
+        return !showAdditionalFields.value
+          ? schema.notRequired()
+          : schema
+    }),
+      dateNais: Yup.date().when([], (value, schema) => {
+        return showAdditionalFields.value
+          ? schema.notRequired()
+          : schema
+      }),
       ifu: Yup.string().matches(/^\d{13}$/, 'La saisie doit avoir exactement 13 chiffres').when([], (value, schema) => {
         return !showAdditionalFields.value
           ? schema.min(13,"La saisie doit avoir exactement 13 chiffres").max(13, "La saisie doit avoir exactement 13 chiffres").required('L\'ifu est obligatoire')
           : schema.min(13,"La saisie doit avoir exactement 13 chiffres").max(13, "La saisie doit avoir exactement 13 chiffres")
       }),
+      adresseClient: Yup.string().notRequired(),
+      emailClient: Yup.string().email("Veuillez entrer un mail valide").notRequired(),
+      telephone1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone 1 est obligatoire'),
+      telephone2: Yup.number().typeError('Veuillez entrer des chiffres').notRequired(),
+      // ifu: Yup.number().typeError('Veuillez entrer des chiffres').required('L\'ifu est obligatoire'),
       sigle: Yup.string().notRequired(),
       denomination: Yup.string().notRequired(),
-      dateCreation: Yup.date().required('La date de création'),
       statut: Yup.string().required('Le statut est obligatoire'),
     });
 
@@ -422,6 +449,38 @@ export default defineComponent({
     const route = useRoute();
     const defaultStatut = ref(1);
     const showAdditionalFields = ref(true);
+
+    const  codepay= ref();
+    const  nationalnumlber= ref();
+    const telephone=ref();
+    const telephone2=ref();
+    const validPhone=ref<boolean>(false);
+    const numberPhone=ref();
+    const countriesRef = ref(countries)
+    const  numeroNational = ref();
+    const defaultCountriy = 'Bénin';
+
+    function onInput(phone, phoneObject, input) {
+      //
+    }
+
+    function validate(phoneObject) {
+      validPhone.value = phoneObject.valid;
+      if (phoneObject.valid == true) {
+        telephone.value = phoneObject.number;
+        telephone2.value = phoneObject.number;
+        codepay.value= phoneObject.countryCallingCode;
+        nationalnumlber.value = phoneObject.nationalNumber;
+        numberPhone.value = phoneObject.nationalNumber;
+
+      }else{
+        telephone.value="";
+        telephone2.value="";
+        codepay.value= "";
+        nationalnumlber.value= "";
+        numberPhone.value="";
+      }
+    }
 
     const handleObjetInput = (selectedValue) => {
       showAdditionalFields.value = selectedValue === 1;
@@ -465,7 +524,7 @@ export default defineComponent({
           if (data.code == 200) {
             success(data.message);
             resetForm();
-            router.push({ name: "ListeClientPage" });
+            router.push({ name: "ListeClient" });
           }
         }).catch(({ response }) => {
           error(response.data.message);

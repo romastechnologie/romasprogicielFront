@@ -19,9 +19,9 @@
                 <label class="d-block text-black fw-semibold mb-10" >
                   Libelle <span class="text-danger">*</span>
                 </label>
-                <Field name="libelleType" type="text" 
+                <Field name="libelle" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
-                <ErrorMessage name="libelleType" class="text-danger"/>
+                <ErrorMessage name="libelle" class="text-danger"/>
               </div>
             </div>
             <button
@@ -70,7 +70,7 @@ export default defineComponent({
   },
   setup(props, { emit }){
     const typeOperationSchema = Yup.object().shape({
-      libelleType: Yup.string().required('Le libelle est obligatoire'),
+      libelle: Yup.string().required('Le libelle est obligatoire'),
     });
 
     const typeOperationForm = ref<TypeOperation | null>(null);

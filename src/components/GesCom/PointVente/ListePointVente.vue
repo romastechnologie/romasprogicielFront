@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/ajouter-pointVente"
+          to="/point-ventes/ajouter-point-vente"
         >
           <i class="fa fa-plus-circle"></i>
           Ajouter un point de vente

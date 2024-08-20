@@ -1,14 +1,14 @@
 <template>
   <div class="modal fade" id="AddMagasinModal" tabindex="-1" role="dialog" ref="addMagasinModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">{{ title }}</h4>
-                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ title }}</h4>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        <div class="modal-body">
           <Form ref="magasinForm" @submit="addMagasin" :validation-schema="magasinSchema">
-            <div class="col-md-3">
+            <div class="col-md-3 mb-3">
             <br />
             <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
               <label
@@ -31,7 +31,7 @@
             
             <div class="row">
               
-              <div class="col-md-4">
+              <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Code du magasin <span class="text-danger">*</span>
@@ -41,7 +41,7 @@
                 <ErrorMessage name="codeMagasin" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Nom du magasin <span class="text-danger">*</span>
@@ -51,7 +51,7 @@
                 <ErrorMessage name="nomMagasin" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Magasinier <span class="text-danger">*</span>
@@ -70,7 +70,7 @@
                 <ErrorMessage name="magasinier" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Adresse du magasin <span class="text-danger">*</span>
@@ -82,7 +82,7 @@
             </div>
             
             <button
-              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
+              class="btn btn-primary"
               type="submit"
             >
             {{ btntext }}
@@ -132,7 +132,8 @@ export default defineComponent({
       personnel: Yup.string().notRequired(),
       nomMagasin: Yup.string().required('Le nom du magasin est obligatoire'),
       codeMagasin: Yup.string().required('Le code du magasin est obligatoire'),
-      magasinier: Yup.string().required('Le magasinier est obligatoire'),
+      magasinier: Yup.string().notRequired(),
+      // magasinier: Yup.string().required('Le magasinier est obligatoire'),
       adresse: Yup.string().required('L\'adresse est obligatoire'),
     });
 

@@ -3,7 +3,7 @@
       <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="societeForm" @submit="addSociete" :validation-schema="societeSchema">
           <div class="row">
-            <div class="col-md-4 mb-20 mt-20">
+            <div class="col-md-4 mt-20">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
             <label class="custom-checkbox">
                 <input type="checkbox" name="estRegimeTPS">
@@ -22,7 +22,7 @@
             </div>
           </div>
         
-            <div class="col-md-4 mb-20">
+            <div class="col-md-4 mt-20">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Sigle <span class="text-danger">*</span>
@@ -78,8 +78,20 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone <span class="text-danger">*</span>
                 </label>
-                <Field name="telephone" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+                <Field name="telephone" v-model="telephone"  v-slot="{ field }">
+                  <vue-tel-input
+                    placeholder="Entrer le numéro de téléphone"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    defaultCountry="BJ"
+                    mode="international"
+                    @validate="validate"
+                    class ="shadow-none fs-md-15 text-black py-2">
+                  </vue-tel-input>
+                </Field>
+                <div v-if="!validPhone"  class="text-danger">Veuillez entrer un numéro correcte</div>
+                <!-- <Field name="telephone" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/> -->
                 <ErrorMessage name="telephone" class="text-danger"/>
               </div>
             </div>
@@ -335,7 +347,7 @@
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
-                  type="submit"
+                  type="submit" :disabled="!validPhone"
                 >
                     Ajouter une sociéte
                 </button>
@@ -362,6 +374,9 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import Multiselect from "@vueform/multiselect";
 import VueMultiselect from 'vue-multiselect'
+import { countries } from '@/utils/countries';
+import 'vue3-tel-input/dist/vue3-tel-input.css'
+import { VueTelInput } from 'vue3-tel-input'
 
 export default defineComponent({
     name: "AddSociete",
@@ -371,6 +386,7 @@ export default defineComponent({
     ErrorMessage,
     Multiselect,
     VueMultiselect,
+    VueTelInput
   },
   setup: () => {
     const societeSchema = Yup.object().shape({
@@ -393,6 +409,35 @@ export default defineComponent({
 
     const societeForm =  ref<Societe | null>(null);
     const router = useRouter();
+
+    const  codepay= ref();
+    const  nationalnumlber= ref();
+    const telephone=ref();
+    const validPhone=ref<boolean>(false);
+    const numberPhone=ref();
+    const countriesRef = ref(countries)
+    const  numeroNational = ref();
+    const defaultCountriy = 'Bénin';
+
+    function onInput(phone, phoneObject, input) {
+      //
+    }
+
+    function validate(phoneObject) {
+      validPhone.value = phoneObject.valid;
+      if (phoneObject.valid == true) {
+        telephone.value = phoneObject.number;
+        codepay.value= phoneObject.countryCallingCode;
+        nationalnumlber.value = phoneObject.nationalNumber;
+        numberPhone.value = phoneObject.nationalNumber;
+
+      }else{
+        telephone.value="";
+        codepay.value= "";
+        nationalnumlber.value= "";
+        numberPhone.value="";
+      }
+    }
 
      // formulaire dynamique start
 
@@ -455,7 +500,7 @@ export default defineComponent({
           if(data.code == 201) { 
             success(data.message);
             resetForm();
-            router.push({ name: "ListeSocietePage" });
+            router.push({ name: "ListeSociete" });
           }
         }).catch(({ response }) => {
           error(response.data.message);
@@ -490,6 +535,10 @@ export default defineComponent({
         banqueOptions,
         isDisable,
         comptes,
+        countries: countriesRef, 
+        defaultCountriy,
+        numeroNational,
+        telephone,validate
       };
   },
 });
