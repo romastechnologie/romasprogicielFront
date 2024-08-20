@@ -170,12 +170,12 @@
         // values[' nouvelEmplacement'] =  nouvelEmplacement.value.value
         values["typeMouvement"]=tpValue.value;
         values["bien"]=bienId.value;
-      console.log('Données envoyées', values)
-      console.log('dataapi')
+      //console.log('Données envoyées', values)
+      //console.log('dataapi')
         ApiService.post("/mouvementBiens",values)
         .then(({ data }) => {
           console.log('data', data)
-          // if(data.code == 201) { 
+           //if(data.code == 201) { 
             success(data.message)
             resetForm();
             router.push({ name: "ListeMouvementBien" });

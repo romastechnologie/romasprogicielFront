@@ -98,6 +98,145 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+
+    {
+        headTitle1: "Gestion de la Paie",
+        headTitle2: "Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
+        type: "headtitle"
+    },
+    {
+        title: "Religons",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/religions/liste-religion",
+                title: "Liste des religions",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Retenue",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typeRetenues/liste-typeRetenue",
+                title: "Liste des types de retenues",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Prime",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typePrimes/liste-typePrime",
+                title: "Liste des types de primes",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Contrat",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typeContrats/liste-typeContrat",
+                title: "Liste des types de contrats",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Mode Tarification",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/modeTarifications/liste-modeTarification",
+                title: "Liste des modes de tarifications",
+                type: "link"
+            },
+        ]
+    },
+
+
+
+    {
+        title: "Ethnies",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/ethnies/liste-ethnie",
+                title: "Liste des ethnies",
+                type: "link"
+            },
+        ]
+    },
+
     {
         headTitle1: "Gestion du personnel",
         headTitle2: "Demandes, Permissions, Congés, Présences, Justificatifs et Heures supplémentaires",
