@@ -881,11 +881,6 @@ export const menu: MenuItem[] = [
             },
             {
                 path: "/monnaies/liste-monnaies",
-<<<<<<< HEAD
-                title: "Liste des monnaies",
-                type: "link"
-            },
-=======
                 title: " monnaies",
                 type: "link"
             },
@@ -899,7 +894,6 @@ export const menu: MenuItem[] = [
             //     title: "Liste des magasins",
             //     type: "link"
             // },
->>>>>>> f1cd540a511ad6120f6be92ca6b817ac5c90444c
             {
                 path: "/conditionnements/liste-conditionnements",
                 title: "conditionnements",
