@@ -880,7 +880,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/monnaies/liste-monnaies",
+                path: "/monaies/liste-monnaies",
                 title: " monnaies",
                 type: "link"
             },
@@ -910,7 +910,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/personnels/liste-personnels",
+                path: "/personnelles/liste-personnels",
                 title: "personnels",
                 type: "link"
             },
@@ -930,8 +930,8 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/taxes/liste-type-taxes",
-                title: "types de taxes",
+                path: "/taxes/liste-taxes",
+                title: "taxes",
                 type: "link"
             },
             {

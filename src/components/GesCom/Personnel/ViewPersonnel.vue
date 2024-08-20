@@ -5,7 +5,7 @@
           <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
               <h4 class="position-relative text-black fw-bold mb-10">Informations générales</h4>
-              <router-link to="/liste-personnels" 
+              <router-link to="/personnelles/liste-personnels" 
               class=" btn btn-primary transition border-0 lh-1 fw-medium">
               <i class="flaticon-left-arrow  lh-1 me-1 position-relative top-2"></i>
               <span class="position-relative"></span>Retour</router-link>

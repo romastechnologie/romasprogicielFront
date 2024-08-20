@@ -116,7 +116,7 @@ import AddCaissePage from "@/pages/GesCom/Caisse/AddCaissePage.vue";
 import EditCaissePage from "@/pages/GesCom/Caisse/EditCaissePage.vue";
 import ListeCaissePage from "@/pages/GesCom/Caisse/ListeCaissePage.vue";
 import ListeSuiviStockPage from "@/pages/GesCom/SuiviStock/ListeSuiviStockPage.vue";
-// import ListeMonnaiePage from "@/pages/GesCom/Monnaie/ListeMonnaiePage.vue";
+import ListeMonaiePage from "@/pages/GesCom/Monaie/ListeMonaiePage.vue";
 import ListeConditionnementPage from "@/pages/GesCom/Conditionnement/ListeConditionnementPage.vue";
 import AddProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/AddProduitConditionnePage.vue";
 import EditProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/EditProduitConditionnePage.vue";
@@ -146,10 +146,10 @@ import ListeModePaiementPage from "@/pages/GesCom/ModePaiement/ListeModePaiement
 import AddBanquePage from "@/pages/GesCom/Banque/AddBanquePage.vue";
 import EditBanquePage from "@/pages/GesCom/Banque/EditBanquePage.vue";
 import ListeBanquePage from "@/pages/GesCom/Banque/ListeBanquePage.vue";
-// import AddPersonnelPage from "@/pages/GesCom/Personnel/AddPersonnelPage.vue";
-// import EditPersonnelPage from "@/pages/GesCom/Personnel/EditPersonnelPage.vue";
-// import ListePersonnelPage from "@/pages/GesCom/Personnel/ListePersonnelPage.vue";
-import ViewPersonnelPage from "@/pages/GesCom/Personnel/ViewPersonnelPage.vue";
+import AddPersonnellePage from "@/pages/GesCom/Personnel/AddPersonnellePage.vue";
+import EditPersonnellePage from "@/pages/GesCom/Personnel/EditPersonnellePage.vue";
+import ListePersonnellePage from "@/pages/GesCom/Personnel/ListePersonnellePage.vue";
+import ViewPersonnellePage from "@/pages/GesCom/Personnel/ViewPersonnellePage.vue";
 // import ListeFonctionPage from "@/pages/GesCom/Fonction/ListeFonctionPage.vue";
 import AddPersonnelFonctionPage from "@/pages/GesCom/PersonnelFonction/AddPersonnelFonctionPage.vue";
 import EditPersonnelFonctionPage from "@/pages/GesCom/PersonnelFonction/EditPersonnelFonctionPage.vue";
@@ -1427,13 +1427,13 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/monnaies",
+    path: "/monaies",
     component: BodyView,
     children: [
       {
         path: "liste-monnaies",
-        name: "ListeMonnaie",
-        component: ListeMonnaiePage,
+        name: "ListeMonaie",
+        component: ListeMonaiePage,
         meta: {
           title: 'Liste des monnaies',
         }
@@ -1546,13 +1546,13 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/personnels",
+    path: "/personnelles",
     component: BodyView,
     children: [
       {
         path: "ajouter-personnel",
         name: "AddPersonnel",
-        component: AddPersonnelPage,
+        component: AddPersonnellePage,
         meta: {
           title: 'Ajouter un personnel',
         }
@@ -1560,7 +1560,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "modifier-personnel/:id",
         name: "EditPersonnel",
-        component: EditPersonnelPage,
+        component: EditPersonnellePage,
         meta: {
           title: 'Modifier un personnel',
         }
@@ -1568,7 +1568,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "view-personnel/:id",
         name: "ViewPersonnel",
-        component: ViewPersonnelPage,
+        component: ViewPersonnellePage,
         meta: {
           title: 'Détails du personnel',
         }
@@ -1576,7 +1576,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "liste-personnels",
         name: "ListePersonnel",
-        component: ListePersonnelPage,
+        component: ListePersonnellePage,
         meta: {
           title: 'Liste des personnels',
         }

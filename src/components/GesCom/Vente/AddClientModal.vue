@@ -1,19 +1,15 @@
 <template>
-    <div
-      class="modal fade createNewModal"
-      id="AddClientModal"
-      tabindex="-1"
-      ref="addClientModalRef"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content p-15 p-md-40">
-          <div class="modal-header d-block ps-0 pe-0 pt-0 pb-15 pb-md-25">
-            <h5 class="modal-title fw-bold text-black">{{ title }}</h5>
-          </div>
-          <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
+  <div class="modal fade" id="AddClientModal" tabindex="-1" role="dialog" ref="addClientModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ title }}</h4>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
             <Form ref="clientForm" @submit="addClient" :validation-schema="clientSchema">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                  Statut<span class="text-danger">*</span>
@@ -33,7 +29,7 @@
               </div>
               <ErrorMessage name="estPublie" class="text-danger"/>
             </div>
-            <div class="col-md-6" v-if="showAdditionalFields">
+            <div class="col-md-6 mb-3" v-if="showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Nom <span class="text-danger">*</span>
@@ -43,7 +39,7 @@
                 <ErrorMessage name="nomClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6" v-if="showAdditionalFields">
+            <div class="col-md-6 mb-3" v-if="showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Prénom <span class="text-danger">*</span>
@@ -53,7 +49,7 @@
                 <ErrorMessage name="prenomClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Adresse <span class="text-danger">*</span>
@@ -63,7 +59,7 @@
                 <ErrorMessage name="adresseClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Email <span class="text-danger">*</span>
@@ -73,7 +69,7 @@
                 <ErrorMessage name="emailClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6" v-if="showAdditionalFields">
+            <div class="col-md-6 mb-3" v-if="showAdditionalFields">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Sexe <span class="text-danger">*</span>
@@ -90,7 +86,7 @@
                 <ErrorMessage name="sexe" class="text-danger"/>
             </div>
           </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone 1 <span class="text-danger">*</span>
@@ -100,7 +96,7 @@
                 <ErrorMessage name="telephone1" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone 2 
@@ -110,7 +106,7 @@
                 <ErrorMessage name="telephone2" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6" v-if="showAdditionalFields">
+            <div class="col-md-6 mb-3" v-if="showAdditionalFields">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date de naissance <span class="text-danger">*</span>
@@ -120,7 +116,7 @@
                 </div>
               <ErrorMessage name="dateNais" class="text-danger"/>
               </div>
-            <div class="col-md-6" v-if="!showAdditionalFields">
+            <div class="col-md-6 mb-3" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Raison sociale <span class="text-danger">*</span>
@@ -130,7 +126,7 @@
                 <ErrorMessage name="raisonSociale" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   IFU <span class="text-danger">*</span>
@@ -140,7 +136,7 @@
                 <ErrorMessage name="ifu" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6" v-if="!showAdditionalFields">
+            <div class="col-md-6 mb-3" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Régistre de commerce <span class="text-danger">*</span>
@@ -150,7 +146,7 @@
                 <ErrorMessage name="rccm" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6" v-if="!showAdditionalFields">
+            <div class="col-md-6 mb-3" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Sigle <span class="text-danger">*</span>
@@ -160,7 +156,7 @@
                 <ErrorMessage name="sigle" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6" v-if="!showAdditionalFields">
+            <div class="col-md-6 mb-3" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Dénomination <span class="text-danger">*</span>
@@ -180,7 +176,7 @@
                 </div>
               <ErrorMessage name="dateCreation" class="text-danger"/>
               </div>
-            <div class="col-md-12">
+            <div class="col-md-12 mb-3 mt-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
@@ -196,13 +192,13 @@
       </div>
     </Form>
           </div>
-          <button
+          <!-- <button
             type="button"
             class="btn-close shadow-none"
             data-bs-dismiss="modal"
             aria-label="Close"
             @click="resetValue()"
-          ></button>
+          ></button> -->
         </div>
       </div>
     </div>

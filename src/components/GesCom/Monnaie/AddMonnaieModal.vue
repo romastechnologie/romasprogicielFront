@@ -24,9 +24,9 @@
                 <label class="d-block text-black fw-semibold mb-10" >
                   Valeur monnaie <span class="text-danger">*</span>
                 </label>
-                <Field name="valeurMonnaie" type="text" 
+                <Field name="valeur" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le valeur monnaie"/>
-                <ErrorMessage name="valeurMonnaie" class="text-danger"/>
+                <ErrorMessage name="valeur" class="text-danger"/>
               </div>
             </div>
             
@@ -77,7 +77,7 @@ export default defineComponent({
   },
   setup(props, { emit }){
     const monnaieSchema = Yup.object().shape({
-      valeurMonnaie: Yup.number().typeError('Vueillez entrer des chiffres').required("La valeur monnaie est obligatoire"),
+      valeur: Yup.number().typeError('Vueillez entrer des chiffres').required("La valeur monnaie est obligatoire"),
       libelle: Yup.string().required('Le libellé monnaie est obligatoire'),
     });
 

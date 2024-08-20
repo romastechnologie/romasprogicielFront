@@ -120,8 +120,7 @@
         </table>
       </div>
       <div
-        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
-      >
+        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
         <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
       </div>
     </div>
@@ -186,8 +185,8 @@ export default defineComponent({
     };
 
     function getAllFamilles(page = 1, limi = 10, searchTerm = '') {
-      // return ApiService.get(`/familles?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-      return ApiService.get(`/familles`)
+      return ApiService.get(`/familles?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      // return ApiService.get(`/familles`)
         .then(({ data }) => {
       console.log('get familles');
           familles.value = data.data.data;
