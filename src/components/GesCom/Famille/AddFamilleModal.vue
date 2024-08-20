@@ -1,12 +1,12 @@
 <template>
   <div class="modal fade" id="AddFamilleModal" tabindex="-1" role="dialog" ref="addFamilleModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">{{ title }}</h4>
-                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ title }}</h4>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
           <Form ref="familleForm" @submit="addFamille" :validation-schema="familleSchema">
             <div class="row">
             <div class="col-md-12 mb-3">
@@ -90,8 +90,8 @@ export default defineComponent({
   },
   props: {
     item: {
-      type: Number,
-      default: 0,
+      type: Object as () => Famille | null,
+      default: null
     }
   },
   setup(props, { emit }){
@@ -115,7 +115,7 @@ export default defineComponent({
     const btntext = ref('Ajouter');
 
     watch(() => props.item, (newValue) => {
-      getFamille(newValue);
+      getFamille(newValue.id);
       isUPDATE.value = true;
       btnTitle();
     });
@@ -169,6 +169,7 @@ export default defineComponent({
     const addFamille = async (values: any, familleForm) => {
       values = values as Famille;
       if(isUPDATE.value){
+        console.log('values',values)
         ApiService.put("/familles/"+values.id,values)
         .then(({ data }) => {
             if(data.code == 200) { 

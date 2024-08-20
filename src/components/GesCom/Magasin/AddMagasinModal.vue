@@ -124,7 +124,8 @@ export default defineComponent({
       personnel: Yup.string().notRequired(),
       nomMagasin: Yup.string().required('Le nom du magasin est obligatoire'),
       codeMagasin: Yup.string().required('Le code du magasin est obligatoire'),
-      magasinier: Yup.string().required('Le magasinier est obligatoire'),
+      magasinier: Yup.string().notRequired(),
+      // magasinier: Yup.string().required('Le magasinier est obligatoire'),
       adresse: Yup.string().required('L\'adresse est obligatoire'),
     });
 

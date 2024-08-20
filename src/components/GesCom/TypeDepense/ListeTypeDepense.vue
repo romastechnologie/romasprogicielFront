@@ -65,7 +65,7 @@
           <tbody>
             <tr v-for="(typeDepense, index) in typeDepenses" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ typeDepense.libelleType }}
+                {{ typeDepense.libelle }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"

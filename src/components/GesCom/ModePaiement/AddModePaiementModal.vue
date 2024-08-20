@@ -1,26 +1,26 @@
 <template>
   <div class="modal fade" id="AddModePaiementModal" tabindex="-1" role="dialog" ref="addModePaiementModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">{{ title }}</h4>
-                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ title }}</h4>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
           <Form ref="modePaiementForm" @submit="addModePaiement" :validation-schema="modePaiementSchema">
             <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Libelle <span class="text-danger">*</span>
                 </label>
                 <Field name="libelle" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
-                <ErrorMessage name="libelleAdresse" class="text-danger"/>
+                <ErrorMessage name="libelle" class="text-danger"/>
               </div>
             </div>
             <button
-              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
+              class="btn btn-primary"
               type="submit"
             >
             {{ btntext }}

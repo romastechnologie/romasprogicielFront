@@ -175,7 +175,7 @@
         ApiService.post("/mouvementBiens",values)
         .then(({ data }) => {
           console.log('data', data)
-          // if(data.code == 201) { 
+           //if(data.code == 201) { 
             success(data.message)
             resetForm();
             router.push({ name: "ListeMouvementBien" });

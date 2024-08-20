@@ -76,7 +76,7 @@
               </td>
               
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ monnaie.valeurMonnaie }}
+                {{ monnaie.valeur }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -189,7 +189,7 @@ export default defineComponent({
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
-          return data.data;
+          return data.data.data;
         })
         .catch(({ response }) => {
           error(response.data.message)
