@@ -27,6 +27,7 @@
                 Montant HT
               </label>
               <Field
+                v-model="totalsomme"
                 name="montantHT"
                 :readonly="true"
                 type="text"
@@ -41,6 +42,7 @@
                 Montant HT RSE
               </label>
               <Field
+                v-model="totalsommeremise"
                 name="montantHTRSE"
                 :readonly="true"
                 type="text"
@@ -55,6 +57,7 @@
                 Montant TVA
               </label>
               <Field
+                v-model="totaltva"
                 name="montantTVA"
                 :readonly="true"
                 type="text"
@@ -69,6 +72,7 @@
                 Montant AIB
               </label>
               <Field
+                v-model="totalaib"
                 name="montantAIB"
                 :readonly="true"
                 type="text"
@@ -83,6 +87,7 @@
                 Montant Taxe S.
               </label>
               <Field
+                v-model="totalts"
                 name="montanTS"
                 :readonly="true"
                 type="text"
@@ -97,6 +102,7 @@
                 Montant TTC
               </label>
               <Field
+                v-model="totalttc"
                 name="montantTTC"
                 :readonly="true"
                 type="text"
@@ -168,7 +174,7 @@
                 <button
                   style="float: right"
                   v-if="selectedClient"
-                  class="btn btn-success me-3"
+                  class="btn btn-success me-3 btn-xs"
                   @click="toggleAbonne"
                 >
                   <i class="fa fa-plus-circle"></i>
@@ -211,7 +217,7 @@
               <label class="d-block text-black fw-semibold">
                 TAUX AIB <span class="text-danger">*</span>
               </label>
-              <Field name="tauxAIB" v-slot="{ field }">
+              <Field name="tauxAIB" v-model="valeurAib" v-slot="{ field }">
                 <Multiselect
                   :options="['1%', '5%']"
                   :searchable="true"
@@ -254,26 +260,8 @@
             </div>
           </div>
 
-          <div class="col-md-12 mb-md-25 mt-15">
-            <div class="accordion" id="basicAccordion">
-              <div class="accordion-item mb-0 bord1">
-                <h2 class="accordion-header" id="headingOne">
-                  <button
-                    class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#basicCollapseOne"
-                    aria-expanded="false"
-                    aria-controls="basicCollapseOne"
-                  >
-                    Ajouter les produits demandés par le client avec la quantité
-                  </button>
-                </h2>
-                <div
-                  id="basicCollapseOne"
-                  class="accordion-collapse collapse"
-                  data-bs-parent="#basicAccordion"
-                >
+        
+          <div class="col-md-12 mb-md-25">
                   <div class="accordion-body">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                       <li class="nav-item" role="presentation">
@@ -311,18 +299,14 @@
                         class="tab-pane fade show active p-10"
                         id="home-tab-pane"
                         role="tabpanel"
-                        tabindex="0"
-                      >
-                        <div class="row">
+                        tabindex="0">
+                        <div class="row gx-2">
                           <div class="border border-primary mb-5">
-                            <div
-                              class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                              style="background-color: #0a59a4"
-                            >
+                            <div class="row gx-2 d-flex align-items-center justify-content-between fw-bold py-2 bg-primary">
                               <div class="col-md-7">
-                                <h3 class="fs-4 text-white">
+                                <h4 class="fs-6 text-white">
                                   Ajouter le produit
-                                </h3>
+                                </h4>
                               </div>
                               <div class="col-md-5">
                                 <div class="d-flex float-end">
@@ -336,265 +320,227 @@
                                   <i class="fa fa-plus-circle"></i>
                                     Ajouter un produit
                                   </button>
-                                  <!-- <router-link
-                                      to="/liste-mouvements"
-                                    ></router-link> -->
                                 </div>
                               </div>
                             </div>
                             <div>
-                              <div class="card-body p-15 p-sm-20 p-md-25">
-                                <div class="table-responsive">
-                                  <table
-                                    class="table table-fixed text-nowrap align-middle mb-0"
-                                  >
-                                    <thead>
-                                      <tr>
-                                        <th scope="col" class="produit">
-                                          Produit
-                                        </th>
-                                        <th scope="col" class="quantite">
-                                          Quantité
-                                        </th>
-                                        <th scope="col" class="prix-unitaire">
-                                          Prix unitaire
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          Prix HT
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          Montant HT
-                                        </th>
-                                        <th scope="col" class="taxe">
-                                          Taxe S.
-                                        </th>
-                                        <th scope="col" class="type-rse">
-                                          Type RSE
-                                        </th>
-                                        <th scope="col" class="vente-rse">
-                                          Vente / RSE
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          MT Remise
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          MT. HT Ap Rse
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          MT. TVA
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=" text pe-0"
-                                        >
-                                          MT. TTC
-                                        </th>
-                                        <th scope="col" class="magasin">
-                                          Magasin
-                                        </th>
-                                        <th scope="col" class="stock">
-                                          Stock
-                                        </th>
-                                        <th scope="col" class="actions pe-0">
-                                          ACTIONS
-                                        </th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr v-for="(produit, index) in produits" :key="index">
-                                        <td class="produit-col">
-                                          <Multiselect
-                                            :options="produitOptions"
-                                            :searchable="true"
-                                            track-by="label"
-                                            label="label"
-                                            v-model="produit.produit"
-                                            placeholder=""
-                                            @select="
-                                            selectProd(produit.produit, produit)
-                                          "
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.produit)">
-                                            Le produit est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="quantite-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.qtite"
-                                            :class="validateRowProduit(produit.qtite) ? 'form-control is-invalid' : 'form-control'"
-                                            placeholder="Entrer la quantité"
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.qtite)">
-                                            La quantité est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="prix-unitaire-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.prixUnitaire"
-                                            :class="validateRowProduit(produit.prixUnitaire) ? 'form-control is-invalid' : 'form-control'"
-                                            placeholder="Entrer le prix"
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.prixUnitaire)">
-                                            Le prix est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.prixHT"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.montantHT"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.taxe"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="type-rse-col">
-                                          <Multiselect
-                                            :options="['%', 'MT']"
-                                            :searchable="true"
-                                            track-by="label"
-                                            label="label"
-                                            v-model="produit.typeRSE"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.typeRSE)">
-                                            Le type est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="vente-rse-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.venteRSE"
-                                            :class="validateRowProduit(produit.venteRSE) ? 'form-control is-invalid' : 'form-control'"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.venteRSE)">
-                                            La vente est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.remise"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.montantHTRemise"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.montantTVA"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.montantTTC"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="magasin-col">
-                                          <Multiselect
-                                            :options="magasin1Options"
-                                            :searchable="true"
-                                            track-by="label"
-                                            label="label"
-                                            v-model="produit.magasin"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.magasin)">
-                                            Le magasin est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="stock-col">
-                                          <p>0</p>
-                                        </td>
-                                        
-                                        <td class="actions-col pe-0">
-                                          <div class="button-container" style="white-space: nowrap">
-                                            <!-- <a
-                                              @click="showDetail(produit.produit)"
-                                              class="btn btn-icon"
-                                              href="#"
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#ViewProduitModal"
-                                            >
-                                              <i class="text-primary flaticon-eye position-relative"></i>
-                                            </a> -->
-                                            <button
-                                              type="button"
-                                              class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                              @click="removeRowProduit(index)"
-                                            >
-                                            <i class="icofont icofont-ui-delete"></i>
-                                            </button>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+                              <div class="card-body p-1">
+                                <div>
+                                  <div class="row gx-1">
+                                  <div class="col-3">
+                                    <label class="d-block text-black fw-semibold">
+                                      Produit
+                                    </label>
+                                    <Multiselect
+                                      :options="produitOptions"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      v-model="produit.produit"
+                                      placeholder=""
+                                      @select="
+                                      selectProd(produit.produit, produit)
+                                    "
+                                    />
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.produit)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold"  >
+                                      Quantité
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.qtite"
+                                      :class="validateRowProduit(produit.qtite) ? 'form-control is-invalid' : 'form-control'"
+                                      placeholder="Entrer la quantité"
+                                    />
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.qtite)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold" >
+                                      Prix unitaire
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.prixUnitaire"
+                                      :class="validateRowProduit(produit.prixUnitaire) ? 'form-control is-invalid' : 'form-control'"
+                                      placeholder="Entrer le prix"
+                                    />
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.prixUnitaire)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Prix HT
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.prixHT"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Montant HT
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.montantHT"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Taxe S.
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.taxe"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col-1">
+                                    <label class="d-block text-black fw-semibold">
+                                      Type RSE
+                                    </label>
+                                    <Multiselect
+                                      :options="['%', 'MT']"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      v-model="produit.typeRSE"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.typeRSE)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
                                 </div>
+                                <div class="row gx-1">
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Vente / RSE
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.venteRSE"
+                                      :class="validateRowProduit(produit.venteRSE) ? 'form-control is-invalid' : 'form-control'"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.venteRSE)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      MT Remise
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.remise"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      MT. HT Ap Rse
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.montantHTRemise"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      MT. TVA
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.montantTVA"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      MT. TTC
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.montantTTC"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Magasin
+                                    </label>
+                                    <Multiselect
+                                      :options="magasin1Options"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      v-model="produit.magasin"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.magasin)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
+                                  
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Stock
+                                    </label>
+                                    <p class="mb-1">Logigique: 0</p>
+                                    <p class="pt-0">Physique: 0</p>
+                                  </div>
+                                  <div class="col pe-0">
+                                    <label class="d-block text-black fw-semibold">
+                                      ACTIONS
+                                    </label>
+                                    <div class="button-container" style="white-space: nowrap">
+                                      <button
+                                        type="button"
+                                        class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                        @click="removeRowProduit(index)"
+                                      >
+                                      <i class="icofont icofont-ui-delete"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-
                       <div
                         class="tab-pane fade p-10"
                         id="home2-tab-pane"
@@ -633,8 +579,7 @@
                             </div>
                             <div>
                               <div
-                                class="row d-flex align-items-center justify-content-between mt-10"
-                              >
+                                class="row d-flex align-items-center justify-content-between mt-10">
                                 <div class="col-md-3">
                                   <label class="d-block text-black fw-semibold">
                                     Titre <span class="text-danger">*</span>
@@ -642,8 +587,7 @@
                                 </div>
                                 <div class="col-md-3">
                                   <label class="d-block text-black fw-semibold"
-                                    >Description</label
-                                  >
+                                    >Description</label>
                                 </div>
                                 <div class="col-md-2">
                                   <label class="d-block text-black fw-semibold">
@@ -729,9 +673,112 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
+          <div class="table-responsive">
+            <table class="table table-fixed text-nowrap align-middle mb-0 table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col" class="produit">
+                    Produit
+                  </th>
+                  <th scope="col" class="quantite">
+                    Quantité
+                  </th>
+                  <th scope="col" class="prix-unitaire">
+                    Prix unitaire
+                  </th>
+                  <th
+                    scope="col"
+                    class=""
+                  >
+                    Prix HT
+                  </th>
+                  <th
+                    scope="col"
+                    class=""
+                  >
+                    Montant HT
+                  </th>
+                  <th scope="col" class="taxe">
+                    Taxe S.
+                  </th>
+                  <th scope="col" class="type-rse">
+                    Type RSE
+                  </th>
+                  <th scope="col" class="vente-rse">
+                    Vente / RSE
+                  </th>
+                  <th
+                    scope="col"
+                    class=""
+                  >
+                    MT Remise
+                  </th>
+                  <th scope="col">
+                    MT. HT Ap Rse
+                  </th>
+                  <th
+                    scope="col"
+                    class=""
+                  >
+                    MT. TVA
+                  </th>
+                  <th
+                    scope="col"
+                    class=" text pe-0"
+                  >
+                    MT. TTC
+                  </th>
+                  <th scope="col" class="magasin">
+                    Magasin
+                  </th>
+                  <th scope="col" class="actions pe-0">
+                    ACTIONS
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(produit, index) in produits" :key="index">
+                  <td class="produit-col">
+                  </td>
+                  <td class="quantite-col">
+                  </td>
+                  <td class="prix-unitaire-col">
+                  </td>
+                  <td class="taxe-col">
+                  </td>
+                  <td class="taxe-col">
+                  </td>
+                  <td class="taxe-col">
+                  </td>
+                  <td class="type-rse-col">
+                  </td>
+                  <td class="vente-rse-col">
+                  </td>
+                  <td class="taxe-col">
+                  </td>
+                  <td class="taxe-col">
+                  </td>
+                  <td class="taxe-col">
+                  </td>
+                  <td class="taxe-col">
+                  </td>
+                  <td class="magasin-col">
+                  </td>
+                  <td class="actions-col pe-0">
+                    <div class="button-container" style="white-space: nowrap">
+                      <button
+                        type="button"
+                        class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                        @click="removeRowProduit(index)"
+                      >
+                      <i class="icofont icofont-ui-delete"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>   
 
           <div class="col-md-12 mt-5">
             
@@ -786,24 +833,6 @@
                 <li><a class="dropdown-item" href="#">Modèle 2</a></li>
                 </ul>
             </div>
-            <!-- <div class="d-flex align-items-center">
-              <button
-                class="btn btn-success me-3"
-                type="submit"
-                :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable || isDisableElement }"
-              >
-                Ajouter une vente
-              </button>
-              <router-link
-                to="/liste-ventes"
-                class="btn btn-danger"
-                ><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                ></i>
-                <span class="position-relative"></span>Annuler</router-link
-              >
-            </div> -->
           </div>
           </div>
         </div>
@@ -910,6 +939,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import Multiselect from "@vueform/multiselect";
 import AddClientModal from "./AddClientModal.vue";
+import { ProduitSelect } from "@/models/Produit";
 
 export default defineComponent({
   name: "AddVente",
@@ -958,6 +988,17 @@ export default defineComponent({
     const selectedClientId = ref(0);
     const clientsOps = ref<Array<{ value: any; label: string }>>([]);
     const clientCharger = ref(null);
+
+    const totalsomme = ref(0.0);
+    const totalsommeremise = ref(0.0);
+    const totaltva = ref(0.0);
+    const totalts = ref(0.0);
+    const totalttc = ref(0.0);
+    const totalaib = ref(0.0);
+    const valeurAib = ref(0);
+
+
+    const produits = ref<Array<ProduitSelect>>([]);
 
     const getClient = async (values: {
       id: any;
@@ -1060,14 +1101,9 @@ export default defineComponent({
     });
 
     const addVente = async (values, { resetForm }) => {
-      values.produits = produits.map((produit) => ({
+      values.produits = produits.value.map((produit) => ({
         produit: produit.produit.split("|")[0],
-        prixUnitaire: produit.prixUnitaire,
-        qtite: produit.qtite,
-        taxe: produit.taxe,
-        typeRSE: produit.typeRSE,
-        venteRSE: produit.venteRSE,
-        magasin: produit.magasin,
+        typeRemise: produit.typeRemise,
         nomProd: produit.produit.split("|")[2],
       }));
       values.elements = elements.map((element) => ({
@@ -1110,46 +1146,61 @@ export default defineComponent({
 
     const isDisable = ref(true);
 
-    const produits = reactive([
+    var produit = reactive(
       {
+        commande_clit_id:"",
+        magasin:"",
         produit: "",
-        qtite: 0,
-        prixUnitaire: 0,
-        taxe: 0,
-        typeRSE: "",
-        venteRSE: "",
-        montantTVA: 0,
-        montantTTC: 0,
-        stock: 0,
-        montantHT: "",
-        prixHT: "",
-        magasin: "",
-        remise: "",
-        montantHTRemise: "",
+        qtite: 0.0,
+        prixTtc: 0.0,
+        prixHt: 0.0,
+        taxeSpecifique: 0.0,
+        typeRemise: '',
+        valeurRemise: 0.0,
+        montantHt: 0.0,
+        montantTva: 0.0,
+        montantTtc: 0.0,
+        montantTs:0.0,
+        montantHtApresRemise: 0.0,
+        libelleProduit:"",
+        groupeTaxeProduit:"",
+        carton: 0.0,
+        piece: 0.0,
+        stock: 0.0,
+        remise: 0.0,
+        restAliv: 0.0,
+        taxe:0
       },
-    ]);
+    );
 
     const addRowProduit = () => {
-      produits.push({
-        produit: "",
-        qtite: 0,
-        prixUnitaire: 0,
-        taxe: 0,
-        typeRSE: "",
-        venteRSE: "",
-        montantTVA: 0,
-        montantTTC: 0,
-        magasin: "",
-        stock: 0, 
-        montantHT: "",
-        prixHT: "",
-        remise: "",
-        montantHTRemise: "",
-      });
+      produits.value.push(produit)
+        produit.commande_clit_id="",
+        produit.magasin="",
+        produit.produit= "",
+        produit.qtite= 0.0,
+        produit.prixTtc= 0.0,
+        produit.prixHt= 0.0,
+        produit.taxeSpecifique= 0.0,
+        produit.typeRemise= '',
+        produit.valeurRemise= 0.0,
+        produit.montantHt= 0.0,
+        produit.montantTva= 0.0,
+        produit.montantTtc= 0.0,
+        produit.montantTs= 0.0,
+        produit.montantHtApresRemise= 0.0,
+        produit.libelleProduit="",
+        produit.groupeTaxeProduit="",
+        produit.carton= 0.0,
+        produit.piece= 0.0,
+        produit.stock= 0.0,
+        produit.remise= 0.0,
+        produit.restAliv= 0.0
+        produit.taxe=0
     };
 
     const removeRowProduit = (index) => {
-      if (produits.length > 1) produits.splice(index, 1);
+      if (produits.value.length > 1) produits.value.splice(index, 1);
     };
 
     const validateRowProduit = (value) => {
@@ -1163,9 +1214,7 @@ export default defineComponent({
           (produit) =>
             validateRowProduit(produit.produit) ||
             validateRowProduit(produit.qtite) ||
-            validateRowProduit(produit.prixUnitaire) ||
-            validateRowProduit(produit.venteRSE) ||
-            validateRowProduit(produit.magasin)
+            validateRowProduit(produit.prixTtc)
         );
       },
       { deep: true }
@@ -1224,12 +1273,98 @@ export default defineComponent({
       return `${year}-${month}-${day}`;
     };
 
+    //calcule des totaux
+    var calculeDestotaux=()=>{
+         totalsomme.value = 0.0;
+         totalsommeremise.value = 0.0;
+         totaltva.value= 0.0;
+         totalts.value=0.0;
+         totalttc.value=0.0
+        Object.keys(produits).forEach(function (key){
+          if(produits[key].montantHt !=''){
+                totalsomme.value += produits[key].montantHt;
+            }
+            if(produits[key].montantHtApresRemise !=''){
+                totalsommeremise.value += produits[key].montantHtApresRemise;
+            }
+            if(produits[key].prixHt !=''){
+                if(produits[key].prixHt == produits[key].prixTtc) {
+                    totaltva.value += 0;
+                }else{
+                    totaltva.value += produits[key].prixTtc / 1.18 * 0.18 * produits[key].qtite;
+                }
+            }
+            if(produits[key].montantTtc !=''){
+                totalttc.value += produits[key].montantTtc;
+            }
+            if(produits[key].montantTs !=''){
+                if(produits[key].prixHt == produits[key].prixTtc){
+                    totalts.value += produits[key].montantTs / 1.18;
+                    totaltva.value += produits[key].montantTs / 1.18 * 0.18; 
+                    
+                }else{
+                    totalts.value += produits[key].montantTs;
+                    totaltva.value += 0;
+                }
+            }
+        });
+
+        if(valeurAib.value  != 0) {
+            totalaib.value = (totalsommeremise.value * valeurAib.value)/100
+            totalttc.value += totalaib.value;
+        }
+    }
+
+    
+    var remiseSurProduit =()=>{
+        if(produit.prixTtc) {
+            var prixremise = produit.prixHt;
+            if(produit.valeurRemise) {
+                if(produit.typeRemise =='%' && produit.valeurRemise != 0) {
+                  produit.remise = (produit.prixHt*produit.valeurRemise)/100;
+                    prixremise = produit.prixHt- produit.remise;
+                }else if(produit.typeRemise =='MT' && produit.valeurRemise !=0){
+                    produit.remise = produit.valeurRemise;
+                    prixremise = produit.prixHt-produit.remise; 
+                }
+            }
+            var ts =  produit.taxeSpecifique;
+            var ts_ht = 0;
+            ts = isNaN(ts) ? 0 : ts;
+            if(!isNaN(ts)){
+                var ts_ht = ts /1.18;
+                (produit.taxe != 0)  ? (ts_ht = (ts /1.18)) : (ts_ht = ts);
+            }
+            produit.montantHt = produit.prixHt*produit.qtite
+            produit.valeurRemise = produit.remise*produit.qtite;
+            if(produit.taxe != 0) {
+                produit.montantHtApresRemise= (produit.prixTtc/1.18 - produit.valeurRemise)*produit.qtite + ts_ht
+                produit.montantTtc = ((produit.prixTtc / 1.18 - produit.valeurRemise)*produit.qtite)*1.18;
+                produit.montantTva = (produit.montantTtc - (produit.prixTtc*produit.qtite)/1.18 - produit.remise)
+            }else{
+                produit.montantHtApresRemise= (produit.prixTtc - produit.valeurRemise)*produit.qtite + ts_ht
+                produit.montantTva = 0;
+                produit.montantTtc = ((produit.prixTtc - produit.valeurRemise)*produit.qtite);
+            }
+            produit.montantTtc = parseInt((produit.montantTtc + ts).toFixed(0));
+        } 
+    }
+
+
     return {
+      totalsomme,
+      totalsommeremise,
+      totaltva,
+      totalts,
+      totalttc,
+      totalaib ,
+      valeurAib,
       venteSchema,
       addVente,
       venteForm,
       magasin1Options,
       produits,
+      produit,
       removeRowProduit,
       removeRowElement,
       addRowProduit,
@@ -1311,130 +1446,6 @@ input[readonly] {
 .form-control {
   width: 100%;
 }
-
-/* 
-.table-fixed {
-  width: 100%;
-  table-layout: fixed;
-}
-
-.table-fixed th,
-.table-fixed td {
-  vertical-align: middle;
-  padding: 12px 15px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.table-fixed th {
-  background-color: #f8f9fa;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: #495057;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.table-fixed td {
-  background-color: #fff;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.table-fixed .form-control {
-  border-radius: 0;
-  box-shadow: none;
-  border-color: #ced4da;
-}
-
-.table-fixed th.produit,
-.table-fixed td.produit,
-.table-fixed th.quantite,
-.table-fixed td.quantite,
-.table-fixed th.prix-unitaire,
-.table-fixed td.prix-unitaire,
-.table-fixed th.taxe,
-.table-fixed td.taxe,
-.table-fixed th.type-rse,
-.table-fixed td.type-rse,
-.table-fixed th.vente-rse,
-.table-fixed td.vente-rse,
-.table-fixed th.montant-tva,
-.table-fixed td.montant-tva,
-.table-fixed th.montant-ttc,
-.table-fixed td.montant-ttc,
-.table-fixed th.magasin,
-.table-fixed td.magasin 
-.table-fixed th.stock,
-
-.table-fixed th.actions,
-.table-fixed td.actions {
-  width: 100px;
-}
-
-.table-fixed .Multiselect {
-  width: 100%;
-}
-
-.table-fixed .form-control {
-  width: 100%;
-}
-
-.table-fixed .form-control.is-invalid {
-  border-color: #e3342f;
-}
-
-.table-fixed .invalid-feedback {
-  display: block;
-  color: #e3342f;
-}
-
-.table-hover tbody tr:hover td {
-  background-color: #f1f1f1;
-}
-
-.btn {
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-  border-color: #1e7e34;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
-  border-color: #bd2130;
-}
-
-.button-container {
-  display: flex;
-  align-items: center;
-}
-
-.btn-icon {
-  padding: 0.5rem 0.8rem;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-}
-
-.btn-icon:hover {
-  background-color: #f0f0f0;
-}
-
-.flaticon {
-  font-size: 1.2rem;
-} */
 
 label {
     margin-bottom: 0.2rem;

@@ -80,13 +80,13 @@
           <tbody>
             <tr v-for="(magasin, index) in magasins" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ magasin.codeMagasin }}
+                {{ magasin.code }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ magasin.nomMagasin }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ magasin?.magasinier?.magasinier }}
+                {{ magasin?.personnel?.nom }} {{ magasin?.personnel?.prenom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ magasin.adresse }}
@@ -108,10 +108,7 @@
                         data-bs-toggle="modal"
                         data-bs-target="#AddMagasinModal"
                         @click="moddifier(magasin)"
-                      >
-                        <i
-                          class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>
+                      ><i class="flaticon-pen lh-1 me-8 position-relative top-1" ></i>
                         Modifier
                       </a>
                     </li>
@@ -258,21 +255,22 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { magasins,
+    return { 
+      magasins,
       checkPermission,
-     getAllMagasins,
-     deleteMagasin,
-     moddifier ,
-     suppression,
-     page, 
-    totalPages,
-    limit,
-    totalElements,
-    handlePaginate,
-    rechercher,
-    searchTerm,
-    selectedItem,
-    recharger
+      getAllMagasins,
+      deleteMagasin,
+      moddifier ,
+      suppression,
+      page, 
+      totalPages,
+      limit,
+      totalElements,
+      handlePaginate,
+      rechercher,
+      searchTerm,
+      selectedItem,
+      recharger
   };
   },
 });

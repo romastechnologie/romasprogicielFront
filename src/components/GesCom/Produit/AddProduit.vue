@@ -663,8 +663,7 @@
                 class="btn btn-success me-3"
                 type="submit"
                 :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable || isDisablee }"
-              >
+                :class="{ 'cursor-not-allowed': isDisable || isDisablee }">
                 Ajouter un produit
               </button>
               <router-link
@@ -949,17 +948,17 @@ export default defineComponent({
         image: image.image,
       }));
       console.log('values ====>', values);
-      // ApiService.post("/produits", values)
-      //   .then(({ data }) => {
-      //     if (data.code == 201) {
-      //       success(data.message);
-      //       resetForm();
-      //       router.push({ name: "ListeProduitPage" });
-      //     }
-      //   })
-      //   .catch(({ response }) => {
-      //     error(response.data.message);
-      //   });
+      ApiService.post("/produits", values)
+        .then(({ data }) => {
+          if (data.code == 201) {
+            success(data.message);
+            resetForm();
+            router.push({ name: "ListeProduitPage" });
+          }
+        })
+        .catch(({ response }) => {
+          error(response.data.message);
+        });
     };
 
     const fetchFamille = async () => {

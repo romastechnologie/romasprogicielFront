@@ -25,9 +25,12 @@ const hideModal = (modalEl: HTMLElement | null): void => {
   if (!modalEl) {
     return;
   }
-  removeModalBackdrop();
   const myModal = Modal.getInstance(modalEl);
+  document.body.style.overflow = '';
+  document.body.style.paddingRight = '';
+  removeModalBackdrop();
   myModal?.hide();
+  
 };
 
 const showModal = (modalEl: HTMLElement | null): void => {
