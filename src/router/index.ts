@@ -203,7 +203,6 @@ import ListeTypeContratPage from "@/pages/GestionPaie/TypeContrat/ListeTypeContr
 import ListeModeTarificationPage from "@/pages/GestionPaie/ModeTarification/ListeModeTarificationPage.vue";
 import ListeReligionPage from "@/pages/GestionPaie/Religion/ListeReligionPage.vue";
 
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
