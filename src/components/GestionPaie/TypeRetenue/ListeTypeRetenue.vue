@@ -69,6 +69,12 @@
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >Montant par défaut
+                  
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >DATE DE CREATION
                   
                 </th>
@@ -87,7 +93,10 @@
                   {{ typeRetenue.description }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ typePrime.taux}}
+                  {{ typeRetenue.taux}}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ typeRetenue.montantParDefaut}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ format_date(typeRetenue.createdAt)  }}

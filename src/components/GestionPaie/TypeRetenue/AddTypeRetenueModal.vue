@@ -33,6 +33,15 @@
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
+                                Montant par défaut<span class="text-danger">*</span>
+                              </label>
+                              <Field name="montant" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
+                              <ErrorMessage name="montant" class="text-danger"/>
+                            </div>
+                          <div class="col-md-12 mb-3">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                              <label class="d-block text-black fw-semibold mb-10">
                                 Description <span class="text-danger">*</span>
                               </label>
                               <Field name="description" cols="20"
@@ -95,6 +104,7 @@
           description: Yup.string().required('La description est obligatoire'),
           nom: Yup.string().required('Le nom est obligatoire'),
           taux: Yup.number().required('Le taux est obligatoire'),
+          montant: Yup.number().required('Le montant est obligatoire'),
         });
     
     
@@ -122,6 +132,7 @@
             typeRetenueForm.value?.setFieldValue("nom",data.data.nom);
             typeRetenueForm.value?.setFieldValue("description",data.data.description);
             typeRetenueForm.value?.setFieldValue("taux",data.data.taux);
+            typeRetenueForm.value?.setFieldValue("montant",data.data.montant);
             emit('openmodal', addTypeRetenueModalRef.value);
           })
           .catch(({ response }) => {

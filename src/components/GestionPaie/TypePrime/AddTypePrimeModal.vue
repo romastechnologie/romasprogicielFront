@@ -13,7 +13,7 @@
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
-                                Nom Du Prime<span class="text-danger">*</span>
+                                Nom du prime<span class="text-danger">*</span>
                               </label>
                               <Field name="nom" type="text" 
                               class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
@@ -23,7 +23,7 @@
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
-                                Montant PAr Défaut<span class="text-danger">*</span>
+                                Montant par défaut<span class="text-danger">*</span>
                               </label>
                               <Field name="montant" type="text" 
                               class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
@@ -101,7 +101,7 @@
         const typePrimeForm =  ref<TypePrime | null>(null);
         const addTypePrimeModalRef = ref<null | HTMLElement>(null);
         let typePrimes= ref<Array<TypePrime>>([]);
-        const title = ref('Ajouter une typePrime');
+        const title = ref('Ajouter un type de prime');
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
