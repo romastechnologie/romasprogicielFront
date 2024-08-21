@@ -3,7 +3,7 @@
       <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="clientForm" @submit="addClient" :validation-schema="clientSchema">
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                  Statut<span class="text-danger">*</span>
@@ -23,7 +23,7 @@
               </div>
               <ErrorMessage name="statut" class="text-danger"/>
             </div>
-            <div class="col-md-4" v-if="showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Nom du client <span class="text-danger">*</span>
@@ -33,7 +33,7 @@
                 <ErrorMessage name="nomClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Prénom du client<span class="text-danger">*</span>
@@ -43,7 +43,7 @@
                 <ErrorMessage name="prenomClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="!showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Sigle <span class="text-danger">*</span>
@@ -53,7 +53,7 @@
                 <ErrorMessage name="sigle" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="!showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Dénomination <span class="text-danger">*</span>
@@ -63,7 +63,7 @@
                 <ErrorMessage name="denomination" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="!showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Raison sociale <span class="text-danger">*</span>
@@ -73,7 +73,7 @@
                 <ErrorMessage name="raisonSociale" class="text-danger"/>
               </div>
             </div>
-           <div class="col-md-4">
+           <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   IFU <span class="text-danger" v-if="!showAdditionalFields">*</span>
@@ -84,7 +84,7 @@
               </div>
             </div>
             
-            <div class="col-md-4" v-if="!showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Régistre de commerce <span class="text-danger">*</span>
@@ -94,7 +94,7 @@
                 <ErrorMessage name="rccm" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Adresse 
@@ -104,7 +104,7 @@
                 <ErrorMessage name="adresseClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Email
@@ -114,7 +114,7 @@
                 <ErrorMessage name="emailClient" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="showAdditionalFields">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Sexe <span class="text-danger">*</span>
@@ -136,8 +136,20 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone 1 <span class="text-danger">*</span>
                 </label>
-                <Field name="telephone1" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+                <Field name="telephone1" v-model="telephone"  v-slot="{ field }">
+                  <vue-tel-input
+                    placeholder="Entrer le numéro de téléphone"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    defaultCountry="BJ"
+                    mode="international"
+                    @validate="validate"
+                    class ="shadow-none fs-md-15 text-black py-2">
+                  </vue-tel-input>
+                </Field>
+                <div v-if="!validPhone"  class="text-danger">Veuillez entrer un numéro correcte</div>
+                <!-- <Field name="telephone1" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/> -->
                 <ErrorMessage name="telephone1" class="text-danger"/>
               </div>
             </div>
@@ -146,12 +158,24 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone 2 
                 </label>
-                <Field name="telephone2" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+                <Field name="telephone2" v-model="telephone2"  v-slot="{ field }">
+                  <vue-tel-input
+                    placeholder="Entrer le numéro de téléphone"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    defaultCountry="BJ"
+                    mode="international"
+                    @validate="validate"
+                    class ="shadow-none fs-md-15 text-black py-2">
+                  </vue-tel-input>
+                </Field>
+                <div v-if="!validPhone"  class="text-danger">Veuillez entrer un numéro correcte</div>
+                <!-- <Field name="telephone2" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/> -->
                 <ErrorMessage name="telephone2" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="showAdditionalFields">
+            <div class="col-md-4 mb-3" v-if="showAdditionalFields">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date de naissance 
@@ -355,13 +379,11 @@
             </div>
           </div>
               
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
                   type="submit"
-                  :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable }"
                 >
                     Ajouter un client
                 </button>
@@ -387,6 +409,9 @@ import { Client } from '@/models/Client';
 import * as Yup from 'yup';
 import axios from 'axios';
 import Multiselect from '@vueform/multiselect'
+import 'vue3-tel-input/dist/vue3-tel-input.css'
+import { VueTelInput } from 'vue3-tel-input'
+import { countries } from '@/utils/countries';
 
 export default defineComponent({
     name: "AddClient",
@@ -394,7 +419,8 @@ export default defineComponent({
     Form,
     Field,
     ErrorMessage,
-    Multiselect
+    Multiselect,
+    VueTelInput
   },
   setup: () => {
     const clientSchema = Yup.object().shape({
@@ -447,6 +473,38 @@ export default defineComponent({
     const router = useRouter();
     const defaultStatut = ref(1);
     const showAdditionalFields = ref(true);
+
+    const  codepay= ref();
+    const  nationalnumlber= ref();
+    const telephone=ref();
+    const telephone2=ref();
+    const validPhone=ref<boolean>(false);
+    const numberPhone=ref();
+    const countriesRef = ref(countries)
+    const  numeroNational = ref();
+    const defaultCountriy = 'Bénin';
+
+    function onInput(phone, phoneObject, input) {
+      //
+    }
+
+    function validate(phoneObject) {
+      validPhone.value = phoneObject.valid;
+      if (phoneObject.valid == true) {
+        telephone.value = phoneObject.number;
+        telephone2.value = phoneObject.number;
+        codepay.value= phoneObject.countryCallingCode;
+        nationalnumlber.value = phoneObject.nationalNumber;
+        numberPhone.value = phoneObject.nationalNumber;
+
+      }else{
+        telephone.value="";
+        telephone2.value="";
+        codepay.value= "";
+        nationalnumlber.value= "";
+        numberPhone.value="";
+      }
+    }
 
     const handleObjetInput = (selectedValue) => {
       showAdditionalFields.value = selectedValue === 1;
@@ -525,7 +583,7 @@ export default defineComponent({
           if(data.code == 201) { 
             success(data.message);
             resetForm();
-            router.push({ name: "ListeClientPage" });
+            router.push({ name: "ListeClient" });
           }
         }).catch(({ response }) => {
           error(response.data.message);
@@ -542,7 +600,7 @@ export default defineComponent({
         valideteRowAdresseLivraison,
         valuess,
         isDisable,
-        adresseLivraisons,
+        adresseLivraisons,validate,
       };
   },
 });

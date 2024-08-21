@@ -1,15 +1,15 @@
 <template>
   <div class="modal fade" id="AddConditionnementModal" tabindex="-1" role="dialog" ref="addConditionnementModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">{{ title }}</h4>
-                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ title }}</h4>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
           <Form ref="conditionnementForm" @submit="addConditionnement" :validation-schema="conditionnementSchema">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Code <span class="text-danger">*</span>
@@ -19,7 +19,7 @@
                 <ErrorMessage name="code" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Libellé <span class="text-danger">*</span>
@@ -29,18 +29,18 @@
                 <ErrorMessage name="libelle" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Valeur 
                 </label>
-                <Field name="valeur" type="text" 
+                <Field name="quantite" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la valeur"/>
-                <ErrorMessage name="valeur" class="text-danger"/>
+                <ErrorMessage name="quantite" class="text-danger"/>
               </div>
             </div>
             <button
-              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
+              class="btn btn-primary"
               type="submit"
             >
             {{ btntext }}
@@ -87,7 +87,7 @@ export default defineComponent({
     const conditionnementSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       libelle: Yup.string().required('Le libelle est obligatoire'),
-      valeur: Yup.number().typeError('Veuillez entrer des nombres').notRequired(),
+      quantite: Yup.number().typeError('Veuillez entrer des nombres').notRequired(),
     });
 
     const conditionnementForm = ref<Conditionnement | null>(null);

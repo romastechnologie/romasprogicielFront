@@ -52,13 +52,7 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Nom
-              </th>
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Prenom
+                Nom /Raison social
               </th>
               <th
                 scope="col"
@@ -99,10 +93,7 @@
           <tbody>
             <tr v-for="(client, index) in clients" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ client.nomClient }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ client.prenomClient }}
+                {{ client.nomClient }} {{ client.prenomClient }} {{ client.raisonSociale }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ client.adresseClient }}
@@ -122,24 +113,20 @@
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
-                    <li >
-                      <router-link :to="{ name: 'EditClientPage', params: { id: client.id } }" 
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                    <li class="dropdown-item d-flex align-items-center">
+                      <router-link :to="{ name: 'EditClient', params: { id: client.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>
                     </li>
-                    <li>
-                        <router-link :to="{ name: 'ViewClientPage', params: { id: client.id } }" class="dropdown-item d-flex align-items-center">
+                    <li class="dropdown-item d-flex align-items-center">
+                        <router-link :to="{ name: 'ViewClient', params: { id: client.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
                         </router-link>
                     </li>
-                    <li >
+                    <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(client.id,clients,'clients',`l\'client ${client.id}`)">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
@@ -147,7 +134,6 @@
                       </a>
                     </li>
                   </ul>
-              </div>
               </td>
             </tr>
           </tbody>

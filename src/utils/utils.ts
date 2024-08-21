@@ -25,7 +25,7 @@ const hideModal = (modalEl: HTMLElement | null): void => {
   if (!modalEl) {
     return;
   }
-  
+  removeModalBackdrop();
   const myModal = Modal.getInstance(modalEl);
   myModal?.hide();
 };

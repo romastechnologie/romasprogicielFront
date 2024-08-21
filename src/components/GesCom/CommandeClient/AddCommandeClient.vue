@@ -3,7 +3,7 @@
       <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="commandeClientForm" @submit="addCommandeClient" :validation-schema="commandeClientSchema">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                  Statut<span class="text-danger">*</span>
@@ -22,7 +22,7 @@
               </div>
               <ErrorMessage name="statutCommande" class="text-danger"/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Client <span class="text-danger">*</span>
@@ -41,7 +41,7 @@
               </div>
               <ErrorMessage name="client" class="text-danger"/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Adresse Livraison <span class="text-danger">*</span>
@@ -60,7 +60,7 @@
               </div>
               <ErrorMessage name="adresseLivraison" class="text-danger"/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Montant HT <span class="text-danger">*</span>
@@ -70,7 +70,7 @@
                 <ErrorMessage name="montHT" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Montant TTC <span class="text-danger">*</span>
@@ -80,7 +80,7 @@
                 <ErrorMessage name="montTTC" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Montant Total <span class="text-danger">*</span>
@@ -90,7 +90,7 @@
                 <ErrorMessage name="montTotal" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Remise <span class="text-danger">*</span>
@@ -100,7 +100,7 @@
                 <ErrorMessage name="remise" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date de commande <span class="text-danger">*</span>
@@ -110,7 +110,7 @@
                 </div>
               <ErrorMessage name="dateCommande" class="text-danger"/>
               </div>
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"

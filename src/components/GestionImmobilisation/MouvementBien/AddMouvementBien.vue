@@ -168,10 +168,10 @@
 
       const addMouvementBien = async (values,{ resetForm }) => {
         // values[' nouvelEmplacement'] =  nouvelEmplacement.value.value
-        values["typeMouvement"]=tpValue.value;
-        values["bien"]=bienId.value;
-      //console.log('Données envoyées', values)
-      //console.log('dataapi')
+      values["typeMouvement"]=tpValue.value;
+      values["bien"]=bienId.value;
+      console.log('Données envoyées', values)
+      console.log('dataapi')
         ApiService.post("/mouvementBiens",values)
         .then(({ data }) => {
           console.log('data', data)
@@ -183,7 +183,7 @@
         }).catch(({ response }) => {
           error(response.message);
         });
-    }
+      }
   
       const getAllBiens = async () => {
         try{
@@ -209,17 +209,17 @@
             value: service.id,
             label: service.libelle
           }));
-          
         }
         catch(error){
           //error(response.data.message)
         }
       } 
-  
-  
-      return {mouvementBienSchema, addMouvementBien, bienForm, 
+      
+      return { 
+        mouvementBienSchema, addMouvementBien, bienForm, 
         typeOptions, biens,serviceOptions,emplacementDepart,
-         showMErr, nombien,  nouvelEmplacement, typMouv, tpValue,service};
+        showMErr, nombien,  nouvelEmplacement, typMouv, tpValue,service
+      };
     },
   });
   </script>

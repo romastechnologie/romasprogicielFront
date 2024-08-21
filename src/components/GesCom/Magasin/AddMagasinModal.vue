@@ -7,88 +7,80 @@
                         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-          <Form ref="magasinForm" @submit="addMagasin" :validation-schema="magasinSchema">
-            <div class="col-md-3">
-            <br />
-            <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
-              <label
-                for="estActif"
-                class="form-check-label fw-medium position-relative top-1"
-              >
-                Est Principal ?
-              </label>
-              <input
-                id="estPrincipal"
-                name="estPrincipal"
-                v-model="estPrincipal"
-                :value="estPrincipal"
-                type="checkbox"
-                class="form-check-input shadow-none"
-              />
-              <ErrorMessage name="estPrincipal" class="text-danger" />
-            </div>
-          </div>
-            
-            <div class="row">
-              
-              <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
-                  Code du magasin <span class="text-danger">*</span>
-                </label>
-                <Field name="codeMagasin" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code du magasin"/>
-                <ErrorMessage name="codeMagasin" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
-                  Nom du magasin <span class="text-danger">*</span>
-                </label>
-                <Field name="nomMagasin" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom magasin"/>
-                <ErrorMessage name="nomMagasin" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Magasinier <span class="text-danger">*</span>
-                </label>
-                <Field  name="magasinier"  v-slot="{ field }">
-                  <Multiselect
-                    :options="personnelOptions"
-                    :searchable="true"
-                    track-by="label"
-                    label="label"
-                    v-model = "field.value"
-                    v-bind = "field"
-                    placeholder="Sélectionner le magasinier"
-                  />
-                </Field>  
-                <ErrorMessage name="magasinier" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
-                  Adresse du magasin <span class="text-danger">*</span>
-                </label>
-                <Field name="adresse" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'adresse"/>
-                <ErrorMessage name="adresse" class="text-danger"/>
-              </div>
-            </div>
-            
-            <button
-              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
-              type="submit"
-            >
-            {{ btntext }}
-            </button>
-      </div>
-        </Form>
+                    <Form ref="magasinForm" @submit="addMagasin" :validation-schema="magasinSchema">
+                      <div class="col-md-3">
+                      <br />
+                      <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
+                        <label for="estActif"  class="form-check-label fw-medium position-relative top-1">
+                          Est Principal ?
+                        </label>
+                        <input
+                          id="estPrincipal"
+                          name="estPrincipal"
+                          v-model="estPrincipal"
+                          :value="estPrincipal"
+                          type="checkbox"
+                          class="form-check-input shadow-none"
+                        />
+                        <ErrorMessage name="estPrincipal" class="text-danger" />
+                      </div>
+                    </div>
+                      
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                        <div class="form-group ">
+                          <label class="d-block text-black fw-semibold mb-10" >
+                            Code du magasin <span class="text-danger">*</span>
+                          </label>
+                          <Field name="codeMagasin" type="text" 
+                          class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code du magasin"/>
+                          <ErrorMessage name="codeMagasin" class="text-danger"/>
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <div class="form-group ">
+                          <label class="d-block text-black fw-semibold mb-10" >
+                            Nom du magasin <span class="text-danger">*</span>
+                          </label>
+                          <Field name="nomMagasin" type="text" 
+                          class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom magasin"/>
+                          <ErrorMessage name="nomMagasin" class="text-danger"/>
+                        </div>
+                      </div>
+                      <div class="col-md-12  mb-3">
+                        <div class="form-group">
+                          <label class="d-block text-black fw-semibold mb-10">
+                            Magasinier <span class="text-danger">*</span>
+                          </label>
+                          <Field  name="magasinier"  v-slot="{ field }">
+                            <Multiselect
+                              :options="personnelOptions"
+                              :searchable="true"
+                              track-by="label"
+                              label="label"
+                              v-model = "field.value"
+                              v-bind = "field"
+                              placeholder="Sélectionner le magasinier"
+                            />
+                          </Field>  
+                          <ErrorMessage name="magasinier" class="text-danger"/>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label class="d-block text-black fw-semibold mb-10" >
+                            Adresse du magasin <span class="text-danger">*</span>
+                          </label>
+                          <Field name="adresse" type="text" 
+                          class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'adresse"/>
+                          <ErrorMessage name="adresse" class="text-danger"/>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary" type="submit">
+                      {{ btntext }}
+                      </button>
+                </div>
+                    </Form>
         </div>
         <!-- <button
           type="button"
@@ -132,7 +124,8 @@ export default defineComponent({
       personnel: Yup.string().notRequired(),
       nomMagasin: Yup.string().required('Le nom du magasin est obligatoire'),
       codeMagasin: Yup.string().required('Le code du magasin est obligatoire'),
-      magasinier: Yup.string().required('Le magasinier est obligatoire'),
+      magasinier: Yup.string().notRequired(),
+      // magasinier: Yup.string().required('Le magasinier est obligatoire'),
       adresse: Yup.string().required('L\'adresse est obligatoire'),
     });
 
@@ -145,6 +138,11 @@ export default defineComponent({
     const isUPDATE = ref(false);
     const title = ref("Ajouter un magasin");
     const btntext = ref('Ajouter');
+
+    onMounted(() => {
+      console.log("AAAAAAAAAAAAAAAAAA");
+      fetchMagasin();
+    });
 
     watch(() => props.item, (newValue) => {
       getMagasin(newValue);
@@ -183,7 +181,9 @@ export default defineComponent({
     const fetchMagasin = async () => {
       try {
         const response = await ApiService.get('/personnels');
-        const magasinData = response.data.data.data;
+        console.log(response,"magasinData");
+        const magasinData = response.data;
+        console.log(magasinData,"magasinData");
         personnelOptions.value = magasinData.map((personnel) => ({
           value: personnel.id,
           label: `${personnel.nom} ${personnel.prenom}`,
@@ -193,9 +193,7 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
-      fetchMagasin();
-    });
+    
 
     const addMagasin = async (values: any, magasinForm) => {
       values = values as Magasin;

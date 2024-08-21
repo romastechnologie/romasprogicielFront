@@ -3,7 +3,7 @@
   <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="personnelForm" @submit="editPersonnel" :validation-schema="personnelSchema" :initial-values="personnelForm">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Nom <span class="text-danger">*</span>
@@ -13,7 +13,7 @@
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Prénom <span class="text-danger">*</span>
@@ -23,7 +23,7 @@
                 <ErrorMessage name="prenom" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Sexe <span class="text-danger">*</span>
@@ -40,7 +40,7 @@
                   <ErrorMessage name="sexe" class="text-danger"/>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Civilite <span class="text-danger">*</span>
@@ -57,7 +57,7 @@
                   <ErrorMessage name="civilite" class="text-danger"/>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Email <span class="text-danger">*</span>
@@ -67,7 +67,7 @@
                 <ErrorMessage name="email" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Adresse <span class="text-danger">*</span>
@@ -78,7 +78,7 @@
               </div>
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone <span class="text-danger">*</span>
@@ -88,7 +88,7 @@
                 <ErrorMessage name="tel" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date de naissance 
@@ -295,7 +295,7 @@
             </div>
           </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3 mb-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
@@ -305,7 +305,7 @@
                 >
                     Ajouter un personnel
                 </button>
-                <router-link to="/liste-personnels" 
+                <router-link to="/personelles/liste-personnels" 
                     class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                     <span class="position-relative"></span>Annuler</router-link>
               </div>
