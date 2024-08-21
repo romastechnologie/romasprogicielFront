@@ -101,7 +101,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion de la Paie",
-        headTitle2: "Contrat,Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
+        headTitle2: "Contrat,Paie, Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
         type: "headtitle"
     },
     {
@@ -125,6 +125,29 @@ export const menu: MenuItem[] = [
             }
         ]
     },
+
+    {
+        title: "Paie",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/paies/ajouter-paie",
+                title: "Ajouter une paie",
+                type: "link"
+            },
+            {
+                path: "/paies/liste-paies",
+                title: "Liste des paies",
+                type: "link"
+            }
+        ]
+    },
+
     {
         title: "Religons",
         icon: "stroke-task",
