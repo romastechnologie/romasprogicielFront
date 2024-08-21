@@ -210,7 +210,6 @@ import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 
 
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -381,6 +380,10 @@ const routes: Array<RouteRecordRaw> = [
               title: 'Liste des paies',
             }
           },
+        ]
+      }
+    ]
+  },
   {
     path: "/typeRetenues",
     component: BodyView,

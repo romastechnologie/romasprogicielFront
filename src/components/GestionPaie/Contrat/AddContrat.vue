@@ -200,7 +200,7 @@
         }
       } */
   
-      return { contratSchema, addContrat, contratForm,typeOptions,showMErr,categorieOptions,types,categories};
+      return { contratSchema, addContrat, contratForm,typeOptions,showMErr,types};
     },
   });
   </script>

@@ -16,7 +16,7 @@
                                 code<span class="text-danger">*</span>
                               </label>
                               <Field name="code" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code/>
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
                               <ErrorMessage name="code" class="text-danger"/>
                             </div>
                           </div>
