@@ -196,12 +196,19 @@ import ViewOperationPage from "@/pages/GesCom/Operation/ViewOperationPage.vue";
 import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue";
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
 //Fin GesCom/
+
+//Gestion de la Paie
 import ListeEthniePage from "@/pages/GestionPaie/Ethnie/ListeEthniePage.vue";
 import ListeTypeRetenuePage from "@/pages/GestionPaie/TypeRetenue/ListeTypeRetenuePage.vue";
 import ListeTypePrimePage from "@/pages/GestionPaie/TypePrime/ListeTypePrimePage.vue";
 import ListeTypeContratPage from "@/pages/GestionPaie/TypeContrat/ListeTypeContratPage.vue";
 import ListeModeTarificationPage from "@/pages/GestionPaie/ModeTarification/ListeModeTarificationPage.vue";
 import ListeReligionPage from "@/pages/GestionPaie/Religion/ListeReligionPage.vue";
+import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
+import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
+import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
+import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -353,6 +360,26 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des contrats',
         }
       },
+      {
+        path: "/paies",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-paie",
+            name: "AddPaie",
+            component: AddPaiePage,
+            meta: {
+              title: 'Ajouter un paie',
+            }
+          },
+          {
+            path: "liste-paies",
+            name: "ListePaie",
+            component: ListePaiePage,
+            meta: {
+              title: 'Liste des paies',
+            }
+          },
   {
     path: "/typeRetenues",
     component: BodyView,
