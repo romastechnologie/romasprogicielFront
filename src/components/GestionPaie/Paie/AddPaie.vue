@@ -191,7 +191,7 @@
         }
       } */
   
-      return { paieSchema, addPaie, paieForm,modeOptions,showMErr,categorieOptions,modes,categories};
+      return { paieSchema, addPaie, paieForm,modeOptions,showMErr,modes};
     },
   });
   </script>
