@@ -380,6 +380,10 @@ const routes: Array<RouteRecordRaw> = [
               title: 'Liste des paies',
             }
           },
+        ]
+      }
+    ]
+  },
   {
     path: "/typeRetenues",
     component: BodyView,
