@@ -335,6 +335,26 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: "/contrats",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-contrat",
+        name: "AddContrat",
+        component: AddContratPage,
+        meta: {
+          title: 'Ajouter un contrat',
+        }
+      },
+      {
+        path: "liste-contrats",
+        name: "ListeContrat",
+        component: ListeContratPage,
+        meta: {
+          title: 'Liste des contrats',
+        }
+      },
+  {
     path: "/typeRetenues",
     component: BodyView,
     children: [

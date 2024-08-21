@@ -101,8 +101,29 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion de la Paie",
-        headTitle2: "Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
+        headTitle2: "Contrat,Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
         type: "headtitle"
+    },
+    {
+        title: "Contrat",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/contrats/ajouter-contrat",
+                title: "Ajouter un contrat",
+                type: "link"
+            },
+            {
+                path: "/contrats/liste-contrats",
+                title: "Liste des contrats",
+                type: "link"
+            }
+        ]
     },
     {
         title: "Religons",
