@@ -47,9 +47,6 @@
                     <Field name="periodePaie"  class="form-control" type="Date"/>
                     <ErrorMessage name="periodePaie" class="text-danger" />
          </div>
-            
-
-         
 
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">

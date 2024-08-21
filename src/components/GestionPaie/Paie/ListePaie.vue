@@ -6,10 +6,10 @@
         <div class="d-sm-flex align-items-center">
           <router-link
            class="btn btn-primary"
-            to="/contrats/ajouter-contrat"
+            to="/paies/ajouter-paie"
           >
           <i class="fa fa-plus-circle"></i>
-            Ajouter un contrat
+            Ajouter une paie
           </router-link>
           <!-- <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -52,41 +52,47 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Référence du Contrat
+                  Référence de la paie
                 </th>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                  Date Début
+                  Date paie
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                Date fin
+                Salaire Brut
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Employe
+                  Salaire Net
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Salaire de base
+                  Total retenue
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Heures travaillées
+                  Total Prime
                 </th>
                 
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                Type Contrat
+                Periode
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                Mode de Paiement
                 </th>
                 <th
                   scope="col"
@@ -101,14 +107,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr  v-for ="(contrat, index) in contrats" :key="index">
-                  <td class="shadow-none lh-1 fw-medium ">{{ contrat.refContrat }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(contrat?.dateDebut) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(contrat.dateFin) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ contrat.salaireDeBase }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ contrat.heuresTravaillees }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ contrat.typeContrat }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(contrat.createdAt) }} </td>
+              <tr  v-for ="(paie, index) in paies" :key="index">
+                  <td class="shadow-none lh-1 fw-medium ">{{ paie.refPaie }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(paie?.datePaie) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ paie.salaireBrut }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ paie.salaireNet }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ paie.totalRetenues }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ paie.totalPrimes }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ paie.periode }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ paie.modePaiement }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ format_date(paie.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
@@ -118,7 +126,7 @@
                             <a
                              
                               href="javascript:void(0);"
-                              @click="suppression(contrat.id, contrats, 'contrats', 'un utilisateur')"
+                              @click="suppression(paie.id, paies, 'paies', 'un utilisateur')"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"
@@ -145,24 +153,24 @@
   <script lang="ts">
   import { defineComponent, onMounted, ref} from "vue";
   import ApiService from "@/services/ApiService";
-  import { Contrat } from "@/models/Contrat";
+  import { Paie } from "@/models/Paie";
   import { format_date, suppression, error, } from "@/utils/utils";
   
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeContrat",
+    name: "ListePaie",
     components: {
       PaginationComponent
     },
     setup(){
       onMounted(() => {
-        getAllContrats();
+        getAllPaies();
       });
   
-      const contrats = ref<Array<Contrat>>([]);
-      const contrat = ref<Contrat>();
+      const paies = ref<Array<Paie>>([]);
+      const paie = ref<Paie>();
   
       // BEGIN PAGINATE
       const searchTerm = ref('');
@@ -174,23 +182,23 @@
       const handlePaginate = ({ page_, limit_ }) => {
         try {
           page.value = page_;
-          getAllContrats(page_, limit_);
+          getAllPaies(page_, limit_);
         } catch (error) {
           //
         }
       };
   
        function rechercher(){
-        getAllContrats(page.value, limit.value, searchTerm.value );
+        getAllPaies(page.value, limit.value, searchTerm.value );
       }
   
   
       // END PAGINATE
   
-      function getAllContrats(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/all/contrats?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      function getAllPaies(page = 1, limi = 10, searchTerm = '') {
+        return ApiService.get(`/all/paies?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            contrats.value = data.data;
+            paies.value = data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -207,11 +215,11 @@
     return privileges.value.includes(name);
   }
   
-      return {contrats,
+      return {paies,
         checkPermission,
         format_date,
         suppression,
-        contrat,
+        paie,
         page, 
         totalPages,
         limit,

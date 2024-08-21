@@ -15,29 +15,36 @@
                               <label class="d-block text-black fw-semibold mb-10">
                                 Nom <span class="text-danger">*</span>
                               </label>
-                              <Field name="nom" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
-                              <ErrorMessage name="nom" class="text-danger"/>
+                              <Field name="nomRetenue" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nomRetenue"/>
+                              <ErrorMessage name="nomRetenue" class="text-danger"/>
                             </div>
                           </div>
+                     <div class="col-md-4 mb-3">
+                  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Type de valeur <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="typeDeValeur"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['%', 'MT']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner le type"
+                    />
+                  </Field>
+                  <ErrorMessage name="typeDeValeur" class="text-danger"/>
+                </div>
+              </div>
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
-                                Taux<span class="text-danger">*</span>
+                               Valeur<span class="text-danger">*</span>
                               </label>
-                              <Field name="taux" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le taux"/>
-                              <ErrorMessage name="taux" class="text-danger"/>
-                            </div>
-                          </div>
-                          <div class="col-md-12 mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                              <label class="d-block text-black fw-semibold mb-10">
-                                Montant par défaut<span class="text-danger">*</span>
-                              </label>
-                              <Field name="montant" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
-                              <ErrorMessage name="montant" class="text-danger"/>
+                              <Field name="valeur" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la valeur"/>
+                              <ErrorMessage name="valeur" class="text-danger"/>
                             </div>
                           </div>
                           <div class="col-md-12 mb-3">
@@ -81,13 +88,15 @@
     import { error, hideModal, success } from '@/utils/utils';
     import { TypeRetenue } from '@/models/TypeRetenue';
     import { useRouter } from 'vue-router';
+    import Multiselect from '@vueform/multiselect'
     
     export default {
       name: "AddTypeRetenueModal",
       components: {
         Form,
         Field,
-        ErrorMessage
+        ErrorMessage,
+        Multiselect
       },
       props:{
         id: {
@@ -103,9 +112,9 @@
         const loading = ref<boolean>(false);
         const typeRetenueSchema = Yup.object().shape({
           description: Yup.string().required('La description est obligatoire'),
-          nom: Yup.string().required('Le nom est obligatoire'),
-          taux: Yup.number().required('Le taux est obligatoire'),
-          montant: Yup.number().required('Le montant est obligatoire'),
+          nomRetenue: Yup.string().required('Le nom de la retenue est obligatoire'),
+          valeur: Yup.number().required('Le valeur est obligatoire'),
+          typeDeValeur: Yup.number().required('Le type de la valeur est obligatoire'),
         });
     
     
@@ -130,10 +139,10 @@
           return ApiService.get("/typeRetenues/"+id)
           .then(({ data }) => {
             typeRetenueForm.value?.setFieldValue("id",data.data.id);
-            typeRetenueForm.value?.setFieldValue("nom",data.data.nom);
+            typeRetenueForm.value?.setFieldValue("nomRetenue",data.data.nomRetenue);
             typeRetenueForm.value?.setFieldValue("description",data.data.description);
-            typeRetenueForm.value?.setFieldValue("taux",data.data.taux);
-            typeRetenueForm.value?.setFieldValue("montant",data.data.montant);
+            typeRetenueForm.value?.setFieldValue("valeur",data.data.valeur);
+            typeRetenueForm.value?.setFieldValue("typeDeValeur",data.data.typeDeValeur);
             emit('openmodal', addTypeRetenueModalRef.value);
           })
           .catch(({ response }) => {

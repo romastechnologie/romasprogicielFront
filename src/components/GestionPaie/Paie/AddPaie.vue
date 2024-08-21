@@ -49,7 +49,7 @@
               </label>
               <Field name="modes" v-model="modes" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="modeOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le type"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le mode"
                 label="label" track-by="label" />
               </Field>
               <span class="text-danger" v-if="showMErr">Le mode de paiement est obligatoire</span>
@@ -126,7 +126,7 @@
       });
   
       onMounted(() => {
-        getAllTypePaie()
+        getAllModePaiements()
         //getAllCategoriePaie()
       });
   
@@ -161,14 +161,14 @@
        }
     };
 
-      const getAllTypePaie = async () => {
+      const getAllModePaiements = async () => {
         try{
-        const response = await ApiService.get('/all/modes');
+        const response = await ApiService.get('/modepaiements');
         const modesData = response.data.data;
 
-        modeOptions.value = modesData.map((type) => ({
-          value: type.id,
-          label: type.libelle,
+        modeOptions.value = modesData.map((mode) => ({
+          value: mode.id,
+          label: mode.libelle,
         }));
         }
         catch(error){
@@ -191,7 +191,7 @@
         }
       } */
   
-      return { paieSchema, addPaie, paieForm,modeOptions,showMErr,categorieOptions,modes,categories};
+      return { paieSchema, addPaie, paieForm,modeOptions,showMErr,modes};
     },
   });
   </script>
