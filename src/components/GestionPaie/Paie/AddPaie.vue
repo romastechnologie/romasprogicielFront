@@ -126,7 +126,7 @@
       });
   
       onMounted(() => {
-        getAllTypePaie()
+        getAllModePaiements()
         //getAllCategoriePaie()
       });
   
@@ -161,14 +161,14 @@
        }
     };
 
-      const getAllTypePaie = async () => {
+      const getAllModePaiements = async () => {
         try{
-        const response = await ApiService.get('/all/modes');
+        const response = await ApiService.get('/modepaiements');
         const modesData = response.data.data;
 
-        modeOptions.value = modesData.map((type) => ({
-          value: type.id,
-          label: type.libelle,
+        modeOptions.value = modesData.map((mode) => ({
+          value: mode.id,
+          label: mode.libelle,
         }));
         }
         catch(error){
