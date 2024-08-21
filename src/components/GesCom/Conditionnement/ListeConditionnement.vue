@@ -50,12 +50,12 @@
         <table class="table text-nowrap align-middle mb-0">
           <thead>
             <tr>
-              <th
+              <!-- <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
                 Code
-              </th>
+              </th> -->
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -76,9 +76,9 @@
           </thead>
           <tbody>
             <tr v-for="(conditionnement, index) in conditionnements" :key="index">
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+              <!-- <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ conditionnement.code }}
-              </td>
+              </td> -->
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ conditionnement.libelle }}
               </td>

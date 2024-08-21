@@ -101,9 +101,53 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion de la Paie",
-        headTitle2: "Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
+        headTitle2: "Contrat,Paie, Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
         type: "headtitle"
     },
+    {
+        title: "Contrat",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/contrats/ajouter-contrat",
+                title: "Ajouter un contrat",
+                type: "link"
+            },
+            {
+                path: "/contrats/liste-contrats",
+                title: "Liste des contrats",
+                type: "link"
+            }
+        ]
+    },
+
+    {
+        title: "Paie",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/paies/ajouter-paie",
+                title: "Ajouter une paie",
+                type: "link"
+            },
+            {
+                path: "/paies/liste-paies",
+                title: "Liste des paies",
+                type: "link"
+            }
+        ]
+    },
+
     {
         title: "Religons",
         icon: "stroke-task",
@@ -880,7 +924,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/monnaies/liste-monnaies",
+                path: "/monaies/liste-monnaies",
                 title: " monnaies",
                 type: "link"
             },
@@ -910,7 +954,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/personnels/liste-personnels",
+                path: "/personnelles/liste-personnels",
                 title: "personnels",
                 type: "link"
             },
@@ -930,8 +974,8 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/taxes/liste-type-taxes",
-                title: "types de taxes",
+                path: "/taxes/liste-taxes",
+                title: "taxes",
                 type: "link"
             },
             {
@@ -955,7 +999,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/modele-signataires/liste-modele-signataire",
+                path: "/modele-signataires/liste-modele-signataires",
                 title: "modèles de signataires",
                 type: "link"
             },

@@ -1,18 +1,17 @@
 <template>
-    <AddPersonnel />
+    <ListePaie />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    
-    import AddPersonnel from "@/components/GesCom/Personnel/AddPersonnel.vue";
+    import ListePaie from "@/components/GestionPaie/Paie/ListePaie.vue";
+
   
     export default defineComponent({
-      name: "AddPersonnelPage",
+      name: "ListePaiePage",
       components: {
-        
-        AddPersonnel,
+        ListePaie,
       },
     });
   </script>

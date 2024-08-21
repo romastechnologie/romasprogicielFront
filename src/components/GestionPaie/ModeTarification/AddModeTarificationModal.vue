@@ -13,15 +13,10 @@
                             <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
-                                code <span class="text-danger">*</span>
+                                code<span class="text-danger">*</span>
                               </label>
-                              <Field name="code" cols="20"
-                              rows="12" as="textarea" placeholder="code" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
-                                <textarea
-                                  v-model="field.value"
-                                  class="form-control shadow-none rounded-0 text-black"
-                                ></textarea>
-                              </Field>
+                              <Field name="code" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
                               <ErrorMessage name="code" class="text-danger"/>
                             </div>
                           </div>
@@ -35,7 +30,7 @@
                               <ErrorMessage name="libelle" class="text-danger"/>
                             </div>
                           </div>
-                                                    <button
+                            <button
                             class="btn btn-primary"
                             type="submit">
                             {{ btntext }}
@@ -90,7 +85,7 @@
         const modeTarificationForm =  ref<ModeTarification | null>(null);
         const addModeTarificationModalRef = ref<null | HTMLElement>(null);
         let modeTarifications= ref<Array<ModeTarification>>([]);
-        const title = ref('Ajouter une modeTarification');
+        const title = ref('Ajouter un mode de tarification');
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
@@ -118,10 +113,10 @@
     
         const btnTitle = async () => {
           if (isupdate.value) {
-             title.value = "Modifier la modeTarification";
+             title.value = "Modifier le mode de tarification";
              btntext.value = "Modifier";
           }else{
-             title.value = "Ajouter une modeTarification";
+             title.value = "Ajouter un  mode de tarification";
              btntext.value = "Ajouter";
           }
         }

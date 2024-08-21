@@ -63,7 +63,13 @@
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >Taux
+                >Type de valeur
+                  
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >Valeur
                   
                 </th>
                 <th
@@ -87,7 +93,10 @@
                   {{ typeRetenue.description }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ typePrime.taux}}
+                  {{ typeRetenue.typeDeValeur}}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ typeRetenue.valeur}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ format_date(typeRetenue.createdAt)  }}

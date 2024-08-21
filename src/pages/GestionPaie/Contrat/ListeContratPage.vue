@@ -1,18 +1,17 @@
 <template>
-    <ListeMonnaie/>
+    <ListeContrat />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    
-    import ListeMonnaie from "@/components/GesCom/Monnaie/ListeMonnaie.vue";
+    import ListeContrat from "@/components/GestionPaie/Contrat/ListeContrat.vue";
 
+  
     export default defineComponent({
-      name: "ListeMonnaiePage",
+      name: "ListeContratPage",
       components: {
-        
-        ListeMonnaie,
+        ListeContrat,
       },
     });
   </script>

@@ -3,9 +3,9 @@
       <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="personnelForm" @submit="addPersonnel" :validation-schema="personnelSchema">
           <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
+                <label class="d-block text-black mb-10">
                   Nom <span class="text-danger">*</span>
                 </label>
                 <Field name="nom" type="text" 
@@ -13,9 +13,9 @@
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
+                <label class="d-block text-black mb-10">
                   Prénom <span class="text-danger">*</span>
                 </label>
                 <Field name="prenom" type="text" 
@@ -23,9 +23,9 @@
                 <ErrorMessage name="prenom" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
+                  <label class="d-block text-black mb-10">
                     Sexe <span class="text-danger">*</span>
                   </label>
                   <Field  name="sexe"  type="text"  v-slot="{ field }">
@@ -40,9 +40,38 @@
                   <ErrorMessage name="sexe" class="text-danger"/>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
+                  <label class="d-block text-black mb-10">
+                    Situation matrimoniale <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="situationMatrimoniale"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['Célibataire', 'Mariée', 'Divorcée', 'Veuve']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner la situation"
+                    />
+                  </Field>
+                  <ErrorMessage name="situationMatrimoniale" class="text-danger"/>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Photo<span class="text-danger">*</span>
+                </label>
+                <Field name="urlImage" type="file" 
+                      accept="image/jpeg, image/png application/pdf"
+                      @change="onFileChange"
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Choisissez une image"/>
+                <ErrorMessage name="urlImage" class="text-danger"/>
+              </div>
+            </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
                     Civilite <span class="text-danger">*</span>
                   </label>
                   <Field  name="civilite"  type="text"  v-slot="{ field }">
@@ -57,19 +86,10 @@
                   <ErrorMessage name="civilite" class="text-danger"/>
                 </div>
               </div>
-              <div class="col-md-4">
+              
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Email <span class="text-danger">*</span>
-                </label>
-                <Field name="email" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'email"/>
-                <ErrorMessage name="email" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
+                <label class="d-block text-black mb-10">
                   Adresse <span class="text-danger">*</span>
                 </label>
                 <Field name="adresse" type="text" 
@@ -77,20 +97,9 @@
                 <ErrorMessage name="adresse" class="text-danger"/>
               </div>
             </div>
-            
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Téléphone <span class="text-danger">*</span>
-                </label>
-                <Field name="tel" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
-                <ErrorMessage name="tel" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
+                  <label class="d-block text-black mb-10">
                     Date de naissance 
                   </label>
                   <Field name="dateNais" type="date" 
@@ -98,6 +107,192 @@
                 </div>
               <ErrorMessage name="dateNais" class="text-danger"/>
               </div>
+              <div class="col-md-4 mt-3">
+                    <label for="dateEmbauche" class="form-label"> Date d'embauche<span class="text-danger">*</span></label>
+                    <Field name="dateEmbauche"  class="form-control" type="Date"/>
+                    <ErrorMessage name="dateEmbauche" class="text-danger" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Numéro de Sécurité Sociale
+                </label>
+                <Field name="numeroSecuriteSociale" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le numéro"/>
+                <ErrorMessage name="numeroSecuriteSociale" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Relevé d'identité bancaire 
+                </label>
+                <Field name="releveIdentiteBancaire" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le relevé"/>
+                <ErrorMessage name="releveIdentiteBancaire" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Code Iban 
+                </label>
+                <Field name="codeIban" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
+                <ErrorMessage name="codeIban" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Code Swift 
+                </label>
+                <Field name="codeSwift" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
+                <ErrorMessage name="codeSwift" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Nationalité
+                </label>
+                <Field name="nationalite" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la nationnalité "/>
+                <ErrorMessage name="nationalite" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Nombre d'enfants
+                </label>
+                <Field name="nombreEnfant" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nombre d'enfants"/>
+                <ErrorMessage name="nombreEnfant" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Boite Postale 
+                </label>
+                <Field name="boitePostale" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer votre adresse postale"/>
+                <ErrorMessage name="codeIban" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Religion 
+              </label>
+              <Field name="religions" v-model="religions" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="religionOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner la religion"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">La religion est obligatoire</span>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Ethnie 
+              </label>
+              <Field name="ethnies" v-model="ethnies" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="ethnieOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">L'ethnie est obligatoire</span>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Service <span class="text-danger">*</span>
+              </label>
+              <Field name="services" v-model="services" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le service"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le service est obligatoire</span>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Téléphone 1<span class="text-danger">*</span>
+                </label>
+                <Field name="tel" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+                <ErrorMessage name="tel" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Téléphone 2
+                </label>
+                <Field name="tel2" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+                <ErrorMessage name="tel2" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Email <span class="text-danger">*</span>
+                </label>
+                <Field name="email" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'email"/>
+                <ErrorMessage name="email" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Nom de la personne à contacter
+                </label>
+                <Field name="nomPersonneAContacter" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
+                <ErrorMessage name="nomPersonneAContacter" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Prénom personnel à contacter
+                </label>
+                <Field name="prenomPersonneAContacter" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom"/>
+                <ErrorMessage name="prenomPersonneAContacter" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Téléphone personne à contacter
+                </label>
+                <Field name="telPersonneAContacter" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+                <ErrorMessage name="telPersonneAContacter" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black  mb-10">
+                  Relation
+                </label>
+                <Field name="relation" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Indiquer la relation"/>
+                <ErrorMessage name="relation" class="text-danger"/>
+              </div>
+            </div>
+
             <div class="col-md-12 mb-md-25">
             <div class="accordion" id="basicAccordion">
               <div class="accordion-item mb-0 bord1">
@@ -293,7 +488,7 @@
               </div>
             </div>
           </div>
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3 mb-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
@@ -303,7 +498,7 @@
                 >
                     Ajouter un personnel
                 </button>
-                <router-link to="/liste-personnels" 
+                <router-link to="/personelles/liste-personnels" 
                     class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                     <span class="position-relative"></span>Annuler</router-link>
               </div>
@@ -341,14 +536,23 @@ export default defineComponent({
       adresse: Yup.string().required('L\' adresse du personnel est obligatoire'),
       email: Yup.string().email('Le format de l\'email est invalide').required('L\'email est obligatoire'),
       tel: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
+      tel2: Yup.number().notRequired(),
       dateNais: Yup.date().notRequired(),
       //nomUtilisateur: Yup.string().required('Le nom est obligatoire'),
       sexe: Yup.string().required('Le sexe est obligatoire'),
       civilite: Yup.string().required('La civilité est obligatoire'),
+      nomPersonneAContacter:Yup.string().notRequired(),
+      prenomPersonneAContacter:Yup.string().notRequired(),
+      telPersonnelAContacter:Yup.number().notRequired(),
+      relation:Yup.string().notRequired(),
     });
 
     const personnelForm =  ref<Personnel | null>(null);
     const router = useRouter();
+    const religions = ref();
+    const ethnies = ref();
+    const services = ref();
+
     // const estActif= ref(true)
 
     // watch(estActif, () => {
@@ -411,6 +615,9 @@ export default defineComponent({
     const fonctionOptions = ref([]);
     const produitsss: any = ref(null);
     const valuess = ref();
+    const religionOptions = ref([]);
+    const ethnieOptions = ref([]);
+    const serviceOptions = ref([]);
 
     const addPersonnel = async (values, {resetForm}) => {
       values.fonctions = fonctions.map(fonction => ({
@@ -444,8 +651,57 @@ export default defineComponent({
       }
     };
 
+    const getAllReligions = async () => {
+        try{
+        const response = await ApiService.get('/all/religions');
+        const religionsData = response.data.data;
+
+        religionOptions.value = religionsData.map((religion) => ({
+          value: religion.id,
+          label: religion.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
+
+      const getAllEthnies = async () => {
+        try{
+        const response = await ApiService.get('/all/ethnies');
+        const ethniesData = response.data.data;
+
+        ethnieOptions.value = ethniesData.map((ethnie) => ({
+          value: ethnie.id,
+          label: ethnie.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
+
+      const getAllServices = async () => {
+        try{
+        const response = await ApiService.get('/all/services');
+        const servicesData = response.data.data;
+
+        serviceOptions.value = servicesData.map((service) => ({
+          value: service.id,
+          label: service.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
+
+      
     onMounted(() => {
       fetchFonction();
+      getAllReligions();
+      getAllEthnies();
+      getAllServices();
     })
 
     return { personnelSchema,
@@ -458,6 +714,9 @@ export default defineComponent({
         fonctionOptions,
         isDisable,
         fonctions,
+        religionOptions,
+        ethnieOptions,
+        serviceOptions,
       };
   },
 });

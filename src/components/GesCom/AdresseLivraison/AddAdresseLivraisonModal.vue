@@ -9,7 +9,7 @@
             <div class="modal-body">
           <Form ref="adresseLivraisonForm" @submit="addAdresseLivraison" :validation-schema="adresseLivraisonSchema">
             <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Libelle <span class="text-danger">*</span>
@@ -19,7 +19,7 @@
                 <ErrorMessage name="libelleAdresse" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   CLient <span class="text-danger">*</span>
@@ -39,7 +39,7 @@
               </div>
             </div>
             <button
-              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
+              class="btn btn-primary"
               type="submit"
             >
             {{ btntext }}
@@ -86,7 +86,7 @@ export default defineComponent({
   },
   setup(props, { emit }){
     const adresseLivraisonSchema = Yup.object().shape({
-      libelle: Yup.string().required('Le libelle est obligatoire'),
+      libelleAdresse: Yup.string().required('Le libelle est obligatoire'),
     });
 
     const adresseLivraisonForm = ref<AdresseLivraison | null>(null);
@@ -122,7 +122,7 @@ export default defineComponent({
         const clientData = response.data.data.data;
         clientOptions.value = clientData.map((client) => ({
           value: client.id,
-          label: `${client.nomClient} - ${client.prenom}`,
+          label: `${client.nomClient ? client.nomClient : ''} ${client.prenomClient ? client.prenomClient : ''} ${client.raisonSociale ? client.raisonSociale : ''}`,
         }));
       } catch (error) {
         //
