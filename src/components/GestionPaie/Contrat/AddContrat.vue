@@ -37,18 +37,18 @@
                     <ErrorMessage name="renouvelable" class="text-danger" />
          </div>
 
-         <div class="col-md-4  mb-3">
+         <div class="col-md-6  mb-3">
                     <label for="periodeEssai" class="form-label"> Période d'Essai<span class="text-danger">*</span></label>
                     <Field name="periodeEssai"  class="form-control" type="Date"/>
                     <ErrorMessage name="periodeEssai" class="text-danger" />
          </div>
-         <div class="col-md-4 mb-3">
+         <div class="col-md-6 mb-3">
                     <label for="periodePaie" class="form-label"> Période de Paie<span class="text-danger">*</span></label>
                     <Field name="periodePaie"  class="form-control" type="Date"/>
                     <ErrorMessage name="periodePaie" class="text-danger" />
          </div>
 
-          <div class="col-md-4 mb-3">
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Type Contrat <span class="text-danger">*</span>
@@ -58,7 +58,21 @@
                  :multiple="false" :searchable="true" placeholder="Sélectionner le type"
                 label="label" track-by="label" />
               </Field>
-              <span class="text-danger" v-if="showMErr">Le type de contrat est obligatoire</span>
+              <ErrorMessage name="types" class="text-danger" />
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Personnel <span class="text-danger">*</span>
+              </label>
+              <Field name="personnel" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
+                label="label" track-by="label" />
+              </Field>
+              <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
 
@@ -95,7 +109,7 @@
                         aria-controls="home-tab-pane"
                         aria-selected="true"
                       >
-                        Prime
+                        
                       </button>
                     </li>
                   </ul>
@@ -113,13 +127,13 @@
                             class="row d-flex align-items-center justify-content-between fw-bold py-2"
                             style="background-color: #0a59a4"
                           >
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <h3 class="fs-4 text-white">Prime</h3>
                             </div>
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                               <h3 class="fs-4 text-white">Montant total : {{ montantTotal }}</h3>
-                            </div>
-                            <div class="col-md-4">
+                            </div> -->
+                            <div class="col-md-3">
                               <div class="d-flex float-end">
                                 <button
                                   class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
@@ -187,12 +201,9 @@
                                         <input
                                           type="text"
                                           v-model="prime.valeurUnitaire"
-                                          :class="validateRowPrime(prime.valeurUnitaire) ? 'form-control is-invalid' : 'form-control'"
+                                          class="form-control"
                                           placeholder=""
                                         />
-                                        <span class="invalid-feedback" v-if="validateRowPrime(prime.valeurUnitaire)">
-                                          La valeur unitaire est obligatoire.
-                                        </span>
                                       </td>
                                       <td class="montant-col">
                                         <input
@@ -209,6 +220,171 @@
                                             type="button"
                                             class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
                                             @click="removeRowPrime(index)"
+                                          >
+                                            <i class="icofont icofont-ui-delete"></i>
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-md-25 mt-5">
+          <div class="accordion" id="basicAccordion2">
+            <div class="accordion-item mb-0 bord1">
+              <h2 class="accordion-header" id="headingOne2">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#basicCollapseOne2"
+                  aria-expanded="false"
+                  aria-controls="basicCollapseOne2"
+                >
+                  Ajouter des retenues
+                </button>
+              </h2>
+              <div
+                id="basicCollapseOne2"
+                class="accordion-collapse collapse"
+                data-bs-parent="#basicAccordion2"
+              >
+                <div class="accordion-body">
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button
+                        class="nav-link active"
+                        id="home-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#home-tab-pane"
+                        type="button"
+                        role="tab"
+                        aria-controls="home-tab-pane"
+                        aria-selected="true"
+                      >
+                        
+                      </button>
+                    </li>
+                  </ul>
+
+                  <div class="tab-content" id="myTabContent">
+                    <div
+                      class="tab-pane fade show active p-10"
+                      id="home-tab-pane"
+                      role="tabpanel"
+                      tabindex="0"
+                    >
+                      <div class="row">
+                        <div class="border border-primary mb-5">
+                          <div
+                            class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                            style="background-color: #0a59a4"
+                          >
+                            <div class="col-md-3">
+                              <h3 class="fs-4 text-white">Retenue</h3>
+                            </div>
+                            <!-- <div class="col-md-4">
+                              <h3 class="fs-4 text-white">Montant total : {{ montantTotal }}</h3>
+                            </div> -->
+                            <div class="col-md-3">
+                              <div class="d-flex float-end">
+                                <button
+                                  class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                                  type="button"
+                                  :class="{ 'cursor-not-allowed': isDisablee }"
+                                  :disabled="isDisablee"
+                                  @click="addRowRetenue"
+                                >
+                                  <i class="fa fa-plus-circle"></i>
+                                  Ajouter une retenue
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="card-body p-15 p-sm-20 p-md-25">
+                              <div class="table-responsive">
+                                <table class="table table-fixed text-nowrap align-middle mb-0">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col" class="prime">Type retenue</th>
+                                      <th scope="col" class="quantite">Valeur</th>
+                                      <th scope="col" class="prix-unitaire">Quantité</th>
+                                      <th scope="col">Valeur Unitaire</th>
+                                      <th scope="col">Montant</th>
+                                      <th scope="col">Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr v-for="(retenue, index) in retenues" :key="index">
+                                      <td class="typeRetenue-col">
+                                        <Multiselect
+                                          :options="typeRetenueOptions"
+                                          :searchable="true"
+                                          track-by="label"
+                                          label="label"
+                                          v-model="retenue.typeRetenue"
+                                          placeholder=""
+                                          @select="selectTypeRetenue(retenue.typeRetenue, retenue)"
+                                        />
+                                        <span class="invalid-feedback" v-if="validateRowRetenue(retenue.typeRetenue)">
+                                          Le type de retenue est obligatoire.
+                                        </span>
+                                      </td>
+                                      <td class="valeur-col">
+                                        <input
+                                          type="text"
+                                          :readonly="true"
+                                          v-model="retenue.valeur"
+                                          class="form-control"
+                                        />
+                                      </td>
+                                      <td class="quantite-col">
+                                        <input
+                                          type="text"
+                                          v-model="retenue.quantite"
+                                          :class="validateRowRetenue(retenue.quantite) ? 'form-control is-invalid' : 'form-control'"
+                                          placeholder="Entrer la quantité"
+                                        />
+                                        <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
+                                          La quantité est obligatoire.
+                                        </span>
+                                      </td>
+                                      <td class="valeurUnitaire-col">
+                                        <input
+                                          type="text"
+                                          v-model="retenue.valeurUnitaire"
+                                          class="form-control"
+                                          placeholder=""
+                                        />
+                                      </td>
+                                      <td class="montant-col">
+                                        <input
+                                          type="text"
+                                          v-model="retenue.montant"
+                                          :readonly="true"
+                                          class="form-control"
+                                          placeholder=""
+                                        />
+                                      </td>
+                                      <td class="actions-col pe-0">
+                                        <div class="button-container" style="white-space: nowrap">
+                                          <button
+                                            type="button"
+                                            class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                            @click="removeRowRetenue(index)"
                                           >
                                             <i class="icofont icofont-ui-delete"></i>
                                           </button>
@@ -281,21 +457,28 @@
             periodePaie: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
             renouvelable: Yup.string().notRequired(),
             types: Yup.string().required("Le type est obligatoire."),
+            personnel: Yup.string().required("Le personnel est obligatoire."),
       });
   
       onMounted(() => {
         getAllTypeContrat();
         getAllTypePrime();
+        getAllTypeRetenue();
+        getAllPersonnels();
       });
   
       const contratForm =  ref(null);
       const showMErr = ref(false);
       const types = ref();
+      // const personnel = ref();
       const typeOptions = ref([]);
       const typePrimeOptions = ref([]);
+      const typeRetenueOptions = ref([]);
       const router = useRouter();
       const typePrimes = ref(null);
+      const typeRetenues = ref(null);
       const salaireDeBase = ref();
+      const personnelOptions = ref();
 
       const getAllTypeContrat = async () => {
         try{
@@ -312,6 +495,21 @@
         }
       } 
 
+      const getAllPersonnels = async () => {
+        try{
+        const response = await ApiService.get('/personnels');
+        const personnelsData = response.data;
+        console.log('Data', personnelsData)
+        personnelOptions.value = personnelsData.map((personnel) => ({
+          value: personnel.id,
+          label: personnel.nom,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      }
+
       const getAllTypePrime = async () => {
         try {
           const response = await ApiService.get('/all/typePrimes');
@@ -326,115 +524,232 @@
         }
       };
 
-    // formulaire dynamique
-
-    const isDisable = ref(true);
-
-    const primes = reactive([
-      {
-        typePrime: "",
-        montant: 0,
-        valeurUnitaire: 0,
-        quantite: 1,
-        valeur: "",
-      },
-    ]);
-
-    const addRowPrime = () => {
-        primes.push({
-          typePrime: '',
-          montant: 0,
-          valeurUnitaire: 0,
-          quantite: 1,
-          valeur: '',
-        });
+      const getAllTypeRetenue = async () => {
+        try {
+          const response = await ApiService.get('/all/typeRetenues');
+          const typeRetenuesData = response.data.data.data;
+          console.log('Type prime', typeRetenuesData)
+          typeRetenueOptions.value = typeRetenuesData.map(typeRetenue => ({
+            value: `${typeRetenue.id}|${typeRetenue.valeur}|${typeRetenue.typeDeValeur}`,
+            label: typeRetenue.nomRetenue,
+          }));
+        } catch (error) {
+          // H
+        }
       };
 
-    const removeRowPrime = (index) => {
-      if (primes.length > 1) {
-        primes.splice(index, 1);
-      }
-    };
+    // formulaire dynamique
+    const isDisable = ref(true);
+  const isDisablee = ref(true);
 
-    const validateRowPrime = (value) => {
+  const primes = reactive([
+    {
+      typePrime: "",
+      montant: 0,
+      valeurUnitaire: 0,
+      quantite: 1,
+      valeur: 0,
+    },
+  ]);
+
+  const retenues = reactive([
+    {
+      typeRetenue: "",
+      montant: 0,
+      valeurUnitaire: 0,
+      quantite: 1,
+      valeur: 0,
+    },
+  ]);
+
+  const addRowPrime = () => {
+    primes.push({
+      typePrime: '',
+      montant: 0,
+      valeurUnitaire: 0,
+      quantite: 1,
+      valeur: 1,
+    });
+  };
+
+  const addRowRetenue = () => {
+    retenues.push({
+      typeRetenue: '',
+      montant: 0,
+      valeurUnitaire: 0,
+      quantite: 1,
+      valeur: 1,
+    });
+  };
+
+  const removeRowPrime = (index) => {
+    if (primes.length > 1) {
+      primes.splice(index, 1);
+    }
+  };
+
+  const removeRowRetenue = (index) => {
+    if (retenues.length > 1) {
+      retenues.splice(index, 1);
+    }
+  };
+  const validateRowPrime = (value) => {
       return !value || value <= 0;
     };
 
-    const calculerMontantPrime = (prime) => {
-      const salaireBase = parseInt(salaireDeBase.value) || 0;
-      const valeur = parseInt(prime.valeur) || 0;
-      
-      if (prime.typePrime.includes('%')) {
-        return salaireBase * valeur / 100;
-      } else if (prime.typePrime.includes('Mt')) {
-        return salaireBase + valeur;
+    const validateRowRetenue = (value) => {
+      return !value || value <= 0;
+    };
+
+    const calculerMontant = (item) => {
+  const valeurUnitaire = item.valeurUnitaire || 1;
+  return valeurUnitaire * item.quantite;
+};
+
+const updateAllMontants = () => {
+  primes.forEach(prime => {
+    prime.montant = calculerMontant(prime);
+  });
+  retenues.forEach(retenue => {
+    retenue.montant = calculerMontant(retenue);
+  });
+};
+
+const updateValeurUnitaire = () => {
+  const salaireBase = parseFloat(salaireDeBase.value) || 1;
+
+  primes.forEach(prime => {
+    if (prime.typePrime) {
+      const [id, valeur, typeDeValeur] = prime.typePrime.split('|');
+      const valeurNum = parseFloat(valeur);
+      if (typeDeValeur.includes('%')) {
+        prime.valeurUnitaire = salaireBase * valeurNum / 100;
+      } else if (typeDeValeur.includes('MT')) {
+        prime.valeurUnitaire = salaireBase + valeurNum;
       }
-      
-      return 0;
-    };
+      prime.montant = calculerMontant(prime);
+    }
+  });
 
-    const updateAllMontants = () => {
-      primes.forEach(prime => {
-        prime.montant = calculerMontantPrime(prime);
-      });
-    };
+  retenues.forEach(retenue => {
+    if (retenue.typeRetenue) {
+      const [id, valeur, typeDeValeur] = retenue.typeRetenue.split('|');
+      const valeurNum = parseFloat(valeur); 
+      if (typeDeValeur.includes('%')) {
+        retenue.valeurUnitaire = salaireBase * valeurNum / 100;
+      } else if (typeDeValeur.includes('MT')) {
+        retenue.valeurUnitaire = salaireBase + valeurNum;
+      }
+      retenue.montant = calculerMontant(retenue);
+    }
+  });
+};
 
-    const montantTotal = computed(() => {
-      return primes.reduce((total, prime) => total + calculerMontantPrime(prime), 0);
-    });
+watch(salaireDeBase, () => {
+  updateValeurUnitaire();
+  updateAllMontants();
+});
 
-    watch(salaireDeBase, () => {
-      updateAllMontants();
-    });
+watch(primes, () => {
+  updateValeurUnitaire();
+  updateAllMontants();
+}, { deep: true });
 
-    watch(primes, () => {
-      updateAllMontants();
-    }, { deep: true });
+watch(retenues, () => {
+  updateValeurUnitaire();
+  updateAllMontants();
+}, { deep: true });
 
-    const selectTypePrime = (selectedTypePrime, prime) => {
-      const [id, valeur, typeDeValeur] = selectedTypePrime.split('|');
-      prime.valeur = valeur;
-      prime.quantite = 1;
-      updateAllMontants();
-    };
+const selectTypePrime = (selectedTypePrime, prime) => {
+  const [id, valeur, typeDeValeur] = selectedTypePrime.split('|');
+  const valeurNum = parseFloat(valeur);
+  prime.valeur = valeurNum;
 
-    const addContrat = async (values: any, { resetForm }) => {
-      values['types'] = types.value
-      values.primes = primes.map(prime => ({
-        typePrime: parseInt(prime.typePrime.split('|')[0]),
-        valeur: prime.valeur,
-        valeurUnitaire: prime.valeurUnitaire,
-        montant: prime.montant,
-        quantite: prime.quantite,
-        }));
-      console.log('Données envoyées', values)
-        ApiService.post("/contrats", values)
-           .then(({ data }) => {
-             if (data.code == 201) {
-              success(data.message);
-               //resetForm();
-             console.log('flefelef')
-              router.push({ name: "ListeContrat" });
-           }
-           }).catch(({ response }) => {
-            error(response.data.message);
-          });
-    };
+  const salaireBase = parseFloat(salaireDeBase.value) || 1;
 
-    watch(
-      primes,
-      (newValue) => {
-        isDisable.value = newValue.some(
-          (prime) =>
-            validateRowPrime(prime.typePrime) ||
-            validateRowPrime(prime.montant) ||
-            validateRowPrime(prime.valeurUnitaire) ||
-            validateRowPrime(prime.quantite) ||
-            validateRowPrime(prime.valeur)
-        );
-      },
-      { deep: true }
-    );
+  if (typeDeValeur.includes('%')) {
+    prime.valeurUnitaire = salaireBase * valeurNum / 100;
+  } else if (typeDeValeur.includes('MT')) {
+    prime.valeurUnitaire = salaireBase + valeurNum;
+  }
+
+  prime.montant = calculerMontant(prime);
+  updateAllMontants();
+};
+
+const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
+  const [id, valeur, typeDeValeur] = selectedTypeRetenue.split('|');
+  const valeurNum = parseFloat(valeur); 
+  retenue.valeur = valeurNum;
+
+  const salaireBase = parseFloat(salaireDeBase.value) || 1;
+
+  if (typeDeValeur.includes('%')) {
+    retenue.valeurUnitaire = salaireBase * valeurNum / 100;
+  } else if (typeDeValeur.includes('MT')) {
+    retenue.valeurUnitaire = salaireBase + valeurNum;
+  }
+
+  retenue.montant = calculerMontant(retenue);
+  updateAllMontants();
+};
+
+  const addContrat = async (values, { resetForm }) => {
+    values['typeContrat'] = types.value;
+    values.contratprime = primes.map(prime => ({
+      typeprime: parseInt(prime.typePrime.split('|')[0]),
+      valeur: prime.valeur,
+      valeurUnitaire: prime.valeurUnitaire,
+      montant: prime.montant,
+      quantite: prime.quantite,
+    }));
+    values.contratretenue = retenues.map(retenue => ({
+      typesretenue: parseInt(retenue.typeRetenue.split('|')[0]),
+      valeur: retenue.valeur,
+      valeurUnitaire: retenue.valeurUnitaire,
+      montant: retenue.montant,
+      quantite: retenue.quantite,
+    }));
+    console.log('Values', values);
+    try {
+      const { data } = await ApiService.post("/gescom/contrats", values);
+      if (data.code == 201) {
+        success(data.message);
+        router.push({ name: "ListeContrat" });
+      }
+    } catch ({ response }) {
+      error(response.data.message);
+    }
+  };
+
+  watch(
+    primes,
+    (newValue) => {
+      isDisable.value = newValue.some(prime =>
+        validateRowPrime(prime.typePrime) ||
+        validateRowPrime(prime.montant) ||
+        validateRowPrime(prime.valeurUnitaire) ||
+        validateRowPrime(prime.quantite) ||
+        validateRowPrime(prime.valeur)
+      );
+    },
+    { deep: true }
+  );
+
+  watch(
+    retenues,
+    (newValue) => {
+      isDisablee.value = newValue.some(retenue =>
+        validateRowRetenue(retenue.typeRetenue) ||
+        validateRowRetenue(retenue.montant) ||
+        validateRowRetenue(retenue.valeurUnitaire) ||
+        validateRowRetenue(retenue.quantite) ||
+        validateRowRetenue(retenue.valeur)
+      );
+    },
+    { deep: true }
+  );
+
   
       return { contratSchema, addContrat, contratForm,
         typeOptions,showMErr,types,typePrimeOptions,
@@ -444,8 +759,15 @@
         addRowPrime,
         validateRowPrime,
         isDisable,primes,
-        montantTotal,
         salaireDeBase,
+        typeRetenueOptions,
+        typeRetenues,
+        selectTypeRetenue,
+        removeRowRetenue,
+        addRowRetenue,
+        validateRowRetenue,
+        isDisablee,retenues,
+        personnelOptions,
       };
     },
   });
