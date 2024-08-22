@@ -219,7 +219,7 @@
               </label>
               <Field name="tauxAIB" v-model="valeurAib" v-slot="{ field }">
                 <Multiselect
-                  :options="['1%', '5%']"
+                  :options="['1%','3%','5%']"
                   :searchable="true"
                   track-by="label"
                   label="label"
@@ -327,7 +327,7 @@
                               <div class="card-body p-1">
                                 <div>
                                   <div class="row gx-1">
-                                  <div class="col-3">
+                                  <div class="col-4">
                                     <label class="d-block text-black fw-semibold">
                                       Produit
                                     </label>
@@ -337,10 +337,8 @@
                                       track-by="label"
                                       label="label"
                                       v-model="produit.produit"
-                                      placeholder=""
-                                      @select="
-                                      selectProd(produit.produit, produit)
-                                    "
+                                      placeholder="Selectionnez le produit"
+                                      @select="selectProd(produit.produit, produit)"
                                     />
                                     <span class="invalid-feedback" v-if="validateRowProduit(produit.produit)">
                                       Champ obligatoire
@@ -355,7 +353,7 @@
                                       v-model="produit.qtite"
                                       :class="validateRowProduit(produit.qtite) ? 'form-control is-invalid' : 'form-control'"
                                       placeholder="Entrer la quantité"
-                                    />
+                                      @keyup="eventProduit"/>
                                     <span class="invalid-feedback" v-if="validateRowProduit(produit.qtite)">
                                       Champ obligatoire
                                     </span>
@@ -366,11 +364,11 @@
                                     </label>
                                     <input
                                       type="text"
-                                      v-model="produit.prixUnitaire"
-                                      :class="validateRowProduit(produit.prixUnitaire) ? 'form-control is-invalid' : 'form-control'"
+                                      v-model="produit.prixTtc"
+                                      :class="validateRowProduit(produit.prixTtc) ? 'form-control is-invalid' : 'form-control'"
                                       placeholder="Entrer le prix"
-                                    />
-                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.prixUnitaire)">
+                                      @keyup="eventProduit"/>
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.prixTtc)">
                                       Champ obligatoire
                                     </span>
                                   </div>
@@ -380,7 +378,7 @@
                                     </label>
                                     <input
                                       type="text"
-                                      v-model="produit.prixHT"
+                                      v-model="produit.prixHt"
                                       :readonly="true"
                                       class="form-control"
                                       placeholder=""
@@ -393,7 +391,7 @@
                                     </label>
                                     <input
                                       type="text"
-                                      v-model="produit.montantHT"
+                                      v-model="produit.montantHt"
                                       :readonly="true"
                                       class="form-control"
                                       placeholder=""
@@ -406,12 +404,16 @@
                                     </label>
                                     <input
                                       type="text"
-                                      v-model="produit.taxe"
+                                      v-model="produit.taxeSpecifique"
                                       class="form-control"
                                       placeholder=""
+                                      @keyup="eventProduit"
                                     />
                                     <span class="invalid-feedback"></span>
                                   </div>
+                                  
+                                </div>
+                                <div class="row gx-1">
                                   <div class="col-1">
                                     <label class="d-block text-black fw-semibold">
                                       Type RSE
@@ -421,28 +423,22 @@
                                       :searchable="true"
                                       track-by="label"
                                       label="label"
-                                      v-model="produit.typeRSE"
-                                      placeholder=""
+                                      v-model="produit.typeRemise"
+                                      placeholder="..."
+                                      @select="eventProduit"
                                     />
-                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.typeRSE)">
-                                      Champ obligatoire
-                                    </span>
                                   </div>
-                                </div>
-                                <div class="row gx-1">
                                   <div class="col">
                                     <label class="d-block text-black fw-semibold">
-                                      Vente / RSE
+                                      Valeur remise
                                     </label>
                                     <input
                                       type="text"
-                                      v-model="produit.venteRSE"
-                                      :class="validateRowProduit(produit.venteRSE) ? 'form-control is-invalid' : 'form-control'"
+                                      v-model="produit.valeurRemise"
+                                      class="form-control"
                                       placeholder=""
+                                      @keyup="eventProduit"
                                     />
-                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.venteRSE)">
-                                      Champ obligatoire
-                                    </span>
                                   </div>
                                   <div class="col">
                                     <label class="d-block text-black fw-semibold">
@@ -463,7 +459,7 @@
                                     </label>
                                     <input
                                       type="text"
-                                      v-model="produit.montantHTRemise"
+                                      v-model="produit.montantHtApresRemise"
                                       :readonly="true"
                                       class="form-control"
                                       placeholder=""
@@ -476,7 +472,7 @@
                                     </label>
                                     <input
                                       type="text"
-                                      v-model="produit.montantTVA"
+                                      v-model="produit.montantTva"
                                       :readonly="true"
                                       class="form-control"
                                       placeholder=""
@@ -489,7 +485,7 @@
                                     </label>
                                     <input
                                       type="text"
-                                      v-model="produit.montantTTC"
+                                      v-model="produit.montantTtc"
                                       :readonly="true"
                                       class="form-control"
                                       placeholder=""
@@ -520,7 +516,7 @@
                                     <p class="mb-1">Logigique: 0</p>
                                     <p class="pt-0">Physique: 0</p>
                                   </div>
-                                  <div class="col pe-0">
+                                  <!-- <div class="col pe-0">
                                     <label class="d-block text-black fw-semibold">
                                       ACTIONS
                                     </label>
@@ -533,7 +529,7 @@
                                       <i class="icofont icofont-ui-delete"></i>
                                       </button>
                                     </div>
-                                  </div>
+                                  </div> -->
                                 </div>
                               </div>
                               </div>
@@ -739,30 +735,43 @@
               <tbody>
                 <tr v-for="(produit, index) in produits" :key="index">
                   <td class="produit-col">
+                    {{ produit.libelleProduit }}
                   </td>
                   <td class="quantite-col">
+                    {{ produit.qtite }}
                   </td>
                   <td class="prix-unitaire-col">
+                    {{ produit.prixTtc }}
                   </td>
                   <td class="taxe-col">
+                    {{ produit.prixHt }}
                   </td>
                   <td class="taxe-col">
+                    {{produit.montantHt}}
                   </td>
                   <td class="taxe-col">
+                    {{produit.taxeSpecifique}}
                   </td>
                   <td class="type-rse-col">
+                    {{produit.typeRemise}}
                   </td>
                   <td class="vente-rse-col">
+                    {{produit.valeurRemise}}
                   </td>
                   <td class="taxe-col">
+                    {{produit.remise}}
                   </td>
                   <td class="taxe-col">
+                    {{produit.montantHtApresRemise}}
                   </td>
                   <td class="taxe-col">
+                    {{produit.montantTva}}
                   </td>
                   <td class="taxe-col">
+                    {{produit.montantTtc}}
                   </td>
                   <td class="magasin-col">
+
                   </td>
                   <td class="actions-col pe-0">
                     <div class="button-container" style="white-space: nowrap">
@@ -840,92 +849,6 @@
     </div>
   </div>
 
-  <!-- <div
-    class="modal fade createNewModal"
-    id="ViewProduitModal"
-    tabindex="-1"
-    ref="addViewProduitModalRef"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-15 p-md-40">
-        <div class="modal-header d-block ps-0 pe-0 pt-0 pb-15 pb-md-25">
-          <h5 v-if="produitShow" class="modal-title fw-bold text-black">
-            Informations supplémentaires sur: {{ produitShow.split("|")[1] }}
-          </h5>
-        </div>
-        <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
-          <div class="card-body p-15 p-sm-20 p-md-25">
-            <div class="table-responsive">
-              <table class="table text-nowrap align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      Prix HT
-                    </th>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      Montant HT
-                    </th>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      Remise
-                    </th>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      MT. HT Ap Rse
-                    </th>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      MT. TVA
-                    </th>
-                    <th
-                      scope="col"
-                      class=" text pe-0"
-                    >
-                      MT. TTC
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-if="produitShow">
-                    <td class="col-md-6">aa</td>
-
-                    <td class="col-md-6">aa</td>
-
-                    <td class="col-md-6">aa</td>
-
-                    <td class="col-md-6">aa</td>
-
-                    <td class="col-md-6">aa</td>
-                    <td class="col-md-6">aa</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <button
-          type="button"
-          class="btn-close shadow-none"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-    </div>
-  </div> -->
-
   <AddClientModal @getclient="getClient" />
 </template>
 
@@ -952,9 +875,7 @@ export default defineComponent({
   },
   setup: () => {
     const venteSchema = Yup.object().shape({
-      typeCommande: Yup.string().required(
-        "Le type de commande est obligatoire"
-      ),
+      typeCommande: Yup.string().required("Le type de commande est obligatoire"),
       typeFacture: Yup.string().required("Le type de facture est obligatoire"),
       tauxAIB: Yup.string().required("Le taux est obligatoire"),
       montantRecu: Yup.string().when([], (value, schema) => {
@@ -962,17 +883,6 @@ export default defineComponent({
           ? schema.required("Le montant est obligatoire")
           : schema.notRequired();
       }),
-      //   produits: Yup.array().of(
-      //     Yup.object().shape({
-      //         produit: Yup.string().required('Le produit est obligatoire'),
-      //         qtite: Yup.number().required('La quantité est obligatoire').min(1, 'La quantité doit être supérieure à 0'),
-      //         prixUnitaire: Yup.number().required('Le prix unitaire est obligatoire'),
-      //         taxe: Yup.number().required('La taxe est obligatoire'),
-      //         typeRSE: Yup.string().required('Le type RSE est obligatoire'),
-      //         venteRSE: Yup.string().required('Le type RSE est obligatoire'),
-      //         magasin: Yup.string().required('Le magasin est obligatoire')
-      //     })
-      // )
     });
 
     const venteForm = ref<Vente | null>(null);
@@ -1037,12 +947,12 @@ export default defineComponent({
 
     const fetchProduits = async () => {
       try {
-        const response = await axios.get("/produits");
-        const produitsData = response.data.data.data;
+        const response = await axios.get("/produitconditionnements");
+        const produitsData = response.data.data;
         produitsss.value = produitsData;
-        produitOptions.value = produitsData.map((produit) => ({
-          value: produit.id + "|" + produit.nomProd + "|" + produit.prixVente,
-          label: `${produit.refProd} - ${produit.nomProd}`,
+        produitOptions.value = produitsData.map((produitconditionnements) => ({
+          value: produitconditionnements.id+"|"+ produitconditionnements.produit.nomProd + "|" + produitconditionnements.prixVenteHt +"|"+ produitconditionnements.prixVenteTtc,
+          label: `${produitconditionnements.produit.nomProd} [ ${produitconditionnements.conditionnement.libelle} ]`,
         }));
       } catch (error) {
         //
@@ -1050,9 +960,16 @@ export default defineComponent({
     };
 
     const selectProd = (selectedProduit, produit) => {
+      console.log(selectedProduit,"selectedProduit");
       produit.qtite = 1;
-      produit.prixUnitaire = selectedProduit.split("|")[2];
-      // produit.prixUnitaire = selectedProduit.split("|")[3];
+      produit.prixTtc = selectedProduit.split("|")[3];
+      produit.prixHt = selectedProduit.split("|")[2];
+      produit.libelleProduit = selectedProduit.split("|")[1];
+      produit.montantHt = produit.prixHt;
+      produit.montantTva = produit.prixTtc - produit.prixHt;
+      produit.montantTtc = produit.prixTtc;
+      produit.montantTs = 0.0;
+      produit.montantHtApresRemise = produit.prixHt;
     };
 
     const fetchClient = async () => {
@@ -1146,7 +1063,7 @@ export default defineComponent({
 
     const isDisable = ref(true);
 
-    var produit = reactive(
+    const produit = reactive(
       {
         commande_clit_id:"",
         magasin:"",
@@ -1169,35 +1086,38 @@ export default defineComponent({
         stock: 0.0,
         remise: 0.0,
         restAliv: 0.0,
-        taxe:0
+        taxe:1
       },
     );
 
-    const addRowProduit = () => {
-      produits.value.push(produit)
-        produit.commande_clit_id="",
-        produit.magasin="",
-        produit.produit= "",
-        produit.qtite= 0.0,
-        produit.prixTtc= 0.0,
-        produit.prixHt= 0.0,
-        produit.taxeSpecifique= 0.0,
-        produit.typeRemise= '',
-        produit.valeurRemise= 0.0,
-        produit.montantHt= 0.0,
-        produit.montantTva= 0.0,
-        produit.montantTtc= 0.0,
-        produit.montantTs= 0.0,
-        produit.montantHtApresRemise= 0.0,
-        produit.libelleProduit="",
-        produit.groupeTaxeProduit="",
-        produit.carton= 0.0,
-        produit.piece= 0.0,
-        produit.stock= 0.0,
-        produit.remise= 0.0,
-        produit.restAliv= 0.0
-        produit.taxe=0
-    };
+    async function addRowProduit() {
+      const tproduit = {...produit};
+      produit.commande_clit_id="",
+      produit.magasin="",
+      produit.produit="",
+      produit.qtite=0.0,
+      produit.prixTtc=0.0,
+      produit.prixHt=0.0,
+      produit.taxeSpecifique=0.0,
+      produit.typeRemise='',
+      produit.valeurRemise=0.0,
+      produit.montantHt=0.0,
+      produit.montantTva=0.0,
+      produit.montantTtc=0.0,
+      produit.montantTs=0.0,
+      produit.montantHtApresRemise=0.0,
+      produit.libelleProduit="",
+      produit.groupeTaxeProduit="",
+      produit.carton=0.0,
+      produit.piece=0.0,
+      produit.stock=0.0,
+      produit.remise=0.0,
+      produit.restAliv=0.0;
+      produit.taxe = 1;
+
+      produits.value.push(tproduit);
+      calculeDestotaux();
+    }
 
     const removeRowProduit = (index) => {
       if (produits.value.length > 1) produits.value.splice(index, 1);
@@ -1208,14 +1128,15 @@ export default defineComponent({
     };
 
     watch(
-      produits,
+      produit,
       (newValue) => {
-        isDisable.value = newValue.some(
-          (produit) =>
-            validateRowProduit(produit.produit) ||
-            validateRowProduit(produit.qtite) ||
-            validateRowProduit(produit.prixTtc)
-        );
+        isDisable.value = validateRowProduit(newValue.produit) || validateRowProduit(newValue.qtite) || validateRowProduit(newValue.prixTtc);
+        // newValue.some(
+        //   (produit) =>
+        //     validateRowProduit(newValue.produit) ||
+        //     validateRowProduit(newValue.qtite) ||
+        //     validateRowProduit(newValue.prixTtc)
+        // );
       },
       { deep: true }
     );
@@ -1274,40 +1195,39 @@ export default defineComponent({
     };
 
     //calcule des totaux
-    var calculeDestotaux=()=>{
+    var calculeDestotaux = () => {
          totalsomme.value = 0.0;
          totalsommeremise.value = 0.0;
-         totaltva.value= 0.0;
-         totalts.value=0.0;
-         totalttc.value=0.0
-        Object.keys(produits).forEach(function (key){
-          if(produits[key].montantHt !=''){
-                totalsomme.value += produits[key].montantHt;
+         totaltva.value = 0.0;
+         totalts.value = 0.0;
+         totalttc.value = 0.0;
+         produits.value.forEach(produi => {
+            if(produi.montantHt > 0){
+                totalsomme.value += produit.montantHt;
             }
-            if(produits[key].montantHtApresRemise !=''){
-                totalsommeremise.value += produits[key].montantHtApresRemise;
+            if(produi.montantHtApresRemise > 0){
+                totalsommeremise.value += produi.montantHtApresRemise;
             }
-            if(produits[key].prixHt !=''){
-                if(produits[key].prixHt == produits[key].prixTtc) {
+            if(produi.prixHt > 0){
+                if(produi.taxe == 0) {
                     totaltva.value += 0;
-                }else{
-                    totaltva.value += produits[key].prixTtc / 1.18 * 0.18 * produits[key].qtite;
+                } else {
+                    totaltva.value += (produi.prixTtc/1.18 )* 0.18 * produi.qtite;
                 }
             }
-            if(produits[key].montantTtc !=''){
-                totalttc.value += produits[key].montantTtc;
+            if(produi.montantTtc > 0){
+                totalttc.value += produi.montantTtc;
             }
-            if(produits[key].montantTs !=''){
-                if(produits[key].prixHt == produits[key].prixTtc){
-                    totalts.value += produits[key].montantTs / 1.18;
-                    totaltva.value += produits[key].montantTs / 1.18 * 0.18; 
-                    
-                }else{
-                    totalts.value += produits[key].montantTs;
+            if(produi.montantTs > 0){
+                if(produi.taxe == 1){
+                    totalts.value += produi.montantTs / 1.18;
+                    totaltva.value += produi.montantTs / 1.18 * 0.18; 
+                }else {
+                    totalts.value += produi.montantTs;
                     totaltva.value += 0;
                 }
             }
-        });
+          });
 
         if(valeurAib.value  != 0) {
             totalaib.value = (totalsommeremise.value * valeurAib.value)/100
@@ -1316,35 +1236,35 @@ export default defineComponent({
     }
 
     
-    var remiseSurProduit =()=>{
-        if(produit.prixTtc) {
-            var prixremise = produit.prixHt;
+    const eventProduit =()=>{
+        if(produit.prixTtc && produit.qtite) {
+            let prixremise = produit.prixHt;
             if(produit.valeurRemise) {
-                if(produit.typeRemise =='%' && produit.valeurRemise != 0) {
-                  produit.remise = (produit.prixHt*produit.valeurRemise)/100;
-                    prixremise = produit.prixHt- produit.remise;
-                }else if(produit.typeRemise =='MT' && produit.valeurRemise !=0){
-                    produit.remise = produit.valeurRemise;
-                    prixremise = produit.prixHt-produit.remise; 
-                }
+              if(produit.typeRemise =='%' && produit.valeurRemise != 0) {
+                produit.remise = (produit.prixHt*produit.valeurRemise)/100;
+                prixremise = produit.prixHt- produit.remise;
+              }else if(produit.typeRemise =='MT' && produit.valeurRemise !=0){
+                produit.remise = produit.valeurRemise;
+                prixremise = produit.prixHt-produit.remise; 
+              }
             }
-            var ts =  produit.taxeSpecifique;
-            var ts_ht = 0;
+            let ts =  produit.taxeSpecifique;
+            let ts_ht = 0;
             ts = isNaN(ts) ? 0 : ts;
             if(!isNaN(ts)){
-                var ts_ht = ts /1.18;
+                 ts_ht = ts /1.18;
                 (produit.taxe != 0)  ? (ts_ht = (ts /1.18)) : (ts_ht = ts);
             }
-            produit.montantHt = produit.prixHt*produit.qtite
-            produit.valeurRemise = produit.remise*produit.qtite;
+            produit.montantHt = produit.prixHt*produit.qtite;
+            produit.remise = produit.remise*produit.qtite;
             if(produit.taxe != 0) {
-                produit.montantHtApresRemise= (produit.prixTtc/1.18 - produit.valeurRemise)*produit.qtite + ts_ht
-                produit.montantTtc = ((produit.prixTtc / 1.18 - produit.valeurRemise)*produit.qtite)*1.18;
-                produit.montantTva = (produit.montantTtc - (produit.prixTtc*produit.qtite)/1.18 - produit.remise)
-            }else{
-                produit.montantHtApresRemise= (produit.prixTtc - produit.valeurRemise)*produit.qtite + ts_ht
+                produit.montantHtApresRemise = parseInt((((produit.prixHt / 1.18 )- produit.valeurRemise)*produit.qtite + ts_ht).toFixed(0));
+                produit.montantTtc = parseInt(((((produit.prixTtc / 1.18) - produit.valeurRemise)*produit.qtite)*1.18).toFixed(0));
+                produit.montantTva = parseInt((produit.montantTtc - (produit.prixTtc*produit.qtite/1.18) - produit.remise).toFixed(0));
+            } else {
+                produit.montantHtApresRemise= parseInt((((produit.prixTtc / 1.18)- produit.valeurRemise)*produit.qtite + ts_ht).toFixed(0));
                 produit.montantTva = 0;
-                produit.montantTtc = ((produit.prixTtc - produit.valeurRemise)*produit.qtite);
+                produit.montantTtc = parseInt(((produit.prixTtc - produit.valeurRemise)*produit.qtite).toFixed(0));
             }
             produit.montantTtc = parseInt((produit.montantTtc + ts).toFixed(0));
         } 
@@ -1365,6 +1285,7 @@ export default defineComponent({
       magasin1Options,
       produits,
       produit,
+      eventProduit,
       removeRowProduit,
       removeRowElement,
       addRowProduit,
