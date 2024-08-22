@@ -34,9 +34,9 @@
                 <label class="d-block text-black fw-semibold mb-10" >
                   Valeur 
                 </label>
-                <Field name="quantite" type="text" 
+                <Field name="valeur" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la valeur"/>
-                <ErrorMessage name="quantite" class="text-danger"/>
+                <ErrorMessage name="valeur" class="text-danger"/>
               </div>
             </div>
             <button
@@ -87,7 +87,7 @@ export default defineComponent({
     const conditionnementSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       libelle: Yup.string().required('Le libelle est obligatoire'),
-      quantite: Yup.number().typeError('Veuillez entrer des nombres').notRequired(),
+      valeur: Yup.number().typeError('Veuillez entrer des nombres').required("La v"),
     });
 
     const conditionnementForm = ref<Conditionnement | null>(null);
