@@ -20,12 +20,12 @@
                               <ErrorMessage name="nomRetenue" class="text-danger"/>
                             </div>
                           </div>
-                     <div class="col-md-4 mb-3">
+                     <div class="col-md-12 mb-3">
                   <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
                     Type de valeur <span class="text-danger">*</span>
                   </label>
-                  <Field  name="typeDeValeur"  type="text"  v-slot="{ field }">
+                  <Field  name="typeDeValeur"  type="text" v-model="typeC" v-slot="{ field }">
                     <Multiselect
                     :searchable = "true"
                     :options = "['%', 'MT']"
@@ -71,10 +71,6 @@
                         </div>
                       </Form>
                     </div>
-                    <!-- <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" type="button">Save changes</button>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -113,8 +109,12 @@
         const typeRetenueSchema = Yup.object().shape({
           description: Yup.string().required('La description est obligatoire'),
           nomRetenue: Yup.string().required('Le nom de la retenue est obligatoire'),
-          valeur: Yup.number().required('Le valeur est obligatoire'),
-          typeDeValeur: Yup.number().required('Le type de la valeur est obligatoire'),
+          typeDeValeur: Yup.string().required('Le type de la valeur est obligatoire'),
+          valeur: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
+          return !valeurM.value
+            ? schema.max(100, 'La valeur ne peut pas être supérieure à 100').required("La valeur est obligatoire")
+            : schema.notRequired()
+          }),
         });
     
     
@@ -126,7 +126,15 @@
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
-    
+        const typeC = ref(null);
+        const valeurM = ref(false);
+        const disable = ref(true);
+
+        watch(typeC, (newVal) => {
+          disable.value = newVal !== "%" && newVal !== "MT";
+          valeurM.value = newVal !== "%";
+        });
+
         watch(() => props.id , (newValue) => {   
           if (newValue!=0) {
             getTypeRetenue(newValue);
@@ -206,7 +214,7 @@
     
         return {typeRetenues, title,btntext, resetValue, typeRetenueSchema,
            addTypeRetenue, typeRetenueForm,addTypeRetenueModalRef,typeRetenuenew,
-           //refreshTypeRetenues
+           typeC,valeurM,disable,
            };
       },
     };
