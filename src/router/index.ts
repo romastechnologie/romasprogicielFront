@@ -976,7 +976,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/personnels",
+    path: "/personnelles",
     component: BodyView,
     children: [
       {
@@ -1595,74 +1595,74 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  {
-    path: "/personnelles",
-    component: BodyView,
-    children: [
-      {
-        path: "ajouter-personnel",
-        name: "AddPersonnel",
-        component: AddPersonnellePage,
-        meta: {
-          title: 'Ajouter un personnel',
-        }
-      },
-      {
-        path: "modifier-personnel/:id",
-        name: "EditPersonnel",
-        component: EditPersonnellePage,
-        meta: {
-          title: 'Modifier un personnel',
-        }
-      },
-      {
-        path: "view-personnel/:id",
-        name: "ViewPersonnel",
-        component: ViewPersonnellePage,
-        meta: {
-          title: 'Détails du personnel',
-        }
-      },
-      {
-        path: "liste-personnels",
-        name: "ListePersonnel",
-        component: ListePersonnellePage,
-        meta: {
-          title: 'Liste des personnels',
-        }
-      },
-    ]
-  },
-  {
-    path: "/personnel-fonctions",
-    component: BodyView,
-    children: [
-      {
-        path: "ajouter-personnel-fonction",
-        name: "AddPersonnelFonction",
-        component: AddPersonnelFonctionPage,
-        meta: {
-          title: 'Ajouter une fonction de personnel',
-        }
-      },
-      {
-        path: "modifier-personnel-fonction/:id",
-        name: "EditPersonnelFonction",
-        component: EditPersonnelFonctionPage,
-        meta: {
-          title: 'Modifier une fonction de personnel',
-        }
-      },
-      {
-        path: "liste-personnel-fonctions",
-        name: "ListePersonnelFonction",
-        component: ListePersonnelFonctionPage,
-        meta: {
-          title: 'Liste des fonctions du personnel',
-        }
-      },
-    ]
-  },
+  // {
+  //   path: "/personnelles",
+  //   component: BodyView,
+  //   children: [
+  //     {
+  //       path: "ajouter-personnel",
+  //       name: "AddPersonnel",
+  //       component: AddPersonnellePage,
+  //       meta: {
+  //         title: 'Ajouter un personnel',
+  //       }
+  //     },
+  //     {
+  //       path: "modifier-personnel/:id",
+  //       name: "EditPersonnel",
+  //       component: EditPersonnellePage,
+  //       meta: {
+  //         title: 'Modifier un personnel',
+  //       }
+  //     },
+  //     {
+  //       path: "view-personnel/:id",
+  //       name: "ViewPersonnel",
+  //       component: ViewPersonnellePage,
+  //       meta: {
+  //         title: 'Détails du personnel',
+  //       }
+  //     },
+  //     {
+  //       path: "liste-personnels",
+  //       name: "ListePersonnel",
+  //       component: ListePersonnellePage,
+  //       meta: {
+  //         title: 'Liste des personnels',
+  //       }
+  //     },
+  //   ]
+  // },
+  // {
+  //   path: "/personnel-fonctions",
+  //   component: BodyView,
+  //   children: [
+  //     {
+  //       path: "ajouter-personnel-fonction",
+  //       name: "AddPersonnelFonction",
+  //       component: AddPersonnelFonctionPage,
+  //       meta: {
+  //         title: 'Ajouter une fonction de personnel',
+  //       }
+  //     },
+  //     {
+  //       path: "modifier-personnel-fonction/:id",
+  //       name: "EditPersonnelFonction",
+  //       component: EditPersonnelFonctionPage,
+  //       meta: {
+  //         title: 'Modifier une fonction de personnel',
+  //       }
+  //     },
+  //     {
+  //       path: "liste-personnel-fonctions",
+  //       name: "ListePersonnelFonction",
+  //       component: ListePersonnelFonctionPage,
+  //       meta: {
+  //         title: 'Liste des fonctions du personnel',
+  //       }
+  //     },
+  //   ]
+  // },
   {
     path: "/fonctions",
     component: BodyView,
