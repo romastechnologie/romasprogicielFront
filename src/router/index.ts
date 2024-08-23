@@ -195,6 +195,12 @@ import EditOperationRetraitPage from "@/pages/GesCom/Operation/EditOperationRetr
 import ViewOperationPage from "@/pages/GesCom/Operation/ViewOperationPage.vue";
 import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue";
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
+//Etats
+import EtatProduitsDisponibles from "@/pages/GesCom/Etats/EtatProduitsDisponibles.vue";
+import EtatProduitsRupturePage from "@/pages/GesCom/Etats/EtatProduitsRupturePage.vue";
+import EtatPointCommandePage from "@/pages/GesCom/Etats/EtatPointCommandePage.vue";
+import EtatProduitsEntreePage from "@/pages/GesCom/Etats/EtatProduitsEntreePage.vue";
+import EtatProduitsSortiesPage from "@/pages/GesCom/Etats/EtatProduitsSortiesPage.vue";
 import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
 import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
 
@@ -1179,6 +1185,12 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+  //
+
+
+
+  //
+
   {
     path: "/familles",
     component: BodyView,
@@ -1189,6 +1201,52 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeFamillePage,
         meta: {
           title: 'Liste des familles',
+        }
+      },
+    ]
+  },
+  {
+    path: "/etats",
+    component: BodyView,
+    children: [
+      {
+        path: "produits-disponibles",
+        name: "EtatProduitsDisponibles",
+        component: EtatProduitsDisponibles,
+        meta: {
+          title: 'Liste des produits disponibles',
+        }
+      },
+      {
+        path: "produits-rupture",
+        name: "EtatProduitsRupturePage",
+        component: EtatProduitsRupturePage,
+        meta: {
+          title: 'Liste des produits en rupture de stock',
+        }
+      },
+      {
+        path: "point-commande",
+        name: "EtatPointCommandePage",
+        component: EtatPointCommandePage,
+        meta: {
+          title: 'Liste du point des commandes',
+        }
+      },
+      {
+        path: "etat-produits-entree",
+        name: "EtatProduitsEntreePage",
+        component: EtatProduitsEntreePage,
+        meta: {
+          title: 'Liste des produits entrées',
+        }
+      },
+      {
+        path: "etats-produits-sorties",
+        name: "EtatProduitsSortiesPage",
+        component: EtatProduitsSortiesPage,
+        meta: {
+          title: 'Liste des produits sorties',
         }
       },
     ]
