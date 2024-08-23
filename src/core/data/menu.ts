@@ -301,6 +301,11 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
+                path: "/tests/ajouter-personnel",
+                title: "Ajouter un personnel",
+                type: "link"
+            },
+            {
                 path: "/personnelles/liste-personnel",
                 title: "Liste des personnels",
                 type: "link"
