@@ -378,7 +378,7 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false
     },
-    
+
     {
         title: "Demande de conge",
         icon: "stroke-calendar",
@@ -603,11 +603,11 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-           /* {
-                path: "/mouvementBiens/ajouter-mouvementbien",
-                title: "Ajouter un mouvement de bien",
-                type: "link"
-            },*/
+            /* {
+                 path: "/mouvementBiens/ajouter-mouvementbien",
+                 title: "Ajouter un mouvement de bien",
+                 type: "link"
+             },*/
             {
                 path: "/mouvementBiens/liste-mouvementbiens",
                 title: "Liste des mouvements",
@@ -646,17 +646,17 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/fournisseurs/ajouter-fournisseur",
-                title:"Ajouter un fournisseur",
+                title: "Ajouter un fournisseur",
                 type: "link"
             },
             {
                 path: "/fournisseurs/liste-fournisseurs",
                 title: "Liste des fournisseurs",
                 type: "link"
-             },
+            },
         ]
     },
-    
+
 
     {
         title: "Ouverture/Fermeture de caisse",
@@ -725,6 +725,42 @@ export const menu: MenuItem[] = [
             {
                 path: "/ventes/liste-ventes",
                 title: "Liste des ventes",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Etats",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/etats/produits-disponibles",
+                title: "Liste des produits disponibles",
+                type: "link"
+            },
+            {
+                path: "/etats/produits-rupture",
+                title: "Liste des prosuits en rupture de stock",
+                type: "link"
+            },
+            {
+                path: "/etats/point-commande",
+                title: "Liste du point des commandes",
+                type: "link"
+            },
+            {
+                path: "/etats/etat-produits-entree",
+                title: "Liste des produits entrées",
+                type: "link"
+            },
+            {
+                path: "/etats/etats-produits-sorties",
+                title: "Liste des produits sorties",
                 type: "link"
             }
         ]
@@ -1015,7 +1051,7 @@ export const menu: MenuItem[] = [
             }
         ]
     },
-    
+
 
     // {
     //     title: "Users",
@@ -1042,7 +1078,7 @@ export const menu: MenuItem[] = [
     //         }
     //     ]
     // },
-   
+
     // {
     //     title: "Animation",
     //     icon: "stroke-animation",
