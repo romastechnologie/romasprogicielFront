@@ -76,45 +76,7 @@
             </div>
           </div>
 
-          <div class="col-md-12 mb-md-25">
-          <div class="accordion" id="basicAccordion">
-            <div class="accordion-item mb-0 bord1">
-              <h2 class="accordion-header" id="headingOne">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#basicCollapseOne"
-                  aria-expanded="false"
-                  aria-controls="basicCollapseOne"
-                >
-                  Ajouter des primes
-                </button>
-              </h2>
-              <div
-                id="basicCollapseOne"
-                class="accordion-collapse collapse"
-                data-bs-parent="#basicAccordion"
-              >
-                <div class="accordion-body">
-                  <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                      <button
-                        class="nav-link active"
-                        id="home-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#home-tab-pane"
-                        type="button"
-                        role="tab"
-                        aria-controls="home-tab-pane"
-                        aria-selected="true"
-                      >
-                        
-                      </button>
-                    </li>
-                  </ul>
-
-                  <div class="tab-content" id="myTabContent">
+          <div class="tab-content" id="myTabContent">
                     <div
                       class="tab-pane fade show active p-10"
                       id="home-tab-pane"
@@ -235,51 +197,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            </div>
-          </div>
 
-          <div class="col-md-12 mb-md-25 mt-5">
-          <div class="accordion" id="basicAccordion2">
-            <div class="accordion-item mb-0 bord1">
-              <h2 class="accordion-header" id="headingOne2">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#basicCollapseOne2"
-                  aria-expanded="false"
-                  aria-controls="basicCollapseOne2"
-                >
-                  Ajouter des retenues
-                </button>
-              </h2>
-              <div
-                id="basicCollapseOne2"
-                class="accordion-collapse collapse"
-                data-bs-parent="#basicAccordion2"
-              >
-                <div class="accordion-body">
-                  <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                      <button
-                        class="nav-link active"
-                        id="home-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#home-tab-pane"
-                        type="button"
-                        role="tab"
-                        aria-controls="home-tab-pane"
-                        aria-selected="true"
-                      >
-                        
-                      </button>
-                    </li>
-                  </ul>
-
-                  <div class="tab-content" id="myTabContent">
+          <div class="tab-content" id="myTabContent">
                     <div
                       class="tab-pane fade show active p-10"
                       id="home-tab-pane"
@@ -400,11 +319,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            </div>
-          </div>
 
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
