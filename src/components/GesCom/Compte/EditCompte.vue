@@ -3,7 +3,7 @@
   <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="compteForm" @submit="editCompte" :validation-schema="compteSchema" :initial-values="compteForm">
             <div class="row">
-            <div class="col-md-6">
+              <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Client <span class="text-danger">*</span>
@@ -22,7 +22,7 @@
               </div>
               <ErrorMessage name="client" class="text-danger"/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Intitulé compte <span class="text-danger">*</span>
@@ -32,16 +32,49 @@
                 <ErrorMessage name="intituleCompte" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
-                Dépot initial <span class="text-danger">*</span>
+                Solde initial <span class="text-danger">*</span>
                 </label>
-                <Field name="depot" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le depot"/>
-                <ErrorMessage name="depot" class="text-danger"/>
+                <Field name="soldeInitial" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le solde initial"/>
+                <ErrorMessage name="soldeInitial" class="text-danger"/>
               </div>
             </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                Solde Actuel<span class="text-danger">*</span>
+                </label>
+                <Field name="soldeActuel" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le solde actuel"/>
+                <ErrorMessage name="soldeActuel" class="text-danger"/>
+              </div>
+            </div> 
+            <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Date de création
+                  </label>
+                  <Field name="date" type="date" 
+                  class="form-control shadow-none fs-md-15 text-black"/>
+                </div>
+              <ErrorMessage name="date" class="text-danger"/>
+              </div>
+            <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Type de compte 
+              </label>
+              <Field name="typeCompte" v-model="typeCompte" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="typeCompteOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner la typeCompte"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le type est obligatoire</span>
+            </div>
+          </div>
             <div class="col-md-12">
               <div class="d-flex align-items-center ">
                 <button

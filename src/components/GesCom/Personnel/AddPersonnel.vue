@@ -683,10 +683,11 @@ export default defineComponent({
 
       const getAllServices = async () => {
         try{
-        const response = await ApiService.get('/all/services');
+        const response = await ApiService.get('/services');
         const servicesData = response.data.data;
+        console.log("465484635418416541 ===> ", servicesData);
 
-        serviceOptions.value = servicesData.map((service) => ({
+        serviceOptions.value = servicesData.data.map((service) => ({
           value: service.id,
           label: service.libelle,
         }));
@@ -697,11 +698,11 @@ export default defineComponent({
       } 
 
       
-    onMounted(() => {
-      fetchFonction();
-      getAllReligions();
-      getAllEthnies();
-      getAllServices();
+    onMounted(async () => {
+     await fetchFonction();
+     await getAllReligions();
+     await getAllEthnies();
+     await getAllServices();
     })
 
     return { personnelSchema,

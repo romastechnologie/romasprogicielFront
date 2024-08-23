@@ -195,6 +195,12 @@ import EditOperationRetraitPage from "@/pages/GesCom/Operation/EditOperationRetr
 import ViewOperationPage from "@/pages/GesCom/Operation/ViewOperationPage.vue";
 import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue";
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
+//Etats
+import EtatProduitsDisponibles from "@/pages/GesCom/Etats/EtatProduitsDisponibles.vue";
+import EtatProduitsRupturePage from "@/pages/GesCom/Etats/EtatProduitsRupturePage.vue";
+import EtatPointCommandePage from "@/pages/GesCom/Etats/EtatPointCommandePage.vue";
+import EtatProduitsEntreePage from "@/pages/GesCom/Etats/EtatProduitsEntreePage.vue";
+import EtatProduitsSortiesPage from "@/pages/GesCom/Etats/EtatProduitsSortiesPage.vue";
 import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
 import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
 
@@ -211,6 +217,7 @@ import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -978,13 +985,13 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/personnels",
+    path: "/personnelles",
     component: BodyView,
     children: [
       {
         path: "ajouter-personnel",
-        name: "AddPersonnelPage",
-        component: AddPersonnelPage,
+        name: "AddPersonnellePage",
+        component: AddPersonnellePage,
         meta: {
           title: 'Ajouter un personnel',
         }
@@ -992,7 +999,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "liste-personnel",
         name: "ListePersonnelPage",
-        component: ListePersonnelPage,
+        component: ListePersonnellePage,
         meta: {
           title: 'Liste des personnels',
         },
@@ -1000,7 +1007,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: ':id',
             name: 'id',
-            component: DetailsPersonnelPage,
+            component: ViewPersonnellePage,
             meta: {
               title: 'Details du personnel',
             }
@@ -1009,8 +1016,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "edit-personnel/:id",
-        name: "EditPersonnelPage",
-        component: EditPersonnelPage,
+        name: "EditPersonnellePage",
+        component: EditPersonnellePage,
         meta: {
           title: 'Modifier un personnel',
         }
@@ -1179,6 +1186,12 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+  //
+
+
+
+  //
+
   {
     path: "/familles",
     component: BodyView,
@@ -1189,6 +1202,52 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeFamillePage,
         meta: {
           title: 'Liste des familles',
+        }
+      },
+    ]
+  },
+  {
+    path: "/etats",
+    component: BodyView,
+    children: [
+      {
+        path: "produits-disponibles",
+        name: "EtatProduitsDisponibles",
+        component: EtatProduitsDisponibles,
+        meta: {
+          title: 'Liste des produits disponibles',
+        }
+      },
+      {
+        path: "produits-rupture",
+        name: "EtatProduitsRupturePage",
+        component: EtatProduitsRupturePage,
+        meta: {
+          title: 'Liste des produits en rupture de stock',
+        }
+      },
+      {
+        path: "point-commande",
+        name: "EtatPointCommandePage",
+        component: EtatPointCommandePage,
+        meta: {
+          title: 'Liste du point des commandes',
+        }
+      },
+      {
+        path: "etat-produits-entree",
+        name: "EtatProduitsEntreePage",
+        component: EtatProduitsEntreePage,
+        meta: {
+          title: 'Liste des produits entrées',
+        }
+      },
+      {
+        path: "etats-produits-sorties",
+        name: "EtatProduitsSortiesPage",
+        component: EtatProduitsSortiesPage,
+        meta: {
+          title: 'Liste des produits sorties',
         }
       },
     ]
@@ -1635,36 +1694,36 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  {
-    path: "/personnel-fonctions",
-    component: BodyView,
-    children: [
-      {
-        path: "ajouter-personnel-fonction",
-        name: "AddPersonnelFonction",
-        component: AddPersonnelFonctionPage,
-        meta: {
-          title: 'Ajouter une fonction de personnel',
-        }
-      },
-      {
-        path: "modifier-personnel-fonction/:id",
-        name: "EditPersonnelFonction",
-        component: EditPersonnelFonctionPage,
-        meta: {
-          title: 'Modifier une fonction de personnel',
-        }
-      },
-      {
-        path: "liste-personnel-fonctions",
-        name: "ListePersonnelFonction",
-        component: ListePersonnelFonctionPage,
-        meta: {
-          title: 'Liste des fonctions du personnel',
-        }
-      },
-    ]
-  },
+  // {
+  //   path: "/personnel-fonctions",
+  //   component: BodyView,
+  //   children: [
+  //     {
+  //       path: "ajouter-personnel-fonction",
+  //       name: "AddPersonnelFonction",
+  //       component: AddPersonnelFonctionPage,
+  //       meta: {
+  //         title: 'Ajouter une fonction de personnel',
+  //       }
+  //     },
+  //     {
+  //       path: "modifier-personnel-fonction/:id",
+  //       name: "EditPersonnelFonction",
+  //       component: EditPersonnelFonctionPage,
+  //       meta: {
+  //         title: 'Modifier une fonction de personnel',
+  //       }
+  //     },
+  //     {
+  //       path: "liste-personnel-fonctions",
+  //       name: "ListePersonnelFonction",
+  //       component: ListePersonnelFonctionPage,
+  //       meta: {
+  //         title: 'Liste des fonctions du personnel',
+  //       }
+  //     },
+  //   ]
+  // },
   {
     path: "/fonctions",
     component: BodyView,
@@ -1705,23 +1764,6 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des taxes',
         }
       },
-      {
-        path: "ajouter-groupetaxe",
-        name: "AddGroupeTaxe",
-        component: AddGroupeTaxePage,
-        meta: {
-          title: 'Ajouter un groupe de taxe',
-        }
-      },
-      {
-        path: "liste-groupe-taxes",
-        name: "ListeGroupeTaxe",
-        component: ListeGroupeTaxePage,
-        meta: {
-          title: 'Liste des groupes de taxes',
-        }
-      },
-      
       {
         path: "liste-type-taxes",
         name: "ListeTypeTaxe",

@@ -11,7 +11,6 @@
     export default defineComponent({
       name: "AddDepotPage",
       components: {
-        
         AddDepot,
       },
     });
