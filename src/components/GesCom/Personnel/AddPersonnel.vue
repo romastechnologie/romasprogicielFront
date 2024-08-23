@@ -235,18 +235,18 @@
             <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
-                    Type de sang <span class="text-danger">*</span>
+                    Groupe Sanguin <span class="text-danger">*</span>
                   </label>
-                  <Field  name="typeDeSang"  type="text"  v-slot="{ field }">
+                  <Field  name="groupeSanguin"  type="text"  v-slot="{ field }">
                     <Multiselect
                     :searchable = "true"
                     :options = "['A+', 'B+','AB+','O+','A-','B-','AB-','O-']"
                     v-model = "field.value"
                     v-bind = "field"
-                    placeholder="Sélectionner le type de Sang"
+                    placeholder="Sélectionner le Groupe Sanguin"
                     />
                   </Field>
-                  <ErrorMessage name="typeDeSang" class="text-danger"/>
+                  <ErrorMessage name="groupeSanguin" class="text-danger"/>
                 </div>
               </div>
 
@@ -815,7 +815,7 @@ export default defineComponent({
       //nomUtilisateur: Yup.string().required('Le nom est obligatoire'),
       sexe: Yup.string().required('Le sexe est obligatoire'),
       civilite: Yup.string().required('La civilité est obligatoire'),
-      typeDeSang: Yup.string().required('Le type de sang est obligatoire'),
+      groupeSanguin: Yup.string().required('Le groupe sanguin est obligatoire'),
       visionGauche: Yup.string().required('La vision gauche est obligatoire'),
       visionDroite: Yup.string().required('La vision droite est obligatoire'),
       audienceGauche: Yup.string().required('Audience Gauche est obligatoire'),
