@@ -1015,6 +1015,11 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
+                path: "/groupetaxes/liste-groupetaxes",
+                title: "groupe de taxes",
+                type: "link"
+            },
+            {
                 path: "/type-operations/liste-type-operations",
                 title: "types d'opérations",
                 type: "link"

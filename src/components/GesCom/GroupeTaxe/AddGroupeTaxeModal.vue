@@ -1,15 +1,20 @@
 <template>
-  <div class="modal fade" id="AddConditionnementModal" tabindex="-1" role="dialog" ref="addConditionnementModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">{{ title }}</h4>
-                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-          <Form ref="conditionnementForm" @submit="addConditionnement" :validation-schema="conditionnementSchema">
+  <div
+    class="modal fade createNewModal"
+    id="AddGroupeTaxeModal"
+    tabindex="-1"
+    ref="addGroupeTaxeModalRef"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-15 p-md-40">
+        <div class="modal-header d-block ps-0 pe-0 pt-0 pb-15 pb-md-25">
+          <h5 class="modal-title fw-bold text-black">{{ title }}</h5>
+        </div>
+        <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
+          <Form ref="groupeTaxeForm" @submit="addGroupeTaxe" :validation-schema="groupeTaxeSchema">
             <div class="row">
-              <div class="col-md-6 mb-3">
+              <div class="col-md-12">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Code <span class="text-danger">*</span>
@@ -19,28 +24,28 @@
                 <ErrorMessage name="code" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-12">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
-                  Libellé <span class="text-danger">*</span>
+                  Libelle <span class="text-danger">*</span>
                 </label>
                 <Field name="libelle" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
                 <ErrorMessage name="libelle" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-12 mb-3">
+            <div class="col-md-12">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
-                  Valeur 
+                  Taux <span class="text-danger">*</span>
                 </label>
-                <Field name="valeur" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la valeur"/>
-                <ErrorMessage name="valeur" class="text-danger"/>
+                <Field name="taux" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le taux"/>
+                <ErrorMessage name="taux" class="text-danger"/>
               </div>
             </div>
             <button
-              class="btn btn-primary"
+              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
               type="submit"
             >
             {{ btntext }}
@@ -48,13 +53,13 @@
       </div>
         </Form>
         </div>
-        <!-- <button
+        <button
           type="button"
           class="btn-close shadow-none"
           data-bs-dismiss="modal"
           aria-label="Close"
           @click="resetValue()"
-        ></button> -->
+        ></button>
       </div>
     </div>
   </div>
@@ -66,12 +71,12 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import ApiService from '@/services/ApiService';
 import * as Yup from 'yup';
 import { hideModal } from '@/utils/utils';
-import { Conditionnement } from '@/models/Conditionnement';
+import { GroupeTaxe } from '@/models/GroupeTaxe';
 import { error , success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-    name: "AddConditionnementModal",
+    name: "AddGroupeTaxeModal",
     components: {
     Form,
     Field,
@@ -84,49 +89,50 @@ export default defineComponent({
     }
   },
   setup(props, { emit }){
-    const conditionnementSchema = Yup.object().shape({
+    const groupeTaxeSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       libelle: Yup.string().required('Le libelle est obligatoire'),
-      valeur: Yup.number().typeError('Veuillez entrer des nombres').required("La valeur est obligatoire"),
+      taux: Yup.number().required('Le taux est obligatoire'),
+
     });
 
-    const conditionnementForm = ref<Conditionnement | null>(null);
-    const addConditionnementModalRef = ref<null | HTMLElement>(null);
+    const groupeTaxeForm = ref<GroupeTaxe | null>(null);
+    const addGroupeTaxeModalRef = ref<null | HTMLElement>(null);
     const router = useRouter();
-    const conditionnementOptions = ref([]);
+    const groupeTaxeOptions = ref([]);
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
-    const title = ref("Ajouter un conditionnement");
+    const title = ref("Ajouter un groupe de taxe");
     const btntext = ref('Ajouter');
 
     watch(() => props.item, (newValue) => {
-      getConditionnement(newValue);
+      getGroupeTaxe(newValue);
       isUPDATE.value = true;
       btnTitle();
     });
 
     const btnTitle = async () => {
       if (isUPDATE.value) {
-         title.value = "Modifier le conditionnement";
+         title.value = "Modifier le groupe de taxe";
          btntext.value = "Modifier";
       }else{
-         title.value = "Ajouter un conditionnement";
+         title.value = "Ajouter un groupe de taxe";
          btntext.value = "Ajouter"
       }
     }
 
-    const getConditionnement = async (id: number) => {
-      return ApiService.get("/conditionnements/"+id)
+    const getGroupeTaxe = async (id: number) => {
+      return ApiService.get("/groupeTaxes/"+id)
       .then(({ data }) => {
         // map data in form
         const donnees = data.data;
         for (const key in donnees) {
-          conditionnementForm.value?.setFieldValue(key, 
+          groupeTaxeForm.value?.setFieldValue(key, 
           (typeof donnees[key] === 'object' && donnees[key] !== null)? donnees[key].id :donnees[key]
           );
         }
-        emit('openmodal', addConditionnementModalRef.value);
+        emit('openmodal', addGroupeTaxeModalRef.value);
 
       })
       .catch(({ response }) => {
@@ -134,13 +140,13 @@ export default defineComponent({
       });
     }
 
-    const fetchConditionnement = async () => {
+    const fetchGroupeTaxe = async () => {
       try {
-        const response = await ApiService.get('/conditionnements');
-        const conditionnementData = response.data.data.data;
-        conditionnementOptions.value = conditionnementData.map((conditionnement) => ({
-          value: conditionnement.id,
-          label: `${conditionnement.codeConditionnement} - ${conditionnement.libelleConditionnement}`,
+        const response = await ApiService.get('/groupeTaxes');
+        const groupeTaxeData = response.data.data.data;
+        groupeTaxeOptions.value = groupeTaxeData.map((groupeTaxe) => ({
+          value: groupeTaxe.id,
+          label: `${groupeTaxe.code} - ${groupeTaxe.libelle}`,
         }));
       } catch (error) {
         //
@@ -148,18 +154,18 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      fetchConditionnement();
+      fetchGroupeTaxe();
     });
 
-    const addConditionnement = async (values: any, conditionnementForm) => {
-      values = values as Conditionnement;
+    const addGroupeTaxe = async (values: any, groupeTaxeForm) => {
+      values = values as GroupeTaxe;
       if(isUPDATE.value){
-        ApiService.put("/conditionnements/"+values.id,values)
+        ApiService.put("/groupeTaxes/"+values.id,values)
         .then(({ data }) => {
             if(data.code == 200) { 
               success(data.message);
-              conditionnementForm.resetForm();
-              hideModal(addConditionnementModalRef.value);
+              groupeTaxeForm.resetForm();
+              hideModal(addGroupeTaxeModalRef.value);
               isUPDATE.value=false;
               btnTitle();
               emit('close');
@@ -170,12 +176,12 @@ export default defineComponent({
         });
       }else{
         console.log('values',values)
-        ApiService.post("/conditionnements",values)
+        ApiService.post("/groupeTaxes",values)
         .then(({ data }) => {
             if(data.code == 201) { 
               success(data.message);
-              conditionnementForm.resetForm();
-              hideModal(addConditionnementModalRef.value);
+              groupeTaxeForm.resetForm();
+              hideModal(addGroupeTaxeModalRef.value);
               emit('close');
             }
         })
@@ -194,12 +200,12 @@ export default defineComponent({
       btnTitle()
     };
 
-    return { conditionnementSchema,
-      addConditionnementModalRef,
-      addConditionnement,
-      conditionnementForm,
+    return { groupeTaxeSchema,
+      addGroupeTaxeModalRef,
+      addGroupeTaxe,
+      groupeTaxeForm,
       title,btntext,resetValue,
-      conditionnementOptions,
+      groupeTaxeOptions,
     };
   },
 });

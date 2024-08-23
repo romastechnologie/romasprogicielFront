@@ -192,7 +192,7 @@
                  :multiple="false" :searchable="true" placeholder="Sélectionner la religion"
                 label="label" track-by="label" />
               </Field>
-              <span class="text-danger" v-if="showMErr">Le type de bien est obligatoire</span>
+              <span class="text-danger" v-if="showMErr">La religion est obligatoire</span>
             </div>
           </div>
 
@@ -206,7 +206,7 @@
                  :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie"
                 label="label" track-by="label" />
               </Field>
-              <span class="text-danger" v-if="showMErr">Le type de bien est obligatoire</span>
+              <span class="text-danger" v-if="showMErr">L'ethnie est obligatoire</span>
             </div>
           </div>
           <div class="col-md-4 mb-3">
@@ -219,7 +219,7 @@
                  :multiple="false" :searchable="true" placeholder="Sélectionner le service"
                 label="label" track-by="label" />
               </Field>
-              <span class="text-danger" v-if="showMErr">Le type de bien est obligatoire</span>
+              <span class="text-danger" v-if="showMErr">Le service est obligatoire</span>
             </div>
           </div>
           <div class="col-md-4 mb-3">
@@ -257,9 +257,9 @@
                 <label class="d-block text-black mb-10">
                   Nom de la personne à contacter
                 </label>
-                <Field name="nomPersonnelAContacter" type="text" 
+                <Field name="nomPersonneAContacter" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
-                <ErrorMessage name="nomPersonnelAContacterm" class="text-danger"/>
+                <ErrorMessage name="nomPersonneAContacterm" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -267,9 +267,9 @@
                 <label class="d-block text-black mb-10">
                   Prénom personnel à Contacter
                 </label>
-                <Field name="prenomPersonnelAContacter" type="text" 
+                <Field name="prenomPersonneAContacter" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom"/>
-                <ErrorMessage name="prenomPersonnelAContacter" class="text-danger"/>
+                <ErrorMessage name="prenomPersonneAContacter" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4 mb-3">

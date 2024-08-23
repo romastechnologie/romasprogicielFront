@@ -2,7 +2,7 @@ export  interface TypeRetenue {
     id: number;
     nomRetenue: string;
     description: string;
-    taux:number;
-    montantParDefaut:number;
+    valeur:number;
+    typeDeValeur:string;
     setFieldValue: (field: string, value: any) => void;
   }

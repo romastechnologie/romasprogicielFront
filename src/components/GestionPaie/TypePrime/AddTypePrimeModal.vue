@@ -15,19 +15,36 @@
                               <label class="d-block text-black fw-semibold mb-10">
                                 Nom du prime<span class="text-danger">*</span>
                               </label>
-                              <Field name="nom" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
-                              <ErrorMessage name="nom" class="text-danger"/>
+                              <Field name="nomPrime" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nomPrime"/>
+                              <ErrorMessage name="nomPrime" class="text-danger"/>
                             </div>
                           </div>
                           <div class="col-md-12 mb-3">
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black mb-10">
+                              Type de valeur <span class="text-danger">*</span>
+                            </label>
+                            <Field  name="typeDeValeur" v-model="typeC"  type="text"  v-slot="{ field }">
+                              <Multiselect
+                              :searchable = "true"
+                              :options = "['%', 'MT']"
+                              v-model = "field.value"
+                              v-bind = "field"
+                              placeholder="Sélectionner le type"
+                              />
+                            </Field>
+                            <ErrorMessage name="typeDeValeur" class="text-danger"/>
+                          </div>
+                        </div>
+                          <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
-                                Montant par défaut<span class="text-danger">*</span>
+                               Valeur<span class="text-danger">*</span>
                               </label>
-                              <Field name="montant" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
-                              <ErrorMessage name="montant" class="text-danger"/>
+                              <Field name="valeur" type="text" :class="{'cursor-not-allowed':disable}" :disabled="disable"
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la valeur"/>
+                              <ErrorMessage name="valeur" class="text-danger"/>
                             </div>
                           </div>
                           <div class="col-md-12 mb-3">
@@ -70,13 +87,15 @@
     import { error, hideModal, success } from '@/utils/utils';
     import { TypePrime } from '@/models/TypePrime';
     import { useRouter } from 'vue-router';
+    import Multiselect from '@vueform/multiselect'
     
     export default {
       name: "AddTypePrimeModal",
       components: {
         Form,
         Field,
-        ErrorMessage
+        ErrorMessage,
+        Multiselect
       },
       props:{
         id: {
@@ -92,8 +111,13 @@
         const loading = ref<boolean>(false);
         const typePrimeSchema = Yup.object().shape({
           description: Yup.string().required('La description est obligatoire'),
-          nom: Yup.string().required('Le nom est obligatoire'),
-          montant: Yup.number().required('Le montant est obligatoire'),
+          nomPrime: Yup.string().required('Le nomPrime est obligatoire'),
+          valeur: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
+          return !valeurM.value
+            ? schema.max(100, 'La valeur ne peut pas être supérieure à 100').required("La valeur est obligatoire")
+            : schema.notRequired()
+          }),
+          typeDeValeur: Yup.string().required('Le type est obligatoire'),
         });
     
     
@@ -105,6 +129,14 @@
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
+        const typeC = ref(null);
+        const valeurM = ref(false);
+        const disable = ref(true);
+
+        watch(typeC, (newVal) => {
+          disable.value = newVal !== "%" && newVal !== "MT";
+          valeurM.value = newVal !== "%";
+        });
     
         watch(() => props.id , (newValue) => {   
           if (newValue!=0) {
@@ -118,8 +150,10 @@
           return ApiService.get("/typePrimes/"+id)
           .then(({ data }) => {
             typePrimeForm.value?.setFieldValue("id",data.data.id);
-            typePrimeForm.value?.setFieldValue("nom",data.data.nom);
+            typePrimeForm.value?.setFieldValue("nomPrime",data.data.nomPrime);
             typePrimeForm.value?.setFieldValue("description",data.data.description);
+            typePrimeForm.value?.setFieldValue("valeur",data.data.valeur);
+            typePrimeForm.value?.setFieldValue("typeDeValeur",data.data.typeDeValeur);
             emit('openmodal', addTypePrimeModalRef.value);
           })
           .catch(({ response }) => {
@@ -183,8 +217,16 @@
     
         return {typePrimes, title,btntext, resetValue, typePrimeSchema,
            addTypePrime, typePrimeForm,addTypePrimeModalRef,typePrimenew,
-           //refreshTypePrimes
+           typeC,valeurM,disable,
            };
       },
     };
     </script>@/models/TypePrime
+
+    <style >
+      .input-readonly {
+        background-color: #f0f0f0;
+        color: #888888;
+        border-color: #cccccc;
+      }
+    </style>

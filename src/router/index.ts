@@ -201,6 +201,8 @@ import EtatProduitsRupturePage from "@/pages/GesCom/Etats/EtatProduitsRupturePag
 import EtatPointCommandePage from "@/pages/GesCom/Etats/EtatPointCommandePage.vue";
 import EtatProduitsEntreePage from "@/pages/GesCom/Etats/EtatProduitsEntreePage.vue";
 import EtatProduitsSortiesPage from "@/pages/GesCom/Etats/EtatProduitsSortiesPage.vue";
+import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
+import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
 
 //Fin GesCom/
 
@@ -215,7 +217,6 @@ import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
-
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -367,6 +368,8 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des contrats',
         }
       },
+    ]
+  },
       {
         path: "/paies",
         component: BodyView,
@@ -376,7 +379,7 @@ const routes: Array<RouteRecordRaw> = [
             name: "AddPaie",
             component: AddPaiePage,
             meta: {
-              title: 'Ajouter un paie',
+              title: 'Ajouter une paie',
             }
           },
           {
@@ -384,13 +387,11 @@ const routes: Array<RouteRecordRaw> = [
             name: "ListePaie",
             component: ListePaiePage,
             meta: {
-              title: 'Liste des paies',
-            }
-          },
+              title: 'Liste des financements',
+            },
+          }
         ]
-      }
-    ]
-  },
+      },
   {
     path: "/typeRetenues",
     component: BodyView,
@@ -1762,6 +1763,23 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des taxes',
         }
       },
+      {
+        path: "ajouter-groupetaxe",
+        name: "AddGroupeTaxe",
+        component: AddGroupeTaxePage,
+        meta: {
+          title: 'Ajouter un groupe de taxe',
+        }
+      },
+      {
+        path: "liste-groupe-taxes",
+        name: "ListeGroupeTaxe",
+        component: ListeGroupeTaxePage,
+        meta: {
+          title: 'Liste des groupes de taxes',
+        }
+      },
+      
       {
         path: "liste-type-taxes",
         name: "ListeTypeTaxe",

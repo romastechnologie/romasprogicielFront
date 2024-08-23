@@ -26,3 +26,30 @@ export interface ProduitDepot {
   ecart: number,
   prixUnitaire:number,
 }
+
+export interface ProduitSelect {
+  commande_clit_id:string,
+  magasin:string,
+  produit: string,
+  qtite: number,
+  prixTtc: number,
+  prixHt: number,
+  taxeSpecifique: number,
+  typeRemise: string,
+  valeurRemise: number,
+  montantHt: number,
+  montantTva: number,
+  montantTtc: number,
+  montantTs:number,
+  montantHtApresRemise: number,
+  libelleProduit:string,
+  groupeTaxeProduit:string,
+  carton: number,
+  piece: number,
+  stock: number,
+  remise: number,
+  restAliv: number,
+  taxe:number
+}
+
+        

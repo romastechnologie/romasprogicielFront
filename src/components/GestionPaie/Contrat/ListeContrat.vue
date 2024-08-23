@@ -106,8 +106,9 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(contrat?.dateDebut) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(contrat.dateFin) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ contrat.salaireDeBase }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ contrat?.personnel?.nom }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ contrat.heuresTravaillees }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ contrat.typeContrat }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ contrat.typeContrat.libelle }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ format_date(contrat.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
@@ -188,16 +189,16 @@
       // END PAGINATE
   
       function getAllContrats(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/all/contrats?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`/contrats?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            contrats.value = data.data;
+            contrats.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
             return data.data;
           })
           .catch(({ response }) => {
-            error(response.data.message)
+            //error(response.data.message)
         });
       }
   

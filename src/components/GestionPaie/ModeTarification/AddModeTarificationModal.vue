@@ -85,7 +85,7 @@
         const modeTarificationForm =  ref<ModeTarification | null>(null);
         const addModeTarificationModalRef = ref<null | HTMLElement>(null);
         let modeTarifications= ref<Array<ModeTarification>>([]);
-        const title = ref('Ajouter une modeTarification');
+        const title = ref('Ajouter un mode de tarification');
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
@@ -113,10 +113,10 @@
     
         const btnTitle = async () => {
           if (isupdate.value) {
-             title.value = "Modifier la modeTarification";
+             title.value = "Modifier le mode de tarification";
              btntext.value = "Modifier";
           }else{
-             title.value = "Ajouter une modeTarification";
+             title.value = "Ajouter un  mode de tarification";
              btntext.value = "Ajouter";
           }
         }
