@@ -429,7 +429,16 @@
                 <ErrorMessage name="nationaliteCon" class="text-danger"/>
               </div>
             </div>
-
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Téléphone du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="telephoneCon" type="string" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone du conjoint "/>
+                <ErrorMessage name="telephoneCon" class="text-danger"/>
+              </div>
+            </div>
             <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
@@ -466,12 +475,6 @@
               <span class="text-danger" v-if="showMErr">L'ethnie est obligatoire</span>
             </div>
           </div>
-
-
-
-
-
-
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -801,9 +804,27 @@ export default defineComponent({
       tel: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
       tel2: Yup.number().notRequired(),
       dateNais: Yup.date().notRequired(),
+      nomCon: Yup.string().required('Le nom du conjoint est obligatoire'),
+      prenomCon: Yup.string().required('Le prenom du conjoint est obligatoire'),
+      dateNaissanceCon: Yup.string().required('La date de naissance du conjoint est obligatoire'),
+      nationaliteCon: Yup.string().required('La nationalité du conjoint est obligatoire'),
+      passportCon: Yup.string().required('Le passport du conjoint est obligatoire'),
+      taille: Yup.string().required('La taille  est obligatoire'),
+      poids: Yup.string().required('Le poids est obligatoire'),
+      
       //nomUtilisateur: Yup.string().required('Le nom est obligatoire'),
       sexe: Yup.string().required('Le sexe est obligatoire'),
       civilite: Yup.string().required('La civilité est obligatoire'),
+      typeDeSang: Yup.string().required('Le type de sang est obligatoire'),
+      visionGauche: Yup.string().required('La vision gauche est obligatoire'),
+      visionDroite: Yup.string().required('La vision droite est obligatoire'),
+      audienceGauche: Yup.string().required('Audience Gauche est obligatoire'),
+      audienceDroite: Yup.string().required('Audience Droite obligatoire'),
+      mainGauche: Yup.string().required('La main gauche est obligatoire'),
+      mainDroite: Yup.string().required('La main Droite est obligatoire'),
+      jambeGauche: Yup.string().required('La jambe gauche est obligatoire'),
+      jambeDroite: Yup.string().required('La jambe droite est obligatoire'),
+
       nomPersonneAContacter:Yup.string().notRequired(),
       prenomPersonneAContacter:Yup.string().notRequired(),
       telPersonnelAContacter:Yup.number().notRequired(),
