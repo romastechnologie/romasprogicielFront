@@ -1,18 +1,18 @@
 <template>
-    <ListeMonnaie/>
+    <AddGroupeTaxeModal />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
     
-    import ListeMonnaie from "@/components/GesCom/Monnaie/ListeMonnaie.vue";
-
+    import AddGroupeTaxeModal from "@/components/GesCom/GroupeTaxe/AddGroupeTaxeModal.vue";
+  
     export default defineComponent({
-      name: "ListeMonnaiePage",
+      name: "AddGroupeTaxePage",
       components: {
         
-        ListeMonnaie,
+        AddGroupeTaxeModal,
       },
     });
   </script>

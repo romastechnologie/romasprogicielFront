@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/ajouter-modeleSignataire"
+          to="/modele-signataires/ajouter-modele-signataire"
         >
           <i class="fa fa-plus-circle"></i>
           Ajouter un modèle
@@ -26,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un produit"
+            placeholder="Rechercher un modeleSignataire"
           />
           <button
             type="submit"
@@ -52,25 +52,13 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Référence
+                Désignation
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Nom
-              </th>
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Service
-              </th>
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Description
+                Est défaut ?
               </th>
               <th
                 scope="col"
@@ -79,48 +67,38 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(produit, index) in produits" :key="index">
+            <tr v-for="(modeleSignataire, index) in modeleSignataires" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ produit.refProd }}
+                {{ modeleSignataire.designation }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ produit.nomProd }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ produit.estService ? Oui : Non }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ produit.descProd }}
+                {{ modeleSignataire.estDefaut }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                     
                     <!-- <li >
-                      <router-link :to="{ name: 'EditProduitPage', params: { id: produit.id } }" 
+                      <router-link :to="{ name: 'EditModeleSignatairePage', params: { id: modeleSignataire.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>
                     </li> -->
-                    <li>
-                        <router-link :to="{ name: 'ViewProduitPage', params: { id: produit.id } }" class="dropdown-item d-flex align-items-center">
+                    <li class="dropdown-item d-flex align-items-center">
+                        <router-link :to="{ name: 'ViewModeleSignatairePage', params: { id: modeleSignataire.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
                         </router-link>
                     </li>
-                    <li >
+                    <li class="dropdown-item d-flex align-items-center">
                       <a
-                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(produit.id,produits,'produits',`l\'produit ${produit.id}`)">
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(modeleSignataire.id,modeleSignataires,'modeleSignataires',`l\'modeleSignataire ${modeleSignataire.id}`)">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                          Supprimer
                       </a>
                     </li>
                   </ul>
-              </div>
               </td>
             </tr>
           </tbody>
@@ -138,25 +116,25 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { Produit } from "@/models/Produit";
+import { ModeleSignataire } from "@/models/ModeleSignataire";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListeProduit",
+  name: "ListeModeleSignataire",
   components: {
     PaginationComponent
   },
   setup(){
     
     onMounted(() => {
-      getAllProduits();
+      getAllModeleSignataires();
     });
 
-    const produits = ref<Array<Produit>>([]);   
-    const produit = ref<Produit>();
+    const modeleSignataires = ref<Array<ModeleSignataire>>([]);   
+    const modeleSignataire = ref<ModeleSignataire>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -168,22 +146,22 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllProduits(page_, limit_);
+        getAllModeleSignataires(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllProduits(page.value, limit.value, searchTerm.value );
+      getAllModeleSignataires(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
-    function getAllProduits(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/produits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllModeleSignataires(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/modeleSignataires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          produits.value = data.data.data;
+          modeleSignataires.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -194,12 +172,12 @@ export default defineComponent({
       });
     }
     
-    function moddifier(Editproduits:Produit) {
-      produit.value = Editproduits;
+    function moddifier(EditmodeleSignataires:ModeleSignataire) {
+      modeleSignataire.value = EditmodeleSignataires;
     }
 
-    const deleteProduit = (id: number) => {
-      ApiService.delete(`/produits/${id}`)
+    const deleteModeleSignataire = (id: number) => {
+      ApiService.delete(`/modeleSignataires/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,
@@ -227,9 +205,9 @@ export default defineComponent({
         });
       });
 
-      for(let i = 0; i < produits.value.length; i++) {
-        if (produits.value[i].id === id) {
-          produits.value.splice(i, 1);
+      for(let i = 0; i < modeleSignataires.value.length; i++) {
+        if (modeleSignataires.value[i].id === id) {
+          modeleSignataires.value.splice(i, 1);
         }
       }
     };
@@ -240,10 +218,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { produits,
+    return { modeleSignataires,
       checkPermission,
-     getAllProduits,
-     deleteProduit,
+     getAllModeleSignataires,
+     deleteModeleSignataire,
      moddifier ,
      suppression,
      page, 

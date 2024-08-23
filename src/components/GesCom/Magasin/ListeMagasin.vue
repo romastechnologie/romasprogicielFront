@@ -15,8 +15,7 @@
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
-          type="button"
-        >
+          type="button">
           Exporter
           <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
         </button> -->
@@ -30,10 +29,7 @@
             class="form-control shadow-none text-black rounded-0 border-0"
             placeholder="Rechercher un magasin"
           />
-          <button
-            type="submit"
-            class="bg-transparent text-primary transition p-0 border-0"
-          >
+          <button type="submit" ref="" class="bg-transparent text-primary transition p-0 border-0">
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
@@ -84,13 +80,13 @@
           <tbody>
             <tr v-for="(magasin, index) in magasins" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ magasin.codeMagasin }}
+                {{ magasin.code }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ magasin.nomMagasin }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ magasin?.magasinier?.magasinier }}
+                {{ magasin?.personnel?.nom }} {{ magasin?.personnel?.prenom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ magasin.adresse }}
@@ -112,10 +108,7 @@
                         data-bs-toggle="modal"
                         data-bs-target="#AddMagasinModal"
                         @click="moddifier(magasin)"
-                      >
-                        <i
-                          class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>
+                      ><i class="flaticon-pen lh-1 me-8 position-relative top-1" ></i>
                         Modifier
                       </a>
                     </li>
@@ -262,21 +255,22 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { magasins,
+    return { 
+      magasins,
       checkPermission,
-     getAllMagasins,
-     deleteMagasin,
-     moddifier ,
-     suppression,
-     page, 
-    totalPages,
-    limit,
-    totalElements,
-    handlePaginate,
-    rechercher,
-    searchTerm,
-    selectedItem,
-    recharger
+      getAllMagasins,
+      deleteMagasin,
+      moddifier ,
+      suppression,
+      page, 
+      totalPages,
+      limit,
+      totalElements,
+      handlePaginate,
+      rechercher,
+      searchTerm,
+      selectedItem,
+      recharger
   };
   },
 });

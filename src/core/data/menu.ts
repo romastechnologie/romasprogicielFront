@@ -98,6 +98,189 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+
+    {
+        headTitle1: "Gestion de la Paie",
+        headTitle2: "Contrat,Paie, Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
+        type: "headtitle"
+    },
+    {
+        title: "Contrat",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/contrats/ajouter-contrat",
+                title: "Ajouter un contrat",
+                type: "link"
+            },
+            {
+                path: "/contrats/liste-contrats",
+                title: "Liste des contrats",
+                type: "link"
+            }
+        ]
+    },
+
+    {
+        title: "Paie",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/paies/ajouter-paie",
+                title: "Ajouter une paie",
+                type: "link"
+            },
+            {
+                path: "/paies/liste-paies",
+                title: "Liste des paies",
+                type: "link"
+            }
+        ]
+    },
+
+    {
+        title: "Religons",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/religions/liste-religion",
+                title: "Liste des religions",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Retenue",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typeRetenues/liste-typeRetenue",
+                title: "Liste des types de retenues",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Prime",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typePrimes/liste-typePrime",
+                title: "Liste des types de primes",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Contrat",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typeContrats/liste-typeContrat",
+                title: "Liste des types de contrats",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Mode Tarification",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/modeTarifications/liste-modeTarification",
+                title: "Liste des modes de tarifications",
+                type: "link"
+            },
+        ]
+    },
+
+
+
+    {
+        title: "Ethnies",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/ethnies/liste-ethnie",
+                title: "Liste des ethnies",
+                type: "link"
+            },
+        ]
+    },
+
     {
         headTitle1: "Gestion du personnel",
         headTitle2: "Demandes, Permissions, Congés, Présences, Justificatifs et Heures supplémentaires",
@@ -665,17 +848,17 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/commande-fournisseurs/liste-commande-fournisseurs",
-                title: "Liste des commandes fournisseurs",
+                title: "commandes fournisseurs",
                 type: "link"
             },
             {
                 path: "/fournisseurs/liste-fournisseurs",
-                title: "Liste des fournisseurs",
+                title: "fournisseurs",
                 type: "link"
             },
             {
                 path: "/demandes-prix/liste-demande-prix",
-                title: "Liste des demandes de prix",
+                title: " demandes de prix",
                 type: "link"
             },
         ]
@@ -691,12 +874,12 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/factures/liste-factures",
-                title: "Liste des factures",
+                title: " factures",
                 type: "link"
             },
             {
                 path: "/factures/liste-facture-proformas",
-                title: "Liste des factures proforma",
+                title: " factures proforma",
                 type: "link"
             }
         ]
@@ -712,122 +895,127 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/produits/liste-produits",
-                title: "Liste des produits",
+                title: " produits",
                 type: "link"
             },
             {
                 path: "/clients/liste-clients",
-                title: "Liste des clients",
+                title: "clients",
                 type: "link"
             },
             {
                 path: "/familles/liste-familles",
-                title: "Liste des familles",
+                title: "familles",
                 type: "link"
             },
-            {
-                path: "/medias/liste-medias",
-                title: "Liste des médias",
-                type: "link"
-            },
-            {
-                path: "/produit-conditionnes/liste-produit-conditionnes",
-                title: "Liste des produits conditionnés",
-                type: "link"
-            },
-            {
-                path: "/magasins/liste-magasins",
-                title: "Liste des magasins",
-                type: "link"
-            },
-            {
-                path: "/monnaies/liste-monnaies",
-                title: "Liste des monnaies",
-                type: "link"
-            },
+            // {
+            //     path: "/medias/liste-medias",
+            //     title: "Liste des médias",
+            //     type: "link"
+            // },
+            // {
+            //     path: "/produit-conditionnes/liste-produit-conditionnes",
+            //     title: "Liste des produits conditionnés",
+            //     type: "link"
+            // },
             {
                 path: "/magasins/liste-magasins",
-                title: "Liste des magasins",
+                title: "magasins",
                 type: "link"
             },
             {
-                path: "/magasins/liste-magasins",
-                title: "Liste des magasins",
+                path: "/monaies/liste-monnaies",
+                title: " monnaies",
                 type: "link"
             },
+            // {
+            //     path: "/magasins/liste-magasins",
+            //     title: "Liste des magasins",
+            //     type: "link"
+            // },
+            // {
+            //     path: "/magasins/liste-magasins",
+            //     title: "Liste des magasins",
+            //     type: "link"
+            // },
             {
                 path: "/conditionnements/liste-conditionnements",
-                title: "Liste des conditionnements",
+                title: "conditionnements",
                 type: "link"
             },
             {
                 path: "/societes/liste-societes",
-                title: "Liste des sociétés",
+                title: "sociétés",
                 type: "link"
             },
             {
                 path: "/banques/liste-banques",
-                title: "Liste des banques",
+                title: "banques",
                 type: "link"
             },
             {
-                path: "/personnels/liste-personnels",
-                title: "Liste des personnels",
+                path: "/personnelles/liste-personnels",
+                title: "personnels",
                 type: "link"
             },
-            {
-                path: "/personnel-fonctions/liste-personnel-fonctions",
-                title: "Liste des fonctions du personnel",
-                type: "link"
-            },
+            // {
+            //     path: "/personnel-fonctions/liste-personnel-fonctions",
+            //     title: "fonctions du personnel",
+            //     type: "link"
+            // },
             {
                 path: "/fonctions/liste-fonctions",
-                title: "Liste des fonctions",
+                title: " fonctions",
                 type: "link"
             },
             {
                 path: "/adresse-livraisons/liste-adresse-livraisons",
-                title: "Liste des adresses de livraison",
+                title: "adresses de livraison",
                 type: "link"
             },
             {
-                path: "/taxes/liste-type-taxes",
-                title: "Liste des types de taxes",
+                path: "/taxes/liste-taxes",
+                title: "taxes",
+                type: "link"
+            },
+            {
+                path: "/groupetaxes/liste-groupetaxes",
+                title: "familles",
                 type: "link"
             },
             {
                 path: "/type-operations/liste-type-operations",
-                title: "Liste des types d'opérations",
+                title: "types d'opérations",
                 type: "link"
             },
             {
                 path: "/type-depenses/liste-type-depenses",
-                title: "Liste des types de dépenses",
+                title: " types de dépenses",
                 type: "link"
             },
             {
                 path: "/point-ventes/liste-point-ventes",
-                title: "Liste des points de vente",
+                title: "points de vente",
                 type: "link"
             },
             {
                 path: "/type-comptes/liste-typecompte",
-                title: "Liste des types de compte",
+                title: "types de compte",
                 type: "link"
             },
             {
-                path: "/modele-signataires/liste-modele-signataire",
-                title: "Liste des modèles de signataires",
+                path: "/modele-signataires/liste-modele-signataires",
+                title: "modèles de signataires",
                 type: "link"
             },
             {
                 path: "/paiements/liste-mode-paiement",
-                title: "Liste des mods de paiement",
+                title: " mode de paiement",
                 type: "link"
             },
             {
                 path: "/commandes-clients/liste-commande-client/",
-                title: "Liste des commandes clients",
+                title: "commandes clients",
                 type: "link"
             }
         ]

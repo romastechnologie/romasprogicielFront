@@ -3,18 +3,25 @@
   <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="societeForm" @submit="editSociete" :validation-schema="societeSchema" :initial-values="societeForm">
             <div class="row">
-            <div class="col-md-4">
+              <div class="col-md-4 mt-20">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                 Photo<span class="text-danger">*</span>
-                </label>
-                <Field name="photo" type="file" 
-                      accept="image/jpeg, image/png application/pdf"
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Choisissez une image"/>
-              </div>
-              <ErrorMessage name="photo" class="text-danger"/>
+            <label class="custom-checkbox">
+                <input type="checkbox" name="estRegimeTPS">
+                <span class="checkmark"></span>
+                Est Régime TPS ?
+              </label>   
             </div>
-            <div class="col-md-4">
+          </div>
+          <div class="col-md-4 mt-20">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <label class="custom-checkbox">
+                <input type="checkbox" name="estModeMecef">
+                <span class="checkmark"></span>
+                Est Mode MECEF ?
+              </label>   
+            </div>
+          </div>
+            <div class="col-md-4 mt-20">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Sigle <span class="text-danger">*</span>
@@ -24,7 +31,7 @@
                 <ErrorMessage name="sigle" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Dénomination<span class="text-danger">*</span>
@@ -34,7 +41,7 @@
                 <ErrorMessage name="denomination" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Raison sociale <span class="text-danger">*</span>
@@ -44,7 +51,7 @@
                 <ErrorMessage name="raisonSocial" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   N° RCCM <span class="text-danger">*</span>
@@ -55,7 +62,7 @@
               </div>
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   N° IFU <span class="text-danger">*</span>
@@ -65,17 +72,29 @@
                 <ErrorMessage name="ifu" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone <span class="text-danger">*</span>
                 </label>
-                <Field name="telephone" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+                <Field name="telephone" v-model="telephone"  v-slot="{ field }">
+                  <vue-tel-input
+                    placeholder="Entrer le numéro de téléphone"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    defaultCountry="BJ"
+                    mode="international"
+                    @validate="validate"
+                    class ="shadow-none fs-md-15 text-black py-2">
+                  </vue-tel-input>
+                </Field>
+                <div v-if="!validPhone"  class="text-danger">Veuillez entrer un numéro correcte</div>
+                <!-- <Field name="telephone" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/> -->
                 <ErrorMessage name="telephone" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Adresse <span class="text-danger">*</span>
@@ -85,7 +104,7 @@
                 <ErrorMessage name="adresse" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Message Commercial
@@ -95,7 +114,7 @@
                 <ErrorMessage name="messageCommercial" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Lieu d'impression des factures
@@ -105,7 +124,7 @@
                 <ErrorMessage name="lieuImpression" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                  Joindre le logo
@@ -116,7 +135,7 @@
               </div>
               <ErrorMessage name="logo" class="text-danger"/>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                  Joindre l'entête<span class="text-danger">*</span>
@@ -127,7 +146,7 @@
               </div>
               <ErrorMessage name="entete" class="text-danger"/>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                  Joindre le pied de page
@@ -138,7 +157,7 @@
               </div>
               <ErrorMessage name="pied" class="text-danger"/>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Lien API
@@ -148,7 +167,7 @@
                 <ErrorMessage name="lienApi" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   API Nim
@@ -158,7 +177,7 @@
                 <ErrorMessage name="apiNim" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   API Token
@@ -322,13 +341,11 @@
               </div>
             </div>
           </div>
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
                   type="submit"
-                   :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable }"
                 >
                     Modifier une sociéte
                 </button>
@@ -354,6 +371,10 @@ import { Societe} from '@/models/Societe';
 import * as Yup from 'yup';
 import axios from 'axios';
 import Multiselect from "@vueform/multiselect";
+import VueMultiselect from 'vue-multiselect'
+import { countries } from '@/utils/countries';
+import 'vue3-tel-input/dist/vue3-tel-input.css'
+import { VueTelInput } from 'vue3-tel-input'
 
 export default defineComponent({
     name: "EditSociete",
@@ -361,7 +382,9 @@ export default defineComponent({
     Form,
     Field,
     ErrorMessage,
-    Multiselect
+    Multiselect,
+    VueMultiselect,
+    VueTelInput
   },
   setup: () => {
     const societeSchema = Yup.object().shape({
@@ -381,6 +404,35 @@ export default defineComponent({
     const societeForm = ref<Societe>();
     const router = useRouter();
     const route = useRoute();
+
+    const  codepay= ref();
+    const  nationalnumlber= ref();
+    const telephone=ref();
+    const validPhone=ref<boolean>(false);
+    const numberPhone=ref();
+    const countriesRef = ref(countries)
+    const  numeroNational = ref();
+    const defaultCountriy = 'Bénin';
+
+    function onInput(phone, phoneObject, input) {
+      //
+    }
+
+    function validate(phoneObject) {
+      validPhone.value = phoneObject.valid;
+      if (phoneObject.valid == true) {
+        telephone.value = phoneObject.number;
+        codepay.value= phoneObject.countryCallingCode;
+        nationalnumlber.value = phoneObject.nationalNumber;
+        numberPhone.value = phoneObject.nationalNumber;
+
+      }else{
+        telephone.value="";
+        codepay.value= "";
+        nationalnumlber.value= "";
+        numberPhone.value="";
+      }
+    }
 
     function getSociete(id:number) {
       ApiService.get("/societes/"+id.toString())
@@ -457,7 +509,7 @@ export default defineComponent({
           if (data.code == 200) {
             success(data.message);
             resetForm();
-            router.push({ name: "ListeSocietePage" });
+            router.push({ name: "ListeSociete" });
           }
         }).catch(({ response }) => {
           error(response.data.message);
@@ -494,7 +546,10 @@ export default defineComponent({
         banqueOptions,
         isDisable,
         comptes,
-
+        countries: countriesRef, 
+        defaultCountriy,
+        numeroNational,
+        telephone, validate
     };
   },
 });

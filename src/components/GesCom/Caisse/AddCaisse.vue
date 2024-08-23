@@ -23,7 +23,7 @@
                 </div>
               <ErrorMessage name="dateHeureFer" class="text-danger"/>
               </div>-->
-              <div class="col-md-6">
+              <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Code <span class="text-danger">*</span>
@@ -33,7 +33,7 @@
                 <ErrorMessage name="code" class="text-danger"/>
               </div>
             </div>
-              <div class="col-md-6">
+              <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Libellé<span class="text-danger">*</span>
@@ -44,7 +44,7 @@
               </div>
             </div> 
             
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"

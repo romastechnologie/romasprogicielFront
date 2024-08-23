@@ -116,7 +116,7 @@ import AddCaissePage from "@/pages/GesCom/Caisse/AddCaissePage.vue";
 import EditCaissePage from "@/pages/GesCom/Caisse/EditCaissePage.vue";
 import ListeCaissePage from "@/pages/GesCom/Caisse/ListeCaissePage.vue";
 import ListeSuiviStockPage from "@/pages/GesCom/SuiviStock/ListeSuiviStockPage.vue";
-// import ListeMonnaiePage from "@/pages/GesCom/Monnaie/ListeMonnaiePage.vue";
+import ListeMonaiePage from "@/pages/GesCom/Monaie/ListeMonaiePage.vue";
 import ListeConditionnementPage from "@/pages/GesCom/Conditionnement/ListeConditionnementPage.vue";
 import AddProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/AddProduitConditionnePage.vue";
 import EditProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/EditProduitConditionnePage.vue";
@@ -146,10 +146,10 @@ import ListeModePaiementPage from "@/pages/GesCom/ModePaiement/ListeModePaiement
 import AddBanquePage from "@/pages/GesCom/Banque/AddBanquePage.vue";
 import EditBanquePage from "@/pages/GesCom/Banque/EditBanquePage.vue";
 import ListeBanquePage from "@/pages/GesCom/Banque/ListeBanquePage.vue";
-// import AddPersonnelPage from "@/pages/GesCom/Personnel/AddPersonnelPage.vue";
-// import EditPersonnelPage from "@/pages/GesCom/Personnel/EditPersonnelPage.vue";
-// import ListePersonnelPage from "@/pages/GesCom/Personnel/ListePersonnelPage.vue";
-import ViewPersonnelPage from "@/pages/GesCom/Personnel/ViewPersonnelPage.vue";
+import AddPersonnellePage from "@/pages/GesCom/Personnel/AddPersonnellePage.vue";
+import EditPersonnellePage from "@/pages/GesCom/Personnel/EditPersonnellePage.vue";
+import ListePersonnellePage from "@/pages/GesCom/Personnel/ListePersonnellePage.vue";
+import ViewPersonnellePage from "@/pages/GesCom/Personnel/ViewPersonnellePage.vue";
 // import ListeFonctionPage from "@/pages/GesCom/Fonction/ListeFonctionPage.vue";
 import AddPersonnelFonctionPage from "@/pages/GesCom/PersonnelFonction/AddPersonnelFonctionPage.vue";
 import EditPersonnelFonctionPage from "@/pages/GesCom/PersonnelFonction/EditPersonnelFonctionPage.vue";
@@ -195,7 +195,22 @@ import EditOperationRetraitPage from "@/pages/GesCom/Operation/EditOperationRetr
 import ViewOperationPage from "@/pages/GesCom/Operation/ViewOperationPage.vue";
 import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue";
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
+import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
+import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
+
 //Fin GesCom/
+
+//Gestion de la Paie
+import ListeEthniePage from "@/pages/GestionPaie/Ethnie/ListeEthniePage.vue";
+import ListeTypeRetenuePage from "@/pages/GestionPaie/TypeRetenue/ListeTypeRetenuePage.vue";
+import ListeTypePrimePage from "@/pages/GestionPaie/TypePrime/ListeTypePrimePage.vue";
+import ListeTypeContratPage from "@/pages/GestionPaie/TypeContrat/ListeTypeContratPage.vue";
+import ListeModeTarificationPage from "@/pages/GestionPaie/ModeTarification/ListeModeTarificationPage.vue";
+import ListeReligionPage from "@/pages/GestionPaie/Religion/ListeReligionPage.vue";
+import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
+import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
+import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
+import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -304,6 +319,190 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
+  {
+    path: "/ethnies",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-ethnie",
+        name: "ListeEthniePage",
+        component: ListeEthniePage,
+        meta: {
+          title: 'Liste des ethnies',
+        }
+      }
+    ]
+  },
+  {
+    path: "/contrats",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-contrat",
+        name: "AddContrat",
+        component: AddContratPage,
+        meta: {
+          title: 'Ajouter un contrat',
+        }
+      },
+      {
+        path: "liste-contrats",
+        name: "ListeContrat",
+        component: ListeContratPage,
+        meta: {
+          title: 'Liste des contrats',
+        }
+      },
+    ]
+  },
+      {
+        path: "/paies",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-paie",
+            name: "AddPaie",
+            component: AddPaiePage,
+            meta: {
+              title: 'Ajouter une paie',
+            }
+          },
+          {
+            path: "liste-paies",
+            name: "ListePaie",
+            component: ListePaiePage,
+            meta: {
+              title: 'Liste des financements',
+            },
+          }
+        ]
+      },
+  {
+    path: "/typeRetenues",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-typeRetenue",
+        name: "ListeTypeRetenuePage",
+        component: ListeTypeRetenuePage,
+        meta: {
+          title: 'Liste des types de retenues',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/typePrimes",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-typePrime",
+        name: "ListeTypePrimePage",
+        component: ListeTypePrimePage,
+        meta: {
+          title: 'Liste des types de primes',
+        }
+      }
+    ]
+  },
+  
+
+  {
+    path: "/typeContrats",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-typeContrat",
+        name: "ListeTypeContratPage",
+        component: ListeTypeContratPage,
+        meta: {
+          title: 'Liste des types de contrats',
+        }
+      }
+    ]
+  },
+  
+  {
+    path: "/modeTarifications",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-modeTarification",
+        name: "ListeModeTarificationPage",
+        component: ListeModeTarificationPage,
+        meta: {
+          title: 'Liste des modes de tarifications',
+        }
+      }
+    ]
+  },
+  
+  {
+    path: "/religions",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-religion",
+        name: "ListeReligionPage",
+        component: ListeReligionPage,
+        meta: {
+          title: 'Liste des religions',
+        }
+      }
+    ]
+  },
+
+
   {
     path: "/biens",
     component: BodyView,
@@ -1280,13 +1479,13 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/monnaies",
+    path: "/monaies",
     component: BodyView,
     children: [
       {
         path: "liste-monnaies",
-        name: "ListeMonnaie",
-        component: ListeMonnaiePage,
+        name: "ListeMonaie",
+        component: ListeMonaiePage,
         meta: {
           title: 'Liste des monnaies',
         }
@@ -1399,13 +1598,13 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/personnels",
+    path: "/personnelles",
     component: BodyView,
     children: [
       {
         path: "ajouter-personnel",
         name: "AddPersonnel",
-        component: AddPersonnelPage,
+        component: AddPersonnellePage,
         meta: {
           title: 'Ajouter un personnel',
         }
@@ -1413,7 +1612,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "modifier-personnel/:id",
         name: "EditPersonnel",
-        component: EditPersonnelPage,
+        component: EditPersonnellePage,
         meta: {
           title: 'Modifier un personnel',
         }
@@ -1421,7 +1620,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "view-personnel/:id",
         name: "ViewPersonnel",
-        component: ViewPersonnelPage,
+        component: ViewPersonnellePage,
         meta: {
           title: 'Détails du personnel',
         }
@@ -1429,7 +1628,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "liste-personnels",
         name: "ListePersonnel",
-        component: ListePersonnelPage,
+        component: ListePersonnellePage,
         meta: {
           title: 'Liste des personnels',
         }
@@ -1506,6 +1705,23 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des taxes',
         }
       },
+      {
+        path: "ajouter-groupetaxe",
+        name: "AddGroupeTaxe",
+        component: AddGroupeTaxePage,
+        meta: {
+          title: 'Ajouter un groupe de taxe',
+        }
+      },
+      {
+        path: "liste-groupes-taxes",
+        name: "ListeGroupeTaxe",
+        component: ListeGroupeTaxePage,
+        meta: {
+          title: 'Liste des groupes de taxes',
+        }
+      },
+      
       {
         path: "liste-type-taxes",
         name: "ListeTypeTaxe",

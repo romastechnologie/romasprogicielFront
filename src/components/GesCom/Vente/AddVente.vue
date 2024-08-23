@@ -4,11 +4,10 @@
       <Form
         @submit="addVente"
         :validation-schema="venteSchema"
-        :keep-values="valuess"
-      >
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+        :keep-values="valuess">
+        <div class="row gx-1">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Date commande
               </label>
@@ -22,12 +21,13 @@
               />
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant HT
               </label>
               <Field
+                v-model="totalsomme"
                 name="montantHT"
                 :readonly="true"
                 type="text"
@@ -36,12 +36,13 @@
               />
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant HT RSE
               </label>
               <Field
+                v-model="totalsommeremise"
                 name="montantHTRSE"
                 :readonly="true"
                 type="text"
@@ -50,12 +51,13 @@
               />
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant TVA
               </label>
               <Field
+                v-model="totaltva"
                 name="montantTVA"
                 :readonly="true"
                 type="text"
@@ -64,12 +66,13 @@
               />
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant AIB
               </label>
               <Field
+                v-model="totalaib"
                 name="montantAIB"
                 :readonly="true"
                 type="text"
@@ -78,12 +81,13 @@
               />
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant Taxe S.
               </label>
               <Field
+                v-model="totalts"
                 name="montanTS"
                 :readonly="true"
                 type="text"
@@ -92,12 +96,13 @@
               />
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant TTC
               </label>
               <Field
+                v-model="totalttc"
                 name="montantTTC"
                 :readonly="true"
                 type="text"
@@ -106,8 +111,10 @@
               />
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+        </div>
+        <div class="row gx-1">
+          <div class="col-md-2">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Type Commande <span class="text-danger">*</span>
               </label>
@@ -126,8 +133,8 @@
             </div>
             <ErrorMessage name="groupeTaxe" class="text-danger" />
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-2">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Type Facture <span class="text-danger">*</span>
               </label>
@@ -143,20 +150,20 @@
                   label="label"
                   v-model="field.value"
                   v-bind="field"
-                  placeholder="Sélectionner le mode de prix"
+                  placeholder="Sélectionner"
                 />
               </Field>
             </div>
             <ErrorMessage name="modePrix" class="text-danger" />
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-3">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Client <span class="text-danger">*</span>
                 <a
                   style="float: right"
                   v-if="!selectedClient"
-                  class="btn btn-success me-3"
+                  class="btn btn-success me-3 btn-xs b-r-6"
                   data-bs-toggle="modal"
                   data-bs-target="#AddClientModal"
                   @click="toggleAbonne"
@@ -167,7 +174,7 @@
                 <button
                   style="float: right"
                   v-if="selectedClient"
-                  class="btn btn-success me-3"
+                  class="btn btn-success me-3 btn-xs"
                   @click="toggleAbonne"
                 >
                   <i class="fa fa-plus-circle"></i>
@@ -205,27 +212,27 @@
             </div>
             <ErrorMessage name="client" class="text-danger" />
           </div>
-          <div class="col-md-4">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-1">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 TAUX AIB <span class="text-danger">*</span>
               </label>
-              <Field name="tauxAIB" v-slot="{ field }">
+              <Field name="tauxAIB" v-model="valeurAib" v-slot="{ field }">
                 <Multiselect
-                  :options="['1%', '5%']"
+                  :options="['1%','3%','5%']"
                   :searchable="true"
                   track-by="label"
                   label="label"
                   v-model="field.value"
                   v-bind="field"
-                  placeholder="Sélectionner le taux"
+                  placeholder="Choisir"
                 />
               </Field>
             </div>
             <ErrorMessage name="tauxAIB" class="text-danger" />
           </div>
-          <div class="col-md-4" v-if="showC">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-2" v-if="showC">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Montant Reçu <span class="text-danger">*</span>
               </label>
@@ -238,8 +245,8 @@
               <ErrorMessage name="montantRecu" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-4" v-if="showC">
-            <div class="form-group mb-5 mb-sm-5 mb-md-5">
+          <div class="col-md-2" v-if="showC">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold">
                 Reliquat <span class="text-danger">*</span>
               </label>
@@ -253,26 +260,8 @@
             </div>
           </div>
 
-          <div class="col-md-12 mb-md-25 mt-15">
-            <div class="accordion" id="basicAccordion">
-              <div class="accordion-item mb-0 bord1">
-                <h2 class="accordion-header" id="headingOne">
-                  <button
-                    class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#basicCollapseOne"
-                    aria-expanded="false"
-                    aria-controls="basicCollapseOne"
-                  >
-                    Ajouter les produits demandés par le client avec la quantité
-                  </button>
-                </h2>
-                <div
-                  id="basicCollapseOne"
-                  class="accordion-collapse collapse"
-                  data-bs-parent="#basicAccordion"
-                >
+        
+          <div class="col-md-12 mb-md-25">
                   <div class="accordion-body">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                       <li class="nav-item" role="presentation">
@@ -310,18 +299,14 @@
                         class="tab-pane fade show active p-10"
                         id="home-tab-pane"
                         role="tabpanel"
-                        tabindex="0"
-                      >
-                        <div class="row">
+                        tabindex="0">
+                        <div class="row gx-2">
                           <div class="border border-primary mb-5">
-                            <div
-                              class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                              style="background-color: #0a59a4"
-                            >
+                            <div class="row gx-2 d-flex align-items-center justify-content-between fw-bold py-2 bg-primary">
                               <div class="col-md-7">
-                                <h3 class="fs-4 text-white">
+                                <h4 class="fs-6 text-white">
                                   Ajouter le produit
-                                </h3>
+                                </h4>
                               </div>
                               <div class="col-md-5">
                                 <div class="d-flex float-end">
@@ -335,265 +320,223 @@
                                   <i class="fa fa-plus-circle"></i>
                                     Ajouter un produit
                                   </button>
-                                  <!-- <router-link
-                                      to="/liste-mouvements"
-                                    ></router-link> -->
                                 </div>
                               </div>
                             </div>
                             <div>
-                              <div class="card-body p-15 p-sm-20 p-md-25">
-                                <div class="table-responsive">
-                                  <table
-                                    class="table table-fixed text-nowrap align-middle mb-0"
-                                  >
-                                    <thead>
-                                      <tr>
-                                        <th scope="col" class="produit">
-                                          Produit
-                                        </th>
-                                        <th scope="col" class="quantite">
-                                          Quantité
-                                        </th>
-                                        <th scope="col" class="prix-unitaire">
-                                          Prix unitaire
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          Prix HT
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          Montant HT
-                                        </th>
-                                        <th scope="col" class="taxe">
-                                          Taxe S.
-                                        </th>
-                                        <th scope="col" class="type-rse">
-                                          Type RSE
-                                        </th>
-                                        <th scope="col" class="vente-rse">
-                                          Vente / RSE
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          MT Remise
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          MT. HT Ap Rse
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=""
-                                        >
-                                          MT. TVA
-                                        </th>
-                                        <th
-                                          scope="col"
-                                          class=" text pe-0"
-                                        >
-                                          MT. TTC
-                                        </th>
-                                        <th scope="col" class="magasin">
-                                          Magasin
-                                        </th>
-                                        <th scope="col" class="stock">
-                                          Stock
-                                        </th>
-                                        <th scope="col" class="actions pe-0">
-                                          ACTIONS
-                                        </th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr v-for="(produit, index) in produits" :key="index">
-                                        <td class="produit-col">
-                                          <Multiselect
-                                            :options="produitOptions"
-                                            :searchable="true"
-                                            track-by="label"
-                                            label="label"
-                                            v-model="produit.produit"
-                                            placeholder=""
-                                            @select="
-                                            selectProd(produit.produit, produit)
-                                          "
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.produit)">
-                                            Le produit est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="quantite-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.qtite"
-                                            :class="validateRowProduit(produit.qtite) ? 'form-control is-invalid' : 'form-control'"
-                                            placeholder="Entrer la quantité"
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.qtite)">
-                                            La quantité est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="prix-unitaire-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.prixUnitaire"
-                                            :class="validateRowProduit(produit.prixUnitaire) ? 'form-control is-invalid' : 'form-control'"
-                                            placeholder="Entrer le prix"
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.prixUnitaire)">
-                                            Le prix est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.prixHT"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.montantHT"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.taxe"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="type-rse-col">
-                                          <Multiselect
-                                            :options="['%', 'MT']"
-                                            :searchable="true"
-                                            track-by="label"
-                                            label="label"
-                                            v-model="produit.typeRSE"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.typeRSE)">
-                                            Le type est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="vente-rse-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.venteRSE"
-                                            :class="validateRowProduit(produit.venteRSE) ? 'form-control is-invalid' : 'form-control'"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.venteRSE)">
-                                            La vente est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.remise"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.montantHTRemise"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.montantTVA"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="taxe-col">
-                                          <input
-                                            type="text"
-                                            v-model="produit.montantTTC"
-                                            :readonly="true"
-                                            class="form-control"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback"></span>
-                                        </td>
-                                        <td class="magasin-col">
-                                          <Multiselect
-                                            :options="magasin1Options"
-                                            :searchable="true"
-                                            track-by="label"
-                                            label="label"
-                                            v-model="produit.magasin"
-                                            placeholder=""
-                                          />
-                                          <span class="invalid-feedback" v-if="validateRowProduit(produit.magasin)">
-                                            Le magasin est obligatoire.
-                                          </span>
-                                        </td>
-                                        <td class="stock-col">
-                                          <p>0</p>
-                                        </td>
-                                        
-                                        <td class="actions-col pe-0">
-                                          <div class="button-container" style="white-space: nowrap">
-                                            <!-- <a
-                                              @click="showDetail(produit.produit)"
-                                              class="btn btn-icon"
-                                              href="#"
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#ViewProduitModal"
-                                            >
-                                              <i class="text-primary flaticon-eye position-relative"></i>
-                                            </a> -->
-                                            <button
-                                              type="button"
-                                              class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                              @click="removeRowProduit(index)"
-                                            >
-                                            <i class="icofont icofont-ui-delete"></i>
-                                            </button>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+                              <div class="card-body p-1">
+                                <div>
+                                  <div class="row gx-1">
+                                  <div class="col-4">
+                                    <label class="d-block text-black fw-semibold">
+                                      Produit
+                                    </label>
+                                    <Multiselect
+                                      :options="produitOptions"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      v-model="produit.produit"
+                                      placeholder="Selectionnez le produit"
+                                      @select="selectProd(produit.produit, produit)"
+                                    />
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.produit)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold"  >
+                                      Quantité
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.qtite"
+                                      :class="validateRowProduit(produit.qtite) ? 'form-control is-invalid' : 'form-control'"
+                                      placeholder="Entrer la quantité"
+                                      @keyup="eventProduit"/>
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.qtite)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold" >
+                                      Prix unitaire
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.prixTtc"
+                                      :class="validateRowProduit(produit.prixTtc) ? 'form-control is-invalid' : 'form-control'"
+                                      placeholder="Entrer le prix"
+                                      @keyup="eventProduit"/>
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.prixTtc)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Prix HT
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.prixHt"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Montant HT
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.montantHt"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Taxe S.
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.taxeSpecifique"
+                                      class="form-control"
+                                      placeholder=""
+                                      @keyup="eventProduit"
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  
                                 </div>
+                                <div class="row gx-1">
+                                  <div class="col-1">
+                                    <label class="d-block text-black fw-semibold">
+                                      Type RSE
+                                    </label>
+                                    <Multiselect
+                                      :options="['%', 'MT']"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      v-model="produit.typeRemise"
+                                      placeholder="..."
+                                      @select="eventProduit"
+                                    />
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Valeur remise
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.valeurRemise"
+                                      class="form-control"
+                                      placeholder=""
+                                      @keyup="eventProduit"
+                                    />
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      MT Remise
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.remise"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      MT. HT Ap Rse
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.montantHtApresRemise"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      MT. TVA
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.montantTva"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      MT. TTC
+                                    </label>
+                                    <input
+                                      type="text"
+                                      v-model="produit.montantTtc"
+                                      :readonly="true"
+                                      class="form-control"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback"></span>
+                                  </div>
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Magasin
+                                    </label>
+                                    <Multiselect
+                                      :options="magasin1Options"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      v-model="produit.magasin"
+                                      placeholder=""
+                                    />
+                                    <span class="invalid-feedback" v-if="validateRowProduit(produit.magasin)">
+                                      Champ obligatoire
+                                    </span>
+                                  </div>
+                                  
+                                  <div class="col">
+                                    <label class="d-block text-black fw-semibold">
+                                      Stock
+                                    </label>
+                                    <p class="mb-1">Logigique: 0</p>
+                                    <p class="pt-0">Physique: 0</p>
+                                  </div>
+                                  <!-- <div class="col pe-0">
+                                    <label class="d-block text-black fw-semibold">
+                                      ACTIONS
+                                    </label>
+                                    <div class="button-container" style="white-space: nowrap">
+                                      <button
+                                        type="button"
+                                        class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                        @click="removeRowProduit(index)"
+                                      >
+                                      <i class="icofont icofont-ui-delete"></i>
+                                      </button>
+                                    </div>
+                                  </div> -->
+                                </div>
+                              </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-
                       <div
                         class="tab-pane fade p-10"
                         id="home2-tab-pane"
@@ -632,8 +575,7 @@
                             </div>
                             <div>
                               <div
-                                class="row d-flex align-items-center justify-content-between mt-10"
-                              >
+                                class="row d-flex align-items-center justify-content-between mt-10">
                                 <div class="col-md-3">
                                   <label class="d-block text-black fw-semibold">
                                     Titre <span class="text-danger">*</span>
@@ -641,8 +583,7 @@
                                 </div>
                                 <div class="col-md-3">
                                   <label class="d-block text-black fw-semibold"
-                                    >Description</label
-                                  >
+                                    >Description</label>
                                 </div>
                                 <div class="col-md-2">
                                   <label class="d-block text-black fw-semibold">
@@ -728,9 +669,125 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
+          <div class="table-responsive">
+            <table class="table table-fixed text-nowrap align-middle mb-0 table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col" class="produit">
+                    Produit
+                  </th>
+                  <th scope="col" class="quantite">
+                    Quantité
+                  </th>
+                  <th scope="col" class="prix-unitaire">
+                    Prix unitaire
+                  </th>
+                  <th
+                    scope="col"
+                    class=""
+                  >
+                    Prix HT
+                  </th>
+                  <th
+                    scope="col"
+                    class=""
+                  >
+                    Montant HT
+                  </th>
+                  <th scope="col" class="taxe">
+                    Taxe S.
+                  </th>
+                  <th scope="col" class="type-rse">
+                    Type RSE
+                  </th>
+                  <th scope="col" class="vente-rse">
+                    Vente / RSE
+                  </th>
+                  <th
+                    scope="col"
+                    class=""
+                  >
+                    MT Remise
+                  </th>
+                  <th scope="col">
+                    MT. HT Ap Rse
+                  </th>
+                  <th
+                    scope="col"
+                    class=""
+                  >
+                    MT. TVA
+                  </th>
+                  <th
+                    scope="col"
+                    class=" text pe-0"
+                  >
+                    MT. TTC
+                  </th>
+                  <th scope="col" class="magasin">
+                    Magasin
+                  </th>
+                  <th scope="col" class="actions pe-0">
+                    ACTIONS
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(produit, index) in produits" :key="index">
+                  <td class="produit-col">
+                    {{ produit.libelleProduit }}
+                  </td>
+                  <td class="quantite-col">
+                    {{ produit.qtite }}
+                  </td>
+                  <td class="prix-unitaire-col">
+                    {{ produit.prixTtc }}
+                  </td>
+                  <td class="taxe-col">
+                    {{ produit.prixHt }}
+                  </td>
+                  <td class="taxe-col">
+                    {{produit.montantHt}}
+                  </td>
+                  <td class="taxe-col">
+                    {{produit.taxeSpecifique}}
+                  </td>
+                  <td class="type-rse-col">
+                    {{produit.typeRemise}}
+                  </td>
+                  <td class="vente-rse-col">
+                    {{produit.valeurRemise}}
+                  </td>
+                  <td class="taxe-col">
+                    {{produit.remise}}
+                  </td>
+                  <td class="taxe-col">
+                    {{produit.montantHtApresRemise}}
+                  </td>
+                  <td class="taxe-col">
+                    {{produit.montantTva}}
+                  </td>
+                  <td class="taxe-col">
+                    {{produit.montantTtc}}
+                  </td>
+                  <td class="magasin-col">
+
+                  </td>
+                  <td class="actions-col pe-0">
+                    <div class="button-container" style="white-space: nowrap">
+                      <button
+                        type="button"
+                        class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                        @click="removeRowProduit(index)"
+                      >
+                      <i class="icofont icofont-ui-delete"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>   
 
           <div class="col-md-12 mt-5">
             
@@ -785,116 +842,12 @@
                 <li><a class="dropdown-item" href="#">Modèle 2</a></li>
                 </ul>
             </div>
-            <!-- <div class="d-flex align-items-center">
-              <button
-                class="btn btn-success me-3"
-                type="submit"
-                :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable || isDisableElement }"
-              >
-                Ajouter une vente
-              </button>
-              <router-link
-                to="/liste-ventes"
-                class="btn btn-danger"
-                ><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                ></i>
-                <span class="position-relative"></span>Annuler</router-link
-              >
-            </div> -->
           </div>
           </div>
         </div>
       </Form>
     </div>
   </div>
-
-  <!-- <div
-    class="modal fade createNewModal"
-    id="ViewProduitModal"
-    tabindex="-1"
-    ref="addViewProduitModalRef"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-15 p-md-40">
-        <div class="modal-header d-block ps-0 pe-0 pt-0 pb-15 pb-md-25">
-          <h5 v-if="produitShow" class="modal-title fw-bold text-black">
-            Informations supplémentaires sur: {{ produitShow.split("|")[1] }}
-          </h5>
-        </div>
-        <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
-          <div class="card-body p-15 p-sm-20 p-md-25">
-            <div class="table-responsive">
-              <table class="table text-nowrap align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      Prix HT
-                    </th>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      Montant HT
-                    </th>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      Remise
-                    </th>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      MT. HT Ap Rse
-                    </th>
-                    <th
-                      scope="col"
-                      class=""
-                    >
-                      MT. TVA
-                    </th>
-                    <th
-                      scope="col"
-                      class=" text pe-0"
-                    >
-                      MT. TTC
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-if="produitShow">
-                    <td class="col-md-6">aa</td>
-
-                    <td class="col-md-6">aa</td>
-
-                    <td class="col-md-6">aa</td>
-
-                    <td class="col-md-6">aa</td>
-
-                    <td class="col-md-6">aa</td>
-                    <td class="col-md-6">aa</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <button
-          type="button"
-          class="btn-close shadow-none"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-    </div>
-  </div> -->
 
   <AddClientModal @getclient="getClient" />
 </template>
@@ -909,6 +862,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import Multiselect from "@vueform/multiselect";
 import AddClientModal from "./AddClientModal.vue";
+import { ProduitSelect } from "@/models/Produit";
 
 export default defineComponent({
   name: "AddVente",
@@ -921,9 +875,7 @@ export default defineComponent({
   },
   setup: () => {
     const venteSchema = Yup.object().shape({
-      typeCommande: Yup.string().required(
-        "Le type de commande est obligatoire"
-      ),
+      typeCommande: Yup.string().required("Le type de commande est obligatoire"),
       typeFacture: Yup.string().required("Le type de facture est obligatoire"),
       tauxAIB: Yup.string().required("Le taux est obligatoire"),
       montantRecu: Yup.string().when([], (value, schema) => {
@@ -931,17 +883,6 @@ export default defineComponent({
           ? schema.required("Le montant est obligatoire")
           : schema.notRequired();
       }),
-      //   produits: Yup.array().of(
-      //     Yup.object().shape({
-      //         produit: Yup.string().required('Le produit est obligatoire'),
-      //         qtite: Yup.number().required('La quantité est obligatoire').min(1, 'La quantité doit être supérieure à 0'),
-      //         prixUnitaire: Yup.number().required('Le prix unitaire est obligatoire'),
-      //         taxe: Yup.number().required('La taxe est obligatoire'),
-      //         typeRSE: Yup.string().required('Le type RSE est obligatoire'),
-      //         venteRSE: Yup.string().required('Le type RSE est obligatoire'),
-      //         magasin: Yup.string().required('Le magasin est obligatoire')
-      //     })
-      // )
     });
 
     const venteForm = ref<Vente | null>(null);
@@ -957,6 +898,17 @@ export default defineComponent({
     const selectedClientId = ref(0);
     const clientsOps = ref<Array<{ value: any; label: string }>>([]);
     const clientCharger = ref(null);
+
+    const totalsomme = ref(0.0);
+    const totalsommeremise = ref(0.0);
+    const totaltva = ref(0.0);
+    const totalts = ref(0.0);
+    const totalttc = ref(0.0);
+    const totalaib = ref(0.0);
+    const valeurAib = ref(0);
+
+
+    const produits = ref<Array<ProduitSelect>>([]);
 
     const getClient = async (values: {
       id: any;
@@ -995,12 +947,12 @@ export default defineComponent({
 
     const fetchProduits = async () => {
       try {
-        const response = await axios.get("/produits");
-        const produitsData = response.data.data.data;
+        const response = await axios.get("/produitconditionnements");
+        const produitsData = response.data.data;
         produitsss.value = produitsData;
-        produitOptions.value = produitsData.map((produit) => ({
-          value: produit.id + "|" + produit.nomProd + "|" + produit.prixVente,
-          label: `${produit.refProd} - ${produit.nomProd}`,
+        produitOptions.value = produitsData.map((produitconditionnements) => ({
+          value: produitconditionnements.id+"|"+ produitconditionnements.produit.nomProd + "|" + produitconditionnements.prixVenteHt +"|"+ produitconditionnements.prixVenteTtc,
+          label: `${produitconditionnements.produit.nomProd} [ ${produitconditionnements.conditionnement.libelle} ]`,
         }));
       } catch (error) {
         //
@@ -1008,9 +960,16 @@ export default defineComponent({
     };
 
     const selectProd = (selectedProduit, produit) => {
+      console.log(selectedProduit,"selectedProduit");
       produit.qtite = 1;
-      produit.prixUnitaire = selectedProduit.split("|")[2];
-      // produit.prixUnitaire = selectedProduit.split("|")[3];
+      produit.prixTtc = selectedProduit.split("|")[3];
+      produit.prixHt = selectedProduit.split("|")[2];
+      produit.libelleProduit = selectedProduit.split("|")[1];
+      produit.montantHt = produit.prixHt;
+      produit.montantTva = produit.prixTtc - produit.prixHt;
+      produit.montantTtc = produit.prixTtc;
+      produit.montantTs = 0.0;
+      produit.montantHtApresRemise = produit.prixHt;
     };
 
     const fetchClient = async () => {
@@ -1059,14 +1018,9 @@ export default defineComponent({
     });
 
     const addVente = async (values, { resetForm }) => {
-      values.produits = produits.map((produit) => ({
+      values.produits = produits.value.map((produit) => ({
         produit: produit.produit.split("|")[0],
-        prixUnitaire: produit.prixUnitaire,
-        qtite: produit.qtite,
-        taxe: produit.taxe,
-        typeRSE: produit.typeRSE,
-        venteRSE: produit.venteRSE,
-        magasin: produit.magasin,
+        typeRemise: produit.typeRemise,
         nomProd: produit.produit.split("|")[2],
       }));
       values.elements = elements.map((element) => ({
@@ -1109,46 +1063,64 @@ export default defineComponent({
 
     const isDisable = ref(true);
 
-    const produits = reactive([
+    const produit = reactive(
       {
+        commande_clit_id:"",
+        magasin:"",
         produit: "",
-        qtite: 0,
-        prixUnitaire: 0,
-        taxe: 0,
-        typeRSE: "",
-        venteRSE: "",
-        montantTVA: 0,
-        montantTTC: 0,
-        stock: 0,
-        montantHT: "",
-        prixHT: "",
-        magasin: "",
-        remise: "",
-        montantHTRemise: "",
+        qtite: 0.0,
+        prixTtc: 0.0,
+        prixHt: 0.0,
+        taxeSpecifique: 0.0,
+        typeRemise: '',
+        valeurRemise: 0.0,
+        montantHt: 0.0,
+        montantTva: 0.0,
+        montantTtc: 0.0,
+        montantTs:0.0,
+        montantHtApresRemise: 0.0,
+        libelleProduit:"",
+        groupeTaxeProduit:"",
+        carton: 0.0,
+        piece: 0.0,
+        stock: 0.0,
+        remise: 0.0,
+        restAliv: 0.0,
+        taxe:1
       },
-    ]);
+    );
 
-    const addRowProduit = () => {
-      produits.push({
-        produit: "",
-        qtite: 0,
-        prixUnitaire: 0,
-        taxe: 0,
-        typeRSE: "",
-        venteRSE: "",
-        montantTVA: 0,
-        montantTTC: 0,
-        magasin: "",
-        stock: 0, 
-        montantHT: "",
-        prixHT: "",
-        remise: "",
-        montantHTRemise: "",
-      });
-    };
+    async function addRowProduit() {
+      const tproduit = {...produit};
+      produit.commande_clit_id="",
+      produit.magasin="",
+      produit.produit="",
+      produit.qtite=0.0,
+      produit.prixTtc=0.0,
+      produit.prixHt=0.0,
+      produit.taxeSpecifique=0.0,
+      produit.typeRemise='',
+      produit.valeurRemise=0.0,
+      produit.montantHt=0.0,
+      produit.montantTva=0.0,
+      produit.montantTtc=0.0,
+      produit.montantTs=0.0,
+      produit.montantHtApresRemise=0.0,
+      produit.libelleProduit="",
+      produit.groupeTaxeProduit="",
+      produit.carton=0.0,
+      produit.piece=0.0,
+      produit.stock=0.0,
+      produit.remise=0.0,
+      produit.restAliv=0.0;
+      produit.taxe = 1;
+
+      produits.value.push(tproduit);
+      calculeDestotaux();
+    }
 
     const removeRowProduit = (index) => {
-      if (produits.length > 1) produits.splice(index, 1);
+      if (produits.value.length > 1) produits.value.splice(index, 1);
     };
 
     const validateRowProduit = (value) => {
@@ -1156,16 +1128,15 @@ export default defineComponent({
     };
 
     watch(
-      produits,
+      produit,
       (newValue) => {
-        isDisable.value = newValue.some(
-          (produit) =>
-            validateRowProduit(produit.produit) ||
-            validateRowProduit(produit.qtite) ||
-            validateRowProduit(produit.prixUnitaire) ||
-            validateRowProduit(produit.venteRSE) ||
-            validateRowProduit(produit.magasin)
-        );
+        isDisable.value = validateRowProduit(newValue.produit) || validateRowProduit(newValue.qtite) || validateRowProduit(newValue.prixTtc);
+        // newValue.some(
+        //   (produit) =>
+        //     validateRowProduit(newValue.produit) ||
+        //     validateRowProduit(newValue.qtite) ||
+        //     validateRowProduit(newValue.prixTtc)
+        // );
       },
       { deep: true }
     );
@@ -1223,12 +1194,98 @@ export default defineComponent({
       return `${year}-${month}-${day}`;
     };
 
+    //calcule des totaux
+    var calculeDestotaux = () => {
+         totalsomme.value = 0.0;
+         totalsommeremise.value = 0.0;
+         totaltva.value = 0.0;
+         totalts.value = 0.0;
+         totalttc.value = 0.0;
+         produits.value.forEach(produi => {
+            if(produi.montantHt > 0){
+                totalsomme.value += produit.montantHt;
+            }
+            if(produi.montantHtApresRemise > 0){
+                totalsommeremise.value += produi.montantHtApresRemise;
+            }
+            if(produi.prixHt > 0){
+                if(produi.taxe == 0) {
+                    totaltva.value += 0;
+                } else {
+                    totaltva.value += (produi.prixTtc/1.18 )* 0.18 * produi.qtite;
+                }
+            }
+            if(produi.montantTtc > 0){
+                totalttc.value += produi.montantTtc;
+            }
+            if(produi.montantTs > 0){
+                if(produi.taxe == 1){
+                    totalts.value += produi.montantTs / 1.18;
+                    totaltva.value += produi.montantTs / 1.18 * 0.18; 
+                }else {
+                    totalts.value += produi.montantTs;
+                    totaltva.value += 0;
+                }
+            }
+          });
+
+        if(valeurAib.value  != 0) {
+            totalaib.value = (totalsommeremise.value * valeurAib.value)/100
+            totalttc.value += totalaib.value;
+        }
+    }
+
+    
+    const eventProduit =()=>{
+        if(produit.prixTtc && produit.qtite) {
+            let prixremise = produit.prixHt;
+            if(produit.valeurRemise) {
+              if(produit.typeRemise =='%' && produit.valeurRemise != 0) {
+                produit.remise = (produit.prixHt*produit.valeurRemise)/100;
+                prixremise = produit.prixHt- produit.remise;
+              }else if(produit.typeRemise =='MT' && produit.valeurRemise !=0){
+                produit.remise = produit.valeurRemise;
+                prixremise = produit.prixHt-produit.remise; 
+              }
+            }
+            let ts =  produit.taxeSpecifique;
+            let ts_ht = 0;
+            ts = isNaN(ts) ? 0 : ts;
+            if(!isNaN(ts)){
+                 ts_ht = ts /1.18;
+                (produit.taxe != 0)  ? (ts_ht = (ts /1.18)) : (ts_ht = ts);
+            }
+            produit.montantHt = produit.prixHt*produit.qtite;
+            produit.remise = produit.remise*produit.qtite;
+            if(produit.taxe != 0) {
+                produit.montantHtApresRemise = parseInt((((produit.prixHt / 1.18 )- produit.valeurRemise)*produit.qtite + ts_ht).toFixed(0));
+                produit.montantTtc = parseInt(((((produit.prixTtc / 1.18) - produit.valeurRemise)*produit.qtite)*1.18).toFixed(0));
+                produit.montantTva = parseInt((produit.montantTtc - (produit.prixTtc*produit.qtite/1.18) - produit.remise).toFixed(0));
+            } else {
+                produit.montantHtApresRemise= parseInt((((produit.prixTtc / 1.18)- produit.valeurRemise)*produit.qtite + ts_ht).toFixed(0));
+                produit.montantTva = 0;
+                produit.montantTtc = parseInt(((produit.prixTtc - produit.valeurRemise)*produit.qtite).toFixed(0));
+            }
+            produit.montantTtc = parseInt((produit.montantTtc + ts).toFixed(0));
+        } 
+    }
+
+
     return {
+      totalsomme,
+      totalsommeremise,
+      totaltva,
+      totalts,
+      totalttc,
+      totalaib ,
+      valeurAib,
       venteSchema,
       addVente,
       venteForm,
       magasin1Options,
       produits,
+      produit,
+      eventProduit,
       removeRowProduit,
       removeRowElement,
       addRowProduit,
@@ -1311,127 +1368,7 @@ input[readonly] {
   width: 100%;
 }
 
-/* 
-.table-fixed {
-  width: 100%;
-  table-layout: fixed;
+label {
+    margin-bottom: 0.2rem;
 }
-
-.table-fixed th,
-.table-fixed td {
-  vertical-align: middle;
-  padding: 12px 15px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.table-fixed th {
-  background-color: #f8f9fa;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: #495057;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.table-fixed td {
-  background-color: #fff;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.table-fixed .form-control {
-  border-radius: 0;
-  box-shadow: none;
-  border-color: #ced4da;
-}
-
-.table-fixed th.produit,
-.table-fixed td.produit,
-.table-fixed th.quantite,
-.table-fixed td.quantite,
-.table-fixed th.prix-unitaire,
-.table-fixed td.prix-unitaire,
-.table-fixed th.taxe,
-.table-fixed td.taxe,
-.table-fixed th.type-rse,
-.table-fixed td.type-rse,
-.table-fixed th.vente-rse,
-.table-fixed td.vente-rse,
-.table-fixed th.montant-tva,
-.table-fixed td.montant-tva,
-.table-fixed th.montant-ttc,
-.table-fixed td.montant-ttc,
-.table-fixed th.magasin,
-.table-fixed td.magasin 
-.table-fixed th.stock,
-
-.table-fixed th.actions,
-.table-fixed td.actions {
-  width: 100px;
-}
-
-.table-fixed .Multiselect {
-  width: 100%;
-}
-
-.table-fixed .form-control {
-  width: 100%;
-}
-
-.table-fixed .form-control.is-invalid {
-  border-color: #e3342f;
-}
-
-.table-fixed .invalid-feedback {
-  display: block;
-  color: #e3342f;
-}
-
-.table-hover tbody tr:hover td {
-  background-color: #f1f1f1;
-}
-
-.btn {
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-  border-color: #1e7e34;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
-  border-color: #bd2130;
-}
-
-.button-container {
-  display: flex;
-  align-items: center;
-}
-
-.btn-icon {
-  padding: 0.5rem 0.8rem;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-}
-
-.btn-icon:hover {
-  background-color: #f0f0f0;
-}
-
-.flaticon {
-  font-size: 1.2rem;
-} */
 </style>

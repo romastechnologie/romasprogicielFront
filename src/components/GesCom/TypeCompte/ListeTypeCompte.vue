@@ -80,13 +80,9 @@
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
               >
-              <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
-                    <li >
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                    <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
@@ -100,7 +96,7 @@
                         Modifier
                       </a>
                     </li>
-                    <li >
+                    <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);" @click="suppression(typeCompte.id,typeComptes,'typeComptes','typeCompte')"
@@ -112,7 +108,6 @@
                       </a>
                     </li>
                   </ul>
-              </div>
               </td>
             </tr>
           </tbody>
@@ -180,7 +175,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllTypeCompte(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`typeComptes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`typecomptes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       .then(({ data }) => {
         typeComptes.value = data.data.data;
         totalPages.value = data.data.totalPages;

@@ -3,7 +3,7 @@
   <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="pointVenteForm" @submit="editPointVente" :validation-schema="pointVenteSchema" :initial-values="pointVenteForm">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Nom point de vente <span class="text-danger">*</span>
@@ -13,7 +13,7 @@
                 <ErrorMessage name="nomPointVente" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Adresse <span class="text-danger">*</span>
@@ -23,7 +23,7 @@
                 <ErrorMessage name="adresse" class="text-danger"/>
               </div>
             </div>
-              <div class="col-md-6">
+              <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Nom gérant <span class="text-danger">*</span>
@@ -42,7 +42,7 @@
               </div>
               <ErrorMessage name="personnel" class="text-danger"/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Société <span class="text-danger">*</span>
@@ -61,7 +61,7 @@
               </div>
               <ErrorMessage name="societe" class="text-danger"/>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
@@ -69,7 +69,7 @@
                 >
                     Ajouter un pointVente
                 </button>
-                <router-link to="/liste-pointVentes" 
+                <router-link to="/point-ventes/liste-point-ventes" 
                     class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                     <span class="position-relative"></span>Annuler</router-link>
               </div>

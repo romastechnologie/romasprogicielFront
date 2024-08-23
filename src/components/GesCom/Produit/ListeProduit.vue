@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/ajouter-produit"
+          to="/produits/ajouter-produit"
         >
           <i class="fa fa-plus-circle"></i>
           Ajouter un produit
@@ -95,24 +95,21 @@
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                   
                     <!-- <li >
                       <router-link :to="{ name: 'EditProduitPage', params: { id: produit.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>
                     </li> -->
-                    <li>
-                        <router-link :to="{ name: 'ViewProduitPage', params: { id: produit.id } }" class="dropdown-item d-flex align-items-center">
+                    <li class="dropdown-item d-flex align-items-center">
+                        <router-link :to="{ name: 'ViewProduit', params: { id: produit.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
                         </router-link>
                     </li>
-                    <li >
+                    <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(produit.id,produits,'produits',`l\'produit ${produit.id}`)">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
@@ -120,7 +117,6 @@
                       </a>
                     </li>
                   </ul>
-              </div>
               </td>
             </tr>
           </tbody>
