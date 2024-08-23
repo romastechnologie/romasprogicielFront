@@ -1,9 +1,10 @@
 <template>
-    <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-      <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-          <Form ref="personnelForm" @submit="addPersonnel" :validation-schema="personnelSchema">
-          <div class="row">
-              <div class="col-md-4 mb-3">
+    <div class="col-xxl-9 col-xl-8 box-col-8 position-relative">
+    <div class="tab-content" id="add-product-pills-tabContent">
+        <div class="tab-pane fade show active" id="info-personnel" role="tabpanel" aria-labelledby="info-personnel-tab">
+        <div class="sidebar-body">
+            <form class="row g-2"></form>
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
                   Nom <span class="text-danger">*</span>
@@ -39,8 +40,8 @@
                   </Field>
                   <ErrorMessage name="sexe" class="text-danger"/>
                 </div>
-              </div>
-              <div class="col-md-4 mb-3">
+            </div>
+            <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
                     Situation matrimoniale <span class="text-danger">*</span>
@@ -52,12 +53,12 @@
                     v-model = "field.value"
                     v-bind = "field"
                     placeholder="Sélectionner la situation"
-                    />
+                            />
                   </Field>
                   <ErrorMessage name="situationMatrimoniale" class="text-danger"/>
                 </div>
-              </div>
-              <div class="col-md-4 mb-3">
+            </div>
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
                   Photo<span class="text-danger">*</span>
@@ -69,7 +70,7 @@
                 <ErrorMessage name="urlImage" class="text-danger"/>
               </div>
             </div>
-              <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
                     Civilite <span class="text-danger">*</span>
@@ -84,18 +85,7 @@
                     />
                   </Field>
                   <ErrorMessage name="civilite" class="text-danger"/>
-                </div>
-              </div>
-              
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Adresse <span class="text-danger">*</span>
-                </label>
-                <Field name="adresse" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'adresse"/>
-                <ErrorMessage name="adresse" class="text-danger"/>
-              </div>
+                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -106,8 +96,8 @@
                   class="form-control shadow-none fs-md-15 text-black"/>
                 </div>
               <ErrorMessage name="dateNais" class="text-danger"/>
-              </div>
-              <div class="col-md-4 mt-3">
+            </div>
+            <div class="col-md-4 mt-3">
                     <label for="dateEmbauche" class="form-label"> Date d'embauche<span class="text-danger">*</span></label>
                     <Field name="dateEmbauche"  class="form-control" type="Date"/>
                     <ErrorMessage name="dateEmbauche" class="text-danger" />
@@ -125,36 +115,6 @@
             <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                  Relevé d'identité bancaire 
-                </label>
-                <Field name="releveIdentiteBancaire" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le relevé"/>
-                <ErrorMessage name="releveIdentiteBancaire" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Code Iban 
-                </label>
-                <Field name="codeIban" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
-                <ErrorMessage name="codeIban" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Code Swift 
-                </label>
-                <Field name="codeSwift" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
-                <ErrorMessage name="codeSwift" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
                   Nationalité<span class="text-danger">*</span>
                 </label>
                 <Field name="nationalite" type="text" 
@@ -162,14 +122,254 @@
                 <ErrorMessage name="nationalite" class="text-danger"/>
               </div>
             </div>
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Religion <span class="text-danger">*</span>
+              </label>
+              <Field name="religions" v-model="religions" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="religionOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner la religion"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">La religion est obligatoire</span>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Ethnie <span class="text-danger">*</span>
+              </label>
+              <Field name="ethnies" v-model="ethnies" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="ethnieOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">L'ethnie est obligatoire</span>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Service <span class="text-danger">*</span>
+              </label>
+              <Field name="services" v-model="services" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le service"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le service est obligatoire</span>
+            </div>
+        </div>
+        <div class="col-md-12 mb-md-25">
+            <div class="accordion" id="basicAccordion">
+              <div class="accordion-item mb-0 bord1">
+                <h2 class="accordion-header" id="headingOne">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#basicCollapseOne"
+                    aria-expanded="false"
+                    aria-controls="basicCollapseOne"
+                  >
+                    Choisir des fonctions
+                  </button>
+                </h2>
+                <div
+                  id="basicCollapseOne"
+                  class="accordion-collapse collapse"
+                  data-bs-parent="#basicAccordion"
+                >
+                <div class="accordion-body">
+
+                    <div class="tab-content" id="myTabContent">
+                      <div
+                        class="tab-pane fade show active p-10"
+                        id="home-tab-pane"
+                        role="tabpanel"
+                        tabindex="0"
+                      >
+                        <div class="row">
+                          <div class="border border-primary mb-10">
+                            <div
+                              class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                              style="background-color: #0a59a4"
+                            >
+                              <div class="col-md-7">
+                                <h3 class="fs-4 text-white">
+                                  Fonctions
+                                </h3>
+                              </div>
+                              <div class="col-md-5">
+                                <div class="d-flex float-end">
+                                  <button
+                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                                    type="button"
+                                    :class="{ 'cursor-not-allowed': isDisable }"
+                                    :disabled="isDisable"
+                                    @click="addRowFonction()"
+                                  >
+                                    <i
+                                      class="fa fa-plus-circle position-relative ms-5 fs-12"
+                                    ></i>
+                                    Ajouter une fonction
+                                  </button>
+                                  <router-link
+                                    to="/liste-mouvements"
+                                  ></router-link>
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <div
+                                class="row d-flex align-items-center justify-content-between mt-10"
+                              >
+                                <div class="col-md-2">
+                                  <label class="d-block text-black fw-semibold">
+                                    Etat
+                                    <span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="d-block text-black fw-semibold">
+                                    Fonction
+                                    <span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-2">
+                                  <label
+                                    class="d-block text-black fw-semibold mb-10"
+                                  >
+                                    Date de début <span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-2">
+                                  <label
+                                    class="d-block text-black fw-semibold mb-10"
+                                  >
+                                    Date de fin <span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-3">
+                                  <label
+                                    class="d-block text-black fw-semibold mb-10"
+                                  >
+                                    Action
+                                  </label>
+                                </div>
+                              </div>
+                              <hr class="mt-0" />
+                              <div
+                                class="row"
+                                v-for="(fonction, index) in fonctions"
+                                :key="index"
+                              >
+                                <div class="col-md-2 mb-2">
+                                  <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
+                                    <label
+                                      for="estActif"
+                                      class="form-check-label fw-medium position-relative top-1"
+                                    >
+                                      Est Actif ?
+                                    </label>
+                                    <input
+                                      name="estActif"
+                                      v-model="fonction.estActif"
+                                      type="checkbox"
+                                      class="form-check-input shadow-none"
+                                    />
+                                    <ErrorMessage name="estActif" class="text-danger" />
+                                  </div>
+                                </div>
+                                <div class="col-md-3 mb-2">
+                                  <div class="">
+                                    <Multiselect
+                                      :options="fonctionOptions"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      v-model="fonction.fonction"
+                                      placeholder="Sélectionner la Fonction"
+                                    />
+                                    <div
+                                      class="invalid-feedback"
+                                      v-if="valideteRowFonction(fonction.fonction)"
+                                    >
+                                      La fonction est obligatoire.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                  <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                    <input
+                                      v-model="fonction.dateDebut"
+                                      type="date"
+                                      class="form-control shadow-none fs-md-15 text-black"
+                                      placeholder=""
+                                    />
+                                    <div
+                                      class="invalid-feedback"
+                                      v-if="valideteRowFonction(fonction.dateDebut)"
+                                    >
+                                      La date de début est obligatoire.
+                                    </div>
+                                  </div>
+                                  
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                  <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                    <input
+                                      v-model="fonction.dateFin"
+                                      type="date"
+                                      class="form-control shadow-none fs-md-15 text-black"
+                                      placeholder=""
+                                    />
+                                  </div>
+                                  <div
+                                      class="invalid-feedback"
+                                      v-if="valideteRowFonction(fonction.dateFin)"
+                                    >
+                                      La date de fin est obligatoire.
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-2">
+                                  <button
+                                    class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                    type="button"
+                                    @click="removeRowFonction(index)"
+                                  >
+                                    <i
+                                      class="fa fa-trash-o lh-1 me-1 position-relative top-2"
+                                    ></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+
+        <div class="tab-pane fade" id="adresse-contact" role="tabpanel" aria-labelledby="adresse-contact-tab">
+        <div class="sidebar-body">
             <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                  Nombre d'enfants<span class="text-danger">*</span>
+                  Adresse <span class="text-danger">*</span>
                 </label>
-                <Field name="nombreEnfant" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nombre d'enfants"/>
-                <ErrorMessage name="nombreEnfant" class="text-danger"/>
+                <Field name="adresse" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'adresse"/>
+                <ErrorMessage name="adresse" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -182,35 +382,147 @@
                 <ErrorMessage name="codeIban" class="text-danger"/>
               </div>
             </div>
+            
+          <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Téléphone 1<span class="text-danger">*</span>
+                </label>
+                <Field name="tel" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+                <ErrorMessage name="tel" class="text-danger"/>
+              </div>
+            </div>
             <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Téléphone 2
+                </label>
+                <Field name="tel2" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+                <ErrorMessage name="tel2" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Email <span class="text-danger">*</span>
+                </label>
+                <Field name="email" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'email"/>
+                <ErrorMessage name="email" class="text-danger"/>
+              </div>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="tab-pane fade" id="info-conjoint" role="tabpanel" aria-labelledby="info-conjoint-tab">
+        <div class="sidebar-body">
+            <form>
+                <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Nom du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="nomCon" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom du conjoint "/>
+                <ErrorMessage name="nomCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                 Prenom du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="prenomCon" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom du conjoint "/>
+                <ErrorMessage name="prenomCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Date de Naissance du conjoint
+                </label>
+                <Field name="dateNaissanceCon" type="date" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date de naissance du conjoint "/>
+                <ErrorMessage name="dateNaissanceCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Nationalité du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="nationaliteCon" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la nationalité du conjoint "/>
+                <ErrorMessage name="nationaliteCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Téléphone du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="telephoneCon" type="string" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone du conjoint "/>
+                <ErrorMessage name="telephoneCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Passport du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="passportCon" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la nationalité du conjoint "/>
+                <ErrorMessage name="passportCon" class="text-danger"/>
+              </div>
+            </div>
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Religion <span class="text-danger">*</span>
+                Religion Du Conjoint<span class="text-danger">*</span>
               </label>
               <Field name="religions" v-model="religions" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="religionOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner la religion"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner la religion du conjoint"
                 label="label" track-by="label" />
               </Field>
               <span class="text-danger" v-if="showMErr">La religion est obligatoire</span>
             </div>
           </div>
-
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Ethnie <span class="text-danger">*</span>
+                Ethnie Du Conjoint<span class="text-danger">*</span> 
               </label>
               <Field name="ethnies" v-model="ethnies" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="ethnieOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie du conjoint"
                 label="label" track-by="label" />
               </Field>
               <span class="text-danger" v-if="showMErr">L'ethnie est obligatoire</span>
             </div>
-          </div>
-
+          </div>  
           <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Nombre d'enfants<span class="text-danger">*</span>
+                </label>
+                <Field name="nombreEnfant" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nombre d'enfants"/>
+                <ErrorMessage name="nombreEnfant" class="text-danger"/>
+              </div>
+            </div>
+            </form>
+
+
+        <div class="tab-pane fade" id="info-sante-personnel" role="tabpanel" aria-labelledby="info-sante-personnel-tab">
+        <div class="sidebar-body">
+            <form>
+                <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
                   Taille<span class="text-danger">*</span>
@@ -389,136 +701,47 @@
                   <ErrorMessage name="jambeDroite" class="text-danger"/>
                 </div>
               </div>
-          <div class="col-md-4 mb-3">
+            </form>
+
+        <div class="tab-pane fade" id="info-bancaire" role="tabpanel" aria-labelledby="info-bancaire-tab">
+        <div class="sidebar-body">
+            <form>
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                  Nom du Conjoint<span class="text-danger">*</span>
+                  Relevé d'identité bancaire 
                 </label>
-                <Field name="nomCon" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom du conjoint "/>
-                <ErrorMessage name="nomCon" class="text-danger"/>
+                <Field name="releveIdentiteBancaire" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le relevé"/>
+                <ErrorMessage name="releveIdentiteBancaire" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                 Prenom du Conjoint<span class="text-danger">*</span>
+                  Code Iban 
                 </label>
-                <Field name="prenomCon" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom du conjoint "/>
-                <ErrorMessage name="prenomCon" class="text-danger"/>
+                <Field name="codeIban" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
+                <ErrorMessage name="codeIban" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                  Date de Naissance du conjoint
+                  Code Swift 
                 </label>
-                <Field name="dateNaissanceCon" type="date" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date de naissance du conjoint "/>
-                <ErrorMessage name="dateNaissanceCon" class="text-danger"/>
+                <Field name="codeSwift" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
+                <ErrorMessage name="codeSwift" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Nationalité du Conjoint<span class="text-danger">*</span>
-                </label>
-                <Field name="nationaliteCon" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la nationalité du conjoint "/>
-                <ErrorMessage name="nationaliteCon" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Téléphone du Conjoint<span class="text-danger">*</span>
-                </label>
-                <Field name="telephoneCon" type="string" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone du conjoint "/>
-                <ErrorMessage name="telephoneCon" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Passport du Conjoint<span class="text-danger">*</span>
-                </label>
-                <Field name="passportCon" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la nationalité du conjoint "/>
-                <ErrorMessage name="passportCon" class="text-danger"/>
-              </div>
-            </div>
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Religion Du Conjoint<span class="text-danger">*</span>
-              </label>
-              <Field name="religions" v-model="religions" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="religionOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner la religion du conjoint"
-                label="label" track-by="label" />
-              </Field>
-              <span class="text-danger" v-if="showMErr">La religion est obligatoire</span>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Ethnie Du Conjoint<span class="text-danger">*</span> 
-              </label>
-              <Field name="ethnies" v-model="ethnies" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="ethnieOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie du conjoint"
-                label="label" track-by="label" />
-              </Field>
-              <span class="text-danger" v-if="showMErr">L'ethnie est obligatoire</span>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Service <span class="text-danger">*</span>
-              </label>
-              <Field name="services" v-model="services" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le service"
-                label="label" track-by="label" />
-              </Field>
-              <span class="text-danger" v-if="showMErr">Le service est obligatoire</span>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Téléphone 1<span class="text-danger">*</span>
-                </label>
-                <Field name="tel" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
-                <ErrorMessage name="tel" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Téléphone 2
-                </label>
-                <Field name="tel2" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
-                <ErrorMessage name="tel2" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Email <span class="text-danger">*</span>
-                </label>
-                <Field name="email" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'email"/>
-                <ErrorMessage name="email" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
+            </form>
+
+        <div class="tab-pane fade" id="personne-acontacter" role="tabpanel" aria-labelledby="personne-acontacter-tab">
+        <div class="sidebar-body">
+            <form>
+                <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
                   Nom de la personne à contacter
@@ -531,7 +754,7 @@
             <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                  Prénom personnel à contacter
+                  Prénom personne à contacter
                 </label>
                 <Field name="prenomPersonneAContacter" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom"/>
@@ -559,219 +782,14 @@
               </div>
             </div>
 
-            <div class="col-md-12 mb-md-25">
-            <div class="accordion" id="basicAccordion">
-              <div class="accordion-item mb-0 bord1">
-                <h2 class="accordion-header" id="headingOne">
-                  <button
-                    class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#basicCollapseOne"
-                    aria-expanded="false"
-                    aria-controls="basicCollapseOne"
-                  >
-                    Choisir des fonctions
-                  </button>
-                </h2>
-                <div
-                  id="basicCollapseOne"
-                  class="accordion-collapse collapse"
-                  data-bs-parent="#basicAccordion"
-                >
-                  <div class="accordion-body">
-
-                    <div class="tab-content" id="myTabContent">
-                      <div
-                        class="tab-pane fade show active p-10"
-                        id="home-tab-pane"
-                        role="tabpanel"
-                        tabindex="0"
-                      >
-                        <div class="row">
-                          <div class="border border-primary mb-10">
-                            <div
-                              class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                              style="background-color: #0a59a4"
-                            >
-                              <div class="col-md-7">
-                                <h3 class="fs-4 text-white">
-                                  Fonctions
-                                </h3>
-                              </div>
-                              <div class="col-md-5">
-                                <div class="d-flex float-end">
-                                  <button
-                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                    type="button"
-                                    :class="{ 'cursor-not-allowed': isDisable }"
-                                    :disabled="isDisable"
-                                    @click="addRowFonction()"
-                                  >
-                                    <i
-                                      class="fa fa-plus-circle position-relative ms-5 fs-12"
-                                    ></i>
-                                    Ajouter une fonction
-                                  </button>
-                                  <router-link
-                                    to="/liste-mouvements"
-                                  ></router-link>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div
-                                class="row d-flex align-items-center justify-content-between mt-10"
-                              >
-                                <div class="col-md-2">
-                                  <label class="d-block text-black fw-semibold">
-                                    Etat
-                                    <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-3">
-                                  <label class="d-block text-black fw-semibold">
-                                    Fonction
-                                    <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-10"
-                                  >
-                                    Date de début <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-10"
-                                  >
-                                    Date de fin <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-3">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-10"
-                                  >
-                                    Action
-                                  </label>
-                                </div>
-                              </div>
-                              <hr class="mt-0" />
-                              <div
-                                class="row"
-                                v-for="(fonction, index) in fonctions"
-                                :key="index"
-                              >
-                                <div class="col-md-2 mb-2">
-                                  <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
-                                    <label
-                                      for="estActif"
-                                      class="form-check-label fw-medium position-relative top-1"
-                                    >
-                                      Est Actif ?
-                                    </label>
-                                    <input
-                                      name="estActif"
-                                      v-model="fonction.estActif"
-                                      type="checkbox"
-                                      class="form-check-input shadow-none"
-                                    />
-                                    <ErrorMessage name="estActif" class="text-danger" />
-                                  </div>
-                                </div>
-                                <div class="col-md-3 mb-2">
-                                  <div class="">
-                                    <Multiselect
-                                      :options="fonctionOptions"
-                                      :searchable="true"
-                                      track-by="label"
-                                      label="label"
-                                      v-model="fonction.fonction"
-                                      placeholder="Sélectionner la Fonction"
-                                    />
-                                    <div
-                                      class="invalid-feedback"
-                                      v-if="valideteRowFonction(fonction.fonction)"
-                                    >
-                                      La fonction est obligatoire.
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-md-2 mb-2">
-                                  <div class="form-group mb-5 mb-sm-5 mb-md-5">
-                                    <input
-                                      v-model="fonction.dateDebut"
-                                      type="date"
-                                      class="form-control shadow-none fs-md-15 text-black"
-                                      placeholder=""
-                                    />
-                                    <div
-                                      class="invalid-feedback"
-                                      v-if="valideteRowFonction(fonction.dateDebut)"
-                                    >
-                                      La date de début est obligatoire.
-                                    </div>
-                                  </div>
-                                  
-                                </div>
-                                <div class="col-md-2 mb-2">
-                                  <div class="form-group mb-5 mb-sm-5 mb-md-5">
-                                    <input
-                                      v-model="fonction.dateFin"
-                                      type="date"
-                                      class="form-control shadow-none fs-md-15 text-black"
-                                      placeholder=""
-                                    />
-                                  </div>
-                                  <div
-                                      class="invalid-feedback"
-                                      v-if="valideteRowFonction(fonction.dateFin)"
-                                    >
-                                      La date de fin est obligatoire.
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-2">
-                                  <button
-                                    class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                    type="button"
-                                    @click="removeRowFonction(index)"
-                                  >
-                                    <i
-                                      class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                                    ></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-            <div class="col-md-12 mt-3 mb-3">
-              <div class="d-flex align-items-center ">
-                <button
-                  class="btn btn-success me-3"
-                  type="submit"
-                   :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable }"
-                >
-                    Ajouter un personnel
-                </button>
-                <router-link to="/personelles/liste-personnels" 
-                    class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                    <span class="position-relative"></span>Annuler</router-link>
-              </div>
-            </div>
-      </div>
-    </Form>
-  </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </template>
 
@@ -1026,3 +1044,41 @@ export default defineComponent({
   background-color: rgb(94, 191, 233);
 }
 </style>
+
+<script lang="ts" setup>
+import { ref, defineAsyncComponent } from 'vue'
+const productDetail = defineAsyncComponent(() => import("@/components/theme/ecommerce/addproduct/productDetail.vue"))
+const ProductGallery = defineAsyncComponent(() => import("@/components/theme/ecommerce/addproduct/ProductGallery.vue"))
+const ProductCategory = defineAsyncComponent(() => import("@/components/theme/ecommerce/addproduct/ProductCategory.vue"))
+const SellingPrices = defineAsyncComponent(() => import("@/components/theme/ecommerce/addproduct/SellingPrices.vue"))
+const AdvanceDetail = defineAsyncComponent(() => import("@/components/theme/ecommerce/addproduct/AdvanceDetail.vue"))
+import { category, status } from "@/core/data/ecommerce"
+const CategoryModal = defineAsyncComponent(() => import("@/components/theme/ecommerce/addproduct/CategoryModal.vue"))
+let date = ref();
+let tags = ref<string[]>(['watches', 'sports', 'clothes', 'bottles'])
+import DropZone from "dropzone-vue";
+</script>
+<style scoped>
+@import 'dropzone-vue/dist/dropzone-vue.common.css';
+</style>
+
+</script>
+/*<script lang="ts" setup>
+import { reactive, defineAsyncComponent } from 'vue'
+const state = reactive({
+    content: '',
+    _content: '',
+    editorOption: {
+        placeholder: 'core',
+    },
+    disabled: false
+})
+const onEditorChange = (html: string) => {
+
+    state._content = html
+}
+setTimeout(() => {
+    state.disabled = true
+}, 2000)
+</script>*/
+
