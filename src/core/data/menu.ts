@@ -296,12 +296,12 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/personnels/ajouter-personnel",
+                path: "/personnelles/ajouter-personnel",
                 title: "Ajouter un personnel",
                 type: "link"
             },
             {
-                path: "/personnels/liste-personnel",
+                path: "/personnelles/liste-personnel",
                 title: "Liste des personnels",
                 type: "link"
             }
@@ -989,11 +989,11 @@ export const menu: MenuItem[] = [
                 title: "banques",
                 type: "link"
             },
-            {
-                path: "/personnelles/liste-personnels",
-                title: "personnels",
-                type: "link"
-            },
+            // {
+            //     path: "/personnelles/liste-personnels",
+            //     title: "personnels",
+            //     type: "link"
+            // },
             // {
             //     path: "/personnel-fonctions/liste-personnel-fonctions",
             //     title: "fonctions du personnel",
@@ -1015,7 +1015,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
-                path: "/groupetaxes/liste-groupetaxes",
+                path: "/taxes/liste-groupe-taxes",
                 title: "groupe de taxes",
                 type: "link"
             },

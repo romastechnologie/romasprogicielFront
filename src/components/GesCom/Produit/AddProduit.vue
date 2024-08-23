@@ -14,7 +14,7 @@
               </label>
               <Field name="groupeTaxe" v-slot="{ field }">
                 <Multiselect
-                  :options="['Groupe1','Groupe2']"
+                  :options="groupeTaxeOptions"
                   :searchable="true"
                   track-by="label"
                   label="label"
@@ -988,9 +988,23 @@ export default defineComponent({
       }
     };
 
+    const fetchGroupTaxe = async () => {
+      try {
+        const response = await ApiService.get("/groupeTaxes");
+        const groupeTaxeData = response.data.data.data;
+        groupeTaxeOptions.value = groupeTaxeData.map((groupeTaxe) => ({
+          value: groupeTaxe.id,
+          label: `${groupeTaxe.libelle}`,
+        }));
+      } catch (error) {
+        //
+      }
+    };
+
     onMounted(() => {
       fetchFamille();
       fetchMagasin();
+      fetchGroupTaxe();
     });
 
     return {
