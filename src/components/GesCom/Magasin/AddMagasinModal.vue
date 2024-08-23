@@ -32,9 +32,9 @@
                           <label class="d-block text-black fw-semibold mb-10" >
                             Code du magasin <span class="text-danger">*</span>
                           </label>
-                          <Field name="codeMagasin" type="text" 
+                          <Field name="code" type="text" 
                           class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code du magasin"/>
-                          <ErrorMessage name="codeMagasin" class="text-danger"/>
+                          <ErrorMessage name="code" class="text-danger"/>
                         </div>
                       </div>
                       <div class="col-md-6 mb-3">
@@ -52,7 +52,7 @@
                           <label class="d-block text-black fw-semibold mb-10">
                             Magasinier <span class="text-danger">*</span>
                           </label>
-                          <Field  name="magasinier"  v-slot="{ field }">
+                          <Field  name="personnel"  v-slot="{ field }">
                             <Multiselect
                               :options="personnelOptions"
                               :searchable="true"
@@ -63,7 +63,7 @@
                               placeholder="Sélectionner le magasinier"
                             />
                           </Field>  
-                          <ErrorMessage name="magasinier" class="text-danger"/>
+                          <ErrorMessage name="personnel" class="text-danger"/>
                         </div>
                       </div>
                       <div class="col-md-12 mb-3">
@@ -121,10 +121,9 @@ export default defineComponent({
   },
   setup(props, { emit }){
     const magasinSchema = Yup.object().shape({
-      personnel: Yup.string().notRequired(),
+      personnel: Yup.string().required(),
       nomMagasin: Yup.string().required('Le nom du magasin est obligatoire'),
-      codeMagasin: Yup.string().required('Le code du magasin est obligatoire'),
-      magasinier: Yup.string().notRequired(),
+      code: Yup.string().required('Le code du magasin est obligatoire'),
       // magasinier: Yup.string().required('Le magasinier est obligatoire'),
       adresse: Yup.string().required('L\'adresse est obligatoire'),
     });

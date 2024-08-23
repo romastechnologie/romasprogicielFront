@@ -891,8 +891,8 @@ export default defineComponent({
         const conditionnementsData = response.data.data.data;
         produitsss.value = conditionnementsData;
         conditionnementOptions.value = conditionnementsData.map((conditionnement) => ({
-          value: conditionnement.id + "|" + conditionnement.quantite,
-          label: `${conditionnement.libelle}`,
+          value: conditionnement.id + "|" + conditionnement.valeur,
+          label: `${conditionnement.code}`,
         }));
       } catch (error) {
         //
@@ -949,17 +949,17 @@ export default defineComponent({
         image: image.image,
       }));
       console.log('values ====>', values);
-      // ApiService.post("/produits", values)
-      //   .then(({ data }) => {
-      //     if (data.code == 201) {
-      //       success(data.message);
-      //       resetForm();
-      //       router.push({ name: "ListeProduitPage" });
-      //     }
-      //   })
-      //   .catch(({ response }) => {
-      //     error(response.data.message);
-      //   });
+      ApiService.post("/produits", values)
+        .then(({ data }) => {
+          if (data.code == 201) {
+            success(data.message);
+            resetForm();
+            router.push({ name: "ListeProduit" });
+          }
+        })
+        .catch(({ response }) => {
+          error(response.data.message);
+        });
     };
 
     const fetchFamille = async () => {

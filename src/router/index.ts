@@ -362,6 +362,8 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des contrats',
         }
       },
+    ]
+  },
       {
         path: "/paies",
         component: BodyView,
@@ -371,7 +373,7 @@ const routes: Array<RouteRecordRaw> = [
             name: "AddPaie",
             component: AddPaiePage,
             meta: {
-              title: 'Ajouter un paie',
+              title: 'Ajouter une paie',
             }
           },
           {
@@ -379,13 +381,11 @@ const routes: Array<RouteRecordRaw> = [
             name: "ListePaie",
             component: ListePaiePage,
             meta: {
-              title: 'Liste des paies',
-            }
-          },
+              title: 'Liste des financements',
+            },
+          }
         ]
-      }
-    ]
-  },
+      },
   {
     path: "/typeRetenues",
     component: BodyView,

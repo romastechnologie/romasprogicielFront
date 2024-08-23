@@ -50,12 +50,12 @@
         <table class="table text-nowrap align-middle mb-0">
           <thead>
             <tr>
-              <!-- <th
+              <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
                 Code
-              </th> -->
+              </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -76,9 +76,9 @@
           </thead>
           <tbody>
             <tr v-for="(conditionnement, index) in conditionnements" :key="index">
-              <!-- <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ conditionnement.code }}
-              </td> -->
+              </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ conditionnement.libelle }}
               </td>
@@ -88,13 +88,10 @@
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
-                    <li >
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                   
+                    <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
@@ -108,7 +105,7 @@
                         Modifier
                       </a>
                     </li>
-                    <li >
+                    <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);" @click="suppression(conditionnement.id,conditionnements,'conditionnements','la conditionnement')"
@@ -120,7 +117,6 @@
                       </a>
                     </li>
                   </ul>
-              </div>
               </td>
             </tr>
           </tbody>
