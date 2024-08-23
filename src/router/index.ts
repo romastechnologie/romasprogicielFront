@@ -195,6 +195,9 @@ import EditOperationRetraitPage from "@/pages/GesCom/Operation/EditOperationRetr
 import ViewOperationPage from "@/pages/GesCom/Operation/ViewOperationPage.vue";
 import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue";
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
+import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
+import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
+
 //Fin GesCom/
 
 //Gestion de la Paie
@@ -208,7 +211,6 @@ import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
-
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -1703,6 +1705,23 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des taxes',
         }
       },
+      {
+        path: "ajouter-groupetaxe",
+        name: "AddGroupeTaxe",
+        component: AddGroupeTaxePage,
+        meta: {
+          title: 'Ajouter un groupe de taxe',
+        }
+      },
+      {
+        path: "liste-groupes-taxes",
+        name: "ListeGroupeTaxe",
+        component: ListeGroupeTaxePage,
+        meta: {
+          title: 'Liste des groupes de taxes',
+        }
+      },
+      
       {
         path: "liste-type-taxes",
         name: "ListeTypeTaxe",

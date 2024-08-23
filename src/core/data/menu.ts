@@ -979,6 +979,11 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
+                path: "/groupetaxes/liste-groupetaxes",
+                title: "familles",
+                type: "link"
+            },
+            {
                 path: "/type-operations/liste-type-operations",
                 title: "types d'opérations",
                 type: "link"
