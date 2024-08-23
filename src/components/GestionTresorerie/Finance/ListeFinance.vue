@@ -50,7 +50,7 @@
                     <tbody>
                         <tr v-for="finance in financeList" :key="finance.id">
                             <th>{{ finance.id }}</th>
-                            <th > <a :href="`http://localhost:3000/api/uploads/${finance.fichier}`" target="_blank">{{ finance.fichier }}</a> </th>
+                            <th > <a :href="`http://localhost:3009/api/uploads/${finance.fichier}`" target="_blank">{{ finance.fichier }}</a> </th>
                             <th>{{ finance.montant }}</th>
                             <th>{{ finance.type }}</th>
                             <th>{{ finance.nomBeneficiaire }}</th>

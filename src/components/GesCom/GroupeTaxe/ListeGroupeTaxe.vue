@@ -8,10 +8,10 @@
           class="btn btn-primary"
           href="#"
           data-bs-toggle="modal"
-          data-bs-target="#AddConditionnementModal"
+          data-bs-target="#AddGroupeTaxeModal"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un conditionnement
+          Ajouter un groupe de taxe
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -28,7 +28,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un conditionnement"
+            placeholder="Rechercher un type de taxe"
           />
           <button
             type="submit"
@@ -66,7 +66,7 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Valeur
+                Taux
               </th>
               <th
                 scope="col"
@@ -75,29 +75,32 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(conditionnement, index) in conditionnements" :key="index">
+            <tr v-for="(groupeTaxe, index) in groupeTaxes" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ conditionnement.code }}
+                {{ groupeTaxe.code }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ conditionnement.libelle }}
+                {{ groupeTaxe.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ conditionnement.quantite }}
+                {{ groupeTaxe.taux }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                   
-                    <li class="dropdown-item d-flex align-items-center">
+              <div class="dropdown">
+                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                  </span>
+                  <ul class="dropdown-menu">
+                    <li >
                       <a
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
-                        data-bs-target="#AddConditionnementModal"
-                        @click="moddifier(conditionnement)"
+                        data-bs-target="#AddGroupeTaxeModal"
+                        @click="moddifier(groupeTaxe)"
                       >
                         <i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
@@ -105,10 +108,10 @@
                         Modifier
                       </a>
                     </li>
-                    <li class="dropdown-item d-flex align-items-center">
+                    <li >
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(conditionnement.id,conditionnements,'conditionnements','la conditionnement')"
+                        href="javascript:void(0);" @click="suppression(groupeTaxe.id,groupeTaxes,'groupeTaxes','la groupeTaxe')"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
@@ -117,6 +120,7 @@
                       </a>
                     </li>
                   </ul>
+              </div>
               </td>
             </tr>
           </tbody>
@@ -129,34 +133,34 @@
       </div>
     </div>
   </div>
-  <AddConditionnementModal :item="selectedItem" @close="recharger"/>
+  <AddGroupeTaxeModal :item="selectedItem" @close="recharger"/>
 
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { Conditionnement } from "@/models/Conditionnement";
+import { GroupeTaxe } from "@/models/GroupeTaxe";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import AddConditionnementModal from "./AddConditionnementModal.vue";
+import AddGroupeTaxeModal from "./AddGroupeTaxeModal.vue";
 
 export default defineComponent({
-  name: "ListeConditionnement",
+  name: "ListeGroupeTaxe",
   components: {
     PaginationComponent,
-    AddConditionnementModal
+    AddGroupeTaxeModal
   },
   setup(){
     
     onMounted(() => {
-      getAllConditionnements();
+      getAllGroupeTaxes();
     });
 
-    const conditionnements = ref<Array<Conditionnement>>([]);   
-    const conditionnement = ref<Conditionnement>();
+    const groupeTaxes = ref<Array<GroupeTaxe>>([]);   
+    const groupeTaxe = ref<GroupeTaxe>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -169,43 +173,43 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllConditionnements(page_, limit_);
+        getAllGroupeTaxes(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllConditionnements(page.value, limit.value, searchTerm.value );
+      getAllGroupeTaxes(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
     const recharger = () => {
-      getAllConditionnements();
+      getAllGroupeTaxes();
     };
 
-    function getAllConditionnements(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/conditionnements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllGroupeTaxes(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/groupeTaxes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          conditionnements.value = data.data.data;
+          groupeTaxes.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
-          return data.data.data;
+          return data.data;
         })
         .catch(({ response }) => {
           error(response.data.message)
       });
     }
     
-    function moddifier(EditConditionnement:Conditionnement) {
-      conditionnement.value = EditConditionnement;
-      selectedItem.value = EditConditionnement.id;
+    function moddifier(EditGroupeTaxe:GroupeTaxe) {
+      groupeTaxe.value = EditGroupeTaxe;
+      selectedItem.value = EditGroupeTaxe.id;
     }
 
-    const deleteConditionnement = (id: number) => {
-      ApiService.delete(`/conditionnements/${id}`)
+    const deleteGroupeTaxe = (id: number) => {
+      ApiService.delete(`/groupeTaxes/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,
@@ -233,9 +237,9 @@ export default defineComponent({
         });
       });
 
-      for(let i = 0; i < conditionnements.value.length; i++) {
-        if (conditionnements.value[i].id === id) {
-          conditionnements.value.splice(i, 1);
+      for(let i = 0; i < groupeTaxes.value.length; i++) {
+        if (groupeTaxes.value[i].id === id) {
+          groupeTaxes.value.splice(i, 1);
         }
       }
     };
@@ -246,10 +250,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { conditionnements,
+    return { groupeTaxes,
       checkPermission,
-     getAllConditionnements,
-     deleteConditionnement,
+     getAllGroupeTaxes,
+     deleteGroupeTaxe,
      moddifier ,
      suppression,
      page, 

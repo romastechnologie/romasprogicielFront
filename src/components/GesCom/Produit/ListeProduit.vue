@@ -105,7 +105,7 @@
                         ></i>Modifier</router-link>
                     </li> -->
                     <li class="dropdown-item d-flex align-items-center">
-                        <router-link :to="{ name: 'ViewProduitPage', params: { id: produit.id } }" class="dropdown-item d-flex align-items-center">
+                        <router-link :to="{ name: 'ViewProduit', params: { id: produit.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
                         </router-link>
                     </li>

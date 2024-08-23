@@ -14,7 +14,7 @@
               </label>
               <Field name="groupeTaxe" v-slot="{ field }">
                 <Multiselect
-                  :options="['Groupe1','Groupe2']"
+                  :options="groupeTaxeOptions"
                   :searchable="true"
                   track-by="label"
                   label="label"
@@ -663,7 +663,8 @@
                 class="btn btn-success me-3"
                 type="submit"
                 :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable || isDisablee }">
+                :class="{ 'cursor-not-allowed': isDisable || isDisablee }"
+              >
                 Ajouter un produit
               </button>
               <router-link
@@ -890,8 +891,8 @@ export default defineComponent({
         const conditionnementsData = response.data.data.data;
         produitsss.value = conditionnementsData;
         conditionnementOptions.value = conditionnementsData.map((conditionnement) => ({
-          value: conditionnement.id + "|" + conditionnement.quantite,
-          label: `${conditionnement.libelle}`,
+          value: conditionnement.id + "|" + conditionnement.valeur,
+          label: `${conditionnement.code}`,
         }));
       } catch (error) {
         //
@@ -953,7 +954,7 @@ export default defineComponent({
           if (data.code == 201) {
             success(data.message);
             resetForm();
-            router.push({ name: "ListeProduitPage" });
+            router.push({ name: "ListeProduit" });
           }
         })
         .catch(({ response }) => {
@@ -987,9 +988,23 @@ export default defineComponent({
       }
     };
 
+    const fetchGroupTaxe = async () => {
+      try {
+        const response = await ApiService.get("/groupeTaxes");
+        const groupeTaxeData = response.data.data.data;
+        groupeTaxeOptions.value = groupeTaxeData.map((groupeTaxe) => ({
+          value: groupeTaxe.id,
+          label: `${groupeTaxe.libelle}`,
+        }));
+      } catch (error) {
+        //
+      }
+    };
+
     onMounted(() => {
       fetchFamille();
       fetchMagasin();
+      fetchGroupTaxe();
     });
 
     return {

@@ -1,17 +1,18 @@
 <template>
-    <ListeFacture/>
+    <ListeGroupeTaxe/>
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
     
-    import ListeFacture from "@/components/GesCom/Facture/ListeFacture.vue";
+    import ListeGroupeTaxe from "@/components/GesCom/GroupeTaxe/ListeGroupeTaxe.vue";
 
     export default defineComponent({
-      name: "ListeFacturePage",
+      name: "ListeGroupeTaxePage",
       components: {
-        ListeFacture,
+        
+        ListeGroupeTaxe,
       },
     });
   </script>
