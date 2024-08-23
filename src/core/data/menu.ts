@@ -980,7 +980,7 @@ export const menu: MenuItem[] = [
             },
             {
                 path: "/groupetaxes/liste-groupetaxes",
-                title: "familles",
+                title: "groupe de taxes",
                 type: "link"
             },
             {

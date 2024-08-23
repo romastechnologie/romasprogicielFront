@@ -87,7 +87,7 @@ export default defineComponent({
     const conditionnementSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       libelle: Yup.string().required('Le libelle est obligatoire'),
-      valeur: Yup.number().typeError('Veuillez entrer des nombres').required("La v"),
+      valeur: Yup.number().typeError('Veuillez entrer des nombres').required("La valeur est obligatoire"),
     });
 
     const conditionnementForm = ref<Conditionnement | null>(null);

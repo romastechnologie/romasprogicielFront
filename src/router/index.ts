@@ -1714,7 +1714,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "liste-groupes-taxes",
+        path: "liste-groupe-taxes",
         name: "ListeGroupeTaxe",
         component: ListeGroupeTaxePage,
         meta: {
