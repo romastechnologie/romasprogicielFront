@@ -990,7 +990,7 @@ export default defineComponent({
 
     const fetchGroupTaxe = async () => {
       try {
-        const response = await ApiService.get("/groupetaxes");
+        const response = await ApiService.get("/groupeTaxes");
         const groupeTaxeData = response.data.data.data;
         groupeTaxeOptions.value = groupeTaxeData.map((groupeTaxe) => ({
           value: groupeTaxe.id,

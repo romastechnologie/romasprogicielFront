@@ -195,9 +195,6 @@ import EditOperationRetraitPage from "@/pages/GesCom/Operation/EditOperationRetr
 import ViewOperationPage from "@/pages/GesCom/Operation/ViewOperationPage.vue";
 import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue";
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
-import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
-import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
-
 //Fin GesCom/
 
 //Gestion de la Paie
@@ -211,6 +208,7 @@ import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -983,8 +981,8 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "ajouter-personnel",
-        name: "AddPersonnelPage",
-        component: AddPersonnelPage,
+        name: "AddPersonnellePage",
+        component: AddPersonnellePage,
         meta: {
           title: 'Ajouter un personnel',
         }
@@ -992,7 +990,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "liste-personnel",
         name: "ListePersonnelPage",
-        component: ListePersonnelPage,
+        component: ListePersonnellePage,
         meta: {
           title: 'Liste des personnels',
         },
@@ -1000,7 +998,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: ':id',
             name: 'id',
-            component: DetailsPersonnelPage,
+            component: ViewPersonnellePage,
             meta: {
               title: 'Details du personnel',
             }
@@ -1009,8 +1007,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "edit-personnel/:id",
-        name: "EditPersonnelPage",
-        component: EditPersonnelPage,
+        name: "EditPersonnellePage",
+        component: EditPersonnellePage,
         meta: {
           title: 'Modifier un personnel',
         }
@@ -1597,44 +1595,44 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  // {
-  //   path: "/personnelles",
-  //   component: BodyView,
-  //   children: [
-  //     {
-  //       path: "ajouter-personnel",
-  //       name: "AddPersonnel",
-  //       component: AddPersonnellePage,
-  //       meta: {
-  //         title: 'Ajouter un personnel',
-  //       }
-  //     },
-  //     {
-  //       path: "modifier-personnel/:id",
-  //       name: "EditPersonnel",
-  //       component: EditPersonnellePage,
-  //       meta: {
-  //         title: 'Modifier un personnel',
-  //       }
-  //     },
-  //     {
-  //       path: "view-personnel/:id",
-  //       name: "ViewPersonnel",
-  //       component: ViewPersonnellePage,
-  //       meta: {
-  //         title: 'Détails du personnel',
-  //       }
-  //     },
-  //     {
-  //       path: "liste-personnels",
-  //       name: "ListePersonnel",
-  //       component: ListePersonnellePage,
-  //       meta: {
-  //         title: 'Liste des personnels',
-  //       }
-  //     },
-  //   ]
-  // },
+  {
+    path: "/personnelles",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-personnel",
+        name: "AddPersonnel",
+        component: AddPersonnellePage,
+        meta: {
+          title: 'Ajouter un personnel',
+        }
+      },
+      {
+        path: "modifier-personnel/:id",
+        name: "EditPersonnel",
+        component: EditPersonnellePage,
+        meta: {
+          title: 'Modifier un personnel',
+        }
+      },
+      {
+        path: "view-personnel/:id",
+        name: "ViewPersonnel",
+        component: ViewPersonnellePage,
+        meta: {
+          title: 'Détails du personnel',
+        }
+      },
+      {
+        path: "liste-personnels",
+        name: "ListePersonnel",
+        component: ListePersonnellePage,
+        meta: {
+          title: 'Liste des personnels',
+        }
+      },
+    ]
+  },
   // {
   //   path: "/personnel-fonctions",
   //   component: BodyView,
@@ -1705,23 +1703,6 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des taxes',
         }
       },
-      {
-        path: "ajouter-groupetaxe",
-        name: "AddGroupeTaxe",
-        component: AddGroupeTaxePage,
-        meta: {
-          title: 'Ajouter un groupe de taxe',
-        }
-      },
-      {
-        path: "liste-groupe-taxes",
-        name: "ListeGroupeTaxe",
-        component: ListeGroupeTaxePage,
-        meta: {
-          title: 'Liste des groupes de taxes',
-        }
-      },
-      
       {
         path: "liste-type-taxes",
         name: "ListeTypeTaxe",
