@@ -147,6 +147,28 @@ export const menu: MenuItem[] = [
             }
         ]
     },
+    {
+        title: "Processus",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/processus/ajouter-processus",
+                title: "Ajouter un processus",
+                type: "link"
+            },
+            {
+                path: "/processus/liste-processus",
+                title: "Liste des processus",
+                type: "link"
+            }
+        ]
+    },
+
 
     {
         title: "Religons",

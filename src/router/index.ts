@@ -217,6 +217,8 @@ import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
+import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
+import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -389,6 +391,28 @@ const routes: Array<RouteRecordRaw> = [
             component: ListePaiePage,
             meta: {
               title: 'Liste des financements',
+            },
+          }
+        ]
+      },
+      {
+        path: "/processus",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-processus",
+            name: "AddProcessus",
+            component: AddProcessusPage,
+            meta: {
+              title: 'Ajouter un processus',
+            }
+          },
+          {
+            path: "liste-processus",
+            name: "ListeProcessus",
+            component: ListeProcessusPage,
+            meta: {
+              title: 'Liste des processus',
             },
           }
         ]
