@@ -1,17 +1,15 @@
 <template>
-    <ListeFacture/>
+    <EtatPointCommande/>
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
-  
-    
-    import ListeFacture from "@/components/GesCom/Facture/ListeFacture.vue";
+    import EtatPointCommande from "@/components/GesCom/Etats/EtatPointCommande.vue";
 
     export default defineComponent({
-      name: "ListeFacturePage",
+      name: "EtatPointCommandePage",
       components: {
-        ListeFacture,
+        EtatPointCommande,
       },
     });
   </script>
