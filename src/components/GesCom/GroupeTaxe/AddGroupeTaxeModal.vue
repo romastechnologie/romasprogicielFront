@@ -34,16 +34,19 @@
                 <ErrorMessage name="libelle" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-12">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
-                  Taux <span class="text-danger">*</span>
-                </label>
-                <Field name="taux" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le taux"/>
-                <ErrorMessage name="taux" class="text-danger"/>
-              </div>
+            <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Taux <span class="text-danger">*</span>
+              </label>
+              <Field name="taux" v-model="taux" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="taxeOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le taxe"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le taxe est obligatoire</span>
             </div>
+          </div>
             <button
               class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
               type="submit"
@@ -74,6 +77,8 @@ import { hideModal } from '@/utils/utils';
 import { GroupeTaxe } from '@/models/GroupeTaxe';
 import { error , success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
+import Multiselect from '@vueform/multiselect'
+
 
 export default defineComponent({
     name: "AddGroupeTaxeModal",
@@ -81,6 +86,7 @@ export default defineComponent({
     Form,
     Field,
     ErrorMessage,
+    Multiselect
   },
   props: {
     item: {
@@ -92,7 +98,7 @@ export default defineComponent({
     const groupeTaxeSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       libelle: Yup.string().required('Le libelle est obligatoire'),
-      taux: Yup.number().required('Le taux est obligatoire'),
+      taux: Yup.number().required('Le taxe est obligatoire'),
 
     });
 
@@ -105,6 +111,7 @@ export default defineComponent({
     const isUPDATE = ref(false);
     const title = ref("Ajouter un groupe de taxe");
     const btntext = ref('Ajouter');
+    const taxeOptions = ref([]);
 
     watch(() => props.item, (newValue) => {
       getGroupeTaxe(newValue);
@@ -140,6 +147,22 @@ export default defineComponent({
       });
     }
 
+
+    const getAllTaxes = async () => {
+        try{
+        const response = await ApiService.get('/all/taxes');
+        const taxesData = response.data.data;
+
+        taxeOptions.value = taxesData.map((taxe) => ({
+          value: taxe.id,
+          label: taxe.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
+
     const fetchGroupeTaxe = async () => {
       try {
         const response = await ApiService.get('/groupeTaxes');
@@ -155,6 +178,7 @@ export default defineComponent({
 
     onMounted(() => {
       fetchGroupeTaxe();
+      getAllTaxes();
     });
 
     const addGroupeTaxe = async (values: any, groupeTaxeForm) => {
@@ -206,6 +230,7 @@ export default defineComponent({
       groupeTaxeForm,
       title,btntext,resetValue,
       groupeTaxeOptions,
+      taxeOptions,
     };
   },
 });
