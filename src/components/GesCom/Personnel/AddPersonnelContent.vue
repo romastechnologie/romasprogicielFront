@@ -268,8 +268,20 @@
                   </div>
                 </div>
               </div>
+              
             </div>
+            <div class="product-buttons">
+                    <button class="btn">
+                        <div class="d-flex align-items-center gap-sm-2 gap-1">Next
+                            <svg>
+                                <use href="@/assets/svg/icon-sprite.svg#front-arrow"></use>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
           </div>
+
         </div>
       </div>
 
@@ -328,6 +340,23 @@
               </div>
             </div>
           </div>
+          <div class="product-buttons">
+                    <button class="btn me-1">
+                        <div class="d-flex align-items-center gap-sm-2 gap-1">
+                            <svg>
+                                <use href="@/assets/svg/icon-sprite.svg#back-arrow"></use>
+                            </svg>Previous
+                        </div>
+                    </button>
+                    <button class="btn">
+                        <div class="d-flex align-items-center gap-sm-2 gap-1">Next
+                            <svg>
+                                <use href="@/assets/svg/icon-sprite.svg#front-arrow"></use>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
         </div>
       </div>
   
@@ -432,6 +461,23 @@
               </div>
             </div>
           </div>
+          <div class="product-buttons">
+                    <button class="btn me-1">
+                        <div class="d-flex align-items-center gap-sm-2 gap-1">
+                            <svg>
+                                <use href="@/assets/svg/icon-sprite.svg#back-arrow"></use>
+                            </svg>Previous
+                        </div>
+                    </button>
+                    <button class="btn">
+                        <div class="d-flex align-items-center gap-sm-2 gap-1">Next
+                            <svg>
+                                <use href="@/assets/svg/icon-sprite.svg#front-arrow"></use>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
         </div>
       </div>
   
@@ -570,7 +616,25 @@
                 <ErrorMessage name="jambeDroite" class="text-danger" />
               </div>
             </div>
+            
           </div>
+          <div class="product-buttons">
+                    <button class="btn me-1">
+                        <div class="d-flex align-items-center gap-sm-2 gap-1">
+                            <svg>
+                                <use href="@/assets/svg/icon-sprite.svg#back-arrow"></use>
+                            </svg>Previous
+                        </div>
+                    </button>
+                    <button class="btn">
+                        <div class="d-flex align-items-center gap-sm-2 gap-1">Next
+                            <svg>
+                                <use href="@/assets/svg/icon-sprite.svg#front-arrow"></use>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
         </div>
       </div>
       
@@ -607,13 +671,9 @@
                   <ErrorMessage name="codeSwift" class="text-danger" />
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-  
-        <div class="tab-pane fade" id="personne-acontacter" role="tabpanel" aria-labelledby="personne-acontacter-tab">
-          <div class="sidebar-body">
-            <form>
+
+              <h1>Informations sur la personne à contacter</h1>
+            <div class="row g-2">
               <div class="col-md-4 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
@@ -654,10 +714,30 @@
                   <ErrorMessage name="relation" class="text-danger" />
                 </div>
               </div>
-  
-            </form>
+          </div>
+         
+            </div>
+            <div class="product-buttons">
+                    <button class="btn me-1">
+                        <div class="d-flex align-items-center gap-sm-2 gap-1">
+                            <svg>
+                                <use href="@/assets/svg/icon-sprite.svg#back-arrow"></use>
+                            </svg>Previous
+                        </div>
+                    </button>
+                    <button class="btn">
+                        <div class="d-flex align-items-center gap-sm-2 gap-1">Next
+                            <svg>
+                                <use href="@/assets/svg/icon-sprite.svg#front-arrow"></use>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
           </div>
         </div>
+        
+        
     </div>
 
     
