@@ -195,6 +195,8 @@ import EditOperationRetraitPage from "@/pages/GesCom/Operation/EditOperationRetr
 import ViewOperationPage from "@/pages/GesCom/Operation/ViewOperationPage.vue";
 import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue";
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
+import AddPersonnelNewPage from "@/pages/GesCom/Personnel/AddPersonnelNewPage.vue";
+
 //Etats
 import EtatProduitsDisponibles from "@/pages/GesCom/Etats/EtatProduitsDisponibles.vue";
 import EtatProduitsRupturePage from "@/pages/GesCom/Etats/EtatProduitsRupturePage.vue";
@@ -217,6 +219,9 @@ import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
+import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
+import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
+
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -389,6 +394,28 @@ const routes: Array<RouteRecordRaw> = [
             component: ListePaiePage,
             meta: {
               title: 'Liste des financements',
+            },
+          }
+        ]
+      },
+      {
+        path: "/processus",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-processus",
+            name: "AddProcessus",
+            component: AddProcessusPage,
+            meta: {
+              title: 'Ajouter un processus',
+            }
+          },
+          {
+            path: "liste-processus",
+            name: "ListeProcessus",
+            component: ListeProcessusPage,
+            meta: {
+              title: 'Liste des processus',
             },
           }
         ]
@@ -1359,6 +1386,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+
   {
     path: "/commande-fournisseurs",
     component: BodyView,
@@ -1667,7 +1695,22 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Ajouter un personnel',
         }
-      },
+      }
+    ],
+    },
+      {
+        path: "/tests",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-test",
+            name: "AddPersonnelNew",
+            component: AddPersonnelNewPage,
+            meta: {
+              title: 'Ajouter un personnel',
+            }
+          },
+      
       {
         path: "modifier-personnel/:id",
         name: "EditPersonnel",
@@ -1676,6 +1719,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Modifier un personnel',
         }
       },
+      
       {
         path: "view-personnel/:id",
         name: "ViewPersonnel",

@@ -990,7 +990,7 @@ export default defineComponent({
     })
 
     return { personnelSchema,
-       addPersonnel,
+        addPersonnel,
         personnelForm,
         removeRowFonction,
         addRowFonction,

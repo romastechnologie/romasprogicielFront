@@ -3,46 +3,47 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <Form ref="paieForm" @submit="addPaie" :validation-schema="paieSchema">
               <div class="row">
-              <div class="col-md-4 mb-3">
+
+                <div class="col-md-12 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Contrat <span class="text-danger">*</span>
+              </label>
+              <Field name="contrat" v-model="selectedContrat" >
+              <Multiselect
+                :options="contratOptions"
+                :searchable="true"
+                track-by="label"
+                label="label"
+                v-model="selectedContrat"
+                placeholder="Sélectionner le contrat"
+                @select="fetchPrimeRetenue(selectedContrat)"
+              />
+            </Field>
+
+              <ErrorMessage name="contrat" class="text-danger" />
+            </div>
+          </div>
+
+              <div class="col-md-3 mb-3">
                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
                     <Field name="refPaie" class="form-control" type="text"/>
                     <ErrorMessage name="refPaie" class="text-danger" />
             </div>
            
-            <div class="col-md-4 mb-3">
+            <div class="col-md-3 mb-3">
                     <label for="datePaie" class="form-label"> Date de Paie<span class="text-danger">*</span></label>
                     <Field name="datePaie"  class="form-control" type="Date"/>
                     <ErrorMessage name="datePaie" class="text-danger" />
             </div>
-           
-            <div class="col-md-4 mb-3">
-                    <label for="salaireBrut" class="form-label">Salaire Brut<span class="text-danger">*</span></label>
-                    <Field name="salaireBrut" class="form-control" type="text" v-model="salaireDeBase"/>
-                    <ErrorMessage name="salaireBrut" class="text-danger" />
-            </div>
-            <div class="col-md-4 mb-3">
-                    <label for="salaireNet" class="form-label">Salaire Net<span class="text-danger">*</span></label>
-                    <Field name="salaireNet" class="form-control" type="text"/>
-                    <ErrorMessage name="salaireNet" class="text-danger" />
-            </div>
-            <div class="col-md-4 mb-3">
-                    <label for="totalRetenues" class="form-label">Total des retenues<span class="text-danger">*</span></label>
-                    <Field name="totalRetenues" class="form-control" type="number"/>
-                    <ErrorMessage name="totalRetenues" class="text-danger" />
-            </div>
-            <div class="col-md-4 mb-3">
-                    <label for="totalPrimes" class="form-label">Total des primes<span class="text-danger">*</span></label>
-                    <Field name="totalPrimes" class="form-control" type="number"/>
-                    <ErrorMessage name="totalPrimes" class="text-danger" />
-            </div>
             
-         <div class="col-md-4 mb-3">
+         <div class="col-md-3 mb-3">
                     <label for="periode" class="form-label"> Période<span class="text-danger">*</span></label>
                     <Field name="periode"  class="form-control" type="Date"/>
                     <ErrorMessage name="periode" class="text-danger" />
          </div>
          
-          <div class="col-md-4 mb-3">
+          <div class="col-md-3 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Mode de Paiement <span class="text-danger">*</span>
@@ -56,365 +57,266 @@
             </div>
           </div>
 
-          <!-- <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Contrat <span class="text-danger">*</span>
-              </label>
-              <Multiselect name="contrat" v-model="selectedContrat"  :options="contratOptions" :preserve-search="true"
-                 @change="fetchPrimeRetenue(selectedContrat)"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le mode"
-                label="label" track-by="value" />
-              <ErrorMessage name="contrat" class="text-danger" />
+          <div class="col-md-6 mb-3">
+                    <label for="salaireBrut" class="form-label">Salaire Brut<span class="text-danger">*</span></label>
+                    <Field name="salaireBrut" class="form-control" type="text" v-model="salaireDeBase" :readonly="true"/>
+                    <ErrorMessage name="salaireBrut" class="text-danger" />
             </div>
-          </div> -->
-
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Contrat <span class="text-danger">*</span>
-              </label>
-              <select 
-                name="contrat" 
-                v-model="selectedContrat" 
-                @change="fetchPrimeRetenue(selectedContrat)"
-                class="form-control"
-                placeholder="Sélectionner le mode"
-              >
-                <option v-for="option in contratOptions" :key="option.value" :value="option.value">
-                  {{ option.label }}
-                </option>
-              </select>
-              <ErrorMessage name="contrat" class="text-danger" />
+            <div class="col-md-6 mb-3">
+                    <label for="totalRetenues" class="form-label">Total des retenues<span class="text-danger">*</span></label>
+                    <Field name="totalRetenues" class="form-control" type="number" :readonly="true" v-model="totalRetenue"/>
+                    <ErrorMessage name="totalRetenues" class="text-danger" />
             </div>
-          </div>
+            <div class="col-md-6 mb-3">
+                    <label for="totalPrimes" class="form-label">Total des primes<span class="text-danger">*</span></label>
+                    <Field name="totalPrimes" class="form-control" type="number" :readonly="true" v-model="totalPrime"/>
+                    <ErrorMessage name="totalPrimes" class="text-danger" />
+            </div>
+            <div class="col-md-6 mb-3">
+                    <label for="salaireNet" class="form-label">Salaire Net<span class="text-danger">*</span></label>
+                    <Field name="salaireNet" class="form-control" type="text" :readonly="true" v-model="salaireNet"/>
+                    <ErrorMessage name="salaireNet" class="text-danger" />
+            </div>
 
-
-          <div class="col-md-12 mb-md-25">
-          <div class="accordion" id="basicAccordion">
-            <div class="accordion-item mb-0 bord1">
-              <h2 class="accordion-header" id="headingOne">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#basicCollapseOne"
-                  aria-expanded="false"
-                  aria-controls="basicCollapseOne"
+          <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active p-10"
+            id="home-tab-pane"
+            role="tabpanel"
+            tabindex="0"
+          >
+            <div class="row">
+              <div class="border border-primary mb-5">
+                <div
+                  class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                  style="background-color: #0a59a4"
                 >
-                  Ajouter des primes
-                </button>
-              </h2>
-              <div
-                id="basicCollapseOne"
-                class="accordion-collapse collapse"
-                data-bs-parent="#basicAccordion"
-              >
-                <div class="accordion-body">
-                  <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
+                  <div class="col-md-3">
+                    <h3 class="fs-4 text-white">Prime</h3>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="d-flex float-end">
                       <button
-                        class="nav-link active"
-                        id="home-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#home-tab-pane"
+                        class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
                         type="button"
-                        role="tab"
-                        aria-controls="home-tab-pane"
-                        aria-selected="true"
+                        :class="{ 'cursor-not-allowed': isDisable }"
+                        :disabled="isDisable"
+                        @click="addRowPrime"
                       >
-                        
+                        <i class="fa fa-plus-circle"></i>
+                        Ajouter une prime
                       </button>
-                    </li>
-                  </ul>
-
-                  <div class="tab-content" id="myTabContent">
-                    <div
-                      class="tab-pane fade show active p-10"
-                      id="home-tab-pane"
-                      role="tabpanel"
-                      tabindex="0"
-                    >
-                      <div class="row">
-                        <div class="border border-primary mb-5">
-                          <div
-                            class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                            style="background-color: #0a59a4"
-                          >
-                            <div class="col-md-3">
-                              <h3 class="fs-4 text-white">Prime</h3>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="d-flex float-end">
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="card-body p-15 p-sm-20 p-md-25">
+                    <div class="table-responsive">
+                      <table class="table table-fixed text-nowrap align-middle mb-0">
+                        <thead>
+                          <tr>
+                            <th scope="col" class="prime">Type prime</th>
+                            <th scope="col" class="quantite">Valeur</th>
+                            <th scope="col" class="prix-unitaire">Quantité</th>
+                            <th scope="col">Valeur Unitaire</th>
+                            <th scope="col">Montant</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(prime, index) in primes" :key="index">
+                            <td class="typePrime-col">
+                              <Multiselect
+                                :options="typePrimeOptions"
+                                :searchable="true"
+                                track-by="label"
+                                label="label"
+                                v-model="prime.typePrime"
+                                placeholder=""
+                                @select="selectTypePrime(prime.typePrime, prime)"
+                              />
+                              <span class="invalid-feedback" v-if="validateRowPrime(prime.typePrime)">
+                                Le type de prime est obligatoire.
+                              </span>
+                            </td>
+                            <td class="valeur-col">
+                              <input
+                                type="text"
+                                :readonly="true"
+                                v-model="prime.valeur"
+                                class="form-control"
+                              />
+                            </td>
+                            <td class="quantite-col">
+                              <input
+                                type="text"
+                                v-model="prime.quantite"
+                                :class="validateRowPrime(prime.quantite) ? 'form-control is-invalid' : 'form-control'"
+                                placeholder="Entrer la quantité"
+                              />
+                              <span class="invalid-feedback" v-if="validateRowPrime(prime.quantite)">
+                                La quantité est obligatoire.
+                              </span>
+                            </td>
+                            <td class="valeurUnitaire-col">
+                              <input
+                                type="text"
+                                v-model="prime.valeurUnitaire"
+                                class="form-control"
+                                placeholder=""
+                              />
+                            </td>
+                            <td class="montant-col">
+                              <input
+                                type="text"
+                                v-model="prime.montant"
+                                :readonly="true"
+                                class="form-control"
+                                placeholder=""
+                              />
+                            </td>
+                            <td class="actions-col pe-0">
+                              <div class="button-container" style="white-space: nowrap">
                                 <button
-                                  class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                  type="button"
-                                  :class="{ 'cursor-not-allowed': isDisable }"
-                                  :disabled="isDisable"
-                                  @click="addRowPrime"
+                                  type="button" 
+                                  :disabled="primes[index].desactive"
+                                  class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                  @click="removeRowPrime(index)"
                                 >
-                                  <i class="fa fa-plus-circle"></i>
-                                  Ajouter une prime
+                                  <i class="icofont icofont-ui-delete"></i>
                                 </button>
                               </div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="card-body p-15 p-sm-20 p-md-25">
-                              <div class="table-responsive">
-                                <table class="table table-fixed text-nowrap align-middle mb-0">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col" class="prime">Type prime</th>
-                                      <th scope="col" class="quantite">Valeur</th>
-                                      <th scope="col" class="prix-unitaire">Quantité</th>
-                                      <th scope="col">Valeur Unitaire</th>
-                                      <th scope="col">Montant</th>
-                                      <th scope="col">Actions</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr v-for="(prime, index) in primes" :key="index">
-                                      <td class="typePrime-col">
-                                        <Multiselect
-                                          :options="typePrimeOptions"
-                                          :searchable="true"
-                                          track-by="label"
-                                          label="label"
-                                          v-model="prime.typePrime"
-                                          placeholder=""
-                                          @select="selectTypePrime(prime.typePrime, prime)"
-                                        />
-                                        <span class="invalid-feedback" v-if="validateRowPrime(prime.typePrime)">
-                                          Le type de prime est obligatoire.
-                                        </span>
-                                      </td>
-                                      <td class="valeur-col">
-                                        <input
-                                          type="text"
-                                          :readonly="true"
-                                          v-model="prime.valeur"
-                                          class="form-control"
-                                        />
-                                      </td>
-                                      <td class="quantite-col">
-                                        <input
-                                          type="text"
-                                          v-model="prime.quantite"
-                                          :class="validateRowPrime(prime.quantite) ? 'form-control is-invalid' : 'form-control'"
-                                          placeholder="Entrer la quantité"
-                                        />
-                                        <span class="invalid-feedback" v-if="validateRowPrime(prime.quantite)">
-                                          La quantité est obligatoire.
-                                        </span>
-                                      </td>
-                                      <td class="valeurUnitaire-col">
-                                        <input
-                                          type="text"
-                                          v-model="prime.valeurUnitaire"
-                                          class="form-control"
-                                          placeholder=""
-                                        />
-                                      </td>
-                                      <td class="montant-col">
-                                        <input
-                                          type="text"
-                                          v-model="prime.montant"
-                                          :readonly="true"
-                                          class="form-control"
-                                          placeholder=""
-                                        />
-                                      </td>
-                                      <td class="actions-col pe-0">
-                                        <div class="button-container" style="white-space: nowrap">
-                                          <button
-                                            type="button" 
-                                            :disabled="primes[index].desactive"
-                                            class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                            @click="removeRowPrime(index)"
-                                          >
-                                            <i class="icofont icofont-ui-delete"></i>
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            </div>
           </div>
+        </div>
 
-          <div class="col-md-12 mb-md-25 mt-5">
-          <div class="accordion" id="basicAccordion2">
-            <div class="accordion-item mb-0 bord1">
-              <h2 class="accordion-header" id="headingOne2">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#basicCollapseOne2"
-                  aria-expanded="false"
-                  aria-controls="basicCollapseOne2"
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active p-10"
+            id="home-tab-pane"
+            role="tabpanel"
+            tabindex="0"
+          >
+            <div class="row">
+              <div class="border border-primary mb-5">
+                <div
+                  class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                  style="background-color: #0a59a4"
                 >
-                  Ajouter des retenues
-                </button>
-              </h2>
-              <div
-                id="basicCollapseOne2"
-                class="accordion-collapse collapse"
-                data-bs-parent="#basicAccordion2"
-              >
-                <div class="accordion-body">
-                  <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
+                  <div class="col-md-3">
+                    <h3 class="fs-4 text-white">Retenue</h3>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="d-flex float-end">
                       <button
-                        class="nav-link active"
-                        id="home-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#home-tab-pane"
+                        class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
                         type="button"
-                        role="tab"
-                        aria-controls="home-tab-pane"
-                        aria-selected="true"
+                        :class="{ 'cursor-not-allowed': isDisablee }"
+                        :disabled="isDisablee"
+                        @click="addRowRetenue"
                       >
-                        
+                        <i class="fa fa-plus-circle"></i>
+                        Ajouter une retenue
                       </button>
-                    </li>
-                  </ul>
-
-                  <div class="tab-content" id="myTabContent">
-                    <div
-                      class="tab-pane fade show active p-10"
-                      id="home-tab-pane"
-                      role="tabpanel"
-                      tabindex="0"
-                    >
-                      <div class="row">
-                        <div class="border border-primary mb-5">
-                          <div
-                            class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                            style="background-color: #0a59a4"
-                          >
-                            <div class="col-md-3">
-                              <h3 class="fs-4 text-white">Retenue</h3>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="d-flex float-end">
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="card-body p-15 p-sm-20 p-md-25">
+                    <div class="table-responsive">
+                      <table class="table table-fixed text-nowrap align-middle mb-0">
+                        <thead>
+                          <tr>
+                            <th scope="col" class="prime">Type retenue</th>
+                            <th scope="col" class="quantite">Valeur</th>
+                            <th scope="col" class="prix-unitaire">Quantité</th>
+                            <th scope="col">Valeur Unitaire</th>
+                            <th scope="col">Montant</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(retenue, index) in retenues" :key="index">
+                            <td class="typeRetenue-col">
+                              <Multiselect
+                                :options="typeRetenueOptions"
+                                :searchable="true"
+                                track-by="label"
+                                label="label"
+                                v-model="retenue.typeRetenue"
+                                placeholder=""
+                                @select="selectTypeRetenue(retenue.typeRetenue, retenue)"
+                              />
+                              <span class="invalid-feedback" v-if="validateRowRetenue(retenue.typeRetenue)">
+                                Le type de retenue est obligatoire.
+                              </span>
+                            </td>
+                            <td class="valeur-col">
+                              <input
+                                type="text"
+                                :readonly="true"
+                                v-model="retenue.valeur"
+                                class="form-control"
+                              />
+                            </td>
+                            <td class="quantite-col">
+                              <input
+                                type="text"
+                                v-model="retenue.quantite"
+                                :class="validateRowRetenue(retenue.quantite) ? 'form-control is-invalid' : 'form-control'"
+                                placeholder="Entrer la quantité"
+                              />
+                              <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
+                                La quantité est obligatoire.
+                              </span>
+                            </td>
+                            <td class="valeurUnitaire-col">
+                              <input
+                                type="text"
+                                v-model="retenue.valeurUnitaire"
+                                class="form-control"
+                                placeholder=""
+                              />
+                            </td>
+                            <td class="montant-col">
+                              <input
+                                type="text"
+                                v-model="retenue.montant"
+                                :readonly="true"
+                                class="form-control"
+                                placeholder=""
+                              />
+                            </td>
+                            <td class="actions-col pe-0">
+                              <div class="button-container" style="white-space: nowrap">
                                 <button
-                                  class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                  type="button"
-                                  :class="{ 'cursor-not-allowed': isDisablee }"
-                                  :disabled="isDisablee"
-                                  @click="addRowRetenue"
+                                  type="button" 
+                                  :disabled="retenues[index].desactive"
+                                  class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                  @click="removeRowRetenue(index)"
                                 >
-                                  <i class="fa fa-plus-circle"></i>
-                                  Ajouter une retenue
+                                  <i class="icofont icofont-ui-delete"></i>
                                 </button>
                               </div>
-                            </div>
-                          </div>
-                          <div>
-                            <div class="card-body p-15 p-sm-20 p-md-25">
-                              <div class="table-responsive">
-                                <table class="table table-fixed text-nowrap align-middle mb-0">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col" class="prime">Type retenue</th>
-                                      <th scope="col" class="quantite">Valeur</th>
-                                      <th scope="col" class="prix-unitaire">Quantité</th>
-                                      <th scope="col">Valeur Unitaire</th>
-                                      <th scope="col">Montant</th>
-                                      <th scope="col">Actions</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr v-for="(retenue, index) in retenues" :key="index">
-                                      <td class="typeRetenue-col">
-                                        <Multiselect
-                                          :options="typeRetenueOptions"
-                                          :searchable="true"
-                                          track-by="label"
-                                          label="label"
-                                          v-model="retenue.typeRetenue"
-                                          placeholder=""
-                                          @select="selectTypeRetenue(retenue.typeRetenue, retenue)"
-                                        />
-                                        <span class="invalid-feedback" v-if="validateRowRetenue(retenue.typeRetenue)">
-                                          Le type de retenue est obligatoire.
-                                        </span>
-                                      </td>
-                                      <td class="valeur-col">
-                                        <input
-                                          type="text"
-                                          :readonly="true"
-                                          v-model="retenue.valeur"
-                                          class="form-control"
-                                        />
-                                      </td>
-                                      <td class="quantite-col">
-                                        <input
-                                          type="text"
-                                          v-model="retenue.quantite"
-                                          :class="validateRowRetenue(retenue.quantite) ? 'form-control is-invalid' : 'form-control'"
-                                          placeholder="Entrer la quantité"
-                                        />
-                                        <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
-                                          La quantité est obligatoire.
-                                        </span>
-                                      </td>
-                                      <td class="valeurUnitaire-col">
-                                        <input
-                                          type="text"
-                                          v-model="retenue.valeurUnitaire"
-                                          class="form-control"
-                                          placeholder=""
-                                        />
-                                      </td>
-                                      <td class="montant-col">
-                                        <input
-                                          type="text"
-                                          v-model="retenue.montant"
-                                          :readonly="true"
-                                          class="form-control"
-                                          placeholder=""
-                                        />
-                                      </td>
-                                      <td class="actions-col pe-0">
-                                        <div class="button-container" style="white-space: nowrap">
-                                          <button
-                                            type="button" 
-                                            :disabled="retenues[index].desactive"
-                                            class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                            @click="removeRowRetenue(index)"
-                                          >
-                                            <i class="icofont icofont-ui-delete"></i>
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            </div>
           </div>
+        </div>
 
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
@@ -489,9 +391,7 @@
       const typeOptions = ref([]);
       const typeRetenueOptions = ref([]);
       const typeRetenues = ref(null);
-      const salaireDeBase = ref();
       const prOptions = ref();
-
       const getAllContrats = async () => {
       try {
         const response = await ApiService.get('/contrats');
@@ -510,10 +410,11 @@
       const selectedContrat = ref(null);
 
       const fetchPrimeRetenue = async (id) => {
+        console.log("ID passé à fetchPrimeRetenue:", id);
       try {
         const response = await ApiService.get(`/prime/retenues/contrat/${id}`);
         const { primes: fetchedPrimes, retenues: fetchedRetenues } = response.data.data;
-
+        getContrat(id);
         primes.splice(0, primes.length); 
         retenues.splice(0, retenues.length); 
 
@@ -540,11 +441,23 @@
             desactive: true,
           });
         });
+        
       } catch (error) {
         console.error('Error fetching primes and retenues:', error);
       }
     };
 
+    const getContrat = async(id) =>
+    {
+      try {
+        const response = await ApiService.get(`/contrat/${id}`);
+        const contratData = response.data.data;
+        console.log('Type prime', contratData)
+        salaireDeBase.value = contratData.salaireBase
+      } catch (error) {
+        // H
+      }
+    }
 
     const getAllTypePrime = async () => {
       try {
@@ -574,7 +487,38 @@
       }
     };
 
+    
       // formulaire dynamique
+      const totalPrime = ref(0);
+      const totalRetenue = ref(0);
+      const salaireDeBase = ref();
+      const salaireNet = ref(0);
+
+      const totalPrimes=()=>{
+        totalPrime.value=0;
+      Object.keys(primes).forEach(function (key)
+      {
+            if (primes[key].montant !=null ) {
+              totalPrime.value += parseInt(primes[key].montant)
+            }
+        });
+      }
+
+      const totalRetenues=()=>{
+        totalRetenue.value=0;
+      Object.keys(retenues).forEach(function (key)
+      {
+            if (primes[key].montant !=null ) {
+              totalRetenue.value += parseInt(retenues[key].montant)
+            }
+        });
+      }
+
+      const totalsalaireNet=()=>{
+        salaireNet.value=(totalPrime.value - totalRetenue.value) + parseInt(salaireDeBase.value);
+
+      }
+
     const isDisable = ref(true);
     const isDisablee = ref(true);
 
@@ -654,6 +598,9 @@ const updateAllMontants = () => {
   retenues.forEach(retenue => {
     retenue.montant = calculerMontant(retenue);
   });
+  totalPrimes();
+  totalRetenues();
+  totalsalaireNet();
 };
 
 const updateValeurUnitaire = () => {
@@ -689,16 +636,21 @@ const updateValeurUnitaire = () => {
 watch(salaireDeBase, () => {
   updateValeurUnitaire();
   updateAllMontants();
+  totalsalaireNet();
 });
 
 watch(primes, () => {
   updateValeurUnitaire();
   updateAllMontants();
+  totalPrimes();
+  totalsalaireNet();
 }, { deep: true });
 
 watch(retenues, () => {
   updateValeurUnitaire();
   updateAllMontants();
+  totalRetenues();
+  totalsalaireNet();
 }, { deep: true });
 
 const selectTypePrime = (selectedTypePrime, prime) => {
@@ -840,6 +792,9 @@ watch(
         fetchPrimeRetenue,
         prOptions,contrat,
         selectedContrat,
+        salaireNet,
+        totalRetenue,
+        totalPrime,
       };
     },
   });

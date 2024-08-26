@@ -31,7 +31,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Mode prix <span class="text-danger">*</span>
               </label>
-              <Field name="modePrix" v-slot="{ field }">
+              <Field name="modeDefPrix" v-slot="{ field }">
                 <Multiselect
                   :options="['Mod1','Mod2']"
                   :searchable="true"
@@ -42,7 +42,7 @@
                   placeholder="Sélectionner le mode de prix"
                 />
               </Field>
-            <ErrorMessage name="modePrix" class="text-danger" />
+            <ErrorMessage name="modeDefPrix" class="text-danger" />
           </div>
           </div>
           <div class="col-md-3">
@@ -198,18 +198,32 @@
               <ErrorMessage name="seuilAppro" class="text-danger" />
             </div>
           </div>
+          <div class="col-md-3" v-if="!estService">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Seuil Alerte <span class="text-danger">*</span>
+              </label>
+              <Field
+                name="seuilAlerte"
+                type="number"
+                class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer le seuil d'Alerte"
+              />
+              <ErrorMessage name="seuilAlerte" class="text-danger" />
+            </div>
+          </div>
           <div class="col-md-2" v-if="estModeCarreau">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                Pièce par carton <span class="text-danger">*</span>
               </label>
               <Field
-                name="pieceCarton"
+                name="pieceParCarton"
                 type="number"
                 class="form-control shadow-none fs-md-15 text-black"
                 placeholder="Entrer la pièce par carton"
               />
-              <ErrorMessage name="pieceCarton" class="text-danger" />
+              <ErrorMessage name="pieceParCarton" class="text-danger" />
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
@@ -218,12 +232,12 @@
                Pièce par m² <span class="text-danger">*</span>
               </label>
               <Field
-                name="pieceM2"
+                name="pieceParMetreCarre"
                 type="number"
                 class="form-control shadow-none fs-md-15 text-black"
                 placeholder="Entrer la pièce par m²"
               />
-              <ErrorMessage name="pieceM2" class="text-danger" />
+              <ErrorMessage name="pieceParMetreCarre" class="text-danger" />
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
@@ -232,12 +246,12 @@
                M² par carton <span class="text-danger">*</span>
               </label>
               <Field
-                name="m2Carton"
+                name="metreCarreParCarton"
                 type="number"
                 class="form-control shadow-none fs-md-15 text-black"
                 placeholder="Entrer le m² par carton"
               />
-              <ErrorMessage name="m2Carton" class="text-danger" />
+              <ErrorMessage name="metreCarreParCarton" class="text-danger" />
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
@@ -246,12 +260,12 @@
                Surface par pièce <span class="text-danger">*</span>
               </label>
               <Field
-                name="surfacePiece"
+                name="surfaceParPiece"
                 type="number"
                 class="form-control shadow-none fs-md-15 text-black"
                 placeholder="Entrer la surface pièce"
               />
-              <ErrorMessage name="surfacePiece" class="text-danger" />
+              <ErrorMessage name="surfaceParPiece" class="text-danger" />
             </div>
           </div>
           <div class="col-md-4" v-if="estModeCarreau">
@@ -706,7 +720,7 @@ export default defineComponent({
     const produitSchema = Yup.object().shape({
       refProd: Yup.string().required("La reference est obligatoire"),
       groupeTaxe: Yup.string().required("Le groupe de taxe est obligatoire"),
-      modePrix: Yup.string().required("Le mode de prix est obligatoire"),
+      modeDefPrix: Yup.string().required("Le mode de prix est obligatoire"),
       nomProd: Yup.string().required("Le nom est obligatoire"),
       descProd: Yup.string().notRequired(),
       famille: Yup.string().required("La famille est obligatoire"),
@@ -732,22 +746,22 @@ export default defineComponent({
           ? schema.required("Le seuil d'aprovisionnement est obligatoire")
           : schema.notRequired()
       }),
-      pieceCarton: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
+      pieceParCarton: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
         return estModeCarreau.value
           ? schema.required("Le nombre de pièce par carton est obligatoire")
           : schema.notRequired()
       }),
-      pieceM2: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
+      pieceParMetreCarre: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
         return estModeCarreau.value
           ? schema.required("Le nombre de pièce par m² est obligatoire")
           : schema.notRequired()
       }),
-      m2Carton: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
+      metreCarreParCarton: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
         return estModeCarreau.value
           ? schema.required("Le m² par carton est obligatoire")
           : schema.notRequired()
       }),
-      surfacePiece: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
+      surfaceParPiece: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
         return estModeCarreau.value
           ? schema.required("La surface par pièce est obligatoire")
           : schema.notRequired()
@@ -759,7 +773,7 @@ export default defineComponent({
     const router = useRouter();
     const familleOptions = ref([]);
     const groupeTaxeOptions = ref([]);
-    const modePrixOptions = ref([]);
+    const modeDefPrixOptions = ref([]);
     const magasinOptions = ref([]);
     const methodeOptions = ref([]);
     const estService= ref(false)
@@ -1012,7 +1026,7 @@ export default defineComponent({
       addProduit,
       produitForm,
       familleOptions,
-      modePrixOptions,
+      modeDefPrixOptions,
       groupeTaxeOptions,
       methodeOptions,
       magasinOptions,
