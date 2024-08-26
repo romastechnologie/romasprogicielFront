@@ -2,33 +2,39 @@
 
 export const add = [
     {
-        id: "#detail-product",
+        id: "#info-personnel",
         icon: "product-detail",
-        title: "Add Product Details",
-        desc: "Add Product name & details"
+        title: "Informations générales du personnel",
+        desc: "Ajouter les informations du personnel"
     },
     {
-        id: "#gallery-product",
+        id: "#adresse-contact",
         icon: "product-gallery",
-        title: "Product gallery",
-        desc: "thumbnail & Add Product Gallery"
+        title: "Adresse et contacts du personnel",
+        desc: "Complèter les adresses et les contacts du personnel"
     },
     {
-        id: "#category-product",
+        id: "#info-conjoint",
         icon: "product-category",
-        title: "Product Categories",
-        desc: "Add Product category, Status and Tags"
+        title: "Informations sur le conjoint et les enfants",
+        desc: "Complèter les informations du conjoints et des enfants"
     },
     {
-        id: "#pricings",
+        id: "#info-sante-personnel",
         icon: "pricing",
-        title: "Selling prices",
-        desc: "Add Product basic price & Discount"
+        title: "Informations sur la santé du personnel",
+        desc: "Complèter les informations sur la santé du personnel"
     },
     {
-        id: "#advance-product",
+        id: "#info-bancaire",
         icon: "advance",
-        title: "Advance",
-        desc: "Add Meta details & Inventory details"
+        title: "Informations bancaires",
+        desc: "Ajouter les informations bancaires"
+    },
+    {
+        id: "#personne-acontacter",
+        icon: "advance",
+        title: "Personne à contacter",
+        desc: "Ajouter la personne à contacter"
     }
 ]

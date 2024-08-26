@@ -19,9 +19,9 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Dénomination <span class="text-danger">*</span>
                 </label>
-                <Field name="denomination" type="text" 
+                <Field name="denominationBanque" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la dénomination"/>
-                <ErrorMessage name="denomination" class="text-danger"/>
+                <ErrorMessage name="denominationBanque" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-6">
@@ -96,7 +96,7 @@ export default defineComponent({
     const banqueSchema = Yup.object().shape({
       sigle: Yup.string().required('Le sigle est obligatoire'),
       adresse: Yup.string().required('L\'adresse est obligatoire'),
-      denomination: Yup.string().required('La dénomination est obligatoire'),
+      denominationBanque: Yup.string().required('La dénomination est obligatoire'),
     });
 
     const banqueForm = ref<Banque>();

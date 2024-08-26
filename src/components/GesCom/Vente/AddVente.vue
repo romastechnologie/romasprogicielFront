@@ -315,8 +315,7 @@
                                     type="button"
                                     :class="{ 'cursor-not-allowed': isDisable }"
                                     :disabled="isDisable"
-                                    @click="addRowProduit()"
-                                  >
+                                    @click="addRowProduit()">
                                   <i class="fa fa-plus-circle"></i>
                                     Ajouter un produit
                                   </button>
