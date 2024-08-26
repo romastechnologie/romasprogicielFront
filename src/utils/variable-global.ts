@@ -15,13 +15,13 @@ export const add = [
     {
         id: "#info-conjoint",
         icon: "product-category",
-        title: "Informations sur le conjoint et les enfants",
+        title: "Conjoint et enfants",
         desc: "Complèter les informations du conjoints et des enfants"
     },
     {
         id: "#info-sante-personnel",
         icon: "pricing",
-        title: "Informations sur la santé du personnel",
+        title: "Santé et physique",
         desc: "Complèter les informations sur la santé du personnel"
     },
     {
@@ -30,10 +30,10 @@ export const add = [
         title: "Informations bancaires",
         desc: "Ajouter les informations bancaires"
     },
-    {
+    /*{
         id: "#personne-acontacter",
         icon: "advance",
         title: "Personne à contacter",
         desc: "Ajouter la personne à contacter"
-    }
+    }*/
 ]

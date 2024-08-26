@@ -1703,7 +1703,7 @@ const routes: Array<RouteRecordRaw> = [
         component: BodyView,
         children: [
           {
-            path: "ajouter-test",
+            path: "ajouter-personnel",
             name: "AddPersonnelNew",
             component: AddPersonnelNewPage,
             meta: {
