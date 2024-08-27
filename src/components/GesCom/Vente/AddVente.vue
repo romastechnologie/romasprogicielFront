@@ -315,8 +315,7 @@
                                     type="button"
                                     :class="{ 'cursor-not-allowed': isDisable }"
                                     :disabled="isDisable"
-                                    @click="addRowProduit()"
-                                  >
+                                    @click="addRowProduit()">
                                   <i class="fa fa-plus-circle"></i>
                                     Ajouter un produit
                                   </button>
@@ -951,7 +950,7 @@ export default defineComponent({
         const produitsData = response.data.data;
         produitsss.value = produitsData;
         produitOptions.value = produitsData.map((produitconditionnements) => ({
-          value: produitconditionnements.id+"|"+ produitconditionnements.produit.nomProd + "|" + produitconditionnements.prixVenteHt +"|"+ produitconditionnements.prixVenteTtc,
+          value: produitconditionnements.id+"|"+ `${produitconditionnements.produit.nomProd} [ ${produitconditionnements.conditionnement.libelle} ]` + "|" + produitconditionnements.prixVenteHt +"|"+ produitconditionnements.prixVenteTtc,
           label: `${produitconditionnements.produit.nomProd} [ ${produitconditionnements.conditionnement.libelle} ]`,
         }));
       } catch (error) {
@@ -1228,14 +1227,12 @@ export default defineComponent({
                 }
             }
           });
-
         if(valeurAib.value  != 0) {
             totalaib.value = (totalsommeremise.value * valeurAib.value)/100
             totalttc.value += totalaib.value;
         }
     }
 
-    
     const eventProduit =()=>{
         if(produit.prixTtc && produit.qtite) {
             let prixremise = produit.prixHt;
@@ -1269,7 +1266,6 @@ export default defineComponent({
             produit.montantTtc = parseInt((produit.montantTtc + ts).toFixed(0));
         } 
     }
-
 
     return {
       totalsomme,

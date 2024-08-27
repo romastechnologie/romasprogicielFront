@@ -3,7 +3,7 @@
       <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="compteForm" @submit="addCompte" :validation-schema="compteSchema">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Client <span class="text-danger">*</span>
@@ -22,7 +22,7 @@
               </div>
               <ErrorMessage name="client" class="text-danger"/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Intitulé compte <span class="text-danger">*</span>
@@ -32,23 +32,56 @@
                 <ErrorMessage name="intituleCompte" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
-                Dépot initial <span class="text-danger">*</span>
+                Solde initial <span class="text-danger">*</span>
                 </label>
-                <Field name="depot" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le depot"/>
-                <ErrorMessage name="depot" class="text-danger"/>
+                <Field name="soldeInitial" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le solde initial"/>
+                <ErrorMessage name="soldeInitial" class="text-danger"/>
               </div>
             </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                Solde Actuel<span class="text-danger">*</span>
+                </label>
+                <Field name="soldeActuel" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le solde actuel"/>
+                <ErrorMessage name="soldeActuel" class="text-danger"/>
+              </div>
+            </div> 
+            <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Date de création
+                  </label>
+                  <Field name="date" type="date" 
+                  class="form-control shadow-none fs-md-15 text-black"/>
+                </div>
+              <ErrorMessage name="date" class="text-danger"/>
+              </div>
+            <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Type de compte 
+              </label>
+              <Field name="typeCompte" v-model="typeCompte" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="typeCompteOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner la typeCompte"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le type est obligatoire</span>
+            </div>
+          </div>
             <div class="col-md-12">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
                   type="submit"
                 >
-                  Faire un compte
+                  Créer un compte
                 </button>
                 <router-link to="/comptes/liste-comptes" 
                     class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
@@ -84,15 +117,19 @@ export default defineComponent({
   setup: () => {
     const compteSchema = Yup.object().shape({
       client: Yup.string().required('Le client est obligatoire'),
+      date: Yup.string().required('La date est obligatoire'),
       //fournisseur: Yup.string().required('Le fournisseur est obligatoire'),
+      typeCompte: Yup.string().required('Le type de compte est obligatoire'),
       intituleCompte: Yup.string().required('L\'intitule de compte est obligatoire'),
-      depot: Yup.number().typeError('Veuillez entrer des chiffres').required('Le depot est obligatoire'),
+      soldeInitial: Yup.number().typeError('Veuillez entrer des chiffres').required('Le solde initial est obligatoire'),
+      soldeActuel: Yup.number().typeError('Veuillez entrer des chiffres').required('Le solde actuel est obligatoire'),
     });
 
     const compteForm =  ref<Compte | null>(null);
     const router = useRouter();
     const clientOptions = ref([]);
     const fournisseurOptions = ref([]);
+    const typeCompteOptions = ref([]);
 
     const fetchClient = async () => {
       try {
@@ -106,6 +143,21 @@ export default defineComponent({
         //
       }
     };
+    const getAllTypeCompte = async () => {
+        try{
+        const response = await ApiService.get('/typecomptes');
+        const typeComptesData = response.data.data.data;
+
+        typeCompteOptions.value = typeComptesData.map((typeCompte) => ({
+          value: typeCompte.id,
+          label: typeCompte.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
+
 
     const fetchFournisseur = async () => {
       try {
@@ -122,7 +174,8 @@ export default defineComponent({
 
     onMounted(()=> {
       fetchClient();
-      fetchFournisseur()
+      fetchFournisseur();
+      getAllTypeCompte();
     })
     
     const addCompte = async (values, {resetForm}) => {
@@ -142,6 +195,7 @@ export default defineComponent({
        addCompte,
         compteForm,clientOptions,
         fournisseurOptions,
+        typeCompteOptions,
       };
   },
 });

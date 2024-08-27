@@ -154,7 +154,7 @@
             <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                  Nationalité
+                  Nationalité<span class="text-danger">*</span>
                 </label>
                 <Field name="nationalite" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la nationnalité "/>
@@ -164,7 +164,7 @@
             <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                  Nombre d'enfants
+                  Nombre d'enfants<span class="text-danger">*</span>
                 </label>
                 <Field name="nombreEnfant" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nombre d'enfants"/>
@@ -174,7 +174,7 @@
             <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                  Boite Postale 
+                  Boite Postale <span class="text-danger">*</span>
                 </label>
                 <Field name="boitePostale" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer votre adresse postale"/>
@@ -184,7 +184,7 @@
             <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Religion 
+                Religion <span class="text-danger">*</span>
               </label>
               <Field name="religions" v-model="religions" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="religionOptions" :preserve-search="true"
@@ -198,11 +198,277 @@
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Ethnie 
+                Ethnie <span class="text-danger">*</span>
               </label>
               <Field name="ethnies" v-model="ethnies" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="ethnieOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">L'ethnie est obligatoire</span>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Taille<span class="text-danger">*</span>
+                </label>
+                <Field name="taille" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Taille(cm) "/>
+                <ErrorMessage name="taille" class="text-danger"/>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Poids<span class="text-danger">*</span>
+                </label>
+                <Field name="poids" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Poids(kg) "/>
+                <ErrorMessage name="poids" class="text-danger"/>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Groupe Sanguin <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="groupeSanguin"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['A+', 'B+','AB+','O+','A-','B-','AB-','O-']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner le Groupe Sanguin"
+                    />
+                  </Field>
+                  <ErrorMessage name="groupeSanguin" class="text-danger"/>
+                </div>
+              </div>
+
+
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Vision Gauche <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="visionGauche"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['Normal', 'à vue réduite','Visé de loin','Astigmatique','à vue réduite & astigmatique','Visé de loin & astigmatique','partiellement handicapé','Aveugle']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner la vision Gauche"
+                    />
+                  </Field>
+                  <ErrorMessage name="visionGauche" class="text-danger"/>
+                </div>
+              </div>
+              
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Vision Droite <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="visionDroite"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['Normal', 'à vue réduite','Visé de loin','Astigmatique','à vue réduite & astigmatique','Visé de loin & astigmatique','partiellement handicapé','Aveugle']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner la vision Droite"
+                    />
+                  </Field>
+                  <ErrorMessage name="visionDroite" class="text-danger"/>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Audience Gauche <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="audienceGauche"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['Normal','partiellement handicapé','Sourd']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner l'audience Gauche"
+                    />
+                  </Field>
+                  <ErrorMessage name="audienceGauche" class="text-danger"/>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Audience Droite <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="audienceDroite"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['Normal','partiellement handicapé','Sourd']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner l'audience Droite"
+                    />
+                  </Field>
+                  <ErrorMessage name="audienceDroite" class="text-danger"/>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Main Gauche <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="mainGauche"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['Normal','partiellement handicapé','handicapé']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner la main Gauche"
+                    />
+                  </Field>
+                  <ErrorMessage name="mainGauche" class="text-danger"/>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Main Droite <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="mainDroite"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['Normal','partiellement handicapé','handicapé']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner la main Droite"
+                    />
+                  </Field>
+                  <ErrorMessage name="mainDroite" class="text-danger"/>
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Jambe Gauche <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="jambeGauche"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['Normal','partiellement handicapé','handicapé']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner la jambe Droite"
+                    />
+                  </Field>
+                  <ErrorMessage name="jambeGauche" class="text-danger"/>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Jambe Droite <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="jambeDroite"  type="text"  v-slot="{ field }">
+                    <Multiselect
+                    :searchable = "true"
+                    :options = "['Normal','partiellement handicapé','handicapé']"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner la jambe Droite"
+                    />
+                  </Field>
+                  <ErrorMessage name="jambeDroite" class="text-danger"/>
+                </div>
+              </div>
+          <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Nom du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="nomCon" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom du conjoint "/>
+                <ErrorMessage name="nomCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                 Prenom du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="prenomCon" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom du conjoint "/>
+                <ErrorMessage name="prenomCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Date de Naissance du conjoint
+                </label>
+                <Field name="dateNaissanceCon" type="date" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date de naissance du conjoint "/>
+                <ErrorMessage name="dateNaissanceCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Nationalité du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="nationaliteCon" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la nationalité du conjoint "/>
+                <ErrorMessage name="nationaliteCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Téléphone du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="telephoneCon" type="string" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone du conjoint "/>
+                <ErrorMessage name="telephoneCon" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Passport du Conjoint<span class="text-danger">*</span>
+                </label>
+                <Field name="passportCon" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la nationalité du conjoint "/>
+                <ErrorMessage name="passportCon" class="text-danger"/>
+              </div>
+            </div>
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Religion Du Conjoint<span class="text-danger">*</span>
+              </label>
+              <Field name="religions" v-model="religions" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="religionOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner la religion du conjoint"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">La religion est obligatoire</span>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Ethnie Du Conjoint<span class="text-danger">*</span> 
+              </label>
+              <Field name="ethnies" v-model="ethnies" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="ethnieOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie du conjoint"
                 label="label" track-by="label" />
               </Field>
               <span class="text-danger" v-if="showMErr">L'ethnie est obligatoire</span>
@@ -537,9 +803,27 @@ export default defineComponent({
       tel: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
       tel2: Yup.number().notRequired(),
       dateNais: Yup.date().notRequired(),
+      nomCon: Yup.string().required('Le nom du conjoint est obligatoire'),
+      prenomCon: Yup.string().required('Le prenom du conjoint est obligatoire'),
+      dateNaissanceCon: Yup.string().required('La date de naissance du conjoint est obligatoire'),
+      nationaliteCon: Yup.string().required('La nationalité du conjoint est obligatoire'),
+      passportCon: Yup.string().required('Le passport du conjoint est obligatoire'),
+      taille: Yup.string().required('La taille  est obligatoire'),
+      poids: Yup.string().required('Le poids est obligatoire'),
+      
       //nomUtilisateur: Yup.string().required('Le nom est obligatoire'),
       sexe: Yup.string().required('Le sexe est obligatoire'),
       civilite: Yup.string().required('La civilité est obligatoire'),
+      groupeSanguin: Yup.string().required('Le groupe sanguin est obligatoire'),
+      visionGauche: Yup.string().required('La vision gauche est obligatoire'),
+      visionDroite: Yup.string().required('La vision droite est obligatoire'),
+      audienceGauche: Yup.string().required('Audience Gauche est obligatoire'),
+      audienceDroite: Yup.string().required('Audience Droite obligatoire'),
+      mainGauche: Yup.string().required('La main gauche est obligatoire'),
+      mainDroite: Yup.string().required('La main Droite est obligatoire'),
+      jambeGauche: Yup.string().required('La jambe gauche est obligatoire'),
+      jambeDroite: Yup.string().required('La jambe droite est obligatoire'),
+
       nomPersonneAContacter:Yup.string().notRequired(),
       prenomPersonneAContacter:Yup.string().notRequired(),
       telPersonnelAContacter:Yup.number().notRequired(),
@@ -705,7 +989,7 @@ export default defineComponent({
     })
 
     return { personnelSchema,
-       addPersonnel,
+        addPersonnel,
         personnelForm,
         removeRowFonction,
         addRowFonction,

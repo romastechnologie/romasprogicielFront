@@ -49,7 +49,103 @@
                 <ErrorMessage name="dateEmbauche" class="text-danger text-start" />
               </div>
             </div>
-            <h4 class="text-center mt-4 mb-0"> Service - Fonction </h4>
+            <div class="d-flex mb-2">
+              <div class="col mx-2">
+                <p class="my-0"> Titre du Poste </p>
+                <Field v-model="newPersonnel.personnel.titrePoste" type="text" name="titrePoste" id="titrePoste" class="form-control mb-1" />
+                <ErrorMessage name="titrePoste" class="text-danger text-start" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0"> Boite Postale </p>
+                <Field v-model="newPersonnel.personnel.boitePostale" type="text" name="boitePostale" id="boitePostale"
+                  class="form-control mb-1" />
+                <ErrorMessage name="boitePostale" class="text-danger text-start" />
+              </div>
+            </div>
+            <div class="d-flex mb-2">
+              <div class="col mx-2">
+                <p class="my-0"> Civilité </p>
+                <Field v-model="newPersonnel.personnel.civilite" type="text" name="civilite" id="civilite" class="form-control mb-1" />
+                <ErrorMessage name="civilite" class="text-danger text-start" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0">Sexe </p>
+                <Field v-model="newPersonnel.personnel.sexe" type="text" name="sexe" id="sexe"
+                  class="form-control mb-1" />
+                <ErrorMessage name="sexe" class="text-danger text-start" />
+              </div>
+            </div>
+            <div class="d-flex mb-2">
+              <div class="col mx-2">
+                <p class="my-0"> Numero Sécurité Sociale </p>
+                <Field v-model="newPersonnel.personnel.numeroSecuriteSociale" type="text" name="numeroSecuriteSociale" id="numeroSecuriteSociale" class="form-control mb-1" />
+                <ErrorMessage name="numeroSecuriteSociale" class="text-danger text-start" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0">Nationalité </p>
+                <Field v-model="newPersonnel.personnel.nationalite" type="text" name="nationalite" id="nationalite"
+                  class="form-control mb-1" />
+                <ErrorMessage name="nationalite" class="text-danger text-start" />
+              </div>
+            </div>
+
+            <div class="d-flex mb-2">
+              <div class="col mx-2">
+                <p class="my-0"> Relevé Identité Bancaire </p>
+                <Field v-model="newPersonnel.personnel.releveIdentiteBancaire" type="text" name="releveIdentiteBancaire" id="releveidentitebancaire" class="form-control mb-1" />
+                <ErrorMessage name="releveIdentiteBancaire" class="text-danger text-start" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0">Code IBAN </p>
+                <Field v-model="newPersonnel.personnel.codeIban" type="text" name="codeIban" id="codeIban"
+                  class="form-control mb-1" />
+                <ErrorMessage name="codeIban" class="text-danger text-start" />
+              </div>
+
+              <div class="col mx-2">
+                <p class="my-0">Code SWIFT </p>
+                <Field v-model="newPersonnel.personnel.codeSwift" type="text" name="codeSwift" id="codeSwift"
+                  class="form-control mb-1" />
+                <ErrorMessage name="codeSwift" class="text-danger text-start" />
+              </div>
+            </div>
+
+            <div class="d-flex mb-2">
+              <div class="col mx-2">
+                <p class="my-0"> Nombre Enfant </p>
+                <Field v-model="newPersonnel.personnel.nombreEnfant" type="number" name="nombreEnfant" id="nombreEnfant" class="form-control mb-1" />
+                <ErrorMessage name="nombreEnfant" class="text-danger text-start" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0">Photo  Employé</p>
+                <Field v-model="newPersonnel.personnel.photoEmploye" type="text" name="photoEmploye" id="photoEmploye"
+                  class="form-control mb-1" />
+                <ErrorMessage name="photoEmploye" class="text-danger text-start" />
+              </div>
+            </div>
+        <div class="d-flex mb-2">
+              <div class="col mx-2">
+            <label class="d-block text-black mb-10">
+                Ethnie <span class="text-danger">*</span>
+              </label>
+              <Field name="ethnies" v-model="ethnie" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="ethnieOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'Ethnie "
+                label="label" track-by="label" />
+              </Field>  
+            </div>
+        <div class="col mx-2">
+            <label class="d-block text-black mb-10">
+                Religion <span class="text-danger">*</span>
+              </label>
+              <Field name="religions" v-model="religion" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="religionOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner la Religion "
+                label="label" track-by="label" />
+              </Field>  
+            </div>
+          </div>
+       <h4 class="text-center mt-4 mb-0"> Service - Fonction </h4>
             <div class="d-flex mb-2">
               <div class="col mx-2">
                 <p class="my-0"> Service </p>
@@ -95,11 +191,9 @@
                   id="dateDebut" class="form-control mb-1" />
                 <ErrorMessage name="dateDebut" class="text-danger text-start" />
               </div>
-              <div class="col mx-2">
-
               </div>
-            </div>
           </Form>
+          </div>
           <h4 class="text-center mt-4 mb-0"> Contrat </h4>
           <Form :validation-schema="schemaContrat()">
             <div class="d-flex mb-2">
@@ -137,9 +231,128 @@
               </div>
             </div>
             <button ref="clickContratForm" type="submit" class="d-none"> Envoyer </button>
-          </Form>
+          </Form> 
+        
+          <h4 class="text-center mt-4 mb-0"> Conjoint </h4>
+          <Form :validation-schema="schemaConjoint()">
+            <div class="d-flex mb-2">
+              <div class="col mx-2">
+                <p class="my-0"> nom</p>
+                <Field v-model="newPersonnel.conjoint.nom" type="text" name="nom"
+                  id="nom" class="form-control mb-1" />
+                <ErrorMessage name="nom" class="text-danger text-start mb-2" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0"> prenom</p>
+                <Field v-model="newPersonnel.conjoint.prenom" type="text" name="prenom" id="prenom"
+                  class="form-control mb-1" />
+                <ErrorMessage name="prenom" class="text-danger text-start mb-2" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0"> Deuxieme Prenom</p>
+                <Field v-model="newPersonnel.conjoint.deuxiemePrenom" type="text" name="deuxiemePrenom" id="deuxiemePrenom"
+                  class="form-control mb-1" />
+                <ErrorMessage name="deuxiemePrenom" class="text-danger text-start mb-2" />
+              </div>
+              </div>
+              <div class="d-flex mb-2">
+              <div class="col mx-2">
+                <p class="my-0"> Date de Naissance</p>
+                <Field v-model="newPersonnel.conjoint.dateNaissance" type="date" name="dateNaissance" id="dateNaissance"
+                  class="form-control mb-1" />
+                <ErrorMessage name="dateNaissance" class="text-danger text-start mb-2" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0">Nationalité</p>
+                <Field v-model="newPersonnel.conjoint.nationalite" type="text" name="nationalite" id="nationalite"
+                  class="form-control mb-1" />
+                <ErrorMessage name="nationalite" class="text-danger text-start mb-2" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0">Passport </p>
+                <Field v-model="newPersonnel.conjoint.passport" type="text" name="passport" id="passport"
+                  class="form-control mb-1" />
+                <ErrorMessage name="passport" class="text-danger text-start mb-2" />
+              </div>
+              </div>
+              <button ref="clickConjointForm" type="submit" class="d-none"> Envoyer </button>    
+           </Form>
+            <h4 class="text-center mt-4 mb-0"> Santé Employé  </h4>
+          <Form :validation-schema="schemaSanteEmploye()">
+            <h3>PHYSIQUE</h3>
+              <hr>
+            <div class="d-flex mb-2">    
+              <div class="col mx-2">
+                <p class="my-0"> hauteur</p>
+                <Field v-model="newPersonnel.santeEmploye.hauteur" type="text" name="hauteur"
+                  id="hauteur" class="form-control mb-1" />
+                <ErrorMessage name="hauteur" class="text-danger text-start mb-2" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0"> Poids</p>
+                <Field v-model="newPersonnel.santeEmploye.poids" type="text" name="poids"
+                  id="poids" class="form-control mb-1" />
+                <ErrorMessage name="poids" class="text-danger text-start mb-2" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0">Type de Sang</p>
+                <Field v-model="newPersonnel.santeEmploye.typeDeSang" type="text" name="typeDeSang"
+                  id="typeDeSang" class="form-control mb-1" />
+                <ErrorMessage name="typeDeSang" class="text-danger text-start mb-2" />
+              </div>
+              </div>
+              <h3>VISION</h3>
+                <hr>
+              <div class="d-flex mb-2">   
+              <div class="col mx-2">
+                <p class="my-0">Vision Gauche</p>
+                <Field v-model="newPersonnel.santeEmploye.visionGauche" type="text" name="visionGauche"
+                  id="visionGauche" class="form-control mb-1" />
+                <ErrorMessage name="visionGauche" class="text-danger text-start mb-2" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0">Vision Droite</p>
+                <Field v-model="newPersonnel.santeEmploye.visionDroite" type="text" name="visionDroite"
+                  id="visionDroite" class="form-control mb-1" />
+                <ErrorMessage name="visionDroite" class="text-danger text-start mb-2" />
+              </div>
+              </div>
+              <h3>MAIN</h3>
+                <hr>
+              <div class="d-flex mb-2">     
+              <div class="col mx-2">
+                <p class="my-0">Main Gauche</p>
+                <Field v-model="newPersonnel.santeEmploye.mainGauche" type="text" name="mainGauche"
+                  id="mainGauche" class="form-control mb-1" />
+                <ErrorMessage name="mainGauche" class="text-danger text-start mb-2" />
+              </div>
+              <div class="col mx-2">
+                <p class="my-0">Main Droite</p>
+                <Field v-model="newPersonnel.santeEmploye.mainDroite" type="text" name="mainDroite"
+                  id="mainDroite" class="form-control mb-1" />
+                <ErrorMessage name="mainDroite" class="text-danger text-start mb-2" />
+              </div>
+              </div>
+              <h3>JAMBE</h3>
+              <hr>
+              <div class="d-flex mb-2">  
+              <div class="col mx-2">
+                <p class="my-0">Jambe Gauche</p>
+                <Field v-model="newPersonnel.santeEmploye.jambeGauche" type="text" name="jambeGauche"
+                  id="jambeGauche" class="form-control mb-1" />
+                <ErrorMessage name="jambeGauche" class="text-danger text-start mb-2" />
+              </div>
+
+              <div class="col mx-2">
+                <p class="my-0">Jambe Droite</p>
+                <Field v-model="newPersonnel.santeEmploye.jambeDroite" type="text" name="jambeDroite"
+                  id="jambeDroite" class="form-control mb-1" />
+                <ErrorMessage name="jambeDroite" class="text-danger text-start mb-2" />
+              </div>
+            </div>
+              <button ref="clickSanteEmployeForm" type="submit" class="d-none"> Envoyer </button>
+            </Form>
           <h4 class="text-center mt-4 mb-0"> Horaire </h4>
-          <div>
             <div class="row gx-2">
               <div class="col">
                 <h6> Jour </h6>
@@ -190,9 +403,7 @@
               Annuler </button>
           </router-link>
         </div>
-      </div>
-    </div>
-  </div>
+        </div>
 </template>
 
 <script setup lang="ts">
@@ -205,6 +416,7 @@ import Swal from 'sweetalert2';
 import router from '@/router';
 import VueMultiselect from 'vue-multiselect'
 import ApiService from '@/services/ApiService';
+import Multiselect from '@vueform/multiselect/src/Multiselect';
 
 configure({
   validateOnBlur: true,
@@ -220,6 +432,17 @@ interface Personnel {
   email: string;
   telephone: number;
   dateEmbauche: string;
+  titrePoste:string,
+  boitePostale:string,
+  civilite:string,
+  sexe:string,
+  nationalite:string,
+  numeroSecuriteSociale:string,
+  releveIdentiteBancaire:string,
+  codeIban:string,
+  codeSwift:string,
+  nombreEnfant:number,
+  photoEmploye:string
 }
 
 interface PersonnelServiceFonction {
@@ -227,6 +450,28 @@ interface PersonnelServiceFonction {
   personnel: number;
   service_fonction: number;
 }
+
+interface Conjoint {
+  nom: string;
+  prenom: string;
+  deuxiemePrenom: string;
+  dateNaissance: string;
+  nationalite: string;
+  passport: string;
+}
+
+interface SanteEmploye {
+  hauteur: string;
+  poids: string;
+  typeDeSang: string;
+  visionGauche: string;
+  visionDroite: string;
+  mainGauche: string;
+  mainDroite: string;
+  jambeGauche:string;
+  jambeDroite: string
+}
+
 
 interface Contrat {
   datePriseFonction: string;
@@ -248,11 +493,20 @@ interface Horairepersonnel {
 interface PERSONNEL {
   personnel: Personnel,
   personnelServiceFonction: PersonnelServiceFonction;
+  conjoint:Conjoint;
+  santeEmploye:SanteEmploye;
   contrat: Contrat;
   horaire_personnels: Horairepersonnel[];
 }
+  
 
+const ethnieOptions = ref([]);
+const religionOptions = ref([]);
+const ethnie = ref(null);
+const religion = ref(null);
 const clickPersonnelForm = ref(null);
+const clickConjointForm = ref(null);
+const clickSanteEmployeForm = ref(null);
 const clickContratForm = ref(null);
 const clickHoraireForm = ref(null);
 const services = ref([] as any[]);
@@ -274,12 +528,45 @@ const newPersonnel = ref<PERSONNEL>({
     birthdate: "",
     email: "",
     telephone: 0,
-    dateEmbauche: ""
+    dateEmbauche: "",
+    titrePoste:"",
+    boitePostale:"",
+    civilite:"",
+    sexe:"",
+    nationalite:"",
+    numeroSecuriteSociale:"",
+    releveIdentiteBancaire:"",
+    codeIban:"",
+    codeSwift:"",
+    nombreEnfant:0,
+    photoEmploye:"",
+  
+
   },
   personnelServiceFonction: {
     dateDebut: "",
     personnel: 0,
     service_fonction: 0,
+  },
+
+  conjoint: {
+    nom: "",
+    prenom: "",
+    deuxiemePrenom: "",
+    dateNaissance: "",
+    nationalite: "",
+    passport: ""
+  },
+  santeEmploye: {
+    hauteur: "",
+    poids: "",
+    typeDeSang: "",
+    visionGauche: "",
+    visionDroite: "",
+    mainGauche: "",
+    mainDroite:"",
+    jambeGauche:"",
+    jambeDroite:""
   },
   contrat: {
     datePriseFonction: "",
@@ -358,6 +645,32 @@ function schemaPersonnel() {
     // service: yup.string().required("Le service est requis."),
     // serviceFonction: yup.string().required("La fonction est requise."),
     dateDebut: yup.string().required("La date de début est requise."),
+  })
+}
+
+
+function schemaConjoint() {
+  return yup.object().shape({
+    nom: yup.string().required("Le nom est requis."),
+    prenom: yup.string().required("Le prenom est requis."),
+    deuxiemeEmploye: yup.string().required("Le deuxiemeEmploye est requis."),
+    dateNaissance: yup.date().required("La date de Naissance  est requise."),
+    nationalite: yup.string().required("La nationalité sont requise."),
+    passport: yup.string().required("Le passport est requis."),
+  })
+}
+
+function schemaSanteEmploye() {
+  return yup.object().shape({
+    hauteur: yup.string().required("La hauteur est requis."),
+    poids: yup.string().required("Le poids est requis."),
+    typeDeSang: yup.string().required("Le typeDeSang est requis."),
+    visionGauche: yup.string().required("La vision Gauche  est requise."),
+    visionDroite: yup.string().required("La vision Droite requise."),
+    mainGauche: yup.string().required("La main Gauche est requise."),
+    mainDroite: yup.string().required("La main Droite est requise."),
+    jambeGauche: yup.string().required("La jambe Gauche est requise."),
+    jambeDroite: yup.string().required("La jambe Droite est requise."),
   })
 }
 
@@ -512,6 +825,45 @@ const getAllPersonnels = async () => {
   }
 }
 
+
+const getAllEthnie = async () => {
+        try{
+        const response = await ApiService.get('/api/all/ethnies');
+        const ethniesData = response.data.data;
+        console.log("bhbdhbd",ethniesData)
+
+        ethnieOptions.value = ethniesData.map((ethnie) => ({
+          value: ethnie.id,
+          label: ethnie.libelle,
+        }));
+        }
+        catch(error){
+          console.error('Erreur lors de la recupération des ethnies:', error);
+          throw error;
+        }
+      } 
+
+
+      const getAllReligion = async () => {
+        try{
+        const response = await ApiService.get('/api/all/religions');
+        const religionsData = response.data.data;
+
+        religionOptions.value = religionsData.map((religion) => ({
+          value: religion.id,
+          label: religion.libelle,
+        }));
+        }
+        catch(error){
+          console.error('Erreur lors de la recupération des religions:', error);
+          throw error;
+        }
+      } 
+
+
+
+
+
 const getAllHoraires = async () => {
   try {
     const response = await ApiService.get('/horaires');
@@ -537,6 +889,8 @@ onMounted(() => {
   getAllServiceFonctions();
   getAllPersonnels();
   getAllHoraires();
+  getAllEthnie();
+  getAllReligion();
 })
 </script>
 

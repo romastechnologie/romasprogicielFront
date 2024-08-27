@@ -75,7 +75,7 @@ export default defineComponent({
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
-    const title = ref("Ajouter un typeDepense");
+    const title = ref("Ajouter un type de dépense");
     const btntext = ref('Ajouter');
 
     watch(() => props.item, (newValue) => {

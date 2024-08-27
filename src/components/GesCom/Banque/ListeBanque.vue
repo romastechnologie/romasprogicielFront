@@ -84,7 +84,7 @@
                 {{ banque.sigle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ banque.denomination }}
+                {{ banque.denominationBanque }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ banque.adresse }}

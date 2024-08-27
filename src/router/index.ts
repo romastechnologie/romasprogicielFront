@@ -195,6 +195,8 @@ import EditOperationRetraitPage from "@/pages/GesCom/Operation/EditOperationRetr
 import ViewOperationPage from "@/pages/GesCom/Operation/ViewOperationPage.vue";
 import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue";
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
+import AddPersonnelNewPage from "@/pages/GesCom/Personnel/AddPersonnelNewPage.vue";
+
 //Etats
 import EtatProduitsDisponibles from "@/pages/GesCom/Etats/EtatProduitsDisponibles.vue";
 import EtatProduitsRupturePage from "@/pages/GesCom/Etats/EtatProduitsRupturePage.vue";
@@ -219,6 +221,10 @@ import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
+import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
+import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
+
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -390,6 +396,28 @@ const routes: Array<RouteRecordRaw> = [
             component: ListePaiePage,
             meta: {
               title: 'Liste des financements',
+            },
+          }
+        ]
+      },
+      {
+        path: "/processus",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-processus",
+            name: "AddProcessus",
+            component: AddProcessusPage,
+            meta: {
+              title: 'Ajouter un processus',
+            }
+          },
+          {
+            path: "liste-processus",
+            name: "ListeProcessus",
+            component: ListeProcessusPage,
+            meta: {
+              title: 'Liste des processus',
             },
           }
         ]
@@ -986,13 +1014,13 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/personnels",
+    path: "/personnelles",
     component: BodyView,
     children: [
       {
         path: "ajouter-personnel",
-        name: "AddPersonnelPage",
-        component: AddPersonnelPage,
+        name: "AddPersonnellePage",
+        component: AddPersonnellePage,
         meta: {
           title: 'Ajouter un personnel',
         }
@@ -1000,7 +1028,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "liste-personnel",
         name: "ListePersonnelPage",
-        component: ListePersonnelPage,
+        component: ListePersonnellePage,
         meta: {
           title: 'Liste des personnels',
         },
@@ -1008,7 +1036,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: ':id',
             name: 'id',
-            component: DetailsPersonnelPage,
+            component: ViewPersonnellePage,
             meta: {
               title: 'Details du personnel',
             }
@@ -1017,8 +1045,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "edit-personnel/:id",
-        name: "EditPersonnelPage",
-        component: EditPersonnelPage,
+        name: "EditPersonnellePage",
+        component: EditPersonnellePage,
         meta: {
           title: 'Modifier un personnel',
         }
@@ -1376,6 +1404,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+
   {
     path: "/commande-fournisseurs",
     component: BodyView,
@@ -1684,7 +1713,22 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Ajouter un personnel',
         }
-      },
+      }
+    ],
+    },
+      {
+        path: "/tests",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-personnel",
+            name: "AddPersonnelNew",
+            component: AddPersonnelNewPage,
+            meta: {
+              title: 'Ajouter un personnel',
+            }
+          },
+      
       {
         path: "modifier-personnel/:id",
         name: "EditPersonnel",
@@ -1693,6 +1737,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Modifier un personnel',
         }
       },
+      
       {
         path: "view-personnel/:id",
         name: "ViewPersonnel",
@@ -1711,36 +1756,36 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  {
-    path: "/personnel-fonctions",
-    component: BodyView,
-    children: [
-      {
-        path: "ajouter-personnel-fonction",
-        name: "AddPersonnelFonction",
-        component: AddPersonnelFonctionPage,
-        meta: {
-          title: 'Ajouter une fonction de personnel',
-        }
-      },
-      {
-        path: "modifier-personnel-fonction/:id",
-        name: "EditPersonnelFonction",
-        component: EditPersonnelFonctionPage,
-        meta: {
-          title: 'Modifier une fonction de personnel',
-        }
-      },
-      {
-        path: "liste-personnel-fonctions",
-        name: "ListePersonnelFonction",
-        component: ListePersonnelFonctionPage,
-        meta: {
-          title: 'Liste des fonctions du personnel',
-        }
-      },
-    ]
-  },
+  // {
+  //   path: "/personnel-fonctions",
+  //   component: BodyView,
+  //   children: [
+  //     {
+  //       path: "ajouter-personnel-fonction",
+  //       name: "AddPersonnelFonction",
+  //       component: AddPersonnelFonctionPage,
+  //       meta: {
+  //         title: 'Ajouter une fonction de personnel',
+  //       }
+  //     },
+  //     {
+  //       path: "modifier-personnel-fonction/:id",
+  //       name: "EditPersonnelFonction",
+  //       component: EditPersonnelFonctionPage,
+  //       meta: {
+  //         title: 'Modifier une fonction de personnel',
+  //       }
+  //     },
+  //     {
+  //       path: "liste-personnel-fonctions",
+  //       name: "ListePersonnelFonction",
+  //       component: ListePersonnelFonctionPage,
+  //       meta: {
+  //         title: 'Liste des fonctions du personnel',
+  //       }
+  //     },
+  //   ]
+  // },
   {
     path: "/fonctions",
     component: BodyView,
@@ -1781,23 +1826,6 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des taxes',
         }
       },
-      {
-        path: "ajouter-groupetaxe",
-        name: "AddGroupeTaxe",
-        component: AddGroupeTaxePage,
-        meta: {
-          title: 'Ajouter un groupe de taxe',
-        }
-      },
-      {
-        path: "liste-groupe-taxes",
-        name: "ListeGroupeTaxe",
-        component: ListeGroupeTaxePage,
-        meta: {
-          title: 'Liste des groupes de taxes',
-        }
-      },
-      
       {
         path: "liste-type-taxes",
         name: "ListeTypeTaxe",

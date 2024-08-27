@@ -54,6 +54,12 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
+                Code
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
                 Libellé
               </th>
               <th
@@ -64,6 +70,9 @@
           </thead>
           <tbody>
             <tr v-for="(modePaiement, index) in modePaiements" :key="index">
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ modePaiement.code }}
+              </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ modePaiement.libelle }}
               </td>

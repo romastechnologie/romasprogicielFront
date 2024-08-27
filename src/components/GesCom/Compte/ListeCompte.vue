@@ -64,13 +64,19 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                DEPOT INITIAL
+                SOLDE INITIAL
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-               SOLDE
+               SOLDE ACTUEL
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+               Type de Compte
               </th>
               <th
                 scope="col"
@@ -84,14 +90,17 @@
                 {{ compte.client.nomClient }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ compte.intituléCompte }}
+                {{ compte.intituleCompte }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ compte.depot }}
+                {{ compte.soldeInitial }}
               </td>
               
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ compte.solde }}
+                {{ compte.soldeActuel }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ compte.typeCompte }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
