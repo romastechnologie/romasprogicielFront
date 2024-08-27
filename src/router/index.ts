@@ -202,6 +202,8 @@ import EtatPointCommandePage from "@/pages/GesCom/Etats/EtatPointCommandePage.vu
 import EtatProduitsEntreePage from "@/pages/GesCom/Etats/EtatProduitsEntreePage.vue";
 import EtatProduitsSortiesPage from "@/pages/GesCom/Etats/EtatProduitsSortiesPage.vue";
 import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
+import EtatPointVentePage from "@/pages/GesCom/Etats/EtatPointVentePage.vue";
+import EtatPointProduitLivraisonPage from "@/pages/GesCom/Etats/EtatPointProduitLivraisonPage.vue";
 import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
 
 //Fin GesCom/
@@ -1215,6 +1217,22 @@ const routes: Array<RouteRecordRaw> = [
         component: EtatProduitsDisponibles,
         meta: {
           title: 'Liste des produits disponibles',
+        }
+      },
+      {
+        path: "produits-livres",
+        name: "EtatPointProduitLivraisonPage",
+        component: EtatPointProduitLivraisonPage,
+        meta: {
+          title: 'Liste des produits livrés',
+        }
+      },
+      {
+        path: "produits-vendus",
+        name: "EtatPointVentePage",
+        component: EtatPointVentePage,
+        meta: {
+          title: 'Liste des produits en vendus',
         }
       },
       {
