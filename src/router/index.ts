@@ -81,9 +81,9 @@ import ListeUserComptePage from '@/pages/GestionTresorerie/UserCompte/ListeUserC
 import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
-import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
-import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
-import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
+//import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
+//import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
+//import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
 import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
 import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
 import ListeMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue";
@@ -184,9 +184,9 @@ import AddDepensePage from "@/pages/GesCom/Depense/AddDepensePage.vue";
 import ListeDepensePage from "@/pages/GesCom/Depense/ListeDepensePage.vue";
 import AddDepotPage from "@/pages/GesCom/Depot/AddDepotPage.vue";
 import ListeDepotPage from "@/pages/GesCom/Depot/ListeDepotPage.vue";
-// import AddFournisseurPage from "@/pages/GesCom/Fournisseur/AddFournisseurPage.vue";
-// import EditFournisseurPage from "@/pages/GesCom/Fournisseur/EditFournisseurPage.vue";
-// import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
+import AddFournisseurPage from "@/pages/GesCom/Fournisseur/AddFournisseurPage.vue";
+import EditFournisseurPage from "@/pages/GesCom/Fournisseur/EditFournisseurPage.vue";
+ import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
 import ViewFournisseurPage from "@/pages/GesCom/Fournisseur/ViewFournisseurPage.vue";
 import AddOperationDepotPage from "@/pages/GesCom/Operation/AddOperationDepotPage.vue";
 import AddOperationRetraitPage from "@/pages/GesCom/Operation/AddOperationRetraitPage.vue";
@@ -204,6 +204,8 @@ import EtatPointCommandePage from "@/pages/GesCom/Etats/EtatPointCommandePage.vu
 import EtatProduitsEntreePage from "@/pages/GesCom/Etats/EtatProduitsEntreePage.vue";
 import EtatProduitsSortiesPage from "@/pages/GesCom/Etats/EtatProduitsSortiesPage.vue";
 import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
+import EtatPointVentePage from "@/pages/GesCom/Etats/EtatPointVentePage.vue";
+import EtatPointProduitLivraisonPage from "@/pages/GesCom/Etats/EtatPointProduitLivraisonPage.vue";
 import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
 
 //Fin GesCom/
@@ -1244,6 +1246,22 @@ const routes: Array<RouteRecordRaw> = [
         component: EtatProduitsDisponibles,
         meta: {
           title: 'Liste des produits disponibles',
+        }
+      },
+      {
+        path: "produits-livres",
+        name: "EtatPointProduitLivraisonPage",
+        component: EtatPointProduitLivraisonPage,
+        meta: {
+          title: 'Liste des produits livrés',
+        }
+      },
+      {
+        path: "produits-vendus",
+        name: "EtatPointVentePage",
+        component: EtatPointVentePage,
+        meta: {
+          title: 'Liste des produits en vendus',
         }
       },
       {

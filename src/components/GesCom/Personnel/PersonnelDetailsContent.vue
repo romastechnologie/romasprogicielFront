@@ -7,7 +7,7 @@
                     <div class="card-header"><h5 class="">Formulaire d'ajout de personnel</h5><!----><!----><!----></div>
                     <div class="card-body">
                         <div class="row g-xl-5 g-3">
-                            <div class="tab-pane fade" id="advance-product" role="tabpanel" aria-labelledby="advance-product-tab">
+                            
         <div class="sidebar-body advance-options">
             <ul class="nav nav-tabs border-tab mb-0" id="advance-option-tab" role="tablist">
                 <li class="nav-item"><a class="nav-link active" id="info-personnel-tab" data-bs-toggle="tab"
@@ -30,7 +30,38 @@
                 <div class="tab-pane fade show active" id="info-personnel" role="tabpanel" aria-labelledby="info-personnel-tab">
                     <div class="meta-body">
                     <table class="table">
-                   
+                   Bonjour
+                   <tbody>
+                <tr>
+                  <td>Nom</td>
+                  <td>{{ personnel?.nom }}</td>
+                </tr>
+                <tr>
+                  <td>Prénom</td>
+                  <td>{{ personnel?.prenom }}</td>
+                </tr>
+                <tr>
+                  <td>Adresse</td>
+                  <td>{{ personnel?.adresse }}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>{{ personnel?.email }}</td>
+                </tr>
+                <tr v-if="personnel?.tel">
+                  <td>Téléphone </td>
+                  <td>{{ personnel?.tel}}</td>
+                </tr>
+                <tr>
+                  <td>Sexe</td>
+                  <td>{{ personnel?.sexe }}</td>
+                </tr>
+                <tr>
+                  <td>Civilite</td>
+                  <td>{{ personnel?.civilite }}</td>
+                </tr>
+              </tbody>
+                   bgij
                     </table>
                     </div>
                 </div>
@@ -64,7 +95,7 @@
                 </div>
             </div>
         </div>
-        </div>
+        
     </div>
 
 </template>

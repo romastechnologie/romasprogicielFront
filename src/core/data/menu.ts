@@ -771,6 +771,16 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
+                path: "/etats/produits-vendus",
+                title: "Liste des produits vendus",
+                type: "link"
+            },
+            {
+                path: "/etats/produits-livres",
+                title: "Liste des produits livres",
+                type: "link"
+            },
+            {
                 path: "/etats/produits-rupture",
                 title: "Liste des prosuits en rupture de stock",
                 type: "link"
