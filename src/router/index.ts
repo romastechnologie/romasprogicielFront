@@ -221,6 +221,7 @@ import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
 import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
+import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.vue';
 
 
 
@@ -1685,6 +1686,19 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: "/details",
+    component: BodyView,
+    children: [
+      {
+        path: "voir-personnel",
+        name: "PersonnelDetailsContent",
+        component: PersonnelDetailsPage,
+        meta: {
+          title: 'Voir les détails du  personnel',
+        }
+      },
+    ]},
+  {
     path: "/personnelles",
     component: BodyView,
     children: [
@@ -1710,7 +1724,7 @@ const routes: Array<RouteRecordRaw> = [
               title: 'Ajouter un personnel',
             }
           },
-      
+          
       {
         path: "modifier-personnel/:id",
         name: "EditPersonnel",
