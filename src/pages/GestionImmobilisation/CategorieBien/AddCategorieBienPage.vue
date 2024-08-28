@@ -1,15 +1,15 @@
 <template>
-    <AddCategorieBien />
+    <AddCategorieBienModal />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
-    import AddCategorieBien from "@/components/GestionImmobilisation/CategorieBien/AddCategorieBien.vue";
+    import AddCategorieBienModal from "@/components/GestionImmobilisation/CategorieBien/AddCategorieBienModal.vue";
   
     export default defineComponent({
       name: "AddCategorieBienPage",
       components: {
-        AddCategorieBien,
+        AddCategorieBienModal,
       },
     });
   </script>

@@ -643,25 +643,40 @@ export const menu: MenuItem[] = [
         ]
     },
     {
-        title: "Type de Bien",
-        icon: "stroke-learning",
-        icon1: "fill-learning",
-        type: "link",
-        path: "/typeBiens/liste-typebiens",
+        title: "Type Bien",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
         badgeType: "light-primary",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/typeBiens/liste-typeBiens",
+                title: "Liste des types de biens",
+                type: "link"
+            },
+        ]
     },
     {
-        title: "Categorie des Biens",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/categorieBiens/liste-categoriebiens",
+        title: "Categorie Bien",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
         badgeType: "light-primary",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/categorieBiens/liste-categorieBiens",
+                title: "Liste des catégories de biens",
+                type: "link"
+            },
+        ]
     },
+    
     {
         title: "Fournisseur",
         icon: "stroke-calendar",
