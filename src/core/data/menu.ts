@@ -1109,6 +1109,43 @@ export const menu: MenuItem[] = [
         ]
     },
 
+    {
+        headTitle1: "GesPack",
+        headTitle2: "GesPack",
+        type: "headtitle"
+    },
+
+    {
+        title: "Type Entretien",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/TypeEntretien/listeTypeEntretien",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Type Moyen Roulant",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/TypeMoyenRoulant/listeTypeMoyenRoulant",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Packing",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/Packing/listePacking",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
 
     // {
     //     title: "Users",
