@@ -1114,7 +1114,79 @@ export const menu: MenuItem[] = [
         headTitle2: "GesPack",
         type: "headtitle"
     },
-
+    {
+        title: "Course",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/courses/ajouter-course",
+                title: "Ajouter une course",
+                type: "link"
+            },
+            {
+                path: "/courses/liste-courses",
+                title: "Liste des courses",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Entretien",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/entretiens/ajouter-entretien",
+                title: "Ajouter un entretien",
+                type: "link"
+            },
+            {
+                path: "/entretiens/liste-entretiens",
+                title: "Liste des entretiens",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Planification Réparation",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/planificationReparations/ajouter-planificationReparation",
+                title: "Ajouter une planification de réparation",
+                type: "link"
+            },
+            {
+                path: "/planificationReparations/liste-planificationReparations",
+                title: "Liste des planifications de réparation",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Panne",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/pannes/liste-panne",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
     {
         title: "Type Entretien",
         icon: "stroke-learning",
