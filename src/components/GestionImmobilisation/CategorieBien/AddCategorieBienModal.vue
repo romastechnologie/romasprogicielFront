@@ -107,8 +107,8 @@ export default {
             return ApiService.get("/categorieBiens/" + id)
                 .then(({ data }) => {
                     categorieBienForm.value?.setFieldValue("id", data.data.id);
-                    categorieBienForm.value?.setFieldValue("libelle", data.data.code);
-                    categorieBienForm.value?.setFieldValue("code", data.data.libelle);
+                    categorieBienForm.value?.setFieldValue("code", data.data.code);
+                    categorieBienForm.value?.setFieldValue("libelle", data.data.libelle);
                     emit('openmodal', addCategorieBienModalRef.value);
                 })
                 .catch(({ response }) => {

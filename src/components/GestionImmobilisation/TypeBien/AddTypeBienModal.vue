@@ -1,5 +1,4 @@
 <template>
-
     <div class="modal fade" id="AddTypeBienModal" tabindex="-1" role="dialog" ref="addTypeBienModalRef"
         aria-labelledby="tooltipmodal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -34,8 +33,6 @@
                                     <ErrorMessage name="libelle" class="text-danger" />
                                 </div>
                             </div>
-
-                            
                             <button class="btn btn-primary" type="submit">
                                 {{ btntext }}
                             </button>
@@ -82,7 +79,7 @@ export default {
         const typeBienSchema = Yup.object().shape({
             code: Yup.string().required('Le code est obligatoire'),
             libelle: Yup.string().required('Le libelle est obligatoire'),
-            //montant: Yup.number().required('Le montant est obligatoire'),
+            
         });
 
 
