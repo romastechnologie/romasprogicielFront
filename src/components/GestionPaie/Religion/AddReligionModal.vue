@@ -18,7 +18,7 @@
                               <Field name="libelle" type="text" 
                               class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
                               <ErrorMessage name="libelle" class="text-danger"/>
-                            </div>
+                            </div>     
                           </div>
                           
                           <button

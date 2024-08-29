@@ -170,7 +170,7 @@ export default defineComponent({
     },
     setup() {
         onMounted(() => {
-            getAllCommandes();
+            getAllCommandes(1,10,recherche.value,typeCommande.value, statutCommande.value, statutLivraison.value,debut.value,fin.value);
         });
 
         const formatDate = (date: Date): string => {
@@ -195,7 +195,7 @@ export default defineComponent({
         const statutLivraison: Ref<string> = ref("");
         const recherche: Ref<string> = ref("");
         const typeCommande: Ref<string> = ref("");
-
+            console.log("LES DATE SONT LES SUIVANTEs ",fin);
         watch(
             () => [statutCommande.value, statutLivraison.value, typeCommande.value, recherche.value,debut.value,fin.value],
             (newValues, oldValues) => {
@@ -282,7 +282,7 @@ export default defineComponent({
         }
 
         function getAllCommandes(page = 1, limi = 10, searchTerm = '', typeCommande = "", statutCommande = "", statutLivraison = "", debut='',fin='') {
-            ApiService.get(`/etatPointCommande?start=${page}&limit=${limi}&motCle=${searchTerm}&statutPaiement=${statutCommande}&typeCommande=${typeCommande}&statutLivraison=${statutLivraison}&debut=${debut}&fin=${fin}`)
+            ApiService.get(`/etatPointCommande?start=${page}&limit=${limi}&motCle=${searchTerm}&statutPaiement=${statutCommande}&typeCommande=${typeCommande}&statutLivraison=${statutLivraison}&debut=${debut}&fin=${fin}&`)
                 .then(({ data }) => {
                     console.log("data ====> ", data);
                     commandes.value = data.data.retour.entities;

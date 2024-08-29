@@ -643,25 +643,40 @@ export const menu: MenuItem[] = [
         ]
     },
     {
-        title: "Type de Bien",
-        icon: "stroke-learning",
-        icon1: "fill-learning",
-        type: "link",
-        path: "/typeBiens/liste-typebiens",
+        title: "Type Bien",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
         badgeType: "light-primary",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/typeBiens/liste-typeBiens",
+                title: "Liste des types de biens",
+                type: "link"
+            },
+        ]
     },
     {
-        title: "Categorie des Biens",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/categorieBiens/liste-categoriebiens",
+        title: "Categorie Bien",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
         badgeType: "light-primary",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/categorieBiens/liste-categorieBiens",
+                title: "Liste des catégories de biens",
+                type: "link"
+            },
+        ]
     },
+    
     {
         title: "Fournisseur",
         icon: "stroke-calendar",
@@ -766,6 +781,16 @@ export const menu: MenuItem[] = [
             {
                 path: "/etats/produits-disponibles",
                 title: "Liste des produits disponibles",
+                type: "link"
+            },
+            {
+                path: "/etats/produits-vendus",
+                title: "Liste des produits vendus",
+                type: "link"
+            },
+            {
+                path: "/etats/produits-livres",
+                title: "Liste des produits livres",
                 type: "link"
             },
             {
@@ -1080,6 +1105,43 @@ export const menu: MenuItem[] = [
                 type: "link"
             }
         ]
+    },
+
+    {
+        headTitle1: "GesPack",
+        headTitle2: "GesPack",
+        type: "headtitle"
+    },
+
+    {
+        title: "Type Entretien",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/TypeEntretien/listeTypeEntretien",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Type Moyen Roulant",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/TypeMoyenRoulant/listeTypeMoyenRoulant",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Packing",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/Packing/listePacking",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
     },
 
 

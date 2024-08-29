@@ -163,10 +163,10 @@
     
         const btnTitle = async () => {
           if (isupdate.value) {
-             title.value = "Modifier la typePrime";
+             title.value = "Modifier le type de prime";
              btntext.value = "Modifier";
           }else{
-             title.value = "Ajouter une typePrime";
+             title.value = "Ajouter un type de prime";
              btntext.value = "Ajouter";
           }
         }

@@ -64,7 +64,6 @@
                 </label>
                 <Field name="urlImage" type="file" 
                       accept="image/jpeg, image/png application/pdf"
-                      @change="onFileChange"
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Choisissez une image"/>
                 <ErrorMessage name="urlImage" class="text-danger"/>
               </div>
@@ -1002,6 +1001,9 @@ export default defineComponent({
         religionOptions,
         ethnieOptions,
         serviceOptions,
+        religions,
+        ethnies,
+        services
       };
   },
 });
