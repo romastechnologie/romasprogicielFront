@@ -81,21 +81,17 @@ import ListeUserComptePage from '@/pages/GestionTresorerie/UserCompte/ListeUserC
 import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
-import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
-import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
-import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
+//import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
+//import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
+//import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
 import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
 import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
 import ListeMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue";
 import AddAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/AddAmortissementPage.vue";
 import EditAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/EditAmortissementPage.vue";
 import ListeAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/ListeAmortissementPage.vue";
-import AddCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/AddCategorieBienPage.vue";
-import EditCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/EditCategorieBienPage.vue";
 import ListeCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/ListeCategorieBienPage.vue";
-import AddTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/AddTypeBienPage.vue";
 import ListeTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue";
-import EditTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/EditTypeBienPage.vue";
 import TableauAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/TableauAmortissementPage.vue";
 
 //Gescom
@@ -184,9 +180,9 @@ import AddDepensePage from "@/pages/GesCom/Depense/AddDepensePage.vue";
 import ListeDepensePage from "@/pages/GesCom/Depense/ListeDepensePage.vue";
 import AddDepotPage from "@/pages/GesCom/Depot/AddDepotPage.vue";
 import ListeDepotPage from "@/pages/GesCom/Depot/ListeDepotPage.vue";
-// import AddFournisseurPage from "@/pages/GesCom/Fournisseur/AddFournisseurPage.vue";
-// import EditFournisseurPage from "@/pages/GesCom/Fournisseur/EditFournisseurPage.vue";
-// import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
+import AddFournisseurPage from "@/pages/GesCom/Fournisseur/AddFournisseurPage.vue";
+import EditFournisseurPage from "@/pages/GesCom/Fournisseur/EditFournisseurPage.vue";
+ import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
 import ViewFournisseurPage from "@/pages/GesCom/Fournisseur/ViewFournisseurPage.vue";
 import AddOperationDepotPage from "@/pages/GesCom/Operation/AddOperationDepotPage.vue";
 import AddOperationRetraitPage from "@/pages/GesCom/Operation/AddOperationRetraitPage.vue";
@@ -204,6 +200,8 @@ import EtatPointCommandePage from "@/pages/GesCom/Etats/EtatPointCommandePage.vu
 import EtatProduitsEntreePage from "@/pages/GesCom/Etats/EtatProduitsEntreePage.vue";
 import EtatProduitsSortiesPage from "@/pages/GesCom/Etats/EtatProduitsSortiesPage.vue";
 import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
+import EtatPointVentePage from "@/pages/GesCom/Etats/EtatPointVentePage.vue";
+import EtatPointProduitLivraisonPage from "@/pages/GesCom/Etats/EtatPointProduitLivraisonPage.vue";
 import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
 
 //Fin GesCom/
@@ -221,6 +219,7 @@ import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
 import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
+import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.vue';
 
 // Gestion Pack
 
@@ -727,44 +726,21 @@ const routes: Array<RouteRecordRaw> = [
           component: BodyView,
           children: [
             {
-              path: "ajouter-categorieBien",
-              name: "AddCategorieBien",
-              component: AddCategorieBienPage,
-              meta: {
-                title: 'Ajouter une catégorie de biens',
-              }
-            },
-            {
-              path: "liste-categoriebiens",
+              path: "liste-categorieBiens",
               name: "ListeCategorieBien",
               component: ListeCategorieBienPage,
               meta: {
                 title: 'Liste des catégories de biens',
               }
             },
-            {
-              path: "edit-categorieBien/:id",
-              name: "EditCategorieBien",
-              component: EditCategorieBienPage,
-              meta: {
-                title: 'Modifier une catégorie de bien',
-              }
-            },
           ]
           },
 
           {
-            path: "/typebiens",
+            path: "/typeBiens",
             component: BodyView,
             children: [
-              {
-                path: "ajouter-typeBien",
-                name: "AddTypeBien",
-                component: AddTypeBienPage,
-                meta: {
-                  title: 'Ajouter un type de bien',
-                }
-              },
+              
               {
                 path: "liste-typebiens",
                 name: "ListeTypeBien",
@@ -773,14 +749,7 @@ const routes: Array<RouteRecordRaw> = [
                   title: 'Liste des types de biens',
                 }
               },
-              {
-              path: "modifier-typeBien",
-              name: "EditTypeBien",
-              component: EditTypeBienPage,
-              meta: {
-                title: 'Modifier un type de bien',
-              }
-            },
+              
             ]
             },
 
@@ -1293,6 +1262,22 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: "produits-livres",
+        name: "EtatPointProduitLivraisonPage",
+        component: EtatPointProduitLivraisonPage,
+        meta: {
+          title: 'Liste des produits livrés',
+        }
+      },
+      {
+        path: "produits-vendus",
+        name: "EtatPointVentePage",
+        component: EtatPointVentePage,
+        meta: {
+          title: 'Liste des produits en vendus',
+        }
+      },
+      {
         path: "produits-rupture",
         name: "EtatProduitsRupturePage",
         component: EtatProduitsRupturePage,
@@ -1732,6 +1717,19 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: "/details",
+    component: BodyView,
+    children: [
+      {
+        path: "voir-personnel",
+        name: "PersonnelDetailsContent",
+        component: PersonnelDetailsPage,
+        meta: {
+          title: 'Voir les détails du  personnel',
+        }
+      },
+    ]},
+  {
     path: "/personnelles",
     component: BodyView,
     children: [
@@ -1750,14 +1748,14 @@ const routes: Array<RouteRecordRaw> = [
         component: BodyView,
         children: [
           {
-            path: "ajouter-test",
+            path: "ajouter-personnel",
             name: "AddPersonnelNew",
             component: AddPersonnelNewPage,
             meta: {
               title: 'Ajouter un personnel',
             }
           },
-      
+          
       {
         path: "modifier-personnel/:id",
         name: "EditPersonnel",

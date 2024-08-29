@@ -50,19 +50,6 @@
                         <div class="col-4">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black fw-semibold mb-10">
-                                    Statut de paiement
-                                </label>
-                                <Field name="statutCommande" v-model="statutCommande" v-slot="{ field }">
-                                    <Multiselect :options="statutOptions" :searchable="true" v-model="field.value"
-                                        v-bind="field" no-results-text="Aucun type trouvé"
-                                        placeholder="Sélectionner un statut de paiement" />
-                                </Field>
-                                <ErrorMessage name="statutCommande" class="text-danger" />
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black fw-semibold mb-10">
                                     Statut de livraison
                                 </label>
                                 <Field name="statutLivraison" v-model="statutLivraison" v-slot="{ field }">
@@ -83,56 +70,62 @@
                     <thead>
                         <tr>
                             <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                                Ref.Cmd
+                                Ref.Pai
                             </th>
                             <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                                Date Cmd
+                                Date.Pai
+                            </th>
+                            <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                                Date.Cmd
                             </th>
                             <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                                 Client
                             </th>
                             <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                                Montant Ht (FCFA)
+                                Prix.U
+                            </th>
+                            <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                                Qté
                             </th>
                             <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                                 Montant TTC (FCFA)
                             </th>
                             <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                                Type Cmd
+                                Type.Cmd
                             </th>
                             <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                                Statut Paie
-                            </th>
-                            <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                                Statut Liv.
+                                Statut.Liv
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(commande, index) in commandes" :key="index">
+                        <tr v-for="(prod, index) in produits" :key="index">
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ commande.refCmd }}
+                                {{ prod.commandeclient.commandefactures[0].facturepaiements[0].refPaiement }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ format_Date(commande.dateCommande) }}
+                                {{ format_Date(prod.commandeclient.commandefactures[0].facturepaiements[0].datePaiement) }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ commande.client.nomClient }}
+                                {{ format_Date(prod.commandeclient.dateCommande) }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ commande.montHT }}
+                                {{ prod.commandeclient.client.nomClient + ' '+ prod.commandeclient.client.prenomClient }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ commande.montTotal }}
+                                {{ prod.prixTtc }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ commande.typeCommande }}
+                                {{ prod.qtite }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ commande.statutPaiement }}
+                                {{ prod.montantTtc }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ commande.statutLivraison }}
+                                {{ prod.commandeclient.typeCommande }}
+                            </td>
+                            <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                                {{ prod.commandeclient.statutLivraison }}
                             </td>
                         </tr>
                     </tbody>
@@ -160,7 +153,7 @@ import * as Yup from 'yup';
 import Multiselect from "@vueform/multiselect/src/Multiselect";
 
 export default defineComponent({
-    name: "EtatPointCommande",
+    name: "EtatPointVente",
     components: {
         Form,
         Field,
@@ -170,7 +163,7 @@ export default defineComponent({
     },
     setup() {
         onMounted(() => {
-            getAllCommandes(1,10,recherche.value,typeCommande.value, statutCommande.value, statutLivraison.value,debut.value,fin.value);
+            getAllVentes(1,10,recherche.value,typeCommande.value, statutCommande.value, statutLivraison.value,debut.value,fin.value);
         });
 
         const formatDate = (date: Date): string => {
@@ -183,7 +176,6 @@ export default defineComponent({
 
         const etatSchema = Yup.object().shape({
             typeCommande: Yup.string().notRequired(),
-            statutCommande: Yup.string().notRequired(),
             statutLivraison: Yup.string().notRequired(),
             dateFin: Yup.date().notRequired(),
             recherche: Yup.string().notRequired(),
@@ -200,33 +192,10 @@ export default defineComponent({
             () => [statutCommande.value, statutLivraison.value, typeCommande.value, recherche.value,debut.value,fin.value],
             (newValues, oldValues) => {
                 console.log('Nouvelles valeurs :', newValues);
-                getAllCommandes(1, 10,newValues[3], newValues[2], newValues[0], newValues[1], newValues[4],newValues[5]);
+                getAllVentes(1, 10,newValues[3], newValues[2], newValues[0], newValues[1], newValues[4],newValues[5]);
             }
         );
-        const commandes = ref<Array<any>>([]);
-
-        const statutOptions = [
-            {
-                value: "",
-                label: 'Sélectionnez une option'
-            },
-            {
-                value: 'En attente',
-                label: 'En attente'
-            },
-            {
-                value: 'Payée',
-                label: 'Payée'
-            },
-            {
-                value: 'Annulée',
-                label: 'Annulée'
-            },
-            {
-                value: 'Partielle',
-                label: 'Partielle'
-            }
-        ];
+        const produits = ref<Array<any>>([]);
 
         const statutLivOptions = [
             {
@@ -271,21 +240,21 @@ export default defineComponent({
         const handlePaginate = ({ page_, limit_ }) => {
             try {
                 page.value = page_;
-                getAllCommandes(page_, limit_);
+                getAllVentes(page_, limit_);
             } catch (error) {
                 //
             }
         };
 
         function rechercher() {
-            getAllCommandes(page.value, limit.value, searchTerm.value, typeCommande.value, statutCommande.value, statutLivraison.value);
+            getAllVentes(page.value, limit.value, searchTerm.value, typeCommande.value, statutCommande.value, statutLivraison.value);
         }
 
-        function getAllCommandes(page = 1, limi = 10, searchTerm = '', typeCommande = "", statutCommande = "", statutLivraison = "", debut='',fin='') {
-            ApiService.get(`/etatPointCommande?start=${page}&limit=${limi}&motCle=${searchTerm}&statutPaiement=${statutCommande}&typeCommande=${typeCommande}&statutLivraison=${statutLivraison}&debut=${debut}&fin=${fin}&`)
+        function getAllVentes(page = 1, limi = 10, searchTerm = '', typeCommande = "", statutCommande = "", statutLivraison = "", debut='',fin='') {
+            ApiService.get(`/etatProduitVenduPeriodique?start=${page}&limit=${limi}&motCle=${searchTerm}&statutPaiement=${statutCommande}&typeCommande=${typeCommande}&statutLivraison=${statutLivraison}&debut=${debut}&fin=${fin}&`)
                 .then(({ data }) => {
                     console.log("data ====> ", data);
-                    commandes.value = data.data.retour.entities;
+                    produits.value = data.data.retour.entities;
                     
                     totalPages.value = data.data.totalPages;
                     limit.value = data.data.limit;
@@ -303,13 +272,10 @@ export default defineComponent({
         const checkPermission = (name) => {
             return privileges.value.includes(name);
         }
-
-
-
         return {
-            commandes,
+            produits,
             checkPermission,
-            getAllCommandes,
+            getAllVentes,
             page,
             format_Date,
             totalPages,
@@ -324,7 +290,6 @@ export default defineComponent({
             recherche,
             searchTerm,
             etatForm,
-            statutOptions,
             typeCommandesOptions,
             statutLivOptions
         };

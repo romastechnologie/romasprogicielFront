@@ -1,16 +1,15 @@
 <template>
-    <EditTypeBien />
+    <EtatPointVente/>
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
-  
-    import EditTypeBien from "@/components/GestionImmobilisation/TypeBien/EditTypeBien.vue";
-  
+    import EtatPointVente from "@/components/GesCom/Etats/EtatPointVente.vue";
+
     export default defineComponent({
-      name: "EditTypeBienPage",
+      name: "EtatPointVentePage",
       components: {
-        EditTypeBien,
+        EtatPointVente,
       },
     });
   </script>
