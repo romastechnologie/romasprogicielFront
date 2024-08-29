@@ -222,6 +222,11 @@ import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
 import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
 
+// Gestion Pack
+
+import ListeTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/ListeTypeEntretienPage.vue";
+import ListePackingPage from '@/pages/GestionPack/Packing/ListePackingPage.vue'
+import ListeTypeMoyenRoulantPage from '@/pages/GestionPack/TypeMoyenRoulant/ListeTypeMoyenRoulantPage.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -253,6 +258,48 @@ const routes: Array<RouteRecordRaw> = [
         component: TableauBordPage,
         meta: {
           title: 'Tableau de bord',
+        }
+      },
+    ]
+  },
+  {
+    path: "/TypeEntretien",
+    component: BodyView,
+    children: [
+      {
+        path: "listeTypeEntretien",
+        name: "listeTypeEntretien",
+        component: ListeTypeEntretienPage,
+        meta: {
+          title: 'Liste Type Entretien',
+        }
+      },
+    ]
+  },
+  {
+    path: "/TypeMoyenRoulant",
+    component: BodyView,
+    children: [
+      {
+        path: "listeTypeMoyenRoulant",
+        name: "listeTypeMoyenRoulant",
+        component: ListeTypeMoyenRoulantPage,
+        meta: {
+          title: 'Liste Type Moyen Roulant',
+        }
+      },
+    ]
+  },
+  {
+    path: "/Packing",
+    component: BodyView,
+    children: [
+      {
+        path: "listePacking",
+        name: "listePacking",
+        component: ListePackingPage,
+        meta: {
+          title: 'Liste Packing',
         }
       },
     ]
