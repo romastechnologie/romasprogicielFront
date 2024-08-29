@@ -161,7 +161,6 @@
                 <ErrorMessage name="rccm" class="text-danger"/>
               </div>
             </div>
-           
             <div class="col-md-4" v-if="!showAdditionalFields">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
