@@ -222,8 +222,20 @@ import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.
 // Gestion Pack
 
 import ListeTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/ListeTypeEntretienPage.vue";
-import ListePackingPage from '@/pages/GestionPack/Packing/ListePackingPage.vue'
-import ListeTypeMoyenRoulantPage from '@/pages/GestionPack/TypeMoyenRoulant/ListeTypeMoyenRoulantPage.vue'
+import ListePackingPage from '@/pages/GestionPack/Packing/ListePackingPage.vue';
+import ListeTypeMoyenRoulantPage from '@/pages/GestionPack/TypeMoyenRoulant/ListeTypeMoyenRoulantPage.vue';
+import ListeCoursePage from '@/pages/GestionPack/Course/ListeCoursePage.vue';
+import AddCoursePage from '@/pages/GestionPack/Course/AddCoursePage.vue';
+import EditCoursePage from '@/pages/GestionPack/Course/EditCoursePage.vue';
+import ListePannePage from '@/pages/GestionPack/Panne/ListePannePage.vue';
+import ListeEntretienPage from '@/pages/GestionPack/Entretien/ListeEntretienPage.vue';
+import AddEntretienPage from '@/pages/GestionPack/Entretien/AddEntretienPage.vue';
+import EditEntretienPage from '@/pages/GestionPack/Entretien/EditEntretienPage.vue';
+import AddPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage.vue';
+import EditPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage.vue';
+import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/ListePlanificationReparationPage.vue';
+
+
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -301,6 +313,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+  
   {
     path: "/utilisateurs",
     component: BodyView,
@@ -509,7 +522,111 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-  
+  {
+    path: "/pannes",
+    component: BodyView,
+    children: [
+      
+      {
+        path: "liste-panne",
+        name: "ListePannePage",
+        component: ListePannePage,
+        meta: {
+          title: 'Liste des pannes',
+        }
+      }
+    ]
+  },
+  {
+    path: "/courses",
+    component: BodyView,
+    children: [
+       {
+         path: "ajouter-course",
+         name: "AddCoursePage",
+         component: AddCoursePage,
+        meta: {
+          title: 'Ajouter une course',
+       }
+      },
+      {
+        path: "editer-course",
+        name: "EditCoursePage",
+        component: EditCoursePage,
+       meta: {
+         title: 'Editer une course',
+      }
+     },
+      {
+        path: "liste-courses",
+        name: "ListeCoursePage",
+        component: ListeCoursePage,
+        meta: {
+          title: 'Liste des courses',
+        }
+      }
+    ]
+  },
+  {
+    path: "/planificationReparations",
+    component: BodyView,
+    children: [
+       {
+         path: "ajouter-planificationReparation",
+         name: "AddPlanificationReparationPage",
+         component: AddPlanificationReparationPage,
+        meta: {
+          title: 'Ajouter une planification de réparation',
+       }
+      },
+      {
+        path: "editer-planificationReparation",
+        name: "EditPlanificationReparationPage",
+        component: EditPlanificationReparationPage,
+       meta: {
+         title: 'Editer une planification de réparation',
+      }
+     },
+      {
+        path: "liste-planificationReparations",
+        name: "ListePlanificationReparationPage",
+        component: ListePlanificationReparationPage,
+        meta: {
+          title: 'Liste des planifications de réparation',
+        }
+      }
+    ]
+  },
+  {
+    path: "/entretiens",
+    component: BodyView,
+    children: [
+       {
+         path: "ajouter-entretien",
+         name: "AddEntretienPage",
+         component: AddEntretienPage,
+        meta: {
+          title: 'Ajouter un entretien',
+       }
+      },
+      {
+        path: "editer-entretien",
+        name: "EditEntretienPage",
+        component: EditEntretienPage,
+       meta: {
+         title: 'Editer un entretien',
+      }
+     },
+      {
+        path: "liste-entretiens",
+        name: "ListeEntretienPage",
+        component: ListeEntretienPage,
+        meta: {
+          title: 'Liste des entretiens',
+        }
+      }
+    ]
+  },
 
   {
     path: "/typeContrats",
