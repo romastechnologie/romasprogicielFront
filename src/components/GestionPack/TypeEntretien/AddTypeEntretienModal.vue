@@ -1,7 +1,7 @@
 <template>
   <div class="modal fade" id="AddTypeEntretienModal" tabindex="-1" role="dialog" ref="addTypeEntretienModalRef"
     aria-labelledby="tooltipmodal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">{{ title }}</h4>
@@ -71,20 +71,20 @@
                                   </div>
                                 </div>
                                 <div>
-                                  <div class="row d-flex align-items-center justify-content-between mt-10">
-                                    <div class="col-md-2">
+                                   <div class="row d-flex align-items-center justify-content-between mt-10">
+                                   <!--  <div class="col-md-2">
                                       <label class="d-block text-black fw-semibold">
                                         Type Entretien
                                         <span class="text-danger">*</span>
                                       </label>
-                                    </div>
-                                    <div class="col-md-2">
+                                    </div>-->
+                                    <div class="col-md-3">
                                       <label class="d-block text-black fw-semibold">
                                         Type bien
                                         <span class="text-danger">*</span>
                                       </label>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                       <label class="d-block text-black fw-semibold mb-10">
                                         Valeur <span class="text-danger">*</span>
                                       </label>
@@ -107,7 +107,7 @@
                                   </div>
                                   <hr class="mt-0" />
                                   <div class="row" v-for="(fonction, index) in fonctions" :key="index">
-                                    <div class="col-md-2 mb-2">
+                                  <!-- <div class="col-md-2 mb-2">
                                       <div class="">
                                         <Multiselect :options="fonctionOptions" :searchable="true" track-by="label"
                                           label="label" v-model="fonction.typeBien"
@@ -115,9 +115,19 @@
                                         <div class="invalid-feedback" v-if="valideteRowFonction(fonction.typeBien)">
                                           La fonction est obligatoire.
                                         </div>
-                                      </div>
+                                      </div> 
+                                    </div>-->
+                                    <div class="col-md-3 mb-2">
+                                      <div class="">
+                                        <Multiselect :options="typeOptions" :searchable="true" track-by="label"
+                                          label="label" v-model="fonction.typeBien"
+                                          placeholder="Sélectionner le type" />
+                                        <div class="invalid-feedback" v-if="valideteRowFonction(fonction.typeBien)">
+                                          Le type de bien est obligatoire.
+                                        </div>
+                                      </div> 
                                     </div>
-                                    <div class="col-md-2 mb-2">
+                                    <!--<div class="col-md-3 mb-2">
                                       <div class="">
                                         <Field name="types" v-model="types" type="text" v-slot="{ field }">
                                           <Multiselect v-model="field.value" v-bind="field" :options="typeOptions"
@@ -126,8 +136,8 @@
                                         </Field>
                                         <span class="text-danger" v-if="showMErr">Le type de bien est obligatoire</span>
                                       </div>
-                                    </div>
-                                    <div class="col-md-2 mb-2">
+                                    </div>-->
+                                    <div class="col-md-3 mb-2">
                                       <div class="form-group mb-5 mb-sm-5 mb-md-5">
                                         <input v-model="fonction.valeur" type="text"
                                           class="form-control shadow-none fs-md-15 text-black"
