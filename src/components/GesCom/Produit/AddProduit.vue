@@ -8,8 +8,8 @@
       >
         <div class="row">
           <div class="col-md-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Groupe de taxe <span class="text-danger">*</span>
               </label>
               <Field name="groupeTaxe" v-slot="{ field }">
@@ -20,26 +20,28 @@
                   label="label"
                   v-model="field.value"
                   v-bind="field"
-                  placeholder="Sélectionner le groupe de taxe"
+                  placeholder="Choisir le groupe de taxe"
+                  @select="selectGroupe(field.value)"
                 />
               </Field>
             <ErrorMessage name="groupeTaxe" class="text-danger" />
           </div>
           </div>
           <div class="col-md-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Mode prix <span class="text-danger">*</span>
               </label>
-              <Field name="modeDefPrix" v-slot="{ field }">
+              <Field name="modeDefPrix" v-model="modeDefPrix" v-slot="{ field }">
                 <Multiselect
-                  :options="['Mod1','Mod2']"
+                  :options="['HT(Hors Taxes)','TTC(Toutes Taxes Comprises)']"
                   :searchable="true"
+                  :disabled="(modeDefPrix=='HT(Hors Taxes)')? true : false"
                   track-by="label"
                   label="label"
                   v-model="field.value"
                   v-bind="field"
-                  placeholder="Sélectionner le mode de prix"
+                  placeholder="Choisir le mode de prix"
                 />
               </Field>
             <ErrorMessage name="modeDefPrix" class="text-danger" />
@@ -47,7 +49,7 @@
           </div>
           <div class="col-md-3">
             <br />
-            <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
+            <div class="form-check mt-3 mb-2 mb-sm-2 mb-md-2">
               <label
                 for="estActif"
                 class="form-check-label fw-medium position-relative top-1"
@@ -67,7 +69,7 @@
           </div>
           <div class="col-md-3">
             <br />
-            <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
+            <div class="form-check mt-3 mb-2 mb-sm-2 mb-md-2">
               <label
                 for="estModeCarreau"
                 class="form-check-label fw-medium position-relative top-1"
@@ -86,8 +88,8 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Famille <span class="text-danger">*</span>
               </label>
               <Field name="famille" v-slot="{ field }">
@@ -105,8 +107,8 @@
           </div>
           </div>
           <div class="col-md-4">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Référence <span class="text-danger">*</span>
               </label>
               <Field
@@ -119,8 +121,8 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Nom du produit <span class="text-danger">*</span>
               </label>
               <Field
@@ -133,8 +135,8 @@
             </div>
           </div>
           <div class="col-md-3" v-if="!estService">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Magasin par défaut <span class="text-danger">*</span>
               </label>
               <Field name="magasin" v-slot="{ field }">
@@ -152,8 +154,8 @@
           </div>
           </div>
           <div class="col-md-3" v-if="!estService">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Méthode de gestion<span class="text-danger">*</span>
               </label>
               <Field name="methode" v-slot="{ field }">
@@ -171,8 +173,8 @@
           </div>
           </div>
           <div class="col-md-3" v-if="!estService">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Prix de vente<span class="text-danger">*</span>
               </label>
               <Field
@@ -185,8 +187,8 @@
             </div>
           </div>
           <div class="col-md-3" v-if="!estService">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Seuil d'approvisionnement <span class="text-danger">*</span>
               </label>
               <Field
@@ -199,8 +201,8 @@
             </div>
           </div>
           <div class="col-md-3" v-if="!estService">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Seuil Alerte <span class="text-danger">*</span>
               </label>
               <Field
@@ -213,8 +215,8 @@
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                Pièce par carton <span class="text-danger">*</span>
               </label>
               <Field
@@ -227,8 +229,8 @@
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                Pièce par m² <span class="text-danger">*</span>
               </label>
               <Field
@@ -241,8 +243,8 @@
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                M² par carton <span class="text-danger">*</span>
               </label>
               <Field
@@ -255,8 +257,8 @@
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                Surface par pièce <span class="text-danger">*</span>
               </label>
               <Field
@@ -269,26 +271,25 @@
             </div>
           </div>
           <div class="col-md-4" v-if="estModeCarreau">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                Couleur
               </label>
               <Field
                 name="couleur"
                 type="text"
                 class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer la couleur"
-              />
+                placeholder="Entrer la couleur"/>
               <ErrorMessage name="couleur" class="text-danger" />
             </div>
           </div>
           <div class="col-md-2">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
             </div>
           </div>
           <div class="col-md-12">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+            <div class="form-group mb-2 mb-sm-2 mb-md-2">
+              <label class="d-block text-black fw-semibold mb-1">
                 Description
               </label>
               <Field
@@ -298,71 +299,44 @@
                 rows="6"
                 placeholder="Entrer la description"
                 v-slot="{ field }"
-                class="form-control shadow-none rounded-0 text-black"
-              >
+                class="form-control shadow-none rounded-0 text-black">
                 <textarea
                   class="form-control shadow-none rounded-0 text-black"
-                  v-model="field.value"
-                ></textarea>
+                  v-model="field.value"></textarea>
               </Field>
               <ErrorMessage name="descProd" class="text-danger" />
             </div>
           </div>
           <div class="col-md-12 mb-md-25">
-            <div class="accordion" id="basicAccordion">
-              <div class="accordion-item mb-0 bord1">
-                <h2 class="accordion-header" id="headingOne">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
                   <button
-                    class="accordion-button collapsed"
+                    class="nav-link active"
+                    id="home-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#home-tab-pane"
                     type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#basicCollapseOne"
-                    aria-expanded="false"
-                    aria-controls="basicCollapseOne"
-                  >
-                  Ajouter le (s) conditionnements et les images du produit
+                    role="tab"
+                    aria-controls="home-tab-pane"
+                    aria-selected="true">
+                    Conditionnement
                   </button>
-                </h2>
-                <div
-                  id="basicCollapseOne"
-                  class="accordion-collapse collapse"
-                  data-bs-parent="#basicAccordion"
-                >
-                  <div class="accordion-body">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                      <li class="nav-item" role="presentation">
-                        <button
-                          class="nav-link active"
-                          id="home-tab"
-                          data-bs-toggle="tab"
-                          data-bs-target="#home-tab-pane"
-                          type="button"
-                          role="tab"
-                          aria-controls="home-tab-pane"
-                          aria-selected="true"
-                        >
-                          Conditionnement
-                        </button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                        <button
-                          class="nav-link"
-                          id="home2-tab"
-                          data-bs-toggle="tab"
-                          data-bs-target="#home2-tab-pane"
-                          type="button"
-                          role="tab"
-                          aria-controls="home2-tab-pane"
-                          aria-selected="false"
-                        >
-                          Image
-                        </button>
-                      </li>
-                    </ul>
-
-                    
-
-                    <div class="tab-content" id="myTabContent">
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="home2-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#home2-tab-pane"
+                    type="button"
+                    role="tab"
+                    aria-controls="home2-tab-pane"
+                    aria-selected="false" >
+                    Image
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
                       <div
                         class="tab-pane fade show active p-10"
                         id="home-tab-pane"
@@ -370,7 +344,7 @@
                         tabindex="0"
                       >
                         <div class="row">
-                          <div class="border border-primary mb-10">
+                          <div class="border border-primary mb-1">
                             <div
                               class="row d-flex align-items-center justify-content-between fw-bold py-2"
                               style="background-color: #0a59a4"
@@ -412,21 +386,21 @@
                                 </div>
                                 <div class="col-md-2">
                                   <label
-                                    class="d-block text-black fw-semibold mb-10"
+                                    class="d-block text-black fw-semibold mb-1"
                                   >
                                     Quantité <span class="text-danger">*</span>
                                   </label>
                                 </div>
                                 <div class="col-md-2">
                                   <label
-                                    class="d-block text-black fw-semibold mb-10"
+                                    class="d-block text-black fw-semibold mb-1"
                                   >
                                     Prix Min
                                   </label>
                                 </div>
                                 <div class="col-md-2">
                                   <label
-                                    class="d-block text-black fw-semibold mb-10"
+                                    class="d-block text-black fw-semibold mb-1"
                                   >
                                     Prix de vente<span class="text-danger"
                                       >*</span
@@ -435,14 +409,14 @@
                                 </div>
                                 <div class="col-md-2">
                                   <label
-                                    class="d-block text-black fw-semibold mb-10"
+                                    class="d-block text-black fw-semibold mb-1"
                                   >
                                     Prix Max
                                   </label>
                                 </div>
                                 <div class="col-md-1">
                                   <label
-                                    class="d-block text-black fw-semibold mb-10"
+                                    class="d-block text-black fw-semibold mb-1"
                                   >
                                     Action
                                   </label>
@@ -477,7 +451,7 @@
                                 </div>
                                 <div class="col-md-2">
                                   <div
-                                    class="form-group mb-15 mb-sm-20 mb-md-25"
+                                    class="form-group mb-2 mb-sm-2 mb-md-2"
                                   >
                                     <input
                                       type="number"
@@ -500,7 +474,7 @@
                                 </div>
                                 <div class="col-md-2">
                                   <div
-                                    class="form-group mb-15 mb-sm-20 mb-md-25"
+                                    class="form-group mb-2 mb-sm-2 mb-md-2"
                                   >
                                     <input
                                       v-model="conditionnement.prixMin"
@@ -518,7 +492,7 @@
                                 </div>
                                 <div class="col-md-2">
                                   <div
-                                    class="form-group mb-15 mb-sm-20 mb-md-25"
+                                    class="form-group mb-2 mb-sm-2 mb-md-2"
                                   >
                                     <input
                                       v-model="conditionnement.prixVente"
@@ -540,7 +514,7 @@
                                 </div>
                                 <div class="col-md-2">
                                   <div
-                                    class="form-group mb-15 mb-sm-20 mb-md-25"
+                                    class="form-group mb-2 mb-sm-2 mb-md-2"
                                   >
                                     <input
                                       type="number"
@@ -572,15 +546,13 @@
                           </div>
                         </div>
                       </div>
-
                       <div
                         class="tab-pane fade p-10"
                         id="home2-tab-pane"
                         role="tabpanel"
-                        tabindex="0"
-                      >
+                        tabindex="0">
                         <div class="row">
-                          <div class="border border-primary mb-10">
+                          <div class="border border-primary mb-1">
                             <div
                               class="row d-flex align-items-center justify-content-between fw-bold py-2"
                               style="background-color: #0a59a4 !important"
@@ -621,7 +593,7 @@
                                 </div>
                                 <div class="col-md-2">
                                   <label
-                                    class="d-block text-black fw-semibold mb-10"
+                                    class="d-block text-black fw-semibold mb-1"
                                   >
                                     Action
                                   </label>
@@ -631,9 +603,8 @@
                               <div
                                 class="row mb-5"
                                 v-for="(image, index) in images"
-                                :key="index"
-                              >
-                                <div class="col-md-10 mb-10">
+                                :key="index">
+                                <div class="col-md-10 mb-1">
                                   <Field
                                     name="urlImage"
                                     type="file"
@@ -648,7 +619,7 @@
                                     L'image est obligatoire.
                                   </div> -->
                                 </div>
-                                <div class="col-md-2 mb-10">
+                                <div class="col-md-2 mb-1">
                                   <button
                                     class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
                                     type="button"
@@ -662,23 +633,17 @@
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-
           <div class="col-md-12">
             <div class="d-flex align-items-center">
               <button
                 class="btn btn-success me-3"
                 type="submit"
                 :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable || isDisablee }"
-              >
+                :class="{ 'cursor-not-allowed': isDisable || isDisablee }">
                 Ajouter un produit
               </button>
               <router-link
@@ -785,7 +750,6 @@ export default defineComponent({
 
     watch(estModeCarreau, () => {
       console.log('estModeCarreau', estModeCarreau.value)
-      
     })
 
     // formulaire dynamique start
@@ -852,14 +816,22 @@ export default defineComponent({
     //   });
     // };
 
+    const modeDefPrix = ref("");
+    const selectGroupe =(value)=>{
+      console.log(value,"valuevaluevaluevalue");
+      if(parseInt(value.split("|")[1]) > 0) {
+        modeDefPrix.value ="TTC(Toutes Taxes Comprises)";
+      } else {
+        modeDefPrix.value ="HT(Hors Taxes)";
+      }
+    }
+
     watch(conditionnements, (newValue, oldValue) => {
       Object.keys(newValue).forEach(function (key) {
         if (
           newValue[key].conditionnement == "" ||
           newValue[key].quantite == "" ||
-          newValue[key].prixMin == "" ||
-          newValue[key].prixVente == "" ||
-          newValue[key].prixMax == ""
+          newValue[key].prixVente == ""
         ) {
           isDisable.value = true;
         } else {
@@ -879,14 +851,6 @@ export default defineComponent({
         }
       });
     });
-
-    //  mouvement.value = {
-    //    client: null,
-    //    refMouvement: "",
-    //    infoComplementaires: "",
-    //    dateMouvement: "",
-    //    produits: []
-    //  }
 
     onMounted(() => {
       fetchConditionnements();
@@ -913,22 +877,6 @@ export default defineComponent({
       }
     };
 
-    //const idProduit = ref(0);
-    //const montantTotal = ref(0);
-
-    // const getIndex = async (event, produit: ConditionnementDepot) => {
-    //   console.log("event", event.data);
-    //   if (produit.qtite != null) {
-    //     produit.montant =
-    //       produit.qtite * parseFloat(produit.produit.split("|")[1]);
-    //     console.log("event", event.data);
-    //     montantTotal.value = produit.montant =
-    //       produit.qtite * parseFloat(produit.produit.split("|")[1]);
-    //   } else {
-    //     produit.montant = 0;
-    //   }
-    //   totals();
-    // };
 
     const selectConditionnement = async (value: any, conditionnement: ConditionnementDepot) => {
       console.log("Element", value);
@@ -937,7 +885,6 @@ export default defineComponent({
       conditionnement.prixMin = 0;
       conditionnement.prixVente = 0;
       conditionnement.prixMax = 0;
-      //totals();
     };
 
     const getCurrentDate = () => {
@@ -1007,7 +954,7 @@ export default defineComponent({
         const response = await ApiService.get("/groupeTaxes");
         const groupeTaxeData = response.data.data.data;
         groupeTaxeOptions.value = groupeTaxeData.map((groupeTaxe) => ({
-          value: groupeTaxe.id,
+          value: `${groupeTaxe.id}|${groupeTaxe.taux}`,
           label: `${groupeTaxe.libelle}`,
         }));
       } catch (error) {
@@ -1038,7 +985,8 @@ export default defineComponent({
       valideteRowProduit,
       montantTotal,
       valuess,
-      //idProduit,
+      modeDefPrix,
+      selectGroupe,
       images,
       conditionnementOptions,
       prixProd,

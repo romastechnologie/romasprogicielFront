@@ -8,7 +8,7 @@
       >
         <div class="row">
           <div class="col-md-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <div class="form-group ">
               <label class="d-block text-black fw-semibold mb-10">
                 Date
               </label>
@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="col-md-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <div class="form-group ">
               <label class="d-block text-black fw-semibold mb-10">
                 Fournisseur <span class="text-danger">*</span>
               </label>
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="col-md-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <div class="form-group ">
               <label class="d-block text-black fw-semibold mb-10">
                 Référence <span class="text-danger">*</span>
               </label>
@@ -55,11 +55,12 @@
             </div>
           </div>
           <div class="col-md-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <div class="form-group ">
               <label class="d-block text-black fw-semibold mb-10">
                 Montant total <span class="text-danger">*</span>
               </label>
               <Field
+                v-model="montantTotal"
                 name="montantTotal"
                 :readonly="true"
                 type="text"
@@ -69,287 +70,177 @@
               <ErrorMessage name="montantTotal" class="text-danger" />
             </div>
           </div>
-
-          <div class="col-md-12 mb-md-25">
-            <div class="accordion" id="basicAccordion">
-              <div class="accordion-item mb-0 bord1">
-                <h2 class="accordion-header" id="headingOne">
-                  <button
-                    class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#basicCollapseOne"
-                    aria-expanded="false"
-                    aria-controls="basicCollapseOne"
-                  >
-                    Approvisionner les magasins en produit
-                  </button>
-                </h2>
-                <div
-                  id="basicCollapseOne"
-                  class="accordion-collapse collapse"
-                  data-bs-parent="#basicAccordion"
-                >
-                  <div class="accordion-body">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                      <li class="nav-item" role="presentation">
+          <div class="col-md-12 m-10">
+              <div class="row">
+                <div class="border border-primary mb-10">
+                  <div class="row d-flex align-items-center justify-content-between fw-bold py-2 bg-primary">
+                    <div class="col-md-7">
+                      <h4 class="fs-4 text-white">Approvisionner les produits dans les magasins</h4>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="d-flex float-end">
                         <button
-                          class="nav-link active"
-                          id="home-tab"
-                          data-bs-toggle="tab"
-                          data-bs-target="#home-tab-pane"
+                          class="btn btn-success"
                           type="button"
-                          role="tab"
-                          aria-controls="home-tab-pane"
-                          aria-selected="true"
-                        ></button>
-                      </li>
-                    </ul>
-
-                    <div class="tab-content" id="myTabContent">
-                      <div
-                        class="tab-pane fade show active p-10"
-                        id="home-tab-pane"
-                        role="tabpanel"
-                        tabindex="0"
-                      >
-                        <div class="row">
-                          <div class="border border-primary mb-10">
-                            <div
-                              class="row d-flex align-items-center justify-content-between fw-bold py-2 bg-primary"
-                            >
-                              <div class="col-md-7">
-                                <h4 class="fs-4 text-white">Magasins</h4>
-                              </div>
-                              <div class="col-md-5">
-                                <div class="d-flex float-end">
-                                  <button
-                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                    type="button"
-                                    :class="{ 'cursor-not-allowed': isDisable }"
-                                    :disabled="isDisable"
-                                    @click="addRowMagasin()"
-                                  >
-                                    <i
-                                      class="fa fa-plus-circle position-relative ms-5 fs-12"
-                                    ></i
-                                    >Ajouter un magasin
-                                  </button>
-                                  <router-link
-                                    to="/liste-mouvements"
-                                  ></router-link>
+                          :class="{ 'cursor-not-allowed': isDisable }"
+                          :disabled="isDisable"
+                          @click="addRowMagasin()">
+                          <i class="fa fa-plus-circle position-relative me-1 fs-12" ></i>Ajouter un magasin
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="accordion dark-accordion my-3 py-7"  id="magasin">
+                      <div class="accordion-item accordion-wrapper" v-for="(magasin, magasinIndex) in magasins" :key="magasinIndex">
+                        <h2 class="accordion-header" :id="`magasin${magasinIndex}`">
+                          <button :class="`accordion-button bg-light-primary font-primary ${magasins.length == magasinIndex+1 ? '' :'collapsed'}`" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapse${magasinIndex}`" :aria-expanded="`${magasins.length == magasinIndex+1 ? true :false}`" :aria-controls="`collapse${magasinIndex}`">
+                            {{ magasin.nomMagasin ? magasin.nomMagasin: `Magasin ${magasinIndex+1}`}}
+                            <i class="vue-feather vue-feather--chevron-down svg-color" data-name="chevron-down" data-tags="expand" data-type="chevron-down"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down vue-feather__content"><polyline points="6 9 12 15 18 9"></polyline></svg></i>
+                          </button>
+                        </h2>
+                        <div :class="`accordion-collapse collapse ${magasins.length == magasinIndex+1 ? 'show' :''}`" :id="`collapse${magasinIndex}`" :aria-labelledby="`magasin${magasinIndex}`" data-bs-parent="#magasin" style="">
+                          <div class="accordion-body">
+                            <div class="row" >
+                              <div class="col-md-10 mb-2">
+                                <div class="">
+                                  <Multiselect
+                                    :options="magasinOptions"
+                                    :searchable="true"
+                                    track-by="label"
+                                    label="label"
+                                    v-model="magasin.magasin"
+                                    placeholder="Sélectionner le magasin"
+                                    @select="selectMag(magasin.magasin, magasin)"
+                                  />
                                 </div>
+                              </div>
+                              <div class="col-md-2">
+                                <button
+                                  class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                  type="button" @click="removeRowMagasin(magasinIndex)">
+                                  <i class="fa fa-trash-o lh-1 me-1 position-relative top-2" ></i>
+                                </button>
                               </div>
                             </div>
-                            <div>
-                              <div
-                                class="row d-flex align-items-center justify-content-between mt-10"
-                              >
-                                <div class="col-md-10">
-                                  <label class="d-block text-black fw-semibold">
-                                    Magasin
-                                    <span class="text-danger">*</span>
-                                  </label>
+                            <div class="border border-primary mb-10">
+                              <div class="row gx-0 d-flex align-items-center justify-content-between fw-bold py-2 bg-primary">
+                                <div class="col-md-7">
+                                  <h5 class="fs-6 mx-1 text-white">Ajouter les produits dans le magasin</h5>
                                 </div>
-                                <div class="col-md-2">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-10"
-                                  >
-                                    Action
-                                  </label>
-                                </div>
-                              </div>
-                              <hr class="mt-0" />
-                              <div
-                                class="row"
-                                v-for="(magasin, magasinIndex) in magasins" :key="magasinIndex"
-                              >
-                                <div class="col-md-10 mb-5">
-                                  <div class="">
-                                    <Multiselect
-                                      :options="magasinOptions"
-                                      :searchable="true"
-                                      track-by="label"
-                                      label="label"
-                                      v-model="magasin.magasin"
-                                      placeholder="Sélectionner le magasin"
-                                      @select="
-                                        selectMag(magasin.magasin, magasin)
-                                      "
-                                    />
-                                  </div>
-                                </div>
-                                <div class="col-md-2">
-                                  <button
-                                    class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                    type="button"
-                                    @click="removeRowMagasin(magasinIndex)"
-                                  >
-                                    <i
-                                      class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                                    ></i>
-                                  </button>
-                                </div>
-
-                                <!-- Produit -->
-                                <div class="row mt-10 marge-droite">
-                                  <div class="col-md-3">
-                                    <label
-                                      class="d-block text-black fw-semibold"
-                                    >
-                                      Produit
-                                      <span class="text-danger">*</span>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <label
-                                      class="d-block text-black fw-semibold mb-10"
-                                    >
-                                      Quantité<span class="text-danger">*</span>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <label
-                                      class="d-block text-black fw-semibold mb-10"
-                                    >
-                                      Prix de revient
-                                      >
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <label
-                                      class="d-block text-black fw-semibold mb-10"
-                                    >
-                                      Montant<span class="text-danger">*</span>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-3">
-                                    <label
-                                      class="d-block text-black fw-semibold mb-10"
-                                    >
-                                      Action
-                                    </label>
-                                  </div>
-                                  <hr class="mt-0 hr-longeur" />
-                                </div>
-                                <div
-                                  class="row marge-droite"
-                                  v-for="(produit, produitIndex) in magasin.produits" :key="produitIndex"
-                                >
-                                  <div class="col-md-3">
-                                    <div
-                                      class="form-group mb-15 mb-sm-20 mb-md-25"
-                                    >
-                                      <Multiselect
-                                        :options="produitOptions"
-                                        :searchable="true"
-                                        track-by="label"
-                                        label="label"
-                                        v-model="produit.produit"
-                                        placeholder="Sélectionner le produit"
-                                        @select="
-                                          selectProd(produit.produit, produit)
-                                        "
-                                      />
-                                      <div
-                                        class="invalid-feedback"
-                                        v-if="
-                                          validateRowProduit(produit.produit)
-                                        "
-                                      >
-                                        Le produit est obligatoire.
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <div
-                                      class="form-group mb-15 mb-sm-20 mb-md-25"
-                                    >
-                                      <input
-                                        type="number"
-                                        v-model="produit.qtite"
-                                        :class="
-                                          validateRowProduit(produit.qtite)
-                                            ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                            : 'form-control shadow-none fs-md-15 text-black '
-                                        "
-                                        placeholder="Entrer la quantité"
-                                      />
-                                      <div
-                                        v-if="validateRowProduit(produit.qtite)"
-                                        class="invalid-feedback"
-                                      >
-                                        La quantité est obligatoire.
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <div
-                                      class="form-group mb-15 mb-sm-20 mb-md-25"
-                                    >
-                                      <input
-                                        v-model="produit.prixRevient"
-                                        type="number"
-                                         class="form-control shadow-none fs-md-15 text-black"
-                                        placeholder="Entrer le prix"
-                                      />
-                                      <!--<div
-                                        v-if="validateRowProduit(produit.prixRevient)"
-                                        class="invalid-feedback"
-                                      >
-                                        Le prix de revient est obligatoire.
-                                      </div>-->
-                                    </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <div
-                                      class="form-group mb-15 mb-sm-20 mb-md-25"
-                                    >
-                                      <input
-                                        v-model="produit.montant"
-                                        type="number"
-                                        :readonly="true"
-                                        :class="
-                                          validateRowProduit(produit.montant)
-                                            ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                            : 'form-control shadow-none fs-md-15 text-black '
-                                        "
-                                        placeholder="Entrer le montant"
-                                      />
-                                      <div
-                                        v-if="validateRowProduit(produit.montant)"
-                                        class="invalid-feedback"
-                                      >
-                                        Le montant est obligatoire.
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-3 mb-5">
+                                <div class="col-md-5">
+                                  <div class="d-flex float-end">
                                     <button
-                                      class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                      class="btn btn-sm btn-success"
                                       type="button"
-                                      @click="removeRowProduit(magasinIndex, produitIndex)"
-                                    >
-                                      <i
-                                        class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                                      ></i>
-                                    </button>
-                                  </div>
-                                </div>
-                                <div class="col-md-12 mt-25 mb-25 marge-droite">
-                                  <div class="d-flex">
-                                    <button
-                                      class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                      type="button"
-                                      @click="addRowProduit(magasinIndex)"
-                                    >
-                                      <i
-                                        class="fa fa-plus-circle position-relative ms-5 fs-12"
-                                      ></i
+                                      @click="addRowProduit(magasinIndex)"><i class="fa fa-plus-circle position-relative me-1 fs-12"></i
                                       >Ajouter un produit
                                     </button>
                                   </div>
                                 </div>
+                              </div>
+                              <div class="p-3">
+                              <div class="row mt-10">
+                                <div class="col-md-4">
+                                  <label
+                                    class="d-block text-black fw-semibold">
+                                    Produit
+                                    <span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-2">
+                                  <label class="d-block text-black fw-semibold mb-10">
+                                    Quantité<span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-2">
+                                  <label class="d-block text-black fw-semibold mb-10" >
+                                    Prix de revient
+                                  </label>
+                                </div>
+                                <div class="col-md-3">
+                                  <label
+                                    class="d-block text-black fw-semibold mb-10">
+                                    Montant<span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-1">
+                                  <label class="d-block text-black fw-semibold mb-10" >
+                                    Action
+                                  </label>
+                                </div>
+                                <hr class="mt-0" />
+                              </div>
+                              <div class="row gy-0"  v-for="(produit, produitIndex) in magasin.produits" :key="produitIndex"  >
+                                <div class="col-md-4">
+                                  <div class="form-group mb-2" >
+                                    <Multiselect
+                                      :options="produitOptions"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      v-model="produit.produit"
+                                      placeholder="Sélectionner le produit"
+                                      @select=" selectProd(produit.produit, produit)" />
+                                    <div
+                                      class="invalid-feedback"
+                                      v-if="validateRowProduit(produit.produit) " >
+                                      Le produit est obligatoire.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <div
+                                    class="form-group mb-2 ">
+                                    <input
+                                      type="number"
+                                      v-model="produit.qtite"
+                                      :class="
+                                        validateRowProduit(produit.qtite)
+                                          ? 'form-control shadow-none fs-md-15 text-black is-invalid '
+                                          : 'form-control shadow-none fs-md-15 text-black '"
+                                      placeholder="Entrer la quantité"/>
+                                    <div v-if="validateRowProduit(produit.qtite)"
+                                      class="invalid-feedback">
+                                      La quantité est obligatoire.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <div
+                                    class="form-group mb-2"
+                                  >
+                                    <input
+                                      v-model="produit.prixRevient"
+                                      type="number"
+                                        class="form-control shadow-none fs-md-15 text-black"
+                                      placeholder="Entrer le prix"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div
+                                    class="form-group mb-2">
+                                    <input
+                                      v-model="produit.montant"
+                                      type="number"
+                                      :readonly="true"
+                                      :class="
+                                         'form-control shadow-none fs-md-15 text-black'
+                                          "
+                                      placeholder="Entrer le montant"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-1 mb-2">
+                                  <button
+                                    class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                    type="button"
+                                    @click="removeRowProduit(magasinIndex, produitIndex)" >
+                                    <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                                  </button>
+                                </div>
+                              </div>
                               </div>
                             </div>
                           </div>
@@ -359,27 +250,20 @@
                   </div>
                 </div>
               </div>
-            </div>
           </div>
-
-          <div class="col-md-12">
+          <div class="col-md-12 mt-5">
             <div class="d-flex align-items-center">
               <button
                 class="btn btn-success me-3"
                 type="submit"
                 :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable }"
-              >
+                :class="{ 'cursor-not-allowed': isDisable }">
                 Ajouter un approvisionnement
               </button>
               <router-link
                 to="/approvisionnements/liste-approvisionnements"
-                class="btn btn-danger"
-                ><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                ></i>
-                <span class="position-relative"></span>Annuler</router-link
-              >
+                class="btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2" ></i>
+                <span class="position-relative"></span>Annuler</router-link >
             </div>
           </div>
         </div>
@@ -427,12 +311,13 @@ export default defineComponent({
     const fournisseurOptions = ref([]);
     const magasinOptions = ref([]);
     const produitOptions = ref([]);
-
+    const  montantTotal= ref(0);
     // formulaire dynamique start
     const isDisable = ref(true);
     const magasins = reactive([
   {
     magasin: '',
+    nomMagasin:'',
     produits: [
       {
         produit: '',
@@ -447,6 +332,7 @@ export default defineComponent({
 const addRowMagasin = () => {
   magasins.push({
     magasin: '',
+    nomMagasin:'',
     produits: [
       {
         produit: '',
@@ -477,6 +363,7 @@ const removeRowProduit = (magasinIndex, produitIndex) => {
 
 const selectMag = (selectedMagasin, magasin) => {
   magasin.magasin = selectedMagasin;
+  magasin.nomMagasin = selectedMagasin.split("|")[1]
 };
 
 const selectProd = (selectedProduit, produit) => {
@@ -490,7 +377,7 @@ const validateRowProduit = (e) => {
   return e === '' || e === 0 || e === '0' || e == null || e < 0;
 };
 
-    watch(
+watch(
   magasins,
   (newValue) => {
     isDisable.value = newValue.some(
@@ -499,41 +386,13 @@ const validateRowProduit = (e) => {
         magasin.produits.some(
           (produit) =>
             produit.produit === '' ||
-            produit.prixRevient === 0 ||
-            produit.qtite === 0 ||
-            produit.montant === 0
+            produit.qtite === 0
         )
     );
   },
   { deep: true }
 );
 
-    // watch(magasins, (newValue, oldValue) => {
-    //   Object.keys(newValue).forEach(function (key) {
-    //     if (
-    //       newValue[key].magasin == ""
-    //     ) {
-    //       isDisable.value = true;
-    //     } else {
-    //       isDisable.value = false;
-    //     }
-    //   });
-    // });
-
-    // watch(produits, (newValue, oldValue) => {
-    //   Object.keys(newValue).forEach(function (key) {
-    //     if (
-    //       newValue[key].produit == "" ||
-    //       newValue[key].prixRevient == "" ||
-    //       newValue[key].qtite == "" ||
-    //       newValue[key].montant == ""
-    //     ) {
-    //       isDisable.value = true;
-    //     } else {
-    //       isDisable.value = false;
-    //     }
-    //   });
-    // });
 
     const { remove, push, fields, update } = useFieldArray("magasins");
 
@@ -555,17 +414,34 @@ const validateRowProduit = (e) => {
       }
     };
 
+    const totals = () => {
+      montantTotal.value = 0;
+      magasins.map((element)=>{
+        element.produits.map((produit)=>{
+          if (produit.montant != null) {
+            montantTotal.value += produit.montant;
+          }
+        })
+      })
+      // Object.keys(magasins).forEach(function (key) {
+      //   Object.keys(produits).forEach(function (key) {
+      //   if (produits[key].montant != null) {
+      //     montantTotal.value += parseFloat(produits[key].montant);
+      //   }
+      // });
+      // });
+    };
+
     const fetchProduits = async () => {
       try {
-        const response = await axios.get("/produits");
-        const produitsData = response.data.data.data;
+        const response = await axios.get("/produitconditionnements");
+        const produitsData = response.data.data;
         produitsss.value = produitsData;
-        produitOptions.value = produitsData.map((produit) => ({
-          value: produit.id + "|" + produit.nomProd,
-          label: `${produit.refProd} - ${produit.nomProd}`,
+        produitOptions.value = produitsData.map((produitconditionnements) => ({
+          value: produitconditionnements.id+"|"+ `${produitconditionnements.produit.nomProd} [ ${produitconditionnements.conditionnement.libelle} ]` + "|" + produitconditionnements.prixVenteHt +"|"+ produitconditionnements.prixVenteTtc,
+          label: `${produitconditionnements.produit.nomProd} [ ${produitconditionnements.conditionnement.libelle} ]`,
         }));
       } catch (error) {
-        //
       }
     };
 
@@ -655,6 +531,7 @@ const validateRowProduit = (e) => {
       isDisable,
       getCurrentDate,
       magasinOptions,
+      montantTotal
     };
   },
 });

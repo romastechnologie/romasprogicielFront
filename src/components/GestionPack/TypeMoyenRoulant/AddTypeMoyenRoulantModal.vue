@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="AddTypeMoyenRoulantModal" tabindex="-1" role="dialog" ref="AddTypeMoyenRoulantModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
+  <div class="modal fade" id="AddTypeMoyenRoulantModal" tabindex="-1" role="dialog" ref="addTypeMoyenRoulantModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -118,7 +118,7 @@ export default defineComponent({
           );
         }
         emit('openmodal', addTypeMoyenRoulantModalRef.value);
-
+      
       })
       .catch(({ response }) => {
         error(response.data.message)
@@ -145,7 +145,7 @@ export default defineComponent({
     const addTypeMoyenRoulant = async (values: any, typeMoyenRoulantForm) => {
       values = values as TypeMoyenRoulant;
       if(isUPDATE.value){
-        ApiService.put("/typeMoyenRoulants"+values.id,values)
+        ApiService.put("/typeMoyenRoulants/"+values.id,values)
         .then(({ data }) => {
             if(data.code == 200) { 
               success(data.message);

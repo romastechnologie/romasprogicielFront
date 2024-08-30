@@ -1,11 +1,11 @@
 <template>
-  <div class="loader-wrapper" v-if="showLoader">
+  <!-- <div class="loader-wrapper" v-if="showLoader">
     <div class="loader loader-1">
       <div class="loader-outter"></div>
       <div class="loader-inner"></div>
       <div class="loader-inner-1"></div>
     </div>
-  </div>
+  </div> -->
   <router-view />
 </template>
 
@@ -47,10 +47,19 @@ onMounted(() => {
       image.classList.add('d-none')
     }
   }, 0);
-
 })
 onUnmounted(() => {
   window.removeEventListener('beforeunload', add)
 })
 </script>
+
+<style>
+  .multiselect-wrapper {
+      min-height: calc(var(--ms-border-width, 1px)* 2 + var(--ms-font-size, 1rem)* var(--ms-line-height, 1.375) + var(--ms-py, .4rem)* 2) !important;
+  }
+  .multiselect {
+      border: 1px dashed rgba(106, 113, 133, 0.3)!important;
+      min-height: calc(var(--ms-border-width, 1px)* 2 + var(--ms-font-size, 1rem)* var(--ms-line-height, 1.375) + var(--ms-py, .4rem)* 2) !important;
+  }
+</style>
 
