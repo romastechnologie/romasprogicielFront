@@ -11,7 +11,7 @@
           data-bs-target="#AddTypeMoyenRoulantModal"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un Type de Moyen Roulant
+          Ajouter une Categorie du Bien
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -28,7 +28,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un typeMoyenRoulant"
+            placeholder="Rechercher une categorie du Bien"
           />
           <button
             type="submit"
@@ -89,7 +89,7 @@
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
-                        data-bs-target="#AddtypeMoyenRoulantModal"
+                        data-bs-target="#AddTypeMoyenRoulantModal"
                         @click="moddifier(typeMoyenRoulant)"
                       >
                         <i
@@ -198,7 +198,7 @@ export default defineComponent({
     
     function moddifier(EditTypeMoyenRoulant:TypeMoyenRoulant) {
       typeMoyenRoulant.value = EditTypeMoyenRoulant;
-      selectedItem.value = EditTypeMoyenRoulant.id;
+      selectedItem.value = EditTypeMoyenRoulant.id;  
     }
 
     const deleteTypeMoyenRoulant = (id: number) => {

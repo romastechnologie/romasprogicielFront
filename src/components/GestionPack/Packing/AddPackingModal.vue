@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="AddPackingModal" tabindex="-1" role="dialog" ref="AddPackingModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
+  <div class="modal fade" id="AddPackingModal" tabindex="-1" role="dialog" ref="addPackingModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -80,7 +80,7 @@ export default defineComponent({
       description: Yup.string().required('La description est obligatoire'),
 
     });
-
+  
     const packingForm = ref<Packing | null>(null);
     const addPackingModalRef = ref<null | HTMLElement>(null);
     const router = useRouter();
@@ -145,7 +145,8 @@ export default defineComponent({
     const addPacking = async (values: any, packingForm) => {
       values = values as Packing;
       if(isUPDATE.value){
-        ApiService.put("/packings"+values.id,values)
+        console.log('modification',values.id);
+        ApiService.put("/packings/"+values.id,values)
         .then(({ data }) => {
             if(data.code == 200) { 
               success(data.message);
@@ -154,6 +155,8 @@ export default defineComponent({
               isUPDATE.value=false;
               btnTitle();
               emit('close');
+
+    
             }
         })
         .catch(({ response }) => {

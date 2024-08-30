@@ -145,7 +145,7 @@ export default defineComponent({
     const addTypeEntretien = async (values: any, typeEntretienForm) => {
       values = values as TypeEntretien;
       if(isUPDATE.value){
-        ApiService.put("/typeEntretiens"+values.id,values)
+        ApiService.put("/typeEntretiens/"+values.id,values)
         .then(({ data }) => {
             if(data.code == 200) { 
               success(data.message);
