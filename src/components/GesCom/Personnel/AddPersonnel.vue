@@ -844,7 +844,8 @@ export default defineComponent({
 
      // formulaire dynamique start
 
-     const isDisable = ref(true);
+    
+    const isDisable = ref(true);
     const fonctions = reactive([
       {
         estActif: "",
