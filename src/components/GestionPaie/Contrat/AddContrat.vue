@@ -38,15 +38,22 @@
          </div>
 
          <div class="col-md-4  mb-3">
-                    <label for="periodeEssai" class="form-label"> Période d'Essai<span class="text-danger">*</span></label>
-                    <Field name="periodeEssai"  class="form-control" type="Date"/>
-                    <ErrorMessage name="periodeEssai" class="text-danger" />
+                    <label for="dateFinPeriodeEssai" class="form-label"> Date fin de période d'Essai<span class="text-danger">*</span></label>
+                    <Field name="dateFinPeriodeEssai"  class="form-control" type="Date"/>
+                    <ErrorMessage name="dateFinPeriodeEssai" class="text-danger" />
          </div>
          <div class="col-md-4 mb-3">
-                    <label for="periodePaie" class="form-label"> Période de Paie<span class="text-danger">*</span></label>
-                    <Field name="periodePaie"  class="form-control" type="Date"/>
-                    <ErrorMessage name="periodePaie" class="text-danger" />
-         </div>
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Période de Paie <span class="text-danger">*</span>
+                </label>
+                <Field name="periodePaie" type="text" v-slot="{ field }">
+                  <Multiselect :searchable="true" :options="['Mensuel', 'Hebdomadaire', 'Bimensuel', 'Bihebdomadaire']"
+                    v-model="field.value" v-bind="field" placeholder="Sélectionner la période" />
+                </Field>
+                <ErrorMessage name="periodePaie" class="text-danger" />
+              </div>
+            </div>
 
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -381,8 +388,8 @@
             heuresTravaillees: Yup.number().typeError("veuillez entrer des nombres").required("Les heures sont obligatoires."),
             dateDebut: Yup.date().typeError("veuillez entrer une date valide").required("La date de début est obligatoire."),
             dateFin: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
-            periodeEssai: Yup.date().typeError("veuillez entrer une date valide").required("La période est obligatoire."),
-            periodePaie: Yup.date().typeError("veuillez entrer une date valide").required("La période de fin est obligatoire."),
+            dateFinPeriodeEssai: Yup.date().typeError("veuillez entrer une date valide").required("La période est obligatoire."),
+            periodePaie: Yup.string().required("La période est obligatoire."),
             renouvelable: Yup.string().notRequired(),
             types: Yup.string().required("Le type est obligatoire."),
             personnel: Yup.string().required("Le personnel est obligatoire."),
