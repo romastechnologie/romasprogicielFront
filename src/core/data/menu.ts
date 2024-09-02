@@ -1219,6 +1219,69 @@ export const menu: MenuItem[] = [
     },
 
 
+    {
+        headTitle1: "Gestion des depenses",
+        headTitle2: "Depenses,TypesDepenses, CategoriesDepenses",
+        type: "headtitle"
+    },
+    {
+        title: "Depenses",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/Depenses/ajouter-depenses",
+                title: "Ajouter une depense",
+                type: "link"
+            },
+            {
+                path: "/Depenses/editer-depenses",
+                title: 'editer une depense',
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "TypesDepenses",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/typesdepenses/liste-typesdepenses",
+                title: "Ajouter un type depense",
+                type: "link"
+            }
+           
+        ]
+    },
+    {
+        title: "CategoriesDepenses",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/categoriesDepenses/liste-categoriesdepenses",
+                title: "Ajouter une categorie depense",
+                type: "link"
+            }
+           
+        ]
+    },
+
+
+
     // {
     //     title: "Users",
     //     icon: "stroke-user",
