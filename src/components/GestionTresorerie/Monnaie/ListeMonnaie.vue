@@ -172,14 +172,12 @@ export default {
         };
 
         function getAllMonnaies(page = 1, limi = 10, searchTerm = '') {
-            //return ApiService.get(`/all/monnaies?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-            return ApiService.get('/monnaies').then((res) => {
-                monnaies.value = res.data;
+            return ApiService.get(`/monnaies?page=${page}&limit=${limi}&mot=${searchTerm}&`).then((res) => {
+                monnaies.value = res.data.data.data;
                 console.log(monnaies.value)
-                //totalPages.value = data.data.totalPages;
-                //limit.value = data.data.limit;
-                //totalElements.value = data.data.totalElements;
-                //return data.data;
+                totalPages.value = res.data.data.totalPages;
+                limit.value = res.data.data.limit;
+                totalElements.value = res.data.totalElements;
             })
                 .catch(({ response }) => {
                     error(response.data.message)

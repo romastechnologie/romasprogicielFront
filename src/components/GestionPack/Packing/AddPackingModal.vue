@@ -7,38 +7,34 @@
                         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-          <Form ref="packingForm" @submit="addPacking" :validation-schema="packingSchema">
-            <div class="row">
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
-                  Libellé <span class="text-danger">*</span>
-                </label>
-                <Field name="libelle" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
-                <ErrorMessage name="libelle" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
-                  Description <span class="text-danger">*</span>
-                </label>
-                <Field name="description" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom du packing"/>
-                <ErrorMessage name="description" class="text-danger"/>
-              </div>
-            </div>
-            
-            
-            <button
-              class="btn btn-primary mt-3"
-            >
-            {{ btntext }}
-            </button>
-      </div>
-        </Form>
-        </div>
+                      <Form ref="packingForm" @submit="addPacking" :validation-schema="packingSchema">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                              <label class="d-block text-black fw-semibold mb-10" >
+                                Libellé <span class="text-danger">*</span>
+                              </label>
+                              <Field name="libelle" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
+                              <ErrorMessage name="libelle" class="text-danger"/>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                              <label class="d-block text-black fw-semibold mb-10" >
+                                Description <span class="text-danger">*</span>
+                              </label>
+                              <Field name="description" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom du packing"/>
+                              <ErrorMessage name="description" class="text-danger"/>
+                            </div>
+                          </div>
+                          <button class="btn btn-primary mt-3">
+                            {{ btntext }}
+                          </button>
+                        </div>
+                      </Form>
+                    </div>
         <!-- <button
           type="button"
           class="btn-close shadow-none"
@@ -137,7 +133,6 @@ export default defineComponent({
         //
       }
     };
-
     onMounted(() => {
       fetchPacking();
     });
@@ -155,8 +150,6 @@ export default defineComponent({
               isUPDATE.value=false;
               btnTitle();
               emit('close');
-
-    
             }
         })
         .catch(({ response }) => {
@@ -188,11 +181,13 @@ export default defineComponent({
       btnTitle()
     };
 
-    return { packingSchema,
+    return { 
+      packingSchema,
       addPackingModalRef,
       addPacking,
       packingForm,
-      title,btntext,resetValue,
+      title,btntext,
+      resetValue,
       packingOptions,
     };
   },
