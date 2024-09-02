@@ -33,9 +33,9 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
-                    Catégorie <span class="text-danger">*</span>
+                    Catégorie
                   </label>
-                  <Field name="parentId" type="text" class="form-control shadow-none fs-md-15 text-black"
+                  <Field name="typeTresorerieParent" type="text" class="form-control shadow-none fs-md-15 text-black"
                     placeholder="Entrer le libelle" as="select">
                     <option :value="typeTresorerie.id" v-for="typeTresorerie in typeTresoreries" 
                       :key="typeTresorerie.id">
@@ -100,7 +100,7 @@ export default {
     const typeTresorerieSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obliatoire'),
       libelle: Yup.string().required('Le libellé est obligatoire'),
-      
+      typeTresorerieParent:Yup.string().notRequired()
     });
 
 
@@ -124,11 +124,11 @@ export default {
     function getAllTypeTresoreries() {
             return ApiService.get('/typeTresoreries').then((res) => {
                 typeTresoreries.value = res.data;
-                console.log(typeTresoreries.value)
+                console.log(typeTresoreries.value,"ffffffff")
             })
-                .catch(({ response }) => {
-                    error(response.data.message)
-                });
+              .catch(({ response }) => {
+                  error(response.data.message)
+              });
         }
 
     const getTypeTresorerie = async (id: number) => {
@@ -158,6 +158,7 @@ export default {
       values = values as TypeTresorerie;
       loading.value = false;
       if (isupdate.value) {
+        console.log(values,"values")
         ApiService.put(`/typeTresoreries/${values.id}`, values)
           .then((res) => {
             if (res.data.code == 200) {
@@ -167,7 +168,7 @@ export default {
               isupdate.value = false;
               btnTitle();
               emit("refreshTypeTresoreries");
-              router.push('/typeTresoreries/liste-typeTresorerie');
+              //router.push('/typeTresoreries/liste-typeTresorerie');
             }
           }).catch(({ response }) => {
             error(response.message);
@@ -175,16 +176,14 @@ export default {
       } else {
         ApiService.post("/typeTresoreries", values)
           .then((res) => {
-            console.log(res.data)
             if (res.data.code == 201) {
               success(res.data.message)
               resetForm();
               hideModal(addTypeTresorerieModalRef.value);
-              //router.push('/typeTresoreries/liste-monnaie');
               emit("refreshTypeTresoreries");
-
             }
           }).catch(({ response }) => {
+            console.log(response)
             error(response.message);
           });
       }
@@ -198,7 +197,6 @@ export default {
       });
       btnTitle()
     };
-
     return {
       typeTresoreries, title, btntext, resetValue, typeTresorerieSchema,
       addTypeTresorerie, typeTresorerieForm, addTypeTresorerieModalRef, typeTresorerienew,

@@ -167,7 +167,7 @@ export default defineComponent({
     const fetchPersonnel = async () => {
       try {
         const response = await ApiService.get('/personnels');
-        const personnelData = response.data.data.data;
+        const personnelData = response.data;
         personnelOptions.value = personnelData.map((personnel) => ({
           value: personnel.id,
           label: `${personnel.nom} ${personnel.prenom}`,
