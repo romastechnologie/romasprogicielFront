@@ -272,11 +272,11 @@ function getAllUsers() {
 const getAllPersonnels = async () => {
     try {
         const response = await ApiService.get('/personnels');
-        const personnelsData = response.data.data.data;
+        const personnelsData = response.data;
         console.log('Data', personnelsData)
         personnelOptions.value = personnelsData.map((personnel) => ({
             value: personnel.id,
-            label: personnel.nom,
+            label: personnel.nom + " " + personnel.prenom,  
         }));
     }
     catch (error) {

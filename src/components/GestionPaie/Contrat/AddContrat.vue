@@ -82,7 +82,7 @@
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
-
+          
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -401,13 +401,15 @@
         getAllTypePrime();
         getAllTypeRetenue();
         getAllPersonnels();
+        //getAllPersonnel();
         getAllModeTarifications();
       });
   
       const contratForm =  ref(null);
       const showMErr = ref(false);
       const types = ref();
-      // const personnel = ref();
+      const personnelId = ref();
+      const personnel = ref();
       const typeOptions = ref([]);
       const typePrimeOptions = ref([]);
       const typeRetenueOptions = ref([]);
@@ -416,7 +418,9 @@
       const typeRetenues = ref(null);
       const salaireDeBase = ref();
       const personnelOptions = ref();
+      
       const modeDeTarificationOptions = ref([]);
+      const personnels = ref([] as any[]);
 
       const getAllTypeContrat = async () => {
         try{
@@ -436,17 +440,32 @@
       const getAllPersonnels = async () => {
         try{
         const response = await ApiService.get('/personnels');
-        const personnelsData = response.data.data.data;
+        const personnelsData = response.data;
         console.log('Data', personnelsData)
         personnelOptions.value = personnelsData.map((personnel) => ({
           value: personnel.id,
-          label: personnel.nom,
+          label: personnel.nom + " " + personnel.prenom,
         }));
         }
         catch(error){
           //error(response.data.message)
         }
       }
+
+      /*const getAllPersonnel = async () => {
+      try {
+        const response = await ApiService.get('/personnels');
+        personnels.value = response.data;
+        personnelOptions.value = response.data.map((personnel: any) => ({
+          value: personnel.id,
+          label: `${personnel.nom + " " + personnel.prenom}`
+        }));
+        console.log(response);
+      } catch (error) {
+        console.error('Erreur lors de la recupération des personnels:', error);
+        throw error;
+      }
+    }*/
 
       const getAllTypePrime = async () => {
         try {
@@ -721,6 +740,8 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
         validateRowRetenue,
         isDisablee,retenues,
         personnelOptions,
+        personnelId,
+        personnel,
         modeDeTarificationOptions,
       };
     },
