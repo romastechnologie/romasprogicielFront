@@ -72,7 +72,7 @@
           <tbody>
             <tr v-for="(categorieDepenses, index) in categoriesDepenses" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ categorieDepenses.refCategoriesDepenses }}
+                {{ categorieDepenses.reference }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ categorieDepenses.libelle }}
@@ -185,7 +185,6 @@ export default defineComponent({
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
-          return data.data;
         })
         .catch(({ response }) => {
           error(response.data.message)

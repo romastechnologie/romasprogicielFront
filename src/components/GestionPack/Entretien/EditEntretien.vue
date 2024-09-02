@@ -162,7 +162,7 @@
   
     const getAllPersonnels = async () => {
           try{
-          const response = await ApiService.get('/personnels');
+          const response = await ApiService.get('/typeBienTypeEntretienAssos');
           const personnelsData = response.data;
           console.log('Data', personnelsData)
           personnelOptions.value = personnelsData.map((personnel) => ({

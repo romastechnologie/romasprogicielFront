@@ -191,12 +191,12 @@ export default defineComponent({
 
   const getAllEntretien = async () => {
         try{
-        const response = await ApiService.get('/all/entretiens/');
+        const response = await ApiService.get('/all/entretiens');
         const entretienData = response.data.data.data;
         console.log('Data', entretienData)
         entretienOptions.value = entretienData.map((entretien) => ({
           value: entretien.id,
-          label: entretien.nom,
+          label: entretien.libelle,
         }));
         }
         catch(error){
@@ -222,7 +222,7 @@ export default defineComponent({
       const getAllPlanificationReparation= async () => {
         try{
         const response = await ApiService.get('/all/planificationReparations');
-        const planificationReparationData = response.data;
+        const planificationReparationData = response.data.data.data;
         planificationReparationOptions.value = planificationReparationData.map((planificationReparation) => ({
           value: planificationReparation.id,
           label: planificationReparation.libelle,
@@ -235,8 +235,8 @@ export default defineComponent({
 
       const getAllTypesDepenses= async () => {
         try{
-        const response = await ApiService.get('/all/typesDepenses/');
-        const typesDepensesData = response.data.data;
+        const response = await ApiService.get('/all/typesDepenses');
+        const typesDepensesData = response.data.data.data;
         typesDepensesOptions.value = typesDepensesData.map((typesDepenses) => ({
           value: typesDepenses.id,
           label: typesDepenses.libelle,
@@ -249,8 +249,8 @@ export default defineComponent({
 
       const getAllCategoriesDepenses= async () => {
         try{
-        const response = await ApiService.get('/all/categoriesDepenses/');
-        const categoriesDepensesData = response.data;
+        const response = await ApiService.get('/all/categoriesDepenses');
+        const categoriesDepensesData = response.data.data.data;
         categoriesDepensesOptions.value = categoriesDepensesData.map((categoriesDepenses) => ({
           value: categoriesDepenses.id,
           label: categoriesDepenses.libelle,
@@ -260,7 +260,7 @@ export default defineComponent({
           //error(response.data.message)
         }
       } 
-  
+    
    
 
     return { depensesSchema, addDepenses, depensesForm,entretienOptions,planificationReparationOptions,typesDepensesOptions,categoriesDepensesOptions,showMErr,entretien,planificationReparation,typesDepenses,categoriesDepenses,personnelOptions};
