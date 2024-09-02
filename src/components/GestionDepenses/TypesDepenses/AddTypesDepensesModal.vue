@@ -108,7 +108,7 @@ export default defineComponent({
     }
 
     const getTypesDepenses = async (id: number) => {
-      return ApiService.get("/typeMoyenRoulants/"+id)
+      return ApiService.get("/typesDepenses/"+id)
       .then(({ data }) => {
         // map data in form
         const donnees = data.data;

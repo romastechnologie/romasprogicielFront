@@ -48,7 +48,7 @@
                                         Categories Depenses <span class="text-danger">*</span>
                                     </label>
                                     <Field name="categoriesDepenses" v-model="categoriesDepenses" type="text" v-slot="{ field }">
-                                        <Multiselect v-model="field.value" v-bind="field" :options="categorieDepensesOptions"
+                                        <Multiselect v-model="field.value" v-bind="field" :options="categoriesDepensesOptions"
                                             :preserve-search="true" :multiple="false" :searchable="true"
                                             placeholder="Sélectionner la categorie de depense" label="label" track-by="label" />
                                     </Field>
@@ -133,7 +133,7 @@ export default {
         });
 
         const getCategoriesDepenses = async (id: number) => {
-            return ApiService.get("/categoriesdepenses/" + id)
+            return ApiService.get("/categoriesDepenses/" + id)
                 .then(({ data }) => {
                     categoriesDepensesForm.value?.setFieldValue("id", data.data.id);
                     categoriesDepensesForm.value?.setFieldValue("refCategoriesDepenses", data.data.refCategoriesDepenses);
@@ -148,7 +148,7 @@ export default {
 
         const getAllCategoriesDepenses = async () => {
             try {
-                const response = await ApiService.get('/all/categoriesdepenses/');
+                const response = await ApiService.get('/all/categoriesDepenses/');
                 const categoriesDepensesData = response.data.data;
                 categoriesDepensesOptions.value = categoriesDepensesData.map((categoriesDepenses) => ({
                     value: categoriesDepenses.id,
@@ -175,7 +175,7 @@ export default {
             values = values as CategoriesDepenses;
             loading.value = false;
             if (isupdate.value) {
-                ApiService.put(`/categoriesdepenses/${values.id}`, values)
+                ApiService.put(`/categoriesDepenses/${values.id}`, values)
                     .then(({ data }) => {
                         if (data.code == 200) {
                             success(data.message);
@@ -190,7 +190,7 @@ export default {
                         error(response.message);
                     });
             } else {
-                ApiService.post("/categoriesdepenses/", values)
+                ApiService.post("/categoriesDepenses/", values)
                     .then(({ data }) => {
                         if (data.code == 201) {
                             success(data.message)

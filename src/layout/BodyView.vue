@@ -10,9 +10,14 @@
                 <Sidebar @click="sidebar_toggle" />
             </div>
             <div class="page-body">
-
+                <div class="loader-wrapper" v-if="showLoader">
+                    <div class="loader loader-1">
+                        <div class="loader-outter"></div>
+                        <div class="loader-inner"></div>
+                        <div class="loader-inner-1"></div>
+                    </div>
+                </div>
                 <router-view></router-view>
-
             </div>
             <FooterView />
         </div>
@@ -35,6 +40,21 @@ let layoutobj = ref<any>({});
 const store = useMenuStore();
 const storeLayout = uselayoutStore();
 const { layouts: layouts } = storeToRefs(storeLayout);
+import { useRouter } from 'vue-router'
+let showLoader = ref<boolean>(false)
+let router = useRouter()
+
+watch(
+  () => router,
+  () => {
+    showLoader.value = true;
+    setTimeout(() => {
+      showLoader.value = false
+    }, 1500);
+  },
+  { deep: true },
+);
+
 watch(
     () => layouts,
     () => {

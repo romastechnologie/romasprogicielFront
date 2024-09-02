@@ -65,16 +65,15 @@
               </th>
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">CategoriesDepenses
-              </th>
-              <th
-                scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
               >Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(categorieDepenses, index) in categoriesDepenses" :key="index">
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ categorieDepenses.refCategoriesDepenses }}
+              </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ categorieDepenses.libelle }}
               </td>
@@ -157,7 +156,7 @@ export default defineComponent({
         page.value = page_;
         getAllCategoriesDepenses(page_, limit_);
       } catch (error) {
-        //
+        
       }
     };
 
@@ -180,7 +179,7 @@ export default defineComponent({
     };
 
     function getAllCategoriesDepenses(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/categoriedepenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/all/categoriesDepenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           categoriesDepenses.value = data.data;
           totalPages.value = data.data.totalPages;

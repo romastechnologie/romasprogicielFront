@@ -20,10 +20,8 @@ import maintenanceView from "@/pages/authentication/maintenanceView.vue"
 import indexPagenation from "@/pages/advance/indexPagenation.vue"
 import indexBreadcrumb from "@/pages/advance/indexBreadcrumb.vue"
 import indexRange from "@/pages/advance/indexRange.vue"
-
 import indexUserlist from "@/pages/users/indexUserlist.vue"
 import indexCreateUser from "@/pages/users/indexCreateUser.vue"
-
 import AddPermissionPage from "@/pages/Permission/AddPermissionPage.vue";
 import ListePermissionPage from "@/pages/Permission/ListePermissionPage.vue";
 import ListeServicePage from "@/pages/Service/ListeServicePage.vue";
@@ -1408,12 +1406,6 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
-  //
-
-
-
-  //
-
   {
     path: "/familles",
     component: BodyView,
@@ -1596,8 +1588,6 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-
-
   {
     path: "/commande-fournisseurs",
     component: BodyView,
@@ -2558,8 +2548,6 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  
-  
   {
     path: "/authentication/simple",
     name: "loginsimple",
@@ -2670,6 +2658,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
 router.beforeEach((to, from, next) => {
   if (typeof (to.meta.title) === 'string') {
     document.title = to.meta.title;
