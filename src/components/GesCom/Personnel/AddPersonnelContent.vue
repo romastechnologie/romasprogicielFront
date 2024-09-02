@@ -914,7 +914,7 @@ export default defineComponent({
     const getAllReligions = async () => {
       try {
         const response = await ApiService.get('/all/religions');
-        const religionsData = response.data.data;
+        const religionsData = response.data.data.data;
 
         religionOptions.value = religionsData.map((religion) => ({
           value: religion.id,
@@ -929,7 +929,7 @@ export default defineComponent({
     const getAllEthnies = async () => {
       try {
         const response = await ApiService.get('/all/ethnies');
-        const ethniesData = response.data.data;
+        const ethniesData = response.data.data.data;
 
         ethnieOptions.value = ethniesData.map((ethnie) => ({
           value: ethnie.id,
