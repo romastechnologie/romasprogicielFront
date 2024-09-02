@@ -272,11 +272,11 @@ function getAllUsers() {
 const getAllPersonnels = async () => {
     try {
         const response = await ApiService.get('/personnels');
-        const personnelsData = response.data;
+        const personnelsData = response.data.data.data;
         console.log('Data', personnelsData)
         personnelOptions.value = personnelsData.map((personnel) => ({
             value: personnel.id,
-            label: personnel.nom + " " + personnel.prenom,  
+            label: personnel.nom,
         }));
     }
     catch (error) {
@@ -309,6 +309,7 @@ const getTresorerie = () => {
 
 const getMonnaie = async () => {
     await ApiService.get('/monnaies').then(res => {
+        console.log(res.data,"res.data");
         monnaieList.value = res.data
         console.log(monnaieList.value)
 
@@ -342,6 +343,9 @@ onMounted(() => {
 })
 
 </script>
+
+
+
 
 <style scoped>
 .overview {

@@ -72,7 +72,7 @@
           <tbody>
             <tr v-for="(categorieDepenses, index) in categoriesDepenses" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ categorieDepenses.refCategoriesDepenses }}
+                {{ categorieDepenses.reference }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ categorieDepenses.libelle }}
@@ -181,11 +181,11 @@ export default defineComponent({
     function getAllCategoriesDepenses(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/categoriesDepenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          categoriesDepenses.value = data.data;
+          console.log(data,"datadatadata");
+          categoriesDepenses.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
-          return data.data;
         })
         .catch(({ response }) => {
           error(response.data.message)

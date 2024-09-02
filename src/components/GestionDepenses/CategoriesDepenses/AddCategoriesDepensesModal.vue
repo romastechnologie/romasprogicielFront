@@ -8,13 +8,13 @@
                     <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <Form ref="panneForm" @submit="addCategoriesDepenses" :validation-schema="categoriesDepensesSchema">
+                    <Form ref="categoriesDepensesForm" @submit="addCategoriesDepenses" :validation-schema="categoriesDepensesSchema">
                         <div class="row">
 
                                 <div class="col-md-12 mb-3">
                                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
-                                    <Field name="refCategoriesDepenses" class="form-control" type="text"/>
-                                    <ErrorMessage name="refCategoriesDepenses" class="text-danger" />
+                                    <Field name="reference" class="form-control" type="text"/>
+                                    <ErrorMessage name="reference" class="text-danger" />
                                   </div>
         
                             <div class="col-md-12 mb-3">
@@ -33,7 +33,7 @@
                                     <label class="d-block text-black fw-semibold mb-10">
                                         Description <span class="text-danger">*</span>
                                     </label>
-                                    <Field name="description" cols="20" rows="12" as="textarea"
+                                    <Field name="description" cols="20" rows="2" as="textarea"
                                         placeholder="Description" v-slot="{ field }"
                                         class="form-control shadow-none rounded-0 text-black">
                                         <textarea v-model="field.value"
@@ -45,14 +45,13 @@
                             <div class="col-md-12 mb-4">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                     <label class="d-block text-black mb-10">
-                                        Categories Depenses <span class="text-danger">*</span>
+                                        Categories Depenses
                                     </label>
                                     <Field name="categoriesDepenses" v-model="categoriesDepenses" type="text" v-slot="{ field }">
                                         <Multiselect v-model="field.value" v-bind="field" :options="categoriesDepensesOptions"
                                             :preserve-search="true" :multiple="false" :searchable="true"
                                             placeholder="Sélectionner la categorie de depense" label="label" track-by="label" />
                                     </Field>
-                                    
                                 </div>
                             </div>
 
@@ -102,11 +101,10 @@ export default {
 
         const loading = ref<boolean>(false);
         const categoriesDepensesSchema = Yup.object().shape({
-            refCategoriesDepenses: Yup.string().required('La Référence est obligatoire'),
+            reference: Yup.string().required('La Référence est obligatoire'),
             libelle: Yup.string().required('Le libelle est obligatoire'),
             description: Yup.string().required('La description est obligatoire'),
-            categoriesDepenses: Yup.string().required('La categorie depense est obligatoire'),
-
+            categoriesDepenses: Yup.string().notRequired(),
         });
 
 
@@ -133,12 +131,15 @@ export default {
         });
 
         const getCategoriesDepenses = async (id: number) => {
+            console.log(id,"ididididididididididid")
             return ApiService.get("/categoriesDepenses/" + id)
                 .then(({ data }) => {
-                    categoriesDepensesForm.value?.setFieldValue("id", data.data.id);
-                    categoriesDepensesForm.value?.setFieldValue("refCategoriesDepenses", data.data.refCategoriesDepenses);
-                    categoriesDepensesForm.value?.setFieldValue("libelle", data.data.libelle);
-                    categoriesDepensesForm.value?.setFieldValue("description",data.data.description);
+                    const donnees = data.data;
+                    for (const key in donnees) {
+                    categoriesDepensesForm.value?.setFieldValue(key, 
+                    (typeof donnees[key] === 'object' && donnees[key] !== null)? donnees[key].id :donnees[key]
+                    );
+                    }
                     emit('openmodal', addCategoriesDepensesModalRef.value);
                 })
                 .catch(({ response }) => {
@@ -183,8 +184,7 @@ export default {
                             hideModal(addCategoriesDepensesModalRef.value);
                             isupdate.value = false;
                             btnTitle();
-                            emit("refreshCategoriesDepenses");
-                            router.push('/categoriesDepenses/ListeCategoriesDepenses');
+                            emit('close');
                         }
                     }).catch(({ response }) => {
                         error(response.message);
@@ -196,12 +196,11 @@ export default {
                             success(data.message)
                             resetForm();
                             hideModal(addCategoriesDepensesModalRef.value);
-                            emit("refreshCategoriesDepenses");
-
+                            emit('close');
                         }
                     }).catch(({ response }) => {
                         error(response.message);
-                    });
+                });
             }
         };
 
