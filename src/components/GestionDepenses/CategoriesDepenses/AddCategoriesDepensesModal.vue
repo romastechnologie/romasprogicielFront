@@ -200,7 +200,7 @@ export default {
                         }
                     }).catch(({ response }) => {
                         error(response.message);
-                    });
+                });
             }
         };
 

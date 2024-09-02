@@ -49,6 +49,21 @@
                             </Field>
 
                         </div>
+
+                        <div class=" mb-3">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                    Personnel <span class="text-danger">*</span>
+                                </label>
+                                <Field name="personnel" type="text" v-slot="{ field }">
+                                    <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions"
+                                        :preserve-search="true" :multiple="false" :searchable="true"
+                                        placeholder="Sélectionner le personnel" label="label" track-by="label" />
+                                </Field>
+                                <ErrorMessage name="personnel" class="text-danger" />
+                            </div>
+                        </div>
+
                         <div class=" mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
@@ -143,6 +158,7 @@ import { Tresorerie } from "@/models/Tresorerie";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import VueMultiselect from 'vue-multiselect'
+import Multiselect from '@vueform/multiselect/src/Multiselect';
 import { useRouter, useRoute } from "vue-router";
 
 const users = ref<User[]>([])
@@ -251,6 +267,21 @@ async function updateFinance(value: Object) {
     }
 }
 
+const getAllPersonnels = async () => {
+    try {
+        const response = await ApiService.get('/personnels');
+        const personnelsData = response.data;
+        console.log('Data', personnelsData)
+        personnelOptions.value = personnelsData.map((personnel) => ({
+            value: personnel.id,
+            label: personnel.nom + " " + personnel.prenom,  
+        }));
+    }
+    catch (error) {
+        //error(response.data.message)
+    }
+}
+
 function getAllUsers() {
     return ApiService.get(`/users`)
         .then(({ data }) => {
@@ -313,6 +344,7 @@ watch(billetageList, () => {
 onMounted(() => {
     getTresorerie(),
     getAllTresoreries(),
+    getAllPersonnels(),
         getMonnaie(),
         calculateTotal(),
         getAllUsers()
