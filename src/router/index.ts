@@ -236,8 +236,12 @@ import EditPlanificationReparationPage from '@/pages/GestionPack/PlanificationRe
 import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/ListePlanificationReparationPage.vue';
 
 
-
-
+// Gestion Depenses
+import AddDepensesPage from '@/components/GestionDepenses/Depenses/AddDepenses.vue';
+import EditDepensesPage from '@/components/GestionDepenses/Depenses/EditDepenses.vue';
+import ListeDepensesPage from '@/components/GestionDepenses/Depenses/ListeDepenses.vue';
+import ListeTypesDepensesPage from '@/components/GestionDepenses/TypesDepenses/ListeTypesDepenses.vue'
+import ListeCategoriesDepensesPage from '@/components/GestionDepenses/CategoriesDepenses/ListeCategoriesDepenses.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -313,7 +317,65 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+  {
+    path: "/Depenses",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-depenses",
+        name: "AddDepenses",
+        component: AddDepensesPage,
+        meta: {
+          title: 'ajouter depenses',
+        }
+      },
+      {
+        path: "editer-depenses",
+        name: "EditDepenses",
+        component: EditDepensesPage,
+        meta: {
+          title: 'editer une depense',
+        }
+      },
+      {
+        path: "liste-depenses",
+        name: "ListeDepenses",
+        component: ListeDepensesPage,
+        meta: {
+          title: 'Liste des depenses',
+        }
+      },
+    ]
+  },
+  {
+    path: "/typesDepenses",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-typesdepenses",
+        name: "ListeTypesDepenses",
+        component: ListeTypesDepensesPage,
+        meta: {
+          title: 'ajouter un type de depense',
+        }
+      },
+    ]
+  },
   
+  {
+    path: "/categoriesDepenses",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-categoriesdepenses",
+        name: "ListeCategorliesDepenses",
+        component: ListeCategoriesDepensesPage,
+        meta: {
+          title: 'Ajouter une categorie de depense',
+        }
+      },
+    ]
+  },
   {
     path: "/utilisateurs",
     component: BodyView,
