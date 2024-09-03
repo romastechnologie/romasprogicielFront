@@ -2,7 +2,6 @@
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
         <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing ">
             <Form class="row g-3" :validation-schema="schema" @submit="sendFinance">
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="my-3">
