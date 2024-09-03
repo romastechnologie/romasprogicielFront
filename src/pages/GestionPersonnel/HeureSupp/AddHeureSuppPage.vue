@@ -1,16 +1,16 @@
 <template>
-    <AddHeureSupp />
+    <AddHeureSuppModal />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import AddHeureSupp from "@/components/GestionPersonnel/HeureSupp/AddHeureSupp.vue";
+    import AddHeureSuppModal from "@/components/GestionPersonnel/HeureSupp/AddHeureSuppModal.vue";
   
     export default defineComponent({
       name: "AddHeureSuppPage",
       components: {
-        AddHeureSupp,
+        AddHeureSuppModal,
       },
     });
   </script>

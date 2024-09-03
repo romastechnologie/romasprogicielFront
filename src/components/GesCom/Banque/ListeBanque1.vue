@@ -4,15 +4,13 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <a
+        <router-link
           class="btn btn-primary"
-          href="#"
-          data-bs-toggle="modal"
-          data-bs-target="#AddHeureSuppModal"
+          to="/banques/ajouter-banque"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter une heure supplémentaire
-        </a>
+          Ajouter une banque
+        </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
           type="button"
@@ -28,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un heure supplémentaire"
+            placeholder="Rechercher une banque"
           />
           <button
             type="submit"
@@ -54,20 +52,26 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Date
+                Sigle
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Personnel
+                Dénomination
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Durée
+                Adresse
               </th>
+              <!-- <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Societe
+              </th> -->
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
@@ -75,17 +79,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(heureSupp, index) in heureSupps" :key="index">
+            <tr v-for="(banque, index) in banques" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ heureSupp.date }}
+                {{ banque.sigle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ heureSupp.personnel }}
+                {{ banque.denominationBanque }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ heureSupp.duree }}
+                {{ banque.adresse }}
               </td>
-              
+              <!-- <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ banque.societe.nom }}
+              </td> -->
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
@@ -96,28 +102,21 @@
                   </span>
                   <ul class="dropdown-menu">
                     <li >
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);"
-                        data-bs-toggle="modal"
-                        data-bs-target="#AddHeureSuppModal"
-                        @click="moddifier(heureSupp)"
-                      >
-                        <i
+                      <router-link :to="{ name: 'EditBanquePage', params: { id: banque.id } }" 
+                          class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>
-                        Modifier
-                      </a>
+                        ></i>Modifier</router-link>
                     </li>
+                    <!-- <li>
+                        <router-link :to="{ name: 'ViewBanquePage', params: { id: banque.id } }" class="dropdown-item d-flex align-items-center">
+                            <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
+                        </router-link>
+                    </li> -->
                     <li >
                       <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(heureSupp.id,heureSupps,'heureSupps','la heureSupp')"
-                      >
-                        <i
-                          class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
-                        ></i>
-                        Supprimer
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(banque.id,banques,'banques',`la banque ${banque.id}`)">
+                        <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
+                         Supprimer
                       </a>
                     </li>
                   </ul>
@@ -134,34 +133,30 @@
       </div>
     </div>
   </div>
-  <AddHeureSuppModal :item="selectedItem" @close="recharger"/>
-
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { HeureSupp } from "@/models/HeureSupp";
+import { Banque } from "@/models/Banque";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import AddHeureSuppModal from "./AddHeureSuppModal.vue";
 
 export default defineComponent({
-  name: "ListeHeureSupp",
+  name: "ListeBanque",
   components: {
-    PaginationComponent,
-    AddHeureSuppModal
+    PaginationComponent
   },
   setup(){
     
     onMounted(() => {
-      getAllHeureSupps();
+      getAllBanques();
     });
 
-    const heureSupps = ref<Array<HeureSupp>>([]);   
-    const heureSupp = ref<HeureSupp>();
+    const banques = ref<Array<Banque>>([]);   
+    const banque = ref<Banque>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -169,31 +164,26 @@ export default defineComponent({
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
-    const selectedItem = ref(0);
 
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllHeureSupps(page_, limit_);
+        getAllBanques(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllHeureSupps(page.value, limit.value, searchTerm.value );
+      getAllBanques(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
-    const recharger = () => {
-      getAllHeureSupps();
-    };
-
-    function getAllHeureSupps(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/heureSupps?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllBanques(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/banques?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          heureSupps.value = data.data.data;
+          banques.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -204,13 +194,12 @@ export default defineComponent({
       });
     }
     
-    function moddifier(EditHeureSupp:HeureSupp) {
-      heureSupp.value = EditHeureSupp;
-      selectedItem.value = EditHeureSupp.id;
+    function moddifier(Editbanques:Banque) {
+      banque.value = Editbanques;
     }
 
-    const deleteHeureSupp = (id: number) => {
-      ApiService.delete(`/heureSupps/${id}`)
+    const deleteBanque = (id: number) => {
+      ApiService.delete(`/banques/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,
@@ -238,9 +227,9 @@ export default defineComponent({
         });
       });
 
-      for(let i = 0; i < heureSupps.value.length; i++) {
-        if (heureSupps.value[i].id === id) {
-          heureSupps.value.splice(i, 1);
+      for(let i = 0; i < banques.value.length; i++) {
+        if (banques.value[i].id === id) {
+          banques.value.splice(i, 1);
         }
       }
     };
@@ -251,10 +240,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { heureSupps,
+    return { banques,
       checkPermission,
-     getAllHeureSupps,
-     deleteHeureSupp,
+     getAllBanques,
+     deleteBanque,
      moddifier ,
      suppression,
      page, 
@@ -263,9 +252,7 @@ export default defineComponent({
     totalElements,
     handlePaginate,
     rechercher,
-    searchTerm,
-    selectedItem,
-    recharger
+    searchTerm
   };
   },
 });

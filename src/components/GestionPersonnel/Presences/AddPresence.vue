@@ -190,12 +190,12 @@ const defaultDate = new Date().toISOString().slice(0, 10);
 
 function schemaPresence() {
   return yup.object().shape({
-    date: yup.date().required("La date est requise."),
-    heureArrivee: yup.string().required("L'heure d'arrivée est requise."),
-    heureDepart: yup.string().required("L'heure de départ est requise."),
-    statut: yup.string().required("Le statut est requis."),
-    duree: yup.string().required("La durée est requise."),
-    statutJustifie: yup.string().required("La justification du statut est requise."),
+    date: yup.date().required("La date est obligatoire."),
+    heureArrivee: yup.string().required("L'heure d'arrivée est obligatoire."),
+    heureDepart: yup.string().required("L'heure de départ est obligatoire."),
+    statut: yup.string().required("Le statut est obligatoire."),
+    duree: yup.string().required("La durée est obligatoire."),
+    statutJustifie: yup.string().required("La justification du statut est obligatoire."),
   })
 }
 
