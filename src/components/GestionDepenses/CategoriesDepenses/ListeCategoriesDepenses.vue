@@ -156,7 +156,7 @@ export default defineComponent({
         page.value = page_;
         getAllCategoriesDepenses(page_, limit_);
       } catch (error) {
-        
+        //
       }
     };
 

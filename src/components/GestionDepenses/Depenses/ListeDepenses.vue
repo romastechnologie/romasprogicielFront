@@ -46,6 +46,12 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
+              Date
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
                 Libelle
               </th>
               <th
@@ -78,19 +84,33 @@
               </th>
               <th
                 scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+               Montant
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+               Motif
+              </th>
+              <th
+                scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
               >Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr  v-for ="(depense, index) in depenses" :key="index">
+              <td class="shadow-none lh-1 fw-medium ">{{ depense.date }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ depense.libelle }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ depense?.description }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ depense.entretien }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ depense.planificationReparation }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ depense.typesDepenses }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ depense.categoriesDepenses }} </td>
-            
+                <td class="shadow-none lh-1 fw-medium ">{{ depense.montant }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ depense.motif }} </td>
                 
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                   <div class="dropdown">

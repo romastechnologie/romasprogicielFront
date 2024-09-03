@@ -3,21 +3,40 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <Form ref="depensesForm" @submit="editDepenses" :validation-schema="depensesSchema">
               <div class="row">
+                <div class="col-md-4 mt-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Date de depense <span class="text-danger">*</span>
+                  </label>
+                  <Field name="date" type="date" :value="getCurrentDate"
+                  class="form-control shadow-none fs-md-15 text-black"/>
+                </div>
+              <ErrorMessage name="date" class="text-danger"/>
+              </div>
           
                 <div class="col-md-4 mt-3">
                   <label for="libelle" class="form-label"> Libelle<span class="text-danger">*</span></label>
-                  <Field name="libelle"  class="form-control" type="text"/>
+                  <Field name="libelle"  class="form-control" type="text" placeholder="Entrer le libelle"/>
                   <ErrorMessage name="libelle" class="text-danger" />
           </div>
 
           <div class="col-md-4 mt-3">
                   <label for="description" class="form-label"> Description<span class="text-danger">*</span></label>
-                  <Field name="description"  class="form-control" type="text"/>
+                  <Field name="description"  class="form-control" type="text" placeholder="Entrer la description"/>
                   <ErrorMessage name="description" class="text-danger" />
                </div>
           
-
-          <div class="col-md-4 mb-3">
+               <div class="col-md-4 mt-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Montant<span class="text-danger">*</span>
+                </label>
+                <Field name="montant" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
+                <ErrorMessage name="montant" class="text-danger"/>
+              </div>
+            </div>
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Entretien <span class="text-danger">*</span>
@@ -32,7 +51,7 @@
               <ErrorMessage name="entretien" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Planification Reparation <span class="text-danger">*</span>
@@ -46,7 +65,7 @@
             </div>
           </div>
 
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Types Depenses <span class="text-danger">*</span>
@@ -59,7 +78,7 @@
               <span class="text-danger" v-if="showMErr">Le Type de Depense  est obligatoire</span>
             </div>
           </div>
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Categories Depenses <span class="text-danger">*</span>
@@ -73,7 +92,7 @@
             </div>
           </div>
 
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Personnel <span class="text-danger">*</span>
@@ -86,9 +105,29 @@
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
+          <div class="col-md-12">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Motif<span class="text-danger">*</span>
+              </label>
+              <Field
+                name="motif"
+                as="textarea"
+                cols="15"
+                rows="6"
+                placeholder="Entrer le motif"
+                v-slot="{ field }"
+                class="form-control shadow-none rounded-0 text-black"
+              >
+                <textarea
+                  class="form-control shadow-none rounded-0 text-black"
+                  v-model="field.value"
+                ></textarea>
+              </Field>
+              <ErrorMessage name="motif" class="text-danger" />
+            </div>
+          </div>
          
-
-            
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -143,6 +182,10 @@
           planificationReparation: Yup.string().required("La planification Reparation est obligatoire."),
           typesDepenses: Yup.string().required("Le type de depense est obligatoire."),
           categoriesDepenses:Yup.string().required("La categorie depense est obligatoire."),
+          motif:Yup.string().required("Le motif est obligatoire."),
+          montant:Yup.number().required("Le montant est obligatoire."),
+          date: Yup.date().required('La date est obligatoire'),
+    
     });
   
       onMounted(() => {
