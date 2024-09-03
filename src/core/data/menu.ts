@@ -799,6 +799,16 @@ export const menu: MenuItem[] = [
                 path: "/etats/etats-produits-sorties",
                 title: "Liste des produits sorties",
                 type: "link"
+            },
+            {
+                path: "/etats/etat-nmbre-pro",
+                title: 'Nombre du produits vendus par période',
+                type: "link"
+            },
+            {
+                path: "/etats/ca-client",
+                title: `Chiffre d'affaire par cient`,
+                type: "link"
             }
         ]
     },
