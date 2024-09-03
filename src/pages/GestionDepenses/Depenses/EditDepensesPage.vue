@@ -1,16 +1,15 @@
 <template>
-    <EditTypeBien />
+    <EditDepenses />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
-  
-    import EditTypeBien from "@/components/GestionImmobilisation/TypeBien/EditTypeBien.vue";
+    import EditDepenses from "@/components/GestionDepenses/Depenses/EditDepenses.vue";
   
     export default defineComponent({
-      name: "EditTypeBienPage",
+      name: "EditDepensesPage",
       components: {
-        EditTypeBien,
+        EditDepenses,
       },
     });
   </script>

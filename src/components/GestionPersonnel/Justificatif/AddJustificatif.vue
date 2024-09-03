@@ -1,52 +1,100 @@
 <template>
-  <div class="p-5">
-    <div class="card px-2 pt-3 pb-1">
-      <div class="row gx-3 flex-wrap">
-        <div class="col-6 mx-auto">
-          <div class="" id="justificatif">
-            <div class="modal-body">
-              <Form @submit="sendJustificatif" :validation-schema="schemaJustificatif()">
-                <p class="my-0"> Date de la présence </p>
-                <Field type="date" name="dateJustificatif" id="dateJustificatif" class="form-control mb-1"
-                  @input="sortPresenceWithDate($event.target)" />
-                <ErrorMessage name="dateJustificatif" class="text-danger text-start mb-2" />
-                <p class="my-0"> Presence </p>
-                <select name="presenceJustificatif" id="presenceJustificatif" class="form-select mb-1">
-                  <option disabled selected> Choisir la presence </option>
-                  <option :value="presence.id" v-for="presence in filterPresence" :key="presence.id"> Presence ==>
-                    {{
-                      presence.personnel.nom + " " + presence.personnel.prenom }} </option>
-                </select>
-                <p class="my-0"> Personnel </p>
-                <select name="personnelJustificatif" id="personnelJustificatif" class="form-select mb-1">
-                  <option disabled selected> Choisir le personnel </option>
-                  <option :value=personnel.id v-for="personnel in personnels" :key="personnel.id"> {{
-                    personnel.nom + " " + personnel.prenom }} </option>
-                </select>
-                <p class="my-0"> Date de debut </p>
-                <Field type="date" name="dateDebutJustificatif" id="dateDebutJustificatif" class="form-control mb-1 " />
-                <ErrorMessage name="dateDebutJustificatif" class="text-danger text-start mb-2" />
-                <p class="my-0"> Date de Fin </p>
-                <Field type="date" name="dateFinJustificatif" id="dateFinJustificatif" class="form-control mb-1" />
-                <ErrorMessage name="dateFinJustificatif" class="text-danger text-start mb-2" />
-                <p class="my-0"> Preuve </p>
-                <Field type="file" name="fileJustificatif" id="fileJustificatif" class="form-control mb-1" />
-                <ErrorMessage name="fileJustificatif" class="text-danger text-start mb-2" />
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary"> Déposer </button>
-                  <router-link to="/justificatifs/liste-justificatif">
-                    <button type="submit" class="btn btn-danger">
-                      Annuler </button>
-                  </router-link>
-                </div>
-              </Form>
-            </div>
+  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+      <Form @submit="sendJustificatif" :validation-schema="schemaJustificatif()">
+        <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <label class="d-block text-black fw-semibold mb-10">
+              Date <span class="text-danger">*</span>
+            </label>
+            <Field name="date" type="date" class="form-control shadow-none fs-md-15 text-black" />
+            <ErrorMessage name="date" class="text-danger" />
           </div>
         </div>
 
+        <!--<p class="my-0"> Presence </p>
+        <select name="presenceJustificatif" id="presenceJustificatif" class="form-select mb-1">
+          <option disabled selected> Choisir la presence </option>
+          <option :value="presence.id" v-for="presence in filterPresence" :key="presence.id"> Presence ==>
+            {{
+        presence.personnel.nom + " " + presence.personnel.prenom }} </option>
+        </select>-->
+
+        <div class="col-md-4 mb-3">
+          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <label class="d-block text-black mb-10">
+              Présence <span class="text-danger">*</span>
+            </label>
+            <Field name="presenceJustificatif" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="presenceOptions" :preserve-search="true"
+                :multiple="false" :searchable="true" placeholder="Sélectionner la présence" label="label"
+                track-by="label" />
+            </Field>
+            <ErrorMessage name="presenceJustificatif" class="text-danger" />
+          </div>
+        </div>
+
+       
+        <div class="col-md-4 mb-3">
+          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <label class="d-block text-black mb-10">
+              Personnel <span class="text-danger">*</span>
+            </label>
+            <Field name="personnel" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
+                :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
+                track-by="label" />
+            </Field>
+            <ErrorMessage name="personnel" class="text-danger" />
+          </div>
+        </div>
+
+
+        <div class="col-md-4 mb-3">
+          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <label class="d-block text-black fw-semibold mb-10">
+              Date de début <span class="text-danger">*</span>
+            </label>
+            <Field name="dateDebutJustificatif" type="date" class="form-control shadow-none fs-md-15 text-black" />
+            <ErrorMessage name="dateDebutJustificatif" class="text-danger" />
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <label class="d-block text-black fw-semibold mb-10">
+              Date de fin <span class="text-danger">*</span>
+            </label>
+            <Field name="dateFinJustificatif" type="date" class="form-control shadow-none fs-md-15 text-black" />
+            <ErrorMessage name="dateFinJustificatif" class="text-danger" />
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <label class="d-block text-black fw-semibold mb-10">
+              Preuve <span class="text-danger">*</span>
+            </label>
+            <Field name="fileJustificatif" type="file" class="form-control shadow-none fs-md-15 text-black" />
+            <ErrorMessage name="fileJustificatif" class="text-danger" />
+          </div>
+        </div>
+
+        <div class="col-md-12 mt-3">
+          <div class="d-flex align-items-center ">
+            <button class="btn btn-success me-3" type="submit">
+              Ajouter un justificatif
+            </button>
+            <router-link to="/justificatifs/liste-justificatif" class=" btn btn-danger"><i
+                class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+              <span class="position-relative"></span>Annuler</router-link>
+          </div>
+        </div>
       </div>
+      </Form>
     </div>
   </div>
+
+
 
   <!-- Modal -->
 
@@ -64,6 +112,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router';
 import ApiService from '@/services/ApiService';
+import Multiselect from '@vueform/multiselect/src/Multiselect';
+
 
 const router = useRouter()
 
@@ -77,6 +127,11 @@ configure({
 const changeConge = ref(true);
 const selectAll = ref<boolean>(true);
 const selectedPersonnels = ref<number[]>([])
+const personnelOptions = ref();
+const presenceOptions = ref();
+
+
+
 
 watch(selectAll, (newSelectAll) => {
 
@@ -284,12 +339,12 @@ function sortDemandePermissionWithDate(choseedDate: HTMLInputElement) {
 // ----------------------------------------- SCHEMA -----------------------------------------
 function schemaJustificatif() {
   return yup.object().shape({
-    dateJustificatif: yup.string().required("La date de la presence est requise."),
-    // presenceJustificatif: yup.string().required("La presence est requise."),
-    // personnelJustificatif: yup.string().required("Le personnel est requis."),
-    dateDebutJustificatif: yup.string().required("La date de début est requise."),
-    dateFinJustificatif: yup.string().required("La date de fin est requise."),
-    fileJustificatif: yup.string().required("La preuve est requise."),
+    dateJustificatif: yup.string().required("La date de la presence est obligatoire."),
+    // presenceJustificatif: yup.string().required("La presence est obligatoire."),
+    // personnelJustificatif: yup.string().required("Le personnel est obligatoire."),
+    dateDebutJustificatif: yup.string().required("La date de début est obligatoire."),
+    dateFinJustificatif: yup.string().required("La date de fin est obligatoire."),
+    fileJustificatif: yup.string().required("La preuve est obligatoire."),
   })
 }
 
@@ -350,17 +405,6 @@ async function sendJustificatif() {
 }
 
 // --------------------------------------------------- GET ---------------------------------------
-const getAllPresences = async () => {
-  try {
-    const response = await ApiService.get('/presences');
-    presences.value = response.data;
-    // router.push("/");
-    console.log(response);
-  } catch (error) {
-    console.error('Erreur lors de la recupération des présences:', error);
-    throw error;
-  }
-}
 
 const getAllDemande = async () => {
   try {
@@ -372,6 +416,38 @@ const getAllDemande = async () => {
     throw error;
   }
 }
+
+const getAllPersonnels = async () => {
+  try {
+    const response = await ApiService.get('/personnels');
+    const personnelsData = response.data;
+    console.log('Data', personnelsData)
+    personnelOptions.value = personnelsData.map((personnel) => ({
+      value: personnel.id,
+      label: personnel.nom + " " + personnel.prenom,
+    }));
+  }
+  catch (error) {
+    //error(response.data.message)
+  }
+}
+
+const getAllPresences = async () => {
+  try {
+    const response = await ApiService.get('/presences');
+    const presencesData = response.data;
+    console.log('Data', presencesData)
+    presenceOptions.value = presencesData.map((presence) => ({
+      value: presence.id,
+      label: presence.personnel.nom + " " + presence.personnel.prenom,
+    }));
+  }
+  catch (error) {
+    //error(response.data.message)
+  }
+}
+
+
 
 const getAllPersonnel = async () => {
   try {
@@ -406,6 +482,7 @@ onMounted(() => {
   getAllPresences();
   getAllDemande();
   getAllPersonnel();
+  getAllPersonnels();
 })
 
 </script>

@@ -49,15 +49,35 @@
                             </Field>
 
                         </div>
-                        <div class="mb-3">
-                            <label for="tresorerieName">Tresorerie</label>
-                            <Field type="number" id="tresorerieName" name="tresorerieName" class="form-select"
-                                as="select" v-model="finance.tresorerieName">
-                                <option v-for="caisse in caisses" :key="caisse.id" :value="caisse.id">{{
-                                    caisse.nom }} => {{ caisse.status || "fermé" }}</option>
-                            </Field>
-                            <ErrorMessage name="tresorerieName" class="text-danger" />
+
+                        <div class=" mb-3">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                    Personnel <span class="text-danger">*</span>
+                                </label>
+                                <Field name="personnel" type="text" v-slot="{ field }">
+                                    <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions"
+                                        :preserve-search="true" :multiple="false" :searchable="true"
+                                        placeholder="Sélectionner le personnel" label="label" track-by="label" />
+                                </Field>
+                                <ErrorMessage name="personnel" class="text-danger" />
+                            </div>
                         </div>
+
+                        <div class=" mb-3">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                    Trésorerie <span class="text-danger">*</span>
+                                </label>
+                                <Field name="tresorerie" type="text" v-slot="{ field }">
+                                    <Multiselect v-model="field.value" v-bind="field" :options="tresorerieOptions"
+                                        :preserve-search="true" :multiple="false" :searchable="true"
+                                        placeholder="Sélectionner la trésorerie" label="label" track-by="label" />
+                                </Field>
+                                <ErrorMessage name="tresorerie" class="text-danger" />
+                            </div>
+                        </div>
+
 
                     </div>
                     <div class="col-md-6">
@@ -138,6 +158,7 @@ import { Tresorerie } from "@/models/Tresorerie";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import VueMultiselect from 'vue-multiselect'
+import Multiselect from '@vueform/multiselect/src/Multiselect';
 import { useRouter, useRoute } from "vue-router";
 
 const users = ref<User[]>([])
@@ -246,6 +267,21 @@ async function updateFinance(value: Object) {
     }
 }
 
+const getAllPersonnels = async () => {
+    try {
+        const response = await ApiService.get('/personnels');
+        const personnelsData = response.data;
+        console.log('Data', personnelsData)
+        personnelOptions.value = personnelsData.map((personnel) => ({
+            value: personnel.id,
+            label: personnel.nom + " " + personnel.prenom,  
+        }));
+    }
+    catch (error) {
+        //error(response.data.message)
+    }
+}
+
 function getAllUsers() {
     return ApiService.get(`/users`)
         .then(({ data }) => {
@@ -255,6 +291,21 @@ function getAllUsers() {
         .catch(({ response }) => {
 
         });
+}
+
+const getAllTresoreries = async () => {
+    try {
+        const response = await ApiService.get('/tresoreries');
+        const tresoreriesData = response.data.data.data;
+        console.log('Data', tresoreriesData)
+        tresorerieOptions.value = tresoreriesData.map((tresorerie) => ({
+            value: tresorerie.id,
+            label: tresorerie.nom,
+        }));
+    }
+    catch (error) {
+        //error(response.data.message)
+    }
 }
 
 const getTresorerie = () => {
@@ -292,6 +343,8 @@ watch(billetageList, () => {
 
 onMounted(() => {
     getTresorerie(),
+    getAllTresoreries(),
+    getAllPersonnels(),
         getMonnaie(),
         calculateTotal(),
         getAllUsers()

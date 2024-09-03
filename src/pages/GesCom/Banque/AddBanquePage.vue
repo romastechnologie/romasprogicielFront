@@ -1,18 +1,18 @@
 <template>
-    <AddBanque />
+    <AddBanqueModal />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
     
-    import AddBanque from "@/components/GesCom/Banque/AddBanque.vue";
+    import AddBanqueModal from "@/components/GesCom/Banque/AddBanqueModal.vue";
   
     export default defineComponent({
       name: "AddBanquePage",
       components: {
         
-        AddBanque,
+        AddBanqueModal,
       },
     });
   </script>

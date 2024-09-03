@@ -31,7 +31,7 @@
                         <div class="col-6 my-3">
                             <label for="typeTresorerieId">Type de trésorerie</label>
                             <Field name="typeTresorerieId" v-model="typeTresorerieId" v-slot="{ field }" class="form-control">
-                                <VueMultiselect  v-model="field.value" v-bind="field" :options="tresorerieOptions"
+                                <Multiselect  v-model="field.value" v-bind="field" :options="tresorerieOptions"
                                     :close-on-select="true" :clear-on-select="false" :multiple="false" :preserve-search="true"
                                     :searchable="true" placeholder="Sélectionner le type de trésorerie" label="label"
                                     track-by="label" />
@@ -81,6 +81,8 @@ import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { TypeTresorerie } from '@/models/TypeTresorerie';
 import ApiService from '@/services/ApiService';
+import Multiselect from '@vueform/multiselect/src/Multiselect';
+ 
 import VueMultiselect from 'vue-multiselect'
 
 

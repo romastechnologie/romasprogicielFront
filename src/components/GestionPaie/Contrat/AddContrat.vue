@@ -37,18 +37,25 @@
                     <ErrorMessage name="renouvelable" class="text-danger" />
          </div>
 
-         <div class="col-md-6  mb-3">
-                    <label for="periodeEssai" class="form-label"> Période d'Essai<span class="text-danger">*</span></label>
-                    <Field name="periodeEssai"  class="form-control" type="Date"/>
-                    <ErrorMessage name="periodeEssai" class="text-danger" />
+         <div class="col-md-4  mb-3">
+                    <label for="dateFinPeriodeEssai" class="form-label"> Date fin de période d'Essai<span class="text-danger">*</span></label>
+                    <Field name="dateFinPeriodeEssai"  class="form-control" type="Date"/>
+                    <ErrorMessage name="dateFinPeriodeEssai" class="text-danger" />
          </div>
-         <div class="col-md-6 mb-3">
-                    <label for="periodePaie" class="form-label"> Période de Paie<span class="text-danger">*</span></label>
-                    <Field name="periodePaie"  class="form-control" type="Date"/>
-                    <ErrorMessage name="periodePaie" class="text-danger" />
-         </div>
+         <div class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Période de Paie <span class="text-danger">*</span>
+                </label>
+                <Field name="periodePaie" type="text" v-slot="{ field }">
+                  <Multiselect :searchable="true" :options="['Mensuel', 'Hebdomadaire', 'Bimensuel', 'Bihebdomadaire']"
+                    v-model="field.value" v-bind="field" placeholder="Sélectionner la période" />
+                </Field>
+                <ErrorMessage name="periodePaie" class="text-danger" />
+              </div>
+            </div>
 
-          <div class="col-md-6 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Type Contrat <span class="text-danger">*</span>
@@ -62,7 +69,7 @@
             </div>
           </div>
 
-          <div class="col-md-6 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Personnel <span class="text-danger">*</span>
@@ -73,6 +80,20 @@
                 label="label" track-by="label" />
               </Field>
               <ErrorMessage name="personnel" class="text-danger" />
+            </div>
+          </div>
+          
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Mode de tarification <span class="text-danger">*</span>
+              </label>
+              <Field name="modeDeTarification" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="modeDeTarificationOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le mode"
+                label="label" track-by="label" />
+              </Field>
+              <ErrorMessage name="modeDeTarification" class="text-danger" />
             </div>
           </div>
 
@@ -363,15 +384,16 @@
     setup: () => {
       const contratSchema = Yup.object().shape({
             refContrat: Yup.string().required("La référence est obligatoire."),
-            salaireDeBase: Yup.string().required("Le nom est obligatoire."),
-            heuresTravaillees: Yup.number().typeError("veuillez entrer des nombres").required("Le cout d'aquisition est obligatoire."),
+            salaireDeBase: Yup.string().required("Le salaire est obligatoire."),
+            heuresTravaillees: Yup.number().typeError("veuillez entrer des nombres").required("Les heures sont obligatoires."),
             dateDebut: Yup.date().typeError("veuillez entrer une date valide").required("La date de début est obligatoire."),
             dateFin: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
-            periodeEssai: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
-            periodePaie: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
+            dateFinPeriodeEssai: Yup.date().typeError("veuillez entrer une date valide").required("La période est obligatoire."),
+            periodePaie: Yup.string().required("La période est obligatoire."),
             renouvelable: Yup.string().notRequired(),
             types: Yup.string().required("Le type est obligatoire."),
             personnel: Yup.string().required("Le personnel est obligatoire."),
+            modeDeTarification:Yup.string().required("Le mode de tarification est obligatoire."),
       });
   
       onMounted(() => {
@@ -379,12 +401,15 @@
         getAllTypePrime();
         getAllTypeRetenue();
         getAllPersonnels();
+        //getAllPersonnel();
+        getAllModeTarifications();
       });
   
       const contratForm =  ref(null);
       const showMErr = ref(false);
       const types = ref();
-      // const personnel = ref();
+      const personnelId = ref();
+      const personnel = ref();
       const typeOptions = ref([]);
       const typePrimeOptions = ref([]);
       const typeRetenueOptions = ref([]);
@@ -393,6 +418,9 @@
       const typeRetenues = ref(null);
       const salaireDeBase = ref();
       const personnelOptions = ref();
+      
+      const modeDeTarificationOptions = ref([]);
+      const personnels = ref([] as any[]);
 
       const getAllTypeContrat = async () => {
         try{
@@ -416,13 +444,28 @@
         console.log('Data', personnelsData)
         personnelOptions.value = personnelsData.map((personnel) => ({
           value: personnel.id,
-          label: personnel.nom,
+          label: personnel.nom + " " + personnel.prenom,
         }));
         }
         catch(error){
           //error(response.data.message)
         }
       }
+
+      /*const getAllPersonnel = async () => {
+      try {
+        const response = await ApiService.get('/personnels');
+        personnels.value = response.data;
+        personnelOptions.value = response.data.map((personnel: any) => ({
+          value: personnel.id,
+          label: `${personnel.nom + " " + personnel.prenom}`
+        }));
+        console.log(response);
+      } catch (error) {
+        console.error('Erreur lors de la recupération des personnels:', error);
+        throw error;
+      }
+    }*/
 
       const getAllTypePrime = async () => {
         try {
@@ -451,6 +494,21 @@
           // H
         }
       };
+
+      const getAllModeTarifications = async () => {
+        try{
+        const response = await ApiService.get('/all/modeTarifications');
+        const modeDeTarificationsData = response.data.data.data;
+        console.log('Data', modeDeTarificationsData)
+        modeDeTarificationOptions.value = modeDeTarificationsData.map((modeDeTarification) => ({
+          value: modeDeTarification.id,
+          label: modeDeTarification.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      }
 
     // formulaire dynamique
     const isDisable = ref(true);
@@ -682,6 +740,9 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
         validateRowRetenue,
         isDisablee,retenues,
         personnelOptions,
+        personnelId,
+        personnel,
+        modeDeTarificationOptions,
       };
     },
   });

@@ -9,7 +9,7 @@
                 Personnel <span class="text-danger">*</span>
               </label>
               <Field name="personnelId" v-model="personnelId" v-slot="{ field }">
-                <VueMultiselect @select="selectPersonnel(field.value)" v-model="field.value" v-bind="field"
+                <Multiselect @select="selectPersonnel(field.value)" v-model="field.value" v-bind="field"
                   :options="personnelOptions" :close-on-select="true" :clear-on-select="false" :multiple="false"
                   :searchable="true" placeholder="Sélectionner le personnel" label="label" track-by="label" />
               </Field>
@@ -69,7 +69,7 @@
                     v-bind = "field"
                     placeholder="Sélectionner le sexe"
                     /> -->
-                <VueMultiselect v-model="field.value" v-bind="field" :options="['Masculin', 'Féminin']"
+                <Multiselect v-model="field.value" v-bind="field" :options="['Masculin', 'Féminin']"
                   :close-on-select="true" :clear-on-select="false" placeholder="Sélectionner le sexe" />
               </Field>
               <ErrorMessage name="sexe" class="text-danger" />
@@ -90,7 +90,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Rôle <span class="text-danger">*</span>
               </label>
-              <VueMultiselect v-model="roles" :options="roleOptions" :close-on-select="false" :preserve-search="true"
+              <Multiselect v-model="roles" :options="roleOptions" :close-on-select="false" :preserve-search="true"
                 :clear-on-select="false" :multiple="true" :searchable="true" placeholder="Sélectionner le rôle"
                 label="label" track-by="label" />
               <span class="text-danger" v-if="showMErr">Le rôle est obligatoire</span>

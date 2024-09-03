@@ -286,18 +286,18 @@ function sortDemandeCongeWithDate(choseedDate: HTMLInputElement) {
 // ----------------------------------------- SCHEMA -----------------------------------------
 function schemaCongeDemande() {
   return yup.object().shape({
-    dateDemande: yup.string().required("La date de la demande est requise."),
-    dateDebut: yup.string().required("La date de début est requise."),
-    dateFinPrevu: yup.string().required("La date de fin est requise."),
-    dateReprise: yup.string().required("La date de reprise est requise."),
+    dateDemande: yup.string().required("La date de la demande est obligatoire."),
+    dateDebut: yup.string().required("La date de début est obligatoire."),
+    dateFinPrevu: yup.string().required("La date de fin est obligatoire."),
+    dateReprise: yup.string().required("La date de reprise est obligatoire."),
   })
 }
 
 function schemaCongeNDemande() {
   return yup.object().shape({
-    dateDebut: yup.string().required("La date de débu est requise."),
-    dateFinPrevu: yup.string().required("La date de fin est requise."),
-    dateReprise: yup.string().required("La date de reprise est requise."),
+    dateDebut: yup.string().required("La date de débu est obligatoire."),
+    dateFinPrevu: yup.string().required("La date de fin est obligatoire."),
+    dateReprise: yup.string().required("La date de reprise est obligatoire."),
   })
 }
 

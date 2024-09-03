@@ -436,11 +436,11 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-            {
+           /* {
                 path: "/heureSupps/ajouter-heureSupp",
                 title: "Ajouter une heure supplémentaire",
                 type: "link"
-            },
+            },*/
             {
                 path: "/heureSupps/liste-heureSupp",
                 title: "Liste des heures supplémentaires",
@@ -643,25 +643,40 @@ export const menu: MenuItem[] = [
         ]
     },
     {
-        title: "Type de Bien",
-        icon: "stroke-learning",
-        icon1: "fill-learning",
-        type: "link",
-        path: "/typeBiens/liste-typebiens",
+        title: "Type Bien",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
         badgeType: "light-primary",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/typeBiens/liste-typeBiens",
+                title: "Liste des types de biens",
+                type: "link"
+            },
+        ]
     },
     {
-        title: "Categorie des Biens",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/categorieBiens/liste-categoriebiens",
+        title: "Categorie Bien",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
         badgeType: "light-primary",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/categorieBiens/liste-categorieBiens",
+                title: "Liste des catégories de biens",
+                type: "link"
+            },
+        ]
     },
+    
     {
         title: "Fournisseur",
         icon: "stroke-calendar",
@@ -683,8 +698,6 @@ export const menu: MenuItem[] = [
             },
         ]
     },
-
-
     {
         title: "Ouverture/Fermeture de caisse",
         icon: "stroke-calendar",
@@ -1104,91 +1117,178 @@ export const menu: MenuItem[] = [
         ]
     },
 
+    {
+        headTitle1: "GesPack",
+        headTitle2: "GesPack",
+        type: "headtitle"
+    },
+    {
+        title: "Course",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/courses/ajouter-course",
+                title: "Ajouter une course",
+                type: "link"
+            },
+            {
+                path: "/courses/liste-courses",
+                title: "Liste des courses",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Entretien",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/entretiens/ajouter-entretien",
+                title: "Ajouter un entretien",
+                type: "link"
+            },
+            {
+                path: "/entretiens/liste-entretiens",
+                title: "Liste des entretiens",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Planification Réparation",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/planificationReparations/ajouter-planificationReparation",
+                title: "Ajouter une planification de réparation",
+                type: "link"
+            },
+            {
+                path: "/planificationReparations/liste-planificationReparations",
+                title: "Liste des planifications de réparation",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Panne",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/pannes/liste-panne",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Type Entretien",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/TypeEntretien/listeTypeEntretien",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Type Moyen Roulant",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/TypeMoyenRoulant/listeTypeMoyenRoulant",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Packing",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/Packing/listePacking",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
 
-    // {
-    //     title: "Users",
-    //     icon: "stroke-user",
-    //     icon1: "fill-user",
-    //     type: "sub",
-    //     active: false,
-    //     isPinned: false,
-    //     children: [
-    //         {
-    //             path: "/users/profile",
-    //             title: "Users Profile",
-    //             type: "link"
-    //         },
-    //         {
-    //             path: "/users/edit",
-    //             title: "Users Edit",
-    //             type: "link"
-    //         },
-    //         {
-    //             path: "/users/cards",
-    //             title: "Users Cards",
-    //             type: "link"
-    //         }
-    //     ]
-    // },
 
-    // {
-    //     title: "Animation",
-    //     icon: "stroke-animation",
-    //     icon1: "fill-animation",
-    //     type: "sub",
-    //     isPinned: false,
-    //     active: false,
-    //     children: [
-    //         {
-    //             path: "/animation/animate",
-    //             title: "Animate",
-    //             type: "link"
-    //         },
-    //         {
-    //             path: "/animation/aos_animation",
-    //             title: "AOS Animation",
-    //             type: "link"
-    //         }
-    //     ]
-    // },
-    // {
-    //     title: "Icons",
-    //     icon: "stroke-icons",
-    //     icon1: "fill-icons",
-    //     type: "sub",
-    //     isPinned: false,
-    //     active: false,
-    //     children: [
-    //         {
-    //             path: "/icons/flag",
-    //             title: "Flag Icon",
-    //             type: "link"
-    //         },
-    //         {
-    //             path: "/icons/fontawesome",
-    //             title: "Fontawesome Icon",
-    //             type: "link"
-    //         },
-    //         {
-    //             path: "/icons/ico",
-    //             title: "Ico Icon",
-    //             type: "link"
-    //         },
-    //         {
-    //             path: "/icons/themify",
-    //             title: "Themify Icon",
-    //             type: "link"
-    //         },
-    //         {
-    //             path: "/icons/feather_icon",
-    //             title: "Feather Icon",
-    //             type: "link"
-    //         },
-    //         {
-    //             path: "/icons/whether",
-    //             title: "Whether Icon",
-    //             type: "link"
-    //         }
-    //     ]
-    // },
+    {
+        headTitle1: "Gestion des depenses",
+        headTitle2: "Depenses,TypesDepenses, CategoriesDepenses",
+        type: "headtitle"
+    },
+    {
+        title: "Depenses",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/Depenses/ajouter-depenses",
+                title: "Ajouter une depense",
+                type: "link"
+            },
+            {
+                path: "/Depenses/editer-depenses",
+                title: 'editer une depense',
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "TypesDepenses",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/typesdepenses/liste-typesdepenses",
+                title: "Ajouter un type depense",
+                type: "link"
+            }
+           
+        ]
+    },
+    {
+        title: "CategoriesDepenses",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/categoriesDepenses/liste-categoriesdepenses",
+                title: "Ajouter une categorie depense",
+                type: "link"
+            }
+           
+        ]
+    },
+
+
+
+
 ]

@@ -14,14 +14,14 @@
           <Form :validation-schema="schemaDemande()" enctype="multipart/form-data">
             <p class="my-0"> Catégorie de la demande </p>
             <Field name="categorieId" v-model="cate" v-slot="{ field }">
-              <VueMultiselect v-model="field.value" v-bind="field" :options="categorieOptions" :close-on-select="true"
+              <Multiselect v-model="field.value" v-bind="field" :options="categorieOptions" :close-on-select="true"
                 :clear-on-select="false" :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie"
                 label="label" track-by="label" />
             </Field>
 
             <p class="my-0"> Personnel </p>
             <Field name="personnelId" v-model="perso" v-slot="{ field }">
-              <VueMultiselect v-model="field.value" v-bind="field" :options="personnelOptions" :close-on-select="true"
+              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :close-on-select="true"
                 :clear-on-select="false" :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
                 label="label" track-by="label" />
             </Field>
@@ -47,7 +47,7 @@ import { configure } from 'vee-validate'
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2'
-import VueMultiselect from 'vue-multiselect'
+import Multiselect from '@vueform/multiselect/src/Multiselect';
 import ApiService from '@/services/ApiService';
 import axios from 'axios';
 
@@ -68,9 +68,9 @@ const showE = ref(false)
 
 function schemaDemande() {
   return yup.object().shape({
-    // categorieId: yup.string().required("La categorie est requis."),
-    // personnelId: yup.string().required("Le personnel est requis."),
-    demandeFile: yup.string().required("Le fichier de la demande est requis."),
+    // categorieId: yup.string().required("La categorie est obligatoire."),
+    // personnelId: yup.string().required("Le personnel est obligatoire."),
+    demandeFile: yup.string().required("Le fichier de la demande est obligatoire."),
   })
 }
 
