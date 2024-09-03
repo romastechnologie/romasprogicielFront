@@ -19,7 +19,7 @@
               </label>
               <Field name="demande" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="demandeOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner la présence" label="label"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner la demande" label="label"
                   track-by="label" />
               </Field>
               <ErrorMessage name="demande" class="text-danger" />
@@ -158,11 +158,11 @@ function sortDemandePermissionWithDate(choseedDate: HTMLInputElement) {
 
 function schemaPermission() {
   return yup.object().shape({
-    motif: yup.string().required("Le motif est requis."),
-    dateDemande: yup.string().required("La date de la demande est requise."),
-    dateDebut: yup.string().required("La date de début est requise."),
-    dateFin: yup.string().required("La date de fin est requise."),
-    dateReprise: yup.string().required("La date de reprise est requise."),
+    motif: yup.string().required("Le motif est obligatoire."),
+    dateDemande: yup.string().required("La date de la demande est obligatoire."),
+    dateDebut: yup.string().required("La date de début est obligatoire."),
+    dateFin: yup.string().required("La date de fin est obligatoire."),
+    dateReprise: yup.string().required("La date de reprise est obligatoire."),
   })
 }
 

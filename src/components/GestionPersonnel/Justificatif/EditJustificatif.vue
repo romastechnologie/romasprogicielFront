@@ -116,9 +116,9 @@ const presenceOptions = ref();
   
   function schemaJustificatif() {
     return yup.object().shape({
-      dateDebutJustificatif: yup.date().required("La date de début est requise."),
-      dateFinJustificatif: yup.date().required("La date de fin est requise."),
-      fileJustificatif: yup.string().required("La preuve est requise."),
+      dateDebutJustificatif: yup.date().required("La date de début est obligatoire."),
+      dateFinJustificatif: yup.date().required("La date de fin est obligatoire."),
+      fileJustificatif: yup.string().required("La preuve est obligatoire."),
     })
   }
   

@@ -339,12 +339,12 @@ function sortDemandePermissionWithDate(choseedDate: HTMLInputElement) {
 // ----------------------------------------- SCHEMA -----------------------------------------
 function schemaJustificatif() {
   return yup.object().shape({
-    dateJustificatif: yup.string().required("La date de la presence est requise."),
-    // presenceJustificatif: yup.string().required("La presence est requise."),
-    // personnelJustificatif: yup.string().required("Le personnel est requis."),
-    dateDebutJustificatif: yup.string().required("La date de début est requise."),
-    dateFinJustificatif: yup.string().required("La date de fin est requise."),
-    fileJustificatif: yup.string().required("La preuve est requise."),
+    dateJustificatif: yup.string().required("La date de la presence est obligatoire."),
+    // presenceJustificatif: yup.string().required("La presence est obligatoire."),
+    // personnelJustificatif: yup.string().required("Le personnel est obligatoire."),
+    dateDebutJustificatif: yup.string().required("La date de début est obligatoire."),
+    dateFinJustificatif: yup.string().required("La date de fin est obligatoire."),
+    fileJustificatif: yup.string().required("La preuve est obligatoire."),
   })
 }
 

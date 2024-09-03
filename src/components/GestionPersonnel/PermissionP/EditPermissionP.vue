@@ -19,7 +19,7 @@
               </label>
               <Field name="demande" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="demandeOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner la présence" label="label"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner la demande" label="label"
                   track-by="label" />
               </Field>
               <ErrorMessage name="demande" class="text-danger" />
@@ -123,15 +123,19 @@ configure({
 });
 
 const permissions = ref([] as any[]);
+const personnelOptions = ref();
+const demandeOptions = ref();
 
 // ------------------------------------------------ SCHEMA -------------------------------------------------
 
 function schemaPermission() {
   return yup.object().shape({
-    motif: yup.string().required("Le motif est requis."),
-    dateDebut: yup.date().required("La date de début est requise."),
-    dateFin: yup.date().required("La date de fin est requise."),
-    dateReprise: yup.date().required("La date de reprise est requise."),
+    motif: yup.string().required("Le motif est obligatoire."),
+    dateDebut: yup.date().required("La date de début est obligatoire."),
+    dateFin: yup.date().required("La date de fin est obligatoire."),
+    dateReprise: yup.date().required("La date de reprise est obligatoire."),
+    demande: yup.string().required("La demande est obligatoire."),
+
   })
 }
 
@@ -165,9 +169,43 @@ const getAllPermissionP = async () => {
     throw error;
   }
 }
+const getAllPersonnels = async () => {
+  try {
+    const response = await ApiService.get('/personnels');
+    const personnelsData = response.data;
+    console.log('Data', personnelsData)
+    personnelOptions.value = personnelsData.map((personnel) => ({
+      value: personnel.id,
+      label: personnel.nom + " " + personnel.prenom,
+    }));
+  }
+  catch (error) {
+    //error(response.data.message)
+  }
+}
+
+
+const getAllDemandes = async () => {
+  try {
+    const response = await ApiService.get('/demandes');
+    const demandesData = response.data;
+    console.log('Data', demandesData)
+    demandeOptions.value = demandesData.map((demande) => ({
+      value: demande.id,
+      label: demande.personnel.nom + " " + demande.personnel.prenom,
+    }));
+  }
+  catch (error) {
+    //error(response.data.message)
+  }
+}
+
+
 
 onMounted(() => {
-  getAllPermissionP()
+  getAllPermissionP();
+  getAllDemandes();
+  getAllPersonnels();
 })
 
 </script>

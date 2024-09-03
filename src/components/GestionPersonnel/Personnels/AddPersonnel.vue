@@ -636,60 +636,60 @@ function sortServiceFonctionWithService(choseed: any) {
 // --------------------------------------------------- SCHEMA ----------------------------------------------
 function schemaPersonnel() {
   return yup.object().shape({
-    nom: yup.string().required("Le nom est requis."),
-    prenom: yup.string().required("Le prenom est requis."),
-    birthdate: yup.string().required("La date d'anniversaire est requise."),
-    email: yup.string().email("L'adresse e-mail n'est pas valide.").required("L'adresse e-mail est requise."),
-    telephone: yup.string().required("Le numéro de telephone est requis."),
-    dateEmbauche: yup.string().required("La date d'embauche est requise."),
-    // service: yup.string().required("Le service est requis."),
-    // serviceFonction: yup.string().required("La fonction est requise."),
-    dateDebut: yup.string().required("La date de début est requise."),
+    nom: yup.string().required("Le nom est obligatoire."),
+    prenom: yup.string().required("Le prenom est obligatoire."),
+    birthdate: yup.string().required("La date d'anniversaire est obligatoire."),
+    email: yup.string().email("L'adresse e-mail n'est pas valide.").required("L'adresse e-mail est obligatoire."),
+    telephone: yup.string().required("Le numéro de telephone est obligatoire."),
+    dateEmbauche: yup.string().required("La date d'embauche est obligatoire."),
+    // service: yup.string().required("Le service est obligatoire."),
+    // serviceFonction: yup.string().required("La fonction est obligatoire."),
+    dateDebut: yup.string().required("La date de début est obligatoire."),
   })
 }
 
 
 function schemaConjoint() {
   return yup.object().shape({
-    nom: yup.string().required("Le nom est requis."),
-    prenom: yup.string().required("Le prenom est requis."),
-    deuxiemeEmploye: yup.string().required("Le deuxiemeEmploye est requis."),
-    dateNaissance: yup.date().required("La date de Naissance  est requise."),
+    nom: yup.string().required("Le nom est obligatoire."),
+    prenom: yup.string().required("Le prenom est obligatoire."),
+    deuxiemeEmploye: yup.string().required("Le deuxiemeEmploye est obligatoire."),
+    dateNaissance: yup.date().required("La date de Naissance  est obligatoire."),
     nationalite: yup.string().required("La nationalité sont requise."),
-    passport: yup.string().required("Le passport est requis."),
+    passport: yup.string().required("Le passport est obligatoire."),
   })
 }
 
 function schemaSanteEmploye() {
   return yup.object().shape({
-    hauteur: yup.string().required("La hauteur est requis."),
-    poids: yup.string().required("Le poids est requis."),
-    typeDeSang: yup.string().required("Le typeDeSang est requis."),
-    visionGauche: yup.string().required("La vision Gauche  est requise."),
+    hauteur: yup.string().required("La hauteur est obligatoire."),
+    poids: yup.string().required("Le poids est obligatoire."),
+    typeDeSang: yup.string().required("Le typeDeSang est obligatoire."),
+    visionGauche: yup.string().required("La vision Gauche  est obligatoire."),
     visionDroite: yup.string().required("La vision Droite requise."),
-    mainGauche: yup.string().required("La main Gauche est requise."),
-    mainDroite: yup.string().required("La main Droite est requise."),
-    jambeGauche: yup.string().required("La jambe Gauche est requise."),
-    jambeDroite: yup.string().required("La jambe Droite est requise."),
+    mainGauche: yup.string().required("La main Gauche est obligatoire."),
+    mainDroite: yup.string().required("La main Droite est obligatoire."),
+    jambeGauche: yup.string().required("La jambe Gauche est obligatoire."),
+    jambeDroite: yup.string().required("La jambe Droite est obligatoire."),
   })
 }
 
 function schemaContrat() {
   return yup.object().shape({
-    datePriseFonction: yup.string().required("La date de prise de fonction est requise."),
-    personnel: yup.string().required("Le personnel est requis."),
-    salaire: yup.string().required("Le salaire est requis."),
-    duration: yup.string().required("La duration du contrat est requise."),
+    datePriseFonction: yup.string().required("La date de prise de fonction est obligatoire."),
+    personnel: yup.string().required("Le personnel est obligatoire."),
+    salaire: yup.string().required("Le salaire est obligatoire."),
+    duration: yup.string().required("La duration du contrat est obligatoire."),
     conditionLicenciement: yup.string().required("Les conditions de licenciement sont requise."),
-    nbJourConge: yup.string().required("Le nombre de jour de congé est requis."),
+    nbJourConge: yup.string().required("Le nombre de jour de congé est obligatoire."),
   })
 }
 
 function schemaHorairePerso() {
   return yup.object().shape({
-    jour: yup.string().required("Le jour est requis."),
-    heureArrivee: yup.string().required("L'heure d'arrivée est requise."),
-    heureDepart: yup.string().required("L'heure de départ est requise.")
+    jour: yup.string().required("Le jour est obligatoire."),
+    heureArrivee: yup.string().required("L'heure d'arrivée est obligatoire."),
+    heureDepart: yup.string().required("L'heure de départ est obligatoire.")
   })
 }
 

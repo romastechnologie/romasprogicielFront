@@ -68,9 +68,9 @@ const showE = ref(false)
 
 function schemaDemande() {
   return yup.object().shape({
-    // categorieId: yup.string().required("La categorie est requis."),
-    // personnelId: yup.string().required("Le personnel est requis."),
-    demandeFile: yup.string().required("Le fichier de la demande est requis."),
+    // categorieId: yup.string().required("La categorie est obligatoire."),
+    // personnelId: yup.string().required("Le personnel est obligatoire."),
+    demandeFile: yup.string().required("Le fichier de la demande est obligatoire."),
   })
 }
 

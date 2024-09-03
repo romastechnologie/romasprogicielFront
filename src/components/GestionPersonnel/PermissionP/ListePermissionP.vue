@@ -1,234 +1,223 @@
 <template>
-  <div class="px-lg-4 p-md-3 p-3 text-start">
-    <router-link to="/permissionps/ajouter-permissionp">
-      <button class="btn btn-primary mb-3">
-        <i class="fa fa-plus-circle mx-2"></i>
-        Ajouter une permission
-      </button>
-    </router-link>
-    <div class="d-flex justify-content-around">
-      <button v-if="!onListe" class="btn btn-secondary mb-3" @click="onListe = true">
-        Liste
-      </button>
-      <button v-if="onListe" class="btn btn-primary mb-3" @click="onListe = true">
-        Liste
-      </button>
-      <button v-if="onListe" class="btn btn-secondary mb-3" @click="onListe = false">
-        Calendrier
-      </button>
-      <button v-if="!onListe" class="btn btn-primary mb-3" @click="onListe = false">
-        Calendrier
-      </button>
-    </div>
-    <div v-if="!onListe" class="mb-5">
-      <FullCalendar class='demo-app-calendar' :options='calendarOptions'>
-        <template v-slot:eventContent='arg'>
-          <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
-        </template>
-      </FullCalendar>
-    </div>
-    <div v-if="onListe" class="col-12 mb-2 d-flex justify-content-around flex-wrap">
-      <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
-        <i class="fa fa-search mx-2"></i>
-        <input type="search" class="form-control" @input="sortPermissionWithSearch($event.target)"
-          placeholder="Rechercher par personnel">
+  <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+    <div
+      class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
+    >
+      <div class="d-sm-flex align-items-center">
+        <router-link
+         class="btn btn-primary"
+          to="/permissionps/ajouter-permissionp"
+        >
+        <i class="fa fa-plus-circle"></i>
+          Ajouter un permissionp
+        </router-link>
+        <!-- <button
+          class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
+          type="button"
+        >
+          Exporter
+          <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
+        </button> -->
       </div>
-      <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center">
-        <span class="mx-2"> Date </span>
-        <input type="date" class="form-control" @input="sortPermissionWithDateDebut($event.target)" />
+      <div class="d-flex align-items-center">
+        <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+          <input
+            type="text"
+            v-model="searchTerm"
+            @keyup="rechercher"
+            class="form-control shadow-none text-black rounded-0 border-0"
+            placeholder="Rechercher un utilisateur"
+          />
+          <button
+            type="submit"
+            class="bg-transparent text-primary transition p-0 border-0"
+          >
+            <i class="flaticon-search-interface-symbol"></i>
+          </button>
+        </form>
+        <!-- <button
+          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
+          type="button"
+        >
+          <i class="flaticon-dots"></i>
+        </button> -->
       </div>
     </div>
-    <div v-if="onListe" class="card rounded rounded-4 px-2 pt-4 py-1 ">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th scope="col"> Personnel </th>
-            <th scope="col"> Motif </th>
-            <th scope="col"> Date de debut </th>
-            <th scope="col"> Date de fin </th>
-            <th scope="col"> Date de reprise </th>
-            <th scope="col" class="text-end"> Actions </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="permission in filterPermission" :key="permission.id">
-            <td> {{ permission.demande ? permission.demande.personnel.nom + " " +
-              permission.demande.personnel.prenom : "null" }} </td>
-            <td> {{ permission.motif }} </td>
-            <td> {{ permission.dateDebut.toString().slice(0, 10) }} </td>
-            <td> {{ permission.dateFin.toString().slice(0, 10) }} </td>
-            <td> {{ permission.dateReprise.toString().slice(0, 10) }} </td>
-            <td class="shadow-none lh-1 fw-medium text-black pe-0  text-end">
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">Actions</button>
-              <ul class="dropdown-menu dropdown-block"
-                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
-                data-popper-placement="bottom-start">
-                <li class="dropdown-item d-flex align-items-center">
-                  <router-link :to="`/permissionps/edit-permissionp/${permission.id}`" class="text-decoration-none p-1">
-                    <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
-                  </router-link>
-                </li>
-                <li class="dropdown-item d-flex align-items-center">
-                  <a @click="deletePermission(permission.id)">
-                    <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
-                    Supprimé
-                  </a>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="filterPermission.length == 0" class="fs-5 d-flex justify-content-center">
-        La liste est vide
+    <div class="card-body p-15 p-sm-20 p-md-25">
+      <div class="table-responsive">
+        <table  class="table text-nowrap align-middle mb-0">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+               Date
+              </th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                Demandes
+              </th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                Personnel
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Motif
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Date Début
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Date Fin
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+               Date Reprise
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
+              >Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  v-for ="(permissionp, index) in permissionps" :key="index">
+                <td class="shadow-none lh-1 fw-medium ">{{ permissionp.date }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ permissionp?.personnel }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ permissionp?.motif }} </td>
+                 <td class="shadow-none lh-1 fw-medium ">{{ format_date(permissionp?.dateDebut) }} </td>
+                 <td class="shadow-none lh-1 fw-medium ">{{ format_date(permissionp.dateFin) }} </td>  
+                 <td class="shadow-none lh-1 fw-medium ">{{ format_date(permissionp.dateReprise) }} </td>  
+                <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
+                  <div class="dropdown">
+                    <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+
+                      <ul class="dropdown-menu">
+                          <li class="dropdown-item d-flex align-items-center">
+                          <router-link
+                            
+                            :to="{ name: 'EditPermissionP',params: { id: permissionp.id } }"
+                          >
+                            <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                            Modifier
+                          </router-link>
+                        </li>
+                        <li  class="dropdown-item d-flex align-items-center">
+                          <a
+                           
+                            href="javascript:void(0);"
+                            @click="suppression(permissionp.id, permissionps, 'permissionps', 'un utilisateur')"
+                          >
+                            <i
+                              class="fa fa-trash-o lh-1 me-8 position-relative top-1"
+                            ></i>
+                            Supprimer
+                          </a>
+                        </li>
+                            </ul>
+                        </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      <div
+        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
+      >
+       <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from 'vue'
-import axios from 'axios';
-import Swal from 'sweetalert2';
+<script lang="ts">
+import { defineComponent, onMounted, ref} from "vue";
+import ApiService from "@/services/ApiService";
+import { PermissionP } from "@/models/PermissionP";
+import { format_date, suppression, error, } from "@/utils/utils";
 
-// -------------------------------------------------- START CALENDAR LIBRARY ----------------------------------------------
-import FullCalendar from '@fullcalendar/vue3'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import listPlugin from '@fullcalendar/list'
-import multiMonthPlugin from '@fullcalendar/multimonth'
-import interactionPlugin from '@fullcalendar/interaction'
-import frLocale from '@fullcalendar/core/locales/fr'
-import ApiService from '@/services/ApiService';
+import PaginationComponent from '@/components/Utilities/Pagination.vue';
+import JwtService from "@/services/JwtService";
 
-const permissions = ref([] as any[]);
-
-let filterPermission = ref(permissions);
-
-function sortPermissionWithDateDebut(choosedDate: any) {
-  const presenceOnSelectedDate = permissions.value.filter(entry => {
-    const entryDate = new Date(entry.dateDebut);
-    const selectedDate = new Date(choosedDate.value);
-    // Comparaison en ignorant les heures
-    return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10);
-  });
-
-  filterPermission.value = presenceOnSelectedDate;
-}
-
-function sortPermissionWithSearch(searchPermission: any) {
-  if ((searchPermission.value as string).trim() === "") {
-    filterPermission.value = permissions.value
-  } else {
-    filterPermission.value = permissions.value.filter(permission => (permission.demande.personnel.nom.toLowerCase()).startsWith((searchPermission.value as string).trim().toLowerCase()))
-  }
-}
-
-const calendarOptions = ref({
-  plugins: [
-    dayGridPlugin,
-    timeGridPlugin,
-    listPlugin,
-    multiMonthPlugin,
-    interactionPlugin
-  ],
-  headerToolbar: {
-    left: 'prev,next today',
-    center: 'title',
-    right: 'multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+export default defineComponent({
+  name: "ListePermissionP",
+  components: {
+    PaginationComponent
   },
-  initialView: 'dayGridMonth',
-  editable: true,
-  selectable: true,
-  selectMirror: true,
-  dayMaxEvents: true,
-  weekends: true,
-  eventClick: handleEventClick,
-  locale: frLocale,
-  events: permissions.value.map(permissions => ({
-    id: permissions.id,
-    title: permissions.motif,
-    start: permissions.dateDebut,
-    end: permissions.dateFin,
-    allDay: true,
-  }))
-})
+  setup(){
+    onMounted(() => {
+      getAllPermissionPs();
+    });
 
-// Modification des options
-function handleWeekendsToggle() {
-  calendarOptions.value.weekends = !calendarOptions.value.weekends
-}
+    const permissionps = ref<Array<PermissionP>>([]);
+    const permissionp = ref<PermissionP>();
 
-function handleEventClick(clickInfo: any) {
-  Swal.fire(clickInfo.event.title, "");
-}
+    // BEGIN PAGINATE
+    const searchTerm = ref('');
+    const page = ref(1);
+    const totalPages = ref(0);
+    const limit = ref(10);
+    const totalElements = ref(0);
 
-//  ----------------------------------------------- END CALENDAR LIBRARY ---------------------------------------------
-
-const onListe = ref(true);
-
-// ------------------------------------------------- DELETE --------------------------------------------
-
-function deletePermission(id: number) {
-
-  Swal.fire({
-    title: "Voulez-vraiment suprimer cette permission?",
-    showCancelButton: true,
-    confirmButtonText: "Supprimer",
-    cancelButtonText: "Annuler"
-  }).then(async (result) => {
-    if (result.isConfirmed) {
+    const handlePaginate = ({ page_, limit_ }) => {
       try {
-        const response = await ApiService.delete(`/permissionps/${id}`);
-        getAllPermissions()
-        Swal.fire("Permission supprimé avec succès!", "", "success");
-        console.log(response);
+        page.value = page_;
+        getAllPermissionPs(page_, limit_);
       } catch (error) {
-        console.error('Erreur lors de la suppression de la permission:', error);
-        throw error;
+        //
       }
+    };
+
+     function rechercher(){
+      getAllPermissionPs(page.value, limit.value, searchTerm.value );
     }
-  });
+
+
+    // END PAGINATE
+
+    function getAllPermissionPs(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/all/permissionps?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        .then(({ data }) => {
+          permissionps.value = data.data;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
+          return data.data;
+        })
+        .catch(({ response }) => {
+          error(response.data.message)
+      });
+    }
+
+    const privileges = ref<Array<string>>(JwtService.getPrivilege());
+
+const checkPermission = (name) => {
+  return privileges.value.includes(name);
 }
 
-// ------------------------------------------------- GET ------------------------------------------------
-const getAllPermissions = async () => {
-  try {
-    const response = await ApiService.get('/permissionps');
-    permissions.value = response.data;
-
-    calendarOptions.value.events = permissions.value.map(permissions => {
-
-      const endDate = new Date(permissions.dateFin);
-
-      endDate.setDate(endDate.getDate() + 1);
-
-      return {
-        id: permissions.id,
-        title: permissions.motif + " ===> " + permissions.demande.personnel.nom + " " + permissions.demande.personnel.prenom,
-        start: permissions.dateDebut,
-        end: endDate,
-        allDay: true,
-      }
-    })
-    console.log(response);
-  } catch (error) {
-    console.error('Erreur lors de la recupération des permissions:', error);
-    throw error;
-  }
-}
-
-onMounted(() => {
-  getAllPermissions()
-})
-
+    return {permissionps,
+      checkPermission,
+      format_date,
+      suppression,
+      permissionp,
+      page, 
+      totalPages,
+      limit,
+      totalElements,
+      handlePaginate,
+      searchTerm,
+      rechercher
+    };
+  },
+});
 </script>
-
-<style>
-td,
-th {
-  border: 1px solid gray;
-}
-</style>

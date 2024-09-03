@@ -158,12 +158,12 @@ const verifyPersonnelDateEmbauche = () => {
 // --------------------------------------------------- SCHEMA ----------------------------------------------
 function schemaPersonnel() {
     return yup.object().shape({
-        nom: yup.string().required("Le nom est requis."),
-        prenom: yup.string().required("Le prenom est requis."),
-        birthdate: yup.string().required("La date d'anniversaire est requise."),
-        email: yup.string().email("L'adresse e-mail n'est pas valide.").required("L'adresse e-mail est requise."),
-        telephone: yup.string().required("Le numéro de telephone est requis."),
-        dateEmbauche: yup.string().required("La date d'embauche est requise."),
+        nom: yup.string().required("Le nom est obligatoire."),
+        prenom: yup.string().required("Le prenom est obligatoire."),
+        birthdate: yup.string().required("La date d'anniversaire est obligatoire."),
+        email: yup.string().email("L'adresse e-mail n'est pas valide.").required("L'adresse e-mail est obligatoire."),
+        telephone: yup.string().required("Le numéro de telephone est obligatoire."),
+        dateEmbauche: yup.string().required("La date d'embauche est obligatoire."),
     })
 }
 
