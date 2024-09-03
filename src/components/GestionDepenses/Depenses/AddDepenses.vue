@@ -6,7 +6,7 @@
               <div class="col-md-4 mt-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
-                    Date de depense <span class="text-danger">*</span>
+                    Date de dépense <span class="text-danger">*</span>
                   </label>
                   <Field name="date" type="date" :value="getCurrentDate"
                   class="form-control shadow-none fs-md-15 text-black"/>

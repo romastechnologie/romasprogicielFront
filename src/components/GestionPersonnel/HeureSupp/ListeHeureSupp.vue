@@ -1,139 +1,253 @@
 <template>
-  <div class="px-lg-4 py-lg-5 p-md-3 p-3 text-start">
-    <router-link to="/heureSupps/ajouter-heureSupp" class="btn btn-primary my-1 mb-3">
-      <i class="fa fa-plus-circle"></i>
-      Ajouter une heure supplémentaire
-    </router-link>
-    <div class="col-12 mb-2 d-flex justify-content-around flex-wrap">
-      <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
-        <i class="fa fa-search mx-2"></i>
-        <input type="search" class="form-control" @input="sortHeureSupWithSearch($event.target)"
-          placeholder="Rechercher par personnel">
+  <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+    <div
+      class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
+    >
+      <div class="d-sm-flex align-items-center">
+        <a
+          class="btn btn-primary"
+          href="#"
+          data-bs-toggle="modal"
+          data-bs-target="#AddHeureSuppModal"
+        >
+          <i class="fa fa-plus-circle"></i>
+          Ajouter un type de taxe
+        </a>
+        <!-- <button
+          class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
+          type="button"
+        >
+          Exporter
+          <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
+        </button> -->
       </div>
-      <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center">
-        <span class="mx-2"> Date </span>
-        <input type="date" class="form-control" @input="sortHeureSupWithDateDebut($event.target)" />
+      <div class="d-flex align-items-center">
+       <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+          <input
+            type="text"
+            v-model="searchTerm"
+            @keyup="rechercher"
+            class="form-control shadow-none text-black rounded-0 border-0"
+            placeholder="Rechercher un type de taxe"
+          />
+          <button
+            type="submit"
+            class="bg-transparent text-primary transition p-0 border-0"
+          >
+            <i class="flaticon-search-interface-symbol"></i>
+          </button>
+        </form>
+        <!-- <button
+          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
+          type="button"
+        >
+          <i class="flaticon-dots"></i>
+        </button> -->
       </div>
     </div>
-    <div class="card rounded rounded-4 px-2 pt-4 py-1">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th scope="col"> Personnel </th>
-            <th scope="col"> Date </th>
-            <th scope="col"> Durée </th>
-            <th scope="col" class="text-end"> Actions </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="heureSup in filterHeureSup" :key="heureSup.id">
-            <td> {{ heureSup.personnel ? heureSup.personnel.nom + " " +
-              heureSup.personnel.prenom : "null" }} </td>
-            <td> {{ heureSup.date.toString().slice(0, 10) }} </td>
-            <td> {{ heureSup.duree }} </td>
-            <td class="shadow-none lh-1 fw-medium text-black pe-0  text-end">
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">Actions</button>
-              <ul class="dropdown-menu dropdown-block"
-                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
-                data-popper-placement="bottom-start">
-                <li class="dropdown-item d-flex align-items-center">
-                  <router-link :to="`/heureSupps/edit-heureSupp/${heureSup.id}`" class="text-decoration-none">
-                    <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i>
-                    Modifié
-                  </router-link>
-                </li>
-                <li class="dropdown-item d-flex align-items-center">
-                  <a @click="deleteHeureSup(heureSup.id)" type="button">
-                    <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
-                    Supprimé
-                  </a>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="filterHeureSup.length == 0" class="fs-5 d-flex justify-content-center">
-        La liste est vide
+    <div class="card-body p-15 p-sm-20 p-md-25">
+      <div class="table-responsive">
+        <table class="table text-nowrap align-middle mb-0">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Libellé
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
+              >ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(heureSupp, index) in heureSupps" :key="index">
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ heureSupp.libelleType }}
+              </td>
+              <td
+                class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
+              >
+              <div class="dropdown">
+                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                  </span>
+                  <ul class="dropdown-menu">
+                    <li >
+                      <a
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);"
+                        data-bs-toggle="modal"
+                        data-bs-target="#AddHeureSuppModal"
+                        @click="moddifier(heureSupp)"
+                      >
+                        <i
+                          class="flaticon-pen lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Modifier
+                      </a>
+                    </li>
+                    <li >
+                      <a
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);" @click="suppression(heureSupp.id,heureSupps,'heureSupps','la heureSupp')"
+                      >
+                        <i
+                          class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
+                        ></i>
+                        Supprimer
+                      </a>
+                    </li>
+                  </ul>
+              </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
+      >
+        <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
       </div>
     </div>
   </div>
+  <AddHeureSuppModal :item="selectedItem" @close="recharger"/>
+
 </template>
 
-<script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from 'vue'
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import router from '@/router';
-import ApiService from '@/services/ApiService';
+<script lang="ts">
+import { defineComponent, onMounted, ref} from "vue";
+import Swal from "sweetalert2";
+import { HeureSupp } from "@/models/HeureSupp";
+import ApiService from "@/services/ApiService";
+import { suppression, error } from "@/utils/utils";
+import PaginationComponent from '@/components/Utilities/Pagination.vue';
+import JwtService from "@/services/JwtService";
+import AddHeureSuppModal from "./AddHeureSuppModal.vue";
 
-const heuresups = ref([] as any[]);
+export default defineComponent({
+  name: "ListeHeureSupp",
+  components: {
+    PaginationComponent,
+    AddHeureSuppModal
+  },
+  setup(){
+    
+    onMounted(() => {
+      getAllHeureSupps();
+    });
 
-let filterHeureSup = ref(heuresups);
+    const heureSupps = ref<Array<HeureSupp>>([]);   
+    const heureSupp = ref<HeureSupp>();
 
-function sortHeureSupWithDateDebut(choosedDate: any) {
-  const presenceOnSelectedDate = heuresups.value.filter(entry => {
-    const entryDate = new Date(entry.dateDebut);
-    const selectedDate = new Date(choosedDate.value);
-    // Comparaison en ignorant les heures
-    return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10);
-  });
+    // BEGIN PAGINATE
+    const searchTerm = ref('');
+    const page = ref(1);
+    const totalPages = ref(0);
+    const limit = ref(10);
+    const totalElements = ref(0);
+    const selectedItem = ref(0);
 
-  filterHeureSup.value = presenceOnSelectedDate;
-}
-
-function sortHeureSupWithSearch(searchPresence: any) {
-  if ((searchPresence.value as string).trim() === "") {
-    filterHeureSup.value = heuresups.value
-  } else {
-    filterHeureSup.value = heuresups.value.filter(heuresup => (heuresup.personnel.nom.toLowerCase()).startsWith((searchPresence.value as string).trim().toLowerCase()))
-  }
-}
-// ------------------------------------------------- DELETE --------------------------------------------
-function deleteHeureSup(id: number) {
-
-  Swal.fire({
-    title: "Voulez-vraiment supprimer cette heure supplémentaire?",
-    showCancelButton: true,
-    confirmButtonText: "Supprimer",
-    cancelButtonText: "Annuler"
-  }).then(async (result) => {
-    if (result.isConfirmed) {
+    const handlePaginate = ({ page_, limit_ }) => {
       try {
-        const response = await ApiService.delete(`/heureSups/${id}`);
-        getAllHeureSup()
-        Swal.fire("Heure supplémentaire supprimé avec succès!", "", "success");
-        console.log(response);
+        page.value = page_;
+        getAllHeureSupps(page_, limit_);
       } catch (error) {
-        console.error('Erreur lors de la suppression de l heure supplémentaire:', error);
-        throw error;
+        //
       }
+    };
+
+     function rechercher(){
+      getAllHeureSupps(page.value, limit.value, searchTerm.value );
     }
-  });
-}
 
-// -------------------------------------------------- GET ------------------------------------------------
-const getAllHeureSup = async () => {
-  try {
-    const response = await ApiService.get('/heureSups');
-    heuresups.value = response.data;
+    // END PAGINATE
 
-  } catch (error) {
-    console.error('Erreur lors de la recupération des heures supplementaires:', error);
-    throw error;
-  }
-}
+    const recharger = () => {
+      getAllHeureSupps();
+    };
 
-onMounted(() => {
-  getAllHeureSup()
-})
+    function getAllHeureSupps(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/heureSupps?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        .then(({ data }) => {
+          heureSupps.value = data.data.data;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
+          return data.data;
+        })
+        .catch(({ response }) => {
+          error(response.data.message)
+      });
+    }
+    
+    function moddifier(EditHeureSupp:HeureSupp) {
+      heureSupp.value = EditHeureSupp;
+      selectedItem.value = EditHeureSupp.id;
+    }
 
+    const deleteHeureSupp = (id: number) => {
+      ApiService.delete(`/heureSupps/${id}`)
+      .then(({ data }) => {
+        Swal.fire({
+          text: data.message,
+          toast: true,
+          icon: 'success',
+          title: 'General Title',
+          animation: false,
+          position: 'top-right',
+          showConfirmButton: false,
+          timer: 5000,
+          timerProgressBar: true,
+          heightAuto: false
+        });
+      })
+      .catch(({ response }) => {
+        Swal.fire({
+          text: response.data.message,
+          icon: "error",
+          buttonsStyling: false,
+          confirmButtonText: "Réssayer à nouveau!",
+          heightAuto: false,
+          customClass: {
+            confirmButton: "btn fw-semobold btn-light-danger",
+          },
+        });
+      });
+
+      for(let i = 0; i < heureSupps.value.length; i++) {
+        if (heureSupps.value[i].id === id) {
+          heureSupps.value.splice(i, 1);
+        }
+      }
+    };
+
+    const privileges = ref<Array<string>>(JwtService.getPrivilege());
+
+    const checkPermission = (name) => {
+      return privileges.value.includes(name);
+    }
+
+    return { heureSupps,
+      checkPermission,
+     getAllHeureSupps,
+     deleteHeureSupp,
+     moddifier ,
+     suppression,
+     page, 
+    totalPages,
+    limit,
+    totalElements,
+    handlePaginate,
+    rechercher,
+    searchTerm,
+    selectedItem,
+    recharger
+  };
+  },
+});
 </script>
-
-<style>
-td,
-th {
-  border: 1px solid gray;
-}
-</style>
