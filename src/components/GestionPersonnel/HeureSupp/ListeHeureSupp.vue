@@ -11,7 +11,7 @@
           data-bs-target="#AddHeureSuppModal"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un type de taxe
+          Ajouter une heure supplémentaire
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -28,7 +28,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un type de taxe"
+            placeholder="Rechercher un heure supplémentaire"
           />
           <button
             type="submit"
@@ -54,7 +54,19 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Libellé
+                Date
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Personnel
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Durée
               </th>
               <th
                 scope="col"
@@ -65,8 +77,15 @@
           <tbody>
             <tr v-for="(heureSupp, index) in heureSupps" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ heureSupp.libelleType }}
+                {{ heureSupp.date }}
               </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ heureSupp.personnel }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ heureSupp.duree }}
+              </td>
+              
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >

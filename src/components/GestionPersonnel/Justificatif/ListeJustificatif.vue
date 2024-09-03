@@ -1,230 +1,257 @@
 <template>
-  <div class="px-lg-4 py-lg-5 p-md-3 p-3 text-start">
-    <router-link to="/justificatifs/ajouter-justificatif" class="btn btn-primary my-1">
-      <i class="fa fa-plus-circle"></i>
-      Ajouter un justificatif
-    </router-link>
-    <div class="col-12 mb-2 d-flex justify-content-around flex-wrap">
-      <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
-        <i class="fa fa-search mx-2"></i>
-        <input type="search" class="form-control" @input="sortJustificatifWithSearch($event.target)"
-          placeholder="Rechercher par personnel">
+    <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+      <div
+        class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
+      >
+        <div class="d-sm-flex align-items-center">
+          <router-link
+           class="btn btn-primary"
+            to="/justificatifs/ajouter-justificatif"
+          >
+          <i class="fa fa-plus-circle"></i>
+            Ajouter un justificatif
+          </router-link>
+          <!-- <button
+            class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
+            type="button"
+          >
+            Exporter
+            <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
+          </button> -->
+        </div>
+        <div class="d-flex align-items-center">
+          <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+            <input
+              type="text"
+              v-model="searchTerm"
+              @keyup="rechercher"
+              class="form-control shadow-none text-black rounded-0 border-0"
+              placeholder="Rechercher un utilisateur"
+            />
+            <button
+              type="submit"
+              class="bg-transparent text-primary transition p-0 border-0"
+            >
+              <i class="flaticon-search-interface-symbol"></i>
+            </button>
+          </form>
+          <!-- <button
+            class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
+            type="button"
+          >
+            <i class="flaticon-dots"></i>
+          </button> -->
+        </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center">
-        <span class="mx-2"> Date </span>
-        <input type="date" class="form-control" @input="sortJustificatifWithDateDebut($event.target)" />
+      <div class="card-body p-15 p-sm-20 p-md-25">
+        <div class="table-responsive">
+          <table  class="table text-nowrap align-middle mb-0">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                 Date
+                </th>
+                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                  Personnel
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Date Début
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Date Fin
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                 Preuve
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+               Présence
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
+                >Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr  v-for ="(justificatif, index) in justificatifs" :key="index">
+                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif.date }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif?.personnel }} </td>
+                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(justificatif?.dateDebutJustificatif) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(justificatif.dateFinJustificatif) }} </td>  
+                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif.preuve }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif.presence }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ format_date(justificatif.createdAt) }} </td>
+                  <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
+                    <div class="dropdown">
+                      <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+
+                        <ul class="dropdown-menu">
+                          <li class="dropdown-item d-flex align-items-center" v-if="justificatif?.mouvements.length != 0">
+                            <router-link
+                              
+                              :to="{ name: 'AddMouvementJustificatif',params: { id: justificatif.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Transfert
+                            </router-link>
+                          </li>
+                          <li class="dropdown-item d-flex align-items-center" v-if="justificatif?.mouvements.length == 0">
+                            <router-link
+                              
+                              :to="{ name: 'AddMouvementJustificatif',params: { id: justificatif.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Affectation
+                            </router-link>
+                          </li>
+                          <li class="dropdown-item d-flex align-items-center">
+                            <router-link
+                              
+                              :to="{ name: '',params: { id: justificatif.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Retourner
+                            </router-link>
+                          </li>
+                          <li class="dropdown-item d-flex align-items-center">
+                            <router-link
+                              
+                              :to="{ name: 'TableauAmortissement',params: { id: justificatif.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Tableau d'amortissement
+                            </router-link>
+                          </li>
+                          <li class="dropdown-item d-flex align-items-center">
+                            <router-link
+                              
+                              :to="{ name: 'EditJustificatif',params: { id: justificatif.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Modifier
+                            </router-link>
+                          </li>
+                          <li  class="dropdown-item d-flex align-items-center">
+                            <a
+                             
+                              href="javascript:void(0);"
+                              @click="suppression(justificatif.id, justificatifs, 'justificatifs', 'un utilisateur')"
+                            >
+                              <i
+                                class="fa fa-trash-o lh-1 me-8 position-relative top-1"
+                              ></i>
+                              Supprimer
+                            </a>
+                          </li>
+                              </ul>
+                          </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        <div
+          class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
+        >
+         <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
+        </div>
       </div>
     </div>
-    <div class="card rounded rounded-4 px-2 pt-4 py-1">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th scope="col"> Personnel </th>
-            <th scope="col"> Date de debut </th>
-            <th scope="col"> Date de fin </th>
-            <th scope="col"> Preuve </th>
-            <th scope="col"> Statut </th>
-            <th scope="col"> Actions </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="justificatif in filterJustificatifs" :key="justificatif.id">
-            <td> {{ justificatif.personnel ? justificatif.personnel.nom + " " +
-              justificatif.personnel.prenom : "null" }} </td>
-            <td> {{ justificatif.dateDebut ? justificatif.dateDebut.toString().slice(0, 10) : '' }} </td>
-            <td> {{ justificatif.dateFin ? justificatif.dateFin.toString().slice(0, 10) : '' }} </td>
-            <td>
-              <a :href="'/upload/' + justificatif.preuveFileName" target="_blank"> {{ justificatif.preuveFileName
-                }}
-              </a>
-            </td>
-            <td v-if="justificatif.statut === 'Acceptée'" class="text-center">
-              <span class="badge badge-success">Acceptée</span>
-            </td>
-            <td v-else-if="justificatif.statut === 'Refusée'" class="text-center">
-              <span class="badge badge-danger">Refusée</span>
-            </td>
-            <td v-else-if="justificatif.statut === 'En cours de traitement'" class="text-center">
-              <span class="badge badge-primary">En cours</span>
-            </td>
-            <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false" v-if="justificatif.statut != 'Refusée'">Actions</button>
-              <ul class="dropdown-menu dropdown-block"
-                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
-                data-popper-placement="bottom-start">
-                <li class="dropdown-item d-flex align-items-center" v-if="justificatif.statut != 'Refusée'">
-                  <a v-if="justificatif.statut != 'Refusée'" href="#" @click="refusedJustificatif(justificatif.id)">
-                    <i class="fa fa-close lh-2 me-8 p-1 position-relative top-1"></i>
-                    Refusé
-                  </a>
-                </li>
-                <li class="dropdown-item d-flex align-items-center"
-                  v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée'">
-                  <a v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée'" href="#"
-                    @click="acceptedJustificatif(justificatif.id, justificatif.presence.id)">
-                    <i class="fa fa-check lh-2 me-8 p-1 position-relative top-1"></i>
-                    Accepté
-                  </a>
-                </li>
-                <li class="dropdown-item d-flex align-items-center">
-                  <router-link :to="`/justificatifs/edit-justificatif/${justificatif.id}`"
-                    class="text-decoration-none p-1"
-                    v-if="justificatif.statut != 'Refusée' && justificatif.statut != 'Acceptée'">
-                    <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
-                  </router-link>
-                </li>
-                <li class="dropdown-item d-flex align-items-center" v-if="justificatif.statut != 'Refusée'">
-                  <a v-if="justificatif.statut != 'Refusée'" href="#" @click="deleteJustificatif(justificatif.id)">
-                    <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
-                    Supprimé
-                  </a>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="filterJustificatifs.length == 0" class="fs-5 d-flex justify-content-center">
-        La liste est vide
-      </div>
-    </div>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import Swal from 'sweetalert2';
-import ApiService from '@/services/ApiService';
-
-const justificatifs = ref([] as any[]);
-
-let filterJustificatifs = ref(justificatifs);
-
-function sortJustificatifWithDateDebut(choosedDate: any) {
-  const presenceOnSelectedDate = justificatifs.value.filter(entry => {
-    const entryDate = new Date(entry.dateDebut);
-    const selectedDate = new Date(choosedDate.value);
-    // Comparaison en ignorant les heures
-    return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10);
-  });
-
-  filterJustificatifs.value = presenceOnSelectedDate;
-}
-
-function sortJustificatifWithSearch(searchPresence: any) {
-  if ((searchPresence.value as string).trim() === "") {
-    filterJustificatifs.value = justificatifs.value
-  } else {
-    filterJustificatifs.value = justificatifs.value.filter(justificatif => (justificatif.personnel.nom.toLowerCase()).startsWith((searchPresence.value as string).trim().toLowerCase()))
-  }
-}
-
-// ------------------------------------------------- DELETE --------------------------------------------
-function deleteJustificatif(id: number) {
-
-  Swal.fire({
-    title: "Voulez-vraiment suprimer ce justificatif?",
-    showCancelButton: true,
-    confirmButtonText: "Supprimer",
-    cancelButtonText: "Annuler",
-    icon: "question",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        const response = await ApiService.delete(`/justificatifs/${id}`);
-        getAllJustificatif()
-        Swal.fire("Justificatif supprimé avec succès!", "", "success");
-        console.log(response);
-      } catch (error) {
-        console.error('Erreur lors de la suppression du justificatif:', error);
-        throw error;
+  </template>
+  
+  <script lang="ts">
+  import { defineComponent, onMounted, ref} from "vue";
+  import ApiService from "@/services/ApiService";
+  import { Justificatif } from "@/models/Justificatif";
+  import { format_date, suppression, error, } from "@/utils/utils";
+  
+  import PaginationComponent from '@/components/Utilities/Pagination.vue';
+  import JwtService from "@/services/JwtService";
+  
+  export default defineComponent({
+    name: "ListeJustificatif",
+    components: {
+      PaginationComponent
+    },
+    setup(){
+      onMounted(() => {
+        getAllJustificatifs();
+      });
+  
+      const justificatifs = ref<Array<Justificatif>>([]);
+      const justificatif = ref<Justificatif>();
+  
+      // BEGIN PAGINATE
+      const searchTerm = ref('');
+      const page = ref(1);
+      const totalPages = ref(0);
+      const limit = ref(10);
+      const totalElements = ref(0);
+  
+      const handlePaginate = ({ page_, limit_ }) => {
+        try {
+          page.value = page_;
+          getAllJustificatifs(page_, limit_);
+        } catch (error) {
+          //
+        }
+      };
+  
+       function rechercher(){
+        getAllJustificatifs(page.value, limit.value, searchTerm.value );
       }
-    }
-  });
-}
-
-// --------------------------------------------------- REFUSED ----------------------------------------------------
-const refusedJustificatif = (id: number) => {
-
-  Swal.fire({
-    title: "Voulez-vous vraiment refuser ce justificatif?",
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Oui",
-    cancelButtonText: "Retour"
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-
-      try {
-        const response = await ApiService.put(`/justificatifs/${id}/${id}/${id}`, {
-          statut: "Refusée"
+  
+  
+      // END PAGINATE
+  
+      function getAllJustificatifs(page = 1, limi = 10, searchTerm = '') {
+        return ApiService.get(`/all/justificatifs?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+          .then(({ data }) => {
+            justificatifs.value = data.data;
+            totalPages.value = data.data.totalPages;
+            limit.value = data.data.limit;
+            totalElements.value = data.data.totalElements;
+            return data.data;
+          })
+          .catch(({ response }) => {
+            error(response.data.message)
         });
-        Swal.fire("Justificatif refusée avec succès", "", "success");
-        getAllJustificatif()
-      } catch (error) {
-        console.error('Erreur lors de la mise à jour du justificatif:', error);
-        throw error;
       }
-
-    } else if (result.isDenied) {
-      Swal.fire("Refus annuler avec succès ", "", "info");
-    }
-  });
-
-}
-
-// --------------------------------------------------- REFUSED ----------------------------------------------------
-const acceptedJustificatif = (id: number, presenceId: number) => {
-
-  Swal.fire({
-    title: "Voulez-vous vraiment accepter ce justificatif?",
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Oui",
-    cancelButtonText: "Retour"
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-
-      try {
-        const response = await ApiService.put(`/justificatifs/${id}/${presenceId}`, {
-          statut: "Acceptée"
-        });
-        Swal.fire("Justificatif acceptée avec succès", "", "success");
-        getAllJustificatif()
-      } catch (error) {
-        console.error('Erreur lors de la mise à jour du justificatif:', error);
-        throw error;
-      }
-
-    } else if (result.isDenied) {
-      Swal.fire("Refus annuler avec succès ", "", "info");
-    }
-  });
-
-}
-
-// ---------------------------------------------------- GET -------------------------------------------------------
-const getAllJustificatif = async () => {
-  try {
-    const response = await ApiService.get('/justificatifs');
-    justificatifs.value = response.data;
-    console.log(response);
-  } catch (error) {
-    console.error('Erreur lors de la recupération des justificatifs:', error);
-    throw error;
+  
+      const privileges = ref<Array<string>>(JwtService.getPrivilege());
+  
+  const checkPermission = (name) => {
+    return privileges.value.includes(name);
   }
-}
-
-onMounted(() => {
-  getAllJustificatif()
-})
-
-</script>
-
-<style>
-td,
-th {
-  border: 1px solid gray;
-}
-</style>
+  
+      return {justificatifs,
+        checkPermission,
+        format_date,
+        suppression,
+        justificatif,
+        page, 
+        totalPages,
+        limit,
+        totalElements,
+        handlePaginate,
+        searchTerm,
+        rechercher
+      };
+    },
+  });
+  </script>
