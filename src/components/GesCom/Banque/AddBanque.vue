@@ -99,7 +99,7 @@ export default defineComponent({
       denominationBanque: Yup.string().required('La dénomination est obligatoire'),
       //societe: Yup.string().required('La societe est obligatoire'),
     });
-
+    
     const banqueForm =  ref<Banque | null>(null);
     const router = useRouter();
     const societeOptions = ref([]);

@@ -127,8 +127,7 @@
         </table>
       </div>
       <div
-        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
-      >
+        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
         <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
       </div>
     </div>
@@ -183,6 +182,7 @@ export default defineComponent({
     function getAllBanques(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/banques?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log(data,"datadatadatadatadatadata");
           banques.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
