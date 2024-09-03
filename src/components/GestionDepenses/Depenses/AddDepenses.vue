@@ -71,8 +71,20 @@
             </div>
           </div>
 
-
-          
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Personnel <span class="text-danger">*</span>
+              </label>
+              <Field name="personnel" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
+                label="label" track-by="label" />
+              </Field>
+              <ErrorMessage name="personnel" class="text-danger" />
+            </div>
+          </div>
+         
         <div class="col-md-12 mt-3">
           <div class="d-flex align-items-center ">
             <button class="btn btn-success me-3" type="submit">
@@ -126,6 +138,7 @@ export default defineComponent({
           planificationReparation: Yup.string().required("La planification Reparation est obligatoire."),
           typesDepenses: Yup.string().required("Le type de depense est obligatoire."),
           categoriesDepenses:Yup.string().required("La categorie depense est obligatoire."),
+          personnel: Yup.string().required("Le personnel est obligatoire."),
     });
 
     onMounted(() => {
@@ -133,6 +146,7 @@ export default defineComponent({
       getAllPlanificationReparation();
       getAllTypesDepenses();
       getAllCategoriesDepenses();
+      getAllPersonnels();
 
 
     });
@@ -143,6 +157,7 @@ export default defineComponent({
     const planificationReparation = ref();
     const typesDepenses = ref();
     const categoriesDepenses = ref();
+    const personnelOptions = ref();
 
     const entretienOptions = ref([]);
     const planificationReparationOptions = ref([]);
@@ -176,25 +191,41 @@ export default defineComponent({
 
   const getAllEntretien = async () => {
         try{
-        const response = await ApiService.get('/all/entretiens/');
+        const response = await ApiService.get('/all/entretiens');
         const entretienData = response.data.data.data;
         console.log('Data', entretienData)
         entretienOptions.value = entretienData.map((entretien) => ({
           value: entretien.id,
-          label: entretien.nom,
+          label: entretien.libelle,
         }));
         }
         catch(error){
           //error(response.data.message)
         }
       }
+
+      const getAllPersonnels = async () => {
+        try{
+        const response = await ApiService.get('/personnels');
+        const personnelsData = response.data;
+        console.log('Data', personnelsData)
+        personnelOptions.value = personnelsData.map((personnel) => ({
+          value: personnel.id,
+          label: personnel.nom + " " + personnel.prenom,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      }
+
       const getAllPlanificationReparation= async () => {
         try{
         const response = await ApiService.get('/all/planificationReparations');
-        const planificationReparationData = response.data.data;
+        const planificationReparationData = response.data.data.data;
         planificationReparationOptions.value = planificationReparationData.map((planificationReparation) => ({
           value: planificationReparation.id,
-          label: planificationReparation.nom,
+          label: planificationReparation.libelle,
         }));
         }
         catch(error){
@@ -204,11 +235,11 @@ export default defineComponent({
 
       const getAllTypesDepenses= async () => {
         try{
-        const response = await ApiService.get('/all/typesDepenses/');
-        const typesDepensesData = response.data.data;
+        const response = await ApiService.get('/all/typesDepenses');
+        const typesDepensesData = response.data.data.data;
         typesDepensesOptions.value = typesDepensesData.map((typesDepenses) => ({
           value: typesDepenses.id,
-          label: typesDepenses.nom,
+          label: typesDepenses.libelle,
         }));
         }
         catch(error){
@@ -218,21 +249,21 @@ export default defineComponent({
 
       const getAllCategoriesDepenses= async () => {
         try{
-        const response = await ApiService.get('/all/categoriesDepenses/');
-        const categoriesDepensesData = response.data.data;
+        const response = await ApiService.get('/all/categoriesDepenses');
+        const categoriesDepensesData = response.data.data.data;
         categoriesDepensesOptions.value = categoriesDepensesData.map((categoriesDepenses) => ({
           value: categoriesDepenses.id,
-          label: categoriesDepenses.nom,
+          label: categoriesDepenses.libelle,
         }));
         }
         catch(error){
           //error(response.data.message)
         }
       } 
-  
+    
    
 
-    return { depensesSchema, addDepenses, depensesForm,entretienOptions,planificationReparationOptions,typesDepensesOptions,categoriesDepensesOptions,showMErr,entretien,planificationReparation,typesDepenses,categoriesDepenses};
+    return { depensesSchema, addDepenses, depensesForm,entretienOptions,planificationReparationOptions,typesDepensesOptions,categoriesDepensesOptions,showMErr,entretien,planificationReparation,typesDepenses,categoriesDepenses,personnelOptions};
   },
 });
 </script>

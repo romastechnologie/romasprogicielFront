@@ -181,7 +181,6 @@ export default defineComponent({
     function getAllCategoriesDepenses(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/categoriesDepenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          console.log(data,"datadatadata");
           categoriesDepenses.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
