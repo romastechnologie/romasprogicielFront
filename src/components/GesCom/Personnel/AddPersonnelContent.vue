@@ -339,19 +339,7 @@
           </div>
 
           <div class="col-md-12 mb-md-25">
-              <div class="accordion" id="basicAccordion">
-                <div class="accordion-item mb-0 bord1">
-                  <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                      data-bs-target="#basicCollapseOne" aria-expanded="false" aria-controls="basicCollapseOne">
-                      Ajouter des enfants
-                    </button>
-                  </h2>
-                  <div id="basicCollapseOne" class="accordion-collapse collapse" data-bs-parent="#basicAccordion">
-                    <div class="accordion-body">
-
-                      <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+            <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                           <div class="row">
                             <div class="border border-primary mb-10">
                               <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
@@ -452,11 +440,6 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
               
             </div>
 
