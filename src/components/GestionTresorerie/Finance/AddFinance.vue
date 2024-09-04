@@ -120,8 +120,6 @@
                     <router-link to="/finances/liste-finance/" type="button"
                         class="btn btn-danger mx-1">Annuler</router-link>
                 </div>
-
-
             </Form>
 
         </div>
@@ -212,8 +210,6 @@ async function sendFinance(value: Object) {
             formData.append('utilisateurName', utilisateurName)
             formData.append('tresorerieName', tresorerieName)
         }
-
-
         const res = await ApiService.post('/finances/', formData)
         const financeId = res.data.id
         console.log(res)
@@ -224,9 +220,7 @@ async function sendFinance(value: Object) {
                     ...billetage,
                     finance: financeId
                 }));
-
                 await ApiService.post(`/billetages/`, billetageData)
-
                 router.push('/finances/liste-finance')
                 Swal.fire({
                     timer: 2000,
@@ -247,7 +241,6 @@ async function sendFinance(value: Object) {
                 console.error('Erreur lors du billetage:', error)
                 throw error;
             }
-
         }
 
     } catch (error) {
@@ -300,10 +293,10 @@ const getAllTresoreries = async () => {
 
 const getTresorerie = () => {
     ApiService.get('/tresoreries')
-        .then(res => {
-            tresorerieList.value = res.data
-            console.log(tresorerieList.value)
-        })
+    .then(res => {
+        tresorerieList.value = res.data
+        console.log(tresorerieList.value)
+    })
 }
 
 const getMonnaie = async () => {
