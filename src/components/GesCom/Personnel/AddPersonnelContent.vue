@@ -181,7 +181,7 @@
                 </label>
                 <Field name="boitePostale" type="text" class="form-control shadow-none fs-md-15 text-black"
                   placeholder="Entrer votre adresse postale" />
-                <ErrorMessage name="codeIban" class="text-danger" />
+                <ErrorMessage name="boitePostale" class="text-danger" />
               </div>
             </div>
   
@@ -190,9 +190,9 @@
                 <label class="d-block text-black mb-10">
                   Téléphone 1<span class="text-danger">*</span>
                 </label>
-                <Field name="tel" type="text" class="form-control shadow-none fs-md-15 text-black"
+                <Field name="telephone1" type="text" class="form-control shadow-none fs-md-15 text-black"
                   placeholder="Entrer le téléphone" />
-                <ErrorMessage name="tel" class="text-danger" />
+                <ErrorMessage name="telephone1" class="text-danger" />
               </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -200,9 +200,9 @@
                 <label class="d-block text-black mb-10">
                   Téléphone 2
                 </label>
-                <Field name="tel2" type="text" class="form-control shadow-none fs-md-15 text-black"
+                <Field name="telephone2" type="text" class="form-control shadow-none fs-md-15 text-black"
                   placeholder="Entrer le téléphone" />
-                <ErrorMessage name="tel2" class="text-danger" />
+                <ErrorMessage name="telephone2" class="text-danger" />
               </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -305,7 +305,7 @@
                 <label class="d-block text-black mb-10">
                   Religion Du Conjoint<span class="text-danger">*</span>
                 </label>
-                <Field name="religions" v-model="religions" type="text" v-slot="{ field }">
+                <Field name="religionCon" v-model="religions" type="text" v-slot="{ field }">
                   <Multiselect v-model="field.value" v-bind="field" :options="religionOptions" :preserve-search="true"
                     :multiple="false" :searchable="true" placeholder="Sélectionner la religion du conjoint" label="label"
                     track-by="label" />
@@ -318,7 +318,7 @@
                 <label class="d-block text-black mb-10">
                   Ethnie Du Conjoint<span class="text-danger">*</span>
                 </label>
-                <Field name="ethnies" v-model="ethnies" type="text" v-slot="{ field }">
+                <Field name="ethnieCon" v-model="ethnies" type="text" v-slot="{ field }">
                   <Multiselect v-model="field.value" v-bind="field" :options="ethnieOptions" :preserve-search="true"
                     :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie du conjoint" label="label"
                     track-by="label" />
@@ -653,7 +653,23 @@
                   <ErrorMessage name="codeSwift" class="text-danger" />
                 </div>
               </div>
-
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                  Banque
+                  </label>
+                                    <Multiselect
+                                      :options="banqueOptions"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      
+                                      placeholder="Sélectionner la banque"
+                                    />
+                                  </div>
+                                  </div>
+                                
+                                
               <h1>Informations sur la personne à contacter</h1>
             <div class="row g-2">
               <div class="col-md-4 mb-3">
@@ -681,9 +697,9 @@
                   <label class="d-block text-black mb-10">
                     Téléphone personne à contacter
                   </label>
-                  <Field name="telPersonneAContacter" type="text" class="form-control shadow-none fs-md-15 text-black"
+                  <Field name="telephonePersonneAContacter" type="text" class="form-control shadow-none fs-md-15 text-black"
                     placeholder="Entrer le téléphone" />
-                  <ErrorMessage name="telPersonneAContacter" class="text-danger" />
+                  <ErrorMessage name="telephonePersonneAContacter" class="text-danger" />
                 </div>
               </div>
               <div class="col-md-4 mb-3">
@@ -759,8 +775,9 @@ export default defineComponent({
       prenom: Yup.string().required('Le prénom du personnel est obligatoire'),
       adresse: Yup.string().required('L\' adresse du personnel est obligatoire'),
       email: Yup.string().email('Le format de l\'email est invalide').required('L\'email est obligatoire'),
-      tel: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
-      tel2: Yup.number().notRequired(),
+      telephone1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
+      telephone2: Yup.number().notRequired(),
+      //telephonePersonneAContacter:Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
       dateNais: Yup.date().notRequired(),
       nomCon: Yup.string().required('Le nom du conjoint est obligatoire'),
       prenomCon: Yup.string().required('Le prenom du conjoint est obligatoire'),
@@ -782,10 +799,11 @@ export default defineComponent({
       mainDroite: Yup.string().required('La main Droite est obligatoire'),
       jambeGauche: Yup.string().required('La jambe gauche est obligatoire'),
       jambeDroite: Yup.string().required('La jambe droite est obligatoire'),
+      boitePostale: Yup.string().notRequired(),
 
       nomPersonneAContacter: Yup.string().notRequired(),
       prenomPersonneAContacter: Yup.string().notRequired(),
-      telPersonnelAContacter: Yup.number().notRequired(),
+      telephonePersonneAContacter: Yup.number().notRequired(),
       relation: Yup.string().notRequired(),
     });
 
@@ -801,7 +819,7 @@ export default defineComponent({
     //   console.log('estservice', nom.value)
     // })
 
-    // formulaire dynamique start
+    // formulaire dynamique start enfant
 
     const isDisable = ref(true);
     const enfants = reactive([
@@ -860,6 +878,9 @@ export default defineComponent({
     const religionOptions = ref([]);
     const ethnieOptions = ref([]);
     const serviceOptions = ref([]);
+
+    
+    const banqueOptions = ref([]);
 
     const addPersonnel = async (values, { resetForm }) => {
       values.enfants = enfants.map(enfant => ({
@@ -939,12 +960,27 @@ export default defineComponent({
       }
     }
 
+    const fetchBanque = async () => {
+      try {
+        const response = await ApiService.get("/banques");
+        const banqueData = response.data.data.data;
+        banqueOptions.value = banqueData.map((banque) => ({
+          value: banque.id,
+          label: `${banque.denomination}`,
+        }));
+      } catch (error) {
+        //
+      }
+    };
+
+
 
     onMounted(async () => {
       await fetchEnfant();
       await getAllReligions();
       await getAllEthnies();
       await getAllServices();
+      await fetchBanque();
     })
 
     return {
@@ -961,6 +997,7 @@ export default defineComponent({
       religionOptions,
       ethnieOptions,
       serviceOptions,
+      banqueOptions,
     };
   },
 });
