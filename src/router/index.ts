@@ -244,6 +244,16 @@ import EditDepensesPage from '@/components/GestionDepenses/Depenses/EditDepenses
 import ListeDepensesPage from '@/components/GestionDepenses/Depenses/ListeDepenses.vue';
 import ListeTypesDepensesPage from '@/components/GestionDepenses/TypesDepenses/ListeTypesDepenses.vue'
 import ListeCategoriesDepensesPage from '@/components/GestionDepenses/CategoriesDepenses/ListeCategoriesDepenses.vue'
+
+//Gestion Archive
+import ListeFormatPage from "@/pages/GestionArchive/Format/ListeFormatPage.vue";
+import ListeTagPage from "@/pages/GestionArchive/Tag/ListeTagPage.vue";
+import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplacementPage.vue";
+import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
+import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
+
+
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -291,6 +301,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+  
   {
     path: "/TypeMoyenRoulant",
     component: BodyView,
@@ -710,6 +721,95 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeTypeContratPage,
         meta: {
           title: 'Liste des types de contrats',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/formats",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-format",
+        name: "ListeFormatPage",
+        component: ListeFormatPage,
+        meta: {
+          title: 'Liste des formats',
+        }
+      }
+    ]
+  },
+  {
+    path: "/tags",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-tag",
+        name: "ListeTagPage",
+        component: ListeTagPage,
+        meta: {
+          title: 'Liste des tags',
+        }
+      }
+    ]
+  },
+  {
+    path: "/documents",
+    component: BodyView,
+    children: [
+       {
+       path: "ajouter-document",
+         name: "AddDocumentPage",
+         component: AddDocumentPage,
+         meta: {
+           title: 'Ajouter un document',
+        }
+       },
+      {
+        path: "liste-document",
+        name: "ListeDocumentPage",
+        component: ListeDocumentPage,
+        meta: {
+          title: 'Liste des documents',
+        }
+      }
+    ]
+  },
+  {
+    path: "/emplacements",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-emplacement",
+        name: "ListeEmplacementPage",
+        component: ListeEmplacementPage,
+        meta: {
+          title: 'Liste des emplacements',
         }
       }
     ]
