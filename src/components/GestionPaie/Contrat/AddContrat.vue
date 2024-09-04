@@ -886,7 +886,7 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
       const { data } = await ApiService.post("/gescom/contrats", values);
       if (data.code == 201) {
         success(data.message);
-        router.push({ name: "ListeContrat" });
+        //router.push({ name: "ListeContrat" });
       }
     } catch ({ response }) {
       error(response.data.message);

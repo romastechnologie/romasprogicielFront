@@ -200,6 +200,8 @@ import EtatProduitsSortiesPage from "@/pages/GesCom/Etats/EtatProduitsSortiesPag
 import AddGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/AddGroupeTaxePage.vue";
 import EtatPointVentePage from "@/pages/GesCom/Etats/EtatPointVentePage.vue";
 import EtatPointProduitLivraisonPage from "@/pages/GesCom/Etats/EtatPointProduitLivraisonPage.vue";
+import EtatNombreProduitVenduPage from "@/pages/GesCom/Etats/EtatNombreProduitVenduPage.vue";
+import EtatChiffreAffaireClientPage from "@/pages/GesCom/Etats/EtatChiffreAffaireClientPage.vue";
 import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.vue";
 
 //Fin GesCom/
@@ -1438,6 +1440,23 @@ const routes: Array<RouteRecordRaw> = [
         component: EtatPointProduitLivraisonPage,
         meta: {
           title: 'Liste des produits livrés',
+        }
+      },
+      {
+        path: "etat-nmbre-pro",
+        name: "EtatNombreProduitVenduPage",
+        component: EtatNombreProduitVenduPage,
+        meta: {
+          //Nombre du produit(parceque c'est le nombre de ce produit il faut) vendus par période
+          title: 'Nombre du produits vendus par période',
+        }
+      },
+      {
+        path: "ca-client",
+        name: "EtatChiffreAffaireClientPage",
+        component: EtatChiffreAffaireClientPage,
+        meta: {
+          title: `Chiffre d'affaire par cient`,
         }
       },
       {
