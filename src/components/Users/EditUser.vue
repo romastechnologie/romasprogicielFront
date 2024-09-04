@@ -28,7 +28,7 @@
                       </div>
                   </div>
               </div>
-          <div class="col-md-12 mb-3">
+          <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                   Mot de passe <span class="text-danger">*</span>
@@ -40,7 +40,7 @@
               </div>
           </div>
           <div class="form-footer">
-            <div class="col-md-12 mb-3">
+            <div class="col-md-4 mb-3">
               <div class="d-flex align-items-center ">
                 <button
                 class="btn btn-primary me-3"
@@ -96,7 +96,7 @@
         <!-- Card Body -->
         <div class="card-body">
               <div class="row">
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-3">
                 <div class="form-group">
                   <label class="d-block text-black fw-semibold">
                     Nom <span class="text-danger">*</span>
@@ -106,7 +106,7 @@
                   <ErrorMessage name="nom" class="text-danger"/>
                 </div>
               </div>
-              <div class="col-md-4 mb-2">
+              <div class="col-md-4 mb-3">
                 <div class="form-group">
                   <label class="d-block text-black fw-semibold">
                     Prénom <span class="text-danger">*</span>
@@ -116,7 +116,7 @@
                   <ErrorMessage name="prenom" class="text-danger"/>
                 </div>
               </div>
-                <div class="col-md-4 mb-2" >
+                <div class="col-md-4 mb-3" >
                   <div class="form-group mb-15 mb-sm-20 mb-md-25">
                     <label class="d-block text-black fw-semibold mb-10">
                       Téléphone <span class="text-danger">*</span>
@@ -127,7 +127,7 @@
                     <ErrorMessage name="telephone" class="text-danger"/>
                   </div>
                 </div>
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-3">
                   <div class="form-group mb-15 mb-sm-20 mb-md-25">
                     <label class="d-block text-black fw-semibold mb-10">
                       Email <span class="text-danger">*</span>
@@ -141,7 +141,7 @@
                     <ErrorMessage name="email" class="text-danger"/>
                   </div>
                 </div>
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-3">
                   <div class="form-group mb-15 mb-sm-20 mb-md-25">
                     <label class="d-block text-black fw-semibold mb-10">
                       Sexe <span class="text-danger">*</span>
