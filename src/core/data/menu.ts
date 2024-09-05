@@ -576,7 +576,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion des Archives",
-        headTitle2: "Document, Format, Tag, Emplacement",
+        headTitle2: "Document, Format, Tag, Emplacement,Organisation,TypeOrganisation",
         type: "headtitle"
     },
     {
@@ -628,6 +628,27 @@ export const menu: MenuItem[] = [
         icon1: "fill-animation",
         type: "link",
         path: "/tags/liste-tag",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    
+    {
+        title: "Organisation",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/organisations/liste-organisation",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Type Organisation",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/typeOrganisations/liste-typeOrganisation",
         badgeType: "light-primary",
         active: false,
         isPinned: false
@@ -1306,10 +1327,10 @@ export const menu: MenuItem[] = [
                 path: "/Depenses/ajouter-depenses",
                 title: "Ajouter une depense",
                 type: "link"
-            },
+            },  
             {
-                path: "/Depenses/editer-depenses",
-                title: 'editer une depense',
+                path: "/Depenses/liste-depenses",
+                title: 'liste des depenses',
                 type: "link"
             }
         ]
@@ -1348,6 +1369,82 @@ export const menu: MenuItem[] = [
            
         ]
     },
+
+    
+    {
+        headTitle1: "Gestion des Archivages",
+        headTitle2: "CategorieDocument,TypeDocument,TypeEmplacement,RegleConservation",
+        type: "headtitle"
+    },
+    {
+        title: "CategorieDocument",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/categoriedocument/liste-categoriedocument",
+                title: "Ajouter une Categorie Document",
+                type: "link"
+            },  
+            
+        ]
+    },
+    {
+        title: "TypeDocument",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/typedocument/liste-typedocument",
+                title: "Ajouter un Type de Document",
+                type: "link"
+            },  
+            
+        ]
+    },
+    {
+        title: "TypeEmplacement",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/typeemplacement/liste-typeemplacement",
+                title: "Ajouter un Type Emplacement",
+                type: "link"
+            },  
+            
+        ]
+    },
+    {
+        title: "RegleConservation",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/regleconservation/liste-regleconservation",
+                title: "Ajouter une Regle Conservation ",
+                type: "link"
+            },  
+            
+        ]
+    },
+
 
 
 

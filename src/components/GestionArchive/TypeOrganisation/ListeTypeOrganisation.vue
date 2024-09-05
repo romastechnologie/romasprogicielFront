@@ -8,11 +8,11 @@
             class="btn btn-primary"
             href="#"
             data-bs-toggle="modal"
-            data-bs-target="#AddEmplacementModal"
+            data-bs-target="#AddTypeOrganisationModal"
           >
           <i class="fa fa-plus-circle"></i>
             <!-- <i class="fa fa-plus-circle"></i> -->
-            Ajouter un emplacement
+            Ajouter un type d'organisation
           </a>
           <!-- <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -62,16 +62,6 @@
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Description
-                  
-                </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type Emplacement
-                  
-                </th>
-                <th
-                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >DATE DE CREATION
                   
@@ -83,21 +73,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(emplacement, index) in emplacements" :key="index">
+              <tr v-for="(typeOrganisation, index) in typeOrganisations" :key="index">
                 <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ emplacement.code }}
+                  {{ typeOrganisation.code }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.libelle }}
+                  {{ typeOrganisation.libelle}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.description }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.typeEmplacement }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement_date(emplacement.createdAt)  }}
+                  {{ format_date(typeOrganisation.createdAt)  }}
                 </td>
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"
@@ -105,13 +89,13 @@
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                   <li class="dropdown-item d-flex align-items-center">
-                    <a  href="javascript:void(0);" @click="moddifier(emplacement)">
+                    <a  href="javascript:void(0);" @click="moddifier(typeOrganisation)">
                     <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </a>
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                        @click="suppression(emplacement.id,emplacements,'emplacements',`le emplacement ${emplacement.description}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                        @click="suppression(typeOrganisation.id,typeOrganisations,'typeOrganisations',`le typeOrganisation ${typeOrganisation.description}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                          Supprimer
                     </a>
                   </li>
@@ -127,39 +111,39 @@
         </div>
       </div>
     </div>
-    <AddEmplacementModal
-      @get-all-emplacements="getAllEmplacements"
-      :id="idemplacement"
+    <AddTypeOrganisationModal
+      @get-all-typeOrganisations="getAllTypeOrganisations"
+      :id="idtypeOrganisation"
       @openmodal="showModalEdite"
       @close="recharger"
-      @refreshEmplacements="refreshEmplacements"
+      @refreshTypeOrganisations="refreshTypeOrganisations"
     />
   </template>
   <script lang="ts">
   import { defineComponent, onMounted, ref  } from "vue";
-  import AddEmplacementModal from "./AddEmplacementModal.vue";
+  import AddTypeOrganisationModal from "./AddTypeOrganisationModal.vue";
   import ApiService from "@/services/ApiService";
   import { format_date, showModal, suppression, error, } from "@/utils/utils";
   import { useRouter } from "vue-router";
-  import { Emplacement } from "@/models/Emplacement";
+  import { TypeOrganisation } from "@/models/TypeOrganisation";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeEmplacement",
+    name: "ListeTypeOrganisation",
     components: {
-      AddEmplacementModal,
+      AddTypeOrganisationModal,
       PaginationComponent
     },
     setup: () => {
   
       onMounted(() => {
-        getAllEmplacements();
+        getAllTypeOrganisations();
       });
   
-      const emplacements = ref<Array<Emplacement>>([]);
-      const idemplacement = ref(0);
-      // const emplacement = ref<Emplacement>();
+      const typeOrganisations = ref<Array<TypeOrganisation>>([]);
+      const idtypeOrganisation = ref(0);
+      // const typeOrganisation = ref<TypeOrganisation>();
       const loading = ref<boolean>(false);
       const router = useRouter();
   
@@ -173,34 +157,34 @@
       const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
         try {
           page.value = page_;
-          getAllEmplacements(page_, limit_);
+          getAllTypeOrganisations(page_, limit_);
         } catch (error) {
           //
         }
       };
   
        function rechercher(){
-        getAllEmplacements(page.value, limit.value, searchTerm.value );
+        getAllTypeOrganisations(page.value, limit.value, searchTerm.value );
       }
   
       const recharger = () => {
-        getAllEmplacements();
+        getAllTypeOrganisations();
       };
       // END PAGINATE
   
       onMounted(() => {
         loading.value=false;
-        getAllEmplacements()
+        getAllTypeOrganisations()
       });
   
-      const refreshEmplacements = () => {
-          getAllEmplacements();
+      const refreshTypeOrganisations = () => {
+          getAllTypeOrganisations();
       };
   
-      function getAllEmplacements(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/emplacements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      function getAllTypeOrganisations(page = 1, limi = 10, searchTerm = '') {
+        return ApiService.get(`/typeOrganisations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            emplacements.value = data.data.data;
+            typeOrganisations.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -211,27 +195,27 @@
         });
       }
       
-      function moddifier(Editemplacement:Emplacement) {
-        idemplacement.value = Editemplacement.id;
+      function moddifier(EdittypeOrganisation:TypeOrganisation) {
+        idtypeOrganisation.value = EdittypeOrganisation.id;
       }
   
       function showModalEdite(model:any){
         showModal(model);
-        idemplacement.value=0;
+        idtypeOrganisation.value=0;
       }
   
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
   
-      const checkEmplacement = (name:string) => {
+      const checkTypeOrganisation = (name:string) => {
         return privileges.value.includes(name);
       }
   
       return {suppression,
-        checkEmplacement,
-       emplacements,
+        checkTypeOrganisation,
+       typeOrganisations,
         format_date,
-        getAllEmplacements,
-        idemplacement,
+        getAllTypeOrganisations,
+        idtypeOrganisation,
         moddifier,
         showModalEdite,
         page, 
@@ -242,7 +226,7 @@
         searchTerm,
         rechercher,
         recharger,
-        refreshEmplacements,
+        refreshTypeOrganisations,
        };
     },
   

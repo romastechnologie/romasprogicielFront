@@ -189,7 +189,7 @@ export default {
             values = values as CategoriesDepenses;
             loading.value = false;
             if (isupdate.value) {
-                ApiService.put(`/categoriesDepenses${values.id}`, values)
+                ApiService.put(`/categoriesDepenses/${values.id}`, values)
                     .then(({ data }) => {
                         if (data.code == 200) {
                             success(data.message);
@@ -227,9 +227,7 @@ export default {
         };
 
         onMounted(async () => {
-            console.log('Au montage')
-
-            await getAllCategoriesDepenses();
+               await getAllCategoriesDepenses();
         });
 
         return {

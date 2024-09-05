@@ -1,6 +1,6 @@
 <template>
 
-    <div class="modal fade" id="AddEthnieModal" tabindex="-1" role="dialog" ref="addEthnieModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
+    <div class="modal fade" id="AddOrganisationModal" tabindex="-1" role="dialog" ref="addOrganisationModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -8,19 +8,29 @@
                         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <Form ref="ethnieForm" @submit="addEthnie" :validation-schema="ethnieSchema">
+                      <Form ref="organisationForm" @submit="addOrganisation" :validation-schema="organisationSchema">
                         <div class="row">
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
-                               Libelle <span class="text-danger">*</span>
+                                Code<span class="text-danger">*</span>
+                              </label>
+                              <Field name="code" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
+                              <ErrorMessage name="code" class="text-danger"/>
+                            </div>
+                          </div>
+                          <div class="col-md-12 mb-3">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                              <label class="d-block text-black fw-semibold mb-10">
+                                Libelle<span class="text-danger">*</span>
                               </label>
                               <Field name="libelle" type="text" 
                               class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
                               <ErrorMessage name="libelle" class="text-danger"/>
                             </div>
                           </div>
-                          <div class="col-md-12 mb-3">
+                          <!--<div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
                                 Description <span class="text-danger">*</span>
@@ -34,7 +44,21 @@
                               </Field>
                               <ErrorMessage name="description" class="text-danger"/>
                             </div>
+                          </div>-->
+                          <div class="col-md-12 mb-3">
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black mb-10">
+                              Type d'organisation <span class="text-danger">*</span>
+                            </label>
+                            <Field name="typeOrganisation" type="text" v-slot="{ field }">
+                            <Multiselect v-model="field.value" v-bind="field" :options="typeOrganisationOptions" :preserve-search="true"
+                              :multiple="false" :searchable="true" placeholder="Sélectionner le type d'organisation"
+                              label="label" track-by="label" />
+                            </Field>
+                            <ErrorMessage name="typeOrganisation" class="text-danger" />
                           </div>
+                        </div>
+                          
                           <button
                             class="btn btn-primary"
                             type="submit">
@@ -58,15 +82,17 @@
     import * as Yup from 'yup';
     import ApiService from '@/services/ApiService';
     import { error, hideModal, success } from '@/utils/utils';
-    import { Ethnie } from '@/models/Ethnie';
+    import { Organisation } from '@/models/Organisation';
     import { useRouter } from 'vue-router';
+    import Multiselect from '@vueform/multiselect/src/Multiselect';
     
     export default {
-      name: "AddEthnieModal",
+      name: "AddOrganisationModal",
       components: {
         Form,
         Field,
-        ErrorMessage
+        ErrorMessage,
+        Multiselect,
       },
       props:{
         id: {
@@ -75,41 +101,46 @@
           default:0
         },
       },
-      emits: ["refreshEthnies",'openmodal'],
+      emits: ["refreshOrganisations",'openmodal'],
     
       setup: (props:any, { emit }: { emit: Function }) => {
     
         const loading = ref<boolean>(false);
-        const ethnieSchema = Yup.object().shape({
-          description: Yup.string().required('La ethnie est obligatoire'),
-          libelle: Yup.string().required('Le libelle est obligatoire'),
+        const organisationSchema = Yup.object().shape({
+          code: Yup.string().required('Le code est obligatoire'),
+          libelle: Yup.string().required('Le libellé est obligatoire'),
+          description: Yup.string().required('La description est obligatoire'),
+          typeOrganisation: Yup.string().required("Le type d'organisation est obligatoire."),
+
         });
     
     
-        const ethnienew = ref(props.id);
-        const ethnieForm =  ref<Ethnie | null>(null);
-        const addEthnieModalRef = ref<null | HTMLElement>(null);
-        let ethnies= ref<Array<Ethnie>>([]);
-        const title = ref('Ajouter une ethnie');
+        const organisationnew = ref(props.id);
+        const organisationForm =  ref<Organisation | null>(null);
+        const addOrganisationModalRef = ref<null | HTMLElement>(null);
+        let organisations= ref<Array<Organisation>>([]);
+        const title = ref('Ajouter un organisation');
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
+        const typeOrganisationOptions = ref();
+      
     
         watch(() => props.id , (newValue) => {   
           if (newValue!=0) {
-            getEthnie(newValue);
+            getOrganisation(newValue);
             isupdate.value=true;
           }
           btnTitle();
         });
     
-        const getEthnie = async (id: number) => {
-          return ApiService.get("/ethnies/"+id)
+        const getOrganisation = async (id: number) => {
+          return ApiService.get("/organisations/"+id)
           .then(({ data }) => {
-            ethnieForm.value?.setFieldValue("id",data.data.id);
-            ethnieForm.value?.setFieldValue("libelle",data.data.libelle);
-            ethnieForm.value?.setFieldValue("description",data.data.description);
-            emit('openmodal', addEthnieModalRef.value);
+            organisationForm.value?.setFieldValue("id",data.data.id);
+            organisationForm.value?.setFieldValue("code",data.data.code);
+            organisationForm.value?.setFieldValue("libelle",data.data.libelle);
+            emit('openmodal', addOrganisationModalRef.value);
           })
           .catch(({ response }) => {
             error(response.data.message)
@@ -118,41 +149,56 @@
     
         const btnTitle = async () => {
           if (isupdate.value) {
-             title.value = "Modifier la ethnie";
+             title.value = "Modifier l'organisation";
              btntext.value = "Modifier";
           }else{
-             title.value = "Ajouter une ethnie";
+             title.value = "Ajouter un organisation";
              btntext.value = "Ajouter";
           }
         }
+
+        const getAllTypeOrganisations = async () => {
+        try{
+        const response = await ApiService.get('/typeorganisations');
+        const typeOrganisationsData = response.data.data.data;
+        console.log('Data', typeOrganisationsData)
+        typeOrganisationOptions.value = typeOrganisationsData.map((typeOrganisation) => ({
+          value: typeOrganisation.id,
+          label: typeOrganisation.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      }
     
-        const addEthnie = async (values:any, {resetForm}: {resetForm: () => void  }) => {
-          values = values as Ethnie;
+        const addOrganisation = async (values:any, {resetForm}: {resetForm: () => void  }) => {
+          values = values as Organisation;
           loading.value = false;
           if(isupdate.value) {
-            ApiService.put(`/ethnies/${values.id}`,values)
+            ApiService.put(`/organisations/${values.id}`,values)
             .then(({ data }) => {
               if(data.code == 200) { 
                 success(data.message);
                 resetForm();
-                hideModal(addEthnieModalRef.value);
+                hideModal(addOrganisationModalRef.value);
                 isupdate.value=false;
                 btnTitle();
-                emit("refreshEthnies");
-                router.push('/ethnies/liste-ethnie');
+                emit("refreshOrganisations");
+                router.push('/organisations/liste-organisation');
               }
             }).catch(({ response }) => {
               error(response.message);
             });
           }else{
-            ApiService.post("/ethnies",values)
+            ApiService.post("/organisations",values)
             .then(({ data }) => {
               if(data.code == 201) { 
                 success(data.message)
                 resetForm();
-                hideModal(addEthnieModalRef.value);
-                //router.push('/ethnies/liste-ethnie');
-                emit("refreshEthnies");
+                hideModal(addOrganisationModalRef.value);
+                //router.push('/organisations/liste-organisation');
+                emit("refreshOrganisations");
     
               }
             }).catch(({ response }) => {
@@ -170,10 +216,10 @@
           btnTitle()
         };
     
-        return {ethnies, title,btntext, resetValue, ethnieSchema,
-           addEthnie, ethnieForm,addEthnieModalRef,ethnienew,
-           //refreshEthnies
+        return {organisations, title,btntext, resetValue, organisationSchema,
+           addOrganisation, organisationForm,addOrganisationModalRef,organisationnew,typeOrganisationOptions,
+           //refreshOrganisations
            };
       },
     };
-    </script>@/models/Ethnie
+    </script>@/models/Organisation

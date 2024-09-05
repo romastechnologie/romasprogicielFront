@@ -80,7 +80,7 @@
         const tagSchema = Yup.object().shape({
           code: Yup.string().required('Le code est obligatoire'),
           libelle: Yup.string().required('Le libelle est obligatoire'),
-          //montant: Yup.number().required('Le montant est obligatoire'),
+         
         });
     
     

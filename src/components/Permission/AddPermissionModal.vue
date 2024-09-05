@@ -26,7 +26,7 @@
                                 Description <span class="text-danger">*</span>
                               </label>
                               <Field name="description" cols="20"
-                              rows="12" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
+                              rows="3" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
                                 <textarea
                                   v-model="field.value"
                                   class="form-control shadow-none rounded-0 text-black"
