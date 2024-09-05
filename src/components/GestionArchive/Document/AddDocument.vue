@@ -33,40 +33,40 @@
             <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Personnel <span class="text-danger">*</span>
+                Tag <span class="text-danger">*</span>
               </label>
-              <Field name="personnel" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
+              <Field name="tag" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="tagOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le tag"
                 label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="personnel" class="text-danger" />
+              <ErrorMessage name="tag" class="text-danger" />
             </div>
           </div>
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Types Depenses <span class="text-danger">*</span>
+                Organisation<span class="text-danger">*</span>
               </label>
-              <Field name="typesDepenses" v-model="typesDepenses" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="typesDepensesOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le type de depense"
+              <Field name="organisation" v-model="organisations" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation"
                 label="label" track-by="label" />
               </Field>
-              <span class="text-danger" v-if="showMErr">Le Type de Depense  est obligatoire</span>
+              <ErrorMessage name="organisation" class="text-danger" />
             </div>
           </div>
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Categories Depenses <span class="text-danger">*</span>
+                Format <span class="text-danger">*</span>
               </label>
-              <Field name="categoriesDepenses" v-model="categoriesDepenses" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="categoriesDepensesOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner la categorie Depense"
+              <Field name="format" v-model="formats" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="formatOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le format"
                 label="label" track-by="label" />
               </Field>
-              <span class="text-danger" v-if="showMErr">La categorie depense  est obligatoire</span>
+              <ErrorMessage name="format" class="text-danger" />
             </div>
           </div>
 
@@ -115,24 +115,28 @@
             refDoc: Yup.string().required("La référence est obligatoire."),
             dateFinConservation: Yup.string().required("La date est obligatoire."),
             fichier: Yup.string().required("Le fichier est obligatoire."),
-            typesDepenses: Yup.string().required("Le type de depense est obligatoire."),
-            categoriesDepenses:Yup.string().required("La categorie depense est obligatoire."),
-            personnel: Yup.string().required("Le personnel est obligatoire.")
+            organisation: Yup.string().required("L'organisation est obligatoire."),
+            format:Yup.string().required("Le format est obligatoire."),
+            tag: Yup.string().required("Le tag est obligatoire.")
             
       });
   
       onMounted(() => {
         getAllTypeDocument();
-        getAllCategoriesDepenses();
-        getAllPersonnels();
-        getAllTypesDepenses();
+        getAllFormats();
+        getAllTags();
+        getAllOrganisations();
 
       });
   
       const documentForm =  ref(null);
-      const personnelOptions = ref();
-      const typesDepenses = ref();
-      const categoriesDepenses = ref();
+      const tagOptions = ref();
+      const formatOptions = ref();
+      const organisationOptions = ref();
+      const organisations = ref();
+      const tag = ref();
+      const formats = ref();
+      //const showMErr = ref(false);
       //const permissions = ref(null);
       const typeOptions = ref([]);
       const router = useRouter();
@@ -166,13 +170,13 @@
           //error(response.data.message)
         }
       } 
-      const getAllTypesDepenses= async () => {
+      const getAllOrganisations= async () => {
         try{
-        const response = await ApiService.get('/all/typesDepenses');
-        const typesDepensesData = response.data.data.data;
-        typesDepensesOptions.value = typesDepensesData.map((typesDepenses) => ({
-          value: typesDepenses.id,
-          label: typesDepenses.libelle,
+        const response = await ApiService.get('/all/organisations');
+        const organisationsData = response.data.data.data;
+        organisationOptions.value = organisationsData.map((organisations) => ({
+          value: organisations.id,
+          label: organisations.libelle,
         }));
         }
         catch(error){
@@ -180,27 +184,27 @@
         }
       } 
 
-      const getAllCategoriesDepenses= async () => {
+      const getAllFormats= async () => {
         try{
-        const response = await ApiService.get('/all/categoriesDepenses');
-        const categoriesDepensesData = response.data.data.data;
-        categoriesDepensesOptions.value = categoriesDepensesData.map((categoriesDepenses) => ({
-          value: categoriesDepenses.id,
-          label: categoriesDepenses.libelle,
+        const response = await ApiService.get('/all/formats');
+        const formatsData = response.data.data.data;
+        formatOptions.value = formatsData.map((formats) => ({
+          value: formats.id,
+          label: formats.libelle,
         }));
         }
         catch(error){
           //error(response.data.message)
         }
       } 
-      const getAllPersonnels = async () => {
+      const getAllTags = async () => {
         try{
-        const response = await ApiService.get('/personnels');
-        const personnelsData = response.data;
-        console.log('Data', personnelsData)
-        personnelOptions.value = personnelsData.map((personnel) => ({
-          value: personnel.id,
-          label: personnel.nom + " " + personnel.prenom,
+        const response = await ApiService.get('/tags');
+        const tagsData = response.data;
+        console.log('Data', tagsData)
+        tagOptions.value = tagsData.map((tag) => ({
+          value: tag.id,
+          label: tag.nom + " " + tag.prenom,
         }));
         }
         catch(error){
@@ -210,7 +214,7 @@
    
 
   
-      return { documentSchema, addDocument, showMErr,documentForm,typeOptions,categoriesDepensesOptions,typesDepensesOptions,personnelOptions};
+      return { documentSchema, addDocument,documentForm,typeOptions,formatOptions,organisationOptions,tagOptions};
     },
   });
   </script>
