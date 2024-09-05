@@ -249,6 +249,8 @@ import ListeCategoriesDepensesPage from '@/components/GestionDepenses/Categories
 import ListeFormatPage from "@/pages/GestionArchive/Format/ListeFormatPage.vue";
 import ListeTagPage from "@/pages/GestionArchive/Tag/ListeTagPage.vue";
 import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplacementPage.vue";
+import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrganisationPage.vue";
+import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/ListeTypeOrganisationPage.vue";
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 
@@ -301,7 +303,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  
+
   {
     path: "/TypeMoyenRoulant",
     component: BodyView,
@@ -752,20 +754,43 @@ const routes: Array<RouteRecordRaw> = [
     path: "/tags",
     component: BodyView,
     children: [
-      // {
-      //   path: "ajouter-permission",
-      //   name: "AddPermissionPage",
-      //   component: AddPermissionPage,
-      //   meta: {
-      //     title: 'Ajouter une permission',
-      //   }
-      // },
+     
       {
         path: "liste-tag",
         name: "ListeTagPage",
         component: ListeTagPage,
         meta: {
           title: 'Liste des tags',
+        }
+      }
+    ]
+  },
+  {
+    path: "/typeOrganisations",
+    component: BodyView,
+    children: [
+     
+      {
+        path: "liste-typeOrganisation",
+        name: "ListeTypeOrganisationPage",
+        component: ListeTypeOrganisationPage,
+        meta: {
+          title: "Liste des types d'organisation",
+        }
+      }
+    ]
+  },
+  {
+    path: "/organisations",
+    component: BodyView,
+    children: [
+     
+      {
+        path: "liste-organisation",
+        name: "ListeOrganisationPage",
+        component: ListeOrganisationPage,
+        meta: {
+          title: 'Liste des organisations',
         }
       }
     ]

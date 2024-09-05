@@ -576,7 +576,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion des Archives",
-        headTitle2: "Document, Format, Tag, Emplacement",
+        headTitle2: "Document, Format, Tag, Emplacement,Organisation,TypeOrganisation",
         type: "headtitle"
     },
     {
@@ -628,6 +628,27 @@ export const menu: MenuItem[] = [
         icon1: "fill-animation",
         type: "link",
         path: "/tags/liste-tag",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    
+    {
+        title: "Organisation",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/organisations/liste-organisation",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Type Organisation",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/typeOrganisations/liste-typeOrganisation",
         badgeType: "light-primary",
         active: false,
         isPinned: false
