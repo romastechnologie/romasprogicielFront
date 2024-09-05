@@ -245,23 +245,17 @@ import ListeDepensesPage from '@/components/GestionDepenses/Depenses/ListeDepens
 import ListeTypesDepensesPage from '@/components/GestionDepenses/TypesDepenses/ListeTypesDepenses.vue'
 import ListeCategoriesDepensesPage from '@/components/GestionDepenses/CategoriesDepenses/ListeCategoriesDepenses.vue'
 
-<<<<<<< HEAD
 // Gestion Archivages
 
-import ListeCategorieDocumentPage from '@/components/GestionArchivages/CategorieDocument/ListeCategorieDocument.vue'
-import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/ListeTypeDocument.vue'
-import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue'
-import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue'
-
-
-=======
-//Gestion Archive
+import ListeCategorieDocumentPage from '@/components/GestionArchivages/CategorieDocument/ListeCategorieDocument.vue';
+import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/ListeTypeDocument.vue';
+import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue';
+import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue';
 import ListeFormatPage from "@/pages/GestionArchive/Format/ListeFormatPage.vue";
 import ListeTagPage from "@/pages/GestionArchive/Tag/ListeTagPage.vue";
 import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplacementPage.vue";
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
->>>>>>> b14cf40485ea55125cac0ba67e7d7b453eabaeed
 
 
 

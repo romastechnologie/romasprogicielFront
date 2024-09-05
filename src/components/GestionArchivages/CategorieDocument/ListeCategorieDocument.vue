@@ -101,7 +101,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression (categorieDocument.id,categorieDocument,'categorieDocuments','la categorie Document')"
+                        href="javascript:void(0);" @click="suppression (categorieDocument.id,CategoriesDocuments,'categorieDocuments','la categorie Document')"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
@@ -187,9 +187,9 @@ export default defineComponent({
 
     // END PAGINATE
 
-    onMounted(() => {
+    onMounted( async () => {
       loading.value=false;
-      getAllCategorieDocument();
+      await getAllCategorieDocument();
     });
 
     const refreshcategorieDocument = () => {
@@ -199,11 +199,14 @@ export default defineComponent({
     function getAllCategorieDocument(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/categorieDocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          categorieDocument.value = data.data.data;
+          console.log('data ==== ',data);
+          CategoriesDocuments.value = data.data.data.map((element)=>{
+            return element;
+          });
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
-          return data.data.data;
+          return CategoriesDocuments.value;
         })
         .catch(({ response }) => {
           error(response.data.message)
@@ -240,6 +243,7 @@ export default defineComponent({
     recharger,
     refreshcategorieDocument,
     CategoriesDocuments
+    
   };
   },
 });
