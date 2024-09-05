@@ -3,7 +3,7 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing ">
       <Form ref="userForm" @submit="addUser" :validation-schema="userSchema">
         <div class="row">
-          <div class="col-md-4 mb-4">
+          <div class="col-md-4 mb-3">
             <div class="form-group">
               <label class="d-block text-black fw-semibold">
                 Personnel <span class="text-danger">*</span>
@@ -16,7 +16,7 @@
               <!-- <ErrorMessage name="personnelId" class="text-danger" /> -->
             </div>
           </div>
-          <div class="col-md-4 mb-4">
+          <div class="col-md-4 mb-3">
             <div class="form-group">
               <label class="d-block text-black fw-semibold">
                 Nom <span class="text-danger">*</span>
@@ -26,7 +26,7 @@
               <ErrorMessage name="nom" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-4 mb-4">
+          <div class="col-md-4 mb-3">
             <div class="form-group">
               <label class="d-block text-black fw-semibold">
                 Prénom <span class="text-danger">*</span>
@@ -36,7 +36,7 @@
               <ErrorMessage name="prenom" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mb-3">
             <div class="form-group">
               <label class="d-block text-black fw-semibold">
                 Téléphone <span class="text-danger">*</span>
@@ -46,7 +46,7 @@
               <ErrorMessage name="telephone" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mb-3">
             <div class="form-group">
               <label class="d-block text-black fw-semibold">
                 Email <span class="text-danger">*</span>
@@ -56,7 +56,7 @@
               <ErrorMessage name="email" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mb-3">
             <div class="form-group">
               <label class="d-block text-black fw-semibold">
                 Sexe <span class="text-danger">*</span>
@@ -75,7 +75,7 @@
               <ErrorMessage name="sexe" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-10 mb-sm-15 mb-md-17">
               <label class="d-block text-black fw-semibold mb-10">
                 Mot de passe <span class="text-danger">*</span>
@@ -85,7 +85,7 @@
               <ErrorMessage name="password" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mb-4">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Rôle <span class="text-danger">*</span>

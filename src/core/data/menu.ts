@@ -575,6 +575,67 @@ export const menu: MenuItem[] = [
     },
 
     {
+        headTitle1: "Gestion des Archives",
+        headTitle2: "Document, Format, Tag, Emplacement",
+        type: "headtitle"
+    },
+    {
+        title: "Document",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/documents/ajouter-document",
+                title: "Ajouter un document",
+                type: "link"
+            },
+            {
+                path: "/documents/liste-document",
+                title: "Liste des documents",
+                type: "link"
+            }
+        ]
+    },
+
+    {
+        title: "Format",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/formats/liste-format",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
+    {
+        title: "Emplacement",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/emplacements/liste-emplacement",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Tag",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/tags/liste-tag",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
+
+
+    {
         headTitle1: "Gestion des immobilisations",
         headTitle2: "Bien, Amortissement,Mouvement des biens,Fournisseur,Type de Bien, Catégorie de Bien ",
         type: "headtitle"

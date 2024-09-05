@@ -4,12 +4,12 @@
             <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing ">
                 <Form class="col" :validation-schema="tresorerieschema" @submit="addTresorerie">
                     <div class="row">
-                        <div class="col-6 my-3">
+                        <div class="col-4 my-3">
                             <label for="nom">Nom</label>
                             <Field type="text" name="nom" id="nom" class="form-control" />
                             <ErrorMessage name="nom" class="text-danger" />
                         </div>
-                        <div class="col-6 my-3">
+                        <div class="col-4 my-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="operation" id="nonOperationnelle"
                                     checked value="Non Opérationnelle" v-model="tresorerie.operation"/>
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6 my-3">
+                        <div class="col-4 my-3">
                             <label for="typeTresorerieId">Type de trésorerie</label>
                             <Field name="typeTresorerieId" v-model="typeTresorerieId" v-slot="{ field }" class="form-control">
                                 <Multiselect  v-model="field.value" v-bind="field" :options="tresorerieOptions"
@@ -40,12 +40,12 @@
                         </div>
 
 
-                        <div class="col-6 my-3">
+                        <div class="col-4 my-3">
                             <label for="montant">Montant</label>
                             <Field type="number" name="montant" id="montant" class="form-control" placeholder="Entrer le montant"/>
                             <ErrorMessage name="montant" class="text-danger" />
                         </div>
-                        <div class="col-6 my-3">
+                        <div class="col-4 my-3">
                             <label for="dateCreation">Date de création</label>
                             <Field type="date" name="dateCreation" id="dateCreation" class="form-control" />
                             <ErrorMessage name="dateCreation" class="text-danger" />
