@@ -873,7 +873,6 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
       valeurUnitaire: retenue.valeurUnitaire,
       montant: retenue.montant,
       quantite: retenue.quantite,
-      
     }));
     values.fonctions = fonctions.map(fonction => ({
         estActif: fonction.estActif,
@@ -922,8 +921,13 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
   );
 
   
-      return { contratSchema, addContrat, contratForm,
-        typeOptions,showMErr,types,typePrimeOptions,
+      return { contratSchema, 
+        addContrat, 
+        contratForm,
+        typeOptions,
+        showMErr,
+        types,
+        typePrimeOptions,
         typePrimes,
         selectTypePrime,
         removeRowPrime,

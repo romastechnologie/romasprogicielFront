@@ -453,6 +453,7 @@
         const response = await ApiService.get(`/contrat/${id}`);
         const contratData = response.data.data;
         console.log('Type prime', contratData)
+        console.log("Salaire de base === > ", contratData.salaireBase);
         salaireDeBase.value = contratData.salaireBase
       } catch (error) {
         // H
