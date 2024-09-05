@@ -15,7 +15,8 @@
                         <h5>{{ item.title }}</h5>
                         <p>{{ item.desc }}</p>
                     </div>
-                </a></li>
+                </a>
+            </li>
         </ul>
     </div>
 </template>

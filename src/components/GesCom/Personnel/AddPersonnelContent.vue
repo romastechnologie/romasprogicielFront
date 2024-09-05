@@ -236,7 +236,6 @@
         </div>
       </div>
   
-  
       <div class="tab-pane fade" id="info-conjoint" role="tabpanel" aria-labelledby="info-conjoint-tab">
         <div class="sidebar-body">
           <div class="row g-2">
@@ -658,18 +657,16 @@
                   <label class="d-block text-black mb-10">
                   Banque
                   </label>
-                                    <Multiselect
-                                      :options="banqueOptions"
-                                      :searchable="true"
-                                      track-by="label"
-                                      label="label"
-                                      
-                                      placeholder="Sélectionner la banque"
-                                    />
-                                  </div>
-                                  </div>
-                                
-                                
+                    <Multiselect
+                      :options="banqueOptions"
+                      :searchable="true"
+                      track-by="label"
+                      label="label"
+                      
+                      placeholder="Sélectionner la banque"
+                    />
+                  </div>
+                  </div>
               <h1>Informations sur la personne à contacter</h1>
             <div class="row g-2">
               <div class="col-md-4 mb-3">
@@ -713,30 +710,26 @@
                 </div>
               </div>
           </div>
-         
-            </div>
-            <div class="product-buttons">
-                    <button class="btn me-1">
-                        <div class="d-flex align-items-center gap-sm-2 gap-1">
-                            <svg>
-                                <use href="@/assets/svg/icon-sprite.svg#back-arrow"></use>
-                            </svg>Previous
-                        </div>
-                    </button>
-                    <button class="btn">
-                        <div class="d-flex align-items-center gap-sm-2 gap-1">Next
-                            <svg>
-                                <use href="@/assets/svg/icon-sprite.svg#front-arrow"></use>
-                            </svg>
-                        </div>
-                    </button>
-                </div>
-
-          </div>
         </div>
-        
-        
-    </div>
+        <div class="product-buttons">
+            <button class="btn me-1">
+                <div class="d-flex align-items-center gap-sm-2 gap-1">
+                    <svg>
+                        <use href="@/assets/svg/icon-sprite.svg#back-arrow"></use>
+                    </svg>Previous
+                </div>
+            </button>
+            <button class="btn">
+                <div class="d-flex align-items-center gap-sm-2 gap-1">Next
+                    <svg>
+                        <use href="@/assets/svg/icon-sprite.svg#front-arrow"></use>
+                    </svg>
+                </div>
+            </button>
+        </div>
+      </div>
+  </div>
+</div>
 
     
 
