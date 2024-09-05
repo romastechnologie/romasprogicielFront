@@ -49,27 +49,46 @@
             <thead>
               <tr>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                  Référence
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
                   Nom Document
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Telephone
+                 Description
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Adresse
+                  Date fin conservation
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Date
+                  Tag
                 </th>
-                                <th
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Format
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Organisation
+                </th>
+               
+                <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
                 >Actions</th>
@@ -77,10 +96,14 @@
             </thead>
             <tbody>
               <tr  v-for ="(document, index) in documents" :key="index">
+                  <td class="shadow-none lh-1 fw-medium ">{{ document?.refDoc }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ document?.nom }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ document?.telephone }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ document?.adresse }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(document.createdAt) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ document?.description }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ format_date(document.dateFinConservation) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ document?.tag }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ document?.format }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation }} </td>
+                  
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
@@ -169,7 +192,7 @@
       // END PAGINATE
   
       function getAllDocuments(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/all/documents?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`/documents?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
             documents.value = data.data;
             totalPages.value = data.data.totalPages;

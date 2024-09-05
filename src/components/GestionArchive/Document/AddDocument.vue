@@ -117,7 +117,7 @@
             fichier: Yup.string().required("Le fichier est obligatoire."),
             organisation: Yup.string().required("L'organisation est obligatoire."),
             format:Yup.string().required("Le format est obligatoire."),
-            tag: Yup.string().required("Le tag est obligatoire.")
+            tag: Yup.string().required("Le tag est obligatoire."),
             
       });
   
