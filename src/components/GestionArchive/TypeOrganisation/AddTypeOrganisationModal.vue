@@ -1,6 +1,6 @@
 <template>
 
-    <div class="modal fade" id="AddTagModal" tabindex="-1" role="dialog" ref="addTagModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
+    <div class="modal fade" id="AddTypeOrganisationModal" tabindex="-1" role="dialog" ref="addTypeOrganisationModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -8,7 +8,7 @@
                         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <Form ref="tagForm" @submit="addTag" :validation-schema="tagSchema">
+                      <Form ref="typeOrganisationForm" @submit="addTypeOrganisation" :validation-schema="typeOrganisationSchema">
                         <div class="row">
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -55,11 +55,11 @@
     import * as Yup from 'yup';
     import ApiService from '@/services/ApiService';
     import { error, hideModal, success } from '@/utils/utils';
-    import { Tag } from '@/models/Tag';
+    import { TypeOrganisation } from '@/models/TypeOrganisation';
     import { useRouter } from 'vue-router';
     
     export default {
-      name: "AddTagModal",
+      name: "AddTypeOrganisationModal",
       components: {
         Form,
         Field,
@@ -72,42 +72,42 @@
           default:0
         },
       },
-      emits: ["refreshTags",'openmodal'],
+      emits: ["refreshTypeOrganisations",'openmodal'],
     
       setup: (props:any, { emit }: { emit: Function }) => {
     
         const loading = ref<boolean>(false);
-        const tagSchema = Yup.object().shape({
+        const typeOrganisationSchema = Yup.object().shape({
           code: Yup.string().required('Le code est obligatoire'),
           libelle: Yup.string().required('Le libelle est obligatoire'),
          
         });
     
     
-        const tagnew = ref(props.id);
-        const tagForm =  ref<Tag | null>(null);
-        const addTagModalRef = ref<null | HTMLElement>(null);
-        let tags= ref<Array<Tag>>([]);
-        const title = ref('Ajouter un tag');
+        const typeOrganisationnew = ref(props.id);
+        const typeOrganisationForm =  ref<TypeOrganisation | null>(null);
+        const addTypeOrganisationModalRef = ref<null | HTMLElement>(null);
+        let typeOrganisations= ref<Array<TypeOrganisation>>([]);
+        const title = ref('Ajouter un typeOrganisation');
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
     
         watch(() => props.id , (newValue) => {   
           if (newValue!=0) {
-            getTag(newValue);
+            getTypeOrganisation(newValue);
             isupdate.value=true;
           }
           btnTitle();
         });
     
-        const getTag = async (id: number) => {
-          return ApiService.get("/tags/"+id)
+        const getTypeOrganisation = async (id: number) => {
+          return ApiService.get("/typeOrganisations/"+id)
           .then(({ data }) => {
-            tagForm.value?.setFieldValue("id",data.data.id);
-            tagForm.value?.setFieldValue("code",data.data.code);
-            tagForm.value?.setFieldValue("libelle",data.data.libelle);
-            emit('openmodal', addTagModalRef.value);
+            typeOrganisationForm.value?.setFieldValue("id",data.data.id);
+            typeOrganisationForm.value?.setFieldValue("code",data.data.code);
+            typeOrganisationForm.value?.setFieldValue("libelle",data.data.libelle);
+            emit('openmodal', addTypeOrganisationModalRef.value);
           })
           .catch(({ response }) => {
             error(response.data.message)
@@ -116,41 +116,41 @@
     
         const btnTitle = async () => {
           if (isupdate.value) {
-             title.value = "Modifier le tag";
+             title.value = "Modifier le typeOrganisation";
              btntext.value = "Modifier";
           }else{
-             title.value = "Ajouter un tag";
+             title.value = "Ajouter un typeOrganisation";
              btntext.value = "Ajouter";
           }
         }
     
-        const addTag = async (values:any, {resetForm}: {resetForm: () => void  }) => {
-          values = values as Tag;
+        const addTypeOrganisation = async (values:any, {resetForm}: {resetForm: () => void  }) => {
+          values = values as TypeOrganisation;
           loading.value = false;
           if(isupdate.value) {
-            ApiService.put(`/tags/${values.id}`,values)
+            ApiService.put(`/typeOrganisations/${values.id}`,values)
             .then(({ data }) => {
               if(data.code == 200) { 
                 success(data.message);
                 resetForm();
-                hideModal(addTagModalRef.value);
+                hideModal(addTypeOrganisationModalRef.value);
                 isupdate.value=false;
                 btnTitle();
-                emit("refreshTags");
-                router.push('/tags/liste-tag');
+                emit("refreshTypeOrganisations");
+                router.push('/typeOrganisations/liste-typeOrganisation');
               }
             }).catch(({ response }) => {
               error(response.message);
             });
           }else{
-            ApiService.post("/tags",values)
+            ApiService.post("/typeOrganisations",values)
             .then(({ data }) => {
               if(data.code == 201) { 
                 success(data.message)
                 resetForm();
-                hideModal(addTagModalRef.value);
-                //router.push('/tags/liste-tag');
-                emit("refreshTags");
+                hideModal(addTypeOrganisationModalRef.value);
+                //router.push('/typeOrganisations/liste-typeOrganisation');
+                emit("refreshTypeOrganisations");
     
               }
             }).catch(({ response }) => {
@@ -168,10 +168,10 @@
           btnTitle()
         };
     
-        return {tags, title,btntext, resetValue, tagSchema,
-           addTag, tagForm,addTagModalRef,tagnew,
-           //refreshTags
+        return {typeOrganisations, title,btntext, resetValue, typeOrganisationSchema,
+           addTypeOrganisation, typeOrganisationForm,addTypeOrganisationModalRef,typeOrganisationnew,
+           //refreshTypeOrganisations
            };
       },
     };
-    </script>@/models/Tag
+    </script>@/models/TypeOrganisation

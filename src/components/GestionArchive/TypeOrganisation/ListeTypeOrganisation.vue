@@ -8,11 +8,11 @@
             class="btn btn-primary"
             href="#"
             data-bs-toggle="modal"
-            data-bs-target="#AddTagModal"
+            data-bs-target="#AddTypeOrganisationModal"
           >
           <i class="fa fa-plus-circle"></i>
             <!-- <i class="fa fa-plus-circle"></i> -->
-            Ajouter un tag
+            Ajouter un type d'organisation
           </a>
           <!-- <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -73,15 +73,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(tag, index) in tags" :key="index">
+              <tr v-for="(typeOrganisation, index) in typeOrganisations" :key="index">
                 <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ tag.code }}
+                  {{ typeOrganisation.code }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ tag.libelle}}
+                  {{ typeOrganisation.libelle}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ format_date(tag.createdAt)  }}
+                  {{ format_date(typeOrganisation.createdAt)  }}
                 </td>
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"
@@ -89,13 +89,13 @@
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                   <li class="dropdown-item d-flex align-items-center">
-                    <a  href="javascript:void(0);" @click="moddifier(tag)">
+                    <a  href="javascript:void(0);" @click="moddifier(typeOrganisation)">
                     <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </a>
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                        @click="suppression(tag.id,tags,'tags',`le tag ${tag.description}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                        @click="suppression(typeOrganisation.id,typeOrganisations,'typeOrganisations',`le typeOrganisation ${typeOrganisation.description}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                          Supprimer
                     </a>
                   </li>
@@ -111,39 +111,39 @@
         </div>
       </div>
     </div>
-    <AddTagModal
-      @get-all-tags="getAllTags"
-      :id="idtag"
+    <AddTypeOrganisationModal
+      @get-all-typeOrganisations="getAllTypeOrganisations"
+      :id="idtypeOrganisation"
       @openmodal="showModalEdite"
       @close="recharger"
-      @refreshTags="refreshTags"
+      @refreshTypeOrganisations="refreshTypeOrganisations"
     />
   </template>
   <script lang="ts">
   import { defineComponent, onMounted, ref  } from "vue";
-  import AddTagModal from "./AddTagModal.vue";
+  import AddTypeOrganisationModal from "./AddTypeOrganisationModal.vue";
   import ApiService from "@/services/ApiService";
   import { format_date, showModal, suppression, error, } from "@/utils/utils";
   import { useRouter } from "vue-router";
-  import { Tag } from "@/models/Tag";
+  import { TypeOrganisation } from "@/models/TypeOrganisation";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeTag",
+    name: "ListeTypeOrganisation",
     components: {
-      AddTagModal,
+      AddTypeOrganisationModal,
       PaginationComponent
     },
     setup: () => {
   
       onMounted(() => {
-        getAllTags();
+        getAllTypeOrganisations();
       });
   
-      const tags = ref<Array<Tag>>([]);
-      const idtag = ref(0);
-      // const tag = ref<Tag>();
+      const typeOrganisations = ref<Array<TypeOrganisation>>([]);
+      const idtypeOrganisation = ref(0);
+      // const typeOrganisation = ref<TypeOrganisation>();
       const loading = ref<boolean>(false);
       const router = useRouter();
   
@@ -157,34 +157,34 @@
       const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
         try {
           page.value = page_;
-          getAllTags(page_, limit_);
+          getAllTypeOrganisations(page_, limit_);
         } catch (error) {
           //
         }
       };
   
        function rechercher(){
-        getAllTags(page.value, limit.value, searchTerm.value );
+        getAllTypeOrganisations(page.value, limit.value, searchTerm.value );
       }
   
       const recharger = () => {
-        getAllTags();
+        getAllTypeOrganisations();
       };
       // END PAGINATE
   
       onMounted(() => {
         loading.value=false;
-        getAllTags()
+        getAllTypeOrganisations()
       });
   
-      const refreshTags = () => {
-          getAllTags();
+      const refreshTypeOrganisations = () => {
+          getAllTypeOrganisations();
       };
   
-      function getAllTags(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/tags?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      function getAllTypeOrganisations(page = 1, limi = 10, searchTerm = '') {
+        return ApiService.get(`/typeOrganisations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            tags.value = data.data.data;
+            typeOrganisations.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -195,27 +195,27 @@
         });
       }
       
-      function moddifier(Edittag:Tag) {
-        idtag.value = Edittag.id;
+      function moddifier(EdittypeOrganisation:TypeOrganisation) {
+        idtypeOrganisation.value = EdittypeOrganisation.id;
       }
   
       function showModalEdite(model:any){
         showModal(model);
-        idtag.value=0;
+        idtypeOrganisation.value=0;
       }
   
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
   
-      const checkTag = (name:string) => {
+      const checkTypeOrganisation = (name:string) => {
         return privileges.value.includes(name);
       }
   
       return {suppression,
-        checkTag,
-       tags,
+        checkTypeOrganisation,
+       typeOrganisations,
         format_date,
-        getAllTags,
-        idtag,
+        getAllTypeOrganisations,
+        idtypeOrganisation,
         moddifier,
         showModalEdite,
         page, 
@@ -226,7 +226,7 @@
         searchTerm,
         rechercher,
         recharger,
-        refreshTags,
+        refreshTypeOrganisations,
        };
     },
   
