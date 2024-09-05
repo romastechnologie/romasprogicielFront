@@ -96,6 +96,132 @@
               <ErrorMessage name="modeDeTarification" class="text-danger" />
             </div>
           </div>
+          <div class="col-md-12 mb-md-25">
+              <div class="accordion" id="basicAccordion">
+                <div class="accordion-item mb-0 bord1">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#basicCollapseOne" aria-expanded="false" aria-controls="basicCollapseOne">
+                      Choisir des fonctions
+                    </button>
+                  </h2>
+                  <div id="basicCollapseOne" class="accordion-collapse collapse" data-bs-parent="#basicAccordion">
+                    <div class="accordion-body">
+
+                      <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+                          <div class="row">
+                            <div class="border border-primary mb-10">
+                              <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                                style="background-color: #0a59a4">
+                                <div class="col-md-7">
+                                  <h3 class="fs-4 text-white">
+                                    Fonctions
+                                  </h3>
+                                </div>
+                                <div class="col-md-5">
+                                  <div class="d-flex float-end">
+                                    <button
+                                      class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                                      type="button" :class="{ 'cursor-not-allowed': isDisableee }" :disabled="isDisableee"
+                                      @click="addRowFonction()">
+                                      <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
+                                      Ajouter une fonction
+                                    </button>
+                                    <router-link to="/liste-mouvements"></router-link>
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="row d-flex align-items-center justify-content-between mt-10">
+                                  <div class="col-md-2">
+                                    <label class="d-block text-black fw-semibold">
+                                      Etat
+                                      <span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <label class="d-block text-black fw-semibold">
+                                      Fonction
+                                      <span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label class="d-block text-black fw-semibold mb-10">
+                                      Date de début <span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label class="d-block text-black fw-semibold mb-10">
+                                      Date de fin <span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <label class="d-block text-black fw-semibold mb-10">
+                                      Action
+                                    </label>
+                                  </div>
+                                </div>
+                                <hr class="mt-0" />
+                                <div class="row" v-for="(fonction, index) in fonctions" :key="index">
+                                  <div class="col-md-2 mb-2">
+                                    <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
+                                      <label for="estActif" class="form-check-label fw-medium position-relative top-1">
+                                        Est Actif ?
+                                      </label>
+                                      <input name="estActif" v-model="fonction.estActif" type="checkbox"
+                                        class="form-check-input shadow-none" />
+                                      <ErrorMessage name="estActif" class="text-danger" />
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3 mb-2">
+                                    <div class="">
+                                      <Multiselect :options="fonctionOptions" :searchable="true" track-by="label"
+                                        label="label" v-model="fonction.fonction"
+                                        placeholder="Sélectionner la Fonction" />
+                                      <div class="invalid-feedback" v-if="valideteRowFonction(fonction.fonction)">
+                                        La fonction est obligatoire.
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-2 mb-2">
+                                    <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                      <input v-model="fonction.dateDebut" type="date"
+                                        class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                      <div class="invalid-feedback" v-if="valideteRowFonction(fonction.dateDebut)">
+                                        La date de début est obligatoire.
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <div class="col-md-2 mb-2">
+                                    <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                      <input v-model="fonction.dateFin" type="date"
+                                        class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                    </div>
+                                    <div class="invalid-feedback" v-if="valideteRowFonction(fonction.dateFin)">
+                                      La date de fin est obligatoire.
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3 mb-2">
+                                    <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                                      @click="removeRowFonction(index)">
+                                      <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+
 
           <div class="tab-content" id="myTabContent">
                     <div
@@ -361,7 +487,7 @@
   <script lang="ts">
   
   import { defineComponent, onMounted, ref, watch, reactive, computed} from 'vue';
-  import { Form, Field, ErrorMessage } from 'vee-validate';
+  import { Form, Field, ErrorMessage,useFieldArray } from 'vee-validate';
   import * as Yup from 'yup';
   import axios from 'axios';
   import ApiService from '@/services/ApiService';
@@ -511,8 +637,10 @@
       }
 
     // formulaire dynamique
-    const isDisable = ref(true);
+  const isDisable = ref(true);
   const isDisablee = ref(true);
+
+  const isDisableee = ref(true);
 
   const primes = reactive([
     {
@@ -665,6 +793,70 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
   retenue.montant = calculerMontant(retenue);
   updateAllMontants();
 };
+//const isDisable = ref(true);
+    const fonctions = reactive([
+      {
+        estActif: "",
+        fonction: "",
+        dateDebut: "",
+        dateFin: ""
+      },
+    ]);
+
+    const addRowFonction = () => {
+      fonctions.push({
+        estActif: "",
+        fonction: "",
+        dateDebut: "",
+        dateFin: ""
+      });
+    };
+
+    const removeRowFonction = (index) => {
+      if (fonctions.length > 1) fonctions.splice(index, 1);
+      //totals();
+    };
+
+    const valideteRowFonction = (e) => {
+      if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
+        console.log('erg')
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+
+    watch(fonctions, (newValue, oldValue) => {
+      Object.keys(newValue).forEach(function (key) {
+        if (
+          newValue[key].estActif == "" ||
+          newValue[key].fonction == "" ||
+          newValue[key].dateDebut == "" ||
+          newValue[key].dateFin == ""
+        ) {
+          isDisableee.value = true;
+        } else {
+          isDisableee.value = false;
+        }
+      });
+    });
+
+    const { remove, push, fields, update } = useFieldArray("fonctions");
+
+    const fonctionOptions = ref([]);
+    const fetchFonction = async () => {
+      try {
+        const response = await ApiService.get("/fonctions");
+        const fonctionData = response.data;
+        fonctionOptions.value = fonctionData.map((fonction) => ({
+          value: fonction.id,
+          label: `${fonction.libelle}`,
+        }));
+      } catch (error) {
+        //
+      }
+    };
 
   const addContrat = async (values, { resetForm }) => {
     values['typeContrat'] = types.value;
@@ -682,12 +874,18 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
       montant: retenue.montant,
       quantite: retenue.quantite,
     }));
+    values.fonctions = fonctions.map(fonction => ({
+        estActif: fonction.estActif,
+        fonction: fonction.fonction,
+        dateDebut: fonction.dateDebut,
+        dateFin: fonction.dateFin,
+      }));
     console.log('Values', values);
     try {
       const { data } = await ApiService.post("/gescom/contrats", values);
       if (data.code == 201) {
         success(data.message);
-        router.push({ name: "ListeContrat" });
+        //router.push({ name: "ListeContrat" });
       }
     } catch ({ response }) {
       error(response.data.message);
@@ -723,14 +921,23 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
   );
 
   
-      return { contratSchema, addContrat, contratForm,
-        typeOptions,showMErr,types,typePrimeOptions,
+      return { contratSchema, 
+        addContrat, 
+        contratForm,
+        typeOptions,
+        showMErr,
+        types,
+        typePrimeOptions,
         typePrimes,
         selectTypePrime,
         removeRowPrime,
         addRowPrime,
         validateRowPrime,
         isDisable,primes,
+        isDisableee,fonctionOptions,
+        removeRowFonction,
+      addRowFonction,
+      valideteRowFonction,fonctions,
         salaireDeBase,
         typeRetenueOptions,
         typeRetenues,

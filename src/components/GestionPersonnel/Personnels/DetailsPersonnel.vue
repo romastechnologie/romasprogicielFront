@@ -291,19 +291,19 @@ function sortServiceFonctionWithService(choseed: any) {
 
 function schemaContrat() {
   return yup.object().shape({
-    datePriseFonction: yup.string().required("La date de prise de fonction est requise."),
-    salaire: yup.string().required("Le salaire est requis."),
-    duration: yup.string().required("La duration du contrat est requise."),
+    datePriseFonction: yup.string().required("La date de prise de fonction est obligatoire."),
+    salaire: yup.string().required("Le salaire est obligatoire."),
+    duration: yup.string().required("La duration du contrat est obligatoire."),
     conditionLicenciement: yup.string().required("Les conditions de licenciement sont requise."),
-    nbJourConge: yup.string().required("Le nombre de jour de congé est requis."),
+    nbJourConge: yup.string().required("Le nombre de jour de congé est obligatoire."),
   })
 }
 
 function schemaFonctionPerso() {
   return yup.object().shape({
-    service: yup.string().required("Le service est requis."),
-    serviceFonction: yup.string().required("La fonction est requise."),
-    dateDebut: yup.string().required("La date de début est requise."),
+    service: yup.string().required("Le service est obligatoire."),
+    serviceFonction: yup.string().required("La fonction est obligatoire."),
+    dateDebut: yup.string().required("La date de début est obligatoire."),
   })
 }
 

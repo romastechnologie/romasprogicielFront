@@ -7,25 +7,39 @@
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-15 p-md-40">
-        <div class="modal-header d-block ps-0 pe-0 pt-0 pb-15 pb-md-25">
-          <h5 class="modal-title fw-bold text-black">{{ title }}</h5>
-        </div>
-        <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
+      <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ title }}</h4>
+                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
           <Form ref="heureSuppForm" @submit="addHeureSupp" :validation-schema="heureSuppSchema">
             <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Date <span class="text-danger">*</span>
                 </label>
-                <Field name="date" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
+                <Field name="date" type="date" 
+                class="form-control shadow-none fs-md-15 text-black"/>
                 <ErrorMessage name="date" class="text-danger"/>
               </div>
             </div>
+            <div class="col-md-12 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Personnel <span class="text-danger">*</span>
+              </label>
+              <Field name="personnel" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
+                label="label" track-by="label" />
+              </Field>
+              <ErrorMessage name="personnel" class="text-danger" />
+            </div>
+          </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                  Duree<span class="text-danger">*</span>
@@ -44,13 +58,6 @@
       </div>
         </Form>
         </div>
-        <button
-          type="button"
-          class="btn-close shadow-none"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          @click="resetValue()"
-        ></button>
       </div>
     </div>
   </div>
@@ -63,10 +70,11 @@ import { defineComponent, ref, watch, onMounted } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import ApiService from '@/services/ApiService';
 import * as Yup from 'yup';
-import { hideModal } from '@/utils/utils';
 import { HeureSupp } from '@/models/HeureSupp';
-import { error , success } from '@/utils/utils';
+import { error , success,hideModal } from '@/utils/utils';
 import { useRouter } from 'vue-router';
+import Multiselect from '@vueform/multiselect/src/Multiselect';
+  
 
 export default defineComponent({
     name: "AddHeureSuppModal",
@@ -74,6 +82,7 @@ export default defineComponent({
     Form,
     Field,
     ErrorMessage,
+    Multiselect,
   },
   props: {
     item: {
@@ -83,7 +92,11 @@ export default defineComponent({
   },
   setup(props, { emit }){
     const heureSuppSchema = Yup.object().shape({
-      date: Yup.string().required('Le libelle est obligatoire'),
+      date: Yup.string().required('La date est obligatoire'),
+      personnel: Yup.string().required("Le personnel est obligatoire."),
+      duree: Yup.number().required("La duree est obligatoire."),
+
+
     });
 
     const heureSuppForm = ref<HeureSupp | null>(null);
@@ -95,6 +108,7 @@ export default defineComponent({
     const isUPDATE = ref(false);
     const title = ref("Ajouter un heureSupp");
     const btntext = ref('Ajouter');
+    const personnelOptions = ref();
 
     watch(() => props.item, (newValue) => {
       getHeureSupp(newValue);
@@ -145,7 +159,24 @@ export default defineComponent({
 
     onMounted(() => {
       fetchHeureSupp();
+      getAllPersonnels();
     });
+
+    const getAllPersonnels = async () => {
+        try{
+        const response = await ApiService.get('/personnels');
+        const personnelsData = response.data;
+        console.log('Data', personnelsData)
+        personnelOptions.value = personnelsData.map((personnel) => ({
+          value: personnel.id,
+          label: personnel.nom + " " + personnel.prenom,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      }
+
 
     const addHeureSupp = async (values: any, heureSuppForm) => {
       values = values as HeureSupp;
@@ -195,7 +226,7 @@ export default defineComponent({
       addHeureSupp,
       heureSuppForm,
       title,btntext,resetValue,
-      heureSuppOptions,
+      heureSuppOptions,personnelOptions
     };
   },
 });

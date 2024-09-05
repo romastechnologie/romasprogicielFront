@@ -48,9 +48,9 @@ import ApiService from '@/services/ApiService';
   
   function schemaConge() {
     return yup.object().shape({
-      dateDebut: yup.date().required("La date de début est requise."),
-      dateFinPrevu: yup.date().required("La date de fin est requise."),
-      dateReprise: yup.date().required("La date de reprise est requise."),
+      dateDebut: yup.date().required("La date de début est obligatoire."),
+      dateFinPrevu: yup.date().required("La date de fin est obligatoire."),
+      dateReprise: yup.date().required("La date de reprise est obligatoire."),
     })
   }
   

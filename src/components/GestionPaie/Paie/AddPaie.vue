@@ -4,7 +4,7 @@
             <Form ref="paieForm" @submit="addPaie" :validation-schema="paieSchema">
               <div class="row">
 
-                <div class="col-md-12 mb-3">
+                <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Contrat <span class="text-danger">*</span>
@@ -25,25 +25,25 @@
             </div>
           </div>
 
-              <div class="col-md-3 mb-3">
+              <div class="col-md-4 mb-3">
                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
                     <Field name="refPaie" class="form-control" type="text"/>
                     <ErrorMessage name="refPaie" class="text-danger" />
             </div>
            
-            <div class="col-md-3 mb-3">
+            <div class="col-md-4 mb-3">
                     <label for="datePaie" class="form-label"> Date de Paie<span class="text-danger">*</span></label>
                     <Field name="datePaie"  class="form-control" type="Date"/>
                     <ErrorMessage name="datePaie" class="text-danger" />
             </div>
             
-         <div class="col-md-3 mb-3">
+         <div class="col-md-4 mb-3">
                     <label for="periode" class="form-label"> Période<span class="text-danger">*</span></label>
                     <Field name="periode"  class="form-control" type="Date"/>
                     <ErrorMessage name="periode" class="text-danger" />
          </div>
          
-          <div class="col-md-3 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Mode de Paiement <span class="text-danger">*</span>
@@ -57,22 +57,22 @@
             </div>
           </div>
 
-          <div class="col-md-6 mb-3">
+          <div class="col-md-4 mb-3">
                     <label for="salaireBrut" class="form-label">Salaire Brut<span class="text-danger">*</span></label>
                     <Field name="salaireBrut" class="form-control" type="text" v-model="salaireDeBase" :readonly="true"/>
                     <ErrorMessage name="salaireBrut" class="text-danger" />
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
                     <label for="totalRetenues" class="form-label">Total des retenues<span class="text-danger">*</span></label>
                     <Field name="totalRetenues" class="form-control" type="number" :readonly="true" v-model="totalRetenue"/>
                     <ErrorMessage name="totalRetenues" class="text-danger" />
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
                     <label for="totalPrimes" class="form-label">Total des primes<span class="text-danger">*</span></label>
                     <Field name="totalPrimes" class="form-control" type="number" :readonly="true" v-model="totalPrime"/>
                     <ErrorMessage name="totalPrimes" class="text-danger" />
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
                     <label for="salaireNet" class="form-label">Salaire Net<span class="text-danger">*</span></label>
                     <Field name="salaireNet" class="form-control" type="text" :readonly="true" v-model="salaireNet"/>
                     <ErrorMessage name="salaireNet" class="text-danger" />
@@ -453,6 +453,7 @@
         const response = await ApiService.get(`/contrat/${id}`);
         const contratData = response.data.data;
         console.log('Type prime', contratData)
+        console.log("Salaire de base === > ", contratData.salaireBase);
         salaireDeBase.value = contratData.salaireBase
       } catch (error) {
         // H

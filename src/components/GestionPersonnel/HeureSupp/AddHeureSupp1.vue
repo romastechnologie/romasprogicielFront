@@ -88,9 +88,9 @@ const formatDate = (date: Date): string => {
 
 function schemaHeureSup() {
   return yup.object().shape({
-    date: yup.string().required("La date est requise."),
-    // personnel: yup.string().required("Le personnel est requis."),
-    duree: yup.string().required("La durrée est requise."),
+    date: yup.string().required("La date est obligatoire."),
+    // personnel: yup.string().required("Le personnel est obligatoire."),
+    duree: yup.string().required("La durrée est obligatoire."),
   })
 }
 

@@ -72,7 +72,7 @@ const category = ref(null as any);
 
 function schemaDemande() {
     return yup.object().shape({
-        demandeFileName: yup.string().required("Le fichier de la demande est requis."),
+        demandeFileName: yup.string().required("Le fichier de la demande est obligatoire."),
     })
 }
 

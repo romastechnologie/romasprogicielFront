@@ -2,7 +2,6 @@
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
         <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing ">
             <Form class="row g-3" :validation-schema="schema" @submit="sendFinance">
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="my-3">
@@ -121,8 +120,6 @@
                     <router-link to="/finances/liste-finance/" type="button"
                         class="btn btn-danger mx-1">Annuler</router-link>
                 </div>
-
-
             </Form>
 
         </div>
@@ -213,8 +210,6 @@ async function sendFinance(value: Object) {
             formData.append('utilisateurName', utilisateurName)
             formData.append('tresorerieName', tresorerieName)
         }
-
-
         const res = await ApiService.post('/finances/', formData)
         const financeId = res.data.id
         console.log(res)
@@ -225,9 +220,7 @@ async function sendFinance(value: Object) {
                     ...billetage,
                     finance: financeId
                 }));
-
                 await ApiService.post(`/billetages/`, billetageData)
-
                 router.push('/finances/liste-finance')
                 Swal.fire({
                     timer: 2000,
@@ -248,7 +241,6 @@ async function sendFinance(value: Object) {
                 console.error('Erreur lors du billetage:', error)
                 throw error;
             }
-
         }
 
     } catch (error) {
@@ -301,10 +293,10 @@ const getAllTresoreries = async () => {
 
 const getTresorerie = () => {
     ApiService.get('/tresoreries')
-        .then(res => {
-            tresorerieList.value = res.data
-            console.log(tresorerieList.value)
-        })
+    .then(res => {
+        tresorerieList.value = res.data
+        console.log(tresorerieList.value)
+    })
 }
 
 const getMonnaie = async () => {

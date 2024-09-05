@@ -103,7 +103,17 @@
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-4 mt-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                Bénéficiaire<span class="text-danger">*</span>
+                </label>
+                <Field name="beneficiaire" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
+                <ErrorMessage name="beneficiaire" class="text-danger"/>
+              </div>
+            </div>
+          <div class="col-md-4-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Motif<span class="text-danger">*</span>
@@ -183,6 +193,7 @@ export default defineComponent({
           motif:Yup.string().required("Le motif est obligatoire."),
           montant:Yup.number().required("Le montant est obligatoire."),
           date: Yup.date().required('La date est obligatoire'),
+          beneficiaire:Yup.string().required ("Le bénéficiaire est obligatoire"),
     });
 
     onMounted(() => {

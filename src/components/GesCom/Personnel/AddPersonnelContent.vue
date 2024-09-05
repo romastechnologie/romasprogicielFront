@@ -145,131 +145,7 @@
                 <span class="text-danger" v-if="showMErr">Le service est obligatoire</span>
               </div>
             </div>
-            <div class="col-md-12 mb-md-25">
-              <div class="accordion" id="basicAccordion">
-                <div class="accordion-item mb-0 bord1">
-                  <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                      data-bs-target="#basicCollapseOne" aria-expanded="false" aria-controls="basicCollapseOne">
-                      Choisir des fonctions
-                    </button>
-                  </h2>
-                  <div id="basicCollapseOne" class="accordion-collapse collapse" data-bs-parent="#basicAccordion">
-                    <div class="accordion-body">
-
-                      <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
-                          <div class="row">
-                            <div class="border border-primary mb-10">
-                              <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                                style="background-color: #0a59a4">
-                                <div class="col-md-7">
-                                  <h3 class="fs-4 text-white">
-                                    Fonctions
-                                  </h3>
-                                </div>
-                                <div class="col-md-5">
-                                  <div class="d-flex float-end">
-                                    <button
-                                      class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                      type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
-                                      @click="addRowFonction()">
-                                      <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
-                                      Ajouter une fonction
-                                    </button>
-                                    <router-link to="/liste-mouvements"></router-link>
-                                  </div>
-                                </div>
-                              </div>
-                              <div>
-                                <div class="row d-flex align-items-center justify-content-between mt-10">
-                                  <div class="col-md-2">
-                                    <label class="d-block text-black fw-semibold">
-                                      Etat
-                                      <span class="text-danger">*</span>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-3">
-                                    <label class="d-block text-black fw-semibold">
-                                      Fonction
-                                      <span class="text-danger">*</span>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <label class="d-block text-black fw-semibold mb-10">
-                                      Date de début <span class="text-danger">*</span>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <label class="d-block text-black fw-semibold mb-10">
-                                      Date de fin <span class="text-danger">*</span>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-3">
-                                    <label class="d-block text-black fw-semibold mb-10">
-                                      Action
-                                    </label>
-                                  </div>
-                                </div>
-                                <hr class="mt-0" />
-                                <div class="row" v-for="(fonction, index) in fonctions" :key="index">
-                                  <div class="col-md-2 mb-2">
-                                    <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
-                                      <label for="estActif" class="form-check-label fw-medium position-relative top-1">
-                                        Est Actif ?
-                                      </label>
-                                      <input name="estActif" v-model="fonction.estActif" type="checkbox"
-                                        class="form-check-input shadow-none" />
-                                      <ErrorMessage name="estActif" class="text-danger" />
-                                    </div>
-                                  </div>
-                                  <div class="col-md-3 mb-2">
-                                    <div class="">
-                                      <Multiselect :options="fonctionOptions" :searchable="true" track-by="label"
-                                        label="label" v-model="fonction.fonction"
-                                        placeholder="Sélectionner la Fonction" />
-                                      <div class="invalid-feedback" v-if="valideteRowFonction(fonction.fonction)">
-                                        La fonction est obligatoire.
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-2 mb-2">
-                                    <div class="form-group mb-5 mb-sm-5 mb-md-5">
-                                      <input v-model="fonction.dateDebut" type="date"
-                                        class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                                      <div class="invalid-feedback" v-if="valideteRowFonction(fonction.dateDebut)">
-                                        La date de début est obligatoire.
-                                      </div>
-                                    </div>
-
-                                  </div>
-                                  <div class="col-md-2 mb-2">
-                                    <div class="form-group mb-5 mb-sm-5 mb-md-5">
-                                      <input v-model="fonction.dateFin" type="date"
-                                        class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                                    </div>
-                                    <div class="invalid-feedback" v-if="valideteRowFonction(fonction.dateFin)">
-                                      La date de fin est obligatoire.
-                                    </div>
-                                  </div>
-                                  <div class="col-md-3 mb-2">
-                                    <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
-                                      @click="removeRowFonction(index)">
-                                      <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
+           
             <div class="product-buttons">
                     <button class="btn">
                         <div class="d-flex align-items-center gap-sm-2 gap-1">Next
@@ -305,7 +181,7 @@
                 </label>
                 <Field name="boitePostale" type="text" class="form-control shadow-none fs-md-15 text-black"
                   placeholder="Entrer votre adresse postale" />
-                <ErrorMessage name="codeIban" class="text-danger" />
+                <ErrorMessage name="boitePostale" class="text-danger" />
               </div>
             </div>
   
@@ -314,9 +190,9 @@
                 <label class="d-block text-black mb-10">
                   Téléphone 1<span class="text-danger">*</span>
                 </label>
-                <Field name="tel" type="text" class="form-control shadow-none fs-md-15 text-black"
+                <Field name="telephone1" type="text" class="form-control shadow-none fs-md-15 text-black"
                   placeholder="Entrer le téléphone" />
-                <ErrorMessage name="tel" class="text-danger" />
+                <ErrorMessage name="telephone1" class="text-danger" />
               </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -324,9 +200,9 @@
                 <label class="d-block text-black mb-10">
                   Téléphone 2
                 </label>
-                <Field name="tel2" type="text" class="form-control shadow-none fs-md-15 text-black"
+                <Field name="telephone2" type="text" class="form-control shadow-none fs-md-15 text-black"
                   placeholder="Entrer le téléphone" />
-                <ErrorMessage name="tel2" class="text-danger" />
+                <ErrorMessage name="telephone2" class="text-danger" />
               </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -429,7 +305,7 @@
                 <label class="d-block text-black mb-10">
                   Religion Du Conjoint<span class="text-danger">*</span>
                 </label>
-                <Field name="religions" v-model="religions" type="text" v-slot="{ field }">
+                <Field name="religionCon" v-model="religions" type="text" v-slot="{ field }">
                   <Multiselect v-model="field.value" v-bind="field" :options="religionOptions" :preserve-search="true"
                     :multiple="false" :searchable="true" placeholder="Sélectionner la religion du conjoint" label="label"
                     track-by="label" />
@@ -442,7 +318,7 @@
                 <label class="d-block text-black mb-10">
                   Ethnie Du Conjoint<span class="text-danger">*</span>
                 </label>
-                <Field name="ethnies" v-model="ethnies" type="text" v-slot="{ field }">
+                <Field name="ethnieCon" v-model="ethnies" type="text" v-slot="{ field }">
                   <Multiselect v-model="field.value" v-bind="field" :options="ethnieOptions" :preserve-search="true"
                     :multiple="false" :searchable="true" placeholder="Sélectionner l'ethnie du conjoint" label="label"
                     track-by="label" />
@@ -461,6 +337,112 @@
               </div>
             </div>
           </div>
+
+          <div class="col-md-12 mb-md-25">
+            <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+                          <div class="row">
+                            <div class="border border-primary mb-10">
+                              <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                                style="background-color: #0a59a4">
+                                <div class="col-md-7">
+                                  <h3 class="fs-4 text-white">
+                                    Enfants
+                                  </h3>
+                                </div>
+                                <div class="col-md-5">
+                                  <div class="d-flex float-end">
+                                    <button
+                                      class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                                      type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
+                                      @click="addRowEnfant()">
+                                      <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
+                                      Ajouter un enfant
+                                    </button>
+                                    <router-link to="/liste-mouvements"></router-link>
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="row d-flex align-items-center justify-content-between mt-10">
+                                  <div class="col-md-2">
+                                    <label class="d-block text-black fw-semibold">
+                                      Nom
+                                      <span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <label class="d-block text-black fw-semibold">
+                                      Prénom
+                                      <span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label class="d-block text-black fw-semibold mb-10">
+                                     Date Naissance<span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label class="d-block text-black fw-semibold mb-10">
+                                      Sexe <span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  
+                                </div>
+                                <hr class="mt-0" />
+                                <div class="row" v-for="(enfant, index) in enfants" :key="index">
+                                  <div class="col-md-3 mb-3">
+                                    <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                      <input v-model="enfant.nom" type="text"
+                                        class="form-control shadow-none fs-md-15 text-black" placeholder="Saisir le nom" />
+                                      <div class="invalid-feedback" v-if="valideteRowEnfant(enfant.nom)">
+                                        Le nom est obligatoire.
+                                      </div>
+                                      </div>
+                                  </div>
+                               
+                                  <div class="col-md-3 mb-3">
+                                    <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                      <input v-model="enfant.prenom" type="text"
+                                        class="form-control shadow-none fs-md-15 text-black" placeholder="saisir le prénom" />
+                                      <div class="invalid-feedback" v-if="valideteRowEnfant(enfant.prenom)">
+                                        Le prénom est obligatoire.
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <div class="col-md-3 mb-3">
+                                    <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                      <input v-model="enfant.dateNaissance" type="date"
+                                        class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                    </div>
+                                    <div class="invalid-feedback" v-if="valideteRowEnfant(enfant.dateNaissance)">
+                                      La date est obligatoire.
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-3 mb-3">
+                                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  
+                                          <Multiselect
+                                          :searchable = "true"
+                                          :options = "['Masculin', 'Féminin']"
+                                          v-model = "enfant.sexe"
+                                          v-bind = "field"
+                                          placeholder="Sélectionner le sexe"
+                                          />
+                                      </div>
+                                    </div>
+                                  
+                                </div>
+                               
+            
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+              
+            </div>
+
           <div class="product-buttons">
                     <button class="btn me-1">
                         <div class="d-flex align-items-center gap-sm-2 gap-1">
@@ -671,7 +653,23 @@
                   <ErrorMessage name="codeSwift" class="text-danger" />
                 </div>
               </div>
-
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                  Banque
+                  </label>
+                                    <Multiselect
+                                      :options="banqueOptions"
+                                      :searchable="true"
+                                      track-by="label"
+                                      label="label"
+                                      
+                                      placeholder="Sélectionner la banque"
+                                    />
+                                  </div>
+                                  </div>
+                                
+                                
               <h1>Informations sur la personne à contacter</h1>
             <div class="row g-2">
               <div class="col-md-4 mb-3">
@@ -699,9 +697,9 @@
                   <label class="d-block text-black mb-10">
                     Téléphone personne à contacter
                   </label>
-                  <Field name="telPersonneAContacter" type="text" class="form-control shadow-none fs-md-15 text-black"
+                  <Field name="telephonePersonneAContacter" type="text" class="form-control shadow-none fs-md-15 text-black"
                     placeholder="Entrer le téléphone" />
-                  <ErrorMessage name="telPersonneAContacter" class="text-danger" />
+                  <ErrorMessage name="telephonePersonneAContacter" class="text-danger" />
                 </div>
               </div>
               <div class="col-md-4 mb-3">
@@ -777,8 +775,9 @@ export default defineComponent({
       prenom: Yup.string().required('Le prénom du personnel est obligatoire'),
       adresse: Yup.string().required('L\' adresse du personnel est obligatoire'),
       email: Yup.string().email('Le format de l\'email est invalide').required('L\'email est obligatoire'),
-      tel: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
-      tel2: Yup.number().notRequired(),
+      telephone1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
+      telephone2: Yup.number().notRequired(),
+      //telephonePersonneAContacter:Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
       dateNais: Yup.date().notRequired(),
       nomCon: Yup.string().required('Le nom du conjoint est obligatoire'),
       prenomCon: Yup.string().required('Le prenom du conjoint est obligatoire'),
@@ -800,10 +799,11 @@ export default defineComponent({
       mainDroite: Yup.string().required('La main Droite est obligatoire'),
       jambeGauche: Yup.string().required('La jambe gauche est obligatoire'),
       jambeDroite: Yup.string().required('La jambe droite est obligatoire'),
+      boitePostale: Yup.string().notRequired(),
 
       nomPersonneAContacter: Yup.string().notRequired(),
       prenomPersonneAContacter: Yup.string().notRequired(),
-      telPersonnelAContacter: Yup.number().notRequired(),
+      telephonePersonneAContacter: Yup.number().notRequired(),
       relation: Yup.string().notRequired(),
     });
 
@@ -813,39 +813,39 @@ export default defineComponent({
     const ethnies = ref();
     const services = ref();
 
-    // const estActif= ref(true)
+    // const nom= ref(true)
 
-    // watch(estActif, () => {
-    //   console.log('estservice', estActif.value)
+    // watch(nom, () => {
+    //   console.log('estservice', nom.value)
     // })
 
-    // formulaire dynamique start
+    // formulaire dynamique start enfant
 
     const isDisable = ref(true);
-    const fonctions = reactive([
+    const enfants = reactive([
       {
-        estActif: "",
-        fonction: "",
-        dateDebut: "",
-        dateFin: ""
+        nom: "",
+        sexe: "",
+        prenom: "",
+        dateNaissance: ""
       },
     ]);
 
-    const addRowFonction = () => {
-      fonctions.push({
-        estActif: "",
-        fonction: "",
-        dateDebut: "",
-        dateFin: ""
+    const addRowEnfant = () => {
+      enfants.push({
+        nom: "",
+        sexe: "",
+        prenom: "",
+        dateNaissance: ""
       });
     };
 
-    const removeRowFonction = (index) => {
-      if (fonctions.length > 1) fonctions.splice(index, 1);
+    const removeRowEnfant = (index) => {
+      if (enfants.length > 1) enfants.splice(index, 1);
       //totals();
     };
 
-    const valideteRowFonction = (e) => {
+    const valideteRowEnfant = (e) => {
       if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
         console.log('erg')
         return true;
@@ -855,13 +855,13 @@ export default defineComponent({
     };
 
 
-    watch(fonctions, (newValue, oldValue) => {
+    watch(enfants, (newValue, oldValue) => {
       Object.keys(newValue).forEach(function (key) {
         if (
-          newValue[key].estActif == "" ||
-          newValue[key].fonction == "" ||
-          newValue[key].dateDebut == "" ||
-          newValue[key].dateFin == ""
+          newValue[key].nom == "" ||
+          newValue[key].sexe == "" ||
+          newValue[key].prenom == "" ||
+          newValue[key].dateNaissance == ""
         ) {
           isDisable.value = true;
         } else {
@@ -870,21 +870,24 @@ export default defineComponent({
       });
     });
 
-    const { remove, push, fields, update } = useFieldArray("fonctions");
+    const { remove, push, fields, update } = useFieldArray("enfants");
 
-    const fonctionOptions = ref([]);
+    const enfantOptions = ref([]);
     const produitsss: any = ref(null);
     const valuess = ref();
     const religionOptions = ref([]);
     const ethnieOptions = ref([]);
     const serviceOptions = ref([]);
 
+    
+    const banqueOptions = ref([]);
+
     const addPersonnel = async (values, { resetForm }) => {
-      values.fonctions = fonctions.map(fonction => ({
-        estActif: fonction.estActif,
-        fonction: fonction.fonction,
-        dateDebut: fonction.dateDebut,
-        dateFin: fonction.dateFin,
+      values.enfants = enfants.map(enfant => ({
+        nom: enfant.nom,
+        sexe: enfant.sexe,
+        prenom: enfant.prenom,
+        dateNaissance: enfant.dateNaissance,
       }));
       ApiService.post("/personnels", values)
         .then(({ data }) => {
@@ -898,13 +901,13 @@ export default defineComponent({
         });
     };
 
-    const fetchFonction = async () => {
+    const fetchEnfant = async () => {
       try {
-        const response = await ApiService.get("/fonctions");
-        const fonctionData = response.data.data.data;
-        fonctionOptions.value = fonctionData.map((fonction) => ({
-          value: fonction.id,
-          label: `${fonction.libelle}`,
+        const response = await ApiService.get("/enfants");
+        const enfantData = response.data.data.data;
+        enfantOptions.value = enfantData.map((enfant) => ({
+          value: enfant.id,
+          label: `${enfant.nom + " " + enfant.prenom}`,
         }));
       } catch (error) {
         //
@@ -957,28 +960,44 @@ export default defineComponent({
       }
     }
 
+    const fetchBanque = async () => {
+      try {
+        const response = await ApiService.get("/banques");
+        const banqueData = response.data.data.data;
+        banqueOptions.value = banqueData.map((banque) => ({
+          value: banque.id,
+          label: `${banque.denomination}`,
+        }));
+      } catch (error) {
+        //
+      }
+    };
+
+
 
     onMounted(async () => {
-      await fetchFonction();
+      await fetchEnfant();
       await getAllReligions();
       await getAllEthnies();
       await getAllServices();
+      await fetchBanque();
     })
 
     return {
       personnelSchema,
       addPersonnel,
       personnelForm,
-      removeRowFonction,
-      addRowFonction,
-      valideteRowFonction,
+      removeRowEnfant,
+      addRowEnfant,
+      valideteRowEnfant,
       valuess,
-      fonctionOptions,
+      enfantOptions,
       isDisable,
-      fonctions,
+      enfants,
       religionOptions,
       ethnieOptions,
       serviceOptions,
+      banqueOptions,
     };
   },
 });
