@@ -170,7 +170,7 @@
     };
     const getAllOrganisations= async () => {
         try{
-        const response = await ApiService.get('/all/organisations');
+        const response = await ApiService.get('/organisations');
         const organisationsData = response.data.data.data;
         organisationOptions.value = organisationsData.map((organisations) => ({
           value: organisations.id,
@@ -184,7 +184,7 @@
 
       const getAllFormats= async () => {
         try{
-        const response = await ApiService.get('/all/formats');
+        const response = await ApiService.get('/formats');
         const formatsData = response.data.data.data;
         formatOptions.value = formatsData.map((formats) => ({
           value: formats.id,
@@ -198,11 +198,11 @@
       const getAllTags = async () => {
         try{
         const response = await ApiService.get('/tags');
-        const tagsData = response.data;
+        const tagsData = response.data.data.data;
         console.log('Data', tagsData)
         tagOptions.value = tagsData.map((tag) => ({
           value: tag.id,
-          label: tag.nom + " " + tag.prenom,
+          label: tag.libelle,
         }));
         }
         catch(error){
