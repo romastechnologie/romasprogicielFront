@@ -242,6 +242,18 @@ import EditDepensesPage from '@/components/GestionDepenses/Depenses/EditDepenses
 import ListeDepensesPage from '@/components/GestionDepenses/Depenses/ListeDepenses.vue';
 import ListeTypesDepensesPage from '@/components/GestionDepenses/TypesDepenses/ListeTypesDepenses.vue'
 import ListeCategoriesDepensesPage from '@/components/GestionDepenses/CategoriesDepenses/ListeCategoriesDepenses.vue'
+
+// Gestion Archivages
+
+import ListeCategorieDocumentPage from '@/components/GestionArchivages/CategorieDocument/ListeCategorieDocument.vue'
+import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/ListeTypeDocument.vue'
+import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue'
+import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue'
+
+
+
+
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -2056,6 +2068,63 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeTypeDepensePage,
         meta: {
           title: 'Liste des types de dépenses',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/categoriedocument",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-categoriedocument",
+        name: "ListeCategorieDocument",
+        component: ListeCategorieDocumentPage,
+        meta: {
+          title: 'Liste des categories documents',
+        }
+      },
+    ]
+  },
+  {
+    path: "/typedocument",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-typedocument",
+        name: "ListeTypeDocument",
+        component: ListeTypeDocumentPage,
+        meta: {
+          title: 'Liste des types documents',
+        }
+      },
+    ]
+  },
+  {
+    path: "/typeemplacement",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-typeemplacement",
+        name: "ListeTypeEmplacement",
+        component: ListeTypeEmplacementPage,
+        meta: {
+          title: 'Liste des types emplacements',
+        }
+      },
+    ]
+  },
+  {
+    path: "/regleconservation",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-regleconservation",
+        name: "ListeRegleConservation",
+        component: ListeRegleConservationPage,
+        meta: {
+          title: 'Liste des regles conservations',
         }
       },
     ]

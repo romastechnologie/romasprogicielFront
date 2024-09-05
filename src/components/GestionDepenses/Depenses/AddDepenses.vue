@@ -131,7 +131,7 @@
             <button class="btn btn-success me-3" type="submit">
                 Ajouter une dépense
             </button>
-            <router-link to="/courses/liste-courses" 
+            <router-link to="/Depenses/liste-depenses" 
             class=" btn btn-danger"><i
                 class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>

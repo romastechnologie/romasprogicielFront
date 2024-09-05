@@ -8,10 +8,10 @@
           class="btn btn-primary"
           href="#"
           data-bs-toggle="modal"
-          data-bs-target="#AddTypesDepensesModal"
+          data-bs-target="#AddTypeEmplacementModal"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un Type de Depense
+          Ajouter un Type d'Emplacement
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -28,7 +28,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un Type de Depense"
+            placeholder="Rechercher un Type d'Emplacement "
           />
           <button
             type="submit"
@@ -56,12 +56,24 @@
               >
                 Libelle 
               </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Code
+              </th>
               
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Description
+                Prefixe
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Ordre
               </th>
               <th
                 scope="col"
@@ -70,13 +82,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(typesDepenses, index) in typesDepenses" :key="index">
+            <tr v-for="(typeEmplacement, index) in  TypesEmplacements" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ typesDepenses.libelle }}
+                {{typeEmplacement.libelle }}
               </td>
               
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ typesDepenses.description }}
+                {{typeEmplacement.code }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{typeEmplacement.prefixe }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{typeEmplacement.ordre }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -89,9 +107,9 @@
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
-                        data-bs-target="#AddTypesDepensesModal"
-                        @click="moddifier(typesDepenses)"
-                      >
+                        data-bs-target="#    AddTypeEmplacementModal
+"
+                        @click="moddifier(typeEmplacement)">
                         <i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>
@@ -101,7 +119,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(typesDepenses.id,typesDepenses,'typesDepenses','le Type de Depense')"
+                        href="javascript:void(0);" @click="suppression(typeEmplacement.id,typeEmplacement,'typeEmplacements','le Type Emplacement')"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
@@ -122,44 +140,44 @@
       </div>
     </div>
   </div>
-  <AddTypesDepensesModal
-  @get-all-typesDepensess="getAllTypesDepenses"
+  <AddTypeEmplacementModal
+
+  @get-all-typeEmplacements="getAllTypeEmplacement"
   :item="selectedItem" 
   @close="recharger"
-  @refreshTypesDepenses="refreshTypesDepenses"
-
-  
-  />
+  @refreshtypeEmplacement ="refreshtypeEmplacement"
+/>
 
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { TypesDepenses } from "@/models/TypesDepenses";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import AddTypesDepensesModal from "./AddTypesDepensesModal.vue";
+import AddTypeEmplacementModal from "./AddTypeEmplacementModal.vue";
 import { useRouter } from "vue-router";
+import { TypeEmplacement } from "@/models/TypeEmplacement";
 
 export default defineComponent({
-  name: "ListeTypesDepenses",
+  name: "ListeTypeEmplacement",
   components: {
     PaginationComponent,
-    AddTypesDepensesModal
+        AddTypeEmplacementModal
+
   },
   setup(){
     
     onMounted(() => {
-      getAllTypesDepenses();
+      getAllTypeEmplacement();
     });
-    const idtypesDepenses = ref(0);
+    const idtypeEmplacement = ref(0);
       const loading = ref<boolean>(false);
       const router = useRouter(); 
-    const typesDepenses = ref<Array<TypesDepenses>>([]);   
-    const typeDepenses = ref<TypesDepenses>();
+    const TypesEmplacements = ref<Array<TypeEmplacement>>([]);   
+    const typeEmplacement = ref<TypeEmplacement>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -172,18 +190,18 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllTypesDepenses(page_, limit_);
+        getAllTypeEmplacement(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllTypesDepenses(page.value, limit.value, searchTerm.value );
+      getAllTypeEmplacement(page.value, limit.value, searchTerm.value );
     }
 
     const recharger = () => {
-      getAllTypesDepenses();
+      getAllTypeEmplacement();
     };
 
 
@@ -191,17 +209,17 @@ export default defineComponent({
 
     onMounted(() => {
       loading.value=false;
-      getAllTypesDepenses();
+      getAllTypeEmplacement();
     });
 
-    const refreshTypesDepenses = () => {
-      getAllTypesDepenses();
+    const refreshtypeEmplacement = () => {
+      getAllTypeEmplacement();
     };
 
-    function getAllTypesDepenses(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/typesDepenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllTypeEmplacement(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/all/typeEmplacements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          typesDepenses.value = data.data.data;
+          typeEmplacement.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -213,9 +231,9 @@ export default defineComponent({
       
     }
     
-    function moddifier(EditTypesDepenses:TypesDepenses) {
-      typeDepenses.value = EditTypesDepenses;
-      selectedItem.value = EditTypesDepenses.id;  
+    function moddifier(EditTypeEmplacement:TypeEmplacement) {
+      typeEmplacement.value = EditTypeEmplacement;
+      selectedItem.value = EditTypeEmplacement.id;  
     }
 
     
@@ -226,10 +244,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { typesDepenses,
+    return {typeEmplacement,
       checkPermission,
-     getAllTypesDepenses,
-     moddifier ,
+     getAllTypeEmplacement,
+     moddifier,
      suppression,
      page, 
     totalPages,
@@ -240,7 +258,9 @@ export default defineComponent({
     searchTerm,
     selectedItem,
     recharger,
-    refreshTypesDepenses
+    refreshtypeEmplacement,
+    TypesEmplacements
+
   };
   },
 });

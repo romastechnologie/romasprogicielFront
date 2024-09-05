@@ -8,10 +8,10 @@
           class="btn btn-primary"
           href="#"
           data-bs-toggle="modal"
-          data-bs-target="#AddTypesDepensesModal"
+          data-bs-target="#AddCategorieDocumentModal"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un Type de Depense
+          Ajouter une Categorie Document
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -28,7 +28,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un Type de Depense"
+            placeholder="Rechercher une Categorie Document"
           />
           <button
             type="submit"
@@ -61,7 +61,7 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Description
+              Code
               </th>
               <th
                 scope="col"
@@ -70,13 +70,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(typesDepenses, index) in typesDepenses" :key="index">
+            <tr v-for="(categorieDocument, index) in CategoriesDocuments" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ typesDepenses.libelle }}
+                {{ categorieDocument.libelle }}
               </td>
               
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ typesDepenses.description }}
+                {{ categorieDocument.code }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -89,8 +89,8 @@
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
-                        data-bs-target="#AddTypesDepensesModal"
-                        @click="moddifier(typesDepenses)"
+                        data-bs-target="#AddCategorieDocumentModal"
+                        @click="moddifier(categorieDocument)"
                       >
                         <i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
@@ -101,7 +101,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(typesDepenses.id,typesDepenses,'typesDepenses','le Type de Depense')"
+                        href="javascript:void(0);" @click="suppression (categorieDocument.id,categorieDocument,'categorieDocuments','la categorie Document')"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
@@ -122,13 +122,11 @@
       </div>
     </div>
   </div>
-  <AddTypesDepensesModal
-  @get-all-typesDepensess="getAllTypesDepenses"
+  <AddCategorieDocumentModal
+  @get-all-categorieDocuments="getAllCategorieDocument"
   :item="selectedItem" 
   @close="recharger"
-  @refreshTypesDepenses="refreshTypesDepenses"
-
-  
+  @refreshcategorieDocument="refreshcategorieDocument"
   />
 
 </template>
@@ -136,30 +134,30 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { TypesDepenses } from "@/models/TypesDepenses";
+import { CategorieDocument} from "@/models/CategorieDocument";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import AddTypesDepensesModal from "./AddTypesDepensesModal.vue";
+import AddCategorieDocumentModal from "./AddCategorieDocumentModal.vue";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "ListeTypesDepenses",
+  name: "ListeCategorieDocument",
   components: {
     PaginationComponent,
-    AddTypesDepensesModal
+    AddCategorieDocumentModal
   },
   setup(){
     
     onMounted(() => {
-      getAllTypesDepenses();
+      getAllCategorieDocument();
     });
-    const idtypesDepenses = ref(0);
+    const idCategorieDocument = ref(0);
       const loading = ref<boolean>(false);
       const router = useRouter(); 
-    const typesDepenses = ref<Array<TypesDepenses>>([]);   
-    const typeDepenses = ref<TypesDepenses>();
+    const CategoriesDocuments = ref<Array<CategorieDocument>>([]);   
+    const categorieDocument = ref<CategorieDocument>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -172,18 +170,18 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllTypesDepenses(page_, limit_);
+        getAllCategorieDocument(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllTypesDepenses(page.value, limit.value, searchTerm.value );
+      getAllCategorieDocument(page.value, limit.value, searchTerm.value );
     }
 
     const recharger = () => {
-      getAllTypesDepenses();
+      getAllCategorieDocument();
     };
 
 
@@ -191,17 +189,17 @@ export default defineComponent({
 
     onMounted(() => {
       loading.value=false;
-      getAllTypesDepenses();
+      getAllCategorieDocument();
     });
 
-    const refreshTypesDepenses = () => {
-      getAllTypesDepenses();
+    const refreshcategorieDocument = () => {
+      getAllCategorieDocument();
     };
 
-    function getAllTypesDepenses(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/typesDepenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllCategorieDocument(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/all/categorieDocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          typesDepenses.value = data.data.data;
+          categorieDocument.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -213,9 +211,9 @@ export default defineComponent({
       
     }
     
-    function moddifier(EditTypesDepenses:TypesDepenses) {
-      typeDepenses.value = EditTypesDepenses;
-      selectedItem.value = EditTypesDepenses.id;  
+    function moddifier(EditcategorieDocument:CategorieDocument) {
+      categorieDocument.value = EditcategorieDocument;
+      selectedItem.value = EditcategorieDocument.id;  
     }
 
     
@@ -226,9 +224,9 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { typesDepenses,
+    return { categorieDocument,
       checkPermission,
-     getAllTypesDepenses,
+     getAllCategorieDocument,
      moddifier ,
      suppression,
      page, 
@@ -240,7 +238,8 @@ export default defineComponent({
     searchTerm,
     selectedItem,
     recharger,
-    refreshTypesDepenses
+    refreshcategorieDocument,
+    CategoriesDocuments
   };
   },
 });
