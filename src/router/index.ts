@@ -245,10 +245,17 @@ import ListeDepensesPage from '@/components/GestionDepenses/Depenses/ListeDepens
 import ListeTypesDepensesPage from '@/components/GestionDepenses/TypesDepenses/ListeTypesDepenses.vue'
 import ListeCategoriesDepensesPage from '@/components/GestionDepenses/CategoriesDepenses/ListeCategoriesDepenses.vue'
 
-//Gestion Archive
+// Gestion Archivages
+
+import ListeCategorieDocumentPage from '@/components/GestionArchivages/CategorieDocument/ListeCategorieDocument.vue'
+import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/ListeTypeDocument.vue'
+import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue'
+import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue'
 import ListeFormatPage from "@/pages/GestionArchive/Format/ListeFormatPage.vue";
 import ListeTagPage from "@/pages/GestionArchive/Tag/ListeTagPage.vue";
 import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplacementPage.vue";
+import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrganisationPage.vue";
+import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/ListeTypeOrganisationPage.vue";
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 
@@ -301,7 +308,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  
+
   {
     path: "/TypeMoyenRoulant",
     component: BodyView,
@@ -752,20 +759,43 @@ const routes: Array<RouteRecordRaw> = [
     path: "/tags",
     component: BodyView,
     children: [
-      // {
-      //   path: "ajouter-permission",
-      //   name: "AddPermissionPage",
-      //   component: AddPermissionPage,
-      //   meta: {
-      //     title: 'Ajouter une permission',
-      //   }
-      // },
+     
       {
         path: "liste-tag",
         name: "ListeTagPage",
         component: ListeTagPage,
         meta: {
           title: 'Liste des tags',
+        }
+      }
+    ]
+  },
+  {
+    path: "/typeOrganisations",
+    component: BodyView,
+    children: [
+     
+      {
+        path: "liste-typeOrganisation",
+        name: "ListeTypeOrganisationPage",
+        component: ListeTypeOrganisationPage,
+        meta: {
+          title: "Liste des types d'organisation",
+        }
+      }
+    ]
+  },
+  {
+    path: "/organisations",
+    component: BodyView,
+    children: [
+     
+      {
+        path: "liste-organisation",
+        name: "ListeOrganisationPage",
+        component: ListeOrganisationPage,
+        meta: {
+          title: 'Liste des organisations',
         }
       }
     ]
@@ -2175,6 +2205,63 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeTypeDepensePage,
         meta: {
           title: 'Liste des types de dépenses',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/categoriedocument",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-categoriedocument",
+        name: "ListeCategorieDocument",
+        component: ListeCategorieDocumentPage,
+        meta: {
+          title: 'Liste des categories documents',
+        }
+      },
+    ]
+  },
+  {
+    path: "/typedocument",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-typedocument",
+        name: "ListeTypeDocument",
+        component: ListeTypeDocumentPage,
+        meta: {
+          title: 'Liste des types documents',
+        }
+      },
+    ]
+  },
+  {
+    path: "/typeemplacement",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-typeemplacement",
+        name: "ListeTypeEmplacement",
+        component: ListeTypeEmplacementPage,
+        meta: {
+          title: 'Liste des types emplacements',
+        }
+      },
+    ]
+  },
+  {
+    path: "/regleconservation",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-regleconservation",
+        name: "ListeRegleConservation",
+        component: ListeRegleConservationPage,
+        meta: {
+          title: 'Liste des regles conservations',
         }
       },
     ]

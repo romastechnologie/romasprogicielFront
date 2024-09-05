@@ -117,7 +117,7 @@
             fichier: Yup.string().required("Le fichier est obligatoire."),
             organisation: Yup.string().required("L'organisation est obligatoire."),
             format:Yup.string().required("Le format est obligatoire."),
-            tag: Yup.string().required("Le tag est obligatoire.")
+            tag: Yup.string().required("Le tag est obligatoire."),
             
       });
   
@@ -186,7 +186,7 @@
 
       const getAllFormats= async () => {
         try{
-        const response = await ApiService.get('/all/formats');
+        const response = await ApiService.get('/formats');
         const formatsData = response.data.data.data;
         formatOptions.value = formatsData.map((formats) => ({
           value: formats.id,
@@ -200,11 +200,11 @@
       const getAllTags = async () => {
         try{
         const response = await ApiService.get('/tags');
-        const tagsData = response.data;
+        const tagsData = response.data.data.data;
         console.log('Data', tagsData)
         tagOptions.value = tagsData.map((tag) => ({
           value: tag.id,
-          label: tag.nom + " " + tag.prenom,
+          label: tag.libelle,
         }));
         }
         catch(error){
