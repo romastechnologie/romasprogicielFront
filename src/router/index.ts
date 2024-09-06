@@ -265,6 +265,10 @@ import ListeArrondissementPage from "@/pages/Arrondissement/ListeArrondissementP
 import ListeDepartementPage from "@/pages/Departement/ListeDepartementPage.vue";
 import ListeCommunePage from "@/pages/Commune/ListeCommunePage.vue";
 
+//champs libres
+import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
+import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
+import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -2697,6 +2701,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des quartiers',
         }
       },
+      
       {
         path: "/zones/liste-arrondissements",
         name: "ListeArrondissementPage",
@@ -2723,7 +2728,36 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },  
-  //http://localhost:8080/liste-departements
+  {
+    path: "/champsLibres",
+    component: BodyView,
+    children: [
+      {
+        path: "/champsLibres/ajouter-champsLibre",
+        name: "AddChampsLibrePage",
+        component: AddChampsLibrePage,
+        meta: {
+          title: 'Ajouter un champs libre',
+        }
+      },
+      {
+        path: "/champsLibres/editer-champsLibre",
+        name: "EditChampsLibrePage",
+        component: EditChampsLibrePage,
+        meta: {
+          title: 'Editer un champs libre',
+        }
+      },
+      {
+        path: "/champsLibres/liste-champsLibre",
+        name: "ListeChampsLibrePage",
+        component: ListeChampsLibrePage,
+        meta: {
+          title: 'Liste des champsLibres',
+        }
+      },
+    ]
+  },  
 
   {
     path: "/ouv_fers",

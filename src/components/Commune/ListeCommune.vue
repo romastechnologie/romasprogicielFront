@@ -144,7 +144,7 @@ import { format_date, suppression, error } from "../../utils/utils";
 import {Commune} from '../../models/Commune';
 import axios from 'axios';
 import  Swal  from "sweetalert2";
-import Paginate from 'vuejs-paginate'
+//import Paginate from 'vuejs-paginate'
 import PaginationComponent from '../../components/Utilities/Pagination.vue';
 import JwtService from "../../services/JwtService";
 
