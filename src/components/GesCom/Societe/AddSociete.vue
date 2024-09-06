@@ -401,6 +401,9 @@ export default defineComponent({
       sigle: Yup.string().notRequired(),
       messageCommercial: Yup.string().notRequired(),
       lieuImpression: Yup.string().notRequired(),
+      logo: Yup.mixed().notRequired(),
+      entete: Yup.mixed().notRequired(),
+      pied: Yup.mixed().notRequired(),
       apiNim: Yup.string().notRequired(),
       apiToken: Yup.string().notRequired(),
       lienApi: Yup.string().notRequired(),
@@ -495,12 +498,12 @@ export default defineComponent({
         banque: compte.banque,
       }));
       console.log('values ====>', values);
-      ApiService.post("/societes",values)
+      axios.post("/societes",values,{ headers: { 'Content-Type': 'multipart/form-data','Accept': '*/*' } })
         .then(({ data }) => {
           if(data.code == 201) { 
             success(data.message);
-            resetForm();
-            router.push({ name: "ListeSociete" });
+            // resetForm();
+            // router.push({ name: "ListeSociete" });
           }
         }).catch(({ response }) => {
           error(response.data.message);
