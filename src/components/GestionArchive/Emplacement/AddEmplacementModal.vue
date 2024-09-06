@@ -77,7 +77,7 @@
     </template> 
     
     <script lang="ts">
-    import { ref, watch } from 'vue';
+    import { ref, watch, onMounted } from 'vue';
     import { Form, Field, ErrorMessage } from 'vee-validate';
     import * as Yup from 'yup';
     import ApiService from '@/services/ApiService';
@@ -125,6 +125,14 @@
         const router = useRouter();
         const typeEmplacementOptions = ref();
       
+
+        onMounted(() => {
+        
+        getAllTypeEmplacements();
+
+      });
+  
+
     
         watch(() => props.id , (newValue) => {   
           if (newValue!=0) {
@@ -160,7 +168,7 @@
         const getAllTypeEmplacements = async () => {
         try{
         const response = await ApiService.get('/typeemplacements');
-        const typeEmplacementsData = response.data;
+        const typeEmplacementsData = response.data.data.data;
         console.log('Data', typeEmplacementsData)
         typeEmplacementOptions.value = typeEmplacementsData.map((typeEmplacement) => ({
           value: typeEmplacement.id,
