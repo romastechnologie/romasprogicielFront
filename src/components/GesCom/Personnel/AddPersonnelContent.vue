@@ -55,10 +55,10 @@
                   <label class="d-block text-black mb-10">
                     Photo<span class="text-danger">*</span>
                   </label>
-                  <Field name="urlImage" v-model="photo" type="file" accept="image/jpeg, image/png application/pdf"
+                  <Field name="photoEmploye" v-model="photo" type="file" accept="image/jpeg, image/png application/pdf"
                     @change="onFileChange" class="form-control shadow-none fs-md-15 text-black"
                     placeholder="Choisissez une image" />
-                  <ErrorMessage name="urlImage" class="text-danger" />
+                  <ErrorMessage name="photoEmploye" class="text-danger" />
                 </div>
               </div>
               <div class="col-md-4 mb-3">
@@ -747,6 +747,7 @@ export default defineComponent({
       email: Yup.string().email('Le format de l\'email est invalide').required('L\'email est obligatoire'),
       telephone1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
       telephone2: Yup.number().notRequired(),
+      photoEmploye: Yup.mixed().notRequired(),
       //telephonePersonneAContacter:Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
       dateNais: Yup.date().notRequired(),
       nomCon: Yup.string().required('Le nom du conjoint est obligatoire'),
@@ -886,7 +887,7 @@ export default defineComponent({
 
       values["photo"] = laPhoto.value;
       
-      ApiService.post("/personnels", values)
+      axios.post("/personnels", values, { headers: { 'Content-Type': 'multipart/form-data','Accept': '*/*' } })
         .then(({ data }) => {
           if (data.code == 201) {
             success(data.message);

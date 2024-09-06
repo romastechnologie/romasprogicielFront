@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <Form ref="documentForm" @submit="addDocument" :validation-schema="documentSchema">
               <div class="row">
@@ -59,9 +59,9 @@
                 Organisation<span class="text-danger">*</span>
               </label>
               <Field name="organisation" v-model="organisations" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation"
-                label="label" track-by="label" />
+                <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation" label="label"
+                  track-by="label" />
               </Field>
               <ErrorMessage name="organisation" class="text-danger" />
             </div>
@@ -71,30 +71,40 @@
               <label class="d-block text-black mb-10">
                 Format <span class="text-danger">*</span>
               </label>
+<<<<<<< HEAD
+              <Field name="format" v-model="formats" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="formatOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner le format" label="label"
+                  track-by="label" />
+=======
               <Field name="formatDoc" v-model="formats" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="formatOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le format"
                 label="label" track-by="label" />
+>>>>>>> 8636468cddea42fb1925fef22982accf836952d1
               </Field>
               <ErrorMessage name="formatDoc" class="text-danger" />
             </div>
           </div>
 
-           
+
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
-                  Créer un document
+                Créer un document
               </button>
-              <router-link to="/documents/liste-document" 
-                  class=" btn btn-danger "><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                  <span class="position-relative"></span>Annuler</router-link>
+              <router-link to="/documents/liste-document" class=" btn btn-danger "><i
+                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>
         </div>
       </Form>
     </div>
   </div>
+<<<<<<< HEAD
+</template>
+=======
   </template>
   
   <script lang="ts">
@@ -136,27 +146,67 @@
         getAllFormats();
         getAllTags();
         getAllOrganisations();
+>>>>>>> 8636468cddea42fb1925fef22982accf836952d1
 
-      });
-  
-      const documentForm =  ref(null);
-      const tagOptions = ref();
-      const formatOptions = ref();
-      const organisationOptions = ref();
-      const organisations = ref();
-      const tag = ref();
-      const formats = ref();
-      //const showMErr = ref(false);
-      //const permissions = ref(null);
-      const typeOptions = ref([]);
-      const router = useRouter();
-     // const permissions= ref<Array<Permission>>([]);
-      const addDocument = async (values,{ resetForm }) => {
-        values = values as Document;
-        console.log('je recupère', values)
-        ApiService.post("/documents",values)
+<script lang="ts">
+
+import { defineComponent, onMounted, ref } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as Yup from 'yup';
+import ApiService from '@/services/ApiService';
+import { Document } from '@/models/Document';
+import { error, success } from '@/utils/utils';
+import { useRouter } from 'vue-router';
+import Multiselect from '@vueform/multiselect/src/Multiselect';
+
+
+export default defineComponent({
+  name: "AddDocument",
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+    Multiselect
+  },
+
+  setup: () => {
+    const documentSchema = Yup.object().shape({
+      nom: Yup.string().required("Le nom est obligatoire."),
+      description: Yup.string().required("La description est obligatoire."),
+      refDoc: Yup.string().required("La référence est obligatoire."),
+      dateFinConservation: Yup.string().required("La date est obligatoire."),
+      fichier: Yup.string().required("Le fichier est obligatoire."),
+      organisation: Yup.string().required("L'organisation est obligatoire."),
+      format: Yup.string().required("Le format est obligatoire."),
+      tag: Yup.string().required("Le tag est obligatoire."),
+
+    });
+
+    onMounted(async () => {
+      await getAllTypeDocument();
+      await getAllFormats();
+      await getAllTags();
+      await getAllOrganisations();
+    });
+
+    const documentForm = ref(null);
+    const tagOptions = ref();
+    const formatOptions = ref();
+    const organisationOptions = ref();
+    const organisations = ref();
+    const tag = ref();
+    const formats = ref();
+    //const showMErr = ref(false);
+    //const permissions = ref(null);
+    const typeOptions = ref([]);
+    const router = useRouter();
+    // const permissions= ref<Array<Permission>>([]);
+    const addDocument = async (values, { resetForm }) => {
+      values = values as Document;
+      console.log('je recupère', values)
+      ApiService.post("/documents", values)
         .then(({ data }) => {
-          if(data.code == 201) { 
+          if (data.code == 201) {
             success(data.message)
             resetForm();
             router.push({ name: "ListeDocumentPage" });
@@ -164,51 +214,53 @@
         }).catch(({ response }) => {
           error(response.message);
         });
-      }
-  
-      const getAllTypeDocument = async () => {
-        try{
+    }
+
+    const getAllTypeDocument = async () => {
+      try {
         const response = await ApiService.get('/all/types');
         const typesData = response.data.data;
-
+        
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
           label: type.libelle,
         }));
-        }
-        catch(error){
-          //error(response.data.message)
-        }
-      } 
-      const getAllOrganisations= async () => {
-        try{
+      }
+      catch (error) {
+        //error(response.data.message)
+      }
+    }
+    const getAllOrganisations = async () => {
+      try {
         const response = await ApiService.get('/all/organisations');
         const organisationsData = response.data.data.data;
+        console.log("RESPONSE ORGANISATION ===> ", response);
         organisationOptions.value = organisationsData.map((organisations) => ({
           value: organisations.id,
           label: organisations.nom,
         }));
-        }
-        catch(error){
-          //error(response.data.message)
-        }
-      } 
+      }
+      catch (error) {
+        //error(response.data.message)
+      }
+    }
 
-      const getAllFormats= async () => {
-        try{
+    const getAllFormats = async () => {
+      try {
         const response = await ApiService.get('/formats');
         const formatsData = response.data.data.data;
+        console.log("RESPONSE FORMAT ===> ", response)
         formatOptions.value = formatsData.map((formats) => ({
           value: formats.id,
           label: formats.libelle,
         }));
-        }
-        catch(error){
-          //error(response.data.message)
-        }
-      } 
-      const getAllTags = async () => {
-        try{
+      }
+      catch (error) {
+        //error(response.data.message)
+      }
+    }
+    const getAllTags = async () => {
+      try {
         const response = await ApiService.get('/tags');
         const tagsData = response.data.data.data;
         console.log('Data', tagsData)
@@ -216,15 +268,15 @@
           value: tag.id,
           label: tag.libelle,
         }));
-        }
-        catch(error){
-          //error(response.data.message)
-        }
       }
-   
+      catch (error) {
+        //error(response.data.message)
+      }
+    }
 
-  
-      return { documentSchema, addDocument,documentForm,typeOptions,formatOptions,organisationOptions,tagOptions};
-    },
-  });
-  </script>
+
+
+    return { documentSchema, addDocument, documentForm, typeOptions, formatOptions, organisationOptions, tagOptions };
+  },
+});
+</script>
