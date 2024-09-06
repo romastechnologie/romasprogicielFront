@@ -1,17 +1,17 @@
 <template>
-    <ListeEmplacement />
+    <ListeOrganisation />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import ListeEmplacement from "@/components/GestionArchive/Emplacement/ListeEmplacement.vue";
+    import ListeOrganisation from "@/components/GestionArchive/Organisation/ListeOrganisation.vue";
 
   
     export default defineComponent({
-      name: "ListeEmplacementPage",
+      name: "ListeOrganisationPage",
       components: {
-        ListeEmplacement,
+        ListeOrganisation,
       },
     });
   </script>

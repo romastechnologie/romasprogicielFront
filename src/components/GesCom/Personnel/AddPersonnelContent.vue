@@ -658,7 +658,7 @@
                   <label class="d-block text-black mb-10">
                   Banque
                   </label>
-                                    <Multiselect
+                      <Multiselect
                                       :options="banqueOptions"
                                       :searchable="true"
                                       track-by="label"

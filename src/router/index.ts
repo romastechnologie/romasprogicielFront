@@ -259,6 +259,12 @@ import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/L
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 
+//gestion des zones
+import ListeQuartierPage from "@/pages/Quartier/ListeQuartierPage.vue";
+import ListeArrondissementPage from "@/pages/Arrondissement/ListeArrondissementPage.vue";
+import ListeDepartementPage from "@/pages/Departement/ListeDepartementPage.vue";
+import ListeCommunePage from "@/pages/Commune/ListeCommunePage.vue";
+
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -1453,6 +1459,7 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+  
 
   {
     path: "/finances",
@@ -2677,6 +2684,46 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },  
+  
+  {
+    path: "/",
+    component: BodyView,
+    children: [
+      {
+        path: "/zones/liste-quartiers",
+        name: "ListeQuartierPage",
+        component: ListeQuartierPage,
+        meta: {
+          title: 'Liste des quartiers',
+        }
+      },
+      {
+        path: "/zones/liste-arrondissements",
+        name: "ListeArrondissementPage",
+        component: ListeArrondissementPage,
+        meta: {
+          title: 'Liste des arrondissements',
+        }
+      },
+      {
+        path: "/zones/liste-communes",
+        name: "ListeCommunePage",
+        component: ListeCommunePage,
+        meta: {
+          title: 'Liste des communes',
+        }
+      },
+      {
+        path: "/zones/liste-departements",
+        name: "ListeDepartementPage",
+        component: ListeDepartementPage,
+        meta: {
+          title: 'Liste des départements',
+        }
+      },
+    ]
+  },  
+  //http://localhost:8080/liste-departements
 
   {
     path: "/ouv_fers",

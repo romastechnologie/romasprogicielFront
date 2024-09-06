@@ -1444,9 +1444,80 @@ export const menu: MenuItem[] = [
             
         ]
     },
-
-
-
+    {
+        headTitle1: "Gestion des Adresses",
+        headTitle2: "Arrondissement,Commune, Département,Quartier",
+        type: "headtitle"
+    },
+    {
+        title: "Arrondissement",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+             
+            {
+                path: "/zones/liste-arrondissements",
+                title: "Liste des arrondissements",
+                type: "link"
+            }
+          
+        ]
+    },
+    {
+        title: "Commune",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/zones/liste-communes",
+                title: "Liste des communes",
+                type: "link"
+            },  
+            
+        ]
+    },
+    {
+        title: "Département",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/zones/liste-departements",
+                title: "Liste des departements",
+                type: "link"
+            },
+            
+        ]
+    },
+    {
+        title: "Quartier",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/zones/liste-quartiers",
+                title: "Liste des quartiers",
+                type: "link"
+            },
+            
+        ]
+    },
 
 
 ]

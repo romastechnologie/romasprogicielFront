@@ -12,7 +12,7 @@
           >
           <i class="fa fa-plus-circle"></i>
             <!-- <i class="fa fa-plus-circle"></i> -->
-            Ajouter un organisation
+            Ajouter une organisation
           </a>
           <!-- <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -57,23 +57,13 @@
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Libelle
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Nom
                   
                 </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Description
-                  
-                </th>
+                
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type Organisation
-                  
-                </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >DATE DE CREATION
                   
                 </th>
                 <th
@@ -88,17 +78,13 @@
                   {{ organisation.code }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ organisation.libelle }}
+                  {{ organisation.nom}}
                 </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ organisation.description }}
-                </td>
+               
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ organisation.typeOrganisation }}
                 </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ organisation_date(organisation.createdAt)  }}
-                </td>
+                
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"
                 >
@@ -198,7 +184,7 @@
       };
   
       function getAllOrganisations(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/organisations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`/all/organisations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
             organisations.value = data.data.data;
             totalPages.value = data.data.totalPages;
