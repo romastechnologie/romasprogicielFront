@@ -1380,69 +1380,41 @@ export const menu: MenuItem[] = [
         title: "CategorieDocument",
         icon: "stroke-user",
         icon1: "fill-user",
-        type: "sub",
+        type: "link",
+        path: "/categoriedocument/liste-categoriedocument",
         badgeType: "light-primary",
         active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/categoriedocument/liste-categoriedocument",
-                title: "Ajouter une Categorie Document",
-                type: "link"
-            },  
-            
-        ]
+        isPinned: false, 
     },
     {
         title: "TypeDocument",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "sub",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/typedocument/liste-typedocument",
         badgeType: "light-primary",
         active: false,
         isPinned: false,
-        children: [
-            {
-                path: "/typedocument/liste-typedocument",
-                title: "Ajouter un Type de Document",
-                type: "link"
-            },  
-            
-        ]
     },
     {
         title: "TypeEmplacement",
         icon: "stroke-user",
         icon1: "fill-user",
-        type: "sub",
+        type: "link",
+        path: "/typeemplacement/liste-typeemplacement",
         badgeType: "light-primary",
         active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/typeemplacement/liste-typeemplacement",
-                title: "Ajouter un Type Emplacement",
-                type: "link"
-            },  
-            
-        ]
+        isPinned: false,   
     },
     {
         title: "RegleConservation",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "sub",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/regleconservation/liste-regleconservation",
         badgeType: "light-primary",
         active: false,
         isPinned: false,
-        children: [
-            {
-                path: "/regleconservation/liste-regleconservation",
-                title: "Ajouter une Regle Conservation ",
-                type: "link"
-            },  
-            
-        ]
     },
 
 
