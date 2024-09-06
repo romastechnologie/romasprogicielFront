@@ -65,6 +65,31 @@
               </th>
               <th
                 scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                SortFinal
+              </th>
+
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Duree Conservation
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Description
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Type Duree
+              </th>
+              <th
+                scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
               >ACTIONS</th>
             </tr>
@@ -77,6 +102,21 @@
               
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ regleConservation.code }}
+              </td>
+
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ regleConservation.sortFinal }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ regleConservation.dureeConservation }}
+              </td>
+
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ regleConservation.description }}
+              </td>
+
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ regleConservation.typeDuree }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -174,7 +214,7 @@ export default defineComponent({
         page.value = page_;
         getAllRegleConservation(page_, limit_);
       } catch (error) {
-        //
+        
       }
     };
 
