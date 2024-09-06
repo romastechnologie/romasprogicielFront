@@ -15,10 +15,20 @@
                     <ErrorMessage name="nom" class="text-danger" />
             </div>
             <div class="col-md-4 mt-3">
-                    <label for="description" class="form-label">Description<span class="text-danger">*</span></label>
-                    <Field name="description" class="form-control" type="text" placeholder="Saisir la description"/>
-                    <ErrorMessage name="description" class="text-danger" />
-            </div>
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                              <label class="d-block text-black fw-semibold mb-10">
+                                Description <span class="text-danger">*</span>
+                              </label>
+                              <Field name="description" cols="20"
+                              rows="3" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
+                                <textarea
+                                  v-model="field.value"
+                                  class="form-control shadow-none rounded-0 text-black"
+                                ></textarea>
+                              </Field>
+                              <ErrorMessage name="description" class="text-danger"/>
+                            </div>
+                          </div>
                 
             <div class="col-md-4 mt-3">
                     <label for="fichier" class="form-label">Fichier<span class="text-danger">*</span></label>
@@ -35,12 +45,12 @@
               <label class="d-block text-black mb-10">
                 Tag <span class="text-danger">*</span>
               </label>
-              <Field name="tag" type="text" v-slot="{ field }">
+              <Field name="tagDoc" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="tagOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le tag"
                 label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="tag" class="text-danger" />
+              <ErrorMessage name="tagDoc" class="text-danger" />
             </div>
           </div>
           <div class="col-md-4 mt-3">
@@ -61,12 +71,12 @@
               <label class="d-block text-black mb-10">
                 Format <span class="text-danger">*</span>
               </label>
-              <Field name="format" v-model="formats" type="text" v-slot="{ field }">
+              <Field name="formatDoc" v-model="formats" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="formatOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le format"
                 label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="format" class="text-danger" />
+              <ErrorMessage name="formatDoc" class="text-danger" />
             </div>
           </div>
 
@@ -116,8 +126,8 @@
             dateFinConservation: Yup.string().required("La date est obligatoire."),
             fichier: Yup.string().required("Le fichier est obligatoire."),
             organisation: Yup.string().required("L'organisation est obligatoire."),
-            format:Yup.string().required("Le format est obligatoire."),
-            tag: Yup.string().required("Le tag est obligatoire."),
+            formatDoc:Yup.string().required("Le format est obligatoire."),
+            tagDoc: Yup.string().required("Le tag est obligatoire."),
             
       });
   
@@ -176,7 +186,7 @@
         const organisationsData = response.data.data.data;
         organisationOptions.value = organisationsData.map((organisations) => ({
           value: organisations.id,
-          label: organisations.libelle,
+          label: organisations.nom,
         }));
         }
         catch(error){

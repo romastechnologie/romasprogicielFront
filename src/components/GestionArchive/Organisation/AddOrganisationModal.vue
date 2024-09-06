@@ -23,28 +23,15 @@
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
-                                Libelle<span class="text-danger">*</span>
+                                Nom<span class="text-danger">*</span>
                               </label>
-                              <Field name="libelle" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
-                              <ErrorMessage name="libelle" class="text-danger"/>
+                              <Field name="nom" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
+                              <ErrorMessage name="nom" class="text-danger"/>
                             </div>
                           </div>
-                          <!--<div class="col-md-12 mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                              <label class="d-block text-black fw-semibold mb-10">
-                                Description <span class="text-danger">*</span>
-                              </label>
-                              <Field name="description" cols="20"
-                              rows="3" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
-                                <textarea
-                                  v-model="field.value"
-                                  class="form-control shadow-none rounded-0 text-black"
-                                ></textarea>
-                              </Field>
-                              <ErrorMessage name="description" class="text-danger"/>
-                            </div>
-                          </div>-->
+                
+                          
                           <div class="col-md-12 mb-3">
                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                             <label class="d-block text-black mb-10">
@@ -77,7 +64,7 @@
     </template> 
     
     <script lang="ts">
-    import { ref, watch } from 'vue';
+    import { ref, watch, onMounted } from 'vue';
     import { Form, Field, ErrorMessage } from 'vee-validate';
     import * as Yup from 'yup';
     import ApiService from '@/services/ApiService';
@@ -108,8 +95,7 @@
         const loading = ref<boolean>(false);
         const organisationSchema = Yup.object().shape({
           code: Yup.string().required('Le code est obligatoire'),
-          libelle: Yup.string().required('Le libellé est obligatoire'),
-          description: Yup.string().required('La description est obligatoire'),
+          nom: Yup.string().required('Le nom est obligatoire'),
           typeOrganisation: Yup.string().required("Le type d'organisation est obligatoire."),
 
         });
@@ -119,13 +105,21 @@
         const organisationForm =  ref<Organisation | null>(null);
         const addOrganisationModalRef = ref<null | HTMLElement>(null);
         let organisations= ref<Array<Organisation>>([]);
-        const title = ref('Ajouter un organisation');
+        const title = ref('Ajouter une organisation');
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
         const typeOrganisationOptions = ref();
+        const typeOrganisation = ref();
       
     
+
+        onMounted(() => {
+        
+        getAllTypeOrganisations();
+
+      });
+  
         watch(() => props.id , (newValue) => {   
           if (newValue!=0) {
             getOrganisation(newValue);
@@ -139,7 +133,8 @@
           .then(({ data }) => {
             organisationForm.value?.setFieldValue("id",data.data.id);
             organisationForm.value?.setFieldValue("code",data.data.code);
-            organisationForm.value?.setFieldValue("libelle",data.data.libelle);
+            organisationForm.value?.setFieldValue("nom",data.data.nom);
+            organisationForm.value?.setFieldValue("typeOrganisation",data.data.typeOrganisation);
             emit('openmodal', addOrganisationModalRef.value);
           })
           .catch(({ response }) => {
@@ -152,14 +147,14 @@
              title.value = "Modifier l'organisation";
              btntext.value = "Modifier";
           }else{
-             title.value = "Ajouter un organisation";
+             title.value = "Ajouter une organisation";
              btntext.value = "Ajouter";
           }
         }
 
         const getAllTypeOrganisations = async () => {
         try{
-        const response = await ApiService.get('/typeorganisations');
+        const response = await ApiService.get('/all/typeOrganisations');
         const typeOrganisationsData = response.data.data.data;
         console.log('Data', typeOrganisationsData)
         typeOrganisationOptions.value = typeOrganisationsData.map((typeOrganisation) => ({
@@ -217,7 +212,7 @@
         };
     
         return {organisations, title,btntext, resetValue, organisationSchema,
-           addOrganisation, organisationForm,addOrganisationModalRef,organisationnew,typeOrganisationOptions,
+           addOrganisation, organisationForm,addOrganisationModalRef,organisationnew,typeOrganisation,typeOrganisationOptions,
            //refreshOrganisations
            };
       },

@@ -88,7 +88,7 @@
         const typeOrganisationForm =  ref<TypeOrganisation | null>(null);
         const addTypeOrganisationModalRef = ref<null | HTMLElement>(null);
         let typeOrganisations= ref<Array<TypeOrganisation>>([]);
-        const title = ref('Ajouter un typeOrganisation');
+        const title = ref("Ajouter un type d'organisation");
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
@@ -116,10 +116,10 @@
     
         const btnTitle = async () => {
           if (isupdate.value) {
-             title.value = "Modifier le typeOrganisation";
+             title.value = "Modifier le type d'organisation";
              btntext.value = "Modifier";
           }else{
-             title.value = "Ajouter un typeOrganisation";
+             title.value = "Ajouter un type d'organisation";
              btntext.value = "Ajouter";
           }
         }
