@@ -107,8 +107,8 @@
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
-                        data-bs-target="#    AddTypeEmplacementModal
-"
+                        data-bs-target="#AddTypeEmplacementModal"
+
                         @click="moddifier(typeEmplacement)">
                         <i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
@@ -119,7 +119,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(typeEmplacement.id,typeEmplacement,'typeEmplacements','le Type Emplacement')"
+                        href="javascript:void(0);" @click="suppression(typeEmplacement.id,TypesEmplacements,'typeEmplacements','le Type Emplacement')"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
@@ -219,7 +219,7 @@ export default defineComponent({
     function getAllTypeEmplacement(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/typeEmplacements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          typeEmplacement.value = data.data.data;
+          TypesEmplacements.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;

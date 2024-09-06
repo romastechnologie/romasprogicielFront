@@ -101,7 +101,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(regleConservation.id,regleConservation,'regleConservations','la regle de conservation')"
+                        href="javascript:void(0);" @click="suppression(regleConservation.id,ReglesConservations,'regleConservations','la regle de conservation')"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
@@ -201,7 +201,7 @@ export default defineComponent({
     function getAllRegleConservation(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/regleConservations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          regleConservation.value = data.data.data;
+          ReglesConservations.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
