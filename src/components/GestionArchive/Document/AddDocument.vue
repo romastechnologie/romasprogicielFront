@@ -71,17 +71,14 @@
               <label class="d-block text-black mb-10">
                 Format <span class="text-danger">*</span>
               </label>
-<<<<<<< HEAD
               <Field name="format" v-model="formats" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="formatOptions" :preserve-search="true"
                   :multiple="false" :searchable="true" placeholder="Sélectionner le format" label="label"
                   track-by="label" />
-=======
               <Field name="formatDoc" v-model="formats" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="formatOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le format"
                 label="label" track-by="label" />
->>>>>>> 8636468cddea42fb1925fef22982accf836952d1
               </Field>
               <ErrorMessage name="formatDoc" class="text-danger" />
             </div>
