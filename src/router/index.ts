@@ -259,6 +259,16 @@ import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/L
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 
+//gestion des zones
+import ListeQuartierPage from "@/pages/Quartier/ListeQuartierPage.vue";
+import ListeArrondissementPage from "@/pages/Arrondissement/ListeArrondissementPage.vue";
+import ListeDepartementPage from "@/pages/Departement/ListeDepartementPage.vue";
+import ListeCommunePage from "@/pages/Commune/ListeCommunePage.vue";
+
+//champs libres
+import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
+import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
+import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -1453,6 +1463,7 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+  
 
   {
     path: "/finances",
@@ -2673,6 +2684,76 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeCommandeClientPage,
         meta: {
           title: 'Liste des commandes client',
+        }
+      },
+    ]
+  },  
+  
+  {
+    path: "/",
+    component: BodyView,
+    children: [
+      {
+        path: "/zones/liste-quartiers",
+        name: "ListeQuartierPage",
+        component: ListeQuartierPage,
+        meta: {
+          title: 'Liste des quartiers',
+        }
+      },
+      
+      {
+        path: "/zones/liste-arrondissements",
+        name: "ListeArrondissementPage",
+        component: ListeArrondissementPage,
+        meta: {
+          title: 'Liste des arrondissements',
+        }
+      },
+      {
+        path: "/zones/liste-communes",
+        name: "ListeCommunePage",
+        component: ListeCommunePage,
+        meta: {
+          title: 'Liste des communes',
+        }
+      },
+      {
+        path: "/zones/liste-departements",
+        name: "ListeDepartementPage",
+        component: ListeDepartementPage,
+        meta: {
+          title: 'Liste des départements',
+        }
+      },
+    ]
+  },  
+  {
+    path: "/champsLibres",
+    component: BodyView,
+    children: [
+      {
+        path: "/champsLibres/ajouter-champsLibre",
+        name: "AddChampsLibrePage",
+        component: AddChampsLibrePage,
+        meta: {
+          title: 'Ajouter un champs libre',
+        }
+      },
+      {
+        path: "/champsLibres/editer-champsLibre",
+        name: "EditChampsLibrePage",
+        component: EditChampsLibrePage,
+        meta: {
+          title: 'Editer un champs libre',
+        }
+      },
+      {
+        path: "/champsLibres/liste-champsLibre",
+        name: "ListeChampsLibrePage",
+        component: ListeChampsLibrePage,
+        meta: {
+          title: 'Liste des champsLibres',
         }
       },
     ]

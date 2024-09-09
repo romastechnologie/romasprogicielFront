@@ -101,7 +101,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(typeDocument.id,typeDocument,'typeDocuments','le Type de Document')"
+                        href="javascript:void(0);" @click="suppression(typeDocument.id,TypesDocuments,'typeDocuments','le Type de Document')"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
@@ -136,7 +136,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { TypesDepenses } from "@/models/TypesDepenses";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
@@ -202,7 +201,7 @@ export default defineComponent({
     function getAllTypeDocument(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/typeDocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          typeDocument.value = data.data.data;
+          TypesDocuments.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;

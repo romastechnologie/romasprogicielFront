@@ -654,7 +654,32 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
-
+    {
+        headTitle1: "Gestion des Champs Libres",
+        headTitle2: "Champs Libres",
+        type: "headtitle"
+    },
+    {
+        title: "Champs Libres",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/champsLibres/ajouter-champsLibre",
+                title: "Ajouter un champ libre",
+                type: "link"
+            },
+            {
+                path: "/champsLibres/liste-champsLibre",
+                title: "Liste des champs libres",
+                type: "link"
+            }
+        ]
+    },
 
     {
         headTitle1: "Gestion des immobilisations",
@@ -1380,55 +1405,67 @@ export const menu: MenuItem[] = [
         title: "CategorieDocument",
         icon: "stroke-user",
         icon1: "fill-user",
-        type: "sub",
+        type: "link",
+        path: "/categoriedocument/liste-categoriedocument",
         badgeType: "light-primary",
         active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/categoriedocument/liste-categoriedocument",
-                title: "Ajouter une Categorie Document",
-                type: "link"
-            },  
-            
-        ]
+        isPinned: false, 
     },
     {
         title: "TypeDocument",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "sub",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/typedocument/liste-typedocument",
         badgeType: "light-primary",
         active: false,
         isPinned: false,
-        children: [
-            {
-                path: "/typedocument/liste-typedocument",
-                title: "Ajouter un Type de Document",
-                type: "link"
-            },  
-            
-        ]
     },
     {
         title: "TypeEmplacement",
         icon: "stroke-user",
         icon1: "fill-user",
+        type: "link",
+        path: "/typeemplacement/liste-typeemplacement",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,   
+    },
+    {
+        title: "RegleConservation",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/regleconservation/liste-regleconservation",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+    },
+    {
+        headTitle1: "Gestion des Adresses",
+        headTitle2: "Arrondissement,Commune, Département,Quartier",
+        type: "headtitle"
+    },
+    {
+        title: "Arrondissement",
+        icon: "stroke-user",
+        icon1: "fill-user",
         type: "sub",
         badgeType: "light-primary",
         active: false,
         isPinned: false,
         children: [
+             
             {
-                path: "/typeemplacement/liste-typeemplacement",
-                title: "Ajouter un Type Emplacement",
+                path: "/zones/liste-arrondissements",
+                title: "Liste des arrondissements",
                 type: "link"
-            },  
-            
+            }
+          
         ]
     },
     {
-        title: "RegleConservation",
+        title: "Commune",
         icon: "stroke-user",
         icon1: "fill-user",
         type: "sub",
@@ -1437,16 +1474,47 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/regleconservation/liste-regleconservation",
-                title: "Ajouter une Regle Conservation ",
+                path: "/zones/liste-communes",
+                title: "Liste des communes",
                 type: "link"
             },  
             
         ]
     },
-
-
-
+    {
+        title: "Département",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/zones/liste-departements",
+                title: "Liste des departements",
+                type: "link"
+            },
+            
+        ]
+    },
+    {
+        title: "Quartier",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/zones/liste-quartiers",
+                title: "Liste des quartiers",
+                type: "link"
+            },
+            
+        ]
+    },
 
 
 ]

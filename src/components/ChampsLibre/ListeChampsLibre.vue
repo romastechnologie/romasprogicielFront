@@ -4,15 +4,13 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <a
+        <router-link
           class="btn btn-primary"
-          href="#"
-          data-bs-toggle="modal"
-          data-bs-target="#AddRegleConservationModal"
+          to="/champsLibres/ajouter-champsLibre"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter une Regle Conservation 
-        </a>
+          Ajouter un champ libre
+        </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
           type="button"
@@ -28,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher une regle conservation"
+            placeholder="Rechercher un champsLibre"
           />
           <button
             type="submit"
@@ -54,39 +52,31 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Libelle 
-              </th>
-              
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                code
+             LIBELLE
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                SortFinal
-              </th>
-
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Duree Conservation
+                NOM
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Description
+                VALEUR PAR DEFAUT
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Type Duree
+               VALEUR POSSIBLE
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+               Type de Champs Libre
               </th>
               <th
                 scope="col"
@@ -95,61 +85,48 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(regleConservation, index) in ReglesConservations" :key="index">
+            <tr v-for="(champsLibre, index) in champsLibres" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ regleConservation.libelle }}
+                {{ champsLibre.libelleChamp}}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ champsLibre.nomChamp }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ champsLibre.valeurParDefaut }}
               </td>
               
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ regleConservation.code }}
-              </td>
-
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ regleConservation.sortFinal }}
+                {{ champsLibre.valeurPossible}}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ regleConservation.dureeConservation }}
-              </td>
-
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ regleConservation.description }}
-              </td>
-
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ regleConservation.typeDuree }}
+                {{ champsLibre.typeChampsLibre }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                    
-                    <li class="dropdown-item d-flex align-items-center">
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);"
-                        data-bs-toggle="modal"
-                        data-bs-target="#AddRegleConservationModal"
-                        @click="moddifier(regleConservation)"
-                      >
-                        <i
+              <div class="dropdown">
+                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                  </span>
+                  <ul class="dropdown-menu">
+                    <li >
+                      <router-link :to="{ name: 'EditChampsLibrePage', params: { id: champsLibre.id } }" 
+                          class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>
-                        Modifier
-                      </a>
+                        ></i>Modifier</router-link>
                     </li>
-                    <li class="dropdown-item d-flex align-items-center">
+                    
+                    <li >
                       <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(regleConservation.id,ReglesConservations,'regleConservations','la regle de conservation')"
-                      >
-                        <i
-                          class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
-                        ></i>
-                        Supprimer
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(champsLibre.id,champsLibres,'champsLibres',`l\'champsLibre ${champsLibre.id}`)">
+                        <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
+                         Supprimer
                       </a>
                     </li>
                   </ul>
+              </div>
               </td>
             </tr>
           </tbody>
@@ -162,44 +139,30 @@
       </div>
     </div>
   </div>
-  <AddRegleConservationModal
-  @get-all-regleConservations="getAllRegleConservation"
-  :item="selectedItem" 
-  @close="recharger"
-  @refreshregleConservation="refreshregleConservation"
-
-  
-  />
-
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { RegleConservation } from "@/models/RegleConservation";
+import { ChampsLibre } from "@/models/ChampsLibre";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import AddRegleConservationModal from "./AddRegleConservationModal.vue";
-import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "ListeRegleConservation",
+  name: "ListeChampsLibre",
   components: {
-    PaginationComponent,
-    AddRegleConservationModal
+    PaginationComponent
   },
   setup(){
     
     onMounted(() => {
-      getAllRegleConservation();
+      getAllChampsLibres();
     });
-    const idregleConservation = ref(0);
-      const loading = ref<boolean>(false);
-      const router = useRouter(); 
-    const ReglesConservations = ref<Array<RegleConservation>>([]);   
-    const regleConservation = ref<RegleConservation>();
+
+    const champsLibres = ref<Array<ChampsLibre>>([]);   
+    const champsLibre = ref<ChampsLibre>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -207,58 +170,75 @@ export default defineComponent({
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
-    const selectedItem = ref(0);
 
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllRegleConservation(page_, limit_);
+        getAllChampsLibres(page_, limit_);
       } catch (error) {
-        
+        //
       }
     };
 
      function rechercher(){
-      getAllRegleConservation(page.value, limit.value, searchTerm.value );
+      getAllChampsLibres(page.value, limit.value, searchTerm.value );
     }
-
-    const recharger = () => {
-      getAllRegleConservation();
-    };
-
 
     // END PAGINATE
 
-    onMounted(() => {
-      loading.value=false;
-      getAllRegleConservation();
-    });
-
-    const refreshregleConservation = () => {
-      getAllRegleConservation();
-    };
-
-    function getAllRegleConservation(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/regleConservations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllChampsLibres(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/champsLibres?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          ReglesConservations.value = data.data.data;
+          champsLibres.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
-          return data.data.data;
+          return data.data;
         })
         .catch(({ response }) => {
           error(response.data.message)
       });
-      
     }
     
-    function moddifier(EditRegleConservation:RegleConservation) {
-      regleConservation.value = EditRegleConservation;
-      selectedItem.value = EditRegleConservation.id;  
+    function moddifier(EditchampsLibres:ChampsLibre) {
+      champsLibre.value = EditchampsLibres;
     }
 
-    
+    const deleteChampsLibre = (id: number) => {
+      ApiService.delete(`/champsLibres/${id}`)
+      .then(({ data }) => {
+        Swal.fire({
+          text: data.message,
+          toast: true,
+          icon: 'success',
+          title: 'General Title',
+          animation: false,
+          position: 'top-right',
+          showConfirmButton: false,
+          timer: 5000,
+          timerProgressBar: true,
+          heightAuto: false
+        });
+      })
+      .catch(({ response }) => {
+        Swal.fire({
+          text: response.data.message,
+          icon: "error",
+          buttonsStyling: false,
+          confirmButtonText: "Réssayer à nouveau!",
+          heightAuto: false,
+          customClass: {
+            confirmButton: "btn fw-semobold btn-light-danger",
+          },
+        });
+      });
+
+      for(let i = 0; i < champsLibres.value.length; i++) {
+        if (champsLibres.value[i].id === id) {
+          champsLibres.value.splice(i, 1);
+        }
+      }
+    };
 
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
@@ -266,9 +246,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { regleConservation,
+    return { champsLibres,
       checkPermission,
-     getAllRegleConservation,
+     getAllChampsLibres,
+     deleteChampsLibre,
      moddifier ,
      suppression,
      page, 
@@ -277,11 +258,7 @@ export default defineComponent({
     totalElements,
     handlePaginate,
     rechercher,
-    searchTerm,
-    selectedItem,
-    recharger,
-    refreshregleConservation,
-    ReglesConservations
+    searchTerm
   };
   },
 });

@@ -47,7 +47,7 @@
                                     <label class="d-block text-black mb-10">
                                         Categories Depenses
                                     </label>
-                                    <Field name="categoriesDepenses" v-model="categoriesDepenses" type="text"
+                                    <Field name="categoriesDepense" v-model="categoriesDepenses" type="text"
                                         v-slot="{ field }">
                                         <Multiselect v-model="field.value" v-bind="field"
                                             :options="categoriesDepensesOptions" :preserve-search="true"
@@ -110,7 +110,7 @@ export default {
             reference: Yup.string().required('La Référence est obligatoire'),
             libelle: Yup.string().required('Le libelle est obligatoire'),
             description: Yup.string().required('La description est obligatoire'),
-            categoriesDepenses: Yup.string().notRequired(),
+            categoriesDepense: Yup.string().notRequired(),
         });
 
 

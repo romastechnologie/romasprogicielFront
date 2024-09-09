@@ -739,7 +739,7 @@ export default defineComponent({
     const religion = ref();
     const ethnie = ref();
     const service = ref();
-    const nom  = ref();
+    const nom = ref();
     const prenom = ref();
     const adresse = ref();
     const email = ref();
@@ -780,17 +780,24 @@ export default defineComponent({
     const swift = ref();
     const religionCon = ref();
     const ethnieCon = ref();
-    const nmbreEnfant =ref(0);
+    const nmbreEnfant = ref(0);
     const situation = ref();
     const photo = ref<File>(null)
 
     const isDisable = ref(true);
     const enfants = reactive([{
-        nom: "",
-        sexe: "",
-        prenom: "",
-        dateNaissance: ""
-      }]);
+      nom: "",
+      sexe: "",
+      prenom: "",
+      dateNaissance: ""
+    }]);
+    
+    const laPhoto = ref<any>()
+
+    const onFileChange = (file:File)=>{
+      console.log("Le fichier ===> ",file);
+      laPhoto.value = file["file"];
+    }
 
     const addRowEnfant = () => {
       enfants.push({
@@ -848,7 +855,10 @@ export default defineComponent({
         prenom: enfant.prenom,
         dateNaissance: enfant.dateNaissance,
       }));
-      ApiService.post("/personnels", values)
+
+      values["photo"] = laPhoto.value;
+      
+      axios.post("/personnels", values, { headers: { 'Content-Type': 'multipart/form-data','Accept': '*/*' } })
         .then(({ data }) => {
           if (data.code == 201) {
             success(data.message);
@@ -1089,6 +1099,7 @@ let activeclass = ref<string>('Informations générales du personnel')
       personnelForm,
       removeRowEnfant,
       addRowEnfant,
+      onFileChange,
       valideteRowEnfant,
       valuess,
       enfantOptions,
