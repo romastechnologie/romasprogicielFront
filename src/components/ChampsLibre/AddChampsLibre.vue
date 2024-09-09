@@ -123,22 +123,33 @@
                                     <input v-model="valeurPossible.valeur" type="text" class="form-control shadow-none fs-md-15 text-black"
                                       placeholder="Saisir la valeur" />
                                     <div class="invalid-feedback" v-if="valideteRowValeurPossible(valeurPossible.valeur)">
-                                      Le valeur est obligatoire.
+                                      La valeur est obligatoire.
                                     </div>
                                   </div>
                                 </div>
                                 <div class="col-md-5 mb-3">
                                   <div class="form-group mb-5 mb-sm-5 mb-md-5">
                                     <input v-model="valeurPossible.libelle" type="text"
-                                      class="form-control shadow-none fs-md-15 text-black" placeholder="saisir le prénom" />
+                                      class="form-control shadow-none fs-md-15 text-black" placeholder="saisir le libellé" />
                                     <div class="invalid-feedback" v-if="valideteRowValeurPossible(valeurPossible.libelle)">
                                       Le libelle est obligatoire.
                                     </div>
                                   </div>
                                 </div>
                              </div>
-                                
+            
+                  
         </div>
+        <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center ">
+              <button class="btn btn-success me-3" type="submit">
+                Créer un champ libre
+              </button>
+              <router-link to="/champsLibres/liste-champsLibre" class=" btn btn-danger "><i
+                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler</router-link>
+            </div>
+          </div>
       </div>
     </Form>
   </div>
@@ -173,13 +184,22 @@ export default defineComponent({
       libelleChamp: Yup.string().required('Le libellé du champ libre est obligatoire'),
       nomChamp: Yup.string().required('Le nom du champ libre est obligatoire'),
       valeurPossible: Yup.number().typeError('Veuillez entrer des chiffres').required('La valeur est obligatoire'),
+      libelle: Yup.number().typeError('Veuillez entrer des chiffres').required('Le libelle est obligatoire'),
       valeurParDefaut: Yup.number().typeError('Veuillez entrer des chiffres').required('La valeur actuel est obligatoire'),
       estObligatoire: Yup.boolean().notRequired(),
+           
+    });
+
+
+    onMounted(() => {
+      getAllTypeChampsLibres();
       
     });
 
-    const personnelForm = ref<ChampsLibre | null>(null);
+    const champsLibreForm = ref<ChampsLibre | null>(null);
     const router = useRouter();
+    const typeChampsLibres = ref();
+    const typeChampsLibreOptions = ref();
     
     const valeur = ref();
     
@@ -214,6 +234,20 @@ export default defineComponent({
       }
     };
 
+    watch(
+      valeurPossibles,
+      (newValue) => {
+        isDisable.value =
+        newValue.some(
+          (valeurPossible) =>
+          valideteRowValeurPossible(valeurPossible.valeur) ||
+          valideteRowValeurPossible(valeurPossible.libelle) ||
+         
+        );
+      },
+      { deep: true }
+    );
+    
     const { remove, push, fields, update } = useFieldArray("valeurPossibles");
 
     const valeurPossibleOptions = ref([]);
@@ -227,7 +261,7 @@ export default defineComponent({
     }));
 
       
-      ApiService.post("/personnels", values)
+      ApiService.post("/champsLibres", values)
         .then(({ data }) => {
           if (data.code == 201) {
             success(data.message);
@@ -239,16 +273,36 @@ export default defineComponent({
         });
     }
 
+    const getAllTypeChampsLibres = async () => {
+          try{
+          const response = await ApiService.get('/typeChampsLibres');
+          const typeChampsLibresData = response.data;
+          console.log('Data', typeChampsLibresData)
+          typeChampsLibreOptions.value = typeChampsLibresData.map((typeChampsLibre) => ({
+            value: typeChampsLibre.id,
+            label: typeChampsLibre.libelle,
+          }));
+          }
+          catch(error){
+            //error(response.data.message)
+          }
+        }
+
+   
+
+
     return {
       champsLibreSchema,
       addChampsLibre,
-      personnelForm,
+      champsLibreForm,
       removeRowValeurPossible,
       addRowValeurPossible,
       valideteRowValeurPossible,
       valuess,
       valeurPossibleOptions,
       isDisable,
+      typeChampsLibreOptions,
+      typeChampsLibres,
       valeurPossibles
     }
   }

@@ -215,6 +215,89 @@
                   <ErrorMessage name="email" class="text-danger" />
                 </div>
               </div>
+              <div class="col-md-4">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Département <span class="text-danger">*</span>
+                </label>
+                <Field  name="departement"  v-slot="{ field }">
+                  <Multiselect
+                    :options="departementOptions"
+                    :searchable="true"
+                    track-by="label"
+                    label="label"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    @change="departementChange($event)"
+                    placeholder="Sélectionner le departement"
+                  />
+                </Field>  
+              </div>
+              <ErrorMessage name="departement" class="text-danger"/>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Communes <span class="text-danger">*</span>
+                </label>
+                <Field  name="commune"  v-slot="{ field }">
+                  <Multiselect
+                    :options="communeOptions"
+                    :searchable="true"
+                    track-by="label"
+                    label="label"
+                    v-model="selectedCommune"
+                    v-bind = "field"
+                    @change="communeChange($event)"
+                    noOptionsText="Sélectionner d'abord un département"
+                    placeholder="Sélectionner la commune"
+                  />
+                </Field>  
+              </div>
+              <ErrorMessage name="commune" class="text-danger"/>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Arrondissement <span class="text-danger">*</span>
+                </label>
+                <Field  name="arrondissement"  v-slot="{ field }">
+                  <Multiselect
+                    :options="arrondissementOptions"
+                    :searchable="true"
+                    track-by="label"
+                    label="label"
+                    v-model = "selectedArrondissement"
+                    v-bind = "field"
+                    noOptionsText="Sélectionner d'abord une commune"
+                    @change="arrondissementChange($event)"
+                    placeholder="Sélectionner l' arrondissement"
+                  />
+                </Field>  
+              </div>
+              <ErrorMessage name="arrondissement" class="text-danger"/>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Quartier <span class="text-danger">*</span>
+                </label>
+                <Field  name="quartier"  v-slot="{ field }">
+                  <Multiselect
+                    :options="quartierOptions"
+                    :searchable="true"
+                    track-by="label"
+                    label="label"
+                    v-model = "selectedQuartier"
+                    v-bind = "field"
+                    noOptionsText="Sélectionner d'abord un arrondissement"
+                    placeholder="Sélectionner le quartier"
+                  />
+                </Field>  
+              </div>
+              <ErrorMessage name="quartier" class="text-danger"/>
+            </div>
+            
             </div>
             <div class="product-buttons">
               <button class="btn me-1">
@@ -776,6 +859,12 @@ export default defineComponent({
       prenomPersonneAContacter: Yup.string().notRequired(),
       telephonePersonneAContacter: Yup.number().notRequired(),
       relation: Yup.string().notRequired(),
+
+      quartier: Yup.string().required('Le quartier est obligatoire'),
+      arrondissement: Yup.string().required('L\'arrondissement  est obligatoire'),
+      commune: Yup.string().required('La commune est obligatoire'),
+      departement: Yup.string().required('Le département  est obligatoire'),
+
     });
 
     const personnelForm = ref<Personnel | null>(null);
@@ -827,6 +916,10 @@ export default defineComponent({
     const nmbreEnfant = ref(0);
     const situation = ref();
     const photo = ref<File>(null)
+    const departementOptions = ref([]);
+    const communeOptions = ref([]);
+    const arrondissementOptions = ref([]);
+    const quartierOptions = ref([]);
 
     const isDisable = ref(true);
     const enfants = reactive([{
@@ -959,12 +1052,118 @@ export default defineComponent({
     };
 
 
+    const selectedCommune = ref([]);
+    const selectedArrondissement = ref([]);
+    const selectedQuartier = ref([]);
+
+    function departementChange(value) {
+      console.log('g,rl;m', value)
+    if(value){
+        communeOptions.value =[];
+        selectedCommune.value = [];
+        selectedArrondissement.value = [];
+        selectedQuartier.value = [];
+        ApiService.get('/departements/communes/'+value)
+          .then(({ data }) => {
+              const donnee = data.data;
+              console.log('donnee',donnee)
+              if(donnee.length > 0) {
+                communeOptions.value = donnee.map((commune: any) => {
+                  return {
+                    label: commune.libelle,
+                    value: commune.id,
+                  };
+                });
+              }
+          })
+          .catch(({ response }) => {
+            //error(response.data.message);
+          });
+      }else {
+        communeOptions.value = [];
+        selectedCommune.value = [];
+        selectedArrondissement.value = [];
+        selectedQuartier.value = [];
+      }
+    }
+
+    function communeChange(value) {
+    if(value){
+        arrondissementOptions.value =[];
+        selectedArrondissement.value = [];
+        selectedQuartier.value = [];
+        ApiService.get('/communes/arrondissements/'+value)
+          .then(({ data }) => {
+              const donnee = data.data;
+              if(donnee.length > 0) {
+                arrondissementOptions.value = donnee.map((arrondissement: any) => {
+                  return {
+                    label: arrondissement.libelle,
+                    value: arrondissement.id,
+                  };
+                });
+              }
+          })
+          .catch(({ response }) => {
+            //error(response.data.message);
+          });
+      }else {
+        arrondissementOptions.value = [];
+        selectedArrondissement.value = [];
+        selectedQuartier.value = [];
+      }
+    }
+
+    function arrondissementChange(value) {
+    if(value){
+        quartierOptions.value =[];
+        selectedQuartier.value = [];
+        ApiService.get('/arrondissements/quartiers/'+value)
+          .then(({ data }) => {
+              const donnee = data.data;
+              if(donnee.length > 0) {
+                quartierOptions.value = donnee.map((quartier: any) => {
+                  return {
+                    label: quartier.libelle,
+                    value: quartier.id,
+                  };
+                });
+              }
+          })
+          .catch(({ response }) => {
+            //error(response.data.message);
+          });
+      }else {
+        quartierOptions.value = [];
+        selectedQuartier.value = [];
+      }
+    }
+
+    const fetchDepartements = async () => {
+      ApiService.get("/departements")
+      .then(({ data }) => {
+        const donnees = data.data.data;
+        departementOptions.value = donnees.map((departement) => {
+          return {
+            value: departement.id,
+          label: `${departement.libelle}`,
+          }
+        });
+      })
+      .catch(({ response }) => {
+        error(response.data.message)
+      });
+    }
+
+
+
 
     onMounted(async () => {
       await getAllReligions();
       await getAllEthnies();
       await getAllServices();
       await fetchBanque();
+     await  fetchDepartements();
     })
 
     return {
@@ -991,6 +1190,10 @@ export default defineComponent({
       numSecSocial, personnels, relation, telephonePersonneAContacter, prenomPersonneAContacter, nomPersonneAContacter,
       boitePostale, jambeDroite, jambeGauche, mainDroite, mainGauche, audienceDroite, audienceGauche, visionGauche, visionDroite,
       dateNaissance, dateNaissanceCon, dateEmbauche, nationalite, nationaliteCon, numPassportCon, taille, poids, sexe, civilite, groupeSanguin,
+      quartierOptions, communeOptions,
+         departementOptions ,arrondissementOptions,
+         departementChange,communeChange,arrondissementChange,
+         selectedCommune,selectedArrondissement,selectedQuartier,
     };
   },
 });
