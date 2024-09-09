@@ -778,6 +778,7 @@ export default defineComponent({
     const personnelInfoSchema = Yup.object().shape({
       nom: Yup.string().required('Le nom du personnel est obligatoire'),
       prenom: Yup.string().required('Le prénom du personnel est obligatoire'),
+      numeroCompte: Yup.string().notRequired(),
       dateNais: Yup.date().notRequired(),
       religion: Yup.string().required('Religion est obligatoire'),
       ethnie: Yup.string().required('Ethnie est obligatoire'),
