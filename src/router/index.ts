@@ -223,6 +223,8 @@ import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.
 
 // Gestion Pack
 
+import AddTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/AddTypeEntretienPage.vue";
+import EditTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/EditTypeEntretienPage.vue";
 import ListeTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/ListeTypeEntretienPage.vue";
 import ListePackingPage from '@/pages/GestionPack/Packing/ListePackingPage.vue';
 import ListeTypeMoyenRoulantPage from '@/pages/GestionPack/TypeMoyenRoulant/ListeTypeMoyenRoulantPage.vue';
@@ -305,15 +307,31 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/TypeEntretien",
+    path: "/typeEntretiens",
     component: BodyView,
     children: [
       {
-        path: "listeTypeEntretien",
-        name: "listeTypeEntretien",
+        path: "ajouter-typeEntretien",
+        name: "AddTypeEntretien",
+        component: AddTypeEntretienPage,
+        meta: {
+          title: "Ajouter un  type d'entretien",
+        }
+      },
+      {
+        path: "editer-typeEntretien",
+        name: "EditTypeEntretien",
+        component: EditTypeEntretienPage,
+        meta: {
+          title: "Modifier un  type d'entretien",
+        }
+      },
+      {
+        path: "liste-typeEntretien",
+        name: "ListeTypeEntretien",
         component: ListeTypeEntretienPage,
         meta: {
-          title: 'Liste Type Entretien',
+          title: "Liste des types d'entretien",
         }
       },
     ]

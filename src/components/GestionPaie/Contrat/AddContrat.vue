@@ -140,9 +140,15 @@
                                       <span class="text-danger">*</span>
                                     </label>
                                   </div>
-                                  <div class="col-md-3">
+                                  <div class="col-md-2">
                                     <label class="d-block text-black fw-semibold">
                                       Fonction
+                                      <span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <label class="d-block text-black fw-semibold">
+                                      Organisation
                                       <span class="text-danger">*</span>
                                     </label>
                                   </div>
@@ -156,7 +162,7 @@
                                       Date de fin <span class="text-danger">*</span>
                                     </label>
                                   </div>
-                                  <div class="col-md-3">
+                                  <div class="col-md-2">
                                     <label class="d-block text-black fw-semibold mb-10">
                                       Action
                                     </label>
@@ -174,7 +180,7 @@
                                       <ErrorMessage name="estActif" class="text-danger" />
                                     </div>
                                   </div>
-                                  <div class="col-md-3 mb-2">
+                                  <div class="col-md-2 mb-2">
                                     <div class="">
                                       <Multiselect :options="fonctionOptions" :searchable="true" track-by="label"
                                         label="label" v-model="fonction.fonction"
@@ -184,6 +190,16 @@
                                       </div>
                                     </div>
                                   </div>
+                                  <div class="col-md-2 mb-2">
+                                    <div class="">
+                                  <Field name="Organisation" type="text" v-slot="{ field }">
+                                  <Multiselect v-model="field.value" v-bind="field" :options="OrganisationOptions" :preserve-search="true"
+                                    :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation"
+                                    label="label" track-by="label" />
+                                  </Field>
+                                  <ErrorMessage name="Organisation" class="text-danger" />
+                                </div>
+                            </div>
                                   <div class="col-md-2 mb-2">
                                     <div class="form-group mb-5 mb-sm-5 mb-md-5">
                                       <input v-model="fonction.dateDebut" type="date"
@@ -203,7 +219,7 @@
                                       La date de fin est obligatoire.
                                     </div>
                                   </div>
-                                  <div class="col-md-3 mb-2">
+                                  <div class="col-md-2 mb-2">
                                     <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
                                       @click="removeRowFonction(index)">
                                       <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
@@ -529,6 +545,7 @@
         getAllPersonnels();
         //getAllPersonnel();
         getAllModeTarifications();
+        getAllOrganisations();
       });
   
       const contratForm =  ref(null);
@@ -544,6 +561,8 @@
       const typeRetenues = ref(null);
       const salaireDeBase = ref();
       const personnelOptions = ref();
+      const OrganisationOptions = ref();
+      const Organisation = ref();
       
       const modeDeTarificationOptions = ref([]);
       const personnels = ref([] as any[]);
@@ -629,6 +648,22 @@
         modeDeTarificationOptions.value = modeDeTarificationsData.map((modeDeTarification) => ({
           value: modeDeTarification.id,
           label: modeDeTarification.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      }
+
+
+      const getAllOrganisations = async () => {
+        try{
+        const response = await ApiService.get('/all/organisations');
+        const OrganisationsData = response.data.data.data;
+        console.log('Data', OrganisationsData)
+        OrganisationOptions.value = OrganisationsData.map((Organisation) => ({
+          value: Organisation.id,
+          label: Organisation.nom,
         }));
         }
         catch(error){
@@ -798,6 +833,7 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
       {
         estActif: "",
         fonction: "",
+        organisation: "",
         dateDebut: "",
         dateFin: ""
       },
@@ -807,6 +843,7 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
       fonctions.push({
         estActif: "",
         fonction: "",
+        organisation: "",
         dateDebut: "",
         dateFin: ""
       });
@@ -826,12 +863,25 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
       }
     };
 
-
+/* watch(
+      valeurPossibles,
+      (newValue) => {
+        isDisable.value =
+        newValue.some(
+          (valeurPossible) =>
+          valideteRowValeurPossible(valeurPossible.valeur) ||
+          valideteRowValeurPossible(valeurPossible.libelle)
+         
+        );
+      },
+      { deep: true }
+    );*/ 
     watch(fonctions, (newValue, oldValue) => {
       Object.keys(newValue).forEach(function (key) {
         if (
           newValue[key].estActif == "" ||
           newValue[key].fonction == "" ||
+          newValue[key].organisation == "" ||
           newValue[key].dateDebut == "" ||
           newValue[key].dateFin == ""
         ) {
@@ -877,6 +927,7 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
     values.fonctions = fonctions.map(fonction => ({
         estActif: fonction.estActif,
         fonction: fonction.fonction,
+        organisation: fonction.organisation,
         dateDebut: fonction.dateDebut,
         dateFin: fonction.dateFin,
       }));
@@ -950,6 +1001,8 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
         personnelId,
         personnel,
         modeDeTarificationOptions,
+        OrganisationOptions,
+        Organisation,
       };
     },
   });

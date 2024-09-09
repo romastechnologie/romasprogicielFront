@@ -72,6 +72,11 @@
                 </th>
                 <th
                   scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Emplacement
+                  
+                </th>
+                <th
+                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >DATE DE CREATION
                   
@@ -95,6 +100,9 @@
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ emplacement.typeEmplacement }}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ emplacement.emplacement }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ emplacement_date(emplacement.createdAt)  }}

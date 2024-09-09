@@ -1303,15 +1303,27 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
     {
-        title: "Type Entretien",
-        icon: "stroke-learning",
-        icon1: "fill-learning",
-        type: "link",
-        path: "/TypeEntretien/listeTypeEntretien",
+        title: "Type d'entretiens",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
         badgeType: "light-primary",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children: [
+            {
+                path: "/typeEntretiens/ajouter-typeEntretien",
+                title: "Ajouter un type d'entretien",
+                type: "link"
+            },
+            {
+                path: "/typeEntretiens/liste-typeEntretien",
+                title: "Liste des types d'entretiens",
+                type: "link"
+            }
+        ]
     },
+
     {
         title: "Type Moyen Roulant",
         icon: "stroke-learning",

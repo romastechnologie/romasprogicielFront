@@ -4,15 +4,13 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <a
+        <router-link
           class="btn btn-primary"
-          href="#"
-          data-bs-toggle="modal"
-          data-bs-target="#AddTypeEntretienModal"
+          to="/typeEntretiens/ajouter-typeEntretien"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un Type d'Entretien
-        </a>
+          Ajouter un type d'entretien
+        </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
           type="button"
@@ -78,39 +76,29 @@
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ typeEntretien.description }}
               </td>
-              <td
-                class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
-              >
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                    
-                    <li class="dropdown-item d-flex align-items-center">
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);"
-                        data-bs-toggle="modal"
-                        data-bs-target="#AddTypeEntretienModal"
-                        @click="moddifier(typeEntretien)"
-                      >
-                        <i
+              <div class="dropdown">
+                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                  </span>
+                  <ul class="dropdown-menu">
+                    <li >
+                      <router-link :to="{ name: 'EditTypeEntretienPage', params: { id: typeEntretien.id } }" 
+                          class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>
-                        Modifier
-                      </a>
+                        ></i>Modifier</router-link>
                     </li>
-                    <li class="dropdown-item d-flex align-items-center">
+                    
+                    <li >
                       <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(typeEntretien.id,typeEntretiens,'typeEntretiens','le typeEntretien')"
-                      >
-                        <i
-                          class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
-                        ></i>
-                        Supprimer
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(typeEntretien.id,typeEntretiens,'typeEntretiens',`l\'typeEntretien ${typeEntretien.id}`)">
+                        <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
+                         Supprimer
                       </a>
                     </li>
                   </ul>
-              </td>
+              </div>
+             
             </tr>
           </tbody>
         </table>
@@ -122,8 +110,6 @@
       </div>
     </div>
   </div>
-  <AddTypeEntretienModal :item="selectedItem" @close="recharger"/>
-
 </template>
 
 <script lang="ts">
@@ -134,14 +120,14 @@ import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import AddTypeEntretienModal from "./AddTypeEntretienModal.vue";
 import { useRouter } from "vue-router";
+import AddTypeEntretien from "./AddTypeEntretien.vue";
 
 export default defineComponent({
   name: "ListeTypeEntretien",
   components: {
     PaginationComponent,
-    AddTypeEntretienModal
+    AddTypeEntretien
   },
   setup(){
     

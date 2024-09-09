@@ -26,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un champsLibre"
+            placeholder="Rechercher un champ libre"
           />
           <button
             type="submit"

@@ -58,6 +58,19 @@
                             <ErrorMessage name="typeEmplacement" class="text-danger" />
                           </div>
                         </div>
+                        <div class="col-md-12 mb-3">
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black mb-10">
+                              Emplacement <span class="text-danger">*</span>
+                            </label>
+                            <Field name="emplacement" type="text" v-slot="{ field }">
+                            <Multiselect v-model="field.value" v-bind="field" :options="emplacementOptions" :preserve-search="true"
+                              :multiple="false" :searchable="true" placeholder="Sélectionner l'emplacement"
+                              label="label" track-by="label" />
+                            </Field>
+                            <ErrorMessage name="emplacement" class="text-danger" />
+                          </div>
+                        </div>
                           
                           <button
                             class="btn btn-primary"
@@ -110,6 +123,7 @@
           code: Yup.string().required('Le code est obligatoire'),
           libelle: Yup.string().required('Le libellé est obligatoire'),
           description: Yup.string().required('La description est obligatoire'),
+          emplacement: Yup.string().required("L'emplacement est obligatoire."),
           typeEmplacement: Yup.string().required("Le type d'emplacement est obligatoire."),
 
         });
@@ -123,12 +137,14 @@
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
+        const emplacementOptions = ref();
         const typeEmplacementOptions = ref();
       
 
         onMounted(() => {
         
         getAllTypeEmplacements();
+        getAllEmplacements();
 
       });
   
@@ -173,6 +189,20 @@
         typeEmplacementOptions.value = typeEmplacementsData.map((typeEmplacement) => ({
           value: typeEmplacement.id,
           label: typeEmplacement.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      }
+      const getAllEmplacements = async () => {
+        try{
+        const response = await ApiService.get('/emplacements');
+        const emplacementsData = response.data.data.data;
+        console.log('Data', emplacementsData)
+        emplacementOptions.value = emplacementsData.map((emplacement) => ({
+          value: emplacement.id,
+          label: emplacement.libelle,
         }));
         }
         catch(error){
@@ -225,7 +255,7 @@
         };
     
         return {emplacements, title,btntext, resetValue, emplacementSchema,
-           addEmplacement, emplacementForm,addEmplacementModalRef,emplacementnew,typeEmplacementOptions,
+           addEmplacement, emplacementForm,addEmplacementModalRef,emplacementnew,typeEmplacementOptions,emplacementOptions
            //refreshEmplacements
            };
       },
