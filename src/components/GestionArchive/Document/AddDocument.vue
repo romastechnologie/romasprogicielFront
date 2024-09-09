@@ -71,17 +71,10 @@
               <label class="d-block text-black mb-10">
                 Format <span class="text-danger">*</span>
               </label>
-<<<<<<< HEAD
-              <Field name="format" v-model="formats" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="formatOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le format" label="label"
-                  track-by="label" />
-=======
               <Field name="formatDoc" v-model="formats" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="formatOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le format"
                 label="label" track-by="label" />
->>>>>>> 8636468cddea42fb1925fef22982accf836952d1
               </Field>
               <ErrorMessage name="formatDoc" class="text-danger" />
             </div>
@@ -102,52 +95,7 @@
       </Form>
     </div>
   </div>
-<<<<<<< HEAD
-</template>
-=======
   </template>
-  
-  <script lang="ts">
-  
-  import { defineComponent, onMounted, ref} from 'vue';
-  import { Form, Field, ErrorMessage } from 'vee-validate';
-  import * as Yup from 'yup';
-  import ApiService from '@/services/ApiService';
-  import { Document } from '@/models/Document';
-  import { error, success } from '@/utils/utils';
-  import { useRouter } from 'vue-router';
-  import Multiselect from '@vueform/multiselect/src/Multiselect';
-  
-  
-  export default defineComponent({
-      name: "AddDocument",
-      components: {
-      Form,
-      Field,
-      ErrorMessage,
-      Multiselect
-    },
-  
-    setup: () => {
-      const documentSchema = Yup.object().shape({
-            nom: Yup.string().required("Le nom est obligatoire."),
-            description: Yup.string().required("La description est obligatoire."),
-            refDoc: Yup.string().required("La référence est obligatoire."),
-            dateFinConservation: Yup.string().required("La date est obligatoire."),
-            fichier: Yup.string().required("Le fichier est obligatoire."),
-            organisation: Yup.string().required("L'organisation est obligatoire."),
-            formatDoc:Yup.string().required("Le format est obligatoire."),
-            tagDoc: Yup.string().required("Le tag est obligatoire."),
-            
-      });
-  
-      onMounted(() => {
-        getAllTypeDocument();
-        getAllFormats();
-        getAllTags();
-        getAllOrganisations();
->>>>>>> 8636468cddea42fb1925fef22982accf836952d1
-
 <script lang="ts">
 
 import { defineComponent, onMounted, ref } from 'vue';
@@ -276,7 +224,7 @@ export default defineComponent({
 
 
 
-    return { documentSchema, addDocument, documentForm, typeOptions, formatOptions, organisationOptions, tagOptions };
+    return { documentSchema,formats, addDocument, documentForm, typeOptions, formatOptions, organisationOptions, tagOptions };
   },
 });
 </script>
