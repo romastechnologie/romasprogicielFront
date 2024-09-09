@@ -4,7 +4,6 @@
           <Form ref="champsLibreForm" @submit="addChampsLibre" :validation-schema="champsLibreSchema">
           <div class="row">
             <div class="col-md-4">
-              <br />
               <div class="form-check mt-3 mb-2 mb-sm-2 mb-md-2">
                     <label
                       for="estActif"
@@ -78,18 +77,16 @@
               <span class="text-danger" v-if="showMErr">Le type est obligatoire</span>
             </div>
           </div>
-        
-        <div class="col-md-12 mb-md-25">
-              <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+        </div>
                 <div class="row">
                   <div class="border border-primary mb-10">
-                    <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                      style="background-color: #0a59a4">
+                    <div class="row d-flex align-items-center justify-content-between fw-bold py-2" style="background-color: #0a59a4">
                           <div class="col-md-7">
                             <h3 class="fs-4 text-white">
                               Valeurs Possibles
                             </h3>
                           </div>
+                      
                       <div class="col-md-5">
                         <div class="d-flex float-end">
                           <button
@@ -99,28 +96,29 @@
                             <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
                             Ajouter une valeur possible
                           </button>
-                          <router-link to="/liste-mouvements"></router-link>
                         </div>
                       </div>
-            
-                      <div class="row d-flex align-items-center justify-content-between mt-10">
-                              <div class="col-md-2">
+                    </div>
+                      <div class="row  align-items-center justify-content-between mt-10">
+                              <div class="col-md-5">
                                 <label class="d-block text-black fw-semibold">
                                   Valeur
                                   <span class="text-danger">*</span>
                                 </label>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-5">
                                 <label class="d-block text-black fw-semibold">
                                   Libelle
                                   <span class="text-danger">*</span>
                                 </label>
                               </div>
+                              <div class="col-md-2">
                                 
-                 
+                              </div>  
+                        </div>  
                       <hr class="mt-0" />
                       <div class="row" v-for="(valeurPossible, index) in valeurPossibles" :key="index">
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-5 mb-3">
                                   <div class="form-group mb-5 mb-sm-5 mb-md-5">
                                     <input v-model="valeurPossible.valeur" type="text" class="form-control shadow-none fs-md-15 text-black"
                                       placeholder="Saisir la valeur" />
@@ -129,7 +127,7 @@
                                     </div>
                                   </div>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-5 mb-3">
                                   <div class="form-group mb-5 mb-sm-5 mb-md-5">
                                     <input v-model="valeurPossible.libelle" type="text"
                                       class="form-control shadow-none fs-md-15 text-black" placeholder="saisir le prénom" />
@@ -140,14 +138,7 @@
                                 </div>
                              </div>
                                 
-
-                    
-            
-          </div>
         </div>
-
-      
-      
       </div>
     </Form>
   </div>
@@ -176,7 +167,7 @@ export default defineComponent({
     Multiselect
   },
   setup: () => {
-    const personnelSchema = Yup.object().shape({
+    const champsLibreSchema = Yup.object().shape({
       modeSaisie: Yup.string().required('Le mode de saisie est obligatoire'),
       typeChampsLibre: Yup.string().required('Le type de champs libre est obligatoire'),
       libelleChamp: Yup.string().required('Le libellé du champ libre est obligatoire'),
@@ -233,7 +224,7 @@ export default defineComponent({
       values.valeurPossibles = valeurPossibles.map(valeurPossible => ({
        valeur: valeurPossible.valeur,
         libelle: valeurPossible.libelle,
-      }));
+    }));
 
       
       ApiService.post("/personnels", values)
@@ -246,14 +237,10 @@ export default defineComponent({
         }).catch(({ response }) => {
           error(response.data.message);
         });
-    };
-
-    onMounted(async () => {
-     
-    })
+    }
 
     return {
-      personnelSchema,
+      champsLibreSchema,
       addChampsLibre,
       personnelForm,
       removeRowValeurPossible,
@@ -262,9 +249,9 @@ export default defineComponent({
       valuess,
       valeurPossibleOptions,
       isDisable,
-      valeurPossibles,  
-    };
-  },
+      valeurPossibles
+    }
+  }
 });
 </script>
 <style scoped>
