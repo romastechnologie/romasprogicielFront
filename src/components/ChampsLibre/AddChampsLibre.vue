@@ -119,7 +119,7 @@
                       <hr class="mt-0" />
                       <div class="row" v-for="(valeurPossible, index) in valeurPossibles" :key="index">
                                 <div class="col-md-5 mb-3">
-                                  <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                  <div class="d-block text-black fw-semibold mb-10">
                                     <input v-model="valeurPossible.valeur" type="text" class="form-control shadow-none fs-md-15 text-black"
                                       placeholder="Saisir la valeur" />
                                     <div class="invalid-feedback" v-if="valideteRowValeurPossible(valeurPossible.valeur)">
@@ -128,7 +128,7 @@
                                   </div>
                                 </div>
                                 <div class="col-md-5 mb-3">
-                                  <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                  <div class="d-block text-black fw-semibold mb-10">
                                     <input v-model="valeurPossible.libelle" type="text"
                                       class="form-control shadow-none fs-md-15 text-black" placeholder="saisir le libellé" />
                                     <div class="invalid-feedback" v-if="valideteRowValeurPossible(valeurPossible.libelle)">
@@ -241,13 +241,13 @@ export default defineComponent({
         newValue.some(
           (valeurPossible) =>
           valideteRowValeurPossible(valeurPossible.valeur) ||
-          valideteRowValeurPossible(valeurPossible.libelle) ||
+          valideteRowValeurPossible(valeurPossible.libelle)
          
         );
       },
       { deep: true }
     );
-    
+
     const { remove, push, fields, update } = useFieldArray("valeurPossibles");
 
     const valeurPossibleOptions = ref([]);
