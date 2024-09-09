@@ -426,7 +426,7 @@
                                             </div>
                                             <div>
                                               <div class="row d-flex align-items-center justify-content-between mt-10">
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                   <label class="d-block text-black fw-semibold">
                                                     Nom
                                                     <span class="text-danger">*</span>
@@ -446,6 +446,11 @@
                                                 <div class="col-md-2">
                                                   <label class="d-block text-black fw-semibold mb-10">
                                                     Sexe <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Actions <span class="text-danger">*</span>
                                                   </label>
                                                 </div>
                                               </div>
@@ -469,7 +474,7 @@
                                                     </div>
                                                   </div>
                                                 </div>
-                                                <div class="col-md-3 mb-2">
+                                                <div class="col-md-2 mb-2">
                                                   <div class="form-group">
                                                     <input v-model="enfant.dateNaissance" type="date"
                                                       class="form-control shadow-none fs-md-15 text-black" placeholder="" />
@@ -478,12 +483,18 @@
                                                     La date est obligatoire.
                                                   </div>
                                                 </div>
-                                                <div class="col-md-3 mb-2">
+                                                <div class="col-md-2 mb-2">
                                                   <div class="form-group ">
                                                     <Multiselect :searchable="true" :options="['Masculin', 'Féminin']" v-model="enfant.sexe"
                                                       placeholder="Sélectionner le sexe" />
                                                   </div>
                                                 </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                                                    @click="removeRowEnfant(index)">
+                                                   <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                                                    </button>
+                                             </div> 
                                               </div>
                                             </div>
                                           </div>

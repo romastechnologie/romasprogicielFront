@@ -113,7 +113,10 @@
                                 </label>
                               </div>
                               <div class="col-md-2">
-                                
+                                <label class="d-block text-black fw-semibold">
+                                  Actions
+                                  <span class="text-danger">*</span>
+                                </label>
                               </div>  
                         </div>  
                       <hr class="mt-0" />
@@ -131,12 +134,23 @@
                                   <div class="d-block text-black fw-semibold mb-10">
                                     <input v-model="valeurPossible.libelle" type="text"
                                       class="form-control shadow-none fs-md-15 text-black" placeholder="saisir le libellé" />
-                                    <div class="invalid-feedback" v-if="valideteRowValeurPossible(valeurPossible.libelle)">
+                                      <div class="invalid-feedback" v-if="valideteRowValeurPossible(valeurPossible.libelle)">
                                       Le libelle est obligatoire.
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                             </div>
+                                    
+                                  <div class="col-md-2 mb-3">
+                                  <div class="d-block text-black fw-semibold mb-10">
+                                        <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                                          @click="removeRowValeurPossible(index)">
+                                          <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                                        </button>
+                                    </div>
+                                  </div>
+                                
+                              </div>
+                             
             
                   
         </div>
