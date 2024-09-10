@@ -6,10 +6,10 @@
         <div class="d-sm-flex align-items-center">
           <router-link
            class="btn btn-primary"
-            to="/biens/ajouter-bien"
+            to="/horaires/ajouter-horaire"
           >
           <i class="fa fa-plus-circle"></i>
-            Ajouter un bien
+            Ajouter un horaire
           </router-link>
           <!-- <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -52,56 +52,38 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Référence du Bien
+                  Jour
                 </th>
-                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                  Nom Bien
+                
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Heure d'ouverture
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Cout Acquisition
+                  Heure de fermeture
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Date acquisition
+                  Heure début de pause
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Date de mise en Service
+                  Heure fin de pause
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                Duree de vie
-                </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                Numéro d'enregistrement
-                </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
-                >Code Bar</th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                  Valeur Nette Comptable
-                </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                 Date
+                  Date
                 </th>
                 <th
                   scope="col"
@@ -110,71 +92,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr  v-for ="(bien, index) in biens" :key="index">
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien.refBien }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.nomBien }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.coutAcquisition }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(bien?.dateAcquisition) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(bien.dateMiseEnService) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien.dureeVie }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien.numeroEnregistrement }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien.codeBar }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien.valeurNetteComptable }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(bien.createdAt) }} </td>
+              <tr  v-for ="(horaire, index) in horaires" :key="index">
+                  <td class="shadow-none lh-1 fw-medium ">{{ horaire.jour }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureOuverture }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureFermeture }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureDebutPause }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureFinPause }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ format_date(horaire.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
 
                         <ul class="dropdown-menu">
-                          <li class="dropdown-item d-flex align-items-center" v-if="bien?.mouvements.length != 0">
-                            <router-link
-                              
-                              :to="{ name: 'AddMouvementBien',params: { id: bien.id } }"
-                            >
-                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
-                              Transfert
-                            </router-link>
-                          </li>
-                          <li class="dropdown-item d-flex align-items-center" v-if="bien?.mouvements.length == 0">
-                            <router-link
-                              
-                              :to="{ name: 'AddMouvementBien',params: { id: bien.id } }"
-                            >
-                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
-                              Affectation
-                            </router-link>
-                          </li>
                           <li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
-                              :to="{ name: '',params: { id: bien.id } }"
-                            >
-                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
-                              Retourner
-                            </router-link>
-                          </li>
-                          <li class="dropdown-item d-flex align-items-center">
-                            <router-link
-                              
-                              :to="{ name: 'TableauAmortissement',params: { id: bien.id } }"
-                            >
-                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
-                              Tableau d'amortissement
-                            </router-link>
-                          </li>
-                          <li class="dropdown-item d-flex align-items-center">
-                            <router-link
-                              
-                              :to="{ name: 'ViewBien',params: { id: bien.id } }"
-                            >
-                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
-                              Détails
-                            </router-link>
-                          </li>
-                          <li class="dropdown-item d-flex align-items-center">
-                            <router-link
-                              
-                              :to="{ name: 'EditBien',params: { id: bien.id } }"
+                              :to="{ name: 'EditHoraire',params: { id: horaire.id } }"
                             >
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Modifier
@@ -184,7 +117,7 @@
                             <a
                              
                               href="javascript:void(0);"
-                              @click="suppression(bien.id, biens, 'biens', 'un utilisateur')"
+                              @click="suppression(horaire.id, horaires, 'horaires', 'un horaire')"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"
@@ -211,24 +144,24 @@
   <script lang="ts">
   import { defineComponent, onMounted, ref} from "vue";
   import ApiService from "@/services/ApiService";
-  import { Bien } from "@/models/Bien";
+  import { Horaire } from "@/models/Horaire";
   import { format_date, suppression, error, } from "@/utils/utils";
   
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeBien",
+    name: "ListeHoraire",
     components: {
       PaginationComponent
     },
     setup(){
       onMounted(() => {
-        getAllBiens();
+        getAllHoraires();
       });
   
-      const biens = ref<Array<Bien>>([]);
-      const bien = ref<Bien>();
+      const horaires = ref<Array<Horaire>>([]);
+      const horaire = ref<Horaire>();
   
       // BEGIN PAGINATE
       const searchTerm = ref('');
@@ -240,23 +173,23 @@
       const handlePaginate = ({ page_, limit_ }) => {
         try {
           page.value = page_;
-          getAllBiens(page_, limit_);
+          getAllHoraires(page_, limit_);
         } catch (error) {
           //
         }
       };
   
        function rechercher(){
-        getAllBiens(page.value, limit.value, searchTerm.value );
+        getAllHoraires(page.value, limit.value, searchTerm.value );
       }
   
   
       // END PAGINATE
   
-      function getAllBiens(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/all/biens?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      function getAllHoraires(page = 1, limi = 10, searchTerm = '') {
+        return ApiService.get(`/horaires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            biens.value = data.data;
+            horaires.value = data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -273,11 +206,11 @@
     return privileges.value.includes(name);
   }
   
-      return {biens,
+      return {horaires,
         checkPermission,
         format_date,
         suppression,
-        bien,
+        horaire,
         page, 
         totalPages,
         limit,

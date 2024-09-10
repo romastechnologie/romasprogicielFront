@@ -96,6 +96,113 @@
               <ErrorMessage name="modeDeTarification" class="text-danger" />
             </div>
           </div>
+          
+          <div class="col-md-12 mb-md-25">
+                                      <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+                                        <div class="row">
+                                          <div class="border border-primary mb-10">
+                                            <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                                              style="background-color: #0a59a4">
+                                              <div class="col-md-7">
+                                                <h3 class="fs-4 text-white">
+                                                  HoraireContrats
+                                                </h3>
+                                              </div>
+                                              <div class="col-md-5">
+                                                <div class="d-flex float-end">
+                                                  <button
+                                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                                                    type="button" :class="{ 'cursor-not-allowed': isDisableeeeeee }" :disabled="isDisableeeeeee"
+                                                    @click="addRowHoraireContrat()">
+                                                    <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
+                                                    Ajouter un horaireContrat
+                                                  </button>
+                                                  <router-link to="/liste-mouvements"></router-link>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div>
+                                              <div class="row d-flex align-items-center justify-content-between mt-10">
+                                                <div class="col-md-3">
+                                                  <label class="d-block text-black fw-semibold">
+                                                    Heure d'arrivée
+                                                    <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                  <label class="d-block text-black fw-semibold">
+                                                    Heure de début de pause
+                                                    <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                   Heure de fin de pause<span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Heure de départ <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Actions <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                              </div>
+                                              <hr class="mt-0" />
+                                              <div class="row" v-for="(horaireContrat, index) in horaireContrats" :key="index">
+                                                <div class="col-md-3 mb-2">
+                                                  <div class="form-group ">
+                                                    <input v-model="horaireContrat.heureArrive" type="time" class="form-control shadow-none fs-md-15 text-black"
+                                                      placeholder="" />
+                                                    <div class="invalid-feedback" v-if="valideteRowHoraireContrat(horaireContrat.heureArrive)">
+                                                      L"heure d'arrivée est obligatoire.
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-3 mb-2">
+                                                  <div class="form-group">
+                                                    <input v-model="horaireContrat.heureDebutPause" type="time"
+                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                                  </div>
+                                                  <div class="invalid-feedback" v-if="valideteRowHoraireContrat(horaireContrat.heureDebutPause)">
+                                                    L'heure de début de pause  est obligatoire.
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                  <div class="form-group ">
+                                                    <input v-model="horaireContrat.heureFinPause" type="time"
+                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                                    <div class="invalid-feedback" v-if="valideteRowHoraireContrat(horaireContrat.heureFinPause)">
+                                                      L'heure de fin de pause est obligatoire.
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                  <div class="form-group ">
+                                                    <input v-model="horaireContrat.heureDepart" type="time"
+                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                                    <div class="invalid-feedback" v-if="valideteRowHoraireContrat(horaireContrat.heureDepart)">
+                                                      L'heure de départ est obligatoire.
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                                                    @click="removeRowHoraireContrat(index)">
+                                                   <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                                                    </button>
+                                             </div> 
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+
           <div class="col-md-12 mb-md-25">
               <div class="accordion" id="basicAccordion">
                 <div class="accordion-item mb-0 bord1">
@@ -603,7 +710,7 @@
         personnels.value = response.data;
         personnelOptions.value = response.data.map((personnel: any) => ({
           value: personnel.id,
-          label: `${personnel.nom + " " + personnel.prenom}`
+          label: `${personnel.nom + " " + personnel.heureFinPause}`
         }));
         console.log(response);
       } catch (error) {
@@ -670,6 +777,58 @@
           //error(response.data.message)
         }
       }
+
+      // horaireContrat
+      const isDisableeeeee = ref(true);
+    const horaireContrats = reactive([{
+      heureArrive: "",
+      heureDepart: "",
+      heureFinPause: "",
+      heureDebutPause: ""
+    }]);
+    
+    
+
+    const addRowHoraireContrat = () => {
+      horaireContrats.push({
+        heureArrive: "",
+        heureDepart: "",
+        heureFinPause: "",
+        heureDebutPause: ""
+      });
+    };
+
+    const removeRowHoraireContrat = (index) => {
+      if (horaireContrats.length > 1) horaireContrats.splice(index, 1);
+      //totals();
+    };
+
+    watch(
+      horaireContrats,
+      (newValue) => {
+        isDisableeeeee.value =
+        newValue.some(
+          (horaireContrat) =>
+          valideteRowHoraireContrat(horaireContrat.heureArrive) ||
+          valideteRowHoraireContrat(horaireContrat.heureFinPause) ||
+          valideteRowHoraireContrat(horaireContrat.heureDepart) ||
+          valideteRowHoraireContrat(horaireContrat.heureDebutPause)
+        );
+      },
+      { deep: true }
+    );
+
+    const valideteRowHoraireContrat = (e) => {
+      if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
+        console.log('erg')
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    //const { remove, push, fields, update } = useFieldArray("horaireContrats");
+
 
     // formulaire dynamique
   const isDisable = ref(true);
@@ -892,7 +1051,7 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
       });
     });
 
-    const { remove, push, fields, update } = useFieldArray("fonctions");
+    const { remove, push, fields,update} = useFieldArray("fonctions");
 
     const fonctionOptions = ref([]);
     const fetchFonction = async () => {
@@ -930,6 +1089,12 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
         organisation: fonction.organisation,
         dateDebut: fonction.dateDebut,
         dateFin: fonction.dateFin,
+      }));
+      values.horaireContrats = horaireContrats.map(horaireContrat => ({
+        heureArrive: horaireContrat.heureArrive,
+        heureDepart: horaireContrat.heureDepart,
+        heureFinPause: horaireContrat.heureFinPause,
+        heureDebutPause: horaireContrat.heureDebutPause,
       }));
     console.log('Values', values);
     try {
@@ -1002,7 +1167,9 @@ const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
         personnel,
         modeDeTarificationOptions,
         OrganisationOptions,
-        Organisation,
+        Organisation,removeRowHoraireContrat,
+      addRowHoraireContrat,
+      valideteRowHoraireContrat,horaireContrats,isDisableeeeee
       };
     },
   });

@@ -79,6 +79,7 @@ import ListeUserComptePage from '@/pages/GestionTresorerie/UserCompte/ListeUserC
 import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
+import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
 //import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
 //import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
 //import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
@@ -271,6 +272,10 @@ import ListeCommunePage from "@/pages/Commune/ListeCommunePage.vue";
 import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
 import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
 import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
+
+import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
+import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
+import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -955,6 +960,14 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Modifier un bien',
         }
+      },
+      {
+        path: "view-bien/:id",
+        name: "ViewBien",
+        component: ViewBienPage,
+        meta: {
+          title: 'Détails du bien',
+        }
       }
       // {
       //   path: "view-utilisateur/:id",
@@ -1481,7 +1494,36 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-  
+  {
+    path: "/horaires",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-horaire",
+        name: "AddHoraire",
+        component: AddHorairePage,
+        meta: {
+          title: 'Ajouter un horaire',
+        }
+      },
+      {
+        path: "liste-horaires",
+        name: "ListeHoraire",
+        component: ListeHorairePage,
+        meta: {
+          title: 'Liste des horaires',
+        }
+      },
+      {
+        path: "edit-horaire/:id",
+        name: "EditHoraire",
+        component: EditHorairePage,
+        meta: {
+          title: 'Modifier un horaire',
+        }
+      },
+    ]
+  },
 
   {
     path: "/finances",

@@ -305,7 +305,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion du personnel",
-        headTitle2: "Demandes, Permissions, Congés, Présences, Justificatifs et Heures supplémentaires",
+        headTitle2: "Demandes, Permissions, Congés, Présences, Justificatifs et Heures supplémentaires,Horaires",
         type: "headtitle"
     },
     {
@@ -488,6 +488,27 @@ export const menu: MenuItem[] = [
                 title: "Liste des permission",
                 type: "link"
             },
+        ]
+    },
+    {
+        title: "Horaires",
+        icon: "stroke-to-do",
+        icon1: "fill-to-do",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/horaires/ajouter-horaire",
+                title: "Ajouter un horaire",
+                type: "link"
+            },
+            {
+                path: "/horaires/liste-horaire",
+                title: "Liste des horaires",
+                type: "link"
+            }
         ]
     },
 

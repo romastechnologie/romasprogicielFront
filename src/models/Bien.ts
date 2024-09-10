@@ -13,6 +13,8 @@ export  interface Bien {
     localisation:string;
     modeAmortissement:string;
     valeurNetteComptable:number;
+    typeBien:string;
+    categorieBien: string;
     createdAt:Date;
     setFieldValue: (field: string, value: any) => void;
   }
