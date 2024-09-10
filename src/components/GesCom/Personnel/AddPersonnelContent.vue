@@ -106,7 +106,7 @@
                                           <ErrorMessage name="numeroSecuriteSociale" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <!--<div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Nationalité<span class="text-danger">*</span>
@@ -115,6 +115,25 @@
                                             placeholder="Entrer la nationnalité " />
                                           <ErrorMessage name="nationalite" class="text-danger" />
                                         </div>
+                                      </div>-->
+                                      <div class="col-md-4 mb-3">
+                                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                          <label class="d-block text-black mb-10">
+                                            Pays de résidence <span class="text-danger">*</span>
+                                          </label>
+                                          <Field  name="nationalite" v-model="defaultCountriy"  v-slot="{ field }">
+                                            <Multiselect
+                                              :options="countries"
+                                              :searchable="true"
+                                              track-by="value"
+                                              label="label"
+                                              v-model = "field.value"
+                                              v-bind = "field"
+                                              placeholder="Sélectionner le pays de résidence"
+                                            />
+                                          </Field>  
+                                          <ErrorMessage name="nationalite" class="text-danger"/>
+                                        </div>    
                                       </div>
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -334,7 +353,7 @@
                                             placeholder="Entrer la date de naissance du conjoint " />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                     <!-- <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Nationalité du Conjoint<span class="text-danger">*</span>
@@ -342,7 +361,26 @@
                                           <Field name="nationaliteCon" v-model="nationaliteCon" type="text" class="form-control shadow-none fs-md-15 text-black"
                                             placeholder="Entrer la nationalité du conjoint " />
                                         </div>
+                                      </div>-->
+                                      <div class="col-md-4">
+                                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                        <label class="d-block text-black fw-semibold mb-10">
+                                          Nationalité du Conjoint <span class="text-danger">*</span>
+                                        </label>
+                                        <Field  name="nationaliteCon"  v-slot="{ field }">
+                                          <Multiselect
+                                            :options="countries"
+                                            :searchable="true"
+                                            track-by="value"
+                                            label="label"
+                                            v-model = "field.value"
+                                            v-bind = "field"
+                                            placeholder="Sélectionner le pays de résidence"
+                                          />
+                                        </Field>  
+                                        <ErrorMessage name="nationaliteCon" class="text-danger"/>
                                       </div>
+                                    </div>
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
@@ -775,6 +813,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import Multiselect from '@vueform/multiselect'
 import { Tab } from "bootstrap";
+import { countries } from './countries';
 
 
 export default defineComponent({
@@ -793,8 +832,8 @@ export default defineComponent({
       dateNais: Yup.date().notRequired(),
       religion: Yup.string().required('Religion est obligatoire'),
       ethnie: Yup.string().required('Ethnie est obligatoire'),
-      nationalite: Yup.string().required('Ethnie est obligatoire'),
-      situationMatrimoniale: Yup.string().required('Ethnie est obligatoire'),
+      nationalite: Yup.string().required('La nationalité est obligatoire'),
+      situationMatrimoniale: Yup.string().required('lé situation matrimoniale est obligatoire'),
       sexe: Yup.string().required('Le sexe est obligatoire'),
       civilite: Yup.string().required('La civilité est obligatoire'),
       numeroSecuriteSociale: Yup.date().notRequired(),
@@ -960,6 +999,7 @@ export default defineComponent({
     const religionOptions = ref([]);
     const ethnieOptions = ref([]);
     const serviceOptions = ref([]);
+    
 
 
     const banqueOptions = ref([]);
@@ -1054,7 +1094,7 @@ export default defineComponent({
       }
     };
 
-
+    const countriesRef = ref(countries);
     const selectedCommune = ref([]);
     const selectedArrondissement = ref([]);
     const selectedQuartier = ref([]);
@@ -1268,7 +1308,7 @@ let activeclass = ref<string>('Informations générales du personnel')
       if (!isValid) return; // Ne pas avancer si le formulaire est invalide
 
       if (currentStep.value === 1) {
-        useForm({ validationSchema: personnelContSchema });
+        useForm({ validationSchema: personnelInfoSchema });
       }
 
       if (currentStep.value === 2) {
@@ -1351,7 +1391,7 @@ let activeclass = ref<string>('Informations générales du personnel')
          departementOptions ,arrondissementOptions,
          departementChange,communeChange,arrondissementChange,
          selectedCommune,selectedArrondissement,selectedQuartier,
-      
+         countries: countriesRef
     };
   },
 });
