@@ -335,6 +335,7 @@ import { title } from '@/composables/createProject';
           //
         }
       };
+
       const getAllTypeBien = async () => {
         try {
           const response = await ApiService.get('/all/typeBiens');
@@ -409,7 +410,7 @@ import { title } from '@/composables/createProject';
   
       const fetchFonction = async () => {
         try {
-          const response = await ApiService.get("/typeEntretiens");
+          const response = await ApiService.get("/fonctions");
           const fonctionData = response.data.data.data;
           fonctionOptions.value = fonctionData.map((fonction) => ({
             value: fonction.id,
@@ -438,4 +439,4 @@ import { title } from '@/composables/createProject';
       };
     },
   });
-  </script>@/models/CategorieInfo
+  </script>@/models/TypeEntretien

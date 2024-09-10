@@ -410,7 +410,7 @@
   
       const fetchFonction = async () => {
         try {
-          const response = await ApiService.get("/typeEntretiens");
+          const response = await ApiService.get("/fonctions");
           const fonctionData = response.data.data.data;
           fonctionOptions.value = fonctionData.map((fonction) => ({
             value: fonction.id,
@@ -439,4 +439,4 @@
       };
     },
   });
-  </script>@/models/CategorieInfo
+  </script>@/models/TypeEntretien
