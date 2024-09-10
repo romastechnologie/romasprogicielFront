@@ -30,19 +30,34 @@
                               <ErrorMessage name="nom" class="text-danger"/>
                             </div>
                           </div>
-                
+
                           
+                          <div class="col-md-12 mb-3">
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black mb-10">
+                              Organiation <span class="text-danger">*</span>
+                            </label>
+                            <Field name="organisation" type="text" v-slot="{ field }">
+                            <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions" :preserve-search="true"
+                              :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation"
+                              label="label" track-by="label" />
+                            </Field>
+                            <ErrorMessage name="organisation" class="text-danger" />
+                          </div>
+                        </div>
+
+                            
                           <div class="col-md-12 mb-3">
                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                             <label class="d-block text-black mb-10">
                               Type d'organisation <span class="text-danger">*</span>
                             </label>
-                            <Field name="typeOrganisation" type="text" v-slot="{ field }">
+                            <Field name="typeorganisation" type="text" v-slot="{ field }">
                             <Multiselect v-model="field.value" v-bind="field" :options="typeOrganisationOptions" :preserve-search="true"
                               :multiple="false" :searchable="true" placeholder="Sélectionner le type d'organisation"
                               label="label" track-by="label" />
                             </Field>
-                            <ErrorMessage name="typeOrganisation" class="text-danger" />
+                            <ErrorMessage name="typeorganisation" class="text-danger" />
                           </div>
                         </div>
                           
@@ -96,7 +111,8 @@
         const organisationSchema = Yup.object().shape({
           code: Yup.string().required('Le code est obligatoire'),
           nom: Yup.string().required('Le nom est obligatoire'),
-          typeOrganisation: Yup.string().required("Le type d'organisation est obligatoire."),
+          organisation: Yup.string().required("L'organisation est obligatoire."),
+          typeorganisation: Yup.string().required("Le type d'organisation est obligatoire."),
 
         });
     
@@ -111,12 +127,18 @@
         const router = useRouter();
         const typeOrganisationOptions = ref();
         const typeOrganisation = ref();
+        const organisationOptions = ref();
+        const organisation = ref();
+
+
       
     
 
         onMounted(() => {
         
         getAllTypeOrganisations();
+        getAllOrganisations();
+
 
       });
   
@@ -134,6 +156,7 @@
             organisationForm.value?.setFieldValue("id",data.data.id);
             organisationForm.value?.setFieldValue("code",data.data.code);
             organisationForm.value?.setFieldValue("nom",data.data.nom);
+            organisationForm.value?.setFieldValue("organisation",data.data.organisation);
             organisationForm.value?.setFieldValue("typeOrganisation",data.data.typeOrganisation);
             emit('openmodal', addOrganisationModalRef.value);
           })
@@ -152,6 +175,22 @@
           }
         }
 
+
+        const getAllOrganisations = async () => {
+        try{
+        const response = await ApiService.get('/all/organisations');
+        const organisationsData = response.data.data.data;
+        console.log('Data', organisationsData)
+        organisationOptions.value = organisationsData.map((organisation) => ({
+          value: organisation.id,
+          label: organisation.nom,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      }
+
         const getAllTypeOrganisations = async () => {
         try{
         const response = await ApiService.get('/all/typeOrganisations');
@@ -167,6 +206,9 @@
         }
       }
     
+     
+
+
         const addOrganisation = async (values:any, {resetForm}: {resetForm: () => void  }) => {
           values = values as Organisation;
           loading.value = false;
@@ -212,7 +254,7 @@
         };
     
         return {organisations, title,btntext, resetValue, organisationSchema,
-           addOrganisation, organisationForm,addOrganisationModalRef,organisationnew,typeOrganisation,typeOrganisationOptions,
+           addOrganisation, organisationForm,addOrganisationModalRef,organisationnew,typeOrganisation,organisation,typeOrganisationOptions,organisationOptions,
            //refreshOrganisations
            };
       },

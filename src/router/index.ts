@@ -270,6 +270,12 @@ import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
 import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
 import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 
+// ChampsLibreFamille
+
+import AddChampsLibreFamillePage from '@/pages/ChampsLibre/AddChampsLibreFamillePage.vue'
+import EditChampsLibreFamillePage from '@/pages/ChampsLibre/EditChampsLibreFamillePage.vue'
+import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -2756,6 +2762,33 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des champsLibres',
         }
       },
+
+      {
+        path: "/champsLibreFamille/ajouter-champsLibreFamille",
+        name: "AddChampsLibreFamillePage",
+        component: AddChampsLibreFamillePage,
+        meta: {
+          title: 'Ajouter champsLibres et Famille',
+        }
+      },
+      {
+        path: "/champsLibreFamille/editer-champsLibreFamille",
+        name: "EditChampsLibreFamillePage",
+        component: EditChampsLibreFamillePage,
+        meta: {
+          title: 'Editer des champsLibres et Famille',
+        }
+      },
+
+      {
+        path: "/champsLibreFamille/liste-champsLibreFamille",
+        name: "ListeChampsLibreFamillePage",
+        component: ListeChampsLibreFamillePage,
+        meta: {
+          title: 'Liste des champsLibres et Famille',
+        }
+      },
+
     ]
   },  
 

@@ -87,6 +87,14 @@
                 >
                 Numéro d'enregistrement
                 </th>
+
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                Nombre de Kilomètres par un Litre
+                </th>
+
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
@@ -118,6 +126,7 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(bien.dateMiseEnService) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.dureeVie }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.numeroEnregistrement }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien.nbreKmParUnLitre }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.codeBar }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.valeurNetteComptable }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ format_date(bien.createdAt) }} </td>
