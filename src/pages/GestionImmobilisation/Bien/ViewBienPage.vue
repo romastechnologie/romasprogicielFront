@@ -1,18 +1,16 @@
 <template>
-    
+    <ViewBien/>
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
-  
-    
-    import EditPersonnel from "@/components/GesCom/Personnel/EditPersonnel.vue";
-  
+
+    import ViewBien from "@/components/GestionImmobilisation/Bien/ViewBien.vue";
+
     export default defineComponent({
-      name: "EditPersonnelPage",
+      name: "ViewBienPage",
       components: {
-        
-        EditPersonnel,
+        ViewBien,
       },
     });
   </script>

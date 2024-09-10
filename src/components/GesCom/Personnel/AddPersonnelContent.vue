@@ -106,7 +106,7 @@
                                           <ErrorMessage name="numeroSecuriteSociale" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <!--<div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Nationalité<span class="text-danger">*</span>
@@ -115,6 +115,25 @@
                                             placeholder="Entrer la nationnalité " />
                                           <ErrorMessage name="nationalite" class="text-danger" />
                                         </div>
+                                      </div>-->
+                                      <div class="col-md-4 mb-3">
+                                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                          <label class="d-block text-black mb-10">
+                                            Pays de résidence <span class="text-danger">*</span>
+                                          </label>
+                                          <Field  name="nationalite" v-model="defaultCountriy"  v-slot="{ field }">
+                                            <Multiselect
+                                              :options="countries"
+                                              :searchable="true"
+                                              track-by="value"
+                                              label="label"
+                                              v-model = "field.value"
+                                              v-bind = "field"
+                                              placeholder="Sélectionner le pays de résidence"
+                                            />
+                                          </Field>  
+                                          <ErrorMessage name="nationalite" class="text-danger"/>
+                                        </div>    
                                       </div>
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -164,16 +183,6 @@
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
-                                            Adresse <span class="text-danger">*</span>
-                                          </label>
-                                          <Field name="adresse" v-model="adresse" type="text" class="form-control shadow-none fs-md-15 text-black"
-                                            placeholder="Entrer l'adresse" />
-                                          <ErrorMessage name="adresse" class="text-danger" />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-4 mb-3">
-                                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                          <label class="d-block text-black mb-10">
                                             Boite Postale <span class="text-danger">*</span>
                                           </label>
                                           <Field name="boitePostale" v-model="boitePostale" type="text" class="form-control shadow-none fs-md-15 text-black"
@@ -210,8 +219,106 @@
                                             placeholder="Entrer l'email" />
                                           <ErrorMessage name="email" class="text-danger" />
                                         </div>
+                                      
                                       </div>
+                                      <div class="col-md-4">
+                                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                            <label class="d-block text-black fw-semibold mb-10">
+                                              Département <span class="text-danger">*</span>
+                                            </label>
+                                            <Field  name="departement"  v-slot="{ field }">
+                                              <Multiselect
+                                                :options="departementOptions"
+                                                :searchable="true"
+                                                track-by="label"
+                                                label="label"
+                                                v-model = "field.value"
+                                                v-bind = "field"
+                                                @change="departementChange($event)"
+                                                placeholder="Sélectionner le departement"
+                                              />
+                                            </Field>  
+                                          </div>
+                                          <ErrorMessage name="departement" class="text-danger"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                            <label class="d-block text-black fw-semibold mb-10">
+                                              Communes <span class="text-danger">*</span>
+                                            </label>
+                                            <Field  name="commune"  v-slot="{ field }">
+                                              <Multiselect
+                                                :options="communeOptions"
+                                                :searchable="true"
+                                                track-by="label"
+                                                label="label"
+                                                v-model="selectedCommune"
+                                                v-bind = "field"
+                                                @change="communeChange($event)"
+                                                noOptionsText="Sélectionner d'abord un département"
+                                                placeholder="Sélectionner la commune"
+                                              />
+                                            </Field>  
+                                          </div>
+                                          <ErrorMessage name="commune" class="text-danger"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                            <label class="d-block text-black fw-semibold mb-10">
+                                              Arrondissement <span class="text-danger">*</span>
+                                            </label>
+                                            <Field  name="arrondissement"  v-slot="{ field }">
+                                              <Multiselect
+                                                :options="arrondissementOptions"
+                                                :searchable="true"
+                                                track-by="label"
+                                                label="label"
+                                                v-model = "selectedArrondissement"
+                                                v-bind = "field"
+                                                noOptionsText="Sélectionner d'abord une commune"
+                                                @change="arrondissementChange($event)"
+                                                placeholder="Sélectionner l' arrondissement"
+                                              />
+                                            </Field>  
+                                          </div>
+                                          <ErrorMessage name="arrondissement" class="text-danger"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                            <label class="d-block text-black fw-semibold mb-10">
+                                              Quartier <span class="text-danger">*</span>
+                                            </label>
+                                            <Field  name="quartier"  v-slot="{ field }">
+                                              <Multiselect
+                                                :options="quartierOptions"
+                                                :searchable="true"
+                                                track-by="label"
+                                                label="label"
+                                                v-model = "selectedQuartier"
+                                                v-bind = "field"
+                                                noOptionsText="Sélectionner d'abord un arrondissement"
+                                                placeholder="Sélectionner le quartier"
+                                              />
+                                            </Field>  
+                                          </div>
+                                          <ErrorMessage name="quartier" class="text-danger"/>
+                                        </div>
                                     </div>
+                                    <div class="col-md-12 mt-3">
+                                    <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                      <label class="d-block text-black fw-semibold mb-10">
+                                        Adresse <span class="text-danger">*</span>
+                                      </label>
+                                      <Field name="adresse" cols="20"
+                                      rows="3" as="textarea" placeholder="Ex: M/ DOSSOU C/905" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
+                                        <textarea
+                                          v-model="field.value"
+                                          class="form-control shadow-none rounded-0 text-black"
+                                        ></textarea>
+                                      </Field>
+                                      <ErrorMessage name="adresse" class="text-danger"/>
+                                    </div>
+                                  </div>
                                   </div>
                                 </div>
                                 <div v-if="currentStep === 3"  class="tab-pane fade show active" id="info-conjoint" role="tabpanel" aria-labelledby="info-conjoint-tab">
@@ -246,7 +353,7 @@
                                             placeholder="Entrer la date de naissance du conjoint " />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                     <!-- <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Nationalité du Conjoint<span class="text-danger">*</span>
@@ -254,7 +361,26 @@
                                           <Field name="nationaliteCon" v-model="nationaliteCon" type="text" class="form-control shadow-none fs-md-15 text-black"
                                             placeholder="Entrer la nationalité du conjoint " />
                                         </div>
+                                      </div>-->
+                                      <div class="col-md-4">
+                                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                        <label class="d-block text-black fw-semibold mb-10">
+                                          Nationalité du Conjoint <span class="text-danger">*</span>
+                                        </label>
+                                        <Field  name="nationaliteCon"  v-slot="{ field }">
+                                          <Multiselect
+                                            :options="countries"
+                                            :searchable="true"
+                                            track-by="value"
+                                            label="label"
+                                            v-model = "field.value"
+                                            v-bind = "field"
+                                            placeholder="Sélectionner le pays de résidence"
+                                          />
+                                        </Field>  
+                                        <ErrorMessage name="nationaliteCon" class="text-danger"/>
                                       </div>
+                                    </div>
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
@@ -338,7 +464,7 @@
                                             </div>
                                             <div>
                                               <div class="row d-flex align-items-center justify-content-between mt-10">
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                   <label class="d-block text-black fw-semibold">
                                                     Nom
                                                     <span class="text-danger">*</span>
@@ -358,6 +484,11 @@
                                                 <div class="col-md-2">
                                                   <label class="d-block text-black fw-semibold mb-10">
                                                     Sexe <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Actions <span class="text-danger">*</span>
                                                   </label>
                                                 </div>
                                               </div>
@@ -381,7 +512,7 @@
                                                     </div>
                                                   </div>
                                                 </div>
-                                                <div class="col-md-3 mb-2">
+                                                <div class="col-md-2 mb-2">
                                                   <div class="form-group">
                                                     <input v-model="enfant.dateNaissance" type="date"
                                                       class="form-control shadow-none fs-md-15 text-black" placeholder="" />
@@ -390,12 +521,18 @@
                                                     La date est obligatoire.
                                                   </div>
                                                 </div>
-                                                <div class="col-md-3 mb-2">
+                                                <div class="col-md-2 mb-2">
                                                   <div class="form-group ">
                                                     <Multiselect :searchable="true" :options="['Masculin', 'Féminin']" v-model="enfant.sexe"
                                                       placeholder="Sélectionner le sexe" />
                                                   </div>
                                                 </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                                                    @click="removeRowEnfant(index)">
+                                                   <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                                                    </button>
+                                             </div> 
                                               </div>
                                             </div>
                                           </div>
@@ -546,11 +683,26 @@
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
-                                            Relevé d'identité bancaire
+                                            Banque
+                                            </label>
+                                              <Multiselect
+                                                :options="banqueOptions"
+                                                :searchable="true"
+                                                track-by="label"
+                                                label="label"
+                                                
+                                                placeholder="Sélectionner la banque"
+                                              />
+                                            </div>
+                                            </div>
+                                      <div class="col-md-4 mb-3">
+                                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                          <label class="d-block text-black mb-10">
+                                            Numéro de compte bancaire
                                           </label>
-                                          <Field name="releveIdentiteBancaire" type="text" class="form-control shadow-none fs-md-15 text-black"
-                                            placeholder="Entrer le relevé" />
-                                          <ErrorMessage name="releveIdentiteBancaire" class="text-danger" />
+                                          <Field name="numeroCompte" type="text" class="form-control shadow-none fs-md-15 text-black"
+                                            placeholder="Entrer le numéro de compte" />
+                                          <ErrorMessage name="numeroCompte" class="text-danger" />
                                         </div>
                                       </div>
                                       <div class="col-md-4 mb-3">
@@ -573,21 +725,12 @@
                                           <ErrorMessage name="codeSwift" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
-                                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                          <label class="d-block text-black mb-10">
-                                            Banque
-                                            </label>
-                                              <Multiselect
-                                                :options="banqueOptions"
-                                                :searchable="true"
-                                                track-by="label"
-                                                label="label"
-                                                
-                                                placeholder="Sélectionner la banque"
-                                              />
-                                            </div>
-                                            </div>
+                                          <div class="col-md-4 mt-3">
+                                          <label for="releveIdentiteBancaire" class="form-label">Relevé d'identité bancaire<span class="text-danger">*</span></label>
+                                          <Field name="releveIdentiteBancaire" class="form-control" type="file" placeholder="Joindre le RIB"/>
+                                          <ErrorMessage name="releveIdentiteBancaire" class="text-danger" />
+                                       </div>
+                                      
                                         <h1>Informations sur la personne à contacter</h1>
                                       <div class="row g-2">
                                         <div class="col-md-4 mb-3">
@@ -670,6 +813,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import Multiselect from '@vueform/multiselect'
 import { Tab } from "bootstrap";
+import { countries } from './countries';
 
 
 export default defineComponent({
@@ -684,11 +828,12 @@ export default defineComponent({
     const personnelInfoSchema = Yup.object().shape({
       nom: Yup.string().required('Le nom du personnel est obligatoire'),
       prenom: Yup.string().required('Le prénom du personnel est obligatoire'),
+      numeroCompte: Yup.string().notRequired(),
       dateNais: Yup.date().notRequired(),
       religion: Yup.string().required('Religion est obligatoire'),
       ethnie: Yup.string().required('Ethnie est obligatoire'),
-      nationalite: Yup.string().required('Ethnie est obligatoire'),
-      situationMatrimoniale: Yup.string().required('Ethnie est obligatoire'),
+      nationalite: Yup.string().required('La nationalité est obligatoire'),
+      situationMatrimoniale: Yup.string().required('lé situation matrimoniale est obligatoire'),
       sexe: Yup.string().required('Le sexe est obligatoire'),
       civilite: Yup.string().required('La civilité est obligatoire'),
       numeroSecuriteSociale: Yup.date().notRequired(),
@@ -732,6 +877,12 @@ export default defineComponent({
       prenomPersonneAContacter: Yup.string().notRequired(),
       telephonePersonneAContacter: Yup.number().notRequired(),
       relation: Yup.string().notRequired(),
+
+      quartier: Yup.string().required('Le quartier est obligatoire'),
+      arrondissement: Yup.string().required('L\'arrondissement  est obligatoire'),
+      commune: Yup.string().required('La commune est obligatoire'),
+      departement: Yup.string().required('Le département  est obligatoire'),
+
     });
 
     const personnelForm = ref<Personnel | null>(null);
@@ -783,6 +934,10 @@ export default defineComponent({
     const nmbreEnfant = ref(0);
     const situation = ref();
     const photo = ref<File>(null)
+    const departementOptions = ref([]);
+    const communeOptions = ref([]);
+    const arrondissementOptions = ref([]);
+    const quartierOptions = ref([]);
 
     const isDisable = ref(true);
     const enfants = reactive([{
@@ -844,6 +999,7 @@ export default defineComponent({
     const religionOptions = ref([]);
     const ethnieOptions = ref([]);
     const serviceOptions = ref([]);
+    
 
 
     const banqueOptions = ref([]);
@@ -938,6 +1094,112 @@ export default defineComponent({
       }
     };
 
+    const countriesRef = ref(countries);
+    const selectedCommune = ref([]);
+    const selectedArrondissement = ref([]);
+    const selectedQuartier = ref([]);
+
+    function departementChange(value) {
+      console.log('g,rl;m', value)
+    if(value){
+        communeOptions.value =[];
+        selectedCommune.value = [];
+        selectedArrondissement.value = [];
+        selectedQuartier.value = [];
+        ApiService.get('/departements/communes/'+value)
+          .then(({ data }) => {
+              const donnee = data.data;
+              console.log('donnee',donnee)
+              if(donnee.length > 0) {
+                communeOptions.value = donnee.map((commune: any) => {
+                  return {
+                    label: commune.libelle,
+                    value: commune.id,
+                  };
+                });
+              }
+          })
+          .catch(({ response }) => {
+            //error(response.data.message);
+          });
+      }else {
+        communeOptions.value = [];
+        selectedCommune.value = [];
+        selectedArrondissement.value = [];
+        selectedQuartier.value = [];
+      }
+    }
+
+    function communeChange(value) {
+    if(value){
+        arrondissementOptions.value =[];
+        selectedArrondissement.value = [];
+        selectedQuartier.value = [];
+        ApiService.get('/communes/arrondissements/'+value)
+          .then(({ data }) => {
+              const donnee = data.data;
+              if(donnee.length > 0) {
+                arrondissementOptions.value = donnee.map((arrondissement: any) => {
+                  return {
+                    label: arrondissement.libelle,
+                    value: arrondissement.id,
+                  };
+                });
+              }
+          })
+          .catch(({ response }) => {
+            //error(response.data.message);
+          });
+      }else {
+        arrondissementOptions.value = [];
+        selectedArrondissement.value = [];
+        selectedQuartier.value = [];
+      }
+    }
+
+    function arrondissementChange(value) {
+    if(value){
+        quartierOptions.value =[];
+        selectedQuartier.value = [];
+        ApiService.get('/arrondissements/quartiers/'+value)
+          .then(({ data }) => {
+              const donnee = data.data;
+              if(donnee.length > 0) {
+                quartierOptions.value = donnee.map((quartier: any) => {
+                  return {
+                    label: quartier.libelle,
+                    value: quartier.id,
+                  };
+                });
+              }
+          })
+          .catch(({ response }) => {
+            //error(response.data.message);
+          });
+      }else {
+        quartierOptions.value = [];
+        selectedQuartier.value = [];
+      }
+    }
+
+    const fetchDepartements = async () => {
+      ApiService.get("/departements")
+      .then(({ data }) => {
+        const donnees = data.data.data;
+        departementOptions.value = donnees.map((departement) => {
+          return {
+            value: departement.id,
+          label: `${departement.libelle}`,
+          }
+        });
+      })
+      .catch(({ response }) => {
+        error(response.data.message)
+      });
+    }
+
+
+
     const tabContainer = ref(null);
     const tabs  = [
         {
@@ -1023,6 +1285,7 @@ export default defineComponent({
       await getAllEthnies();
       await getAllServices();
       await fetchBanque();
+     await  fetchDepartements();
     })
 
     const { handleSubmit, validate } = useForm({
@@ -1045,7 +1308,7 @@ let activeclass = ref<string>('Informations générales du personnel')
       if (!isValid) return; // Ne pas avancer si le formulaire est invalide
 
       if (currentStep.value === 1) {
-        useForm({ validationSchema: personnelContSchema });
+        useForm({ validationSchema: personnelInfoSchema });
       }
 
       if (currentStep.value === 2) {
@@ -1119,12 +1382,16 @@ let activeclass = ref<string>('Informations générales du personnel')
       prenomCon,
       situation,
       photo,
-
-      religion,ethnie,service,nom,prenom,adresse,email,telephone1,telephone2,nomCon,
-      nmbreEnfant,ethnieCon,religionCon,swift,iban,rib,banque,telephoneCon,
-      numSecSocial,personnels,relation,telephonePersonneAContacter,prenomPersonneAContacter,nomPersonneAContacter,
-      boitePostale,jambeDroite,jambeGauche,mainDroite,mainGauche,audienceDroite,audienceGauche,visionGauche,visionDroite,
-      dateNaissance,dateNaissanceCon,dateEmbauche,nationalite,nationaliteCon,numPassportCon,taille,poids,sexe,civilite,groupeSanguin,
+      religion, ethnie, service, nom, prenom, adresse, email, telephone1, telephone2, nomCon,
+      nmbreEnfant, ethnieCon, religionCon, swift, iban, rib, banque, telephoneCon,
+      numSecSocial, personnels, relation, telephonePersonneAContacter, prenomPersonneAContacter, nomPersonneAContacter,
+      boitePostale, jambeDroite, jambeGauche, mainDroite, mainGauche, audienceDroite, audienceGauche, visionGauche, visionDroite,
+      dateNaissance, dateNaissanceCon, dateEmbauche, nationalite, nationaliteCon, numPassportCon, taille, poids, sexe, civilite, groupeSanguin,
+      quartierOptions, communeOptions,
+         departementOptions ,arrondissementOptions,
+         departementChange,communeChange,arrondissementChange,
+         selectedCommune,selectedArrondissement,selectedQuartier,
+         countries: countriesRef
     };
   },
 });

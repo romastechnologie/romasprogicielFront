@@ -1,18 +1,16 @@
 <template>
-    
+    <ListeHoraire/>
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    
-    import EditPersonnel from "@/components/GesCom/Personnel/EditPersonnel.vue";
-  
+    import ListeHoraire from "@/components/GestionPersonnel/Horaire/ListeHoraire.vue";
+
     export default defineComponent({
-      name: "EditPersonnelPage",
+      name: "ListeHorairePage",
       components: {
-        
-        EditPersonnel,
+        ListeHoraire,
       },
     });
   </script>

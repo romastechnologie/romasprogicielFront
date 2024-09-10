@@ -1,9 +1,9 @@
 <template>
- <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-      <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-          <Form ref="champsLibreForm" @submit="addChampsLibre" :validation-schema="champsLibreSchema">
-          <div class="row">
-            <div class="col-md-4">
+    <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+         <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+             <Form ref="champsLibreForm" @submit="editChampsLibre" :validation-schema="champsLibreSchema">
+             <div class="row">
+                <div class="col-md-4">
               <div class="form-check mt-3 mb-2 mb-sm-2 mb-md-2">
                     <label
                       for="estActif"
@@ -157,98 +157,103 @@
         <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
-                Créer un champ libre
+                Modifier un champ libre
               </button>
               <router-link to="/champsLibres/liste-champsLibre" class=" btn btn-danger "><i
                   class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
             </div>
-          </div>
-      </div>
-    </Form>
-  </div>
-</div>
-</template>
+          </div>         
+        </div>
+       </Form>
+     </div>
+   </div>
+   </template>
+   
+   
+   <script lang="ts">
+   
+   import { defineComponent, ref, watch, onMounted, reactive } from 'vue';
+   import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
+   import { error, success } from '@/utils/utils';
+   import { useRouter,useRoute } from "vue-router";
+   import ApiService from '@/services/ApiService';
+   import { ChampsLibre } from '@/models/ChampsLibre';
+   import * as Yup from 'yup';
+   import axios from 'axios';
+   import Multiselect from '@vueform/multiselect'
+   
+   export default defineComponent({
+     name: "EditChampsLibre",
+     components: {
+       Form,
+       Field,
+       ErrorMessage,
+       Multiselect
+     },
+     setup: () => {
+       const champsLibreSchema = Yup.object().shape({
+         modeSaisie: Yup.string().required('Le mode de saisie est obligatoire'),
+         typeChampsLibre: Yup.string().required('Le type de champs libre est obligatoire'),
+         libelleChamp: Yup.string().required('Le libellé du champ libre est obligatoire'),
+         nomChamp: Yup.string().required('Le nom du champ libre est obligatoire'),
+         valeurPossible: Yup.number().typeError('Veuillez entrer des chiffres').required('La valeur est obligatoire'),
+         libelle: Yup.number().typeError('Veuillez entrer des chiffres').required('Le libelle est obligatoire'),
+         valeurParDefaut: Yup.number().typeError('Veuillez entrer des chiffres').required('La valeur actuel est obligatoire'),
+         estObligatoire: Yup.boolean().notRequired(),
+              
+       });
 
 
-<script lang="ts">
-
-import { defineComponent, ref, watch, onMounted, reactive } from 'vue';
-import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
-import { error, success } from '@/utils/utils';
-import { useRouter } from "vue-router";
-import ApiService from '@/services/ApiService';
-import { ChampsLibre } from '@/models/ChampsLibre';
-import * as Yup from 'yup';
-import axios from 'axios';
-import Multiselect from '@vueform/multiselect'
-
-export default defineComponent({
-  name: "AddChampsLibre",
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-    Multiselect
-  },
-  setup: () => {
-    const champsLibreSchema = Yup.object().shape({
-      modeSaisie: Yup.string().required('Le mode de saisie est obligatoire'),
-      typeChampsLibre: Yup.string().required('Le type de champs libre est obligatoire'),
-      libelleChamp: Yup.string().required('Le libellé du champ libre est obligatoire'),
-      nomChamp: Yup.string().required('Le nom du champ libre est obligatoire'),
-      valeurPossible: Yup.number().typeError('Veuillez entrer des chiffres').required('La valeur est obligatoire'),
-      libelle: Yup.number().typeError('Veuillez entrer des chiffres').required('Le libelle est obligatoire'),
-      valeurParDefaut: Yup.number().typeError('Veuillez entrer des chiffres').required('La valeur actuel est obligatoire'),
-      estObligatoire: Yup.boolean().notRequired(),
-           
-    });
-
-
-    onMounted(() => {
-      getAllTypeChampsLibres();
-      
-    });
-
-    const champsLibreForm = ref<ChampsLibre | null>(null);
-    const router = useRouter();
-    const typeChampsLibres = ref();
-    const typeChampsLibreOptions = ref();
-    
-    const valeur = ref();
-    
-    const isDisable = ref(true);
-    const valeurPossibles = reactive([{
-     valeur: "",
-      libelle: "",
-      
-    }]);
-    
-    
-
-    const addRowValeurPossible = () => {
-      valeurPossibles.push({
-       valeur: "",
-        libelle: "",
-       
-      });
-    };
-
-    const removeRowValeurPossible = (index) => {
-      if (valeurPossibles.length > 1) valeurPossibles.splice(index, 1);
-      //totals();
-    };
-
-    const valideteRowValeurPossible = (e) => {
-      if (e == "" || e == 0 || e < 0) {
-        console.log('erg')
-        return true;
-      } else {
-        return false;
+       onMounted(() => {
+        getAllTypeChampsLibres();
+      if(route.params.id) {
+        getChampsLibre(parseInt(route.params.id as string));
       }
-    };
+    });
+   
+       const champsLibreForm = ref<ChampsLibre | null>(null);
+       const router = useRouter();
+       const typeChampsLibres = ref();
+       const typeChampsLibreOptions = ref();
+       const route = useRoute();
+    
+       
+       const valeur = ref();
+       
+       const isDisable = ref(true);
+       const valeurPossibles = reactive([{
+        valeur: "",
+         libelle: "",
+         
+       }]);
+       
+       
+   
+       const addRowValeurPossible = () => {
+         valeurPossibles.push({
+          valeur: "",
+           libelle: "",
+          
+         });
+       };
+   
+       const removeRowValeurPossible = (index) => {
+         if (valeurPossibles.length > 1) valeurPossibles.splice(index, 1);
+         //totals();
+       };
+   
+       const valideteRowValeurPossible = (e) => {
+         if (e == "" || e == 0 || e < 0) {
+           console.log('erg')
+           return true;
+         } else {
+           return false;
+         }
+       };
+   
 
-    watch(
+       watch(
       valeurPossibles,
       (newValue) => {
         isDisable.value =
@@ -262,30 +267,38 @@ export default defineComponent({
       { deep: true }
     );
 
-    const { remove, push, fields, update } = useFieldArray("valeurPossibles");
-
-    const valeurPossibleOptions = ref([]);
-    const valuess = ref();
     
-
-    const addChampsLibre = async (values, { resetForm }) => {
-      values.valeurPossibles = valeurPossibles.map(valeurPossible => ({
-       valeur: valeurPossible.valeur,
-        libelle: valeurPossible.libelle,
-    }));
-
-      
-      ApiService.post("/champsLibres", values)
+       const { remove, push, fields, update } = useFieldArray("valeurPossibles");
+   
+       const valeurPossibleOptions = ref([]);
+       const valuess = ref();
+       
+       function getChampsLibre(id:number) {
+      ApiService.get("/champsLibres/"+id.toString())
         .then(({ data }) => {
-          if (data.code == 201) {
+          for (const key in data.data) {
+            champsLibreForm.value?.setFieldValue(key, 
+            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
+          );
+          }
+      })
+      .catch(({ response }) => {
+        error(response.message);
+      });
+    }
+
+    const editChampsLibre = async (values, {resetForm}) => {
+      ApiService.put("/champsLibres/"+values.id,values)
+        .then(({ data }) => {
+          if(data.code == 200) { 
             success(data.message);
             resetForm();
-            router.push({ name: "ListeChampsLibrePage" });
+            router.push({ name: "ListeChampsLibre" });
           }
         }).catch(({ response }) => {
           error(response.data.message);
-        });
-    }
+      });
+    };
 
     const getAllTypeChampsLibres = async () => {
           try{
@@ -302,54 +315,53 @@ export default defineComponent({
           }
         }
 
+       
    
-
-
-    return {
-      champsLibreSchema,
-      addChampsLibre,
-      champsLibreForm,
-      removeRowValeurPossible,
-      addRowValeurPossible,
-      valideteRowValeurPossible,
-      valuess,
-      valeurPossibleOptions,
-      isDisable,
-      typeChampsLibreOptions,
-      typeChampsLibres,
-      valeurPossibles
-    }
-  }
-});
-</script>
-<style scoped>
-.cursor-not-allowed {
-  cursor: not-allowed;
-}
-
-.cursor-not-allowed {
-  cursor: not-allowed;
-}
-
-.marge-droite {
-  margin-left: 15px;
-}
-
-.hr-longeur {
-  width: 80%;
-}
-
-.bord1 {
-  border: 1px solid #07a;
-}
-
-.fond {
-  background-color: rgb(94, 191, 233);
-}
-</style>
-
-
-
-
-
-
+       return {
+         champsLibreSchema,
+         editChampsLibre,
+         champsLibreForm,
+         removeRowValeurPossible,
+         addRowValeurPossible,
+         valideteRowValeurPossible,
+         valuess,
+         valeurPossibleOptions,
+         isDisable,typeChampsLibreOptions,
+         typeChampsLibres,
+         valeurPossibles
+       }
+     }
+   });
+   </script>
+   <style scoped>
+   .cursor-not-allowed {
+     cursor: not-allowed;
+   }
+   
+   .cursor-not-allowed {
+     cursor: not-allowed;
+   }
+   
+   .marge-droite {
+     margin-left: 15px;
+   }
+   
+   .hr-longeur {
+     width: 80%;
+   }
+   
+   .bord1 {
+     border: 1px solid #07a;
+   }
+   
+   .fond {
+     background-color: rgb(94, 191, 233);
+   }
+   </style>
+   
+   
+   
+   
+   
+   
+   

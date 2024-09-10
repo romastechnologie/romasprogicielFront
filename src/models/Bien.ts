@@ -14,6 +14,8 @@ export  interface Bien {
     localisation:string;
     modeAmortissement:string;
     valeurNetteComptable:number;
+    typeBien:string;
+    categorieBien: string;
     createdAt:Date;
     organisation:string;
     setFieldValue: (field: string, value: any) => void;

@@ -1,11 +1,17 @@
 <template>
+
+        <EditChampsLibre/>
   </template>
   
   <script lang="ts">
-    import { defineComponent } from "vue";
+    import EditChampsLibre from "@/components/ChampsLibre/EditChampsLibre.vue";
+import { defineComponent } from "vue";
   
     export default defineComponent({
       name: "EditChampsLibrePage",
+      components: {
+       EditChampsLibre,
+      },
   
     });
   </script>
