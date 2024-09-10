@@ -576,7 +576,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion des Archives",
-        headTitle2: "Document, Format, Tag, Emplacement,Organisation,TypeOrganisation",
+        headTitle2: "Document, Format, Tag, Emplacement,Organisation,TypeOrganisation,CategorieDocument,TypeDocument,TypeEmplacement,RegleConservation",
         type: "headtitle"
     },
     {
@@ -652,6 +652,46 @@ export const menu: MenuItem[] = [
         badgeType: "light-primary",
         active: false,
         isPinned: false
+    },
+    {
+        title: "CategorieDocument",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "link",
+        path: "/categoriedocument/liste-categoriedocument",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false, 
+    },
+    {
+        title: "TypeDocument",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/typedocument/liste-typedocument",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+    },
+    {
+        title: "TypeEmplacement",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "link",
+        path: "/typeemplacement/liste-typeemplacement",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,   
+    },
+    {
+        title: "RegleConservation",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/regleconservation/liste-regleconservation",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
     },
 
     {
@@ -1406,53 +1446,7 @@ export const menu: MenuItem[] = [
            
         ]
     },
-
     
-    {
-        headTitle1: "Gestion des Archivages",
-        headTitle2: "CategorieDocument,TypeDocument,TypeEmplacement,RegleConservation",
-        type: "headtitle"
-    },
-    {
-        title: "CategorieDocument",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "link",
-        path: "/categoriedocument/liste-categoriedocument",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false, 
-    },
-    {
-        title: "TypeDocument",
-        icon: "stroke-learning",
-        icon1: "fill-learning",
-        type: "link",
-        path: "/typedocument/liste-typedocument",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-    },
-    {
-        title: "TypeEmplacement",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "link",
-        path: "/typeemplacement/liste-typeemplacement",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,   
-    },
-    {
-        title: "RegleConservation",
-        icon: "stroke-learning",
-        icon1: "fill-learning",
-        type: "link",
-        path: "/regleconservation/liste-regleconservation",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-    },
     {
         headTitle1: "Gestion des Adresses",
         headTitle2: "Arrondissement,Commune, Département,Quartier",
