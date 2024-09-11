@@ -273,9 +273,18 @@ import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
 import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
 import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 
+
+// Champs Libres Famille
+
+import AddChampsLibreFamillePage from '@/pages/ChampsLibre/AddChampsLibreFamillePage.vue';
+import EditChampsLibreFamillePage from '@/pages/ChampsLibre/EditChampsLibreFamillePage.vue';
+import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue';
+
 import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
 import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
 import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
+
+
 
 
 const routes: Array<RouteRecordRaw> = [
