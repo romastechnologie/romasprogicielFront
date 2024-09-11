@@ -33,6 +33,39 @@ const hideModal = (modalEl: HTMLElement | null): void => {
   
 };
 
+
+const  ajouterPeriode = (dateStr, x, frequence)=> {
+  // Convertir la date en objet Date
+  let date = new Date(dateStr);
+  
+  // Vérifier la fréquence et ajouter la quantité appropriée
+  switch (frequence.toLowerCase()) {
+    case "jour":
+    case "jours":
+      date.setDate(date.getDate() + x);
+      break;
+    case "mois":
+      date.setMonth(date.getMonth() + x);
+      break;
+    case "année":
+    case "années":
+    case "an":
+    case "ans":
+      date.setFullYear(date.getFullYear() + x);
+      break;
+    case "semaine":
+    case "semaines":
+      date.setDate(date.getDate() + (x * 7));
+      break;
+    default:
+      console.error("Fréquence non reconnue : ", frequence);
+      return null;
+  }
+  
+  // Retourner la nouvelle date formatée en ISO (aaaa-mm-jj)
+  return date.toISOString().split('T')[0];
+}
+
 const showModal = (modalEl: HTMLElement | null): void => {
   if (!modalEl) {
     return;
@@ -41,15 +74,21 @@ const showModal = (modalEl: HTMLElement | null): void => {
   myModal?.show()
 };
 
+const getUrlApiForFiles = (nomFichier:string|null, dossier="")=>{
+  if(nomFichier){
+    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/${dossier? dossier+"/":""}${nomFichier}`;
+  }else{
+    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/Erreur404.pdf`;
+  }
+}
 
-
-const  success = (message:string) => {
+const  success = (message:string,temps:number = 5000) => {
   Swal.fire({
     title: 'Succès',
     text: message,
     icon: "success",
     toast: true,
-    timer: 5000,
+    timer: temps,
     position: 'top-right',
     showConfirmButton: false,
   });
@@ -93,14 +132,6 @@ const removeModalBackdrop = (): void => {
   }
 };
 
-
-const getUrlApiForFiles = (nomFichier:string|null)=>{
-  if(nomFichier){
-    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/${nomFichier}`;
-  }else{
-    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/Erreur404.pdf`;
-  }
-}
 
 const getAssetPath = (path: string): string => {
     return '' + path;
@@ -165,6 +196,6 @@ const suppression = (id:number,element:any, route:string, entite:string) => {
       });
 };
 
-export { getDatePlusXDays, removeModalBackdrop,suppression,separateur, hideModal, getAssetPath,format_Date, showModal, format_date, success, error, getUrlApiForFiles,
+export { getDatePlusXDays,ajouterPeriode, removeModalBackdrop,suppression,separateur, hideModal, getAssetPath,format_Date, showModal, format_date, success, error, getUrlApiForFiles,
 };
 

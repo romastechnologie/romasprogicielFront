@@ -181,7 +181,7 @@ import AddDepotPage from "@/pages/GesCom/Depot/AddDepotPage.vue";
 import ListeDepotPage from "@/pages/GesCom/Depot/ListeDepotPage.vue";
 import AddFournisseurPage from "@/pages/GesCom/Fournisseur/AddFournisseurPage.vue";
 import EditFournisseurPage from "@/pages/GesCom/Fournisseur/EditFournisseurPage.vue";
- import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
+import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
 import ViewFournisseurPage from "@/pages/GesCom/Fournisseur/ViewFournisseurPage.vue";
 import AddOperationDepotPage from "@/pages/GesCom/Operation/AddOperationDepotPage.vue";
 import AddOperationRetraitPage from "@/pages/GesCom/Operation/AddOperationRetraitPage.vue";
@@ -261,6 +261,7 @@ import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrga
 import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/ListeTypeOrganisationPage.vue";
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
+import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
 //gestion des zones
 import ListeQuartierPage from "@/pages/Quartier/ListeQuartierPage.vue";
@@ -860,6 +861,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeDocumentPage,
         meta: {
           title: 'Liste des documents',
+        }
+      },
+      {
+        path: "edit-document",
+        name: "EditDocumentPage",
+        component: EditDocumentPage,
+        meta: {
+          title: 'Editer des documents',
         }
       }
     ]
