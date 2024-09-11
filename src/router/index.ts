@@ -181,7 +181,7 @@ import AddDepotPage from "@/pages/GesCom/Depot/AddDepotPage.vue";
 import ListeDepotPage from "@/pages/GesCom/Depot/ListeDepotPage.vue";
 import AddFournisseurPage from "@/pages/GesCom/Fournisseur/AddFournisseurPage.vue";
 import EditFournisseurPage from "@/pages/GesCom/Fournisseur/EditFournisseurPage.vue";
- import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
+import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
 import ViewFournisseurPage from "@/pages/GesCom/Fournisseur/ViewFournisseurPage.vue";
 import AddOperationDepotPage from "@/pages/GesCom/Operation/AddOperationDepotPage.vue";
 import AddOperationRetraitPage from "@/pages/GesCom/Operation/AddOperationRetraitPage.vue";
@@ -262,6 +262,7 @@ import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/L
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
 import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue";
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
+import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
 //gestion des zones
 import ListeQuartierPage from "@/pages/Quartier/ListeQuartierPage.vue";
@@ -278,9 +279,18 @@ import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamil
 import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue";
 
 
+
+// Champs Libres Famille
+
+import AddChampsLibreFamillePage from '@/pages/ChampsLibre/AddChampsLibreFamillePage.vue';
+import EditChampsLibreFamillePage from '@/pages/ChampsLibre/EditChampsLibreFamillePage.vue';
+import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue';
+
 import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
 import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
 import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
+
+
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -864,6 +874,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeDocumentPage,
         meta: {
           title: 'Liste des documents',
+        }
+      },
+      {
+        path: "edit-document",
+        name: "EditDocumentPage",
+        component: EditDocumentPage,
+        meta: {
+          title: 'Editer des documents',
         }
       }
     ]
