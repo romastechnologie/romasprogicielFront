@@ -1,7 +1,7 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white edit-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-            <Form ref="champsLibreFamilleForm" @submit="editChampsLibreFamille" :validation-schema="champsLibreFamilleSchema">
+            <Form ref="champsLibreFamilleForm" @submit="editChampsLibreFamille" :validation-schema="champsLibreFamilleSchema" :initial-values="champsLibreFamilleForm">
               <div class="row">
                 <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -84,7 +84,7 @@
   import VueMultiselect from 'vue-multiselect'
 
   export default defineComponent({
-      name: "EditChampsLibreFamillePage",
+      name: "EditChampsLibreFamille",
       components: {
       Form,
       Field,
@@ -104,6 +104,9 @@
       onMounted(() => {
         getAllFamille();
         getAllChampsLibre();
+        if(route.params.id) {
+          getChampsLibreFamille(parseInt(route.params.id as string));
+      }
       });
   
       
@@ -130,7 +133,7 @@
       function getChampsLibreFamille(id:number) {
       ApiService.get("/familleProduitChampsLibres/"+id.toString())
         .then(({ data }) => {
-          for (const key in data.data) {
+          for (const key in data.data.data) {
             champsLibreFamilleForm.value?.setFieldValue(key, 
             (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
           );
@@ -141,21 +144,18 @@
       });
     }
 
-    async function editChampsLibreFamille(value: object) {
-      try {
-      const response = await ApiService.put(`/familleProduitChampsLibres/${route.params.id}`, value);
-      Swal.fire({
-        timer: 1500,
-        position: "top-end",
-        text: "ChampsLibreFamille mise à jour avec succès!",
-        icon: "success"
+    const editChampsLibreFamille = async (values, {resetForm}) => {
+      ApiService.put("/familleProduitChampsLibres/"+values.id,values)
+        .then(({ data }) => {
+          if(data.code == 200) { 
+            success(data.message);
+            resetForm();
+            router.push({ name: "ListeChampsLibreFamille" });
+          }
+        }).catch(({ response }) => {
+          error(response.data.message);
       });
-      router.push("/champsLibreFamille/liste-champsLibreFamille")
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour du champsLibreFamille:', error);
-      throw error;
-    }
-  }
+    };
 
     
     const getAllFamille = async () => {

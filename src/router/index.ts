@@ -2837,7 +2837,7 @@ const routes: Array<RouteRecordRaw> = [
 
       {
         path: "/champsLibreFamille/ajouter-champsLibreFamille",
-        name: "AddChampsLibreFamillePage",
+        name: "AddChampsLibreFamille",
         component: AddChampsLibreFamillePage,
         meta: {
           title: 'Ajouter champsLibres et Famille',
@@ -2845,7 +2845,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "/champsLibreFamille/editer-champsLibreFamille",
-        name: "EditChampsLibreFamillePage",
+        name: "EditChampsLibreFamille",
         component: EditChampsLibreFamillePage,
         meta: {
           title: 'Editer des champsLibres et Famille',
@@ -2854,7 +2854,7 @@ const routes: Array<RouteRecordRaw> = [
 
       {
         path: "/champsLibreFamille/liste-champsLibreFamille",
-        name: "ListeChampsLibreFamillePage",
+        name: "ListeChampsLibreFamille",
         component: ListeChampsLibreFamillePage,
         meta: {
           title: 'Liste des champsLibres et Famille',

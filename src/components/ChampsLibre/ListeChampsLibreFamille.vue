@@ -62,7 +62,7 @@
                         <li class="dropdown-item d-flex align-items-center">
                           <router-link
                             
-                            :to="{ name: 'EditChampsLibreFamillePage',params: { id: champsLibreFamille.id } }"
+                            :to="{ name: 'EditChampsLibreFamille',params: { id: champsLibreFamille.id } }"
                           >
                             <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                             Modifier
@@ -105,7 +105,7 @@ import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListeChampsLibreFamillePage",
+  name: "ListeChampsLibreFamille",
   components: {
     PaginationComponent
   },

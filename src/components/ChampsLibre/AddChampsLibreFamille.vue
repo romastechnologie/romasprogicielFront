@@ -85,7 +85,7 @@
 
   
   export default defineComponent({
-      name: "AddChampsLibreFamilleModal",
+      name: "AddChampsLibreFamille",
       components: {
       Form,
       Field,
