@@ -7,6 +7,7 @@ export  interface Bien {
     dureeVie: number;
     dateMiseEnService: number;
     numeroEnregistrement: number;
+    nbreKmParUnLitre: number;
     codeBar: string;
     longitude:number,
     latitude:number;
@@ -16,5 +17,6 @@ export  interface Bien {
     typeBien:string;
     categorieBien: string;
     createdAt:Date;
+    organisation:string;
     setFieldValue: (field: string, value: any) => void;
   }

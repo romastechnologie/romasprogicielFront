@@ -738,8 +738,36 @@ export const menu: MenuItem[] = [
                 path: "/champsLibres/liste-champsLibre",
                 title: "Liste des champs libres",
                 type: "link"
-            }
+            },
+
+            ]
+    },
+    {
+        title: "Champs Libres Famille",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/champsLibreFamille/ajouter-champsLibreFamille",
+                title: "Ajouter un champ libre et Famille",
+                type: "link"
+            },
+            // {
+            //     path: "/champsLibreFamille/editer-champsLibreFamille",
+            //     title: "Editer un champ libre Famille",
+            //     type: "link"
+            // },
+            {
+                path: "/champsLibreFamille/liste-champsLibreFamille",
+                title: "Liste des champ libre et Famille",
+                type: "link"
+            },
         ]
+
     },
 
     {

@@ -2816,6 +2816,33 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des champsLibres',
         }
       },
+
+      {
+        path: "/champsLibreFamille/ajouter-champsLibreFamille",
+        name: "AddChampsLibreFamillePage",
+        component: AddChampsLibreFamillePage,
+        meta: {
+          title: 'Ajouter champsLibres et Famille',
+        }
+      },
+      {
+        path: "/champsLibreFamille/editer-champsLibreFamille",
+        name: "EditChampsLibreFamillePage",
+        component: EditChampsLibreFamillePage,
+        meta: {
+          title: 'Editer des champsLibres et Famille',
+        }
+      },
+
+      {
+        path: "/champsLibreFamille/liste-champsLibreFamille",
+        name: "ListeChampsLibreFamillePage",
+        component: ListeChampsLibreFamillePage,
+        meta: {
+          title: 'Liste des champsLibres et Famille',
+        }
+      },
+
     ]
   },  
 

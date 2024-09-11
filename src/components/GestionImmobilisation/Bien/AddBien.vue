@@ -60,6 +60,14 @@
                     <Field name="latitude" class="form-control" type="number"/>
                     <ErrorMessage name="latitude" class="text-danger" />
          </div>
+
+
+         <div class="col-md-4">
+                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre<span class="text-danger">*</span></label>
+                    <Field name="nbreKmParUnLitre" class="form-control" type="number"/>
+                    <ErrorMessage name="nbreKmParUnLitre" class="text-danger" />
+            </div>
+
          <div class="col-md-4 mt-3">
             <div class="form-group">
               <label class="d-block text-black">
@@ -105,6 +113,22 @@
               <span class="text-danger" v-if="showMErr">La catégorie de bien est obligatoire</span>
             </div>
           </div>
+
+
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black  mb-10">
+                Organisation <span class="text-danger">*</span>
+              </label>
+              <Field name="organisation" v-model="organisations" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation "
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">L'Organisation est obligatoire</span>
+            </div>
+          </div>
+
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -157,27 +181,33 @@
             dureeVie: Yup.number().required("La durée de vie est obligatoire."),
             dateMiseEnService: Yup.date().required("La date de mise en service est obligatoire."),
             numeroEnregistrement: Yup.number().required("Le numero d'enregistrement est obligatoire."),
+            nbreKmParUnLitre: Yup.number().required("Le nombre de kilomètres par un Litre est obligatoire."),
             codeBar: Yup.string().notRequired(),
             localisation: Yup.string().notRequired(),
             longitude: Yup.number().notRequired(),
             latitude: Yup.number().notRequired(),
             modeAmortissement: Yup.string().required("Le mode d'amortissement est obligatoire."),
             valeurNetteComptable: Yup.number().required("La valeur nette comptable est obligatoire."),
+            organisation: Yup.string().required("L'organisation est obligatoire."),
+
       });
   
       onMounted(() => {
         getAllTypeBien()
         getAllCategorieBien()
-      });
+        getAllOrganisation()
+  });
   
       const bienForm =  ref(null);
       const showMErr = ref(false);
       const types = ref();
       const categories = ref();
+      const organisations = ref();
       
       //const permissions = ref(null);
       const typeOptions = ref([]);
       const categorieOptions = ref([]);
+      const organisationOptions = ref([]);
       const router = useRouter();
       //const permissions= ref<Array<Permission>>([]);
   
@@ -185,6 +215,7 @@
       const addBien = async (values: any, { resetForm }) => {
       values['types'] = types.value.value
       values['categories'] = categories.value.value
+      values['organisation'] = organisations.value.value
       console.log('Données envoyées', values)
       if (showMErr.value === false) {
         ApiService.post("/biens", values)
@@ -231,7 +262,21 @@
         }
       } 
   
-      return { bienSchema, addBien, bienForm,typeOptions,showMErr,categorieOptions,types,categories};
+      const getAllOrganisation = async () => {
+        try{
+        const response = await ApiService.get('/all/organisations');
+        const organisationsData = response.data.data.data;
+        console.log(organisationsData,"gggggggggg");
+        organisationOptions.value = organisationsData.map((organisation) => ({
+          value: organisation.id,
+          label: organisation.nom,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
+      return { bienSchema, addBien, bienForm,typeOptions,showMErr,categorieOptions,organisationOptions,types,categories,organisations};
     },
   });
   </script>

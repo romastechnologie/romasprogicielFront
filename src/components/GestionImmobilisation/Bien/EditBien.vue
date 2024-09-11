@@ -60,6 +60,13 @@
                     <Field name="latitude" class="form-control" type="number"/>
                     <ErrorMessage name="latitude" class="text-danger" />
          </div>
+
+         <div class="col-md-4">
+                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre<span class="text-danger">*</span></label>
+                    <Field name="nbreKmParUnLitre" class="form-control" type="number"/>
+                    <ErrorMessage name="nbreKmParUnLitre" class="text-danger" />
+            </div>
+
          <div class="col-md-4 mt-3">
           <div class="form-group">
               <label class="d-block text-black">
@@ -103,6 +110,20 @@
                 label="label" track-by="label" />
               </Field>
               <ErrorMessage name="categories" class="text-danger"/>
+            </div>
+          </div>
+
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Organisation <span class="text-danger">*</span>
+              </label>
+              <Field name="organisation" v-model="organisations" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation"
+                label="label" track-by="label" />
+              </Field>
+              <ErrorMessage name="organisation" class="text-danger"/>
             </div>
           </div>
           <div class="col-md-12 mt-3">
@@ -154,6 +175,7 @@
             dureeVie: Yup.number().required("La durée de vie est obligatoire."),
             dateMiseEnService: Yup.date().required("La date de mise en service est obligatoire."),
             numeroEnregistrement: Yup.number().required("Le numero d'enregistrement est obligatoire."),
+            nbreKmParUnLitre: Yup.number().required("Le nombre de Kilomètres par un Litre est obligatoire."),
             codeBar: Yup.string().notRequired(),
             localisation: Yup.string().notRequired(),
             longitude: Yup.number().notRequired(),
@@ -162,21 +184,28 @@
             valeurNetteComptable: Yup.number().required("La valeur nette comptable est obligatoire."),
             types: Yup.string().required("Le type est obligatoire."),
             categories: Yup.string().required("La catégorie est obligatoire."),
+            organisation: Yup.string().required("L'organisation est obligatoire."),
+
     });
 
     const typeOptions = ref([]);
     const categorieOptions = ref([]);
+    const organisationOptions = ref([]);
+
     const router = useRouter();
     const bienForm = ref<Bien>();
     const route = useRoute();
     const showMErr = ref(false);
     const types = ref();
     const categories = ref();
+    const organisations = ref();
+
    
 
     onMounted(() => {
         getAllTypeBien();
         getAllCategorieBien();
+        getAllOrganisation();
       if(route.params.id) {
         getBien(parseInt(route.params.id as string));
       }
@@ -237,15 +266,32 @@
           //error(response.data.message)
         }
       } 
+
+      const getAllOrganisation = async () => {
+        try{
+        const response = await ApiService.get('/all/organisations');
+        const organisationsData = response.data.data;
+
+        organisationOptions.value = organisationsData.map((organisation) => ({
+          value: organisation.id,
+          label: organisation.nom,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
    
       return {bienForm,
          bienSchema,
           editBien,
           typeOptions,
           categorieOptions,
+          organisationOptions,
           showMErr,
           types,
-          categories
+          categories,
+          organisations
           
         };
     },

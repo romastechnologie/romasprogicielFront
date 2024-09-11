@@ -2,7 +2,8 @@ export  interface Organisation {
     id: number;
     nom: string;
     code: string;
-    typeOrganisation:string;
+    organisation:string;
+    typeorganisation:string;
     
     setFieldValue: (field: string, value: any) => void;
   }
