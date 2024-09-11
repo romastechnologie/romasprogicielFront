@@ -1308,7 +1308,7 @@ let activeclass = ref<string>('Informations générales du personnel')
       if (!isValid) return; // Ne pas avancer si le formulaire est invalide
 
       if (currentStep.value === 1) {
-        useForm({ validationSchema: personnelInfoSchema });
+        useForm({ validationSchema: personnelConSchema });
       }
 
       if (currentStep.value === 2) {
