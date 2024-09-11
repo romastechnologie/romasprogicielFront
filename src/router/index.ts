@@ -260,7 +260,7 @@ import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplac
 import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrganisationPage.vue";
 import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/ListeTypeOrganisationPage.vue";
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
-import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue";
+
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
@@ -274,9 +274,7 @@ import ListeCommunePage from "@/pages/Commune/ListeCommunePage.vue";
 import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
 import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
 import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
-import AddChampsLibreFamillePage from "@/pages/ChampsLibre/AddChampsLibreFamillePage.vue";
-import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue";
-import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue";
+
 
 
 
