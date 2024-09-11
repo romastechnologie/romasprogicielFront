@@ -99,13 +99,10 @@
                   {{ emplacement.description }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.typeEmplacement }}
+                  {{ emplacement.typeEmplacement.libelle }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.emplacement }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement_date(emplacement.createdAt)  }}
+                  {{ emplacement.libelle }}
                 </td>
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"
