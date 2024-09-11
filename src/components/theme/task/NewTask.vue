@@ -1,6 +1,6 @@
 <template>
-    <div class="modal fade modal-bookmark" id="taskmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade modal-bookmark" id="taskmodel" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -14,7 +14,8 @@
                             <div class="mb-3 mt-0 col-md-12">
                                 <label for="task-title">Task Title</label>
                                 <input class="form-control" id="task-title" type="text" required autocomplete="off"
-                                    :class="formSubmitted ? titleError ? 'is-invalid' : 'is-valid' : ''" v-model="title">
+                                    :class="formSubmitted ? titleError ? 'is-invalid' : 'is-valid' : ''"
+                                    v-model="title">
                             </div>
                             <div class="mb-3 mt-0 col-md-12">
                                 <label for="sub-task">Sub task</label>
@@ -30,8 +31,8 @@
                                         </label>
                                     </div>
                                     <div class="d-inline-block">
-                                        <input class="datepicker-here form-control digits" type="text" data-language="en"
-                                            placeholder="Date"
+                                        <input class="datepicker-here form-control digits" type="text"
+                                            data-language="en" placeholder="Date"
                                             v-bind:class="formSubmitted ? dateError ? 'is-invalid' : 'is-valid' : ''">
                                     </div>
                                     <div class="d-inline-block">

@@ -654,7 +654,32 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
-
+    {
+        headTitle1: "Gestion des Champs Libres",
+        headTitle2: "Champs Libres",
+        type: "headtitle"
+    },
+    {
+        title: "Champs Libres",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/champsLibres/ajouter-champsLibre",
+                title: "Ajouter un champ libre",
+                type: "link"
+            },
+            {
+                path: "/champsLibres/liste-champsLibre",
+                title: "Liste des champs libres",
+                type: "link"
+            }
+        ]
+    },
 
     {
         headTitle1: "Gestion des immobilisations",

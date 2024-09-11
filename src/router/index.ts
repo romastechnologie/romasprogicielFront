@@ -180,7 +180,7 @@ import AddDepotPage from "@/pages/GesCom/Depot/AddDepotPage.vue";
 import ListeDepotPage from "@/pages/GesCom/Depot/ListeDepotPage.vue";
 import AddFournisseurPage from "@/pages/GesCom/Fournisseur/AddFournisseurPage.vue";
 import EditFournisseurPage from "@/pages/GesCom/Fournisseur/EditFournisseurPage.vue";
- import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
+import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
 import ViewFournisseurPage from "@/pages/GesCom/Fournisseur/ViewFournisseurPage.vue";
 import AddOperationDepotPage from "@/pages/GesCom/Operation/AddOperationDepotPage.vue";
 import AddOperationRetraitPage from "@/pages/GesCom/Operation/AddOperationRetraitPage.vue";
@@ -258,6 +258,7 @@ import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrga
 import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/ListeTypeOrganisationPage.vue";
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
+import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
 //gestion des zones
 import ListeQuartierPage from "@/pages/Quartier/ListeQuartierPage.vue";
@@ -265,6 +266,10 @@ import ListeArrondissementPage from "@/pages/Arrondissement/ListeArrondissementP
 import ListeDepartementPage from "@/pages/Departement/ListeDepartementPage.vue";
 import ListeCommunePage from "@/pages/Commune/ListeCommunePage.vue";
 
+//champs libres
+import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
+import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
+import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -824,6 +829,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeDocumentPage,
         meta: {
           title: 'Liste des documents',
+        }
+      },
+      {
+        path: "edit-document",
+        name: "EditDocumentPage",
+        component: EditDocumentPage,
+        meta: {
+          title: 'Editer des documents',
         }
       }
     ]
@@ -2697,6 +2710,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des quartiers',
         }
       },
+      
       {
         path: "/zones/liste-arrondissements",
         name: "ListeArrondissementPage",
@@ -2723,7 +2737,36 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },  
-  //http://localhost:8080/liste-departements
+  {
+    path: "/champsLibres",
+    component: BodyView,
+    children: [
+      {
+        path: "/champsLibres/ajouter-champsLibre",
+        name: "AddChampsLibrePage",
+        component: AddChampsLibrePage,
+        meta: {
+          title: 'Ajouter un champs libre',
+        }
+      },
+      {
+        path: "/champsLibres/editer-champsLibre",
+        name: "EditChampsLibrePage",
+        component: EditChampsLibrePage,
+        meta: {
+          title: 'Editer un champs libre',
+        }
+      },
+      {
+        path: "/champsLibres/liste-champsLibre",
+        name: "ListeChampsLibrePage",
+        component: ListeChampsLibrePage,
+        meta: {
+          title: 'Liste des champsLibres',
+        }
+      },
+    ]
+  },  
 
   {
     path: "/ouv_fers",
