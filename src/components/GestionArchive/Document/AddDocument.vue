@@ -253,6 +253,7 @@ export default defineComponent({
     const typeOptions = ref([]);
     const router = useRouter();
     // const permissions= ref<Array<Permission>>([]);
+   
     const addDocument = async (values, { resetForm }) => {
       values["regles"] = lesRegles.value;
       console.log('je recupère', values)

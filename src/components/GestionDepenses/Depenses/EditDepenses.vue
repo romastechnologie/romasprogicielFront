@@ -164,7 +164,7 @@
   import ApiService from '@/services/ApiService';
   import { Depense } from '@/models/Depense';
   import { error, success } from '@/utils/utils';
-  import { useRouter,useRoute } from 'vue-router';
+  import { useRouter} from 'vue-router';
   
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'

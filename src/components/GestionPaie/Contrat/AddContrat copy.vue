@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
       <Form ref="contratForm" @submit="addContrat" :validation-schema="contratSchema">
@@ -240,6 +240,45 @@
                                   <router-link to="/liste-mouvements"></router-link>
                                 </div>
                               </div>
+<<<<<<< HEAD
+                            </div>
+                            <div>
+                              <div class="row d-flex align-items-center justify-content-between mt-10">
+                                <div class="col-md-2">
+                                  <label class="d-block text-black fw-semibold">
+                                    Etat
+                                    <span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="d-block text-black fw-semibold">
+                                    Fonction
+                                    <span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-2">
+                                  <label class="d-block text-black fw-semibold mb-10">
+                                    Date de début <span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-2">
+                                  <label class="d-block text-black fw-semibold mb-10">
+                                    Date de fin <span class="text-danger">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-3">
+                                  <label class="d-block text-black fw-semibold mb-10">
+                                    Action
+                                  </label>
+                                </div>
+                              </div>
+                              <hr class="mt-0" />
+                              <div class="row" v-for="(fonction, index) in fonctions" :key="index">
+                                <div class="col-md-2 mb-2">
+                                  <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
+                                    <label for="estActif" class="form-check-label fw-medium position-relative top-1">
+                                      Est Actif ?
+=======
                               <div>
                                 <div class="row d-flex align-items-center justify-content-between mt-10">
                                   <div class="col-md-2">
@@ -273,6 +312,7 @@
                                   <div class="col-md-2">
                                     <label class="d-block text-black fw-semibold mb-10">
                                       Action
+>>>>>>> 66211e3de20aa0c1e4a15ccdb7cd45f0f2005460
                                     </label>
                                     <input name="estActif" v-model="fonction.estActif" type="checkbox"
                                       class="form-check-input shadow-none" />
@@ -288,6 +328,17 @@
                                       La fonction est obligatoire.
                                     </div>
                                   </div>
+<<<<<<< HEAD
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                  <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                                    <input v-model="fonction.dateDebut" type="date"
+                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                    <div class="invalid-feedback" v-if="valideteRowFonction(fonction.dateDebut)">
+                                      La date de début est obligatoire.
+                                    </div>
+                                  </div>
+=======
                                   <div class="col-md-2 mb-2">
                                     <div class="">
                                       <Multiselect :options="fonctionOptions" :searchable="true" track-by="label"
@@ -316,6 +367,7 @@
                                         La date de début est obligatoire.
                                       </div>
                                     </div>
+>>>>>>> 66211e3de20aa0c1e4a15ccdb7cd45f0f2005460
 
                                 </div>
                                 <div class="col-md-2 mb-2">
@@ -323,6 +375,10 @@
                                     <input v-model="fonction.dateFin" type="date"
                                       class="form-control shadow-none fs-md-15 text-black" placeholder="" />
                                   </div>
+<<<<<<< HEAD
+                                  <div class="invalid-feedback" v-if="valideteRowFonction(fonction.dateFin)">
+                                    La date de fin est obligatoire.
+=======
                                   <div class="col-md-2 mb-2">
                                     <div class="form-group mb-5 mb-sm-5 mb-md-5">
                                       <input v-model="fonction.dateFin" type="date"
@@ -337,6 +393,7 @@
                                       @click="removeRowFonction(index)">
                                       <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                                     </button>
+>>>>>>> 66211e3de20aa0c1e4a15ccdb7cd45f0f2005460
                                   </div>
                                 </div>
                                 <div class="col-md-3 mb-2">
@@ -544,6 +601,9 @@
       </Form>
     </div>
   </div>
+<<<<<<< HEAD
+</template>
+=======
   </template>
   
   <script lang="ts">
@@ -612,6 +672,7 @@
       
       const modeDeTarificationOptions = ref([]);
       const personnels = ref([] as any[]);
+>>>>>>> 66211e3de20aa0c1e4a15ccdb7cd45f0f2005460
 
 <script lang="ts">
 
@@ -724,11 +785,20 @@ export default defineComponent({
 
     const getAllTypePrime = async () => {
       try {
+<<<<<<< HEAD
+        const response = await ApiService.get('/all/typePrimes');
+        const typePrimesData = response.data.data.data;
+        console.log('Type prime', typePrimesData)
+        typePrimeOptions.value = typePrimesData.map(typePrime => ({
+          value: `${typePrime.id}|${typePrime.valeur}|${typePrime.typeDeValeur}`,
+          label: typePrime.nomPrime,
+=======
         const response = await ApiService.get('/personnels');
         personnels.value = response.data;
         personnelOptions.value = response.data.map((personnel: any) => ({
           value: personnel.id,
           label: `${personnel.nom + " " + personnel.heureFinPause}`
+>>>>>>> 66211e3de20aa0c1e4a15ccdb7cd45f0f2005460
         }));
       } catch (error) {
         // H
@@ -1092,6 +1162,17 @@ export default defineComponent({
         dateDebut: fonction.dateDebut,
         dateFin: fonction.dateFin,
       }));
+<<<<<<< HEAD
+      console.log('Values', values);
+      try {
+        const { data } = await ApiService.post("/gescom/contrats", values);
+        if (data.code == 201) {
+          success(data.message);
+          //router.push({ name: "ListeContrat" });
+        }
+      } catch ({ response }) {
+        error(response.data.message);
+=======
       values.horaireContrats = horaireContrats.map(horaireContrat => ({
         heureArrive: horaireContrat.heureArrive,
         heureDepart: horaireContrat.heureDepart,
@@ -1104,6 +1185,7 @@ export default defineComponent({
       if (data.code == 201) {
         success(data.message);
         //router.push({ name: "ListeContrat" });
+>>>>>>> 66211e3de20aa0c1e4a15ccdb7cd45f0f2005460
       }
     };
 
@@ -1153,6 +1235,25 @@ export default defineComponent({
       isDisableee, fonctionOptions,
       removeRowFonction,
       addRowFonction,
+<<<<<<< HEAD
+      valideteRowFonction, fonctions,
+      salaireDeBase,
+      typeRetenueOptions,
+      typeRetenues,
+      selectTypeRetenue,
+      removeRowRetenue,
+      addRowRetenue,
+      validateRowRetenue,
+      isDisablee, retenues,
+      personnelOptions,
+      personnelId,
+      personnel,
+      modeDeTarificationOptions,
+    };
+  },
+});
+</script>
+=======
       valideteRowFonction,fonctions,
         salaireDeBase,
         typeRetenueOptions,
@@ -1174,6 +1275,7 @@ export default defineComponent({
     },
   });
   </script>
+>>>>>>> 66211e3de20aa0c1e4a15ccdb7cd45f0f2005460
 
 <style>
 .cursor-not-allowed {
@@ -1228,4 +1330,4 @@ input[readonly] {
 .form-control {
   width: 100%;
 }
-</style>
+</style> -->

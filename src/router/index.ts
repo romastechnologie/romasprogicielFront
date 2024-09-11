@@ -79,6 +79,7 @@ import ListeUserComptePage from '@/pages/GestionTresorerie/UserCompte/ListeUserC
 import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
+import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
 //import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
 //import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
 //import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
@@ -223,6 +224,8 @@ import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.
 
 // Gestion Pack
 
+import AddTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/AddTypeEntretienPage.vue";
+import EditTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/EditTypeEntretienPage.vue";
 import ListeTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/ListeTypeEntretienPage.vue";
 import ListePackingPage from '@/pages/GestionPack/Packing/ListePackingPage.vue';
 import ListeTypeMoyenRoulantPage from '@/pages/GestionPack/TypeMoyenRoulant/ListeTypeMoyenRoulantPage.vue';
@@ -271,6 +274,10 @@ import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
 import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
 import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 
+import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
+import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
+import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -306,15 +313,31 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/TypeEntretien",
+    path: "/typeEntretiens",
     component: BodyView,
     children: [
       {
-        path: "listeTypeEntretien",
-        name: "listeTypeEntretien",
+        path: "ajouter-typeEntretien",
+        name: "AddTypeEntretien",
+        component: AddTypeEntretienPage,
+        meta: {
+          title: "Ajouter un  type d'entretien",
+        }
+      },
+      {
+        path: "editer-typeEntretien",
+        name: "EditTypeEntretien",
+        component: EditTypeEntretienPage,
+        meta: {
+          title: "Modifier un  type d'entretien",
+        }
+      },
+      {
+        path: "liste-typeEntretien",
+        name: "ListeTypeEntretien",
         component: ListeTypeEntretienPage,
         meta: {
-          title: 'Liste Type Entretien',
+          title: "Liste des types d'entretien",
         }
       },
     ]
@@ -946,6 +969,14 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Modifier un bien',
         }
+      },
+      {
+        path: "view-bien/:id",
+        name: "ViewBien",
+        component: ViewBienPage,
+        meta: {
+          title: 'Détails du bien',
+        }
       }
       // {
       //   path: "view-utilisateur/:id",
@@ -1472,7 +1503,36 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-  
+  {
+    path: "/horaires",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-horaire",
+        name: "AddHoraire",
+        component: AddHorairePage,
+        meta: {
+          title: 'Ajouter un horaire',
+        }
+      },
+      {
+        path: "liste-horaires",
+        name: "ListeHoraire",
+        component: ListeHorairePage,
+        meta: {
+          title: 'Liste des horaires',
+        }
+      },
+      {
+        path: "edit-horaire/:id",
+        name: "EditHoraire",
+        component: EditHorairePage,
+        meta: {
+          title: 'Modifier un horaire',
+        }
+      },
+    ]
+  },
 
   {
     path: "/finances",
@@ -2765,6 +2825,33 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des champsLibres',
         }
       },
+
+      {
+        path: "/champsLibreFamille/ajouter-champsLibreFamille",
+        name: "AddChampsLibreFamillePage",
+        component: AddChampsLibreFamillePage,
+        meta: {
+          title: 'Ajouter champsLibres et Famille',
+        }
+      },
+      {
+        path: "/champsLibreFamille/editer-champsLibreFamille",
+        name: "EditChampsLibreFamillePage",
+        component: EditChampsLibreFamillePage,
+        meta: {
+          title: 'Editer des champsLibres et Famille',
+        }
+      },
+
+      {
+        path: "/champsLibreFamille/liste-champsLibreFamille",
+        name: "ListeChampsLibreFamillePage",
+        component: ListeChampsLibreFamillePage,
+        meta: {
+          title: 'Liste des champsLibres et Famille',
+        }
+      },
+
     ]
   },  
 

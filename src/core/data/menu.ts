@@ -305,7 +305,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion du personnel",
-        headTitle2: "Demandes, Permissions, Congés, Présences, Justificatifs et Heures supplémentaires",
+        headTitle2: "Demandes, Permissions, Congés, Présences, Justificatifs et Heures supplémentaires,Horaires",
         type: "headtitle"
     },
     {
@@ -490,6 +490,27 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+    {
+        title: "Horaires",
+        icon: "stroke-to-do",
+        icon1: "fill-to-do",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/horaires/ajouter-horaire",
+                title: "Ajouter un horaire",
+                type: "link"
+            },
+            {
+                path: "/horaires/liste-horaire",
+                title: "Liste des horaires",
+                type: "link"
+            }
+        ]
+    },
 
     {
         headTitle1: "Gestion de trésorerie",
@@ -576,7 +597,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion des Archives",
-        headTitle2: "Document, Format, Tag, Emplacement,Organisation,TypeOrganisation",
+        headTitle2: "Document, Format, Tag, Emplacement,Organisation,TypeOrganisation,CategorieDocument,TypeDocument,TypeEmplacement,RegleConservation",
         type: "headtitle"
     },
     {
@@ -653,6 +674,46 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false
     },
+    {
+        title: "CategorieDocument",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "link",
+        path: "/categoriedocument/liste-categoriedocument",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false, 
+    },
+    {
+        title: "TypeDocument",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/typedocument/liste-typedocument",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+    },
+    {
+        title: "TypeEmplacement",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "link",
+        path: "/typeemplacement/liste-typeemplacement",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,   
+    },
+    {
+        title: "RegleConservation",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/regleconservation/liste-regleconservation",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+    },
 
     {
         headTitle1: "Gestion des Champs Libres",
@@ -677,8 +738,36 @@ export const menu: MenuItem[] = [
                 path: "/champsLibres/liste-champsLibre",
                 title: "Liste des champs libres",
                 type: "link"
-            }
+            },
+
+            ]
+    },
+    {
+        title: "Champs Libres Famille",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/champsLibreFamille/ajouter-champsLibreFamille",
+                title: "Ajouter un champ libre et Famille",
+                type: "link"
+            },
+            // {
+            //     path: "/champsLibreFamille/editer-champsLibreFamille",
+            //     title: "Editer un champ libre Famille",
+            //     type: "link"
+            // },
+            {
+                path: "/champsLibreFamille/liste-champsLibreFamille",
+                title: "Liste des champ libre et Famille",
+                type: "link"
+            },
         ]
+
     },
 
     {
@@ -1303,15 +1392,27 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
     {
-        title: "Type Entretien",
-        icon: "stroke-learning",
-        icon1: "fill-learning",
-        type: "link",
-        path: "/TypeEntretien/listeTypeEntretien",
+        title: "Type d'entretiens",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
         badgeType: "light-primary",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children: [
+            {
+                path: "/typeEntretiens/ajouter-typeEntretien",
+                title: "Ajouter un type d'entretien",
+                type: "link"
+            },
+            {
+                path: "/typeEntretiens/liste-typeEntretien",
+                title: "Liste des types d'entretiens",
+                type: "link"
+            }
+        ]
     },
+
     {
         title: "Type Moyen Roulant",
         icon: "stroke-learning",
@@ -1394,53 +1495,7 @@ export const menu: MenuItem[] = [
            
         ]
     },
-
     
-    {
-        headTitle1: "Gestion des Archivages",
-        headTitle2: "CategorieDocument,TypeDocument,TypeEmplacement,RegleConservation",
-        type: "headtitle"
-    },
-    {
-        title: "CategorieDocument",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "link",
-        path: "/categoriedocument/liste-categoriedocument",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false, 
-    },
-    {
-        title: "TypeDocument",
-        icon: "stroke-learning",
-        icon1: "fill-learning",
-        type: "link",
-        path: "/typedocument/liste-typedocument",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-    },
-    {
-        title: "TypeEmplacement",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "link",
-        path: "/typeemplacement/liste-typeemplacement",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,   
-    },
-    {
-        title: "RegleConservation",
-        icon: "stroke-learning",
-        icon1: "fill-learning",
-        type: "link",
-        path: "/regleconservation/liste-regleconservation",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-    },
     {
         headTitle1: "Gestion des Adresses",
         headTitle2: "Arrondissement,Commune, Département,Quartier",
