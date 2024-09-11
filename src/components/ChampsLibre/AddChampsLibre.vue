@@ -194,10 +194,11 @@ export default defineComponent({
   setup: () => {
     const champsLibreSchema = Yup.object().shape({
       modeSaisie: Yup.string().required('Le mode de saisie est obligatoire'),
-      typeChampsLibre: Yup.string().required('Le type de champs libre est obligatoire'),
+      //typeChampsLibre: Yup.string().required('Le type de champs libre est obligatoire'),
       libelleChamp: Yup.string().required('Le libellé du champ libre est obligatoire'),
       nomChamp: Yup.string().required('Le nom du champ libre est obligatoire'),
       valeurPossible: Yup.number().typeError('Veuillez entrer des chiffres').required('La valeur est obligatoire'),
+      valeur: Yup.number().typeError('Veuillez entrer des chiffres').required('La valeur est obligatoire'),
       libelle: Yup.number().typeError('Veuillez entrer des chiffres').required('Le libelle est obligatoire'),
       valeurParDefaut: Yup.number().typeError('Veuillez entrer des chiffres').required('La valeur actuel est obligatoire'),
       estObligatoire: Yup.boolean().notRequired(),
@@ -312,7 +313,7 @@ export default defineComponent({
       removeRowValeurPossible,
       addRowValeurPossible,
       valideteRowValeurPossible,
-      valuess,
+      valuess,valeur,
       valeurPossibleOptions,
       isDisable,
       typeChampsLibreOptions,

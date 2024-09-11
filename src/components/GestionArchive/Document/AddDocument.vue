@@ -221,7 +221,7 @@ export default defineComponent({
         //error(response.data.message)
       }
     }
-    return { documentSchema, addDocument, documentForm, typeOptions, formatOptions, organisationOptions, tagOptions };
+    return { documentSchema, addDocument, documentForm, typeOptions, formatOptions,formats,tag, organisationOptions,organisations, tagOptions };
   },
 });
 </script>

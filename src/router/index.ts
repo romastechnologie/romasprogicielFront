@@ -260,6 +260,7 @@ import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplac
 import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrganisationPage.vue";
 import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/ListeTypeOrganisationPage.vue";
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
+import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue";
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 
 //gestion des zones
@@ -849,6 +850,14 @@ const routes: Array<RouteRecordRaw> = [
            title: 'Ajouter un document',
         }
        },
+       {
+        path: "editer-document",
+          name: "EditDocumentPage",
+          component: EditDocumentPage,
+          meta: {
+            title: 'Modifier un document',
+         }
+        },
       {
         path: "liste-document",
         name: "ListeDocumentPage",
@@ -1232,7 +1241,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/heureSupps",
+    path: "/heureSups",
     component: BodyView,
     children: [
       {
@@ -1511,7 +1520,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "liste-horaires",
+        path: "liste-horaire",
         name: "ListeHoraire",
         component: ListeHorairePage,
         meta: {
@@ -1519,7 +1528,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "edit-horaire/:id",
+        path: "editer-horaire/:id",
         name: "EditHoraire",
         component: EditHorairePage,
         meta: {

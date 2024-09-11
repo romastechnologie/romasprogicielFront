@@ -149,7 +149,7 @@
   
   
       function getCourse(id:number) {
-      ApiService.get("/courses/"+id.toString())
+      ApiService.get("/sorties/"+id.toString())
         .then(({ data }) => {
           for (const key in data.data) {
             courseForm.value?.setFieldValue(key, 
@@ -163,7 +163,7 @@
     }
 
     const editCourse = async (values, {resetForm}) => {
-      ApiService.put("/courses/"+values.id,values)
+      ApiService.put("/sorties/"+values.id,values)
         .then(({ data }) => {
           if(data.code == 200) { 
             success(data.message);

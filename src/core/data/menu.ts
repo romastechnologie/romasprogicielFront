@@ -436,13 +436,9 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-           /* {
-                path: "/heureSupps/ajouter-heureSupp",
-                title: "Ajouter une heure supplémentaire",
-                type: "link"
-            },*/
+           
             {
-                path: "/heureSupps/liste-heureSupp",
+                path: "/heureSups/liste-heureSupp",
                 title: "Liste des heures supplémentaires",
                 type: "link"
             },

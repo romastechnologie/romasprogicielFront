@@ -79,12 +79,7 @@
                 >
                   Heure fin de pause
                 </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                  Date
-                </th>
+
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
@@ -98,7 +93,6 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureFermeture }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureDebutPause }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureFinPause }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(horaire.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>

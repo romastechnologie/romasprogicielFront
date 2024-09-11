@@ -100,8 +100,8 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ document?.nom }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ document?.description }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ format_date(document.dateFinConservation) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ document?.tag }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ document?.format }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ document?.tagDoc }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ document?.formatDoc }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation }} </td>
                   
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
@@ -122,7 +122,7 @@
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
                               href="javascript:void(0);"
-                              @click="suppression(document.id, documents, 'documents', 'un utilisateur')"
+                              @click="suppression(document.id, documents, 'documents', 'un document')"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"
