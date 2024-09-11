@@ -1,5 +1,5 @@
 <template>
-    <EditDocument />
+    <EditDocument/>
   </template>
   
   <script lang="ts">

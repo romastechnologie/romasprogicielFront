@@ -61,7 +61,7 @@
                         <div class="col-md-12 mb-3">
                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                             <label class="d-block text-black mb-10">
-                              Emplacement <span class="text-danger">*</span>
+                              Emplacement
                             </label>
                             <Field name="emplacement" type="text" v-slot="{ field }">
                             <Multiselect v-model="field.value" v-bind="field" :options="emplacementOptions" :preserve-search="true"
@@ -123,7 +123,7 @@
           code: Yup.string().required('Le code est obligatoire'),
           libelle: Yup.string().required('Le libellé est obligatoire'),
           description: Yup.string().required('La description est obligatoire'),
-          emplacement: Yup.string().required("L'emplacement est obligatoire."),
+          emplacement: Yup.string().notRequired(),
           typeEmplacement: Yup.string().required("Le type d'emplacement est obligatoire."),
 
         });
@@ -183,7 +183,7 @@
 
         const getAllTypeEmplacements = async () => {
         try{
-        const response = await ApiService.get('/typeemplacements');
+        const response = await ApiService.get('/all/typeEmplacements');
         const typeEmplacementsData = response.data.data.data;
         console.log('Data', typeEmplacementsData)
         typeEmplacementOptions.value = typeEmplacementsData.map((typeEmplacement) => ({

@@ -49,12 +49,10 @@
                 <ErrorMessage name="duree" class="text-danger"/>
               </div>
             </div>
-            <button
-              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
-              type="submit"
-            >
-            {{ btntext }}
-            </button>
+            <button class="btn btn-primary" type="submit">
+                {{ btntext }}
+
+              </button>
       </div>
         </Form>
         </div>
@@ -106,7 +104,7 @@ export default defineComponent({
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
-    const title = ref("Ajouter un heureSupp");
+    const title = ref("Ajouter une heureSupp");
     const btntext = ref('Ajouter');
     const personnelOptions = ref();
 
@@ -127,7 +125,7 @@ export default defineComponent({
     }
 
     const getHeureSupp = async (id: number) => {
-      return ApiService.get("/heureSupps/"+id)
+      return ApiService.get("/heureSups/"+id)
       .then(({ data }) => {
         // map data in form
         const donnees = data.data;
@@ -146,7 +144,7 @@ export default defineComponent({
 
     const fetchHeureSupp = async () => {
       try {
-        const response = await ApiService.get('/heureSupps');
+        const response = await ApiService.get('/heureSups');
         const heureSuppData = response.data.data.data;
         heureSuppOptions.value = heureSuppData.map((heureSupp) => ({
           value: heureSupp.id,
@@ -181,7 +179,7 @@ export default defineComponent({
     const addHeureSupp = async (values: any, heureSuppForm) => {
       values = values as HeureSupp;
       if(isUPDATE.value){
-        ApiService.put("/heureSupps/"+values.id,values)
+        ApiService.put("/heureSups/"+values.id,values)
         .then(({ data }) => {
             if(data.code == 200) { 
               success(data.message);
@@ -197,7 +195,7 @@ export default defineComponent({
         });
       }else{
         console.log('values',values)
-        ApiService.post("/heureSupps",values)
+        ApiService.post("/heureSups",values)
         .then(({ data }) => {
             if(data.code == 201) { 
               success(data.message);

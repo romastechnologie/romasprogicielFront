@@ -203,7 +203,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllCourses(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/courses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/all/sorties?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           courses.value = data.data;
           totalPages.value = data.data.totalPages;

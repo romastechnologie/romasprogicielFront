@@ -148,7 +148,7 @@ export default defineComponent({
     values['biens'] = biens.value.value
     console.log('Données envoyées', values)
     if (showMErr.value === false) {
-      ApiService.post("/courses", values)
+      ApiService.post("/sorties", values)
          .then(({ data }) => {
            if (data.code == 201) {
             success(data.message);

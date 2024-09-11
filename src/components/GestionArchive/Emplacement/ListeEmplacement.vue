@@ -77,12 +77,6 @@
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >DATE DE CREATION
-                  
-                </th>
-                <th
-                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
                 >Actions</th>
               </tr>
@@ -99,13 +93,10 @@
                   {{ emplacement.description }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.typeEmplacement }}
+                  {{ emplacement.typeEmplacement.libelle }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.emplacement }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement_date(emplacement.createdAt)  }}
+                  {{ emplacement?.libelle }}
                 </td>
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"

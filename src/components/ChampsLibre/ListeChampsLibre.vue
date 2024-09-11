@@ -187,7 +187,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllChampsLibres(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/champsLibres?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/all/champsLibres?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           champsLibres.value = data.data.data;
           totalPages.value = data.data.totalPages;

@@ -217,7 +217,7 @@
           editDocument,
           formatOptions,
           organisationOptions,
-          tagOptions
+          tagOptions,organisations,formats,tag
           
         };
     },
