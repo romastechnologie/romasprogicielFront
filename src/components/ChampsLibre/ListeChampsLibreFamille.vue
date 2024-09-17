@@ -114,7 +114,7 @@ export default defineComponent({
       getAllChampsLibreFamille();
     });
 
-    const champsLibreFamilles = ref([]);
+    const champsLibreFamilles = ref<Array<FamilleProduitChampsLibres>>([]);
     const champsLibreFamille = ref<FamilleProduitChampsLibres>();
 
     // BEGIN PAGINATE
@@ -143,6 +143,7 @@ export default defineComponent({
     function getAllChampsLibreFamille(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/familleProduitChampsLibres?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log('données envoyées',data);
           champsLibreFamilles.value = data.data.data;
           totalPages.value = data.data.data.totalPages;
           limit.value = data.data.data.limit;

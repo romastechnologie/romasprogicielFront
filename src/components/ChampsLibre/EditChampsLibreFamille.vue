@@ -100,19 +100,9 @@
           champsLibre: Yup.string().required("Le champsLibre est obligatoire."),
 
     });
-  
-      onMounted(() => {
-        getAllFamille();
-        getAllChampsLibre();
-        if(route.params.id) {
-          getChampsLibreFamille(parseInt(route.params.id as string));
-      }
-      });
-  
-      
+
       const champsLibreFamilleForm = ref(null);
       const showMErr = ref(false);
-      let champsLibreFamille = ref([]);
       const router = useRouter();
       const familleOptions = ref([]);
       const champsLibreOptions = ref([]);
@@ -120,6 +110,15 @@
     const champsLibre = ref();
     const route = useRoute()
      
+
+    onMounted(() => {
+        getAllFamille();
+        getAllChampsLibre();
+        if(route.params.id) {
+          getChampsLibreFamille(parseInt(route.params.id as string));
+      }
+      });
+  
 
 
       // const item = ref({ ...props.item });
@@ -135,7 +134,7 @@
         .then(({ data }) => {
           for (const key in data.data.data) {
             champsLibreFamilleForm.value?.setFieldValue(key, 
-            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
+            (typeof data.data.data[key] === 'object' && data.data.data[key] !== null)? data.data.data[key].id :data.data[key]
           );
           }
       })

@@ -66,7 +66,7 @@
   import { useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
-import { option } from '@/composables/common/animationView';
+  import { option } from '@/composables/common/animationView';
 
 
   
