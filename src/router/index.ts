@@ -2855,7 +2855,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "/champsLibreFamille/editer-champsLibreFamille",
+        path: "/champsLibreFamille/editer-champsLibreFamille/:id",
         name: "EditChampsLibreFamille",
         component: EditChampsLibreFamillePage,
         meta: {
