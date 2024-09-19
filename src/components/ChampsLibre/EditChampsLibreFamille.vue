@@ -71,7 +71,7 @@
 </div>
 </template>
 
-<script lang="ts">
+w<script lang="ts">
 
 import { defineComponent, onMounted, ref} from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
@@ -169,18 +169,50 @@ export default defineComponent({
 
 
 
-  const editChampsLibreFamille = async (values, {resetForm}) => {
-    ApiService.put("/familleProduitChampsLibres/"+values.id,values)
-      .then(({ data }) => {
-        if(data.code == 200) { 
-          success(data.message);
-          resetForm();
-          router.push({ name: "ListeChampsLibreFamillePage" });
-        }
-      }).catch(({ response }) => {
-        error(response.data.message);
-    });
-  };
+  const editChampsLibreFamille = async (values, { resetForm }) => {
+  try {
+    const response = await ApiService.put(`/familleProduitChampsLibres/${values.id}`, values);
+    
+    if (response.status === 200) {
+      success(response.data.message);
+      resetForm();
+      router.push("/champsLibreFamille/liste-champsLibreFamille");
+    }
+  } catch (error) {
+    error(error.response?.data?.message || "Une erreur est survenue.");
+  }
+};
+
+
+
+
+//   async function editChampsLibreFamille(value: object) {
+
+// const statut = document.getElementById("statut") as HTMLInputElement;
+// const famille = document.getElementById("famille") as HTMLInputElement;
+// const champslibre = document.getElementById("champslibre") as HTMLInputElement;
+
+// Object.assign(value, {
+//     statut: statut.value,
+//     famille: famille.value,
+//     champslibre: champslibre.value
+// })
+
+// try {
+//     const response = await ApiService.put(`/familleProduitChampsLibres/${route.params.id}`, value);
+//     Swal.fire({
+//         timer: 1500,
+//         position: "top-end",
+//         text: "La familleProduitChampsLibres a été modifié avec succès!",
+//         icon: "success"
+//     });
+//     router.push("/champsLibreFamille/liste-champsLibreFamille")
+// } catch (error) {
+//     console.error('Erreur lors de la mise à jour de la familleProduitChamps:', error);
+//     throw error;
+// }
+// }
+
 
   
   const getAllFamille = async () => {
