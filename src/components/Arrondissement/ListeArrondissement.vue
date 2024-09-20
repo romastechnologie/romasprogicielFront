@@ -1,5 +1,5 @@
 <template>
-  <<div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+  <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
       <div
         class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
       >
