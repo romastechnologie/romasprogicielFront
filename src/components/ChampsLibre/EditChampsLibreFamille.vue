@@ -99,7 +99,7 @@ export default defineComponent({
     const champsLibreFamilleSchema = Yup.object().shape({
         statut: Yup.string().required("Le statut est obligatoire."),      
         famille: Yup.string().required("La famille est obligatoire."),      
-        champsLibre: Yup.string().required("Le champsLibre est obligatoire."),
+        champslibre: Yup.array().required("Le champsLibre est obligatoire."),
 
   });
 
@@ -109,7 +109,7 @@ export default defineComponent({
     const familleOptions = ref([]);
     const champsLibreOptions = ref([]);
     const famille = ref();
-  const champsLibre = ref();
+  const champslibre = ref();
   const route = useRoute()
    
 
@@ -256,7 +256,7 @@ export default defineComponent({
   
    
 
-    return { champsLibreFamilleSchema, editChampsLibreFamille, champsLibreFamilleForm,showMErr,familleOptions,champsLibreOptions,famille,champsLibre};
+    return { champsLibreFamilleSchema, editChampsLibreFamille, champsLibreFamilleForm,showMErr,familleOptions,champsLibreOptions,famille,champslibre};
   },
 });
 </script>
