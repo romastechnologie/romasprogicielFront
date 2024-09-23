@@ -112,7 +112,7 @@
                                 </div>
                             </Form>
                         </template>
-                        <p>Montant total: {{ montantTotal }}</p>
+                        <p>Montant Total: {{ montantTotal }}</p>
                     </div>
                 </div>
                 <div class="mb-3">
