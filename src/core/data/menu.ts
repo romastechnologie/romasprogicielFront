@@ -759,7 +759,7 @@ export const menu: MenuItem[] = [
             // },
             {
                 path: "/champsLibreFamille/liste-champsLibreFamille",
-                title: "Liste des champ libre et Famille",
+                title: "Liste des champs libres et Familles",
                 type: "link"
             },
         ]
