@@ -120,7 +120,7 @@ export default {
              title.value = "Ajouter une monnaie";
              btntext.value = "Ajouter";
           }
-        }
+        }/////
     
         const addMonnaie = async (values:any, {resetForm}: {resetForm: () => void  }) => {
           values = values as Monnaie;
@@ -164,7 +164,7 @@ export default {
           formFields.forEach(field => {
             field.value = '';
           });
-          btnTitle()
+        btnTitle()
         };
     
         return {monnaies, title,btntext, resetValue, monnaieSchema,
