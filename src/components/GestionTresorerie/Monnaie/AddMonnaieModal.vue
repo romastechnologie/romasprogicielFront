@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-</template>
+      </template>
 
 <script lang="ts">
  import { ref, watch } from 'vue';
@@ -54,6 +54,8 @@ import ApiService from '@/services/ApiService';
 import { error, hideModal, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import { Monnaie } from '@/models/Monnaie';
+
+
 
 
 
@@ -120,7 +122,7 @@ export default {
              title.value = "Ajouter une monnaie";
              btntext.value = "Ajouter";
           }
-        }/////
+        }////
     
         const addMonnaie = async (values:any, {resetForm}: {resetForm: () => void  }) => {
           values = values as Monnaie;
