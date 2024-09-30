@@ -27,16 +27,16 @@
                     <ErrorMessage name="heureFermeture" class="text-danger" />
             </div>
             <div class="col-md-4">
-                    <label for="heureFinPause" class="form-label"> Heure de finde pause<span class="text-danger">*</span></label>
-                    <Field name="heureFinPause"  class="form-control" type="time"/>
-                    <ErrorMessage name="heureFinPause" class="text-danger" />
-            </div>
-            <div class="col-md-4">
                     <label for="heureDebutPause" class="form-label"> Heure début de pause<span class="text-danger">*</span></label>
                     <Field name="heureDebutPause"  class="form-control" type="time"/>
                     <ErrorMessage name="heureDebutPause" class="text-danger" />
             </div>
-            
+            <div class="col-md-4">
+                    <label for="heureFinPause" class="form-label"> Heure de fin de pause<span class="text-danger">*</span></label>
+                    <Field name="heureFinPause"  class="form-control" type="time"/>
+                    <ErrorMessage name="heureFinPause" class="text-danger" />
+            </div>
+
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
