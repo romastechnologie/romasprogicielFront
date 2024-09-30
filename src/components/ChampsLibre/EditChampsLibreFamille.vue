@@ -84,7 +84,7 @@
   import VueMultiselect from 'vue-multiselect'
 
   export default defineComponent({
-      name: "EditChampsLibreFamillePage",
+      name: "EditChampsLibreFamille",
       components: {
       Form,
       Field,

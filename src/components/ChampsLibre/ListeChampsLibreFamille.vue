@@ -105,7 +105,7 @@ import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListeChampsLibreFamillePage",
+  name: "ListeChampsLibreFamille",
   components: {
     PaginationComponent
   },
