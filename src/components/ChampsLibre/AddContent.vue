@@ -1,94 +1,90 @@
 <template>
-
-<div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-  <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-    <Form ref="personnelForm" @submit="addPersonnel" :validation-schema="personnelSchema">
-      <div class="tab-content" id="add-product-pills-tabContent">
-        
-          
-            <div class="col-md-12 mb-md-25">
-              <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
-                <div class="row">
-                  <div class="border border-primary mb-10">
-                    <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                      style="background-color: #0a59a4">
-                      <div class="col-md-7">
-                        <h3 class="fs-4 text-white">
-                          Enfants
-                        </h3>
-                      </div>
-                      <div class="col-md-5">
-                        <div class="d-flex float-end">
-                          <button
-                            class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                            type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
-                            @click="addRowEnfant()">
-                            <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
-                            Ajouter un enfant
-                          </button>
-                          <router-link to="/liste-mouvements"></router-link>
-                        </div>
+  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+      <Form ref="personnelForm" @submit="addPersonnel" :validation-schema="personnelSchema">
+        <div class="tab-content" id="add-product-pills-tabContent">
+          <div class="col-md-12 mb-md-25">
+            <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+              <div class="row">
+                <div class="border border-primary mb-10">
+                  <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                    style="background-color: #0a59a4">
+                    <div class="col-md-7">
+                      <h3 class="fs-4 text-white">
+                        Enfants
+                      </h3>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="d-flex float-end">
+                        <button
+                          class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                          type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
+                          @click="addRowEnfant()">
+                          <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
+                          Ajouter un enfant
+                        </button>
+                        <router-link to="/liste-mouvements"></router-link>
                       </div>
                     </div>
-                    <div>
-                      <div class="row d-flex align-items-center justify-content-between mt-10">
-                        <div class="col-md-2">
-                          <label class="d-block text-black fw-semibold">
-                            Nom
-                            <span class="text-danger">*</span>
-                          </label>
-                        </div>
-                        <div class="col-md-3">
-                          <label class="d-block text-black fw-semibold">
-                            Prénom
-                            <span class="text-danger">*</span>
-                          </label>
-                        </div>
-                        <div class="col-md-2">
-                          <label class="d-block text-black fw-semibold mb-10">
-                            Date Naissance<span class="text-danger">*</span>
-                          </label>
-                        </div>
-                        <div class="col-md-2">
-                          <label class="d-block text-black fw-semibold mb-10">
-                            Sexe <span class="text-danger">*</span>
-                          </label>
+                  </div>
+                  <div>
+                    <div class="row d-flex align-items-center justify-content-between mt-10">
+                      <div class="col-md-2">
+                        <label class="d-block text-black fw-semibold">
+                          Nom
+                          <span class="text-danger">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="d-block text-black fw-semibold">
+                          Prénom
+                          <span class="text-danger">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="d-block text-black fw-semibold mb-10">
+                          Date Naissance<span class="text-danger">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="d-block text-black fw-semibold mb-10">
+                          Sexe <span class="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+                    <hr class="mt-0" />
+                    <div class="row" v-for="(enfant, index) in enfants" :key="index">
+                      <div class="col-md-3 mb-3">
+                        <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                          <input v-model="enfant.nom" type="text" class="form-control shadow-none fs-md-15 text-black"
+                            placeholder="Saisir le nom" />
+                          <div class="invalid-feedback" v-if="valideteRowEnfant(enfant.nom)">
+                            Le nom est obligatoire.
+                          </div>
                         </div>
                       </div>
-                      <hr class="mt-0" />
-                      <div class="row" v-for="(enfant, index) in enfants" :key="index">
-                        <div class="col-md-3 mb-3">
-                          <div class="form-group mb-5 mb-sm-5 mb-md-5">
-                            <input v-model="enfant.nom" type="text" class="form-control shadow-none fs-md-15 text-black"
-                              placeholder="Saisir le nom" />
-                            <div class="invalid-feedback" v-if="valideteRowEnfant(enfant.nom)">
-                              Le nom est obligatoire.
-                            </div>
+                      <div class="col-md-3 mb-3">
+                        <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                          <input v-model="enfant.prenom" type="text"
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="saisir le prénom" />
+                          <div class="invalid-feedback" v-if="valideteRowEnfant(enfant.prenom)">
+                            Le prénom est obligatoire.
                           </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                          <div class="form-group mb-5 mb-sm-5 mb-md-5">
-                            <input v-model="enfant.prenom" type="text"
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="saisir le prénom" />
-                            <div class="invalid-feedback" v-if="valideteRowEnfant(enfant.prenom)">
-                              Le prénom est obligatoire.
-                            </div>
-                          </div>
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <div class="form-group mb-5 mb-sm-5 mb-md-5">
+                          <input v-model="enfant.dateNaissance" type="date"
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="" />
                         </div>
-                        <div class="col-md-3 mb-3">
-                          <div class="form-group mb-5 mb-sm-5 mb-md-5">
-                            <input v-model="enfant.dateNaissance" type="date"
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                          </div>
-                          <div class="invalid-feedback" v-if="valideteRowEnfant(enfant.dateNaissance)">
-                            La date est obligatoire.
-                          </div>
+                        <div class="invalid-feedback" v-if="valideteRowEnfant(enfant.dateNaissance)">
+                          La date est obligatoire.
                         </div>
-                        <div class="col-md-3 mb-3">
-                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                            <Multiselect :searchable="true" :options="['Masculin', 'Féminin']" v-model="enfant.sexe"
-                              v-bind="field" placeholder="Sélectionner le sexe" />
-                          </div>
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                          <Multiselect :searchable="true" :options="['Masculin', 'Féminin']" v-model="enfant.sexe"
+                            v-bind="field" placeholder="Sélectionner le sexe" />
                         </div>
                       </div>
                     </div>
@@ -96,16 +92,11 @@
                 </div>
               </div>
             </div>
-            
-          
-        
-       
-      </div>
-      
-    </Form>
+          </div>
+        </div>
+      </Form>
+    </div>
   </div>
-</div>
-
 </template>
 
 
