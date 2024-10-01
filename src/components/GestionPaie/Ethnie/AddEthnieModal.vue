@@ -81,8 +81,8 @@
     
         const loading = ref<boolean>(false);
         const ethnieSchema = Yup.object().shape({
-          description: Yup.string().required('La ethnie est obligatoire'),
-          libelle: Yup.string().required('Le libelle est obligatoire'),
+          description: Yup.string().required('La description est obligatoire'),
+          libelle: Yup.string().required('Le libellé est obligatoire'),
         });
     
     
@@ -118,7 +118,7 @@
     
         const btnTitle = async () => {
           if (isupdate.value) {
-             title.value = "Modifier la ethnie";
+             title.value = "Modifier l'ethnie";
              btntext.value = "Modifier";
           }else{
              title.value = "Ajouter une ethnie";

@@ -481,7 +481,7 @@ export const menu: MenuItem[] = [
             },
             {
                 path: "/permissionps/liste-permissionp",
-                title: "Liste des permission",
+                title: "Liste des permissions",
                 type: "link"
             },
         ]
