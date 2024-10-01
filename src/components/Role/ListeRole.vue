@@ -20,10 +20,10 @@
         </button>
       </div>
       <div class="d-flex align-items-center">
-        <form class="search-box position-relative me-15">
+        <form class="search-bg svg-color pt-3">
           <input
             type="text"
-            class="form-control shadow-none text-black rounded-0 border-0"
+            class="form-control shadow-none text-black"
             placeholder="Rechercher un role"
           />
           <button
