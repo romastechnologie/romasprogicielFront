@@ -303,7 +303,7 @@
                                     </button>
                                   </div>
                                 </div>
-                                <div class="col-md-12 mt-25 mb-25 marge-droite">
+                                <div class="d-flex justify-content-center mb-4">
                                   <div class="d-flex">
                                     <button
                                       class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
@@ -311,7 +311,7 @@
                                       @click="addRowProduit(magasinIndex)"
                                     >
                                       <i
-                                        class="fa fa-plus-circle position-relative ms-5 fs-12"
+                                        class="fa fa-plus-circle position-relative me-3"
                                       ></i
                                       >Ajouter un produit
                                     </button>
@@ -329,16 +329,17 @@
             </div>
           </div>
 
-          <div class="col-md-12">
-            <div class="d-flex align-items-center">
+          <div class="col-md-12 mt-3" >
+            <div class="d-flex justify-content-start mb-4">
               <button
-                class="btn btn-success me-3"
+                class="btn btn-success me-5"
                 type="submit"
                 :disabled="isDisable"
                 :class="{ 'cursor-not-allowed': isDisable }"
               >
                 Ajouter une sortie
               </button>
+              
               <router-link
                 to="/sorties/liste-sorties"
                 class="btn btn-danger"
@@ -498,7 +499,7 @@ const produitsss = ref(null);
 
 const fetchMagasins = async () => {
   try {
-    const response = await axios.get("/magasins");
+    const response = await axios.get("all/magasins");
     const magasinsData = response.data.data.data;
     magasinsss.value = magasinsData;
     magasinOptions.value = magasinsData.map((magasin) => ({
@@ -512,7 +513,7 @@ const fetchMagasins = async () => {
 
 const fetchProduits = async () => {
   try {
-    const response = await axios.get("/produits");
+    const response = await axios.get("all/produits");
     const produitsData = response.data.data.data;
     produitsss.value = produitsData;
     produitOptions.value = produitsData.map((produit) => ({
@@ -567,7 +568,7 @@ const getIndex = (event, produit) => {
 
     const fetchClient = async () => {
       try {
-        const response = await ApiService.get("/clients");
+        const response = await ApiService.get("all/clients");
         const clientData = response.data.data.data;
         clientOptions.value = clientData.map((client) => ({
           value: client.id,

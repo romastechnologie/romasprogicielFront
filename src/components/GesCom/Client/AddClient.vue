@@ -461,8 +461,8 @@ export default defineComponent({
       }),
       adresseClient: Yup.string().notRequired(),
       emailClient: Yup.string().email("Veuillez entrer un mail valide").notRequired(),
-      telephone1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone 1 est obligatoire'),
-      telephone2: Yup.number().typeError('Veuillez entrer des chiffres').notRequired(),
+      telephone1: Yup.string().typeError('Veuillez entrer des chiffres').required('Le telephone 1 est obligatoire'),
+      telephone2: Yup.string().typeError('Veuillez entrer des chiffres').notRequired(),
       // ifu: Yup.number().typeError('Veuillez entrer des chiffres').required('L\'ifu est obligatoire'),
       sigle: Yup.string().notRequired(),
       denomination: Yup.string().notRequired(),
@@ -599,6 +599,7 @@ export default defineComponent({
         addRowAdresseLivraison,
         valideteRowAdresseLivraison,
         valuess,
+        validPhone,
         isDisable,
         adresseLivraisons,validate,
       };

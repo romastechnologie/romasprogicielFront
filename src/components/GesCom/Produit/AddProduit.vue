@@ -1,11 +1,7 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-      <Form
-        @submit="addProduit"
-        :validation-schema="produitSchema"
-        :keep-values="valuess"
-      >
+      <Form @submit="addProduit" :validation-schema="produitSchema" :keep-values="valuess">
         <div class="row">
           <div class="col-md-3">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
@@ -13,19 +9,12 @@
                 Groupe de taxe <span class="text-danger">*</span>
               </label>
               <Field name="groupeTaxe" v-slot="{ field }">
-                <Multiselect
-                  :options="groupeTaxeOptions"
-                  :searchable="true"
-                  track-by="label"
-                  label="label"
-                  v-model="field.value"
-                  v-bind="field"
-                  placeholder="Choisir le groupe de taxe"
-                  @select="selectGroupe(field.value)"
-                />
+                <Multiselect :options="groupeTaxeOptions" :searchable="true" track-by="label" label="label"
+                  v-model="field.value" v-bind="field" placeholder="Choisir le groupe de taxe"
+                  @select="selectGroupe(field.value)" />
               </Field>
-            <ErrorMessage name="groupeTaxe" class="text-danger" />
-          </div>
+              <ErrorMessage name="groupeTaxe" class="text-danger" />
+            </div>
           </div>
           <div class="col-md-3">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
@@ -33,57 +22,32 @@
                 Mode prix <span class="text-danger">*</span>
               </label>
               <Field name="modeDefPrix" v-model="modeDefPrix" v-slot="{ field }">
-                <Multiselect
-                  :options="['HT(Hors Taxes)','TTC(Toutes Taxes Comprises)']"
-                  :searchable="true"
-                  :disabled="(modeDefPrix=='HT(Hors Taxes)')? true : false"
-                  track-by="label"
-                  label="label"
-                  v-model="field.value"
-                  v-bind="field"
-                  placeholder="Choisir le mode de prix"
-                />
+                <Multiselect :options="['HT(Hors Taxes)','TTC(Toutes Taxes Comprises)']" :searchable="true"
+                  :disabled="(modeDefPrix=='HT(Hors Taxes)')? true : false" track-by="label" label="label"
+                  v-model="field.value" v-bind="field" placeholder="Choisir le mode de prix" />
               </Field>
-            <ErrorMessage name="modeDefPrix" class="text-danger" />
-          </div>
+              <ErrorMessage name="modeDefPrix" class="text-danger" />
+            </div>
           </div>
           <div class="col-md-3">
             <br />
             <div class="form-check mt-3 mb-2 mb-sm-2 mb-md-2">
-              <label
-                for="estActif"
-                class="form-check-label fw-medium position-relative top-1"
-              >
+              <label for="estActif" class="form-check-label fw-medium position-relative top-1">
                 Est Service ?
               </label>
-              <input
-                id="estService"
-                name="estService"
-                v-model="estService"
-                :value="estService"
-                type="checkbox"
-                class="form-check-input shadow-none"
-              />
+              <input id="estService" name="estService" v-model="estService" :value="estService" type="checkbox"
+                class="form-check-input shadow-none" />
               <ErrorMessage name="estService" class="text-danger" />
             </div>
           </div>
           <div class="col-md-3">
             <br />
             <div class="form-check mt-3 mb-2 mb-sm-2 mb-md-2">
-              <label
-                for="estModeCarreau"
-                class="form-check-label fw-medium position-relative top-1"
-              >
+              <label for="estModeCarreau" class="form-check-label fw-medium position-relative top-1">
                 Est Mode Carreau ?
               </label>
-              <input
-                id="estModeCarreau"
-                name="estModeCarreau"
-                v-model="estModeCarreau"
-                :value="estModeCarreau"
-                type="checkbox"
-                class="form-check-input shadow-none"
-              />
+              <input id="estModeCarreau" name="estModeCarreau" v-model="estModeCarreau" :value="estModeCarreau"
+                type="checkbox" class="form-check-input shadow-none" />
               <ErrorMessage name="estModeCarreau" class="text-danger" />
             </div>
           </div>
@@ -93,30 +57,19 @@
                 Famille <span class="text-danger">*</span>
               </label>
               <Field name="famille" v-slot="{ field }">
-                <Multiselect
-                  :options="familleOptions"
-                  :searchable="true"
-                  track-by="label"
-                  label="label"
-                  v-model="field.value"
-                  v-bind="field"
-                  placeholder="Sélectionner la famille"
-                />
+                <Multiselect :options="familleOptions" :searchable="true" track-by="label" label="label"
+                  v-model="field.value" v-bind="field" placeholder="Sélectionner la famille" />
               </Field>
-            <ErrorMessage name="famille" class="text-danger" />
-          </div>
+              <ErrorMessage name="famille" class="text-danger" />
+            </div>
           </div>
           <div class="col-md-4">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold mb-1">
                 Référence <span class="text-danger">*</span>
               </label>
-              <Field
-                name="refProd"
-                type="text"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer la référence"
-              />
+              <Field name="refProd" type="text" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer la référence" />
               <ErrorMessage name="refProd" class="text-danger" />
             </div>
           </div>
@@ -125,12 +78,8 @@
               <label class="d-block text-black fw-semibold mb-1">
                 Nom du produit <span class="text-danger">*</span>
               </label>
-              <Field
-                name="nomProd"
-                type="text"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer le nom"
-              />
+              <Field name="nomProd" type="text" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer le nom" />
               <ErrorMessage name="nomProd" class="text-danger" />
             </div>
           </div>
@@ -140,18 +89,11 @@
                 Magasin par défaut <span class="text-danger">*</span>
               </label>
               <Field name="magasin" v-slot="{ field }">
-                <Multiselect
-                  :options="magasinOptions"
-                  :searchable="true"
-                  track-by="label"
-                  label="label"
-                  v-model="field.value"
-                  v-bind="field"
-                  placeholder="Sélectionner le magasin"
-                />
+                <Multiselect :options="magasinOptions" :searchable="true" track-by="label" label="label"
+                  v-model="field.value" v-bind="field" placeholder="Sélectionner le magasin" />
               </Field>
-            <ErrorMessage name="magasin" class="text-danger" />
-          </div>
+              <ErrorMessage name="magasin" class="text-danger" />
+            </div>
           </div>
           <div class="col-md-3" v-if="!estService">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
@@ -159,30 +101,19 @@
                 Méthode de gestion<span class="text-danger">*</span>
               </label>
               <Field name="methode" v-slot="{ field }">
-                <Multiselect
-                  :options="['Mt1','Mt2']"
-                  :searchable="true"
-                  track-by="label"
-                  label="label"
-                  v-model="field.value"
-                  v-bind="field"
-                  placeholder="Sélectionner la methode"
-                />
+                <Multiselect :options="['Mt1','Mt2']" :searchable="true" track-by="label" label="label"
+                  v-model="field.value" v-bind="field" placeholder="Sélectionner la methode" />
               </Field>
-            <ErrorMessage name="methode" class="text-danger" />
-          </div>
+              <ErrorMessage name="methode" class="text-danger" />
+            </div>
           </div>
           <div class="col-md-3" v-if="!estService">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold mb-1">
                 Prix de vente<span class="text-danger">*</span>
               </label>
-              <Field
-                name="prixVente"
-                type="text"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer le prix"
-              />
+              <Field name="prixVente" type="text" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer le prix" />
               <ErrorMessage name="prixVente" class="text-danger" />
             </div>
           </div>
@@ -191,12 +122,8 @@
               <label class="d-block text-black fw-semibold mb-1">
                 Seuil d'approvisionnement <span class="text-danger">*</span>
               </label>
-              <Field
-                name="seuilAppro"
-                type="number"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer le seuil d'Appro"
-              />
+              <Field name="seuilAppro" type="number" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer le seuil d'Appro" />
               <ErrorMessage name="seuilAppro" class="text-danger" />
             </div>
           </div>
@@ -205,81 +132,58 @@
               <label class="d-block text-black fw-semibold mb-1">
                 Seuil Alerte <span class="text-danger">*</span>
               </label>
-              <Field
-                name="seuilAlerte"
-                type="number"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer le seuil d'Alerte"
-              />
+              <Field name="seuilAlerte" type="number" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer le seuil d'Alerte" />
               <ErrorMessage name="seuilAlerte" class="text-danger" />
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold mb-1">
-               Pièce par carton <span class="text-danger">*</span>
+                Pièce par carton <span class="text-danger">*</span>
               </label>
-              <Field
-                name="pieceParCarton"
-                type="number"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer la pièce par carton"
-              />
+              <Field name="pieceParCarton" type="number" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer la pièce par carton" />
               <ErrorMessage name="pieceParCarton" class="text-danger" />
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold mb-1">
-               Pièce par m² <span class="text-danger">*</span>
+                Pièce par m² <span class="text-danger">*</span>
               </label>
-              <Field
-                name="pieceParMetreCarre"
-                type="number"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer la pièce par m²"
-              />
+              <Field name="pieceParMetreCarre" type="number" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer la pièce par m²" />
               <ErrorMessage name="pieceParMetreCarre" class="text-danger" />
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold mb-1">
-               M² par carton <span class="text-danger">*</span>
+                M² par carton <span class="text-danger">*</span>
               </label>
-              <Field
-                name="metreCarreParCarton"
-                type="number"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer le m² par carton"
-              />
+              <Field name="metreCarreParCarton" type="number" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer le m² par carton" />
               <ErrorMessage name="metreCarreParCarton" class="text-danger" />
             </div>
           </div>
           <div class="col-md-2" v-if="estModeCarreau">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold mb-1">
-               Surface par pièce <span class="text-danger">*</span>
+                Surface par pièce <span class="text-danger">*</span>
               </label>
-              <Field
-                name="surfaceParPiece"
-                type="number"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer la surface pièce"
-              />
+              <Field name="surfaceParPiece" type="number" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer la surface pièce" />
               <ErrorMessage name="surfaceParPiece" class="text-danger" />
             </div>
           </div>
           <div class="col-md-4" v-if="estModeCarreau">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
               <label class="d-block text-black fw-semibold mb-1">
-               Couleur
+                Couleur
               </label>
-              <Field
-                name="couleur"
-                type="text"
-                class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer la couleur"/>
+              <Field name="couleur" type="text" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer la couleur" />
               <ErrorMessage name="couleur" class="text-danger" />
             </div>
           </div>
@@ -292,368 +196,230 @@
               <label class="d-block text-black fw-semibold mb-1">
                 Description
               </label>
-              <Field
-                name="descProd"
-                as="textarea"
-                cols="15"
-                rows="6"
-                placeholder="Entrer la description"
-                v-slot="{ field }"
-                class="form-control shadow-none rounded-0 text-black">
-                <textarea
-                  class="form-control shadow-none rounded-0 text-black"
-                  v-model="field.value"></textarea>
+              <Field name="descProd" as="textarea" cols="15" rows="6" placeholder="Entrer la description"
+                v-slot="{ field }" class="form-control shadow-none rounded-0 text-black">
+                <textarea class="form-control shadow-none rounded-0 text-black" v-model="field.value"></textarea>
               </Field>
               <ErrorMessage name="descProd" class="text-danger" />
             </div>
           </div>
           <div class="col-md-12 mb-md-25">
-              <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link active"
-                    id="home-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#home-tab-pane"
-                    type="button"
-                    role="tab"
-                    aria-controls="home-tab-pane"
-                    aria-selected="true">
-                    Conditionnement
-                  </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    id="home2-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#home2-tab-pane"
-                    type="button"
-                    role="tab"
-                    aria-controls="home2-tab-pane"
-                    aria-selected="false" >
-                    Image
-                  </button>
-                </li>
-              </ul>
-              <div class="tab-content" id="myTabContent">
-                      <div
-                        class="tab-pane fade show active p-10"
-                        id="home-tab-pane"
-                        role="tabpanel"
-                        tabindex="0"
-                      >
-                        <div class="row">
-                          <div class="border border-primary mb-1">
-                            <div
-                              class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                              style="background-color: #0a59a4"
-                            >
-                              <div class="col-md-7">
-                                <h3 class="fs-4 text-white">
-                                  Conditionnement (s) du produit
-                                </h3>
-                              </div>
-                              <div class="col-md-5">
-                                <div class="d-flex float-end">
-                                  <button
-                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                    type="button"
-                                    :class="{ 'cursor-not-allowed': isDisable }"
-                                    :disabled="isDisable"
-                                    @click="addRowConditionnement()"
-                                  >
-                                    <i
-                                      class="fa fa-plus-circle position-relative ms-5 fs-12"
-                                    ></i>
-                                    Ajouter un conditionnement
-                                  </button>
-                                  <router-link
-                                    to="/liste-mouvements"
-                                  ></router-link>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div
-                                class="row d-flex align-items-center justify-content-between mt-10"
-                              >
-                                <div class="col-md-3">
-                                  <label class="d-block text-black fw-semibold">
-                                    Conditionnement
-                                    <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-1"
-                                  >
-                                    Quantité <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-1"
-                                  >
-                                    Prix Min
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-1"
-                                  >
-                                    Prix de vente<span class="text-danger"
-                                      >*</span
-                                    >
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-1"
-                                  >
-                                    Prix Max
-                                  </label>
-                                </div>
-                                <div class="col-md-1">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-1"
-                                  >
-                                    Action
-                                  </label>
-                                </div>
-                              </div>
-                              <hr class="mt-0" />
-                              <div
-                                class="row"
-                                v-for="(conditionnement, index) in conditionnements"
-                                :key="index"
-                              >
-                                <div class="col-md-3">
-                                  <div class="">
-                                    <Multiselect
-                                      :options="conditionnementOptions"
-                                      :searchable="true"
-                                      track-by="label"
-                                      label="label"
-                                      v-model="conditionnement.conditionnement"
-                                      placeholder="Sélectionner le conditionnement"
-                                      @select="
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                  type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+                  Conditionnement
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="home2-tab" data-bs-toggle="tab" data-bs-target="#home2-tab-pane"
+                  type="button" role="tab" aria-controls="home2-tab-pane" aria-selected="false">
+                  Image
+                </button>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+                <div class="row">
+                  <div class="border border-primary mb-1">
+                    <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                      style="background-color: #0a59a4">
+                      <div class="col-md-7">
+                        <h3 class="fs-4 text-white">
+                          Conditionnement (s) du produit
+                        </h3>
+                      </div>
+                      <div class="col-md-5">
+                        <div class="d-flex float-end">
+                          <button
+                            class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                            type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
+                            @click="addRowConditionnement()">
+                            <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
+                            Ajouter un conditionnement
+                          </button>
+                          <router-link to="/liste-mouvements"></router-link>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="row d-flex align-items-center justify-content-between mt-10">
+                        <div class="col-md-3">
+                          <label class="d-block text-black fw-semibold">
+                            Conditionnement
+                            <span class="text-danger">*</span>
+                          </label>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="d-block text-black fw-semibold mb-1">
+                            Quantité <span class="text-danger">*</span>
+                          </label>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="d-block text-black fw-semibold mb-1">
+                            Prix Min
+                          </label>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="d-block text-black fw-semibold mb-1">
+                            Prix de vente<span class="text-danger">*</span>
+                          </label>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="d-block text-black fw-semibold mb-1">
+                            Prix Max
+                          </label>
+                        </div>
+                        <div class="col-md-1">
+                          <label class="d-block text-black fw-semibold mb-1">
+                            Action
+                          </label>
+                        </div>
+                      </div>
+                      <hr class="mt-0" />
+                      <div class="row" v-for="(conditionnement, index) in conditionnements" :key="index">
+                        <div class="col-md-3">
+                          <div class="">
+                            <Multiselect :options="conditionnementOptions" :searchable="true" track-by="label"
+                              label="label" v-model="conditionnement.conditionnement"
+                              placeholder="Sélectionner le conditionnement" @select="
                                         selectConditionnement(conditionnement.conditionnement, conditionnement)
-                                      "
-                                    />
-                                    <div
-                                      class="invalid-feedback"
-                                      v-if="valideteRowProduit(conditionnement.conditionnement)"
-                                    >
-                                      Le conditionnement est obligatoire.
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-md-2">
-                                  <div
-                                    class="form-group mb-2 mb-sm-2 mb-md-2"
-                                  >
-                                    <input
-                                      type="number"
-                                      v-model="conditionnement.quantite"
-                                      :readonly="true"
-                                      :class="
+                                      " />
+                            <div class="invalid-feedback" v-if="valideteRowProduit(conditionnement.conditionnement)">
+                              Le conditionnement est obligatoire.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group mb-2 mb-sm-2 mb-md-2">
+                            <input type="number" v-model="conditionnement.quantite" :readonly="true" :class="
                                         valideteRowProduit(conditionnement.quantite)
                                           ? 'form-control shadow-none fs-md-15 text-black is-invalid '
                                           : 'form-control shadow-none fs-md-15 text-black '
-                                      "
-                                      placeholder="Entrer la quantité"
-                                    />
-                                    <div
-                                      v-if="valideteRowProduit(conditionnement.quantite)"
-                                      class="invalid-feedback"
-                                    >
-                                      La quantité est obligatoire.
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-md-2">
-                                  <div
-                                    class="form-group mb-2 mb-sm-2 mb-md-2"
-                                  >
-                                    <input
-                                      v-model="conditionnement.prixMin"
-                                      type="number"
-                                      class="form-control shadow-none fs-md-15 text-black"
-                                      placeholder="Entrer le prix"
-                                    />
-                                 <!-- <div
+                                      " placeholder="Entrer la quantité" />
+                            <div v-if="valideteRowProduit(conditionnement.quantite)" class="invalid-feedback">
+                              La quantité est obligatoire.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group mb-2 mb-sm-2 mb-md-2">
+                            <input v-model="conditionnement.prixMin" type="number"
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prix" />
+                            <!-- <div
                                       v-if="valideteRowProduit(conditionnement.prixMin)"
                                       class="invalid-feedback"
                                     >
                                       Le prix min est obligatoire.
                                     </div>-->
-                                  </div>
-                                </div>
-                                <div class="col-md-2">
-                                  <div
-                                    class="form-group mb-2 mb-sm-2 mb-md-2"
-                                  >
-                                    <input
-                                      v-model="conditionnement.prixVente"
-                                      type="number"
-                                      :class="
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group mb-2 mb-sm-2 mb-md-2">
+                            <input v-model="conditionnement.prixVente" type="number" :class="
                                         valideteRowProduit(conditionnement.prixVente)
                                           ? 'form-control shadow-none fs-md-15 text-black is-invalid '
                                           : 'form-control shadow-none fs-md-15 text-black '
-                                      "
-                                      placeholder="Entrer le prix"
-                                    />
-                                    <div
-                                      v-if="valideteRowProduit(conditionnement.prixVente)"
-                                      class="invalid-feedback"
-                                    >
-                                      Le prix de vente est obligatoire.
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-md-2">
-                                  <div
-                                    class="form-group mb-2 mb-sm-2 mb-md-2"
-                                  >
-                                    <input
-                                      type="number"
-                                      class="form-control shadow-none fs-md-15 text-black"
-                                      placeholder="Entrer le prix max"
-                                      v-model="conditionnement.prixMax"
-                                    />
-                                    <!----<div
+                                      " placeholder="Entrer le prix" />
+                            <div v-if="valideteRowProduit(conditionnement.prixVente)" class="invalid-feedback">
+                              Le prix de vente est obligatoire.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group mb-2 mb-sm-2 mb-md-2">
+                            <input type="number" class="form-control shadow-none fs-md-15 text-black"
+                              placeholder="Entrer le prix max" v-model="conditionnement.prixMax" />
+                            <!----<div
                                       v-if="valideteRowProduit(conditionnement.prixMax)"
                                       class="invalid-feedback"
                                     >
                                       Le prix max est obligatoire
                                     </div>-->
-                                  </div>
-                                </div>
-                                <div class="col-md-1">
-                                  <button
-                                    class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                    type="button"
-                                    @click="removeRowConditionnement(index)"
-                                  >
-                                    <i
-                                      class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                                    ></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
                           </div>
                         </div>
+                        <div class="col-md-1">
+                          <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                            @click="removeRowConditionnement(index)">
+                            <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                          </button>
+                        </div>
                       </div>
-                      <div
-                        class="tab-pane fade p-10"
-                        id="home2-tab-pane"
-                        role="tabpanel"
-                        tabindex="0">
-                        <div class="row">
-                          <div class="border border-primary mb-1">
-                            <div
-                              class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                              style="background-color: #0a59a4 !important"
-                            >
-                              <div class="col-md-7">
-                                <h3 class="fs-4 text-white">
-                                  Image(s) du produit
-                                </h3>
-                              </div>
-                              <div class="col-md-5">
-                                <div class="d-flex float-end">
-                                  <button
-                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                    type="button"
-                                    :class="{ 'cursor-not-allowed': isDisablee }"
-                                    :disabled="isDisablee"
-                                    @click="addRowImage()"
-                                  >
-                                    <i
-                                      class="fa fa-plus-circle position-relative ms-5 fs-12"
-                                    ></i>
-                                    Ajouter une image
-                                  </button>
-                                  <router-link
-                                    to="/liste-mouvements"
-                                  ></router-link>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div
-                                class="row d-flex align-items-center justify-content-between mt-10"
-                              >
-                                <div class="col-md-10">
-                                  <label class="d-block text-black fw-semibold">
-                                    Image 
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-1"
-                                  >
-                                    Action
-                                  </label>
-                                </div>
-                              </div>
-                              <hr class="mt-0" />
-                              <div
-                                class="row mb-5"
-                                v-for="(image, index) in images"
-                                :key="index">
-                                <div class="col-md-10 mb-1">
-                                  <Field
-                                    name="urlImage"
-                                    type="file"
-                                    accept="image/jpeg, image/png application/pdf"
-                                    class="form-control shadow-none fs-md-15 text-black"
-                                    placeholder="Choisissez une image"
-                                  />
-                                 <!-- <div
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade p-10" id="home2-tab-pane" role="tabpanel" tabindex="0">
+                <div class="row">
+                  <div class="border border-primary mb-1">
+                    <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                      style="background-color: #0a59a4 !important">
+                      <div class="col-md-7">
+                        <h3 class="fs-4 text-white">
+                          Image(s) du produit
+                        </h3>
+                      </div>
+                      <div class="col-md-5">
+                        <div class="d-flex float-end">
+                          <button
+                            class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                            type="button" :class="{ 'cursor-not-allowed': isDisablee }" :disabled="isDisablee"
+                            @click="addRowImage()">
+                            <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
+                            Ajouter une image
+                          </button>
+                          <router-link to="/liste-mouvements"></router-link>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="row d-flex align-items-center justify-content-between mt-10">
+                        <div class="col-md-10">
+                          <label class="d-block text-black fw-semibold">
+                            Image
+                          </label>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="d-block text-black fw-semibold mb-1">
+                            Action
+                          </label>
+                        </div>
+                      </div>
+                      <hr class="mt-0" />
+                      <div class="row mb-5" v-for="(image, index) in images" :key="index">
+                        <div class="col-md-10 mb-1">
+                          <Field name="urlImage" type="file" accept="image/jpeg, image/png application/pdf"
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="Choisissez une image" />
+                          <!-- <div
                                     class="invalid-feedback"
                                     v-if="valideteRowProduit(image.image)"
                                   >
                                     L'image est obligatoire.
                                   </div> -->
-                                </div>
-                                <div class="col-md-2 mb-1">
-                                  <button
-                                    class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                    type="button"
-                                    @click="removeRowConditionnement(index)"
-                                  >
-                                    <i
-                                      class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                                    ></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                        </div>
+                        <div class="col-md-2 mb-1">
+                          <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                            @click="removeRowConditionnement(index)">
+                            <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-md-12">
             <div class="d-flex align-items-center">
-              <button
-                class="btn btn-success me-3"
-                type="submit"
-                :disabled="isDisable"
+              <button class="btn btn-success me-3" type="submit" :disabled="isDisable"
                 :class="{ 'cursor-not-allowed': isDisable || isDisablee }">
                 Ajouter un produit
               </button>
-              <router-link
-                to="/produits/liste-produits"
-                class="btn btn-danger"
-                ><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                ></i>
-                <span class="position-relative"></span>Annuler</router-link
-              >
+
+              <router-link to="/produits/liste-produits" class="btn btn-danger"><i
+                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>
         </div>
@@ -865,7 +631,7 @@ export default defineComponent({
 
     const fetchConditionnements = async () => {
       try {
-        const response = await axios.get("/conditionnements");
+        const response = await axios.get("all/conditionnements");
         const conditionnementsData = response.data.data.data;
         produitsss.value = conditionnementsData;
         conditionnementOptions.value = conditionnementsData.map((conditionnement) => ({
@@ -925,7 +691,7 @@ export default defineComponent({
 
     const fetchFamille = async () => {
       try {
-        const response = await ApiService.get("/familles");
+        const response = await ApiService.get("all/familles");
         const familleData = response.data.data.data;
         familleOptions.value = familleData.map((famille) => ({
           value: famille.id,
@@ -938,7 +704,7 @@ export default defineComponent({
 
     const fetchMagasin = async () => {
       try {
-        const response = await ApiService.get("/magasins");
+        const response = await ApiService.get("all/magasins");
         const familleData = response.data.data.data;
         magasinOptions.value = familleData.map((magasin) => ({
           value: magasin.id,
@@ -951,7 +717,7 @@ export default defineComponent({
 
     const fetchGroupTaxe = async () => {
       try {
-        const response = await ApiService.get("/groupeTaxes");
+        const response = await ApiService.get("all/groupeTaxes");
         const groupeTaxeData = response.data.data.data;
         groupeTaxeOptions.value = groupeTaxeData.map((groupeTaxe) => ({
           value: `${groupeTaxe.id}|${groupeTaxe.taux}`,

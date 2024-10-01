@@ -194,7 +194,7 @@ export default defineComponent({
     };
 
     function getAllMagasins(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/magasins?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/magasins?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           magasins.value = data.data.data;
           console.log('rhht', data.data.data)

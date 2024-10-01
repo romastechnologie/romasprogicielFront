@@ -191,7 +191,7 @@ export default defineComponent({
 
     function getAllSorties(page = 1, limi = 10, searchTerm = '') {
       //return ApiService.get(`/sorties?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-      return ApiService.get('/sorties')
+      return ApiService.get('all/sorties')
         .then(({ data }) => {
           sorties.value = data.data.data;
           totalPages.value = data.data.totalPages;

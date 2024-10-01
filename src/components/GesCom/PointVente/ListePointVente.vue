@@ -177,7 +177,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllPersonnelFonctions(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/pointVentes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/pointVentes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           pointVentes.value = data.data.data;
           totalPages.value = data.data.totalPages;

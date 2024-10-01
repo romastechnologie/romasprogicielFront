@@ -159,7 +159,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllModeleSignataires(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/modeleSignataires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/modeleSignataires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           modeleSignataires.value = data.data.data;
           totalPages.value = data.data.totalPages;

@@ -179,7 +179,7 @@ export default defineComponent({
 
     const fetchMagasin = async () => {
       try {
-        const response = await ApiService.get('/personnels');
+        const response = await ApiService.get('all/personnels');
         console.log(response,"magasinData");
         const magasinData = response.data;
         console.log(magasinData,"magasinData");

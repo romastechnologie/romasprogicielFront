@@ -2279,6 +2279,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des types de taxes',
         }
       },
+      {
+        path: "liste-groupe-taxes",
+        name: "ListeGroupeTaxe",
+        component: ListeGroupeTaxePage,
+        meta: {
+          title: 'Liste des groupes de taxes',
+        }
+      },
     ]
   },
   {

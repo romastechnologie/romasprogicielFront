@@ -69,8 +69,8 @@ export default defineComponent({
   },
   props: {
     item: {
-      type: Number,
-      default: 0,
+      type: Object as () => Fonction | null,
+      default: null
     }
   },
   setup(props, { emit }){
@@ -90,7 +90,7 @@ export default defineComponent({
     const btntext = ref('Ajouter');
 
     watch(() => props.item, (newValue) => {
-      getFonction(newValue);
+      getFonction(newValue.id);
       isUPDATE.value = true;
       btnTitle();
     });
@@ -152,6 +152,7 @@ export default defineComponent({
               isUPDATE.value=false;
               btnTitle();
               emit('close');
+        
             }
         })
         .catch(({ response }) => {

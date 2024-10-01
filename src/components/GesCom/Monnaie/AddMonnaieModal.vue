@@ -9,7 +9,7 @@
                     <div class="modal-body">
           <Form ref="monnaieForm" @submit="addMonnaie" :validation-schema="monnaieSchema">
             <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Libellé <span class="text-danger">*</span>
@@ -19,7 +19,7 @@
                 <ErrorMessage name="libelle" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Valeur monnaie <span class="text-danger">*</span>
@@ -32,8 +32,8 @@
             
             
             <button
-              class="default-btn transition border-0 fw-medium text-white pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-35 pe-md-35 rounded-1 fs-md-15 fs-lg-16"
-              type="submit"
+            class="btn btn-primary"
+            type="submit"
             >
             {{ btntext }}
             </button>

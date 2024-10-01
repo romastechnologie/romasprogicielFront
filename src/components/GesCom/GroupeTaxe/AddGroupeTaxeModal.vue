@@ -145,7 +145,7 @@ export default defineComponent({
 
     const getAllTaxes = async () => {
         try{
-        const response = await ApiService.get('/all/taxes');
+        const response = await ApiService.get('all/taxes');
         const taxesData = response.data.data;
 
         taxeOptions.value = taxesData.map((taxe) => ({
