@@ -57,7 +57,7 @@
               <Field name="planificationReparation" v-model="planificationReparation" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="planificationReparationOptions"
                   :preserve-search="true" :multiple="false" :searchable="true"
-                  placeholder="Sélectionner la planification Reparation" label="label" track-by="label" />
+                  placeholder="Sélectionner la planification" label="label" track-by="label" />
               </Field>
               <span class="text-danger" v-if="showMErr">La Planification Reparation est obligatoire</span>
             </div>
@@ -107,7 +107,7 @@
                 Bénéficiaire<span class="text-danger">*</span>
               </label>
               <Field name="beneficiaire" type="text" class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer le montant" />
+                placeholder="Entrer le nom du bénéficiaire" />
               <ErrorMessage name="beneficiaire" class="text-danger" />
             </div>
           </div>

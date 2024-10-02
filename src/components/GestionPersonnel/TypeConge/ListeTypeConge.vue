@@ -36,12 +36,6 @@
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
-        <!-- <button
-          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
-          type="button"
-        >
-          <i class="flaticon-dots"></i>
-        </button> -->
       </div>
     </div>
     <div class="card-body p-15 p-sm-20 p-md-25">
@@ -168,13 +162,13 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllTypeConges(page = 1, limi = 10, searchTerm = '') {
-      // return ApiService.get(`/all/typeConges?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-      return ApiService.get('/typeConges')
+       return ApiService.get(`/typeConges?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      //return ApiService.get('/typeConges')
         .then(({ data }) => {
           typeConges.value = data.data.data;
-          // totalPages.value = data.data.totalPages;
-          // limit.value = data.data.limit;
-          // totalElements.value = data.data.totalElements;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
         })
         .catch(({ response }) => {
           error(response.data.message)

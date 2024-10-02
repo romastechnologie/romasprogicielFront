@@ -123,7 +123,7 @@
     </div>
   </div>
   <AddCategorieDocumentModal
-  @get-all-categorieDocuments="getAllCategorieDocument"
+  @get-all-categorieDocuments="getAllCategorieDocuments"
   :item="selectedItem" 
   @close="recharger"
   @refreshcategorieDocument="refreshcategorieDocument"
@@ -151,7 +151,7 @@ export default defineComponent({
   setup(){
     
     onMounted(() => {
-      getAllCategorieDocument();
+      getAllCategorieDocuments();
     });
     const idCategorieDocument = ref(0);
       const loading = ref<boolean>(false);
@@ -170,18 +170,18 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllCategorieDocument(page_, limit_);
+        getAllCategorieDocuments(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllCategorieDocument(page.value, limit.value, searchTerm.value );
+      getAllCategorieDocuments(page.value, limit.value, searchTerm.value );
     }
 
     const recharger = () => {
-      getAllCategorieDocument();
+      getAllCategorieDocuments();
     };
 
 
@@ -189,14 +189,14 @@ export default defineComponent({
 
     onMounted( async () => {
       loading.value=false;
-      await getAllCategorieDocument();
+      await getAllCategorieDocuments();
     });
 
     const refreshcategorieDocument = () => {
-      getAllCategorieDocument();
+      getAllCategorieDocuments();
     };
 
-    function getAllCategorieDocument(page = 1, limi = 10, searchTerm = '') {
+    function getAllCategorieDocuments(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/categorieDocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           console.log('data ==== ',data);
@@ -229,7 +229,7 @@ export default defineComponent({
 
     return { categorieDocument,
       checkPermission,
-     getAllCategorieDocument,
+     getAllCategorieDocuments,
      moddifier ,
      suppression,
      page, 

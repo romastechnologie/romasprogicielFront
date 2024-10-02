@@ -26,7 +26,7 @@
                     Description <span class="text-danger">*</span>
                   </label>
                   <Field name="description" type="text" class="form-control shadow-none fs-md-15 text-black"
-                    placeholder="Entrer la valeur Types Depenses" />
+                    placeholder="Entrer la description" />
                   <ErrorMessage name="description" class="text-danger" />
                 </div>
               </div>

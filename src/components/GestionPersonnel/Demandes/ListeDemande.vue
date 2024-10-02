@@ -128,6 +128,7 @@ import Swal from 'sweetalert2';
 // import { useRouter } from 'vue-router';
 import AddDemandeModal from './AddDemandeModal.vue';
 import ApiService from '@/services/ApiService';
+import { Demande } from '@/models/Demande';
 
 export default defineComponent({
   name: "ListeDemande",
@@ -144,18 +145,19 @@ export default defineComponent({
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
+    const demandes = ref<Array<Demande>>([]);
 
     const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
       try {
         page.value = page_;
-        //getAllDemande(page_, limit_);
+       getAllDemandes(page_, limit_);
       } catch (error) {
         //
       }
     };
 
     function rechercher() {
-      //getAllDemande(page.value, limit.value, searchTerm.value );
+    getAllDemandes(page.value, limit.value, searchTerm.value );
     }
 
 
@@ -215,7 +217,7 @@ export default defineComponent({
         if (result.isConfirmed) {
           try {
             const response = await ApiService.delete(`/demandes/${id}`);
-            getAllDemande()
+           getAllDemandess()
             Swal.fire("Demande supprimé avec succès!", "", "success");
             console.log(response);
           } catch (error) {
@@ -243,7 +245,7 @@ export default defineComponent({
               statut: "Refusée"
             });
             Swal.fire("Demande refusée avec succès", "", "success");
-            getAllDemande()
+           getAllDemandess()
           } catch (error) {
             console.error('Erreur lors de la création du congé:', error);
             throw error;
@@ -255,6 +257,21 @@ export default defineComponent({
       });
 
     }
+
+    function getAllDemandes(page = 1, limi = 10, searchTerm = '') {
+        return ApiService.get(`/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+          .then(({ data }) => {
+           demandes.value = data.data.data;
+            totalPages.value = data.data.totalPages;
+            limit.value = data.data.limit;
+            totalElements.value = data.data.totalElements;
+            return data.data;
+          })
+          .catch(({ response }) => {
+            error(response.data.message)
+        });
+      }
+  
 
     // -------------------------------------------------- ACCEPT ACCEPT --------------------------------
     const acceptedDemande = (id: any) => {
@@ -273,7 +290,7 @@ export default defineComponent({
               statut: "Acceptée"
             });
             Swal.fire("Demande acceptée avec succès", "", "success");
-            getAllDemande()
+           getAllDemandess()
           } catch (error) {
             console.error('Erreur lors de la mise à jour de la demande:', error);
             throw error;
@@ -296,7 +313,7 @@ export default defineComponent({
       }
     }
 
-    const getAllDemande = async () => {
+    const getAllDemandess = async () => {
       try {
         const response = await ApiService.get("/demandes");
         demande.value = response.data;
@@ -308,7 +325,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      getAllDemande()
+     getAllDemandes()
     })
 
 
@@ -320,6 +337,7 @@ export default defineComponent({
       refusedDemande,
       acceptedDemande,
       deleteDemande,
+      demandes,
       demande,
       filterDemande,
       admin,

@@ -140,13 +140,13 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllServices(page = 1, limi = 10, searchTerm = '') {
-      // return ApiService.get(`/all/services?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-      return ApiService.get('/services')
+      return ApiService.get(`/services?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      //return ApiService.get('/services')
         .then(({ data }) => {
           services.value = data.data.data;
-          // totalPages.value = data.data.totalPages;
-          // limit.value = data.data.limit;
-          // totalElements.value = data.data.totalElements;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
         })
         .catch(({ response }) => {
           error(response.data.message)
