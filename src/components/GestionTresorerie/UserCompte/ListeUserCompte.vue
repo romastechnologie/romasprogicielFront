@@ -179,14 +179,15 @@ export default {
         };
 
         function getAllUserComptes(page = 1, limi = 10, searchTerm = '') {
-            //return ApiService.get(`/all/monnaies?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-            return ApiService.get('/userComptes').then((res) => {
-                userComptes.value = res.data;
+            return ApiService.get(`/userComptes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+            //return ApiService.get('/userComptes')
+                .then((data) => {
+                userComptes.value = data.data.data;
                 console.log(userComptes.value)
-                //totalPages.value = data.data.totalPages;
-                //limit.value = data.data.limit;
-                //totalElements.value = data.data.totalElements;
-                //return data.data;
+                totalPages.value = data.data.totalPages;
+                limit.value = data.data.limit;
+                totalElements.value = data.data.totalElements;
+                return data.data;
             })
                 .catch(({ response }) => {
                     error(response.data.message)
