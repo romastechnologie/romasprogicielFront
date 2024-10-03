@@ -9,9 +9,9 @@
         </router-link>
       </div>
       <div class="d-flex align-items-center">
-        <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+        <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input type="text" v-model="searchTerm" @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0" placeholder="Rechercher une presence" />
+            class="form-control shadow-none text-black" placeholder="Rechercher une présence" />
           <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
             <i class="flaticon-search-interface-symbol"></i>
           </button>
@@ -117,14 +117,14 @@ const totalElements = ref(0);
 const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
   try {
     page.value = page_;
-    //getAllDemande(page_, limit_);
+    getAllPresences(page_, limit_);
   } catch (error) {
     //
   }
 };
 
 function rechercher() {
-  //getAllDemande(page.value, limit.value, searchTerm.value );
+  getAllPresences(page.value, limit.value, searchTerm.value );
 }
 
 
@@ -171,16 +171,20 @@ function sortPresenceWithSearch(searchPresence: any) {
 
 // ------------------------------------------------ GETS ------------------------------------------------
 
-const getAllPresences = async () => {
-  try {
-    const response = await ApiService.get('/presences');
-    presence.value = response.data;
-    console.log(response);
-  } catch (error) {
-    console.error('Erreur lors de la recupération des présences:', error);
-    throw error;
-  }
-}
+function getAllPresences(page = 1, limi = 10, searchTerm = '') {
+       return ApiService.get(`/presences?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      //return ApiService.get('/typeConges')
+        .then(({ data }) => {
+          presence.value = data.data.data;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
+        })
+        .catch(({ response }) => {
+          error(response.data.message)
+      });
+    }
+    
 
 // ------------------------------------------------- DELETE --------------------------------------------
 

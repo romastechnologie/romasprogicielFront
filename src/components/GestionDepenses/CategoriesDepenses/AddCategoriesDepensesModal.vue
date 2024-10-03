@@ -11,7 +11,6 @@
                     <Form ref="categoriesDepensesForm" @submit="addCategoriesDepenses"
                         :validation-schema="categoriesDepensesSchema">
                         <div class="row">
-
                             <div class="col-md-12 mb-3">
                                 <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
                                 <Field name="reference" class="form-control" type="text" />
@@ -110,9 +109,8 @@ export default {
             reference: Yup.string().required('La Référence est obligatoire'),
             libelle: Yup.string().required('Le libelle est obligatoire'),
             description: Yup.string().required('La description est obligatoire'),
-            categoriesDepense: Yup.string().notRequired(),
+            categoriesDepense: Yup.string().notRequired(),      
         });
-
 
         const categoriesDepensesnew = ref(props.id);
         const categoriesDepensesForm = ref<CategoriesDepenses | null>(null);
@@ -126,8 +124,6 @@ export default {
         const categoriesDepensesOptions = ref([]);
         const showMErr = ref(false);
 
-
-
         watch(() => props.id, (newValue) => {
             if (newValue != 0) {
                 getCategoriesDepenses(newValue);
@@ -138,7 +134,7 @@ export default {
         });
 
         const getCategoriesDepenses = async (id: number) => {
-            console.log(id, "ididididididididididid")
+            console.log(id, "Element recupéré")
             return ApiService.get("/categoriesDepenses/" + id)
                 .then(({ data }) => {
                     const donnees = data.data;

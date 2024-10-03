@@ -20,13 +20,13 @@
           </button> -->
         </div>
         <div class="d-flex align-items-center">
-          <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+          <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
             <input
               type="text"
               v-model="searchTerm"
               @keyup="rechercher"
-              class="form-control shadow-none text-black rounded-0 border-0"
-              placeholder="Rechercher un utilisateur"
+              class="form-control shadow-none text-black"
+              placeholder="Rechercher une planification"
             />
             <button
               type="submit"
@@ -99,17 +99,19 @@
               <tr  v-for ="(planificationReparation, index) in planificationReparations" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.refPlanificationReparation }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.dateReparationPrevue }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.lieuReparation }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.description }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.personnel }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.panne }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.libelle }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.dateReparationReel }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.description }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.lieuReparation }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.personnel?.nom }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.panne?.libelle }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ format_date(planificationReparation.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
   
                         <ul class="dropdown-menu">
-                          <li class="dropdown-item d-flex align-items-center">
+                          <!--<li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
                               :to="{ name: 'EditPlanificationReparation',params: { id: planificationReparation.id } }"
@@ -117,7 +119,7 @@
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Modifier
                             </router-link>
-                          </li>
+                          </li>-->
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
                              
@@ -194,7 +196,7 @@
       function getAllPlanificationReparations(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/planificationReparations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            planificationReparations.value = data.data;
+            planificationReparations.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -212,6 +214,7 @@
   }
   
       return {planificationReparations,
+        getAllPlanificationReparations,
         checkPermission,
         format_date,
         suppression,

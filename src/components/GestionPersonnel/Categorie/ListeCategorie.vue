@@ -5,7 +5,7 @@
       <div class="d-sm-flex align-items-center">
         <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#AddCategorieModal">
           <i class="fa fa-plus-circle"></i>
-          Ajouter un categorie
+          Ajouter une catégorie
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -16,9 +16,9 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-        <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+        <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input type="text" v-model="searchTerm" @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0" placeholder="Rechercher un categorie" />
+            class="form-control shadow-none text-black" placeholder="Rechercher une categorie" />
           <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
             <i class="flaticon-search-interface-symbol"></i>
           </button>
@@ -93,7 +93,7 @@
       </div>
     </div>
   </div>
-  <AddCategorieModal @get-all-categories="getAllCategories" :id="idcategorie" @openmodal="showModalEdite" />
+  <AddCategorieModal @get-all-categories="getAllCategorieDemandes" :id="idcategorie" @openmodal="showModalEdite" />
 </template>
 
 <script lang="ts">
@@ -114,7 +114,7 @@ export default defineComponent({
   setup: () => {
 
     onMounted(() => {
-      getAllCategories();
+      getAllCategorieDemandes();
     });
 
     const categories = ref<Array<Categorie>>([]);
@@ -130,25 +130,25 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllCategories(page_, limit_);
+        getAllCategorieDemandes(page_, limit_);
       } catch (error) {
         //
 
       }
     };
     function rechercher() {
-      getAllCategories(page.value, limit.value, searchTerm.value);
+      getAllCategorieDemandes(page.value, limit.value, searchTerm.value);
     }
     // END PAGINATE
 
-    function getAllCategories(page = 1, limi = 10, searchTerm = '') {
-      // return ApiService.get(`/all/categories?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-      return ApiService.get('/categorieDemandes')
+    function getAllCategorieDemandes(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/categorieDemandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      //return ApiService.get('/categorieDemandes')
         .then(({ data }) => {
           categories.value = data.data.data;
-          // totalPages.value = data.data.totalPages;
-          // limit.value = data.data.limit;
-          // totalElements.value = data.data.totalElements;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
         })
         .catch(({ response }) => {
           error(response.data.message)
@@ -176,7 +176,7 @@ export default defineComponent({
       checkPermission,
       categories,
       format_date,
-      getAllCategories,
+      getAllCategorieDemandes,
       idcategorie,
       moddifier,
       showModalEdite,

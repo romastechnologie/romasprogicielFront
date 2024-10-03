@@ -651,8 +651,8 @@ function schemaPersonnel() {
 
 function schemaConjoint() {
   return yup.object().shape({
-    nom: yup.string().required("Le nom est obligatoire."),
-    prenom: yup.string().required("Le prenom est obligatoire."),
+    nomConjoint: yup.string().required("Le nom est obligatoire."),
+    prenomConjoint: yup.string().required("Le prenom est obligatoire."),
     deuxiemeEmploye: yup.string().required("Le deuxiemeEmploye est obligatoire."),
     dateNaissance: yup.date().required("La date de Naissance  est obligatoire."),
     nationalite: yup.string().required("La nationalité sont requise."),

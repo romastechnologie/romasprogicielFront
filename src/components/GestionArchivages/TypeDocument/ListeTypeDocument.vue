@@ -22,12 +22,12 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-       <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+       <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input
             type="text"
             v-model="searchTerm"
             @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0"
+            class="form-control shadow-none text-black"
             placeholder="Rechercher un Type de Document"
           />
           <button
@@ -123,7 +123,7 @@
     </div>
   </div>
   <AddTypeDocumentModal
-  @get-all-typesDepensess="getAllTypeDocument"
+  @get-all-typesDepensess="getAllTypeDocuments"
   :item="selectedItem" 
   @close="recharger"
   @refreshTypesDepenses="refreshTypesDepenses"
@@ -153,7 +153,7 @@ export default defineComponent({
   setup(){
     
     onMounted(() => {
-      getAllTypeDocument();
+      getAllTypeDocuments();
     });
     const idtypeDocument = ref(0);
       const loading = ref<boolean>(false);
@@ -172,18 +172,18 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllTypeDocument(page_, limit_);
+        getAllTypeDocuments(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllTypeDocument(page.value, limit.value, searchTerm.value );
+      getAllTypeDocuments(page.value, limit.value, searchTerm.value );
     }
 
     const recharger = () => {
-      getAllTypeDocument();
+      getAllTypeDocuments();
     };
 
 
@@ -191,15 +191,15 @@ export default defineComponent({
 
     onMounted(() => {
       loading.value=false;
-      getAllTypeDocument();
+      getAllTypeDocuments();
     });
 
     const refreshTypesDepenses = () => {
-      getAllTypeDocument();
+      getAllTypeDocuments();
     };
 
-    function getAllTypeDocument(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/typeDocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllTypeDocuments(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/all/typedocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           TypesDocuments.value = data.data.data;
           totalPages.value = data.data.totalPages;
@@ -228,7 +228,7 @@ export default defineComponent({
 
     return { typeDocument,
       checkPermission,
-     getAllTypeDocument,
+     getAllTypeDocuments,
      moddifier ,
      suppression,
      page, 

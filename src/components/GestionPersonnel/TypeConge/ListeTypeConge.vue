@@ -10,7 +10,7 @@
           data-bs-toggle="modal"
           data-bs-target="#AddTypeCongeModal">
           <i class="fa fa-plus-circle"></i>
-          Ajouter un typeConge
+          Ajouter un type de congé
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -21,13 +21,13 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-        <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+        <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input
             type="text"
             v-model="searchTerm"
             @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher un typeConge"
+            class="form-control shadow-none text-black"
+            placeholder="Rechercher un type de congé"
           />
           <button
             type="submit"
@@ -36,12 +36,6 @@
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
-        <!-- <button
-          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
-          type="button"
-        >
-          <i class="flaticon-dots"></i>
-        </button> -->
       </div>
     </div>
     <div class="card-body p-15 p-sm-20 p-md-25">
@@ -168,13 +162,13 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllTypeConges(page = 1, limi = 10, searchTerm = '') {
-      // return ApiService.get(`/all/typeConges?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-      return ApiService.get('/typeConges')
+       return ApiService.get(`/typeConges?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      //return ApiService.get('/typeConges')
         .then(({ data }) => {
           typeConges.value = data.data.data;
-          // totalPages.value = data.data.totalPages;
-          // limit.value = data.data.limit;
-          // totalElements.value = data.data.totalElements;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
         })
         .catch(({ response }) => {
           error(response.data.message)

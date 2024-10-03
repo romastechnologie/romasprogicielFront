@@ -17,10 +17,10 @@
         </button> -->
             </div>
             <div class="d-flex align-items-center">
-                <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+                <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
                     <input type="text" v-model="searchTerm" @keyup="rechercher"
-                        class="form-control shadow-none text-black rounded-0 border-0"
-                        placeholder="Rechercher un privilege" />
+                        class="form-control shadow-none text-black"
+                        placeholder="Rechercher un compte utilisateur" />
                     <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
                         <i class="flaticon-search-interface-symbol"></i>
                     </button>
@@ -179,14 +179,15 @@ export default {
         };
 
         function getAllUserComptes(page = 1, limi = 10, searchTerm = '') {
-            //return ApiService.get(`/all/monnaies?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-            return ApiService.get('/userComptes').then((res) => {
-                userComptes.value = res.data;
+            return ApiService.get(`/userComptes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+            //return ApiService.get('/userComptes')
+                .then((data) => {
+                userComptes.value = data.data.data;
                 console.log(userComptes.value)
-                //totalPages.value = data.data.totalPages;
-                //limit.value = data.data.limit;
-                //totalElements.value = data.data.totalElements;
-                //return data.data;
+                totalPages.value = data.data.totalPages;
+                limit.value = data.data.limit;
+                totalElements.value = data.data.totalElements;
+                return data.data;
             })
                 .catch(({ response }) => {
                     error(response.data.message)
