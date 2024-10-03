@@ -85,7 +85,7 @@
 
   
   export default defineComponent({
-      name: "AddChampsLibreFamilleModal",
+      name: "AddChampsLibreFamille",
       components: {
       Form,
       Field,
@@ -112,7 +112,7 @@
       const familleOptions = ref([]);
       const champsLibreOptions = ref([]);
       const famille = ref();
-     const champslibre = ref();
+     const  champslibre = ref();
 
 
 
@@ -162,8 +162,8 @@
                 console.log('response',response)
 
                 champsLibreOptions.value = champsLibreData.map((champsLibres) => ({
-                    value: champsLibres.id,
-                    label: champsLibres.nomChamp,
+                    value:  champsLibres.id,
+                    label:  champsLibres.nomChamp,
 
                 }));
             }
@@ -217,4 +217,4 @@
       };
     },
   });
-  </script>@/models/CategorieInfo
+  </script>

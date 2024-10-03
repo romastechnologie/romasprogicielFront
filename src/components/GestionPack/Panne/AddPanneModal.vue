@@ -99,7 +99,7 @@ export default {
             //code: Yup.string().required('Le code est obligatoire'),
             libelle: Yup.string().required('Le libelle est obligatoire'),
             description: Yup.string().required('La description est obligatoire'),
-            biens: Yup.string().required('La description est obligatoire'),
+            biens: Yup.string().required('Le bien est obligatoire'),
 
         });
 
@@ -113,6 +113,7 @@ export default {
         const isupdate = ref(false);
         const router = useRouter();
         const biens = ref();
+        const bien = ref();
         const bienOptions = ref([]);
 
 
@@ -142,7 +143,7 @@ export default {
         const getAllBiens = async () => {
             try {
                 const response = await ApiService.get('/all/biens');
-                const biensData = response.data.data;
+                const biensData = response.data.data.data;
                 bienOptions.value = biensData.map((bien) => ({
                     value: bien.id,
                     label: bien.nomBien,
@@ -210,7 +211,7 @@ export default {
 
         return {
             pannes, title, btntext, resetValue, panneSchema,
-            addPanne, panneForm, addPanneModalRef, pannenew, bienOptions, biens
+            addPanne, panneForm, addPanneModalRef, pannenew, bienOptions, biens,bien
             //refreshPannes
         };
     },

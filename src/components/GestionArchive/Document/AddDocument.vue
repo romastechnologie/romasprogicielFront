@@ -383,7 +383,7 @@ export default defineComponent({
         //error(response.data.message)
       }
     }
-
+   
     watch(categorie, async (newVal, oldVal) => {
       categorie.value = newVal;
       await getAllRegleByTypeOrCategorie();

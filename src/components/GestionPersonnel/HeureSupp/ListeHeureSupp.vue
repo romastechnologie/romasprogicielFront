@@ -191,7 +191,7 @@ export default defineComponent({
     };
 
     function getAllHeureSupps(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/heureSupps?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/heureSups?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           heureSupps.value = data.data.data;
           totalPages.value = data.data.totalPages;
@@ -210,7 +210,7 @@ export default defineComponent({
     }
 
     const deleteHeureSupp = (id: number) => {
-      ApiService.delete(`/heureSupps/${id}`)
+      ApiService.delete(`/heureSups/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,

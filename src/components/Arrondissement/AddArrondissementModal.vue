@@ -45,6 +45,7 @@
                         :options="communeOptions"
                         :searchable="true"
                         track-by="label"
+                        mode ="tags"
                         label="label"
                         v-model = "field.value"
                         v-bind = "field"

@@ -83,7 +83,7 @@
                   </span>
                   <ul class="dropdown-menu">
                     <li >
-                      <router-link :to="{ name: 'EditTypeEntretienPage', params: { id: typeEntretien.id } }" 
+                      <router-link :to="{ name: 'EditTypeEntretien', params: { id: typeEntretien.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>

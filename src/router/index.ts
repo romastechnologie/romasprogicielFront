@@ -260,6 +260,7 @@ import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplac
 import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrganisationPage.vue";
 import ListeTypeOrganisationPage from "@/pages/GestionArchive/TypeOrganisation/ListeTypeOrganisationPage.vue";
 import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue";
+
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
@@ -274,12 +275,23 @@ import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
 import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
 import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 
+
+
+
+// Champs Libres Famille
+
+import AddChampsLibreFamillePage from '@/pages/ChampsLibre/AddChampsLibreFamillePage.vue';
+import EditChampsLibreFamillePage from '@/pages/ChampsLibre/EditChampsLibreFamillePage.vue';
+import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue';
+
 import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
 import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
 import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
-import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
-import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
-import AddChampsLibreFamillePage from "@/pages/ChampsLibre/AddChampsLibreFamillePage.vue"
+// import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
+// import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
+// import AddChampsLibreFamillePage from "@/pages/ChampsLibre/AddChampsLibreFamillePage.vue"
+
+
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -849,6 +861,14 @@ const routes: Array<RouteRecordRaw> = [
            title: 'Ajouter un document',
         }
        },
+       {
+        path: "editer-document",
+          name: "EditDocumentPage",
+          component: EditDocumentPage,
+          meta: {
+            title: 'Modifier un document',
+         }
+        },
       {
         path: "liste-document",
         name: "ListeDocumentPage",
@@ -1240,7 +1260,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/heureSupps",
+    path: "/heureSups",
     component: BodyView,
     children: [
       {
@@ -1519,7 +1539,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "liste-horaires",
+        path: "liste-horaire",
         name: "ListeHoraire",
         component: ListeHorairePage,
         meta: {
@@ -1527,7 +1547,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "edit-horaire/:id",
+        path: "editer-horaire/:id",
         name: "EditHoraire",
         component: EditHorairePage,
         meta: {
@@ -2831,15 +2851,15 @@ const routes: Array<RouteRecordRaw> = [
 
       {
         path: "/champsLibreFamille/ajouter-champsLibreFamille",
-        name: "AddChampsLibreFamillePage",
+        name: "AddChampsLibreFamille",
         component: AddChampsLibreFamillePage,
         meta: {
           title: 'Ajouter champsLibres et Famille',
         }
       },
       {
-        path: "/champsLibreFamille/editer-champsLibreFamille",
-        name: "EditChampsLibreFamillePage",
+        path: "/champsLibreFamille/editer-champsLibreFamille/:id",
+        name: "EditChampsLibreFamille",
         component: EditChampsLibreFamillePage,
         meta: {
           title: 'Editer des champsLibres et Famille',
@@ -2848,7 +2868,7 @@ const routes: Array<RouteRecordRaw> = [
 
       {
         path: "/champsLibreFamille/liste-champsLibreFamille",
-        name: "ListeChampsLibreFamillePage",
+        name: "ListeChampsLibreFamille",
         component: ListeChampsLibreFamillePage,
         meta: {
           title: 'Liste des champsLibres et Famille',

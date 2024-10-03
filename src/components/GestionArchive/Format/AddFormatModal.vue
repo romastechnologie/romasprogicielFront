@@ -139,7 +139,8 @@
                 router.push('/formats/liste-format');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              console.log("ZZZZZZZ ==> ",response)
+              error(response.data.message);
             });
           }else{
             ApiService.post("/formats",values)
@@ -153,7 +154,8 @@
     
               }
             }).catch(({ response }) => {
-              error(response.message);
+              console.log("ZZZZZZZ ==> ",response)
+              error(response.data.message);
             });
           }
         }; 

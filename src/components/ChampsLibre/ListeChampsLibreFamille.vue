@@ -62,7 +62,7 @@
                         <li class="dropdown-item d-flex align-items-center">
                           <router-link
                             
-                            :to="{ name: 'EditChampsLibreFamillePage',params: { id: champsLibreFamille.id } }"
+                            :to="{ name: 'EditChampsLibreFamille',params: { id: champsLibreFamille.id } }"
                           >
                             <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                             Modifier
@@ -114,7 +114,7 @@ export default defineComponent({
       getAllChampsLibreFamille();
     });
 
-    const champsLibreFamilles = ref([]);
+    const champsLibreFamilles = ref<Array<FamilleProduitChampsLibres>>([]);
     const champsLibreFamille = ref<FamilleProduitChampsLibres>();
 
     // BEGIN PAGINATE
@@ -143,6 +143,7 @@ export default defineComponent({
     function getAllChampsLibreFamille(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/familleProduitChampsLibres?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log('données envoyées',data);
           champsLibreFamilles.value = data.data.data;
           totalPages.value = data.data.data.totalPages;
           limit.value = data.data.data.limit;
