@@ -203,6 +203,7 @@
   }
   
       return {entretiens,
+        getAllEntretiens,
         checkPermission,
         format_date,
         suppression,

@@ -80,7 +80,7 @@
                 {{ heureSupp.date }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ heureSupp.personnel }}
+                {{ heureSupp.personnel?.nom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ heureSupp.duree }}
