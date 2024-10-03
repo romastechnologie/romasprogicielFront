@@ -145,6 +145,7 @@
           }else{
             ApiService.post("/formats",values)
             .then(({ data }) => {
+              console.log("ZZZZZZZjjj ==> ",data)
               if(data.code == 201) { 
                 success(data.message)
                 resetForm();

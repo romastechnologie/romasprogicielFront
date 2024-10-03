@@ -225,7 +225,7 @@
                 router.push('/organisations/liste-organisation');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }else{
             ApiService.post("/organisations",values)
@@ -239,7 +239,8 @@
     
               }
             }).catch(({ response }) => {
-              error(response.message);
+              console.log('bonjour',response)
+              error(response.data.message);
             });
           }
         }; 

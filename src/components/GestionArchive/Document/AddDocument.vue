@@ -266,7 +266,7 @@ export default defineComponent({
             router.push({ name: "ListeDocumentPage" });
           }
         }).catch(({ response }) => {
-          error(response.message);
+          error(response.data.message);
         });
     }
 
