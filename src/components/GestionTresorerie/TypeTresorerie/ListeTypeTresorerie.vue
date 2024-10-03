@@ -173,8 +173,9 @@ export default {
         };
 
         function getAllTypeTresoreries(page = 1, limi = 10, searchTerm = '') {
-            //return ApiService.get(`/all/typeTresoreries?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-            return ApiService.get('/typeTresoreries').then((data) => {
+            return ApiService.get(`/typeTresoreries?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+            //return ApiService.get('/typeTresoreries')
+            .then((data) => {
                 typeTresoreries.value = data.data.data;
                 console.log(typeTresoreries.value)
                 totalPages.value = data.data.totalPages;
