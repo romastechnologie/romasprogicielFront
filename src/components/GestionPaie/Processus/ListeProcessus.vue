@@ -72,7 +72,7 @@
                             <a
                              
                               href="javascript:void(0);"
-                              @click="suppression(processus.id, processuss, 'processuss', 'un utilisateur')"
+                              @click="suppression(processus.id, processuss, 'processuss', 'un processus')"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"

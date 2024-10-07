@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="AddRegleConservationModal" tabindex="-1" role="dialog" ref="addRegleConservationModalRef"
+  <div class="modal fade modal-lg" id="AddRegleConservationModal" tabindex="-1" role="dialog" ref="addRegleConservationModalRef"
     aria-labelledby="tooltipmodal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">

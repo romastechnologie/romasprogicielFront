@@ -188,7 +188,7 @@ export default defineComponent({
     function getAllPermissionPs(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/permissionps?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          permissionps.value = data.data;
+          permissionps.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -206,6 +206,7 @@ const checkPermission = (name) => {
 }
 
     return {permissionps,
+      getAllPermissionPs,
       checkPermission,
       format_date,
       suppression,

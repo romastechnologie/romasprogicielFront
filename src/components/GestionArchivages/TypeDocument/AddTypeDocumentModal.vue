@@ -127,7 +127,7 @@ export default defineComponent({
 
     const fetchTypeDocument = async () => {
       try {
-        const response = await ApiService.get('/all/typeDocuments');
+        const response = await ApiService.get('/all/typeocuments');
         const typeDocumentData = response.data.data.data;
         typeDocumentOptions.value = typeDocumentData.map((typeDocument) => ({
           value: typeDocument.id,

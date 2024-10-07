@@ -139,11 +139,13 @@
                 router.push('/formats/liste-format');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              console.log("ZZZZZZZ ==> ",response)
+              error(response.data.message);
             });
           }else{
             ApiService.post("/formats",values)
             .then(({ data }) => {
+              console.log("ZZZZZZZjjj ==> ",data)
               if(data.code == 201) { 
                 success(data.message)
                 resetForm();
@@ -153,7 +155,8 @@
     
               }
             }).catch(({ response }) => {
-              error(response.message);
+              console.log("ZZZZZZZ ==> ",response)
+              error(response.data.message);
             });
           }
         }; 

@@ -72,8 +72,7 @@
 </div>
 </template>
 
-w<script lang="ts">
-
+<script lang="ts">
 import { defineComponent, onMounted, ref} from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';

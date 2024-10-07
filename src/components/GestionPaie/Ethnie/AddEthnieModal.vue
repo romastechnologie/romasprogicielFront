@@ -142,7 +142,7 @@
                 router.push('/ethnies/liste-ethnie');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }else{
             ApiService.post("/ethnies",values)
@@ -156,7 +156,7 @@
     
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }
         }; 

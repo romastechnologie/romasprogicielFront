@@ -210,6 +210,7 @@
   
       return {contrats,
         checkPermission,
+        getAllContrats,
         format_date,
         suppression,
         contrat,

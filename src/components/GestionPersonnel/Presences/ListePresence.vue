@@ -117,14 +117,14 @@ const totalElements = ref(0);
 const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
   try {
     page.value = page_;
-    //getAllDemande(page_, limit_);
+    getAllPresences(page_, limit_);
   } catch (error) {
     //
   }
 };
 
 function rechercher() {
-  //getAllDemande(page.value, limit.value, searchTerm.value );
+  getAllPresences(page.value, limit.value, searchTerm.value );
 }
 
 
@@ -171,16 +171,20 @@ function sortPresenceWithSearch(searchPresence: any) {
 
 // ------------------------------------------------ GETS ------------------------------------------------
 
-const getAllPresences = async () => {
-  try {
-    const response = await ApiService.get('/presences');
-    presence.value = response.data;
-    console.log(response);
-  } catch (error) {
-    console.error('Erreur lors de la recupération des présences:', error);
-    throw error;
-  }
-}
+function getAllPresences(page = 1, limi = 10, searchTerm = '') {
+       return ApiService.get(`/presences?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      //return ApiService.get('/typeConges')
+        .then(({ data }) => {
+          presence.value = data.data.data;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
+        })
+        .catch(({ response }) => {
+          error(response.data.message)
+      });
+    }
+    
 
 // ------------------------------------------------- DELETE --------------------------------------------
 

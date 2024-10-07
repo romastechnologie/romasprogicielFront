@@ -144,7 +144,7 @@
                 router.push('/typeContrats/liste-typeContrat');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }else{
             ApiService.post("/typeContrats",values)
@@ -158,7 +158,7 @@
     
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }
         }; 

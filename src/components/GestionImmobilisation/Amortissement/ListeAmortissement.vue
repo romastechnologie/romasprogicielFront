@@ -147,7 +147,7 @@
     },
     setup(){
       onMounted(() => {
-        getAllBiens();
+         getAllAmortissements();
       });
   
       const amortissements = ref<Array<Amortissement>>([]);
@@ -163,23 +163,23 @@
       const handlePaginate = ({ page_, limit_ }) => {
         try {
           page.value = page_;
-          getAllBiens(page_, limit_);
+           getAllAmortissements(page_, limit_);
         } catch (error) {
           //
         }
       };
   
        function rechercher(){
-        getAllBiens(page.value, limit.value, searchTerm.value );
+         getAllAmortissements(page.value, limit.value, searchTerm.value );
       }
   
   
       // END PAGINATE
   
-      function getAllBiens(page = 1, limi = 10, searchTerm = '') {
+      function  getAllAmortissements(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/amortissements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            amortissements.value = data.data;
+            amortissements.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -200,6 +200,7 @@
   
   
       return {amortissements,
+        getAllAmortissements,
         checkPermission,
         format_date,
         suppression,

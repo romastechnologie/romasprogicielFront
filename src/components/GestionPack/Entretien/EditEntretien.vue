@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-4">
                     <label for="dateRealisation" class="form-label">Date de réalisaton<span class="text-danger">*</span></label>
-                    <Field name="dateRealisation" class="form-control" type="number"/>
+                    <Field name="dateRealisation" class="form-control" type="date"/>
                     <ErrorMessage name="dateRealisation" class="text-danger" />
             </div>
   
@@ -101,8 +101,8 @@
     setup: () => {
       const entretienSchema = Yup.object().shape({
           refEntretien: Yup.string().required("La référence est obligatoire."),
-            libelle: Yup.string().required("Le compteur est obligatoire."),
-            dateRealisation: Yup.string().required("Le compteur est obligatoire."),
+            libelle: Yup.string().required("Le libelle est obligatoire."),
+            dateRealisation: Yup.string().required("La date de réalisation est obligatoire."),
             description: Yup.string().required("La description est obligatoire."),
             personnel: Yup.string().required("Le type d'entretien est obligatoire."),
             biens: Yup.string().required("Le bien est obligatoire."),
@@ -163,7 +163,7 @@
     const getAllPersonnels = async () => {
           try{
           const response = await ApiService.get('/typeBienTypeEntretienAssos');
-          const personnelsData = response.data;
+          const personnelsData = response.data.data.data;
           console.log('Data', personnelsData)
           personnelOptions.value = personnelsData.map((personnel) => ({
             value: personnel.id,
@@ -177,7 +177,7 @@
         const getAllBiens= async () => {
           try{
           const response = await ApiService.get('/all/biens');
-          const biensData = response.data.data;
+          const biensData = response.data.data.data;
           bienOptions.value = biensData.map((bien) => ({
             value: bien.id,
             label: bien.nomBien,

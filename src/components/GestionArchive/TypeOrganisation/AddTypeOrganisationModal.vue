@@ -188,7 +188,7 @@
                 router.push('/typeOrganisations/liste-typeOrganisation');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }else{
             ApiService.post("/typeOrganisations",values)
@@ -202,7 +202,7 @@
     
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }
         }; 

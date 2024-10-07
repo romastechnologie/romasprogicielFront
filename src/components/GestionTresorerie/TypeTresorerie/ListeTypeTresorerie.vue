@@ -173,19 +173,23 @@ export default {
         };
 
         function getAllTypeTresoreries(page = 1, limi = 10, searchTerm = '') {
-            //return ApiService.get(`/all/typeTresoreries?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-            return ApiService.get('/typeTresoreries').then((res) => {
-                typeTresoreries.value = res.data;
+            return ApiService.get(`/typeTresoreries?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+            //return ApiService.get('/typeTresoreries')
+            .then((data) => {
+                typeTresoreries.value = data.data.data;
                 console.log(typeTresoreries.value)
-                //totalPages.value = data.data.totalPages;
-                //limit.value = data.data.limit;
-                //totalElements.value = data.data.totalElements;
-                //return data.data;
+                totalPages.value = data.data.totalPages;
+                limit.value = data.data.limit;
+                totalElements.value = data.data.totalElements;
+                return data.data;
             })
                 .catch(({ response }) => {
                     error(response.data.message)
                 });
         }
+
+       
+      
 
         function moddifier(EdittypeTresorerie: TypeTresorerie) {
             idtypeTresorerie.value = EdittypeTresorerie.id;

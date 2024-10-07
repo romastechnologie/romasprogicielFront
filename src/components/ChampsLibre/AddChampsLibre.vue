@@ -236,6 +236,7 @@ export default defineComponent({
     const { remove, push, fields, update } = useFieldArray("valeurPossibles");
     const valeurPossibleOptions = ref([]);
     const valuess = ref();
+    
     const addChampsLibre = async (values, { resetForm }) => {
       values.valeurPossibles = valeurPossibles.map(valeurPossible => ({
         valeur: valeurPossible.valeur,

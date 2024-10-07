@@ -90,7 +90,7 @@
             <tbody>
               <tr  v-for ="(justificatif, index) in justificatifs" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ justificatif.date }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif?.personnel }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif?.personnel?.nom }} </td>
                    <td class="shadow-none lh-1 fw-medium ">{{ format_date(justificatif?.dateDebutJustificatif) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(justificatif.dateFinJustificatif) }} </td>  
                   <td class="shadow-none lh-1 fw-medium ">{{ justificatif.preuve }} </td>
@@ -101,7 +101,7 @@
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
 
                         <ul class="dropdown-menu">
-                            <li class="dropdown-item d-flex align-items-center">
+                            <!--  <li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
                               :to="{ name: 'EditJustificatif',params: { id: justificatif.id } }"
@@ -109,12 +109,12 @@
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Modifier
                             </router-link>
-                          </li>
+                          </li>-->
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
                              
                               href="javascript:void(0);"
-                              @click="suppression(justificatif.id, justificatifs, 'justificatifs', 'un utilisateur')"
+                              @click="suppression(justificatif.id, justificatifs, 'justificatifs', 'un justificatif')"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"
@@ -186,7 +186,7 @@
       function getAllJustificatifs(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/justificatifs?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            justificatifs.value = data.data;
+            justificatifs.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -204,6 +204,7 @@
   }
   
       return {justificatifs,
+        getAllJustificatifs,
         checkPermission,
         format_date,
         suppression,

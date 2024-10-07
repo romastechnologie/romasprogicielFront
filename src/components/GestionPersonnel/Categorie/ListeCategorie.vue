@@ -93,7 +93,7 @@
       </div>
     </div>
   </div>
-  <AddCategorieModal @get-all-categories="getAllCategories" :id="idcategorie" @openmodal="showModalEdite" />
+  <AddCategorieModal @get-all-categories="getAllCategorieDemandes" :id="idcategorie" @openmodal="showModalEdite" />
 </template>
 
 <script lang="ts">
@@ -114,7 +114,7 @@ export default defineComponent({
   setup: () => {
 
     onMounted(() => {
-      getAllCategories();
+      getAllCategorieDemandes();
     });
 
     const categories = ref<Array<Categorie>>([]);
@@ -130,25 +130,25 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllCategories(page_, limit_);
+        getAllCategorieDemandes(page_, limit_);
       } catch (error) {
         //
 
       }
     };
     function rechercher() {
-      getAllCategories(page.value, limit.value, searchTerm.value);
+      getAllCategorieDemandes(page.value, limit.value, searchTerm.value);
     }
     // END PAGINATE
 
-    function getAllCategories(page = 1, limi = 10, searchTerm = '') {
-      // return ApiService.get(`/all/categories?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-      return ApiService.get('/categorieDemandes')
+    function getAllCategorieDemandes(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/categorieDemandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      //return ApiService.get('/categorieDemandes')
         .then(({ data }) => {
           categories.value = data.data.data;
-          // totalPages.value = data.data.totalPages;
-          // limit.value = data.data.limit;
-          // totalElements.value = data.data.totalElements;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
         })
         .catch(({ response }) => {
           error(response.data.message)
@@ -176,7 +176,7 @@ export default defineComponent({
       checkPermission,
       categories,
       format_date,
-      getAllCategories,
+      getAllCategorieDemandes,
       idcategorie,
       moddifier,
       showModalEdite,

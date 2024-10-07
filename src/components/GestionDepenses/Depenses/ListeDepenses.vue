@@ -145,7 +145,7 @@ export default defineComponent({
     function getAllDepenses(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/depenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          depenses.value = data.data;
+          depenses.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;

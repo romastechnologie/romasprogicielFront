@@ -184,7 +184,7 @@ export default defineComponent({
     function getAllCategorieBiens(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/categorieBiens?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          categorieBiens.value = data.data;
+          categorieBiens.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;

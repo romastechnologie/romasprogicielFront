@@ -183,7 +183,7 @@
       function getAllHoraires(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/horaires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            horaires.value = data.data;
+            horaires.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -201,6 +201,7 @@
   }
   
       return {horaires,
+        getAllHoraires,
         checkPermission,
         format_date,
         suppression,

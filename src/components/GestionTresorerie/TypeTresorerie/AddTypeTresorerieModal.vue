@@ -171,7 +171,7 @@ export default {
               //router.push('/typeTresoreries/liste-typeTresorerie');
             }
           }).catch(({ response }) => {
-            error(response.message);
+            error(response.data.message);
           });
       } else {
         ApiService.post("/typeTresoreries", values)
@@ -184,7 +184,7 @@ export default {
             }
           }).catch(({ response }) => {
             console.log(response)
-            error(response.message);
+            error(response.data.message);
           });
       }
     };

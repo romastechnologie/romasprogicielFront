@@ -140,21 +140,24 @@
                 router.push('/tags/liste-tag');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }else{
             ApiService.post("/tags",values)
             .then(({ data }) => {
+              console.log("DATAYAG ===> ", data)
               if(data.code == 201) { 
                 success(data.message)
                 resetForm();
                 hideModal(addTagModalRef.value);
                 //router.push('/tags/liste-tag');
                 emit("refreshTags");
-    
+              }else{
+                error(data.message);
               }
             }).catch(({ response }) => {
-              error(response.message);
+              console.log("DATAYAG22 ===> ", response)
+              error(response.data.message);
             });
           }
         }; 
