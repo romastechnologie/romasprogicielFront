@@ -177,7 +177,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllProduits(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/produits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/produits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           produits.value = data.data.data;
           totalPages.value = data.data.totalPages;

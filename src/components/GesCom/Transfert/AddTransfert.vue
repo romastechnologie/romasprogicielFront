@@ -305,7 +305,7 @@ export default defineComponent({
 
     const fetchMagasin1 = async () => {
       try {
-        const response = await ApiService.get('/magasins');
+        const response = await ApiService.get('all/magasins');
         const magasin1sData = response.data.data.data;
         magasin1Options.value = magasin1sData.map((magasin) => ({
           value: magasin.id,
@@ -318,7 +318,7 @@ export default defineComponent({
 
     const fetchProduits = async () => {
       try {
-        const response = await axios.get("/produits");
+        const response = await axios.get("all/produits");
         const produitsData = response.data.data.data;
         produitsss.value = produitsData;
         produitOptions.value = produitsData.map((produit) => ({
@@ -332,7 +332,7 @@ export default defineComponent({
 
     const fetchMagasin2 = async () => {
       try {
-        const response = await ApiService.get('/magasins');
+        const response = await ApiService.get('all/magasins');
         const magasin2Data = response.data.data.data;
         magasin2Options.value = magasin2Data.map((magasin) => ({
           value: magasin.id,

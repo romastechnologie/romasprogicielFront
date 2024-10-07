@@ -191,7 +191,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllComptes(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/comptes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/comptes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           comptes.value = data.data.data;
           totalPages.value = data.data.totalPages;

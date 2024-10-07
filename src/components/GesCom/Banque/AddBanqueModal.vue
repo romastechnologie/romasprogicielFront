@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch,onMounted} from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
@@ -76,7 +76,6 @@ export default {
       default: 0
     },
   },
-  emits: ["getAllBanques", "openmodal"],
 
   setup: (props, { emit }) => {
     const loading = ref<boolean>(false);
@@ -91,19 +90,25 @@ export default {
     const addBanquesModalRef = ref<null | HTMLElement>(null);
     const title = ref('Ajouter une banque');
     const btntext = ref('Ajouter');
-    const isupdate = ref(false);
+    const  isUPDATE = ref(false);
+    const banqueOptions = ref([]);
+    
+
+    onMounted(() => {
+      fetchBanque();
+    });
 
     watch(() => props.id, (newValue) => {
       if (newValue != 0) {
         getBanque(newValue);
-        isupdate.value = true;
+        isUPDATE.value = true;
         btnTitle();
       }
 
     });
 
     const btnTitle = async () => {
-      if (isupdate.value) {
+      if ( isUPDATE.value) {
         title.value = "Modifier une banque";
         btntext.value = "Modifier";
       } else {
@@ -126,22 +131,36 @@ export default {
         });
     }
 
-    const addBanque = async (values, { resetForm }) => {
+    const fetchBanque = async () => {
+      try {
+        const response = await ApiService.get('/banques');
+        const banqueData = response.data.data.data;
+        banqueOptions.value = banqueData.map((banque) => ({
+          value: banque.id,
+          label: `${banque.adresse} - ${banque. numCompte}`,
+        }));
+      } catch (error) {
+        //
+      }
+    };
+
+
+    const addBanque = async (values: any, banqueForm) => {
       values = values as Banque;
-      loading.value = false;
-      if (isupdate.value) {
+      if ( isUPDATE.value) {
         console.log('puuuttt')
-        ApiService.put(`/banques/${values?.id}`, values)
+        ApiService.put("/banques/"+values.id, values)
           .then(({ data }) => {
             if (data.code == 200) {
               success(data.message);
-              resetForm();
+              banqueForm.resetForm();
               hideModal(addBanquesModalRef.value);
-              isupdate.value = false;
+              isUPDATE.value=false;
               btnTitle();
-              emit("getAllBanques");
+              emit("close");
             }
-          }).catch(({ response }) => {
+          }) 
+            .catch(({ response }) => {
             error(response.data.message)
           });
       } else {
@@ -150,11 +169,12 @@ export default {
           .then(({ data }) => {
             if (data.code == 201) {
               success(data.message);
-              resetForm();
+              banqueForm.resetForm();
               hideModal(addBanquesModalRef.value);
-              //emit("getAllBanques");
+              emit('close');
             }
-          }).catch(({ response }) => {
+          })
+            .catch(({ response }) => {
             error(response.data.message)
           });
       }
@@ -162,14 +182,14 @@ export default {
 
     const resetValue = () => {
       const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
-      isupdate.value = false;
+        isUPDATE.value = false;
       formFields.forEach(field => {
         field.value = '';
       });
       btnTitle()
     };
 
-    return { banqueSchema, addBanque, banqueForm, addBanquesModalRef, btntext, title, resetValue };
+    return { banqueSchema, addBanque, banqueForm,btntext, addBanquesModalRef, title, resetValue,banqueOptions };
   },
 };
 

@@ -8,7 +8,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date de depot <span class="text-danger">*</span>
               </label>
-              <Field name="date" type="date" :value="getCurrentDate"
+              <Field name="date" type="date" :value="getCurrentDate()"
                 class="form-control shadow-none fs-md-15 text-black" />
             </div>
             <ErrorMessage name="date" class="text-danger" />
@@ -59,8 +59,8 @@
           </div>
           <div class="col-md-6">
           </div>
-          <div class="col-md-12 mb-12">
-            <div class="d-flex align-items-center ">
+          <div class="col-md-12 mt-3">
+            <div class="d-flex justify-content-start mb-4">
               <button class="btn btn-success me-3" type="submit">
                 Enregistrer un dépot
               </button>
@@ -106,7 +106,7 @@ export default defineComponent({
       montant: Yup.number().required('Le montant payé est obligatoire'),
       typeDepot: Yup.string().required('Le mode de depot est obligatoire'),
       beneficiaire: Yup.string().notRequired(),
-      dateDepot: Yup.date().required('La date de depot est obligatoire'),
+      date: Yup.date().required('La date de depot est obligatoire'),
     });
 
     const depotForm = ref<Depot | null>(null);
@@ -119,7 +119,7 @@ export default defineComponent({
 
     const fetchModePaiement = async () => {
       try {
-        const response = await ApiService.get('/modePaiements');
+        const response = await ApiService.get('all/modePaiements');
         const modePaiementsData = response.data.data.data;
         modePaiementOptions.value = modePaiementsData.map((modePaiement) => ({
           value: modePaiement.id,
@@ -132,7 +132,7 @@ export default defineComponent({
 
     const fetchFacture = async () => {
       try {
-        const response = await ApiService.get('/factures');
+        const response = await ApiService.get('all/factures');
         const facturesData = response.data.data.data;
         factureOptions.value = facturesData.map((facture) => ({
           value: facture.id,
@@ -145,7 +145,7 @@ export default defineComponent({
 
     const fetchTransaction = async () => {
       try {
-        const response = await ApiService.get('/depots');
+        const response = await ApiService.get('all/depots');
         const depotData = response.data.data.data;
         depotOptions.value = depotData.map((depot) => ({
           value: depot.id,
@@ -158,7 +158,7 @@ export default defineComponent({
 
     const fetchModeDepot = async () => {
       try {
-        const response = await ApiService.get('/modeDepots');
+        const response = await ApiService.get('all/modeDepots');
         const modeDepotData = response.data.data.data;
         typeDepotOptions.value = modeDepotData.map((modeDepot) => ({
           value: modeDepot.id,
@@ -171,7 +171,7 @@ export default defineComponent({
 
     const fetchClient = async () => {
       try {
-        const response = await ApiService.get("/clients");
+        const response = await ApiService.get("all/clients");
         const fournisseurData = response.data.data.data;
         clientOptions.value = fournisseurData.map((client) => ({
           value: client.id,
@@ -199,6 +199,7 @@ export default defineComponent({
       fetchModeDepot();
       fetchClient();
       fetchModePaiement();
+      getCurrentDate();
     })
 
     const addDepot = async (values, { resetForm }) => {

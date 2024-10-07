@@ -206,7 +206,7 @@ export default defineComponent({
       getAllLivraisons();
     };
     function getAllLivraisons(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/livraisons?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/livraisons?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           const donnees = data.data.data;
           livraisons.value = donnees;

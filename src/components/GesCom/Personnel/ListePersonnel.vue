@@ -194,7 +194,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllPersonnels(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/personnels?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/personnels?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           personnels.value = data.data.data;
           totalPages.value = data.data.totalPages;

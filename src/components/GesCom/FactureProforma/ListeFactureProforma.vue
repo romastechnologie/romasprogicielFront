@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
             class="btn btn-primary"
-            to="/ajouter-vente"
+            to="/ventes/ajouter-vente"
           >
             <i class="fa fa-plus-circle"></i>
             Ajouter une facture proforma
@@ -212,7 +212,7 @@ export default defineComponent({
     };
 
     function getAllFactureProformas(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/factures?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/factures?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           factures.value = data.data.data;
           totalPages.value = data.data.totalPages;

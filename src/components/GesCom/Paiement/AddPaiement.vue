@@ -196,7 +196,7 @@ export default defineComponent({
 
     const fetchFacture = async () => {
       try {
-        const response = await ApiService.get('/factures');
+        const response = await ApiService.get('all/factures');
         const facturesData = response.data.data.data;
         factureOptions.value = facturesData.map((facture) => ({
           value: facture.id,
@@ -209,7 +209,7 @@ export default defineComponent({
 
     const fetchTransaction = async () => {
       try {
-        const response = await ApiService.get('/paiements');
+        const response = await ApiService.get('all/paiements');
         const paiementData = response.data.data.data;
         paiementOptions.value = paiementData.map((paiement) => ({
           value: paiement.id,
@@ -222,7 +222,7 @@ export default defineComponent({
 
     const fetchModePaiement = async () => {
       try {
-        const response = await ApiService.get('/modePaiements');
+        const response = await ApiService.get('all/modePaiements');
         const modePaiementData = response.data.data.data;
         modePaiementOptions.value = modePaiementData.map((modePaiement) => ({
           value: modePaiement.id,

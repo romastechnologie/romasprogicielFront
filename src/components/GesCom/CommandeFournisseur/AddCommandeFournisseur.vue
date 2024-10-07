@@ -174,7 +174,7 @@
                           <input
                             v-model="produit.prix"
                             type="number"
-                            :readonly="true"
+                            @input="getIndex($event, produit)"
                             :class="
                               valideteRowProduit(produit.prix)
                                 ? 'form-control shadow-none fs-md-15 text-black is-invalid '
@@ -372,7 +372,7 @@ export default defineComponent({
 
     const fetchProduits = async () => {
       try {
-        const response = await axios.get("/produits");
+        const response = await axios.get("all/produits");
         const produitsData = response.data.data.data;
         produitsss.value = produitsData;
         produitOptions.value = produitsData.map((produit) => ({
@@ -444,7 +444,7 @@ export default defineComponent({
 
     const fetchFournisseur = async () => {
       try {
-        const response = await ApiService.get("/fournisseurs");
+        const response = await ApiService.get("all/fournisseurs");
         const fournisseurData = response.data.data.data;
         fournisseurOptions.value = fournisseurData.map((forunisseur) => ({
           value: forunisseur.id,

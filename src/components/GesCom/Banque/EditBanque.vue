@@ -125,7 +125,7 @@ export default defineComponent({
           if (data.code == 200) {
             success(data.message);
             resetForm();
-            router.push({ name: "ListeBanquePage" });
+            router.push({ name: "ListeBanque" });
           }
         }).catch(({ response }) => {
           error(response.data.message);

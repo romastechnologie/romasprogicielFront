@@ -185,7 +185,7 @@ export default defineComponent({
     };
 
     function getAllFamilles(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/familles?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/familles?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       // return ApiService.get(`/familles`)
         .then(({ data }) => {
       console.log('get familles');

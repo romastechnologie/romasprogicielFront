@@ -128,7 +128,7 @@
                 router.push('/religions/liste-religion');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }else{
             ApiService.post("/religions",values)
@@ -142,7 +142,7 @@
     
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }
         }; 

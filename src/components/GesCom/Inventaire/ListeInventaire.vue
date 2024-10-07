@@ -187,7 +187,7 @@ export default defineComponent({
     };
 
     function getAllInventaires(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/inventaires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/inventaires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           inventaires.value = data.data.data;
           totalPages.value = data.data.totalPages;

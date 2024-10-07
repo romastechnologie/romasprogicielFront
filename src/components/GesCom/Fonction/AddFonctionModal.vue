@@ -69,8 +69,8 @@ export default defineComponent({
   },
   props: {
     item: {
-      type: Number,
-      default: 0,
+      type: Object as () => Fonction | null,
+      default: null
     }
   },
   setup(props, { emit }){
@@ -89,8 +89,13 @@ export default defineComponent({
     const title = ref("Ajouter un fonction");
     const btntext = ref('Ajouter');
 
+
+    onMounted(() => {
+      fetchFonction();
+    });
+
     watch(() => props.item, (newValue) => {
-      getFonction(newValue);
+      getFonction(newValue.id);
       isUPDATE.value = true;
       btnTitle();
     });
@@ -136,9 +141,7 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
-      fetchFonction();
-    });
+   
 
     const addFonction = async (values: any, fonctionForm) => {
       values = values as Fonction;
@@ -152,6 +155,7 @@ export default defineComponent({
               isUPDATE.value=false;
               btnTitle();
               emit('close');
+        
             }
         })
         .catch(({ response }) => {
@@ -168,7 +172,7 @@ export default defineComponent({
               emit('close');
             }
         })
-        .catch(({ response }) => {
+            .catch(({ response }) => {
             error(response.data.message);
         });
       }

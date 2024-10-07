@@ -402,7 +402,7 @@ watch(
 
     const fetchMagasins = async () => {
       try {
-        const response = await axios.get("/magasins");
+        const response = await axios.get("all/magasins");
         const magasinsData = response.data.data.data;
         magasinsss.value = magasinsData;
         magasinOptions.value = magasinsData.map((magasin) => ({
@@ -434,7 +434,7 @@ watch(
 
     const fetchProduits = async () => {
       try {
-        const response = await axios.get("/produitconditionnements");
+        const response = await axios.get("all/produitconditionnements");
         const produitsData = response.data.data;
         produitsss.value = produitsData;
         produitOptions.value = produitsData.map((produitconditionnements) => ({
@@ -491,7 +491,7 @@ watch(
 
     const fetchFournisseur = async () => {
       try {
-        const response = await ApiService.get("/fournisseurs");
+        const response = await ApiService.get("all/fournisseurs");
         const fournisseurData = response.data.data.data;
         fournisseurOptions.value = fournisseurData.map((fournisseur) => ({
           value: fournisseur.id,

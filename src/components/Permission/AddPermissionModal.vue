@@ -142,7 +142,7 @@
                 router.push('/permissions/liste-permission');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }else{
             ApiService.post("/permissions",values)
@@ -156,7 +156,7 @@
     
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }
         }; 

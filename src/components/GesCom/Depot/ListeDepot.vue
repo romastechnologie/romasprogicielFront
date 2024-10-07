@@ -181,7 +181,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllDepots(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/depots?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/depots?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           depots.value = data.data.data;
           totalPages.value = data.data.totalPages;

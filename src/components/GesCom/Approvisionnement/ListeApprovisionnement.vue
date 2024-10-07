@@ -203,7 +203,7 @@ export default defineComponent({
       getAllApprovisionnements();
     };
     function getAllApprovisionnements(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/approvisionnements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/approvisionnements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           const donnees = data.data.data;
           approvisionnements.value = donnees;

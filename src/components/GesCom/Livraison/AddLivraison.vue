@@ -330,7 +330,7 @@
                                     </button>
                                   </div>
                                 </div>
-                                <div class="col-md-12 mt-25 mb-25 marge-droite">
+                                <div class="d-flex justify-content-center mb-4">
                                   <div class="d-flex">
                                     <button
                                       class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
@@ -356,7 +356,7 @@
             </div>
           </div>
 
-          <div class="col-md-12">
+          <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center">
               <button
                 class="btn btn-success me-3"
@@ -534,7 +534,7 @@ const validateRowProduit = (e) => {
 
     const fetchMagasins = async () => {
       try {
-        const response = await axios.get("/magasins");
+        const response = await axios.get("all/magasins");
         const magasinsData = response.data.data.data;
         magasinsss.value = magasinsData;
         magasinOptions.value = magasinsData.map((magasin) => ({
@@ -548,7 +548,7 @@ const validateRowProduit = (e) => {
 
     const fetchProduits = async () => {
       try {
-        const response = await axios.get("/produits");
+        const response = await axios.get("all/produits");
         const produitsData = response.data.data.data;
         produitsss.value = produitsData;
         produitOptions.value = produitsData.map((produit) => ({
@@ -606,7 +606,7 @@ const validateRowProduit = (e) => {
 
     const fetchFournisseur = async () => {
       try {
-        const response = await ApiService.get("/commandes");
+        const response = await ApiService.get("all/commandes");
         const commandeData = response.data.data.data;
         commandeOptions.value = commandeData.map((commande) => ({
           value: commande.id,

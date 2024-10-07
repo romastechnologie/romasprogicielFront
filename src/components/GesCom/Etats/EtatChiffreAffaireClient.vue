@@ -40,17 +40,9 @@
                                     Client
                                 </label>
                                 <Field name="infoCli" v-model="infoCli" v-slot="{ field }">
-                                    <Multiselect
-                                        no-results-text="Aucun type trouvé"
-                                        v-model="field.value"
-                                        v-bind="field" 
-                                        :filter-results="false" 
-                                        :min-chars="2" 
-                                        :resolve-on-load="false"
-                                        :delay="0" 
-                                        :searchable="true" 
-                                        :options-limit="15" 
-                                        :options="async (query) => {
+                                    <Multiselect no-results-text="Aucun type trouvé" v-model="field.value"
+                                        v-bind="field" :filter-results="false" :min-chars="2" :resolve-on-load="false"
+                                        :delay="0" :searchable="true" :options-limit="15" :options="async (query) => {
                                             const results = await getClientByTag(query);
                                             if (results && results.length > 0) {
                                                 return results;
@@ -59,7 +51,8 @@
                                             } else {
                                                 return [];
                                             }
-                                        }" noOptionsText="Tapez au moins deux caractères" placeholder="Rechercher un client" />
+                                        }" noOptionsText="Tapez au moins deux caractères"
+                                        placeholder="Rechercher un client" />
                                 </Field>
                                 <ErrorMessage name="infoCli" class="text-danger" />
                             </div>
@@ -108,7 +101,9 @@
                                 {{ format_Date(commande.dateCommande) }}
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                                {{ commande.client.nomClient }}
+                                <span v-if="commande && commande.client">
+                                    {{ commande.client.nomClient }}
+                                </span>
                             </td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                                 {{ commande.montHT }}
@@ -293,7 +288,7 @@ export default defineComponent({
         const getClientByTag = async (recherche:string = "") => {
             console.log("Ewaaaa");
             try {
-                const reponse = await axios.get("/client/" + recherche);
+                const reponse = await axios.get("all/clients/");
                 console.log("REPONSEEEEE ===> ", reponse);
                 clients.value = reponse.data.data.data.map((client) => {
                     return { label: `${client.nomClient} ${client.prenomClient} - ${client.telephone1}`, value: client.id };

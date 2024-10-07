@@ -190,7 +190,7 @@ export default defineComponent({
     };
 
     function getAllGroupeTaxes(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/groupeTaxes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/groupeTaxes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           groupeTaxes.value = data.data.data;
           totalPages.value = data.data.totalPages;

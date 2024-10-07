@@ -150,7 +150,7 @@ export default defineComponent({
 
     const fetchFamille = async () => {
       try {
-        const response = await ApiService.get('/familles');
+        const response = await ApiService.get('all/familles');
         const familleData = response.data.data.data;
         familleOptions.value = familleData.map((famille) => ({
           value: famille.id,

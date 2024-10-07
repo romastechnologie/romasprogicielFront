@@ -167,7 +167,7 @@ export default defineComponent({
     };
 
     function getAllTypeOperations(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/typeOperations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/typeOperations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           typeOperations.value = data.data.data;
           totalPages.value = data.data.totalPages;

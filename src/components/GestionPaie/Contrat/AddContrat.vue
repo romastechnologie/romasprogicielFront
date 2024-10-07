@@ -619,14 +619,14 @@ export default defineComponent({
     }
 
     const getAllPersonnels = async () => {
-      try {
-        const response = await ApiService.get('/personnels');
-        const personnelsData = response.data;
-        console.log('Data', personnelsData)
-        personnelOptions.value = personnelsData.map((personnel) => ({
-          value: personnel.id,
-          label: personnel.nom + " " + personnel.prenom,
-        }));
+      try{
+      const response = await ApiService.get('/all/personnels');
+      const personnelsData = response.data.data.data;
+      console.log('Data', personnelsData)
+      personnelOptions.value = personnelsData.map((personnel) => ({
+        value: personnel.id,
+        label: personnel.nom + " " + personnel.prenom,
+      }));
       }
       catch (error) {
         //error(response.data.message)
@@ -714,7 +714,52 @@ export default defineComponent({
       heureDepart: "",
       heureFinPause: "",
       heureDebutPause: ""
+<<<<<<< HEAD
     }]);
+=======
+    });
+  };
+
+  const removeRowHoraireContrat = (index) => {
+    if (horaireContrats.length > 1) horaireContrats.splice(index, 1);
+    //totals();
+  };
+
+  watch(
+    horaireContrats,
+    (newValue) => {
+      isDisableeeeee.value =
+      newValue.some(
+        (horaireContrat) =>
+        valideteRowHoraireContrat(horaireContrat.heureArrive) ||
+        valideteRowHoraireContrat(horaireContrat.heureFinPause) ||
+        valideteRowHoraireContrat(horaireContrat.heureDepart) ||
+        valideteRowHoraireContrat(horaireContrat.heureDebutPause)
+      );
+    },
+    { deep: true }
+  );
+
+  onMounted(() => {
+      getAllTypeContrat();
+      getAllTypePrime();
+      getAllTypeRetenue();
+      getAllPersonnels();
+      getAllModeTarifications();
+      getAllOrganisations();
+    });
+
+  const valideteRowHoraireContrat = (e) => {
+    if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
+      console.log('erg')
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  //const { remove, push, fields, update } = useFieldArray("horaireContrats");
+>>>>>>> 761fafbbbdc9281b0e553876b3650795926a0cdf
 
 
 

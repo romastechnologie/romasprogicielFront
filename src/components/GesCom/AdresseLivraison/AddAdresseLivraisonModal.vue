@@ -118,7 +118,7 @@ export default defineComponent({
 
     const fetchClient = async () => {
       try {
-        const response = await ApiService.get('/clients');
+        const response = await ApiService.get('all/clients');
         const clientData = response.data.data.data;
         clientOptions.value = clientData.map((client) => ({
           value: client.id,
@@ -153,7 +153,7 @@ export default defineComponent({
 
     const fetchAdresseLivraison = async () => {
       try {
-        const response = await ApiService.get('/adresselivraisons');
+        const response = await ApiService.get('all/adresselivraisons');
         const adresseLivraisonData = response.data.data.data;
         adresseLivraisonOptions.value = adresseLivraisonData.map((adresseLivraison) => ({
           value: adresseLivraison.id,

@@ -213,7 +213,7 @@
       }
   
       function getAllSocietes(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/societes?page=${page}&limit=${limi}&mot=${searchTerm}`)
+        return ApiService.get(`all/societes?page=${page}&limit=${limi}&mot=${searchTerm}`)
           .then(({ data }) => {
             societes.value = data.data.data;
             totalPages.value = data.data.totalPages;

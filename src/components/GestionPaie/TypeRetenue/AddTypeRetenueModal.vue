@@ -184,7 +184,7 @@
                 router.push('/typeRetenues/liste-TypeRetenue');
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }else{
             ApiService.post("/typeRetenues",values)
@@ -198,7 +198,7 @@
     
               }
             }).catch(({ response }) => {
-              error(response.message);
+              error(response.data.message);
             });
           }
         }; 

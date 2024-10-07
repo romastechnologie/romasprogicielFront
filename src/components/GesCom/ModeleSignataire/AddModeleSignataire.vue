@@ -369,7 +369,7 @@ export default defineComponent({
 
     const fetchPersonnel = async () => {
       try {
-        const response = await ApiService.get("/personnels");
+        const response = await ApiService.get("all/personnels");
         const fonctionData = response.data;
         personnelOptions.value = fonctionData.map((personnel) => ({
           value: personnel.id,

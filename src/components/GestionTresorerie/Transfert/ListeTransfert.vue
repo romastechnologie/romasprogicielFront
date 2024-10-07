@@ -97,7 +97,7 @@ onMounted(() => {
 
 
 const getTransfert = async () => {
-    await axios.get<Transfert[]>('/transferts/').then(res => {
+    await axios.get<Transfert[]>('all/transferts/').then(res => {
         transfertList.value = res.data
         console.log(transfertList.value)
     })

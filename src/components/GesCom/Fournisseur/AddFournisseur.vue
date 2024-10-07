@@ -14,7 +14,7 @@
                     :searchable="true"
                     track-by="label"
                     label="label"
-                    v-model = "field.value"
+
                     v-bind = "field"
                     placeholder="Sélectionner le statut"
                     @select="handleObjetInput"
@@ -28,9 +28,9 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Nom du fournisseur<span class="text-danger">*</span>
                 </label>
-                <Field name="nomfournisseur" type="text" 
+                <Field name="nomFournisseur" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
-                <ErrorMessage name="nomfournisseur" class="text-danger"/>
+                <ErrorMessage name="nomFournisseur" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4" v-if="showAdditionalFields">
@@ -38,9 +38,9 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Prénom du fournisseur<span class="text-danger">*</span>
                 </label>
-                <Field name="prenomfournisseur" type="text" 
+                <Field name="prenomFournisseur" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom"/>
-                <ErrorMessage name="prenomfournisseur" class="text-danger"/>
+                <ErrorMessage name="prenomFournisseur" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4">
@@ -48,9 +48,9 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Adresse 
                 </label>
-                <Field name="adressefournisseur" type="text" 
+                <Field name="adresseFournisseur" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'adresse"/>
-                <ErrorMessage name="adressefournisseur" class="text-danger"/>
+                <ErrorMessage name="adresseFournisseur" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4">
@@ -58,9 +58,9 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Email
                 </label>
-                <Field name="emailfournisseur" type="text" 
+                <Field name="email" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'email"/>
-                <ErrorMessage name="emailfournisseur" class="text-danger"/>
+                <ErrorMessage name="email" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4" v-if="showAdditionalFields">
@@ -85,9 +85,9 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone 1 <span class="text-danger">*</span>
                 </label>
-                <Field name="telephone1" type="text" 
+                <Field name="telFournisseur1" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
-                <ErrorMessage name="telephone1" class="text-danger"/>
+                <ErrorMessage name="telFournisseur1" class="text-danger"/>
               </div>
             </div>
             <div class="col-md-4">
@@ -95,21 +95,11 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Téléphone 2 
                 </label>
-                <Field name="telephone2" type="text" 
+                <Field name="telFournisseur2" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
-                <ErrorMessage name="telephone2" class="text-danger"/>
+                <ErrorMessage name="telFournisseur2" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="showAdditionalFields">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Date de naissance 
-                  </label>
-                  <Field name="dateNais" type="date" 
-                  class="form-control shadow-none fs-md-15 text-black"/>
-                </div>
-              <ErrorMessage name="dateNais" class="text-danger"/>
-              </div>
             <div class="col-md-4" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
@@ -130,7 +120,7 @@
                 <ErrorMessage name="denomination" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4" v-if="!showAdditionalFields">
+            <!-- <div class="col-md-4" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Raison sociale <span class="text-danger">*</span>
@@ -139,7 +129,7 @@
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la raison sociale"/>
                 <ErrorMessage name="raisonSociale" class="text-danger"/>
               </div>
-            </div>
+            </div> -->
            <div class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
@@ -212,12 +202,12 @@ export default defineComponent({
   },
   setup: () => {
     const fournisseurSchema = Yup.object().shape({
-      nomfournisseur: Yup.string().when([], (value, schema) => {
+      nomFournisseur: Yup.string().when([], (value, schema) => {
         return showAdditionalFields.value
           ? schema.required("Le nom du fournisseur est obligatoire")
           : schema
       }),
-      prenomfournisseur: Yup.string().when([], (value, schema) => {
+      prenomFournisseur: Yup.string().when([], (value, schema) => {
         return showAdditionalFields.value
           ? schema.required("Le prénom du fournisseur est obligatoire")
           : schema
@@ -227,25 +217,25 @@ export default defineComponent({
           ? schema.required("Le sexe est obligatoire")
           : schema
       }),
-      raisonSociale: Yup.string().when([], (value, schema) => {
-        return !showAdditionalFields.value
-          ? schema.required("Le nom du fournisseur est obligatoire")
-          : schema
-      }),
+      // raisonSociale: Yup.string().when([], (value, schema) => {
+      //   return !showAdditionalFields.value
+      //     ? schema.required("Le nom du fournisseur est obligatoire")
+      //     : schema
+      // }),
       dateCreation: Yup.date().when([], (value, schema) => {
         return !showAdditionalFields.value
           ? schema.notRequired()
           : schema
       }),
-      dateNais: Yup.date().when([], (value, schema) => {
-        return showAdditionalFields.value
-          ? schema.notRequired()
-          : schema
-      }),
-      adressefournisseur: Yup.string().notRequired(),
-      emailfournisseur: Yup.string().email("Veuillez entrer un mail valide").notRequired(),
-      telephone1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone 1 est obligatoire'),
-      telephone2: Yup.number().typeError('Veuillez entrer des chiffres').notRequired(),
+      // dateNais: Yup.date().when([], (value, schema) => {
+      //   return showAdditionalFields.value
+      //     ? schema.notRequired()
+      //     : schema
+      // }),
+      adresseFournisseur: Yup.string().notRequired(),
+      email: Yup.string().email("Veuillez entrer un mail valide").notRequired(),
+      telFournisseur1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone 1 est obligatoire'),
+      telFournisseur2: Yup.number().typeError('Veuillez entrer des chiffres').notRequired(),
       ifu: Yup.number().typeError('Veuillez entrer des chiffres').required('L\'ifu est obligatoire'),
       sigle: Yup.string().notRequired(),
       denomination: Yup.string().required('La dénomination est obligatoire'),

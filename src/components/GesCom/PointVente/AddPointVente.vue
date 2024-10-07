@@ -128,7 +128,7 @@ export default defineComponent({
 
     const fetchPersonnel = async () => {
       try {
-        const response = await ApiService.get('/personnels');
+        const response = await ApiService.get('all/personnels');
         const personnelData = response.data;
         personnelOptions.value = personnelData.map((personnel) => ({
           value: personnel.id,
@@ -141,7 +141,7 @@ export default defineComponent({
 
     const fetchSociete = async () => {
       try {
-        const response = await ApiService.get('/societes');
+        const response = await ApiService.get('all/societes');
         const societeData = response.data.data.data;
         societeOptions.value = societeData.map((societe) => ({
           value: societe.id,

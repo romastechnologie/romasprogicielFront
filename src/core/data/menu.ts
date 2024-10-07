@@ -870,7 +870,7 @@ export const menu: MenuItem[] = [
     },
     
     {
-        title: "Fournisseur",
+        title: "Fournisseurs",
         icon: "stroke-calendar",
         icon1: "fill-calendar",
         type: "sub",
