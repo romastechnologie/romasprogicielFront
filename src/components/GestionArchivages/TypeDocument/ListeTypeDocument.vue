@@ -1,15 +1,9 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
     <div
-      class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
-    >
+      class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
       <div class="d-sm-flex align-items-center">
-        <a
-          class="btn btn-primary"
-          href="#"
-          data-bs-toggle="modal"
-          data-bs-target="#AddTypeDocumentModal"
-        >
+        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#AddTypeDocumentModal">
           <i class="fa fa-plus-circle"></i>
           Ajouter un Type de Document
         </a>
@@ -22,18 +16,10 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-       <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
-          <input
-            type="text"
-            v-model="searchTerm"
-            @keyup="rechercher"
-            class="form-control shadow-none text-black"
-            placeholder="Rechercher un Type de Document"
-          />
-          <button
-            type="submit"
-            class="bg-transparent text-primary transition p-0 border-0"
-          >
+        <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
+          <input type="text" v-model="searchTerm" @keyup="rechercher" class="form-control shadow-none text-black"
+            placeholder="Rechercher un Type de Document" />
+          <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
@@ -50,23 +36,15 @@
         <table class="table text-nowrap align-middle mb-0">
           <thead>
             <tr>
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Code
               </th>
-              
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
+
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Nom
               </th>
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
-              >ACTIONS</th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0">
+                ACTIONS</th>
             </tr>
           </thead>
           <tbody>
@@ -74,67 +52,50 @@
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ typeDocument.code }}
               </td>
-              
+
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ typeDocument.nom }}
               </td>
-              <td
-                class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
-              >
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                    
-                    <li class="dropdown-item d-flex align-items-center">
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);"
-                        data-bs-toggle="modal"
-                        data-bs-target="#AddTypeDocumentModal"
-                        @click="moddifier(typeDocument)"
-                      >
-                        <i
-                          class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>
-                        Modifier
-                      </a>
-                    </li>
-                    <li class="dropdown-item d-flex align-items-center">
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(typeDocument.id,TypesDocuments,'typeDocuments','le Type de Document')"
-                      >
-                        <i
-                          class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
-                        ></i>
-                        Supprimer
-                      </a>
-                    </li>
-                  </ul>
+              <td class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0">
+                <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">Actions</button>
+                <ul class="dropdown-menu dropdown-block"
+                  style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
+                  data-popper-placement="bottom-start">
+
+                  <li class="dropdown-item d-flex align-items-center">
+                    <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" data-bs-toggle="modal"
+                      data-bs-target="#AddTypeDocumentModal" @click="moddifier(typeDocument)">
+                      <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                      Modifier
+                    </a>
+                  </li>
+                  <li class="dropdown-item d-flex align-items-center">
+                    <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
+                      @click="suppression(typeDocument.id, TypesDocuments, 'typeDocuments', 'le Type de Document')">
+                      <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>
+                      Supprimer
+                    </a>
+                  </li>
+                </ul>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div
-        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
-      >
-        <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
+      <div class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
+        <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit"
+          @paginate="handlePaginate" />
       </div>
     </div>
   </div>
-  <AddTypeDocumentModal
-  @get-all-typesDepensess="getAllTypeDocuments"
-  :item="selectedItem" 
-  @close="recharger"
-  @refreshTypesDepenses="refreshTypesDepenses"
-
-  
-  />
+  <AddTypeDocumentModal @get-all-typesDepensess="getAllTypeDocuments" :item="selectedItem" @close="recharger"
+    @refreshTypesDepenses="refreshTypesDepenses" />
 
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref} from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
@@ -143,6 +104,7 @@ import JwtService from "@/services/JwtService";
 import AddTypeDocumentModal from "./AddTypeDocumentModal.vue";
 import { useRouter } from "vue-router";
 import { TypeDocument } from "@/models/TypeDocument";
+import axios from "axios";
 
 export default defineComponent({
   name: "ListeTypeDocument",
@@ -150,15 +112,15 @@ export default defineComponent({
     PaginationComponent,
     AddTypeDocumentModal
   },
-  setup(){
-    
+  setup() {
+
     onMounted(() => {
       getAllTypeDocuments();
     });
     const idtypeDocument = ref(0);
-      const loading = ref<boolean>(false);
-      const router = useRouter(); 
-    const TypesDocuments = ref<Array<TypeDocument>>([]);   
+    const loading = ref<boolean>(false);
+    const router = useRouter();
+    const TypesDocuments = ref<Array<TypeDocument>>([]);
     const typeDocument = ref<TypeDocument>();
 
     // BEGIN PAGINATE
@@ -178,8 +140,8 @@ export default defineComponent({
       }
     };
 
-     function rechercher(){
-      getAllTypeDocuments(page.value, limit.value, searchTerm.value );
+    function rechercher() {
+      getAllTypeDocuments(page.value, limit.value, searchTerm.value);
     }
 
     const recharger = () => {
@@ -189,36 +151,34 @@ export default defineComponent({
 
     // END PAGINATE
 
-    onMounted(() => {
-      loading.value=false;
-      getAllTypeDocuments();
+    onMounted(async () => {
+      loading.value = false;
+      await getAllTypeDocuments();
     });
 
     const refreshTypesDepenses = () => {
       getAllTypeDocuments();
     };
 
-    function getAllTypeDocuments(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/typedocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-        .then(({ data }) => {
-          TypesDocuments.value = data.data.data;
-          totalPages.value = data.data.totalPages;
-          limit.value = data.data.limit;
-          totalElements.value = data.data.totalElements;
-          return data.data.data;
-        })
-        .catch(({ response }) => {
-          error(response.data.message)
-      });
-      
-    }
-    
-    function moddifier(EditTypeDocument:TypeDocument) {
-      typeDocument.value = EditTypeDocument;
-      selectedItem.value = EditTypeDocument.id;  
+    const getAllTypeDocuments = async(page = 1, limi = 10, searchTerm = '') => {
+      try {
+        const data = await axios.get(`/all/typedocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`);
+        TypesDocuments.value = data.data.data;
+        totalPages.value = data.data.totalPages;
+        limit.value = data.data.limit;
+        totalElements.value = data.data.totalElements;
+        return data.data.data;
+      } catch (response) {
+        error(response.data.message)
+      }
     }
 
-    
+    function moddifier(EditTypeDocument: TypeDocument) {
+      typeDocument.value = EditTypeDocument;
+      selectedItem.value = EditTypeDocument.id;
+    }
+
+
 
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
@@ -226,23 +186,24 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { typeDocument,
+    return {
+      typeDocument,
       checkPermission,
-     getAllTypeDocuments,
-     moddifier ,
-     suppression,
-     page, 
-    totalPages,
-    limit,
-    totalElements,
-    handlePaginate,
-    rechercher,
-    searchTerm,
-    selectedItem,
-    recharger,
-    refreshTypesDepenses,
-    TypesDocuments
-  };
+      getAllTypeDocuments,
+      moddifier,
+      suppression,
+      page,
+      totalPages,
+      limit,
+      totalElements,
+      handlePaginate,
+      rechercher,
+      searchTerm,
+      selectedItem,
+      recharger,
+      refreshTypesDepenses,
+      TypesDocuments
+    };
   },
 });
 </script>
