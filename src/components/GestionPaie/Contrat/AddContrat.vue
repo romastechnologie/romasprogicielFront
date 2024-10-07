@@ -650,7 +650,6 @@ export default defineComponent({
       getAllTypePrime();
       getAllTypeRetenue();
       getAllPersonnels();
-      //getAllPersonnel();
       getAllModeTarifications();
       getAllOrganisations();
     });
@@ -817,6 +816,15 @@ export default defineComponent({
     },
     { deep: true }
   );
+
+  onMounted(() => {
+      getAllTypeContrat();
+      getAllTypePrime();
+      getAllTypeRetenue();
+      getAllPersonnels();
+      getAllModeTarifications();
+      getAllOrganisations();
+    });
 
   const valideteRowHoraireContrat = (e) => {
     if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
