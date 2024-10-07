@@ -133,6 +133,24 @@
               </div>
             </div>
             <div class="col-md-4">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Sexe <span class="text-danger">*</span>
+                </label>
+                <Field  name="sexe"  type="text"  v-slot="{ field }">
+                <Multiselect
+                  :searchable = "true"
+                  :options = "['Masculin', 'Féminin']"
+                  v-model = "field.value"
+                  v-bind = "field"
+                  placeholder="Sélectionner le sexe"
+                />
+              </Field>
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la denomination"/>
+                <ErrorMessage name="sexe" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date de création <span class="text-danger">*</span>
@@ -190,7 +208,7 @@ export default defineComponent({
       telFournisseur1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone 1 est obligatoire'),
       telFournisseur2: Yup.number().typeError('Veuillez entrer des chiffres').notRequired(),
       //dateNais: Yup.date().required('La date est obligatoire'),
-      //raisonSociale: Yup.string().required('La raison sociale est obligatoire'),
+      // raisonSociale: Yup.string().required('La raison sociale est obligatoire'),
       ifu: Yup.number().typeError('Veuillez entrer des chiffres').required('L\'ifu est obligatoire'),
       sigle: Yup.string().notRequired(),
       denomination: Yup.string().required('La dénomination est obligatoire'),

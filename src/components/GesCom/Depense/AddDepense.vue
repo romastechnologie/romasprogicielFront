@@ -135,7 +135,7 @@ export default defineComponent({
 
     const fetchFacture = async () => {
       try {
-        const response = await ApiService.get('/factures');
+        const response = await ApiService.get('all/factures');
         const facturesData = response.data.data.data;
         factureOptions.value = facturesData.map((facture) => ({
           value: facture.id,
@@ -148,7 +148,7 @@ export default defineComponent({
 
     const fetchTransaction = async () => {
       try {
-        const response = await ApiService.get('/depenses');
+        const response = await ApiService.get('all/depenses');
         const depenseData = response.data.data.data;
         depenseOptions.value = depenseData.map((depense) => ({
           value: depense.id,
@@ -161,7 +161,7 @@ export default defineComponent({
 
     const fetchModeDepense = async () => {
       try {
-        const response = await ApiService.get('/modeDepenses');
+        const response = await ApiService.get('all/modeDepenses');
         const modeDepenseData = response.data.data.data;
         typeDepenseOptions.value = modeDepenseData.map((modeDepense) => ({
           value: modeDepense.id,
@@ -182,7 +182,7 @@ export default defineComponent({
 
     const getAllPersonnels = async () => {
         try{
-        const response = await ApiService.get('/personnels');
+        const response = await ApiService.get('all/personnels');
         const personnelsData = response.data;
         console.log('Data', personnelsData)
         personnelOptions.value = personnelsData.map((personnel) => ({

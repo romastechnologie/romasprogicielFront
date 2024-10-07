@@ -3,12 +3,12 @@
       <div
         class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
         <div class="d-sm-flex align-items-center" style="width:100%;">
-          <Form style="width:100%;" class="search-box position-relative me-15">
+          <Form style="width:100%;" class="search-bg svg-color pt-3">
             <div class="row">
               <div class="col-4">
                 <div class="form-group mb-15 mt-30 mb-sm-20 mb-md-25">
                   <Field name="recherche" type="text" v-model="recherche"
-                    class="form-control shadow-none text-black rounded-0 border-0" placeholder="Rechercher" />
+                    class="form-control shadow-none text-black" placeholder="Rechercher" />
                   <ErrorMessage name="recherche" class="text-danger" />
                 </div>
               </div>

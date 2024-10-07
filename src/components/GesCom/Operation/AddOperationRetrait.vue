@@ -84,8 +84,8 @@
             </div>
           </div>
 
-          <div class="col-md-12">
-            <div class="d-flex align-items-center ">
+          <div class="col-md-12 mt-3">
+            <div class="d-flex justify-content-start mb-4">
               <button
                 class="btn btn-success me-3"
                 type="submit"
@@ -167,7 +167,7 @@ setup: () => {
 
   const fetchComptes = async () => {
       try {
-        const response = await axios.get('/comptes');
+        const response = await axios.get('all/comptes');
         const comptesData = response.data.data.data;
         compteOptions.value = comptesData.map((compte) => ({
           value: compte.id,
@@ -180,7 +180,7 @@ setup: () => {
 
       const fetchTypeOperations = async () => {
           try {
-              const response = await axios.get('/typeoperations');
+              const response = await axios.get('all/typeoperations');
               const typeoperationsData = response.data.data.data;
               const encaissementOperations = typeoperationsData.filter(typeoperation => typeoperation.nature === "Débit");
               typeOptions.value = encaissementOperations.map((typeoperation) => ({

@@ -81,7 +81,7 @@
     
         const loading = ref<boolean>(false);
         const permissionSchema = Yup.object().shape({
-          description: Yup.string().required('La permission est obligatoire'),
+          description: Yup.string().required('La description est obligatoire'),
           nom: Yup.string().required('Le nom est obligatoire'),
         });
     

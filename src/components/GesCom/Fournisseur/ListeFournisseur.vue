@@ -20,12 +20,12 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-       <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+       <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input
             type="text"
             v-model="searchTerm"
             @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0"
+            class="form-control shadow-none text-black"
             placeholder="Rechercher un fournisseur"
           />
           <button
@@ -58,6 +58,12 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
+                Prénom
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
                 Adresse
               </th>
               <th
@@ -66,6 +72,14 @@
               >
                 Email
               </th>
+
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Sexe
+              </th>
+
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -76,13 +90,39 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Téléphone
+                Téléphone 1
+              </th>
+
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Téléphone 2
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
                 Rccm
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Sigle
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Ifu
+              </th>
+
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Date Création
               </th>
               <th
                 scope="col"
@@ -94,6 +134,9 @@
             <tr v-for="(fournisseur, index) in fournisseurs" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.nomFournisseur }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ fournisseur.prenomFournisseur }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.adresseFournisseur }}
@@ -108,7 +151,22 @@
                 {{ fournisseur.telFournisseur1 }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ fournisseur.telFournisseur2 }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ fournisseur.email }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.rccm }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ fournisseur.statut }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ fournisseur.sigle }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ fournisseur.sexe }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -199,7 +257,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllFournisseurs(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/fournisseurs?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/fournisseurs?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           fournisseurs.value = data.data.data;
           totalPages.value = data.data.totalPages;

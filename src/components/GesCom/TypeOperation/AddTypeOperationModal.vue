@@ -114,7 +114,7 @@ export default defineComponent({
 
     const fetchTypeOperation = async () => {
       try {
-        const response = await ApiService.get('/typeOperations');
+        const response = await ApiService.get('all/typeOperations');
         const typeOperationData = response.data.data.data;
         typeOperationOptions.value = typeOperationData.map((typeOperation) => ({
           value: typeOperation.id,

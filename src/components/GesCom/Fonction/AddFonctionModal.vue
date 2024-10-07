@@ -89,6 +89,11 @@ export default defineComponent({
     const title = ref("Ajouter un fonction");
     const btntext = ref('Ajouter');
 
+
+    onMounted(() => {
+      fetchFonction();
+    });
+
     watch(() => props.item, (newValue) => {
       getFonction(newValue.id);
       isUPDATE.value = true;
@@ -136,9 +141,7 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
-      fetchFonction();
-    });
+   
 
     const addFonction = async (values: any, fonctionForm) => {
       values = values as Fonction;
@@ -169,7 +172,7 @@ export default defineComponent({
               emit('close');
             }
         })
-        .catch(({ response }) => {
+            .catch(({ response }) => {
             error(response.data.message);
         });
       }

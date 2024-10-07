@@ -22,12 +22,12 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-       <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+       <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input
             type="text"
             v-model="searchTerm"
             @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0"
+            class="form-control shadow-none text-black"
             placeholder="Rechercher un type d'opération"
           />
           <button
@@ -167,7 +167,7 @@ export default defineComponent({
     };
 
     function getAllTypeOperations(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/typeOperations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/typeOperations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           typeOperations.value = data.data.data;
           totalPages.value = data.data.totalPages;

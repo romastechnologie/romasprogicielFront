@@ -20,13 +20,13 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-       <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+       <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input
             type="text"
             v-model="searchTerm"
             @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0"
-            placeholder="Rechercher une dépot"
+            class="form-control shadow-none text-black"
+            placeholder="Rechercher un dépot"
           />
           <button
             type="submit"
@@ -181,7 +181,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllDepots(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/depots?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/depots?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           depots.value = data.data.data;
           totalPages.value = data.data.totalPages;

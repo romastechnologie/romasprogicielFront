@@ -22,12 +22,12 @@
           Ajouter un inventaire
         </router-link>
       <div class="d-flex align-items-center">
-       <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+       <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input
             type="text"
             v-model="searchTerm"
             @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0"
+            class="form-control shadow-none text-black"
             placeholder="Rechercher un inventaire"
           />
           <button
@@ -187,7 +187,7 @@ export default defineComponent({
     };
 
     function getAllInventaires(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/inventaires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/inventaires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           inventaires.value = data.data.data;
           totalPages.value = data.data.totalPages;

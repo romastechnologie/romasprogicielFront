@@ -134,8 +134,8 @@
               <ErrorMessage name="compte" class="text-danger"/>
             </div> -->
             
-            <div class="col-md-12">
-              <div class="d-flex align-items-center ">
+            <div class="col-md-12 mt-3">
+              <div class="d-flex justify-content-start mb-4">
                 <button
                   class="btn btn-success me-3"
                   type="submit"
@@ -191,7 +191,7 @@ export default defineComponent({
 
     const fetchModePaiement = async () => {
       try {
-        const response = await ApiService.get('/modePaiements');
+        const response = await ApiService.get('all/modePaiements');
         const modePaiementsData = response.data.data.data;
         modePaiementOptions.value = modePaiementsData.map((modePaiement) => ({
           value: modePaiement.id,
@@ -204,7 +204,7 @@ export default defineComponent({
 
     const fetchClient = async () => {
       try {
-        const response = await ApiService.get('/clients');
+        const response = await ApiService.get('all/clients');
         const clientData = response.data.data.data;
         clientOptions.value = clientData.map((client) => ({
           value: client.id,
@@ -217,7 +217,7 @@ export default defineComponent({
 
     const fetchTypeOperation = async () => {
       try {
-        const response = await ApiService.get('/typeOperations');
+        const response = await ApiService.get('all/typeOperations');
         const typeOperationData = response.data.data.data;
         typeOperationOptions.value = typeOperationData.map((typeOperation) => ({
           value: typeOperation.id,

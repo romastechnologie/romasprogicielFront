@@ -16,9 +16,9 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-        <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+        <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input type="text" v-model="searchTerm" @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0" placeholder="Rechercher un utilisateur" />
+            class="form-control shadow-none text-black" placeholder="Rechercher une dépense" />
           <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
             <i class="flaticon-search-interface-symbol"></i>
           </button>

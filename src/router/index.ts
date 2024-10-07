@@ -81,7 +81,7 @@ import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
 import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
 //import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
-//import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
+// import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
 //import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
 import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
 import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
@@ -1081,6 +1081,15 @@ const routes: Array<RouteRecordRaw> = [
               title: 'Ajouter un fournisseur',
             }
           },
+
+          {
+            path: "edite-fournisseur/:id",
+            name: "EditFournisseur",
+            component: EditFournisseurPage,
+            meta: {
+              title: 'Modifier un fournisseur',
+            }
+          },
           {
             path: "liste-fournisseurs",
             name: "ListeFournisseur",
@@ -1089,14 +1098,7 @@ const routes: Array<RouteRecordRaw> = [
               title: 'Liste des fournisseurs',
             }
           },
-          {
-            path: "edit-fournisseur/:id",
-            name: "EditFournisseur",
-            component: EditFournisseurPage,
-            meta: {
-              title: 'Modifier un fournisseur',
-            }
-          },
+       
         ]
         },
   
@@ -2465,6 +2467,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "modifier-compte/:id",
         name: "EditCompte",
         component: EditComptePage,
+        props: true,
         meta: {
           title: 'Modifier un compte',
         }

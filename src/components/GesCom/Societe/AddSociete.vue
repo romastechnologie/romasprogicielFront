@@ -512,7 +512,7 @@ export default defineComponent({
 
     const fetchBanque = async () => {
       try {
-        const response = await ApiService.get("/banques");
+        const response = await ApiService.get("all/banques");
         const banqueData = response.data.data.data;
         banqueOptions.value = banqueData.map((banque) => ({
           value: banque.id,
@@ -538,6 +538,7 @@ export default defineComponent({
         banqueOptions,
         isDisable,
         comptes,
+        validPhone,
         countries: countriesRef, 
         defaultCountriy,
         numeroNational,

@@ -89,8 +89,8 @@
               </div>
               <ErrorMessage name="compte" class="text-danger"/>
             </div>
-            <div class="col-md-12">
-              <div class="d-flex align-items-center ">
+            <div class="col-md-12 mt-3">
+              <div class="d-flex justify-content-start mb-4">
                 <button
                   class="btn btn-success me-3"
                   type="submit"
@@ -196,7 +196,7 @@ export default defineComponent({
 
     const fetchClients = async () => {
       try {
-        const response = await axios.get('/clients');
+        const response = await axios.get('all/clients');
         const clientsData = response.data.data.data;
         clientOptions.value = clientsData.map((client) => ({
           value: client.id,
@@ -209,7 +209,7 @@ export default defineComponent({
 
     const fetchComptes = async () => {
       try {
-        const response = await axios.get('/comptes');
+        const response = await axios.get('all/comptes');
         const comptesData = response.data.data.data;
         compteOptions.value = comptesData.map((compte) => ({
           value: compte.id,

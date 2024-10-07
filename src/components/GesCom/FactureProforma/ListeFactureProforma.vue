@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
             class="btn btn-primary"
-            to="/ajouter-vente"
+            to="/ventes/ajouter-vente"
           >
             <i class="fa fa-plus-circle"></i>
             Ajouter une facture proforma
@@ -20,12 +20,12 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-       <form class="search-box position-relative me-15" @submit.prevent="rechercher">
+       <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input
             type="text"
             v-model="searchTerm"
             @keyup="rechercher"
-            class="form-control shadow-none text-black rounded-0 border-0"
+            class="form-control shadow-none text-black"
             placeholder="Rechercher une facture"
           />
           <button
@@ -212,7 +212,7 @@ export default defineComponent({
     };
 
     function getAllFactureProformas(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/factures?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/factures?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           factures.value = data.data.data;
           totalPages.value = data.data.totalPages;

@@ -481,7 +481,7 @@ export const menu: MenuItem[] = [
             },
             {
                 path: "/permissionps/liste-permissionp",
-                title: "Liste des permission",
+                title: "Liste des permissions",
                 type: "link"
             },
         ]
@@ -870,7 +870,7 @@ export const menu: MenuItem[] = [
     },
     
     {
-        title: "Fournisseur",
+        title: "Fournisseurs",
         icon: "stroke-calendar",
         icon1: "fill-calendar",
         type: "sub",

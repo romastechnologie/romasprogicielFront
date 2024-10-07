@@ -133,7 +133,7 @@ export default defineComponent({
 
     const fetchClient = async () => {
       try {
-        const response = await ApiService.get('/clients');
+        const response = await ApiService.get('all/clients');
         const clientsData = response.data.data.data;
         clientOptions.value = clientsData.map((client) => ({
           value: client.id,
@@ -145,7 +145,7 @@ export default defineComponent({
     };
     const getAllTypeCompte = async () => {
         try{
-        const response = await ApiService.get('/typecomptes');
+        const response = await ApiService.get('all/typecomptes');
         const typeComptesData = response.data.data.data;
 
         typeCompteOptions.value = typeComptesData.map((typeCompte) => ({
@@ -161,7 +161,7 @@ export default defineComponent({
 
     const fetchFournisseur = async () => {
       try {
-        const response = await ApiService.get('/fournisseurs');
+        const response = await ApiService.get('all/fournisseurs');
         const fournisseurData = response.data.data.data;
         fournisseurOptions.value = fournisseurData.map((fournisseur) => ({
           value: fournisseur.id,
