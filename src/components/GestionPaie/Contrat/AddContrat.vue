@@ -715,8 +715,11 @@ export default defineComponent({
       heureFinPause: "",
       heureDebutPause: ""
     }]);
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 51f441d797804758efb0e820d35905a0a07bf4cc
 
     const addRowHoraireContrat = () => {
       horaireContrats.push({

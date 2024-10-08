@@ -93,7 +93,8 @@ export default defineComponent({
   },
   props: {
     item: {
-      type: Number,
+      type: Object as () => TypeEmplacement | null,
+      
       default: 0,
     }
   },
@@ -103,8 +104,6 @@ export default defineComponent({
       code: Yup.string().required('Le code est obligatoire'),
       prefixe: Yup.string().required('Le Prefixe est obligatoire'),
       ordre: Yup.string().required('Les ordres sont obligatoires'),
-
-
 
 
     });
@@ -120,8 +119,7 @@ export default defineComponent({
     const btntext = ref('Ajouter');
 
     watch(() => props.item, (newValue) => {
-      getTypeEmplacement
-(newValue);
+      getTypeEmplacement(newValue.id);
       isUPDATE.value = true;
       btnTitle();
     });
@@ -155,7 +153,7 @@ export default defineComponent({
 
     const fetchTypeEmplacement = async () => {
       try {
-        const response = await ApiService.get('/all/typeEmplacements/');
+        const response = await ApiService.get('/all/typeEmplacements');
         const typeEmplacementData = response.data.data.data;
         typeEmplacementOptions.value = typeEmplacementData.map((typeEmplacement) => ({
           value: typeEmplacement.id,
