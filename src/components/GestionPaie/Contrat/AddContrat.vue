@@ -26,7 +26,7 @@
             <ErrorMessage name="salaireDeBase" class="text-danger" />
           </div>
           <div class="col-md-4 mb-3">
-            <label for="heuresTravaillees" class="form-label">Heures travaillées<span
+            <label for="heuresTravaillees" class="form-label">Heures de travail<span
                 class="text-danger">*</span></label>
             <Field name="heuresTravaillees" class="form-control" type="number" />
             <ErrorMessage name="heuresTravaillees" class="text-danger" />
@@ -205,7 +205,7 @@
           </div>
 
 
-          <div class="col-md-12 mb-md-25">
+           <!-- <div class="col-md-12 mb-md-25">
             <div class="accordion" id="basicAccordion">
               <div class="accordion-item mb-0 bord1">
                 <h2 class="accordion-header" id="headingOne">
@@ -345,8 +345,41 @@
               </div>
             </div>
 
+          </div>-->
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+               Fonctions <span class="text-danger">*</span>
+              </label>
+              <Field name="fonction" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="fonctionOptions"
+                  :preserve-search="true" :multiple="false" :searchable="true" placeholder="Sélectionner la fonction"
+                  label="label" track-by="label" />
+              </Field>
+              <ErrorMessage name="fonction" class="text-danger" />
+            </div>
           </div>
 
+          <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                 Attributions <span class="text-danger">*</span>
+                </label>
+                <Field name="attribution" v-slot="{ field }">
+                  <Multiselect 
+                    mode="tags"
+                    :close-on-select="false"
+                    :options="attributionOptions" 
+                    :searchable="true" 
+                    :multiple="true"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner les attributions"
+                  />
+                </Field>
+                <ErrorMessage name="attribution" class="text-danger"/>
+              </div>
+            </div>
 
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
@@ -570,6 +603,7 @@ export default defineComponent({
       renouvelable: Yup.string().notRequired(),
       types: Yup.string().required("Le type est obligatoire."),
       personnel: Yup.string().required("Le personnel est obligatoire."),
+      attribution: Yup.array().required('Leattribution est obligatoire'),
       modeDeTarification: Yup.string().required("Le mode de tarification est obligatoire."),
     });
 
@@ -578,6 +612,7 @@ export default defineComponent({
       await getAllTypePrime();
       await getAllTypeRetenue();
       await getAllPersonnels();
+      await getAllAttributions();
       //getAllPersonnel();
       await getAllModeTarifications();
       await getAllOrganisations();
@@ -597,6 +632,7 @@ export default defineComponent({
     const typeRetenues = ref(null);
     const salaireDeBase = ref();
     const personnelOptions = ref();
+    const attributionOptions = ref();
     const OrganisationOptions = ref();
     const Organisation = ref();
 
@@ -626,6 +662,21 @@ export default defineComponent({
       personnelOptions.value = personnelsData.map((personnel) => ({
         value: personnel.id,
         label: personnel.nom + " " + personnel.prenom,
+      }));
+      }
+      catch (error) {
+        //error(response.data.message)
+      }
+    }
+
+    const getAllAttributions = async () => {
+      try{
+      const response = await ApiService.get('/all/attributions');
+      const attributionsData = response.data.data.data;
+      console.log('Data', attributionsData)
+      attributionOptions.value = attributionsData.map((attribution) => ({
+        value: attribution.code,
+        label: attribution.libelle,
       }));
       }
       catch (error) {
@@ -715,11 +766,8 @@ export default defineComponent({
       heureFinPause: "",
       heureDebutPause: ""
     }]);
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 51f441d797804758efb0e820d35905a0a07bf4cc
 
     const addRowHoraireContrat = () => {
       horaireContrats.push({
@@ -1103,7 +1151,8 @@ export default defineComponent({
       OrganisationOptions,
       Organisation, removeRowHoraireContrat,
       addRowHoraireContrat,
-      valideteRowHoraireContrat, horaireContrats, isDisableeeeee
+      valideteRowHoraireContrat,
+      attributionOptions, horaireContrats, isDisableeeeee
     };
   },
 });

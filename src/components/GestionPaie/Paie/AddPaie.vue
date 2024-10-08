@@ -392,6 +392,7 @@
       const typeRetenueOptions = ref([]);
       const typeRetenues = ref(null);
       const prOptions = ref();
+      
       const getAllContrats = async () => {
       try {
         const response = await ApiService.get('/contrats');
@@ -761,7 +762,7 @@ watch(
 
       const getAllModePaiements = async () => {
         try{
-        const response = await ApiService.get('/modepaiements');
+        const response = await ApiService.get('/all/modepaiements');
         const modesData = response.data.data.data;
         modeOptions.value = modesData.map((mode) => ({
           value: mode.id,
