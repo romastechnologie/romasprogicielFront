@@ -191,7 +191,7 @@ function getAllPresences(page = 1, limi = 10, searchTerm = '') {
 function deletePresence(id: number) {
 
   Swal.fire({
-    title: "Voulez-vraiment suprimer cette présence?",
+    title: "Voulez-vous vraiment supprimer cette présence?",
     showCancelButton: true,
     confirmButtonText: "Supprimer",
     cancelButtonText: "Annuler"

@@ -101,7 +101,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression (categorieDocument.id,CategoriesDocuments,'categorieDocuments','la categorie Document')"
+                        href="javascript:void(0);" @click="suppression (categorieDocument.id,CategoriesDocuments,'categorieDocuments',`la catégorie ${categorieDocument.libelle}`)"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
