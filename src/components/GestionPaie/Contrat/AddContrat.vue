@@ -98,6 +98,40 @@
               <ErrorMessage name="modeDeTarification" class="text-danger" />
             </div>
           </div>
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+               Fonctions <span class="text-danger">*</span>
+              </label>
+              <Field name="fonction" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="fonctionOptions"
+                  :preserve-search="true" :multiple="false" :searchable="true" placeholder="Sélectionner la fonction"
+                  label="label" track-by="label" />
+              </Field>
+              <ErrorMessage name="fonction" class="text-danger" />
+            </div>
+          </div>
+
+          <div class="col-md-12">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                 Attributions <span class="text-danger">*</span>
+                </label>
+                <Field name="attribution" v-slot="{ field }">
+                  <Multiselect 
+                    mode="tags"
+                    :close-on-select="false"
+                    :options="attributionOptions" 
+                    :searchable="true" 
+                    :multiple="true"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner les attributions"
+                  />
+                </Field>
+                <ErrorMessage name="attribution" class="text-danger"/>
+              </div>
+            </div>
 
           <div class="col-md-12 mb-md-25">
             <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
@@ -346,40 +380,7 @@
             </div>
 
           </div>-->
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-               Fonctions <span class="text-danger">*</span>
-              </label>
-              <Field name="fonction" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="fonctionOptions"
-                  :preserve-search="true" :multiple="false" :searchable="true" placeholder="Sélectionner la fonction"
-                  label="label" track-by="label" />
-              </Field>
-              <ErrorMessage name="fonction" class="text-danger" />
-            </div>
-          </div>
-
-          <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                 Attributions <span class="text-danger">*</span>
-                </label>
-                <Field name="attribution" v-slot="{ field }">
-                  <Multiselect 
-                    mode="tags"
-                    :close-on-select="false"
-                    :options="attributionOptions" 
-                    :searchable="true" 
-                    :multiple="true"
-                    v-model="field.value"
-                    v-bind="field"
-                    placeholder="Sélectionner les attributions"
-                  />
-                </Field>
-                <ErrorMessage name="attribution" class="text-danger"/>
-              </div>
-            </div>
+         
 
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">

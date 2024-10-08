@@ -649,6 +649,17 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false
     },
+
+    {
+        title: "Type Organisation",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/typeOrganisations/liste-typeOrganisation",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
     
     {
         title: "Organisation",
@@ -660,16 +671,7 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false
     },
-    {
-        title: "Type Organisation",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/typeOrganisations/liste-typeOrganisation",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false
-    },
+   
     {
         title: "CategorieDocument",
         icon: "stroke-user",

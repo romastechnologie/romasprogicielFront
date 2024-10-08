@@ -57,8 +57,17 @@
                 </th>
                 <th
                   scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type organisation
+                  
+                </th>
+                <th
+                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Nom
                   
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Organisation 
                 </th>
                 <th
                   scope="col"
@@ -72,7 +81,13 @@
                   {{ organisation.code }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ organisation.typeorganisation.libelle}}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ organisation.nom}}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ organisation.organisation?.nom}}
                 </td>
                 
                 <td
@@ -133,7 +148,7 @@
         getAllOrganisations();
       });
   
-      const organisations = ref<Array<Organisation>>([]);
+      const organisations = ref<Array<any>>([]);
       const idorganisation = ref(0);
       // const organisation = ref<Organisation>();
       const loading = ref<boolean>(false);

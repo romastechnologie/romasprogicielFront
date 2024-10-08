@@ -273,7 +273,7 @@ export default defineComponent({
     const getAllTypeDocument = async () => {
       try {
         const response = await ApiService.get('/all/typedocuments');
-        const typesData = response.data.data;
+        const typesData = response.data.data.data;
         console.log("EEEEEEEEEEE ===> ", response);
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
@@ -351,7 +351,6 @@ export default defineComponent({
           const response = await axios.get(`/getAllRegleByTypeOrCategorie?categorie=${categoriee}&type=${type}`);
           const formatsData = response.data.data;
           success(`Ces informations ont permis de trouvé ${formatsData.length} règle(s) de conservation de ce document`)
-          
           for(let r of formatsData){
             lesRegles.value.push(r.id);
           }
