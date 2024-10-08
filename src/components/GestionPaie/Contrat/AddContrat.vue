@@ -603,7 +603,7 @@ export default defineComponent({
       renouvelable: Yup.string().notRequired(),
       types: Yup.string().required("Le type est obligatoire."),
       personnel: Yup.string().required("Le personnel est obligatoire."),
-      attribution: Yup.array().required('Leattribution est obligatoire'),
+      attribution: Yup.array().required('Les attributions sont obligatoires.'),
       modeDeTarification: Yup.string().required("Le mode de tarification est obligatoire."),
     });
 
@@ -611,9 +611,9 @@ export default defineComponent({
       await getAllTypeContrat();
       await getAllTypePrime();
       await getAllTypeRetenue();
-      await getAllPersonnels();
-      await getAllAttributions();
-      //getAllPersonnel();
+      // await getAllPersonnels();
+      await getAllAttribution();
+      await getAllPersonnel();
       await getAllModeTarifications();
       await getAllOrganisations();
       await fetchFonction();
@@ -633,6 +633,7 @@ export default defineComponent({
     const salaireDeBase = ref();
     const personnelOptions = ref();
     const attributionOptions = ref();
+    const attribution = ref();
     const OrganisationOptions = ref();
     const Organisation = ref();
 
@@ -654,10 +655,12 @@ export default defineComponent({
       }
     }
 
-    const getAllPersonnels = async () => {
+    
+
+     const getAllPersonnel = async () => {
       try{
       const response = await ApiService.get('/all/personnels');
-      const personnelsData = response.data.data.data;
+      const personnelsData = response.data;
       console.log('Data', personnelsData)
       personnelOptions.value = personnelsData.map((personnel) => ({
         value: personnel.id,
@@ -667,16 +670,16 @@ export default defineComponent({
       catch (error) {
         //error(response.data.message)
       }
-    }
+    }  
 
-    const getAllAttributions = async () => {
+    const getAllAttribution = async () => {
       try{
       const response = await ApiService.get('/all/attributions');
-      const attributionsData = response.data.data.data;
-      console.log('Data', attributionsData)
-      attributionOptions.value = attributionsData.map((attribution) => ({
-        value: attribution.code,
-        label: attribution.libelle,
+      const canalsData = response.data.data.data;
+      console.log('Data',canalsData)
+      attributionOptions.value = canalsData.map((attribution) => ({
+        value:attribution.code,
+        label:attribution.libelle,
       }));
       }
       catch (error) {
@@ -686,11 +689,11 @@ export default defineComponent({
 
     /*const getAllPersonnel = async () => {
     try {
-      const response = await ApiService.get('/personnels');
-      personnels.value = response.data;
+      const response = await ApiService.get('/all/personnels');
+      personnels.value = response.data.data.data;
       personnelOptions.value = response.data.map((personnel: any) => ({
         value: personnel.id,
-        label: `${personnel.nom + " " + personnel.heureFinPause}`
+        label: `${personnel.nom + " " + personnel.prenom}`
       }));
       console.log(response);
     } catch (error) {
@@ -1146,13 +1149,13 @@ export default defineComponent({
       isDisablee, retenues,
       personnelOptions,
       personnelId,
-      personnel,
+      personnel,personnels,
       modeDeTarificationOptions,
       OrganisationOptions,
       Organisation, removeRowHoraireContrat,
       addRowHoraireContrat,
       valideteRowHoraireContrat,
-      attributionOptions, horaireContrats, isDisableeeeee
+     attributionOptions, attribution, horaireContrats, isDisableeeeee
     };
   },
 });
