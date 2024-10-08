@@ -143,7 +143,7 @@ export default {
             error(response.data.message)
           });
       }
-    };
+    }; 
 
     const resetValue = () => {
       const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');

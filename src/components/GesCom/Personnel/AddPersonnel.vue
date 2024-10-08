@@ -48,7 +48,7 @@
                   <Field  name="situationMatrimoniale"  type="text"  v-slot="{ field }">
                     <Multiselect
                     :searchable = "true"
-                    :options = "['Célibataire', 'Mariée', 'Divorcée', 'Veuve']"
+                    :options = "['Célibataire', 'Mariée', 'Divorcée', 'Veuve','Concubinage','Union libre']"
                     v-model = "field.value"
                     v-bind = "field"
                     placeholder="Sélectionner la situation"

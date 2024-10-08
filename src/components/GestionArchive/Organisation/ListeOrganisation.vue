@@ -102,7 +102,7 @@
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                        @click="suppression(organisation.id,organisations,'organisations',`l'organisation ${organisation.description}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                        @click="suppression(organisation.id,organisations,'organisations',`l'organisation ${organisation.nom}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                          Supprimer
                     </a>
                   </li>
