@@ -1,141 +1,99 @@
 <template>
-    <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-            <Form ref="horaireForm" @submit="addHoraire" :validation-schema="horaireSchema">
-              <div class="row">
-            <div class="col-md-4 mb-3">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Jour <span class="text-danger">*</span>
-                                </label>
-                                <Field name="jour" type="text" v-slot="{ field }">
-                                 <Multiselect :searchable="true" :options="['Lundi', 'Mardi', 'Mercredi','Jeudi','Vendredi','Samedi','Dimanche']"
-                                 v-model="field.value" v-bind="field" placeholder="Sélectionner le jour" />
-                          </Field>
-                         <ErrorMessage name="jour" class="text-danger" />
-                    </div>
-               </div>
-            <div class="col-md-4">
-                    <label for="heureOuverture" class="form-label">Heure D'ouverture<span class="text-danger">*</span></label>
-                    <Field name="heureOuverture" class="form-control" type="time"/>
-                    <ErrorMessage name="heureOuverture" class="text-danger" />
-            </div>
-            
-            <div class="col-md-4">
-                    <label for="heureFermeture" class="form-label"> Heure de Fermeture<span class="text-danger">*</span></label>
-                    <Field name="heureFermeture"  class="form-control" type="time"/>
-                    <ErrorMessage name="heureFermeture" class="text-danger" />
-            </div>
-            <div class="col-md-4">
-                    <label for="heureDebutPause" class="form-label"> Heure début de pause<span class="text-danger">*</span></label>
-                    <Field name="heureDebutPause"  class="form-control" type="time"/>
-                    <ErrorMessage name="heureDebutPause" class="text-danger" />
-            </div>
-            <div class="col-md-4">
-                    <label for="heureFinPause" class="form-label"> Heure de fin de pause<span class="text-danger">*</span></label>
-                    <Field name="heureFinPause"  class="form-control" type="time"/>
-                    <ErrorMessage name="heureFinPause" class="text-danger" />
-            </div>
+  <div>
+    <h2>Horaires de la semaine</h2>
+    <form @submit.prevent="submitForm">
+      <div v-for="(item, index) in weekDays" :key="index">
+        <h3>{{ item.day }}</h3>
 
-          <div class="col-md-12 mt-3">
-            <div class="d-flex align-items-center ">
-              <button class="btn btn-success me-3" type="submit">
-                  Ajouter un horaire
-              </button>
-              <router-link to="/horaires/liste-horaire" 
-              class=" btn btn-danger"><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                  <span class="position-relative"></span>Annuler</router-link>
-            </div>
-          </div>
-        </div>
-      </Form>
+        <label :for="'openTime' + index">Heure d'ouverture :</label>
+        <input
+          type="time"
+          v-model="item.openTime"
+          :id="'openTime' + index"
+        />
+
+        <label :for="'closeTime' + index">Heure de fermeture :</label>
+        <input
+          type="time"
+          v-model="item.closeTime"
+          :id="'closeTime' + index"
+        />
+
+        <label :for="'pauseStart' + index">Heure début de pause :</label>
+        <input
+          type="time"
+          v-model="item.pauseStart"
+          :id="'pauseStart' + index"
+        />
+
+        <label :for="'pauseEnd' + index">Heure fin de pause :</label>
+        <input
+          type="time"
+          v-model="item.pauseEnd"
+          :id="'pauseEnd' + index"
+        />
+
+        <hr />
+      </div>
+
+      <button type="submit">Soumettre</button>
+    </form>
+
+    <div v-if="submitted">
+      <h3>Horaires soumis :</h3>
+      <ul>
+        <li v-for="(item, index) in weekDays" :key="index">
+          {{ item.day }} : Ouvert de {{ item.openTime }} à {{ item.closeTime }}. Pause de {{ item.pauseStart }} à {{ item.pauseEnd }}.
+        </li>
+      </ul>
     </div>
   </div>
-  </template>
-  
-  <script lang="ts">
-  
-  import { defineComponent, onMounted, ref} from 'vue';
-  import { Form, Field, ErrorMessage } from 'vee-validate';
-  import * as Yup from 'yup';
-  import axios from 'axios';
-  import ApiService from '@/services/ApiService';
-  import { Horaire } from '@/models/Horaire';
-  import { error, success } from '@/utils/utils';
-  import { useRouter } from 'vue-router';
-  import Multiselect from '@vueform/multiselect/src/Multiselect';
-  import VueMultiselect from 'vue-multiselect'
-  import { option } from '@/composables/common/animationView';
+</template>
 
-
-  
-  
-  export default defineComponent({
-      name: "AddHoraire",
-      components: {
-      Form,
-      Field,
-      ErrorMessage,
-      Multiselect,
-      VueMultiselect
-    },
-  
-    setup: () => {
-      const horaireSchema = Yup.object().shape({
-            //refHoraire: Yup.string().required("La référence est obligatoire."),
-            jour: Yup.string().required("Le jour est obligatoire."),
-            heureOuverture: Yup.string().required("L'heure d'ouverture est obligatoire."),
-            heureFermeture: Yup.string().required("L'heure de fermeture est obligatoire."),
-            heureDebutPause: Yup.string().required("L'heure de début est obligatoire."),
-            heureFinPause: Yup.string().required("L'heure de fin est obligatoire."),
-            
-      });
-  
-      onMounted(() => {
-       
-      });
-  
-      const horaireForm =  ref(null);
-      const showMErr = ref(false);
-      const option = ref();
-      
-      const router = useRouter();
-      
-      const addHoraire = async (values, {resetForm}) => {
-      ApiService.post("/horaires",values)
-        .then(({ data }) => {
-          if(data.code == 201) { 
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeHorairePage" });
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-        });
+<script>
+export default {
+  data() {
+    return {
+      weekDays: [
+        { day: "Lundi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
+        { day: "Mardi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
+        { day: "Mercredi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
+        { day: "Jeudi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
+        { day: "Vendredi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
+        { day: "Samedi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
+        { day: "Dimanche", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
+      ],
+      submitted: false,
     };
-
-      /*const addHoraire = async (values: any, { resetForm }) => {
-      values['types'] = types.value.value
-      values['categories'] = categories.value.value
-      console.log('Données envoyées', values)
-      if (showMErr.value === false) {
-        ApiService.post("/horaires", values)
-           .then(({ data }) => {
-             if (data.code == 201) {
-              success(data.message);
-               //resetForm();
-             console.log('flefelef')
-              router.push({ name: "ListeHoraire" });
-           }
-           }).catch(({ response }) => {
-            error(response.data.message);
-          });
-       }
-    };*/
-
-     
-      return { horaireSchema, addHoraire, horaireForm,showMErr,option};
+  },
+  methods: {
+    submitForm() {
+      this.submitted = true;
     },
-  });
-  </script>
+  },
+};
+</script>
+
+<style scoped>
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  margin-right: 10px;
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 20px;
+}
+
+hr {
+  margin-top: 20px;
+}
+</style>

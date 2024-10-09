@@ -1,11 +1,18 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
     <div
-      class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+      class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
+    >
       <div class="d-sm-flex align-items-center">
-        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#AddCategorieModal">
-          <i class="fa fa-plus-circle"></i>
-          Ajouter une catégorie
+        <a 
+          class="btn btn-primary"
+          href="#"
+          data-bs-toggle="modal"
+          data-bs-target="#AddCategorieModal"
+        >
+        <i class="fa fa-plus-circle"></i>
+          <!-- <i class="fa fa-plus-circle"></i> -->
+          Ajouter une catégorie de demande
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -17,9 +24,17 @@
       </div>
       <div class="d-flex align-items-center">
         <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
-          <input type="text" v-model="searchTerm" @keyup="rechercher"
-            class="form-control shadow-none text-black" placeholder="Rechercher une categorie" />
-          <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
+          <input
+            type="text"
+            v-model="searchTerm"
+            @keyup="rechercher"
+            class="form-control shadow-none text-black"
+            placeholder="Rechercher une catégorie"
+          />
+          <button
+            type="submit"
+            class="bg-transparent text-primary transition p-0 border-0"
+          >
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
@@ -36,17 +51,24 @@
         <table class="table text-nowrap align-middle mb-0">
           <thead>
             <tr>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                CODE
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Code
               </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                LIBELLE
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Libelle
               </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Date
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >DATE DE CREATION
+                
               </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0">
-                Actions</th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
+              >Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -58,52 +80,53 @@
                 {{ categorie.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ format_date(categorie.createdAt) }}
+                {{ format_date(categorie.createdAt)  }}
               </td>
-              <td class="shadow-none lh-1 fw-medium text-black pe-0  text-end">
-                <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">Actions</button>
-                <ul class="dropdown-menu dropdown-block"
-                  style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
-                  data-popper-placement="bottom-start">
-                  <li class="dropdown-item d-flex align-items-center">
-                    <a href="javascript:void(0);" @click="moddifier(categorie)" data-bs-toggle="modal"
-                      data-bs-target="#AddCategorieModal">
-                      <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
-                    </a>
-                  </li>
-                  <li class="dropdown-item d-flex align-items-center">
-                    <a href="javascript:void(0);"
-                      @click="suppression(categorie.id, categories, 'categorieDemandes', `le categorie ${categorie.libelle}`)">
-                      <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
-                      Supprimer
-                    </a>
-                  </li>
-                </ul>
+              <td
+                class="shadow-none lh-1 fw-medium text-black pe-0"
+              >
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+              <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                <li class="dropdown-item d-flex align-items-center">
+                  <a  href="javascript:void(0);" @click="moddifier(categorie)">
+                  <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
+                  </a>
+                </li>
+                <li class="dropdown-item d-flex align-items-center">
+                  <a href="javascript:void(0);"
+                      @click="suppression(categorie.id,categories,'categories',`le categorie ${categorie.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                       Supprimer
+                  </a>
+                </li>
+              </ul>
               </td>
-
-
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
-        <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit"
-          @paginate="handlePaginate" />
+      <div
+        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
+        <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
       </div>
     </div>
   </div>
-  <AddCategorieModal @get-all-categories="getAllCategorieDemandes" :id="idcategorie" @openmodal="showModalEdite" />
+  <AddCategorieModal
+    @get-all-categories="getAllCategories"
+    :id="idcategorie"
+    @openmodal="showModalEdite"
+    @close="recharger"
+    @refreshCategories="refreshCategories"
+  />
 </template>
-
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref  } from "vue";
 import AddCategorieModal from "./AddCategorieModal.vue";
 import ApiService from "@/services/ApiService";
-import { format_date, showModal, suppression, separateur, error, } from "@/utils/utils";
+import { format_date, showModal, suppression, error, } from "@/utils/utils";
+import { useRouter } from "vue-router";
 import { Categorie } from "@/models/Categorie";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
-import JwtCategorie from "@/services/JwtService";
+import JwtService from "@/services/JwtService";
 
 export default defineComponent({
   name: "ListeCategorie",
@@ -114,11 +137,14 @@ export default defineComponent({
   setup: () => {
 
     onMounted(() => {
-      getAllCategorieDemandes();
+      getAllCategories();
     });
 
     const categories = ref<Array<Categorie>>([]);
     const idcategorie = ref(0);
+    // const categorie = ref<Categorie>();
+    const loading = ref<boolean>(false);
+    const router = useRouter();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -127,70 +153,82 @@ export default defineComponent({
     const limit = ref(10);
     const totalElements = ref(0);
 
-    const handlePaginate = ({ page_, limit_ }) => {
+    const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
       try {
         page.value = page_;
-        getAllCategorieDemandes(page_, limit_);
+        getAllCategories(page_, limit_);
       } catch (error) {
         //
-
       }
     };
-    function rechercher() {
-      getAllCategorieDemandes(page.value, limit.value, searchTerm.value);
+
+     function rechercher(){
+      getAllCategories(page.value, limit.value, searchTerm.value );
     }
+
+    const recharger = () => {
+      getAllCategories();
+    };
     // END PAGINATE
 
-    function getAllCategorieDemandes(page = 1, limi = 10, searchTerm = '') {
+    onMounted(() => {
+      loading.value=false;
+      getAllCategories()
+    });
+
+    const refreshCategories = () => {
+        getAllCategories();
+    };
+
+    function getAllCategories(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/categorieDemandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-      //return ApiService.get('/categorieDemandes')
         .then(({ data }) => {
           categories.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
+          return data.data;
         })
         .catch(({ response }) => {
           error(response.data.message)
-        });
+      });
+    }
+    
+    function moddifier(Editcategorie:Categorie) {
+      idcategorie.value = Editcategorie.id;
     }
 
-    function moddifier(obj: Categorie) {
-      idcategorie.value = obj.id;
+    function showModalEdite(model:any){
+      showModal(model);
+      idcategorie.value=0;
     }
 
-    function showModalEdite(el) {
-      showModal(el);
-      idcategorie.value = 0;
-    }
+    const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
-    const privileges = ref<Array<string>>(JwtCategorie.getPrivilege());
-
-    const checkPermission = (name) => {
+    const checkCategorie = (name:string) => {
       return privileges.value.includes(name);
     }
 
-
-    return {
-      suppression,
-      checkPermission,
-      categories,
+    return {suppression,
+      checkCategorie,
+     categories,
       format_date,
-      getAllCategorieDemandes,
+      getAllCategories,
       idcategorie,
       moddifier,
       showModalEdite,
-      page,
+      page, 
       totalPages,
       limit,
       totalElements,
       handlePaginate,
       searchTerm,
-      separateur,
-      rechercher
-    };
+      rechercher,
+      recharger,
+      refreshCategories,
+     };
   },
 
-
+ 
 });
 </script>

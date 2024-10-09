@@ -317,11 +317,7 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-            {
-                path: "/personnelles/ajouter-personnel",
-                title: "Ajouter un personnel",
-                type: "link"
-            },
+            
             {
                 path: "/tests/ajouter-personnel",
                 title: "Ajouter un personnel",
@@ -376,7 +372,7 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
     {
-        title: "Categories",
+        title: "Categories de demandes",
         icon: "stroke-animation",
         icon1: "fill-animation",
         type: "link",
@@ -649,6 +645,17 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false
     },
+
+    {
+        title: "Type Organisation",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/typeOrganisations/liste-typeOrganisation",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
     
     {
         title: "Organisation",
@@ -660,16 +667,7 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false
     },
-    {
-        title: "Type Organisation",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/typeOrganisations/liste-typeOrganisation",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false
-    },
+   
     {
         title: "CategorieDocument",
         icon: "stroke-user",

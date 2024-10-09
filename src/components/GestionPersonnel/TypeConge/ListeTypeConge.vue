@@ -113,7 +113,10 @@
   <AddTypeCongeModal 
   @get-all-typeConges="getAllTypeConges"
   :id="idtypeConge"
-  @openmodal="showModalEdite"/>
+  @openmodal="showModalEdite"
+  @close="recharger"
+  @refreshTypeConges="refreshTypeConges"
+  />
 </template>
 
 <script lang="ts">
@@ -161,6 +164,10 @@ export default defineComponent({
     }
     // END PAGINATE
 
+    const recharger = () => {
+      getAllTypeConges();
+    };
+
     function getAllTypeConges(page = 1, limi = 10, searchTerm = '') {
        return ApiService.get(`/typeConges?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       //return ApiService.get('/typeConges')
@@ -178,6 +185,10 @@ export default defineComponent({
     function moddifier(obj:TypeConge) {
       idtypeConge.value = obj.id;
     }
+
+    const refreshTypeConges = () => {
+        getAllTypeConges();
+    };
 
     function showModalEdite(el){
       showModal(el);
@@ -206,7 +217,9 @@ export default defineComponent({
       handlePaginate,
       searchTerm,
       separateur,
-      rechercher
+      rechercher,
+      recharger,
+      refreshTypeConges
     };
   },
 

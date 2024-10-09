@@ -124,7 +124,7 @@
                             <a
                              
                               href="javascript:void(0);"
-                              @click="suppression(planificationReparation.id, planificationReparations, 'planificationReparations', 'une planificationReparation')"
+                              @click="suppression(planificationReparation.id, planificationReparations, 'planificationReparations', `la planification ${planificationReparation.id}`)"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"

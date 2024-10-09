@@ -95,7 +95,7 @@
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                        @click="suppression(tag.id,tags,'tags',`le tag ${tag.description}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                        @click="suppression(tag.id,tags,'tags',`le tag ${tag.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                          Supprimer
                     </a>
                   </li>

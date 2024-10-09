@@ -139,7 +139,6 @@
                 router.push('/formats/liste-format');
               }
             }).catch(({ response }) => {
-              console.log("ZZZZZZZ ==> ",response)
               error(response.data.message);
             });
           }else{

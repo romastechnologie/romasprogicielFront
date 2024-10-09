@@ -97,7 +97,7 @@
                 </li>
                 <li class="dropdown-item d-flex align-items-center">
                   <a href="javascript:void(0);"
-                      @click="suppression(fonction.id,fonctions,'fonctions',`le fonction ${fonction.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                      @click="suppression(fonction.id,fonctions,'fonctions',`la fonction ${fonction.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                        Supprimer
                   </a>
                 </li>
@@ -119,7 +119,10 @@
   <AddFonctionModal 
   @get-all-fonctions="getAllFonctions"
   :id="idfonction"
-  @openmodal="showModalEdite"/>
+  @openmodal="showModalEdite"
+  @close="recharger"
+  @refreshFonctions="refreshFonctions"
+  />
 </template>
 
 <script lang="ts">
@@ -167,6 +170,10 @@ export default defineComponent({
     }
     // END PAGINATE
 
+    const recharger = () => {
+      getAllFonctions();
+    };
+
     function getAllFonctions(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/fonctions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       //return ApiService.get('/fonctions')
@@ -180,6 +187,10 @@ export default defineComponent({
           error(response.data.message)
       });
     }
+
+    const refreshFonctions = () => {
+        getAllFonctions();
+    };
     
     function moddifier(obj:Fonction) {
       idfonction.value = obj.id;
@@ -212,7 +223,9 @@ export default defineComponent({
       handlePaginate,
       searchTerm,
       separateur,
-      rechercher
+      rechercher,
+      recharger,
+      refreshFonctions
     };
   },
 

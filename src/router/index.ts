@@ -1095,7 +1095,7 @@ const routes: Array<RouteRecordRaw> = [
           },
           {
             path: "liste-fournisseurs",
-            name: "ListeFournisseur",
+            name: "ListeFournisseurPage",
             component: ListeFournisseurPage,
             meta: {
               title: 'Liste des fournisseurs',
@@ -1922,7 +1922,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "modifier-fournisseur/:id",
-        name: "EditFournisseur",
+        name: "EditFournisseurPage",
         component: EditFournisseurPage,
         meta: {
           title: 'Modifier un fournisseur',
@@ -1930,7 +1930,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "view-fournisseur/:id",
-        name: "ViewFournisseur",
+        name: "ViewFournisseurPage",
         component: ViewFournisseurPage,
         meta: {
           title: 'Détails d\'un fournisseur',
@@ -2468,7 +2468,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "modifier-compte/:id",
-        name: "EditCompte",
+        name: "EditComptePage",
         component: EditComptePage,
         props: true,
         meta: {
@@ -2477,7 +2477,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "liste-comptes",
-        name: "ListeCompte",
+        name: "ListeComptePage",
         component: ListeComptePage,
         meta: {
           title: 'Liste des comptes',

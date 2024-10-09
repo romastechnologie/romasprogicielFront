@@ -12,21 +12,21 @@
             <div class="col-md-6">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
-                  Nom <span class="text-danger">*</span>
-                </label>
-                <Field name="nom" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
-                <ErrorMessage name="nom" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
                   Code <span class="text-danger">*</span>
                 </label>
                 <Field name="code" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
                 <ErrorMessage name="code" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10" >
+                  Libellé <span class="text-danger">*</span>
+                </label>
+                <Field name="nom" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
+                <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>
             

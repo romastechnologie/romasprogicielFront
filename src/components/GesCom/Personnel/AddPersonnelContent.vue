@@ -54,7 +54,7 @@
                                             Situation matrimoniale <span class="text-danger">*</span>
                                           </label>
                                           <Field name="situationMatrimoniale" v-model="situation" type="text" v-slot="{ field }">
-                                            <Multiselect :searchable="true" :options="['Célibataire', 'Mariée', 'Divorcée', 'Veuve']"
+                                            <Multiselect :searchable="true" :options="['Célibataire', 'Mariée', 'Divorcée', 'Veuve','Concubinage','Union libre']"
                                               v-model="field.value" v-bind="field" placeholder="Sélectionner la situation" />
                                           </Field>
                                           <ErrorMessage name="situationMatrimoniale" class="text-danger" />
@@ -337,7 +337,7 @@
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
-                                            Prenom du Conjoint<span class="text-danger">*</span>
+                                            Prénom du Conjoint<span class="text-danger">*</span>
                                           </label>
                                           <Field name="prenomCon" v-model="prenomCon" type="text" class="form-control shadow-none fs-md-15 text-black"
                                             placeholder="Entrer le prenom du conjoint " />
@@ -833,7 +833,7 @@ export default defineComponent({
       religion: Yup.string().required('Religion est obligatoire'),
       ethnie: Yup.string().required('Ethnie est obligatoire'),
       nationalite: Yup.string().required('La nationalité est obligatoire'),
-      situationMatrimoniale: Yup.string().required('lé situation matrimoniale est obligatoire'),
+      situationMatrimoniale: Yup.string().required('la situation matrimoniale est obligatoire'),
       sexe: Yup.string().required('Le sexe est obligatoire'),
       civilite: Yup.string().required('La civilité est obligatoire'),
       numeroSecuriteSociale: Yup.date().notRequired(),

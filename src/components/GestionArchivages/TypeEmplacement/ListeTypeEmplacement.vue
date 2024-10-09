@@ -119,7 +119,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(typeEmplacement.id,TypesEmplacements,'typeEmplacements','le Type Emplacement')"
+                        href="javascript:void(0);" @click="suppression(typeEmplacement.id,TypesEmplacements,'typeEmplacements',`le type ${typeEmplacement.libelle}`)"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
@@ -142,7 +142,7 @@
   </div>
   <AddTypeEmplacementModal
 
-  @get-all-typeEmplacements="getAllTypeEmplacement"
+  @get-all-typeEmplacements="getAllTypeEmplacements"
   :item="selectedItem" 
   @close="recharger"
   @refreshtypeEmplacement ="refreshtypeEmplacement"
@@ -171,7 +171,7 @@ export default defineComponent({
   setup(){
     
     onMounted(() => {
-      getAllTypeEmplacement();
+      getAllTypeEmplacements();
     });
     const idtypeEmplacement = ref(0);
       const loading = ref<boolean>(false);
@@ -190,18 +190,18 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllTypeEmplacement(page_, limit_);
+        getAllTypeEmplacements(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllTypeEmplacement(page.value, limit.value, searchTerm.value );
+      getAllTypeEmplacements(page.value, limit.value, searchTerm.value );
     }
 
     const recharger = () => {
-      getAllTypeEmplacement();
+      getAllTypeEmplacements();
     };
 
 
@@ -209,15 +209,15 @@ export default defineComponent({
 
     onMounted(() => {
       loading.value=false;
-      getAllTypeEmplacement();
+      getAllTypeEmplacements();
     });
 
     const refreshtypeEmplacement = () => {
-      getAllTypeEmplacement();
+      getAllTypeEmplacements();
     };
 
-    function getAllTypeEmplacement(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/typeEmplacements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllTypeEmplacements(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`all/typeEmplacements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           TypesEmplacements.value = data.data.data;
           totalPages.value = data.data.totalPages;
@@ -246,7 +246,7 @@ export default defineComponent({
 
     return {typeEmplacement,
       checkPermission,
-     getAllTypeEmplacement,
+     getAllTypeEmplacements,
      moddifier,
      suppression,
      page, 
