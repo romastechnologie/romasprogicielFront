@@ -4,5 +4,6 @@ export  interface TypeEmplacement {
     libelle: string;
     prefixe: string;
     ordre : string;
+    typeemplacement:string;
     setFieldValue: (field: string, value: any) => void;
   }
