@@ -179,7 +179,7 @@ export default defineComponent({
     };
 
     function getAllModePaiements(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/modepaiements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/all/modepaiements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           modePaiements.value = data.data.data;
           totalPages.value = data.data.totalPages;
