@@ -317,11 +317,7 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-            {
-                path: "/personnelles/ajouter-personnel",
-                title: "Ajouter un personnel",
-                type: "link"
-            },
+            
             {
                 path: "/tests/ajouter-personnel",
                 title: "Ajouter un personnel",
