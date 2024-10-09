@@ -54,7 +54,7 @@
                                             Situation matrimoniale <span class="text-danger">*</span>
                                           </label>
                                           <Field name="situationMatrimoniale" v-model="situation" type="text" v-slot="{ field }">
-                                            <Multiselect :searchable="true" :options="['Célibataire', 'Mariée', 'Divorcée', 'Veuve']"
+                                            <Multiselect :searchable="true" :options="['Célibataire', 'Mariée', 'Divorcée', 'Veuve','Concubinage','Union libre']"
                                               v-model="field.value" v-bind="field" placeholder="Sélectionner la situation" />
                                           </Field>
                                           <ErrorMessage name="situationMatrimoniale" class="text-danger" />

@@ -119,7 +119,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(typeEmplacement.id,TypesEmplacements,'typeEmplacements','le Type Emplacement')"
+                        href="javascript:void(0);" @click="suppression(typeEmplacement.id,TypesEmplacements,'typeEmplacements',`le type ${typeEmplacement.libelle}`)"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 

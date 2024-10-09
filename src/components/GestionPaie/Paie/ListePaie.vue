@@ -126,7 +126,7 @@
                             <a
                              
                               href="javascript:void(0);"
-                              @click="suppression(paie.id, paies, 'paies', 'un utilisateur')"
+                              @click="suppression(paie.id, paies, 'paies', `la paie ${paie.refPaie}`)"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"

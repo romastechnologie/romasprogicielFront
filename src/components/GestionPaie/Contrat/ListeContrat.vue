@@ -119,7 +119,7 @@
                             <a
                              
                               href="javascript:void(0);"
-                              @click="suppression(contrat.id, contrats, 'contrats', 'un utilisateur')"
+                              @click="suppression(contrat.id, contrats, 'contrats', `le contrat ${contrat.refContrat}`)"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"

@@ -72,7 +72,7 @@
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
-                      @click="suppression(typeDocument.id, TypesDocuments, 'typeDocuments', 'le Type de Document')">
+                      @click="suppression(typeDocument.id, TypesDocuments, 'typeDocuments', `le type ${typeDocument.code}`)">
                       <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>
                       Supprimer
                     </a>
@@ -163,10 +163,11 @@ export default defineComponent({
     const getAllTypeDocuments = async(page = 1, limi = 10, searchTerm = '') => {
       try {
         const data = await axios.get(`/all/typedocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`);
-        TypesDocuments.value = data.data.data;
+        TypesDocuments.value = data.data.data.data;
         totalPages.value = data.data.totalPages;
         limit.value = data.data.limit;
         totalElements.value = data.data.totalElements;
+        console.log("TGTGTGTTTGTGTG ==> ", TypesDocuments.value)
         return data.data.data;
       } catch (response) {
         error(response.data.message)
