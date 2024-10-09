@@ -376,7 +376,7 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
     {
-        title: "Categories",
+        title: "Categories de demandes",
         icon: "stroke-animation",
         icon1: "fill-animation",
         type: "link",
