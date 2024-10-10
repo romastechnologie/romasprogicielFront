@@ -61,7 +61,6 @@
                 <ul class="dropdown-menu dropdown-block"
                   style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
                   data-popper-placement="bottom-start">
-
                   <li class="dropdown-item d-flex align-items-center">
                     <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" data-bs-toggle="modal"
                       data-bs-target="#AddTypeDocumentModal" @click="moddifier(typeDocument)">
