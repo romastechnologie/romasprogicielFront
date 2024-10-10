@@ -2167,7 +2167,7 @@ const routes: Array<RouteRecordRaw> = [
     ],
     },
       {
-        path: "/tests",
+        path: "/personnels",
         component: BodyView,
         children: [
           {
