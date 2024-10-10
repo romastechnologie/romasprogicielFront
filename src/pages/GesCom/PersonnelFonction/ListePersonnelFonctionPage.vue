@@ -6,7 +6,7 @@
     import { defineComponent } from "vue";
   
     
-    import ListePersonnelFonction from "@/components/GesCom/PersonnelFonction/ListePersonnelFonction.vue";
+    import ListePersonnelFonction from "@/components/GesCom/PersonnelFonction/ListePersonnelPoste.vue";
 
     export default defineComponent({
       name: "ListePersonnelFonctionPage",

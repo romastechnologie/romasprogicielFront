@@ -107,7 +107,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import { error, success } from '@/utils/utils';
 import { useRoute, useRouter } from 'vue-router';
 import ApiService from '@/services/ApiService';
-import { PersonnelFonction} from '@/models/PersonnelFonction';
+import { PersonnelFonction} from '@/models/PersonnelPoste';
 import * as Yup from 'yup';
 import axios from 'axios';
 import Multiselect from '@vueform/multiselect'

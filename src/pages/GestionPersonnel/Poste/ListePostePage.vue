@@ -1,16 +1,17 @@
 <template>
-    <AddFonctionModal />
+    <ListePoste />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import AddFonctionModal from "@/components/GestionPersonnel/Fonction/AddFonctionModal.vue";
+    import ListePoste from "@/components/GestionPersonnel/Poste/ListePoste.vue";
+
   
     export default defineComponent({
-      name: "AddFonctionPage",
+      name: "ListePostePage",
       components: {
-        AddFonctionModal,
+        ListePoste,
       },
     });
   </script>

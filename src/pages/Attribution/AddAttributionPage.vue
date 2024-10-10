@@ -1,16 +1,16 @@
 <template>
-    <AddServiceModal />
+    <AddAttributionModal />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import AddServiceModal from "@/components/Service/AddServiceModal.vue";
+    import AddAttributionModal from "@/components/Attribution/AddAttributionModal.vue";
   
     export default defineComponent({
-      name: "AddServicePage",
+      name: "AddAttributionPage",
       components: {
-        AddServiceModal,
+        AddAttributionModal,
       },
     });
   </script>

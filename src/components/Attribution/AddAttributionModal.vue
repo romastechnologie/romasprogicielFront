@@ -1,16 +1,16 @@
 <template>
 
-  <div class="modal fade" id="AddServiceModal" tabindex="-1" role="dialog" ref="addServiceModalRef"
+  <div class="modal fade" id="AddAttributionModal" tabindex="-1" role="dialog" ref="addAttributionModalRef"
     aria-labelledby="tooltipmodal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">{{ title }}</h4>
-          <button ref="closeServiceModal" class="btn-close py-0" type="button" data-bs-dismiss="modal"
+          <button ref="closeAttributionModal" class="btn-close py-0" type="button" data-bs-dismiss="modal"
             aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <Form ref="serviceForm" @submit="addService" :validation-schema="serviceSchema">
+          <Form ref="attributionForm" @submit="addAttribution" :validation-schema="attributionSchema">
             <div class="row">
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -50,10 +50,10 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
 import { error, hideModal, success } from '@/utils/utils';
-import { Service } from '@/models/Service';
+import { Attribution} from '@/models/Attribution';
 
 export default {
-  name: "AddServicesModal",
+  name: "AddAttributionModal",
   components: {
     Form,
     Field,
@@ -66,25 +66,25 @@ export default {
       default: 0
     },
   },
-  emits: ["getAllServices", "openmodal"],
+  emits: ["getAllAttributions", "openmodal"],
 
   setup: (props, { emit }) => {
     const loading = ref<boolean>(false);
-    const serviceSchema = Yup.object().shape({
+    const attributionSchema = Yup.object().shape({
       libelle: Yup.string().required('Le libellé est obligatoire'),
       code: Yup.string().required('Le code est obligatoire'),
     });
 
-    const closeServiceModal = ref(null);
-    const serviceForm = ref<Service | null>(null);
-    const addServicesModalRef = ref<null | HTMLElement>(null);
-    const title = ref('Ajouter un service');
+    const closeAttributionModal = ref(null);
+    const attributionForm = ref<Attribution | null>(null);
+    const addAttributionsModalRef = ref<null | HTMLElement>(null);
+    const title = ref('Ajouter une attribution');
     const btntext = ref('Ajouter');
     const isupdate = ref(false);
 
     watch(() => props.id, (newValue) => {
       if (newValue != 0) {
-        getService(newValue);
+        getAttribution(newValue);
         isupdate.value = true;
         btnTitle();
       }
@@ -101,47 +101,47 @@ export default {
       }
     }
 
-    const getService = async (id: number) => {
-      return ApiService.get("/services/" + id)
+    const getAttribution = async (id: number) => {
+      return ApiService.get("/attributions/" + id)
         .then(({ data }) => {
-          serviceForm.value?.setFieldValue("id", data.data.id);
-          serviceForm.value?.setFieldValue("code", data.data.code);
-          serviceForm.value?.setFieldValue("libelle", data.data.libelle);
-          emit('openmodal', addServicesModalRef.value);
+          attributionForm.value?.setFieldValue("id", data.data.id);
+          attributionForm.value?.setFieldValue("code", data.data.code);
+          attributionForm.value?.setFieldValue("libelle", data.data.libelle);
+          emit('openmodal', addAttributionsModalRef.value);
         })
         .catch(({ response }) => {
           error(response.data.message)
         });
     }
 
-    const addService = async (values, { resetForm }) => {
-      values = values as Service;
+    const addAttribution = async (values, { resetForm }) => {
+      values = values as Attribution;
       loading.value = false;
       if (isupdate.value) {
         console.log('puuuttt')
-        ApiService.put(`/services/${values?.id}`, values)
+        ApiService.put(`/attributions/${values?.id}`, values)
           .then(({ data }) => {
             if (data.code == 200) {
               success(data.message);
               resetForm();
-              hideModal(addServicesModalRef.value);
+              hideModal(addAttributionsModalRef.value);
               isupdate.value = false;
               btnTitle();
-              emit("getAllServices");
+              emit("getAllAttributions");
             }
           }).catch(({ response }) => {
             error(response.data.message)
           });
       } else {
         console.log('posttttt')
-        ApiService.post("/services", values)
+        ApiService.post("/attributions", values)
           .then(({ data }) => {
             if (data.code == 201) {
               success(data.message);
               resetForm();
-              hideModal(addServicesModalRef.value);
-              if (closeServiceModal) {
-                (closeServiceModal.value as HTMLButtonElement).click()
+              hideModal(addAttributionsModalRef.value);
+              if (closeAttributionModal) {
+                (closeAttributionModal.value as HTMLButtonElement).click()
               }
               //emit("getAllServices");
             }
@@ -160,7 +160,7 @@ export default {
       btnTitle()
     };
 
-    return { serviceSchema, addService, serviceForm, addServicesModalRef, btntext, title, resetValue, closeServiceModal };
+    return { attributionSchema, addAttribution, attributionForm, addAttributionsModalRef, btntext, title, resetValue, closeAttributionModal };
   },
 };
 

@@ -1,9 +1,9 @@
-export interface FonctionObject {
+export interface AttributionObject {
     code: number;
     libelle: string;
-    data: Fonction[];
+    data: Attribution[];
 }
-export interface Fonction{
+export interface Attribution{
   id: number;
   code: string;
   libelle: string;

@@ -1,9 +1,9 @@
-export interface ServiceObject {
+export interface PosteObject {
     code: number;
     libelle: string;
-    data: Service[];
+    data: Poste[];
 }
-export interface Service{
+export interface Poste{
   id: number;
   code: string;
   libelle: string;

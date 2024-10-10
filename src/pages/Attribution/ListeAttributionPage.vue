@@ -1,17 +1,17 @@
 <template>
-    <ListeService />
+    <ListeAttribution />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
-    import ListeService from "@/components/Service/ListeService.vue";
+    import ListeAttribution from "@/components/Attribution/ListeAttribution.vue";
 
   
     export default defineComponent({
-      name: "ListeServicePage",
+      name: "ListeAttributionPage",
       components: {
-        ListeService,
+        ListeAttribution,
       },
     });
   </script>

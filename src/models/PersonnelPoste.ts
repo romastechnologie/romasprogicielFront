@@ -1,4 +1,4 @@
-export  interface PersonnelFonction {
+export  interface PersonnelPoste{
     id: number;
     photo: string;
     nomMedia: string;

@@ -3,9 +3,9 @@
     <div
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
       <div class="d-sm-flex align-items-center">
-        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#AddServiceModal">
+        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#AddAttributionModal">
           <i class="fa fa-plus-circle"></i>
-          Ajouter un service
+          Ajouter une Attribution
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -18,7 +18,7 @@
       <div class="d-flex align-items-center">
         <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input type="text" v-model="searchTerm" @keyup="rechercher"
-            class="form-control shadow-none text-black" placeholder="Rechercher un service" />
+            class="form-control shadow-none text-black" placeholder="Rechercher une attribution" />
           <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
             <i class="flaticon-search-interface-symbol"></i>
           </button>
@@ -50,15 +50,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(service, index) in services" :key="index">
+            <tr v-for="(attribution, index) in Attributions" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black">
-                {{ service.code }}
+                {{ attribution.code }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ service.libelle }}
+                {{ attribution.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ format_date(service.createdAt) }}
+                {{ format_date(attribution.createdAt) }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black pe-0 text-end">
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
@@ -67,14 +67,14 @@
                   style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
                   data-popper-placement="bottom-start">
                   <li class="dropdown-item d-flex align-items-center">
-                    <a href="javascript:void(0);" @click="moddifier(service)" data-bs-toggle="modal"
-                      data-bs-target="#AddServiceModal">
+                    <a href="javascript:void(0);" @click="moddifier(attribution)" data-bs-toggle="modal"
+                      data-bs-target="#AddAttributionModal">
                       <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </a>
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                      @click="suppression(service.id, services, 'services', `le service ${service.libelle}`)"> <i
+                      @click="suppression(attribution.id, Attributions, 'Attributions', `L'attribution ${attribution.libelle}`)"> <i
                         class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                       Supprimer
                     </a>
@@ -91,32 +91,34 @@
       </div>
     </div>
   </div>
-  <AddServiceModal @get-all-services="getAllServices" :id="idservice" @openmodal="showModalEdite" />
+  <AddAttributionModal @get-all-attributions="getAllAttributions" :id="idattribution" @openmodal="showModalEdite" />
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import AddServiceModal from "./AddServiceModal.vue";
+import AddAttributionModal from "./AddAttributionModal.vue";
 import ApiService from "@/services/ApiService";
 import { format_date, showModal, suppression, separateur, error, } from "@/utils/utils";
-import { Service } from "@/models/Service";
+import { Attribution } from "@/models/Attribution";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListeService",
+  name: "ListeAttribution",
   components: {
-    AddServiceModal,
+    AddAttributionModal,
     PaginationComponent
   },
   setup: () => {
 
     onMounted(() => {
-      getAllServices();
+      getAllAttributions();
     });
 
-    const services = ref<Array<Service>>([]);
-    const idservice = ref(0);
+    const Attributions = ref<Array<Attribution>>([]);
+    const idattribution = ref(0);
+    const attribution = ref<Attribution>();
+
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -128,22 +130,22 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllServices(page_, limit_);
+        getAllAttributions(page_, limit_);
       } catch (error) {
         //
 
       }
     };
     function rechercher() {
-      getAllServices(page.value, limit.value, searchTerm.value);
+      getAllAttributions(page.value, limit.value, searchTerm.value);
     }
     // END PAGINATE
 
-    function getAllServices(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/services?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllAttributions(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/attributions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       //return ApiService.get('/services')
         .then(({ data }) => {
-          services.value = data.data.data;
+          Attributions.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -157,13 +159,13 @@ export default defineComponent({
     //   idservice.value = obj.id;
     // }
 
-    function moddifier(Editservice: Service) {
-      idservice.value = Editservice.id;
+    function moddifier(EditAttribution: Attribution) {
+      idattribution.value = EditAttribution.id;
     }
 
     function showModalEdite(el) {
       showModal(el);
-      idservice.value = 0;
+      idattribution.value = 0;
     }
 
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
@@ -176,10 +178,10 @@ export default defineComponent({
     return {
       suppression,
       checkPermission,
-      services,
+      Attributions,
       format_date,
-      getAllServices,
-      idservice,
+      getAllAttributions,
+      idattribution,
       moddifier,
       showModalEdite,
       page,

@@ -134,7 +134,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { PersonnelFonction } from "@/models/PersonnelFonction";
+import { PersonnelFonction } from "@/models/PersonnelPoste";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';

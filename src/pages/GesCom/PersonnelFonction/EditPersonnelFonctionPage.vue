@@ -6,7 +6,7 @@
     import { defineComponent } from "vue";
   
     
-    import EditPersonnelFonction from "@/components/GesCom/PersonnelFonction/EditPersonnelFonction.vue";
+    import EditPersonnelFonction from "@/components/GesCom/PersonnelFonction/EditPersonnelPoste.vue";
   
     export default defineComponent({
       name: "EditPersonnelFonctionPage",

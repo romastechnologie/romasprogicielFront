@@ -1,6 +1,6 @@
 <template>
-  <div class="modal fade modal-lg" id="AddRegleConservationModal" tabindex="-1" role="dialog" ref="addRegleConservationModalRef"
-    aria-labelledby="tooltipmodal" aria-hidden="true">
+  <div class="modal fade modal-lg" id="AddRegleConservationModal" tabindex="-1" role="dialog"
+    ref="addRegleConservationModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -64,16 +64,18 @@
                 </div>
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-12 mb-4">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Type Durée <span class="text-danger">*</span>
-                  </label>
-                  <Field name="typeDuree" type="date" class="form-control shadow-none fs-md-15 text-black"
-                    placeholder="Entrer le type durée" />
-                  <ErrorMessage name="typeDuree" class="text-danger" />
+                  <label class="d-block text-black mb-10">Type Durée</label>
+                  <Field name="typeDuree" v-model="typeDuree" type="text" v-slot="{ field }">
+                    <Multiselect v-model="field.value" v-bind="field" :options="typesDuresOptions" :preserve-search="true"
+                      :multiple="false" :searchable="true" placeholder="Sélectionner le Type Durée" label="label"
+                      track-by="label" />
+                  </Field>
+                  <span class="text-danger" v-if="showMErr">Le Type Durée est obligatoire</span>
                 </div>
               </div>
+
 
               <button class="btn btn-primary mt-3">
                 {{ btntext }}
@@ -102,6 +104,7 @@ import { hideModal } from '@/utils/utils';
 import { error, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import { RegleConservation } from '@/models/RegleConservation';
+import Multiselect from 'vue-multiselect';
 
 export default defineComponent({
   name: "AddRegleConservationModal",
@@ -109,6 +112,7 @@ export default defineComponent({
     Form,
     Field,
     ErrorMessage,
+    Multiselect
   },
   props: {
     item: {
@@ -133,11 +137,24 @@ export default defineComponent({
     const addRegleConservationModalRef = ref<null | HTMLElement>(null);
     const router = useRouter();
     const regleConservationOptions = ref([]);
+    const typeDuree =  ref();
+    const typesDuresOptions = ref([]);
+    const jours = ref();
+    const mois = ref ();
+    const annees = ref();
+    const options = [];
+    
+
+
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
     const title = ref("Ajouter une regle conservation");
     const btntext = ref('Ajouter');
+    const showMErr = ref(false);
+
+
+
 
     watch(() => props.item, (newValue) => {
       getRegleConservation(newValue);
@@ -186,10 +203,33 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
-      fetchRegleConservation();
+   
+
+    const generatetypesDures = async () => {
+    const jours = [...Array(31).keys()].map(i => (i + 1).toString().padStart(2, '0'));
+    const mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+    const annees = [...Array(100).keys()].map(i => (2024 - i).toString());
+
+
+    jours.forEach(jour => {
+      mois.forEach((mois, index) => {
+        annees.forEach(annee => {
+          options.push({
+            label: `${jour} ${mois} ${annee}`,
+            value: `${jour}-${(index + 1).toString().padStart(2, '0')}-${annee}`,
+          });
+        });
+      });
     });
 
+  }
+
+
+   onMounted(() => {
+      fetchRegleConservation();
+      generatetypesDures();
+    });
+      
     const addRegleConservation = async (values: any, regleConservationForm) => {
       values = values as RegleConservation;
       if (isUPDATE.value) {
@@ -240,6 +280,7 @@ export default defineComponent({
       regleConservationForm,
       title, btntext, resetValue,
       regleConservationOptions,
+      showMErr,typeDuree,typesDuresOptions,options,jours,mois,annees
     };
   },
 });

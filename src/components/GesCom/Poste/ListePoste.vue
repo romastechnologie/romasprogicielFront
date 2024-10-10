@@ -8,9 +8,9 @@
           class="btn btn-primary"
           href="#"
           data-bs-toggle="modal"
-          data-bs-target="#AddFonctionModal">
+          data-bs-target="#AddPosteModal">
           <i class="fa fa-plus-circle"></i>
-          Ajouter une fonction
+          Ajouter un Poste
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -74,15 +74,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(fonction, index) in fonctions" :key="index">
+            <tr v-for="(poste, index) in postes" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black">
-                {{ fonction.code }}
+                {{ poste.code }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fonction.libelle }}
+                {{ poste.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ format_date(fonction.createdAt)  }}
+                {{ format_date(poste.createdAt)  }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-black pe-0 text-end"
@@ -90,14 +90,14 @@
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
               <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                 <li class="dropdown-item d-flex align-items-center">
-                  <a  href="javascript:void(0);" @click="moddifier(fonction)" data-bs-toggle="modal"
-          data-bs-target="#AddFonctionModal">
+                  <a  href="javascript:void(0);" @click="moddifier(poste)" data-bs-toggle="modal"
+          data-bs-target="#AddPosteModal">
                   <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                   </a>
                 </li>
                 <li class="dropdown-item d-flex align-items-center">
                   <a href="javascript:void(0);"
-                      @click="suppression(fonction.id,fonctions,'fonctions',`la fonction ${fonction.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                      @click="suppression(poste.id,postes,'postes',`le poste ${poste.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                        Supprimer
                   </a>
                 </li>
@@ -116,35 +116,35 @@
       </div>
     </div>
   </div>
-  <AddFonctionModal 
-  @get-all-fonctions="getAllFonctions"
-  :id="idfonction"
+  <AddPosteModal 
+  @get-all-postes="getAllPostes"
+  :id="idposte"
   @openmodal="showModalEdite"/>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref  } from "vue";
-import AddFonctionModal from "./AddFonctionModal.vue";
+import AddPosteModal from "./AddPosteModal.vue";
 import ApiService from "@/services/ApiService";
 import { format_date, showModal, suppression,separateur, error, } from "@/utils/utils";
-import { Fonction } from "@/models/Fonction";
+import { Poste } from "@/models/Poste";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtFonction from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListeFonction",
+  name: "ListePoste",
   components: {
-    AddFonctionModal,
+    AddPosteModal,
     PaginationComponent
   },
   setup: () => {
 
     onMounted(() => {
-      getAllFonctions();
+      getAllPostes();
     });
 
-    const fonctions = ref<Array<Fonction>>([]);
-    const idfonction = ref(0);
+    const postes = ref<Array<Poste>>([]);
+    const idposte = ref(0);
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -156,22 +156,22 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllFonctions(page_, limit_);
+        getAllPostes(page_, limit_);
       } catch (error) {
         //
         
       }
     };
     function rechercher(){
-      getAllFonctions(page.value, limit.value, searchTerm.value );
+      getAllPostes(page.value, limit.value, searchTerm.value );
     }
     // END PAGINATE
 
-    function getAllFonctions(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/fonctions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllPostes(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/postes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       //return ApiService.get('/fonctions')
         .then(({ data }) => {
-          fonctions.value = data.data.data;
+          postes.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -181,13 +181,13 @@ export default defineComponent({
       });
     }
     
-    function moddifier(obj:Fonction) {
-      idfonction.value = obj.id;
+    function moddifier(obj:Poste) {
+      idposte.value = obj.id;
     }
 
     function showModalEdite(el){
       showModal(el);
-      idfonction.value = 0;
+      idposte.value = 0;
     }
 
     const privileges = ref<Array<string>>(JwtFonction.getPrivilege());
@@ -199,10 +199,10 @@ export default defineComponent({
 
     return { suppression,
       checkPermission,
-      fonctions,
+      postes,
       format_date,
-      getAllFonctions,
-      idfonction,
+      getAllPostes,
+      idposte,
       moddifier,
       showModalEdite,
       page, 
