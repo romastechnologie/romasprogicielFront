@@ -51,16 +51,16 @@
                                                     <span class="text-danger">*</span>
                                                   </label>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-1">
                                                   <label class="d-block text-black fw-semibold mb-10">
                                                     Heure de fin de pause<span class="text-danger">*</span>
                                                   </label>
                                                 </div>
-                                               <!-- <div class="col-md-2">
+                                                <div class="col-md-2">
                                                   <label class="d-block text-black fw-semibold mb-10">
                                                     Statut <span class="text-danger">*</span>
                                                   </label>
-                                                </div>-->
+                                                </div>
                                                 <div class="col-md-2">
                                                   <label class="d-block text-black fw-semibold mb-10">
                                                     Actions <span class="text-danger">*</span>
@@ -113,11 +113,20 @@
                                                       class="form-control shadow-none fs-md-15 text-black" placeholder="" />
                                                   </div>
                                                   <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.heureFinPause)">
-                                                    L'heure est obligatoire.
+                                                    L'heure de fin est obligatoire.
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                  <div class="form-group">
+                                                    <input v-model="horaire.statut" type="checkbox"
+                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                                  </div>
+                                                  <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.statut)">
+                                                    Le statut est obligatoire.
                                                   </div>
                                                 </div>
                                                
-                                                <div class="col-md-2 mb-2">
+                                                <div class="col-md-1 mb-2">
                                                     <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
                                                     @click="removeRowHoraire(index)">
                                                    <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
