@@ -1,99 +1,323 @@
 <template>
-  <div>
-    <h2>Horaires de la semaine</h2>
-    <form @submit.prevent="submitForm">
-      <div v-for="(item, index) in weekDays" :key="index">
-        <h3>{{ item.day }}</h3>
-
-        <label :for="'openTime' + index">Heure d'ouverture :</label>
-        <input
-          type="time"
-          v-model="item.openTime"
-          :id="'openTime' + index"
-        />
-
-        <label :for="'closeTime' + index">Heure de fermeture :</label>
-        <input
-          type="time"
-          v-model="item.closeTime"
-          :id="'closeTime' + index"
-        />
-
-        <label :for="'pauseStart' + index">Heure début de pause :</label>
-        <input
-          type="time"
-          v-model="item.pauseStart"
-          :id="'pauseStart' + index"
-        />
-
-        <label :for="'pauseEnd' + index">Heure fin de pause :</label>
-        <input
-          type="time"
-          v-model="item.pauseEnd"
-          :id="'pauseEnd' + index"
-        />
-
-        <hr />
-      </div>
-
-      <button type="submit">Soumettre</button>
-    </form>
-
-    <div v-if="submitted">
-      <h3>Horaires soumis :</h3>
-      <ul>
-        <li v-for="(item, index) in weekDays" :key="index">
-          {{ item.day }} : Ouvert de {{ item.openTime }} à {{ item.closeTime }}. Pause de {{ item.pauseStart }} à {{ item.pauseEnd }}.
-        </li>
-      </ul>
-    </div>
-  </div>
+  
+                                  <div class="sidebar-body">  
+                                    <div class="col-md-12 mb-md-25">
+                                      <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+                                        <div class="row">
+                                          <div class="border border-primary mb-10">
+                                            <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                                              style="background-color: #0a59a4">
+                                              <div class="col-md-7">
+                                                <h3 class="fs-4 text-white">
+                                                  Les horaires
+                                                </h3>
+                                              </div>
+                                              <div class="col-md-5">
+                                                <div class="d-flex float-end">
+                                                  <button
+                                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                                                    type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
+                                                    @click="addRowHoraire()">
+                                                    <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
+                                                    Ajouter un horaire
+                                                  </button>
+                                                  <router-link to="/liste-mouvements"></router-link>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div>
+                                              <div class="row d-flex align-items-center justify-content-between mt-10">
+                                               <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold">
+                                                    Jour
+                                                    <span class="text-danger">*</span>
+                                                  </label>
+                                                </div> 
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold">
+                                                    Heure d'ouverture
+                                                    <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold">
+                                                    Heure de fermeture
+                                                    <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold">
+                                                    Heure de début de pause
+                                                    <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Heure de fin de pause<span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                               <!-- <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Statut <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>-->
+                                                <div class="col-md-2">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Actions <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                              </div>
+                                              <hr class="mt-0" />
+                                              <div class="row" v-for="(horaire, index) in horaires" :key="index">
+                                                <div class="col-md-2 mb-2">
+                                                  <div class="form-group ">
+                                                    <Field name="jour" type="text" v-slot="{ field }">
+                                              <Multiselect :searchable="true" :options="['Lundi', 'Mardi', 'Mercredi','Jeudi','Vendredi','Samedi','Dimanche']"
+                                                 v-model="field.value" v-bind="field" placeholder="Sélectionner le jour" />
+                                                </Field>
+                                                    <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.jour)">
+                                                      Le jour est obligatoire.
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                  <div class="form-group ">
+                                                    <input v-model="horaire.heureOuverture" type="time" class="form-control shadow-none fs-md-15 text-black"
+                                                      placeholder="Saisir le nom" />
+                                                    <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.heureOuverture)">
+                                                      L'heure d'ouverture est obligatoire.
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                  <div class="form-group ">
+                                                    <input v-model="horaire.heureFermeture" type="time" class="form-control shadow-none fs-md-15 text-black"
+                                                      placeholder="Saisir le nom" />
+                                                    <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.heureFermeture)">
+                                                      L'horaire de fermeture est obligatoire.
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                  <div class="form-group ">
+                                                    <input v-model="horaire.heureDebutPause" type="time"
+                                                      class="form-control shadow-none fs-md-15 text-black"/>
+                                                    <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.heureDebutPause)">
+                                                      heureDebutPause est obligatoire.
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                  <div class="form-group">
+                                                    <input v-model="horaire.heureFinPause" type="time"
+                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                                  </div>
+                                                  <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.heureFinPause)">
+                                                    L'heure est obligatoire.
+                                                  </div>
+                                                </div>
+                                               
+                                                <div class="col-md-2 mb-2">
+                                                    <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                                                    @click="removeRowHoraire(index)">
+                                                   <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                                                    </button>
+                                             </div> 
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                               
+            <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center ">
+              <button class="btn btn-success me-3" type="submit">
+                  Ajouter un horaire
+              </button>
+              <router-link to="/horaires/liste-horaire" 
+              class=" btn btn-danger"><i
+                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                  <span class="position-relative"></span>Annuler</router-link>
+            </div>
+          </div> 
+                         
+  
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      weekDays: [
-        { day: "Lundi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
-        { day: "Mardi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
-        { day: "Mercredi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
-        { day: "Jeudi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
-        { day: "Vendredi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
-        { day: "Samedi", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
-        { day: "Dimanche", openTime: "", closeTime: "", pauseStart: "", pauseEnd: "" },
-      ],
-      submitted: false,
+
+<script lang="ts">
+
+import { defineComponent, ref, watch, onMounted, reactive } from 'vue';
+import { Form, Field, ErrorMessage, useFieldArray, useForm } from 'vee-validate';
+import { error, success } from '@/utils/utils';
+import { useRouter } from "vue-router";
+import ApiService from '@/services/ApiService';
+import { Horaire } from '@/models/Horaire';
+import * as Yup from 'yup';
+import axios from 'axios';
+import Multiselect from '@vueform/multiselect'
+//import { Tab } from "bootstrap";
+
+
+
+export default defineComponent({
+  name: "AddHoraire",
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+    Multiselect
+  },
+  setup: () => {
+    const horaireSchema = Yup.object().shape({
+      jour: Yup.string().required("Le jour est obligatoire."),
+      heureOuverture: Yup.string().required("L'heure d'ouverture est obligatoire."),
+      heureFermeture: Yup.string().required("L'heure de fermeture est obligatoire."),
+      heureDebutPause: Yup.string().required("L'heure de début de pause est obligatoire."),
+      heureFinPause: Yup.string().required("L'heure de fin de pause est obligatoire."),
+    });
+
+   
+
+   
+
+    const personnelForm = ref<Horaire | null>(null);
+    const router = useRouter();
+    
+    
+   
+   
+    
+
+    const isDisable = ref(true);
+    const horaires = reactive([{
+        jour: "",
+        heureOuverture: "",
+        heureFermeture: "",
+        heureDebutPause: "",
+        heureFinPause: ""
+       
+      }]);
+    
+    
+
+    const addRowHoraire = () => {
+        horaires.push({
+          jour: "",
+          heureOuverture: "",
+          heureFermeture: "",
+          heureDebutPause: "",
+          heureFinPause: ""
+         
+        });
+      };
+
+    const removeRowHoraire = (index) => {
+      if (horaires.length > 1) horaires.splice(index, 1);
+      //totals();
     };
+
+    watch(
+      horaires,
+      (newValue) => {
+        isDisable.value =
+        newValue.some(
+          (horaire) =>
+          valideteRowHoraire(horaire.jour) ||
+          valideteRowHoraire(horaire.heureOuverture) ||
+          valideteRowHoraire(horaire.heureFermeture) ||
+          valideteRowHoraire(horaire.heureDebutPause) ||
+          valideteRowHoraire(horaire.heureFinPause)
+        );
+      },
+      { deep: true }
+    );
+
+    const valideteRowHoraire = (e) => {
+      if (e == "" || e == "" || e == 0 || e == "0" || e == null || e < 0) {
+        console.log('erg')
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    //const { remove, push, fields, update } = useFieldArray("horaires");
+
+    const horaireOptions = ref([]);
+    const valuess = ref();
+    
+
+    const addHoraire = async (values, { resetForm }) => {
+      values.horaires = horaires.map(horaire => ({
+        jour: horaire.jour,
+        heureOuverture: horaire.heureOuverture,
+        heureFermeture: horaire.heureFermeture,
+        heureDebutPause: horaire.heureDebutPause,
+        heureFinPause: horaire.heureFinPause,
+
+      }));
+
+     
+      
+      axios.post("/horaires", values, { headers: { 'Content-Type': 'multipart/form-data','Accept': '*/*' } })
+        .then(({ data }) => {
+          if (data.code == 201) {
+            success(data.message);
+            resetForm();
+            router.push({ name: "ListeHorairePage" });
+          }
+        }).catch(({ response }) => {
+          error(response.data.message);
+        });
+    };
+
+    onMounted(async () => {
+
+      
+
+     
+    })
+
+    return {
+      addHoraire,
+      personnelForm,
+      removeRowHoraire,
+      addRowHoraire,
+      valideteRowHoraire,
+      horaireSchema,
+      valuess,
+      horaireOptions,
+      isDisable,
+      horaires,
+         };
   },
-  methods: {
-    submitForm() {
-      this.submitted = true;
-    },
-  },
-};
+});
 </script>
-
 <style scoped>
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.cursor-not-allowed {
+  cursor: not-allowed;
 }
 
-label {
-  margin-right: 10px;
+.cursor-not-allowed {
+  cursor: not-allowed;
 }
 
-input {
-  margin-bottom: 10px;
+.marge-droite {
+  margin-left: 15px;
 }
 
-button {
-  margin-top: 20px;
+.hr-longeur {
+  width: 80%;
 }
 
-hr {
-  margin-top: 20px;
+.bord1 {
+  border: 1px solid #07a;
+}
+
+.fond {
+  background-color: rgb(94, 191, 233);
 }
 </style>

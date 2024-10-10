@@ -319,7 +319,7 @@ export const menu: MenuItem[] = [
         children: [
             
             {
-                path: "/tests/ajouter-personnel",
+                path: "/personnels/ajouter-personnel",
                 title: "Ajouter un personnel",
                 type: "link"
             },
