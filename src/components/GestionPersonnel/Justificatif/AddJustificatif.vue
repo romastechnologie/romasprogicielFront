@@ -3,17 +3,17 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
       <Form @submit="sendJustificatif" :validation-schema="schemaJustificatif()">
         <div class="row">
-        <div class="col-md-4 mb-3">
-          <div class="form-group mb-15 mb-sm-20 mb-md-25">
-            <label class="d-block text-black fw-semibold mb-10">
-              Date <span class="text-danger">*</span>
-            </label>
-            <Field name="date" type="date" class="form-control shadow-none fs-md-15 text-black" />
-            <ErrorMessage name="date" class="text-danger" />
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date <span class="text-danger">*</span>
+              </label>
+              <Field name="date" type="date" class="form-control shadow-none fs-md-15 text-black" />
+              <ErrorMessage name="date" class="text-danger" />
+            </div>
           </div>
-        </div>
 
-        <!--<p class="my-0"> Presence </p>
+          <!--<p class="my-0"> Presence </p>
         <select name="presenceJustificatif" id="presenceJustificatif" class="form-select mb-1">
           <option disabled selected> Choisir la presence </option>
           <option :value="presence.id" v-for="presence in filterPresence" :key="presence.id"> Presence ==>
@@ -21,7 +21,7 @@
         presence.personnel.nom + " " + presence.personnel.prenom }} </option>
         </select>-->
 
-        <div class="col-md-4 mb-3">
+          <!-- <div class="col-md-4 mb-3">
           <div class="form-group mb-15 mb-sm-20 mb-md-25">
             <label class="d-block text-black mb-10">
               Présence <span class="text-danger">*</span>
@@ -33,63 +33,63 @@
             </Field>
             <ErrorMessage name="presenceJustificatif" class="text-danger" />
           </div>
-        </div>
-
-       
-        <div class="col-md-4 mb-3">
-          <div class="form-group mb-15 mb-sm-20 mb-md-25">
-            <label class="d-block text-black mb-10">
-              Personnel <span class="text-danger">*</span>
-            </label>
-            <Field name="personnel" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
-                track-by="label" />
-            </Field>
-            <ErrorMessage name="personnel" class="text-danger" />
-          </div>
-        </div>
+        </div> -->
 
 
-        <div class="col-md-4 mb-3">
-          <div class="form-group mb-15 mb-sm-20 mb-md-25">
-            <label class="d-block text-black fw-semibold mb-10">
-              Date de début <span class="text-danger">*</span>
-            </label>
-            <Field name="dateDebutJustificatif" type="date" class="form-control shadow-none fs-md-15 text-black" />
-            <ErrorMessage name="dateDebutJustificatif" class="text-danger" />
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Personnel <span class="text-danger">*</span>
+              </label>
+              <Field name="personnel" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
+                  track-by="label" />
+              </Field>
+              <ErrorMessage name="personnel" class="text-danger" />
+            </div>
           </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="form-group mb-15 mb-sm-20 mb-md-25">
-            <label class="d-block text-black fw-semibold mb-10">
-              Date de fin <span class="text-danger">*</span>
-            </label>
-            <Field name="dateFinJustificatif" type="date" class="form-control shadow-none fs-md-15 text-black" />
-            <ErrorMessage name="dateFinJustificatif" class="text-danger" />
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="form-group mb-15 mb-sm-20 mb-md-25">
-            <label class="d-block text-black fw-semibold mb-10">
-              Preuve <span class="text-danger">*</span>
-            </label>
-            <Field name="fileJustificatif" type="file" class="form-control shadow-none fs-md-15 text-black" />
-            <ErrorMessage name="fileJustificatif" class="text-danger" />
-          </div>
-        </div>
 
-        <div class="col-md-12 mt-3">
-          <div class="d-flex align-items-center ">
-            <button class="btn btn-success me-3" type="submit">
-              Ajouter un justificatif
-            </button>
-            <router-link to="/justificatifs/liste-justificatif" class=" btn btn-danger"><i
-                class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-              <span class="position-relative"></span>Annuler</router-link>
+
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date de début <span class="text-danger">*</span>
+              </label>
+              <Field name="dateDebutJustificatif" type="date" class="form-control shadow-none fs-md-15 text-black" />
+              <ErrorMessage name="dateDebutJustificatif" class="text-danger" />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date de fin <span class="text-danger">*</span>
+              </label>
+              <Field name="dateFinJustificatif" type="date" class="form-control shadow-none fs-md-15 text-black" />
+              <ErrorMessage name="dateFinJustificatif" class="text-danger" />
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Preuve <span class="text-danger">*</span>
+              </label>
+              <Field name="fileJustificatif" type="file" class="form-control shadow-none fs-md-15 text-black" />
+              <ErrorMessage name="fileJustificatif" class="text-danger" />
+            </div>
+          </div>
+
+          <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center ">
+              <button class="btn btn-success me-3" type="submit">
+                Ajouter un justificatif
+              </button>
+              <router-link to="/justificatifs/liste-justificatif" class=" btn btn-danger"><i
+                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler</router-link>
+            </div>
           </div>
         </div>
-      </div>
       </Form>
     </div>
   </div>
@@ -128,7 +128,7 @@ const changeConge = ref(true);
 const selectAll = ref<boolean>(true);
 const selectedPersonnels = ref<number[]>([])
 const personnelOptions = ref();
-const presenceOptions = ref();
+// const presenceOptions = ref();
 
 
 
@@ -168,7 +168,7 @@ const today = ref('');
 const defaultDate = new Date().toISOString().slice(0, 10);
 
 const personnels = ref([] as any[]);
-const presences = ref([] as any[]);
+// const presences = ref([] as any[]);
 const demande = ref([] as any[]);
 const conges = ref([] as any[]);
 const personnelsEnConge = ref<number[]>([]);
@@ -284,18 +284,18 @@ const personnelCongeDemande = ref<PersonnelCongeDemande>({
 let filterPresence = ref([] as any[]);
 let filterDemande = ref([] as any[]);
 
-function sortPresenceWithDate(choseedDate: HTMLInputElement) {
+// function sortPresenceWithDate(choseedDate: HTMLInputElement) {
 
-  if (presences.value) {
-    const presenceOnSelectedDate = presences.value.filter(entry => {
-      const entryDate = new Date(entry.date);
-      const selectedDate = new Date(choseedDate.value);
-      return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.statutJustifie === "Non";
-    });
+//   if (presences.value) {
+//     const presenceOnSelectedDate = presences.value.filter(entry => {
+//       const entryDate = new Date(entry.date);
+//       const selectedDate = new Date(choseedDate.value);
+//       return entryDate.toISOString().slice(0, 10) === selectedDate.toISOString().slice(0, 10) && entry.statutJustifie === "Non";
+//     });
 
-    filterPresence.value = presenceOnSelectedDate;
-  }
-}
+//     filterPresence.value = presenceOnSelectedDate;
+//   }
+// }
 
 // function sortPresenceForJustificatifWithDate(choseedDate: HTMLInputElement) {
 
@@ -432,20 +432,20 @@ const getAllPersonnels = async () => {
   }
 }
 
-const getAllPresences = async () => {
-  try {
-    const response = await ApiService.get('/presences');
-    const presencesData = response.data;
-    console.log('Data', presencesData)
-    presenceOptions.value = presencesData.map((presence) => ({
-      value: presence.id,
-      label: presence.personnel.nom + " " + presence.personnel.prenom,
-    }));
-  }
-  catch (error) {
-    //error(response.data.message)
-  }
-}
+// const getAllPresences = async () => {
+//   try {
+//     const response = await ApiService.get('/presences');
+//     const presencesData = response.data;
+//     console.log('Data', presencesData)
+//     presenceOptions.value = presencesData.map((presence) => ({
+//       value: presence.id,
+//       label: presence.personnel.nom + " " + presence.personnel.prenom,
+//     }));
+//   }
+//   catch (error) {
+//     //error(response.data.message)
+//   }
+// }
 
 
 
@@ -479,7 +479,7 @@ const getAllPersonnel = async () => {
 
 onMounted(() => {
 
-  getAllPresences();
+  // getAllPresences();
   getAllDemande();
   getAllPersonnel();
   getAllPersonnels();

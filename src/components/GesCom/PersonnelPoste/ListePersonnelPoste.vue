@@ -6,10 +6,10 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/ajouter-personnelFonction"
+          to="/ajouter-personnelPoste"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter une fonction à un personnel
+          Ajouter un Poste à un personnel
         </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -26,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black"
-            placeholder="Rechercher la fonction d'une personne"
+            placeholder="Rechercher le Poste d'une personne"
           />
           <button
             type="submit"
@@ -58,7 +58,7 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Type PersonnelFonction
+                Type PersonnelPoste
               </th>
               <th
                 scope="col"
@@ -127,25 +127,25 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { PersonnelFonction } from "@/models/PersonnelPoste";
+import { PersonnelPoste } from "@/models/PersonnelPoste";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListePersonnelFonction",
+  name: "ListePersonnelPoste",
   components: {
     PaginationComponent
   },
   setup(){
     
     onMounted(() => {
-      getAllPersonnelFonctions();
+      getAllPersonnelPostes();
     });
 
-    const personnelFonctions = ref<Array<PersonnelFonction>>([]);   
-    const personnelFonction = ref<PersonnelFonction>();
+    const personnelPostes = ref<Array<PersonnelPoste>>([]);   
+    const personnelPoste = ref<PersonnelPoste>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -157,22 +157,22 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllPersonnelFonctions(page_, limit_);
+        getAllPersonnelPostes(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllPersonnelFonctions(page.value, limit.value, searchTerm.value );
+      getAllPersonnelPostes(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
-    function getAllPersonnelFonctions(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/personnelFonctions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllPersonnelPostes(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/personnelPostes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          personnelFonctions.value = data.data.data;
+          personnelPostes.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -183,12 +183,12 @@ export default defineComponent({
       });
     }
     
-    function moddifier(EditpersonnelFonctions:PersonnelFonction) {
-      personnelFonction.value = EditpersonnelFonctions;
+    function moddifier(EditpersonnelPostes:PersonnelPoste) {
+      personnelPoste.value = EditpersonnelPostes;
     }
 
-    const deletePersonnelFonction = (id: number) => {
-      ApiService.delete(`/personnelFonctions/${id}`)
+    const deletePersonnelPoste = (id: number) => {
+      ApiService.delete(`/personnelPostes/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,
@@ -216,9 +216,9 @@ export default defineComponent({
         });
       });
 
-      for(let i = 0; i < personnelFonctions.value.length; i++) {
-        if (personnelFonctions.value[i].id === id) {
-          personnelFonctions.value.splice(i, 1);
+      for(let i = 0; i < personnelPostes.value.length; i++) {
+        if (personnelPostes.value[i].id === id) {
+          personnelPostes.value.splice(i, 1);
         }
       }
     };
@@ -229,10 +229,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { personnelFonctions,
+    return { personnelPostes,
       checkPermission,
-     getAllPersonnelFonctions,
-     deletePersonnelFonction,
+     getAllPersonnelPostes,
+     deletePersonnelPoste,
      moddifier ,
      suppression,
      page, 

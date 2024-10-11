@@ -1,18 +1,18 @@
 <template>
-    <ListeFonction/>
+    <AddPersonnelPoste />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
     
-    import ListeFonction from "@/components/GesCom/Fonction/ListeFonction.vue";
-
+import AddPersonnelPoste from "@/components/GesCom/PersonnelPoste/AddPersonnelPoste.vue";
+  
     export default defineComponent({
-      name: "ListeFonctionPage",
+      name: "AddPersonnelPostePage",
       components: {
         
-        ListeFonction,
+        AddPersonnelPoste,
       },
     });
   </script>

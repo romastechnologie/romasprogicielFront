@@ -142,7 +142,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllAttributions(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/attributions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/attributions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       //return ApiService.get('/services')
         .then(({ data }) => {
           Attributions.value = data.data.data;

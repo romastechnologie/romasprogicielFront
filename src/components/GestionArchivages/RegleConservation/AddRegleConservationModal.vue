@@ -47,7 +47,7 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Durée Conservation <span class="text-danger">*</span>
                   </label>
-                  <Field name="dureeConservation" type="date" class="form-control shadow-none fs-md-15 text-black"
+                  <Field name="dureeConservation" type="number" class="form-control shadow-none fs-md-15 text-black"
                     placeholder="Entrer la durée de conservation" />
                   <ErrorMessage name="dureeConservation" class="text-danger" />
                 </div>
@@ -64,17 +64,25 @@
                 </div>
               </div>
 
-              <div class="col-md-12 mb-4">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black mb-10">Type Durée</label>
-                  <Field name="typeDuree" v-model="typeDuree" type="text" v-slot="{ field }">
-                    <Multiselect v-model="field.value" v-bind="field" :options="typesDuresOptions" :preserve-search="true"
-                      :multiple="false" :searchable="true" placeholder="Sélectionner le Type Durée" label="label"
-                      track-by="label" />
-                  </Field>
-                  <span class="text-danger" v-if="showMErr">Le Type Durée est obligatoire</span>
-                </div>
+              <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Type de Durée <span class="text-danger">*</span>
+                </label>
+                <Field  name="typeDuree"  v-slot="{ field }">
+                  <Multiselect
+                    :options="typeDureeOptions"
+                    :searchable="true"
+                    track-by="label"
+                    label="label"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner le type de Duree"
+                  />
+                </Field>  
               </div>
+              <ErrorMessage name="typeDuree" class="text-danger"/>
+            </div>
 
 
               <button class="btn btn-primary mt-3">
@@ -125,7 +133,7 @@ export default defineComponent({
       libelle: Yup.string().required('Le libellé est obligatoire'),
       code: Yup.string().required('Le code est obligatoire'),
       sortFinal: Yup.string().required('Le Sort Final est obligatoire'),
-      dureeConservation: Yup.string().required('La Duree Conservation est obligatoire'),
+      dureeConservation: Yup.number().required('La Duree Conservation est obligatoire'),
       description: Yup.string().required('La description est obligatoire'),
       typeDuree: Yup.string().required('Le Type Duree est obligatoire'),
 
@@ -138,11 +146,8 @@ export default defineComponent({
     const router = useRouter();
     const regleConservationOptions = ref([]);
     const typeDuree =  ref();
-    const typesDuresOptions = ref([]);
-    const jours = ref();
-    const mois = ref ();
-    const annees = ref();
-    const options = [];
+    const typeDureeOptions = ref([]);
+   
     
 
 
@@ -171,6 +176,9 @@ export default defineComponent({
         btntext.value = "Ajouter";
       }
     }
+
+    typeDureeOptions.value = [{value:"jour(s)", label:"Jour(s)"}, {value:"mois", label:"Mois"},{value:"annees", label:"Annees"}]
+
 
     const getRegleConservation = async (id: number) => {
       return ApiService.get("/regleConservations/" + id)
@@ -203,31 +211,8 @@ export default defineComponent({
       }
     };
 
-   
-
-    const generatetypesDures = async () => {
-    const jours = [...Array(31).keys()].map(i => (i + 1).toString().padStart(2, '0'));
-    const mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-    const annees = [...Array(100).keys()].map(i => (2024 - i).toString());
-
-
-    jours.forEach(jour => {
-      mois.forEach((mois, index) => {
-        annees.forEach(annee => {
-          options.push({
-            label: `${jour} ${mois} ${annee}`,
-            value: `${jour}-${(index + 1).toString().padStart(2, '0')}-${annee}`,
-          });
-        });
-      });
-    });
-
-  }
-
-
    onMounted(() => {
       fetchRegleConservation();
-      generatetypesDures();
     });
       
     const addRegleConservation = async (values: any, regleConservationForm) => {
@@ -280,7 +265,7 @@ export default defineComponent({
       regleConservationForm,
       title, btntext, resetValue,
       regleConservationOptions,
-      showMErr,typeDuree,typesDuresOptions,options,jours,mois,annees
+      showMErr,typeDuree,typeDureeOptions
     };
   },
 });

@@ -27,7 +27,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black"
-            placeholder="Rechercher une fonction"
+            placeholder="Rechercher un Poste"
           />
           <button
             type="submit"
@@ -168,7 +168,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllPostes(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/postes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/all/postes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       //return ApiService.get('/fonctions')
         .then(({ data }) => {
           postes.value = data.data.data;

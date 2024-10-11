@@ -4,15 +4,13 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <a
+        <router-link
           class="btn btn-primary"
-          href="#"
-          data-bs-toggle="modal"
-          data-bs-target="#AddModePaiementModal"
+          to="/ajouter-circuit"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un mode de paiement
-        </a>
+          Ajouter un circuit
+        </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
           type="button"
@@ -28,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black"
-            placeholder="Rechercher un mode de paiement"
+            placeholder="Rechercher un circuit"
           />
           <button
             type="submit"
@@ -54,14 +52,21 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Code
+                Nom
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Libellé
+                Duree
               </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Type Duree
+              </th>
+           
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
@@ -69,47 +74,45 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(modePaiement, index) in modePaiements" :key="index">
+            <tr v-for="(circuit, index) in circuits" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ modePaiement.code }}
+                {{ circuit.nom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ modePaiement.libelle }}
+                {{ circuit.Duree }}
               </td>
-              <!-- <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ modePaiement?.client?.nom }}
-              </td> -->
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ circuit.typeDuree }}
+              </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                     <li class="dropdown-item d-flex align-items-center">
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);"
-                        data-bs-toggle="modal"
-                        data-bs-target="#AddModePaiementModal"
-                        @click="moddifier(modePaiement)"
-                      >
-                        <i
+              <div class="dropdown">
+                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                  </span>
+                  <ul class="dropdown-menu">
+                    <li >
+                      <router-link :to="{ name: 'EditCircuitPage', params: { id: circuit.id } }" 
+                          class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>
-                        Modifier
-                      </a>
+                        ></i>Modifier</router-link>
                     </li>
-                    <li class="dropdown-item d-flex align-items-center">
+                    <!-- <li>
+                        <router-link :to="{ name: 'ViewMediaPage', params: { id: media.id } }" class="dropdown-item d-flex align-items-center">
+                            <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
+                        </router-link>
+                    </li> -->
+                    <li >
                       <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(modePaiement.id,modePaiements,'modePaiements','la modePaiement')"
-                      >
-                        <i
-                          class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
-                        ></i>
-                        Supprimer
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(circuit.id,circuits,'circuits',`Le circuit ${circuit.id}`)">
+                        <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
+                         Supprimer
                       </a>
                     </li>
                   </ul>
+              </div>
               </td>
             </tr>
           </tbody>
@@ -122,34 +125,30 @@
       </div>
     </div>
   </div>
-  <AddModePaiementModal :item="selectedItem" @close="recharger"/>
-
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { ModePaiement } from "@/models/ModePaiement";
+import { Circuit } from "@/models/Circuit";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import AddModePaiementModal from "./AddModePaiementModal.vue";
 
 export default defineComponent({
-  name: "ListeModePaiement",
+  name: "ListeCircuit",
   components: {
-    PaginationComponent,
-    AddModePaiementModal
+    PaginationComponent
   },
   setup(){
     
     onMounted(() => {
-      getAllModePaiements();
+      getAllCircuits();
     });
 
-    const modePaiements = ref<Array<ModePaiement>>([]);   
-    const modePaiement = ref<ModePaiement>();
+    const circuits = ref<Array<Circuit>>([]);   
+    const circuit = ref<Circuit>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -157,31 +156,26 @@ export default defineComponent({
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
-    const selectedItem = ref(0);
 
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllModePaiements(page_, limit_);
+        getAllCircuits(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllModePaiements(page.value, limit.value, searchTerm.value );
+      getAllCircuits(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
-    const recharger = () => {
-      getAllModePaiements();
-    };
-
-    function getAllModePaiements(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/modepaiements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllCircuits(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/all/circuits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          modePaiements.value = data.data.data;
+          circuits.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -190,15 +184,15 @@ export default defineComponent({
         .catch(({ response }) => {
           error(response.data.message)
       });
+      
     }
     
-    function moddifier(EditModePaiement:ModePaiement) {
-      modePaiement.value = EditModePaiement;
-      selectedItem.value = EditModePaiement.id;
+    function moddifier(Editcircuits:Circuit) {
+      circuit.value = Editcircuits;
     }
 
-    const deleteModePaiement = (id: number) => {
-      ApiService.delete(`/modepaiements/${id}`)
+    const deleteCircuit = (id: number) => {
+      ApiService.delete(`/circuits/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,
@@ -226,9 +220,9 @@ export default defineComponent({
         });
       });
 
-      for(let i = 0; i < modePaiements.value.length; i++) {
-        if (modePaiements.value[i].id === id) {
-          modePaiements.value.splice(i, 1);
+      for(let i = 0; i < circuits.value.length; i++) {
+        if (circuits.value[i].id === id) {
+          circuits.value.splice(i, 1);
         }
       }
     };
@@ -239,10 +233,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { modePaiements,
+    return { circuits,
       checkPermission,
-     getAllModePaiements,
-     deleteModePaiement,
+     getAllCircuits,
+     deleteCircuit,
      moddifier ,
      suppression,
      page, 
@@ -251,9 +245,7 @@ export default defineComponent({
     totalElements,
     handlePaginate,
     rechercher,
-    searchTerm,
-    selectedItem,
-    recharger
+    searchTerm
   };
   },
 });

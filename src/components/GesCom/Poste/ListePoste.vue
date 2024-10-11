@@ -212,7 +212,7 @@ export default defineComponent({
       handlePaginate,
       searchTerm,
       separateur,
-      rechercher
+      rechercher,
     };
   },
 
