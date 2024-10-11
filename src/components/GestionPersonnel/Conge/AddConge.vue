@@ -13,7 +13,8 @@
           </div>
           <Form @submit="sendCongeNDemande" :validation-schema="schemaCongeNDemande()">
             <div class="d-flex justify-content-between">
-              <div class="col-6">
+              
+              <div class="col-4">
                 <p class="my-0"> Date de debut </p>
                 <Field v-model="dateDebut" type="date" name="dateDebut" id="dateDebut" class="form-control mb-1 " />
                 <ErrorMessage name="dateDebut" class="text-danger text-start mb-2" />
@@ -26,7 +27,7 @@
                   class="form-control mb-1" />
                 <ErrorMessage name="dateReprise" class="text-danger text-start mb-2" />
               </div>
-              <div class="col-6">
+              <div class="col-4">
                 <p class="my-0"> Bénéficiaire(s) </p>
                 <div class="d-flex flex-wrap overflow-auto">
                   <div class="form-check mx-2">

@@ -12,110 +12,21 @@
         </div>
         <div class="modal-body">
           <Form :validation-schema="schemaDemande()" enctype="multipart/form-data">
-
-            <div class="col-md-12 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Catégorie de la demande <span class="text-danger">*</span>
-              </label>
-              <Field name="categorieId" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="categorieOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie" label="label"
-                  track-by="label" />
-              </Field>
-              <ErrorMessage name="personnel" class="text-danger" />
-            </div>
-          </div>
-            <!-- <p class="my-0"> Catégorie de la demande </p>
+            <p class="my-0"> Catégorie de la demande </p>
             <Field name="categorieId" v-model="cate" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="categorieOptions" :close-on-select="true"
                 :clear-on-select="false" :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie"
                 label="label" track-by="label" />
-            </Field>-->
+            </Field>
 
-            <!--<p class="my-0"> Personnel </p>
+            <p class="my-0"> Personnel </p>
             <Field name="personnelId" v-model="perso" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :close-on-select="true"
                 :clear-on-select="false" :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
                 label="label" track-by="label" />
-            </Field>-->
+            </Field>
 
-            <div class="col-md-12 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Date de la demande <span class="text-danger">*</span>
-              </label>
-              <Field name="dateDemande" type="date" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="dateDemande" class="text-danger" />
-            </div>
-          </div>
-          <!--<div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Demandes <span class="text-danger">*</span>
-              </label>
-              <Field name="demande" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="demandeOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner la demande" label="label"
-                  track-by="label" />
-              </Field>
-              <ErrorMessage name="demande" class="text-danger" />
-            </div>
-          </div>-->
-
-
-          <div class="col-md-12 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Personnel <span class="text-danger">*</span>
-              </label>
-              <Field name="personnel" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
-                  track-by="label" />
-              </Field>
-              <ErrorMessage name="personnel" class="text-danger" />
-            </div>
-          </div>
-          <div class="col-md-12 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Motif de la permission <span class="text-danger">*</span>
-              </label>
-              <Field name="motif" type="text" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="motif" class="text-danger" />
-            </div>
-          </div>
-          <div class="col-md-12 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Date de début <span class="text-danger">*</span>
-              </label>
-              <Field name="dateDebut" type="date" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="dateDebut" class="text-danger" />
-            </div>
-          </div>
-          <div class="col-md-12 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Date de fin <span class="text-danger">*</span>
-              </label>
-              <Field name="dateFin" type="date" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="dateFin" class="text-danger" />
-            </div>
-          </div>
-
-          <div class="col-md-12 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Date de Reprise <span class="text-danger">*</span>
-              </label>
-              <Field name="dateReprise" type="date" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="dateReprise" class="text-danger" />
-            </div>
-          </div>
-
-            <p class="my-0"> Joindre un fichier </p>
+            <p class="my-0"> Demande </p>
             <Field type="file" name="demandeFile" id="demandeFile" class="form-control mb-1" />
             <ErrorMessage name="demandeFile" class="text-danger text-start mb-2" />
             <div class="modal-footer">
