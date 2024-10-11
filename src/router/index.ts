@@ -1799,7 +1799,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "liste-ciruits",
+        path: "liste-circuits",
         name: "ListeCircuitPage",
         component: ListeCircuitPage,
         meta: {

@@ -8,7 +8,7 @@
                 <label class="d-block text-black fw-semibold mb-10">
                   Nom  <span class="text-danger">*</span>
                 </label>
-                <Field name="nom" type="text" 
+                <Field name="nom" type="string" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
@@ -105,9 +105,9 @@ export default defineComponent({
     function getCircuit(id:number) {
       ApiService.get("/circuits/"+id.toString())
         .then(({ data }) => {
-          for (const key in data.data.data) {
+          for (const key in data.data) {
             circuitForm.value?.setFieldValue(key, 
-            (typeof data.data.data[key] === 'object' && data.data.data[key] !== null)? data.data.data[key].id :data.data.data[key]
+            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
           );
           }
       })
@@ -116,19 +116,36 @@ export default defineComponent({
       });
     }
 
-    const editCircuit = async (values, {resetForm}) => {
-      const data = circuitForm.value;
-      ApiService.put("/circuits/" + data?.id, data)
-        .then(({ data }) => {
-          if (data.code == 200) {
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeCircuitPage" });
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-        });
-    };
+    const editCircuit = (values, { resetForm }) => {
+  const data = circuitForm.value;
+
+  // Vérifie si `data` et `data.id` existent
+  if (!data || !data.id) {
+    error("Données du circuit invalides ou ID manquant");
+    return;
+  }
+
+  // Envoi de la requête PUT avec les données du formulaire
+  ApiService.put("/circuits/" + data.id, data)
+    .then((response) => {
+      // Vérifie si la réponse HTTP est un succès (200 OK)
+      if (response.status === 200) {
+        success(response.data.message);  // Affiche le message de succès
+        resetForm();                      // Réinitialise le formulaire après la modification
+        router.push({ name: "ListeCircuitPage" });  // Redirige vers la page de liste des circuits
+      } else {
+        error("Une erreur inattendue s'est produite");  // Gestion des réponses inattendues
+      }
+    })
+    .catch(({ response }) => {
+      // Gestion des erreurs de l'API
+      if (response && response.data && response.data.message) {
+        error(response.data.message);  // Affiche le message d'erreur venant du backend
+      } else {
+        error("Une erreur s'est produite lors de la modification du circuit");  // Message générique
+      }
+    });
+};
 
     onMounted(() => {
       if(route.params.id) {

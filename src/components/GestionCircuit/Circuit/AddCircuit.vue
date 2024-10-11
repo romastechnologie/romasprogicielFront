@@ -49,7 +49,7 @@
               <button class="btn btn-success me-3" type="submit">
                 Ajouter un Circuit
               </button>
-              <router-link to="/circuits/liste-circuit" class=" btn btn-danger "><i
+              <router-link to="/circuits/liste-circuits" class=" btn btn-danger "><i
                   class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
             </div>
