@@ -331,7 +331,7 @@ export const menu: MenuItem[] = [
         ]
     },
     {
-        title: "Demandes",
+        title: "Gestion des demandes",
         icon: "stroke-file",
         icon1: "fill-file",
         type: "link",
