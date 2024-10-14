@@ -10,6 +10,21 @@
                     <div class="modal-body">
                       <Form ref="emplacementForm" @submit="addEmplacement" :validation-schema="emplacementSchema">
                         <div class="row">
+
+                          <div class="col-md-12 mb-3">
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black mb-10">
+                              Type d'emplacement <span class="text-danger">*</span>
+                            </label>
+                            <Field name="typeEmplacement" type="text" v-slot="{ field }">
+                            <Multiselect v-model="field.value" v-bind="field" :options="typeEmplacementOptions" :preserve-search="true"
+                              :multiple="false" :searchable="true" placeholder="Sélectionner le type d'emplacement"
+                              label="label" track-by="label" />
+                            </Field>
+                            <ErrorMessage name="typeEmplacement" class="text-danger" />
+                          </div>
+                        </div>
+
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
@@ -20,16 +35,7 @@
                               <ErrorMessage name="code" class="text-danger"/>
                             </div>
                           </div>
-                          <div class="col-md-12 mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                              <label class="d-block text-black fw-semibold mb-10">
-                                Libelle<span class="text-danger">*</span>
-                              </label>
-                              <Field name="libelle" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
-                              <ErrorMessage name="libelle" class="text-danger"/>
-                            </div>
-                          </div>
+                           
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
@@ -45,19 +51,7 @@
                               <ErrorMessage name="description" class="text-danger"/>
                             </div>
                           </div>
-                          <div class="col-md-12 mb-3">
-                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                            <label class="d-block text-black mb-10">
-                              Type d'emplacement <span class="text-danger">*</span>
-                            </label>
-                            <Field name="typeEmplacement" type="text" v-slot="{ field }">
-                            <Multiselect v-model="field.value" v-bind="field" :options="typeEmplacementOptions" :preserve-search="true"
-                              :multiple="false" :searchable="true" placeholder="Sélectionner le type d'emplacement"
-                              label="label" track-by="label" />
-                            </Field>
-                            <ErrorMessage name="typeEmplacement" class="text-danger" />
-                          </div>
-                        </div>
+                      
                         <div class="col-md-12 mb-3">
                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                             <label class="d-block text-black mb-10">
@@ -121,7 +115,6 @@
         const loading = ref<boolean>(false);
         const emplacementSchema = Yup.object().shape({
           code: Yup.string().required('Le code est obligatoire'),
-          libelle: Yup.string().required('Le libellé est obligatoire'),
           description: Yup.string().required('La description est obligatoire'),
           emplacement: Yup.string().notRequired(),
           typeEmplacement: Yup.string().required("Le type d'emplacement est obligatoire."),
@@ -163,7 +156,6 @@
           .then(({ data }) => {
             emplacementForm.value?.setFieldValue("id",data.data.id);
             emplacementForm.value?.setFieldValue("code",data.data.code);
-            emplacementForm.value?.setFieldValue("libelle",data.data.libelle);
             emit('openmodal', addEmplacementModalRef.value);
           })
           .catch(({ response }) => {
@@ -188,7 +180,7 @@
         console.log('Data', typeEmplacementsData)
         typeEmplacementOptions.value = typeEmplacementsData.map((typeEmplacement) => ({
           value: typeEmplacement.id,
-          label: typeEmplacement.libelle,
+          label: typeEmplacement.description,
         }));
         }
         catch(error){
@@ -202,7 +194,7 @@
         console.log('Data', emplacementsData)
         emplacementOptions.value = emplacementsData.map((emplacement) => ({
           value: emplacement.id,
-          label: emplacement.libelle,
+          label: emplacement.description,
         }));
         }
         catch(error){

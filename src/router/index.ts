@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import ListeAttribution from "@/components/Attribution/ListeAttribution.vue";
+
 import BodyView from "@/layout/BodyView.vue"
 import AuthView from "@/components/common/block/auth/AuthView.vue"
 import LoginPage from "@/components/common/block/auth/LoginPage.vue"
@@ -24,9 +26,9 @@ import indexUserlist from "@/pages/users/indexUserlist.vue"
 import indexCreateUser from "@/pages/users/indexCreateUser.vue"
 import AddPermissionPage from "@/pages/Permission/AddPermissionPage.vue";
 import ListePermissionPage from "@/pages/Permission/ListePermissionPage.vue";
-import ListeServicePage from "@/pages/Service/ListeServicePage.vue";
+// import ListeServicePage from "@/pages/Service/ListeServicePage.vue";
 import ListeCategoriePage from "@/pages/GestionPersonnel/Categorie/ListeCategoriePage.vue";
-import ListeFonctionPage from "@/pages/GestionPersonnel/Fonction/ListeFonctionPage.vue";
+import ListePostePage from "@/pages/GestionPersonnel/Poste/ListePostePage.vue";
 import ListeTypeCongePage from "@/pages/GestionPersonnel/TypeConge/ListeTypeCongePage.vue";
 import AddCongePage from "@/pages/GestionPersonnel/Conge/AddCongePage.vue";
 import EditCongePage from '@/pages/GestionPersonnel/Conge/EditCongePage.vue'
@@ -146,9 +148,9 @@ import EditPersonnellePage from "@/pages/GesCom/Personnel/EditPersonnellePage.vu
 import ListePersonnellePage from "@/pages/GesCom/Personnel/ListePersonnellePage.vue";
 import ViewPersonnellePage from "@/pages/GesCom/Personnel/ViewPersonnellePage.vue";
 // import ListeFonctionPage from "@/pages/GesCom/Fonction/ListeFonctionPage.vue";
-import AddPersonnelFonctionPage from "@/pages/GesCom/PersonnelFonction/AddPersonnelFonctionPage.vue";
-import EditPersonnelFonctionPage from "@/pages/GesCom/PersonnelFonction/EditPersonnelFonctionPage.vue";
-import ListePersonnelFonctionPage from "@/pages/GesCom/PersonnelFonction/ListePersonnelFonctionPage.vue";
+import AddPersonnelPostePage from "@/pages/GesCom/AddPersonnelPostePage/AddPersonnelPostePage.vue";
+import EditPersonnelPostePage from "@/pages/GesCom/PersonnelPoste/EditPersonnelPostePage.vue";
+import ListePersonnelPostePage from "@/pages/GesCom/PersonnelPoste/ListePersonnelPostePage.vue";
 import ListeTaxePage from "@/pages/GesCom/Taxe/ListeTaxePage.vue";
 import ListeTypeTaxePage from "@/pages/GesCom/TypeTaxe/ListeTypeTaxePage.vue";
 import ListeTypeDepensePage from "@/pages/GesCom/TypeDepense/ListeTypeDepensePage.vue";
@@ -274,6 +276,15 @@ import ListeCommunePage from "@/pages/Commune/ListeCommunePage.vue";
 import AddChampsLibrePage from "@/pages/ChampsLibre/AddChampsLibrePage.vue";
 import EditChampsLibrePage from "@/pages/ChampsLibre/EditChampsLibrePage.vue";
 import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
+
+// Gestion Circuit
+import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
+import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
+import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
+
+
+
+
 
 
 
@@ -1176,15 +1187,15 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/services",
+    path: "/attributions",
     component: BodyView,
     children: [
       {
-        path: "liste-service",
-        name: "ListeServicePage",
-        component: ListeServicePage,
+        path: "liste-attribution",
+        name: "ListeAttributionPage",
+        component: ListeAttribution,
         meta: {
-          title: 'Liste des services',
+          title: 'Liste des attributions',
         }
       },
     ]
@@ -1204,15 +1215,15 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: "/fonctions",
+    path: "/postes",
     component: BodyView,
     children: [
       {
-        path: "liste-fonction",
-        name: "ListeFonctionPage",
-        component: ListeFonctionPage,
+        path: "liste-poste",
+        name: "ListePostePage",
+        component: ListePostePage,
         meta: {
-          title: 'Liste des fonctions',
+          title: 'Liste des postes',
         }
       },
     ]
@@ -1766,6 +1777,40 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+
+  {
+    path: "/circuits",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-circuit",
+        name: "AddCircuitPage",
+        component: AddCircuitPage,
+        meta: {
+          title: 'Ajouter un circuit',
+        }
+      },
+      {
+        path: "modifier-circuit/:id",
+        name: "EditCircuitPage",
+        component: EditCircuitPage,
+        meta: {
+          title: 'Modifier un ciruit',
+        }
+      },
+      {
+        path: "liste-circuits",
+        name: "ListeCircuitPage",
+        component: ListeCircuitPage,
+        meta: {
+          title: 'Liste des circuits',
+        }
+      },
+    ]
+  },
+
+
+
   {
     path: "/produits",
     component: BodyView,
@@ -2237,15 +2282,15 @@ const routes: Array<RouteRecordRaw> = [
   //   ]
   // },
   {
-    path: "/fonctions",
+    path: "/postes",
     component: BodyView,
     children: [
       {
-        path: "liste-fonctions",
-        name: "ListeFonction",
-        component: ListeFonctionPage,
+        path: "liste-postes",
+        name: "ListePoste",
+        component: ListePostePage,
         meta: {
-          title: 'Liste des fonctions',
+          title: 'Liste des postes',
         }
       },
     ]

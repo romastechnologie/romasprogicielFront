@@ -22,8 +22,8 @@
           <div class="col-4">
             <div type="button"
               class="card d-flex flex-row p-2 bg-secondary justify-content-center align-items-center mb-2"
-              data-bs-toggle="modal" :data-bs-target="`#fonctionService`">
-              <h6> Ajouter une fonction </h6>
+              data-bs-toggle="modal" :data-bs-target="`#posteService`">
+              <h6> Ajouter un Poste </h6>
             </div>
           </div>
           <!-- <div class="col-4">
@@ -40,12 +40,12 @@
                 <PersonnelElement target="contratPerso" icone="update" libelle="Modifier un contrat" />
             </div> -->
         </div>
-        <h5 class="text-center"> Services - Fonctions </h5>
+        <h5 class="text-center"> Services - Postes </h5>
         <table class="table mb-5">
           <thead>
             <tr>
               <th scope="col"> Service </th>
-              <th scope="col"> Fonction </th>
+              <th scope="col"> Poste </th>
               <th scope="col"> Date de début </th>
               <th scope="col"> Date de Fin </th>
               <th scope="col"> Statut </th>
@@ -53,20 +53,20 @@
           </thead>
           <tbody>
             <template v-for="personnel in personnels" :key="personnel.id">
-              <template v-for="personnel_service_fonction in personnel.personnel_service_fonctions"
-                :key="personnel_service_fonction.id">
+              <template v-for="personnel_service_poste in personnel.personnel_service_postes"
+                :key="personnel_service_poste.id">
                 <tr v-if="personnel.id == $route.params.id">
                   <td>
-                    {{ personnel_service_fonction.service_fonction.service.libelle }}
+                    {{ personnel_service_poste.service_poste.service.libelle }}
                   </td>
                   <td>
-                    {{ personnel_service_fonction.service_fonction.fonction.libelle }}
+                    {{ personnel_service_poste.service_poste.poste.libelle }}
                   </td>
-                  <td> {{ (personnel_service_fonction.dateDebut as Date).toString().slice(0, 10) }} </td>
-                  <td> {{ personnel_service_fonction.dateFin }} </td>
-                  <td v-if="personnel_service_fonction.statut === 'Actif'" class="text-center"> <span
+                  <td> {{ (personnel_service_poste.dateDebut as Date).toString().slice(0, 10) }} </td>
+                  <td> {{ personnel_service_poste.dateFin }} </td>
+                  <td v-if="personnel_service_poste.statut === 'Actif'" class="text-center"> <span
                       class="badge badge-success">Actif</span> </td>
-                  <td v-else-if="personnel_service_fonction.statut === 'Inactif'" class="text-center"> <span
+                  <td v-else-if="personnel_service_poste.statut === 'Inactif'" class="text-center"> <span
                       class="badge badge-danger">Inactif</span>
                   </td>
                 </tr>
@@ -166,35 +166,35 @@
 
       <!-- Modal -->
       <!-- Fonction -->
-      <div class="modal fade" id="fonctionService" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      <div class="modal fade" id="posteService" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel"> Ajouter une fonction personnel </h5>
-              <button ref="closeFonctionModal" type="button" class="btn-close" data-bs-dismiss="modal"
+              <h5 class="modal-title" id="staticBackdropLabel"> Ajouter un Poste personnel </h5>
+              <button ref="closePosteModal" type="button" class="btn-close" data-bs-dismiss="modal"
                 aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <Form @submit="sendFonctionPerso($event, $route.params.id)" :validation-schema="schemaFonctionPerso()">
+              <Form @submit="sendPostePerso($event, $route.params.id)" :validation-schema="schemaPostePerso()">
                 <p class="my-0"> Service </p>
                 <Field name="service" id="service" class="form-select mb-1"
-                  @click="sortServiceFonctionWithService($event.target)" as="select">
+                  @click="sortServicePosteWithService($event.target)" as="select">
                   <option disabled selected> Choisir le service </option>
                   <option :value=service.libelle v-for="service in services" :key="service.id">
                     {{ service.libelle }}
                   </option>
                 </Field>
                 <ErrorMessage name="service" class="text-danger text-start" />
-                <p class="my-0"> Fonction </p>
-                <Field name="serviceFonction" id="serviceFonction" class="form-select mb-1" as="select">
-                  <option disabled selected> Choisir la fonction </option>
-                  <option :value=service_fonction.id v-for="service_fonction in filterServiceFonction"
-                    :key="service_fonction.id">
-                    {{ service_fonction.fonction.libelle }}
+                <p class="my-0"> Poste </p>
+                <Field name="service_postes" id="servicePoste" class="form-select mb-1" as="select">
+                  <option disabled selected> Choisir le Poste </option>
+                  <option :value=service_poste.id v-for="service_poste in filterServicePoste"
+                    :key="service_poste.id">
+                    {{ service_poste.fonction.libelle }}
                   </option>
                 </Field>
-                <ErrorMessage name="serviceFonction" class="text-danger text-start" />
+                <ErrorMessage name="service_postes" class="text-danger text-start" />
                 <p class="my-0"> Date debut </p>
                 <Field type="date" name="dateDebut" id="dateDebut" class="form-control mb-1" />
                 <ErrorMessage name="dateDebut" class="text-danger text-start" />
@@ -275,16 +275,16 @@ const route = useRoute();
 
 const personnels = ref([] as any[]);
 const services = ref([] as any[]);
-const service_fonctions = ref([] as any[]);
+const service_postes = ref([] as any[]);
 
 const contrats = ref([] as any[]);
 
 const horairePersos = ref([] as any[]);
 
-let filterServiceFonction = ref([] as any[]);
+let filterServicePoste = ref([] as any[]);
 
-function sortServiceFonctionWithService(choseed: any) {
-  filterServiceFonction.value = service_fonctions.value.filter(service_fonction => service_fonction.service.libelle === choseed.value);
+function sortServicePosteWithService(choseed: any) {
+  filterServicePoste.value = service_postes.value.filter(service_fonction => service_fonction.service.libelle === choseed.value);
 }
 
 // ------------------------------------ SCHEMA -------------------------------------------
@@ -299,10 +299,10 @@ function schemaContrat() {
   })
 }
 
-function schemaFonctionPerso() {
+function schemaPostePerso() {
   return yup.object().shape({
     service: yup.string().required("Le service est obligatoire."),
-    serviceFonction: yup.string().required("La fonction est obligatoire."),
+    service_postes: yup.string().required("La fonction est obligatoire."),
     dateDebut: yup.string().required("La date de début est obligatoire."),
   })
 }
@@ -310,7 +310,7 @@ function schemaFonctionPerso() {
 // ------------------------------------ CLOSE MODAL --------------------------------------
 
 const closeContratModal = ref(null);
-const closeFonctionModal = ref(null);
+const closePosteModal = ref(null);
 
 // --------------------------------------- SENDING REQUEST --------------------------------
 
@@ -339,7 +339,7 @@ async function sendContrat(value: object) {
   }
 }
 
-async function sendFonctionPerso(value: object, id: string | string[]) {
+async function sendPostePerso(value: object, id: string | string[]) {
 
   const serviceFonction = document.getElementById("serviceFonction") as HTMLSelectElement;
 
@@ -352,8 +352,8 @@ async function sendFonctionPerso(value: object, id: string | string[]) {
       icon: "success"
     });
     getAllPersonnel()
-    if (closeFonctionModal.value) {
-      (closeFonctionModal.value as HTMLElement).click();
+    if (closePosteModal.value) {
+      (closePosteModal.value as HTMLElement).click();
     }
   } catch (error) {
     console.error('Erreur lors de la création de la fonction du personnel:', error);
@@ -456,13 +456,13 @@ const getAllHoraire = async () => {
   }
 }
 
-const getAllFonctions = async () => {
+const getAllPostes = async () => {
   try {
-    const response = await ApiService.get('/fonctions');
+    const response = await ApiService.get('/postes');
 
 
   } catch (error) {
-    console.error('Erreur lors de la recupération des fonctions:', error);
+    console.error('Erreur lors de la recupération des postes:', error);
     throw error;
   }
 }
@@ -501,14 +501,14 @@ const getAllServices = async () => {
   }
 }
 
-const getAllServiceFonctions = async () => {
+const getAllServicePostes = async () => {
   try {
-    const response = await ApiService.get('/servicefonctions');
-    service_fonctions.value = response.data
+    const response = await ApiService.get('/servicepostes');
+    service_postes.value = response.data
 
     console.log(response);
   } catch (error) {
-    console.error('Erreur lors de la recupération des services fonctions:', error);
+    console.error('Erreur lors de la recupération des services postes:', error);
     throw error;
   }
 }
@@ -517,10 +517,10 @@ onMounted(() => {
   getAllContrat(),
     getAllHoraire(),
     getAllServices(),
-    getAllFonctions(),
+    getAllPostes(),
     getAllContratPersos(),
     getAllHorairePersos(),
-    getAllServiceFonctions(),
+    getAllServicePostes(),
     getAllPersonnel()
 })
 

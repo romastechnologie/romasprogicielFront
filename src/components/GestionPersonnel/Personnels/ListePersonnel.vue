@@ -15,15 +15,15 @@
         </div>
         <div class="overflow-auto" style="height: 465px;">
           <template v-for="personnel in filterPersonnel" :key="personnel.id">
-            <template v-for="fonction in personnel.personnel_service_fonctions" :key="fonction.id">
-              <router-link v-if="fonction.statut == 'Actif'" :to="'/personnels/liste-personnel/' + personnel.id"
+            <template v-for="poste in personnel.personnel_service_postes" :key="poste.id">
+              <router-link v-if="poste.statut == 'Actif'" :to="'/personnels/liste-personnel/' + personnel.id"
                 class="card border border-secondary d-flex flex-row justify-content-start align-items-center px-3 py- mb-2 mx-md-2">
                 <img :src="personnel.image"
                   class="rounded rounded-circle m-2 card d-flex flex-row justify-content-center align-items-center"
                   style=" height: 40px; width: 40px" />
                 <div class="d-flex flex-column m-2">
                   <span> {{ personnel.nom + ' ' + personnel.prenom }} </span>
-                  <span id="fonction" style="font-size: 10px;"> {{ fonction ? fonction.service_fonction.fonction.libelle : 'Pas de fonction' }} </span>
+                  <span id="poste" style="font-size: 10px;"> {{ poste ? poste.service_poste.fonction.libelle : 'Pas de poste' }} </span>
                 </div>
               </router-link>
             </template>

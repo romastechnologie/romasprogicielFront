@@ -6,10 +6,10 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/point-ventes/ajouter-point-vente"
+          to="/ajouter-circuit"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un point de vente
+          Ajouter un circuit
         </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -26,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black"
-            placeholder="Rechercher un point de vente"
+            placeholder="Rechercher un circuit"
           />
           <button
             type="submit"
@@ -58,20 +58,15 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Adresse
+                Duree
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Personnel
+                Type Duree
               </th>
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Societe
-              </th>
+           
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
@@ -79,44 +74,45 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(pointVente, index) in pointVentes" :key="index">
+            <tr v-for="(circuit, index) in circuits" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ pointVente.nomPointVente }}
+                {{ circuit.nom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ pointVente.adresse }}
+                {{ circuit.Duree }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ pointVente.personnel.nom }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ pointVente.societe.nom }}
+                {{ circuit.typeDuree }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                    
-                    <li class="dropdown-item d-flex align-items-center">
-                      <router-link :to="{ name: 'EditPointVentePage', params: { id: pointVente.id } }" 
+              <div class="dropdown">
+                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                  </span>
+                  <ul class="dropdown-menu">
+                    <li >
+                      <router-link :to="{ name: 'EditCircuitPage', params: { id: circuit.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>
                     </li>
                     <!-- <li>
-                        <router-link :to="{ name: 'ViewPointVentePage', params: { id: pointVente.id } }" class="dropdown-item d-flex align-items-center">
+                        <router-link :to="{ name: 'ViewMediaPage', params: { id: media.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
                         </router-link>
                     </li> -->
-                    <li class="dropdown-item d-flex align-items-center">
+                    <li >
                       <a
-                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(pointVente.id,pointVentes,'pointVentes',`la pointVente ${pointVente.id}`)">
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(circuit.id,circuits,'circuits',`Le circuit ${circuit.id}`)">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                          Supprimer
                       </a>
                     </li>
                   </ul>
+              </div>
               </td>
             </tr>
           </tbody>
@@ -134,25 +130,25 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { PersonnelPoste } from "@/models/PersonnelPoste";
+import { Circuit } from "@/models/Circuit";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListePersonnelPoste",
+  name: "ListeCircuit",
   components: {
     PaginationComponent
   },
   setup(){
     
     onMounted(() => {
-      getAllPersonnelPostes();
+      getAllCircuits();
     });
 
-    const pointVentes = ref<Array<PersonnelPoste>>([]);   
-    const pointVente = ref<PersonnelPoste>();
+    const circuits = ref<Array<Circuit>>([]);   
+    const circuit = ref<Circuit>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -164,22 +160,22 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllPersonnelPostes(page_, limit_);
+        getAllCircuits(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllPersonnelPostes(page.value, limit.value, searchTerm.value );
+      getAllCircuits(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
-    function getAllPersonnelPostes(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`all/pointVentes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllCircuits(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/all/circuits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          pointVentes.value = data.data.data;
+          circuits.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -188,14 +184,15 @@ export default defineComponent({
         .catch(({ response }) => {
           error(response.data.message)
       });
+      
     }
     
-    function moddifier(EditpointVentes:PersonnelPoste) {
-      pointVente.value = EditpointVentes;
+    function moddifier(Editcircuits:Circuit) {
+      circuit.value = Editcircuits;
     }
 
-    const deletePersonnelPoste = (id: number) => {
-      ApiService.delete(`/pointVentes/${id}`)
+    const deleteCircuit = (id: number) => {
+      ApiService.delete(`/circuits/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,
@@ -223,9 +220,9 @@ export default defineComponent({
         });
       });
 
-      for(let i = 0; i < pointVentes.value.length; i++) {
-        if (pointVentes.value[i].id === id) {
-          pointVentes.value.splice(i, 1);
+      for(let i = 0; i < circuits.value.length; i++) {
+        if (circuits.value[i].id === id) {
+          circuits.value.splice(i, 1);
         }
       }
     };
@@ -236,10 +233,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { pointVentes,
+    return { circuits,
       checkPermission,
-     getAllPersonnelPostes,
-     deletePersonnelPoste,
+     getAllCircuits,
+     deleteCircuit,
      moddifier ,
      suppression,
      page, 

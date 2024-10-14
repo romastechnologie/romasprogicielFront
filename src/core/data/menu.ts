@@ -362,11 +362,11 @@ export const menu: MenuItem[] = [
         ]
     },
     {
-        title: "Services",
+        title: "Attributions",
         icon: "stroke-learning",
         icon1: "fill-learning",
         type: "link",
-        path: "/services/liste-service",
+        path: "/attributions/liste-attribution",
         badgeType: "light-primary",
         active: false,
         isPinned: false
@@ -382,11 +382,11 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
     {
-        title: "Fonctions",
+        title: "Postes",
         icon: "stroke-learning",
         icon1: "fill-learning",
         type: "link",
-        path: "/fonctions/liste-fonction",
+        path: "/postes/liste-poste",
         badgeType: "light-primary",
         active: false,
         isPinned: false
@@ -1250,8 +1250,8 @@ export const menu: MenuItem[] = [
             //     type: "link"
             // },
             {
-                path: "/fonctions/liste-fonctions",
-                title: " fonctions",
+                path: "/postes/liste-postes",
+                title: " postes",
                 type: "link"
             },
             {
@@ -1564,6 +1564,35 @@ export const menu: MenuItem[] = [
             
         ]
     },
+
+
+    {
+        headTitle1: "Gestion Circuit",
+        headTitle2: "Circuit,Validation",
+        type: "headtitle"
+    },
+    {
+        title: "Circuit",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/circuits/ajouter-circuit",
+                title: "Ajouter un circuit",
+                type: "link"
+            },
+            {
+                path: "/circuits/liste-circuits",
+                title: "Liste des circuits",
+                type: "link"
+            },
+        ]
+    },
+    
 
 
 ]

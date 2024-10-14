@@ -1,6 +1,6 @@
 <template>
-  <div class="modal fade modal-lg" id="AddRegleConservationModal" tabindex="-1" role="dialog" ref="addRegleConservationModalRef"
-    aria-labelledby="tooltipmodal" aria-hidden="true">
+  <div class="modal fade modal-lg" id="AddRegleConservationModal" tabindex="-1" role="dialog"
+    ref="addRegleConservationModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -47,7 +47,7 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Durée Conservation <span class="text-danger">*</span>
                   </label>
-                  <Field name="dureeConservation" type="date" class="form-control shadow-none fs-md-15 text-black"
+                  <Field name="dureeConservation" type="number" class="form-control shadow-none fs-md-15 text-black"
                     placeholder="Entrer la durée de conservation" />
                   <ErrorMessage name="dureeConservation" class="text-danger" />
                 </div>
@@ -65,15 +65,25 @@
               </div>
 
               <div class="col-md-6">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Type Durée <span class="text-danger">*</span>
-                  </label>
-                  <Field name="typeDuree" type="date" class="form-control shadow-none fs-md-15 text-black"
-                    placeholder="Entrer le type durée" />
-                  <ErrorMessage name="typeDuree" class="text-danger" />
-                </div>
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Type de Durée <span class="text-danger">*</span>
+                </label>
+                <Field  name="typeDuree"  v-slot="{ field }">
+                  <Multiselect
+                    :options="typeDureeOptions"
+                    :searchable="true"
+                    track-by="label"
+                    label="label"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    placeholder="Sélectionner le type de Duree"
+                  />
+                </Field>  
               </div>
+              <ErrorMessage name="typeDuree" class="text-danger"/>
+            </div>
+
 
               <button class="btn btn-primary mt-3">
                 {{ btntext }}
@@ -102,6 +112,7 @@ import { hideModal } from '@/utils/utils';
 import { error, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import { RegleConservation } from '@/models/RegleConservation';
+import Multiselect from 'vue-multiselect';
 
 export default defineComponent({
   name: "AddRegleConservationModal",
@@ -109,6 +120,7 @@ export default defineComponent({
     Form,
     Field,
     ErrorMessage,
+    Multiselect
   },
   props: {
     item: {
@@ -121,7 +133,7 @@ export default defineComponent({
       libelle: Yup.string().required('Le libellé est obligatoire'),
       code: Yup.string().required('Le code est obligatoire'),
       sortFinal: Yup.string().required('Le Sort Final est obligatoire'),
-      dureeConservation: Yup.string().required('La Duree Conservation est obligatoire'),
+      dureeConservation: Yup.number().required('La Duree Conservation est obligatoire'),
       description: Yup.string().required('La description est obligatoire'),
       typeDuree: Yup.string().required('Le Type Duree est obligatoire'),
 
@@ -133,11 +145,21 @@ export default defineComponent({
     const addRegleConservationModalRef = ref<null | HTMLElement>(null);
     const router = useRouter();
     const regleConservationOptions = ref([]);
+    const typeDuree =  ref();
+    const typeDureeOptions = ref([]);
+   
+    
+
+
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
     const title = ref("Ajouter une regle conservation");
     const btntext = ref('Ajouter');
+    const showMErr = ref(false);
+
+
+
 
     watch(() => props.item, (newValue) => {
       getRegleConservation(newValue);
@@ -154,6 +176,9 @@ export default defineComponent({
         btntext.value = "Ajouter";
       }
     }
+
+    typeDureeOptions.value = [{value:"jour(s)", label:"Jour(s)"}, {value:"mois", label:"Mois"},{value:"annees", label:"Annees"}]
+
 
     const getRegleConservation = async (id: number) => {
       return ApiService.get("/regleConservations/" + id)
@@ -186,10 +211,10 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
+   onMounted(() => {
       fetchRegleConservation();
     });
-
+      
     const addRegleConservation = async (values: any, regleConservationForm) => {
       values = values as RegleConservation;
       if (isUPDATE.value) {
@@ -240,6 +265,7 @@ export default defineComponent({
       regleConservationForm,
       title, btntext, resetValue,
       regleConservationOptions,
+      showMErr,typeDuree,typeDureeOptions
     };
   },
 });

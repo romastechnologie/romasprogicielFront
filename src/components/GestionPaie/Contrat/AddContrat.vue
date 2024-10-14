@@ -101,14 +101,14 @@
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-               Fonctions <span class="text-danger">*</span>
+               Postes <span class="text-danger">*</span>
               </label>
-              <Field name="fonction" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="fonctionOptions"
+              <Field name="poste" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="posteOptions"
                   :preserve-search="true" :multiple="false" :searchable="true" placeholder="Sélectionner la fonction"
                   label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="fonction" class="text-danger" />
+              <ErrorMessage name="poste" class="text-danger" />
             </div>
           </div>
 
@@ -617,7 +617,7 @@ export default defineComponent({
       await getAllPersonnel();
       await getAllModeTarifications();
       await getAllOrganisations();
-      await fetchFonction();
+      await fetchPoste();
     });
 
     const contratForm = ref(null);
@@ -637,6 +637,9 @@ export default defineComponent({
     const attribution = ref();
     const OrganisationOptions = ref();
     const Organisation = ref();
+    const poste = ref();
+
+
 
     const modeDeTarificationOptions = ref([]);
     const personnels = ref([] as any[]);
@@ -972,32 +975,32 @@ export default defineComponent({
       updateAllMontants();
     };
     //const isDisable = ref(true);
-    const fonctions = reactive([
+    const postes = reactive([
       {
         estActif: "",
-        fonction: "",
+        poste: "",
         organisation: "",
         dateDebut: "",
         dateFin: ""
       },
     ]);
 
-    const addRowFonction = () => {
-      fonctions.push({
+    const addRowPoste = () => {
+      postes.push({
         estActif: "",
-        fonction: "",
+        poste: "",
         organisation: "",
         dateDebut: "",
         dateFin: ""
       });
     };
 
-    const removeRowFonction = (index) => {
-      if (fonctions.length > 1) fonctions.splice(index, 1);
+    const removeRowPoste = (index) => {
+      if (postes.length > 1) postes.splice(index, 1);
       //totals();
     };
 
-    const valideteRowFonction = (e) => {
+    const valideteRowPoste = (e) => {
       if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
         console.log('erg')
         return true;
@@ -1019,11 +1022,11 @@ export default defineComponent({
         },
         { deep: true }
       );*/
-    watch(fonctions, (newValue, oldValue) => {
+    watch(postes, (newValue, oldValue) => {
       Object.keys(newValue).forEach(function (key) {
         if (
           newValue[key].estActif == "" ||
-          newValue[key].fonction == "" ||
+          newValue[key].poste == "" ||
           newValue[key].organisation == "" ||
           newValue[key].dateDebut == "" ||
           newValue[key].dateFin == ""
@@ -1035,17 +1038,17 @@ export default defineComponent({
       });
     });
 
-    const { remove, push, fields, update } = useFieldArray("fonctions");
+    const { remove, push, fields, update } = useFieldArray("postes");
 
-    const fonctionOptions = ref([]);
-    const fetchFonction = async () => {
+    const posteOptions = ref([]);
+    const fetchPoste = async () => {
       try {
-        const response = await axios.get("/fonctions");
-        const fonctionData = response.data.data.data;
-        console.log("ZZZZZZZZZZ ===> ", fonctionData)
-        fonctionOptions.value = fonctionData.map((fonction) => ({
-          value: fonction.id,
-          label: `${fonction.libelle}`,
+        const response = await axios.get("/postes");
+        const posteData = response.data.data.data;
+        console.log("ZZZZZZZZZZ ===> ", posteData)
+        posteOptions.value = posteData.map((poste) => ({
+          value: poste.id,
+          label: `${poste.libelle}`,
         }));
       } catch (error) {
         //
@@ -1068,12 +1071,12 @@ export default defineComponent({
         montant: retenue.montant,
         quantite: retenue.quantite,
       }));
-      values.fonctions = fonctions.map(fonction => ({
-        estActif: fonction.estActif,
-        fonction: fonction.fonction,
-        organisation: fonction.organisation,
-        dateDebut: fonction.dateDebut,
-        dateFin: fonction.dateFin,
+      values.postes = postes.map(poste => ({
+        estActif: poste.estActif,
+        poste: poste.poste,
+        organisation: poste.organisation,
+        dateDebut: poste.dateDebut,
+        dateFin: poste.dateFin,
       }));
       values.horaireContrats = horaireContrats.map(horaireContrat => ({
         heureArrive: horaireContrat.heureArrive,
@@ -1136,10 +1139,10 @@ export default defineComponent({
       addRowPrime,
       validateRowPrime,
       isDisable, primes,
-      isDisableee, fonctionOptions,
-      removeRowFonction,
-      addRowFonction,
-      valideteRowFonction, fonctions,
+      isDisableee, posteOptions,
+      removeRowPoste,
+      addRowPoste,
+      valideteRowPoste, postes,
       salaireDeBase,
       typeRetenueOptions,
       typeRetenues,
