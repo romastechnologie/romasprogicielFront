@@ -45,7 +45,7 @@
               <ErrorMessage name="typeDuree" class="text-danger"/>
             </div>
             
-        <div class="col-md-12">
+        <div class="col-md-12 d-flex flex-column">
           <div class="d-flex align-items-center ">
             <button
               class="btn btn-success me-3"

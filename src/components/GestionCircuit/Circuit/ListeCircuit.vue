@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/ajouter-circuit"
+          to="/circuits/ajouter-circuit"
         >
           <i class="fa fa-plus-circle"></i>
           Ajouter un circuit
