@@ -134,25 +134,25 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { PersonnelFonction } from "@/models/PersonnelFonction";
+import { PersonnelPoste } from "@/models/PersonnelPoste";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListePersonnelFonction",
+  name: "ListePersonnelPoste",
   components: {
     PaginationComponent
   },
   setup(){
     
     onMounted(() => {
-      getAllPersonnelFonctions();
+      getAllPersonnelPostes();
     });
 
-    const pointVentes = ref<Array<PersonnelFonction>>([]);   
-    const pointVente = ref<PersonnelFonction>();
+    const pointVentes = ref<Array<PersonnelPoste>>([]);   
+    const pointVente = ref<PersonnelPoste>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -164,19 +164,19 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllPersonnelFonctions(page_, limit_);
+        getAllPersonnelPostes(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllPersonnelFonctions(page.value, limit.value, searchTerm.value );
+      getAllPersonnelPostes(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
-    function getAllPersonnelFonctions(page = 1, limi = 10, searchTerm = '') {
+    function getAllPersonnelPostes(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`all/pointVentes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           pointVentes.value = data.data.data;
@@ -190,11 +190,11 @@ export default defineComponent({
       });
     }
     
-    function moddifier(EditpointVentes:PersonnelFonction) {
+    function moddifier(EditpointVentes:PersonnelPoste) {
       pointVente.value = EditpointVentes;
     }
 
-    const deletePersonnelFonction = (id: number) => {
+    const deletePersonnelPoste = (id: number) => {
       ApiService.delete(`/pointVentes/${id}`)
       .then(({ data }) => {
         Swal.fire({
@@ -238,8 +238,8 @@ export default defineComponent({
 
     return { pointVentes,
       checkPermission,
-     getAllPersonnelFonctions,
-     deletePersonnelFonction,
+     getAllPersonnelPostes,
+     deletePersonnelPoste,
      moddifier ,
      suppression,
      page, 

@@ -145,12 +145,12 @@
               </Field>  
             </div>
           </div>
-       <h4 class="text-center mt-4 mb-0"> Service - Fonction </h4>
+       <h4 class="text-center mt-4 mb-0"> Service - Poste </h4>
             <div class="d-flex mb-2">
               <div class="col mx-2">
                 <p class="my-0"> Service </p>
                 <Field name="service" v-model="service" v-slot="{ field }">
-                  <VueMultiselect @select="sortServiceFonctionWithService(field.value)" v-model="field.value"
+                  <VueMultiselect @select="sortServicePosteWithService(field.value)" v-model="field.value"
                     v-bind="field" :options="serviceOptions" :close-on-select="true" :clear-on-select="false"
                     :multiple="false" :searchable="true" placeholder="Sélectionner le service" label="label"
                     track-by="label" />
@@ -167,10 +167,10 @@
               </div>
               <div class="col mx-2">
                 <p class="my-0"> Fonction </p>
-                <Field name="serviceFonction" v-model="serviceFonction" v-slot="{ field }">
-                  <VueMultiselect v-model="field.value" v-bind="field" :options="fonctionOptions"
+                <Field name="service_postes" v-model="servicePoste" v-slot="{ field }">
+                  <VueMultiselect v-model="field.value" v-bind="field" :options="posteOptions"
                     :close-on-select="true" :clear-on-select="false" :multiple="false" :searchable="true"
-                    placeholder="Sélectionner la fonction" label="label" track-by="label" />
+                    placeholder="Sélectionner le Poste" label="label" track-by="label" />
                 </Field>
                 <!-- <Field v-model="newPersonnel.personnelServiceFonction.service_fonction" name="serviceFonction"
                   id="serviceFonction" class="form-select mb-1" as="select">
@@ -187,7 +187,7 @@
             <div class="d-flex mb-2">
               <div class="col mx-2">
                 <p class="my-0"> Date debut </p>
-                <Field v-model="newPersonnel.personnelServiceFonction.dateDebut" type="date" name="dateDebut"
+                <Field v-model="newPersonnel.personnelServicePoste.dateDebut" type="date" name="dateDebut"
                   id="dateDebut" class="form-control mb-1" />
                 <ErrorMessage name="dateDebut" class="text-danger text-start" />
               </div>
@@ -445,10 +445,10 @@ interface Personnel {
   photoEmploye:string
 }
 
-interface PersonnelServiceFonction {
+interface PersonnelServicePoste {
   dateDebut: string;
   personnel: number;
-  service_fonction: number;
+  service_poste: number;
 }
 
 interface Conjoint {
@@ -492,7 +492,7 @@ interface Horairepersonnel {
 
 interface PERSONNEL {
   personnel: Personnel,
-  personnelServiceFonction: PersonnelServiceFonction;
+  personnelServicePoste: PersonnelServicePoste;
   conjoint:Conjoint;
   santeEmploye:SanteEmploye;
   contrat: Contrat;
@@ -510,14 +510,14 @@ const clickSanteEmployeForm = ref(null);
 const clickContratForm = ref(null);
 const clickHoraireForm = ref(null);
 const services = ref([] as any[]);
-const service_fonctions = ref([] as any[]);
+const service_postes = ref([] as any[]);
 const personnels = ref([] as any[]);
 const horaires = ref([] as any[]);
 const currentPersonnel = ref();
 const currentContrat = ref();
 const service = ref();
-const serviceFonction = ref();
-const fonctionOptions = ref([] as any[]);
+const servicePoste = ref();
+const posteOptions = ref([] as any[]);
 const serviceOptions = ref([] as any[]);
 const horairePersonnels = ref<Horairepersonnel[]>([]);
 
@@ -543,10 +543,10 @@ const newPersonnel = ref<PERSONNEL>({
   
 
   },
-  personnelServiceFonction: {
+  personnelServicePoste: {
     dateDebut: "",
     personnel: 0,
-    service_fonction: 0,
+    service_poste: 0,
   },
 
   conjoint: {
@@ -621,16 +621,16 @@ const verifyPersonnelDateEmbauche = () => {
 
 }
 
-let filterServiceFonction = ref([] as any[]);
+let filterServicePoste = ref([] as any[]);
 
-function sortServiceFonctionWithService(choseed: any) {
-  fonctionOptions.value = [] as any[];
-  filterServiceFonction.value = service_fonctions.value.filter(service_fonction => service_fonction.service.id === choseed.value);
-  fonctionOptions.value = filterServiceFonction.value.map((fonction: any) => ({
-    value: fonction.fonction.id,
-    label: `${fonction.fonction.libelle}`
+function sortServicePosteWithService(choseed: any) {
+  posteOptions.value = [] as any[];
+  filterServicePoste.value = service_postes.value.filter(service_poste => service_poste.service.id === choseed.value);
+  posteOptions.value = filterServicePoste.value.map((poste: any) => ({
+    value: poste.poste.id,
+    label: `${poste.poste.libelle}`
   }));
-  console.log("Service choisit", filterServiceFonction.value)
+  console.log("Service choisit", filterServicePoste.value)
 }
 
 // --------------------------------------------------- SCHEMA ----------------------------------------------
@@ -760,7 +760,7 @@ async function createPersonnel() {
 
       if (differenceAnnees >= 18 && datePriseFonction >= dateEmbauche) {
 
-        newPersonnel.value.personnelServiceFonction.service_fonction = serviceFonction.value.value;
+        newPersonnel.value.personnelServicePoste.service_poste = servicePoste.value.value;
 
         const response = await ApiService.post('/personnels', newPersonnel.value);
 
@@ -803,13 +803,13 @@ const getAllServices = async () => {
   }
 }
 
-const getAllServiceFonctions = async () => {
+const getAllServicePostes = async () => {
   try {
-    const response = await ApiService.get('/servicefonctions');
-    service_fonctions.value = response.data
+    const response = await ApiService.get('/servicepostes');
+    service_postes.value = response.data
     console.log(response);
   } catch (error) {
-    console.error('Erreur lors de la recupération des services fonctions:', error);
+    console.error('Erreur lors de la recupération des services postes:', error);
     throw error;
   }
 }
@@ -886,7 +886,7 @@ const getAllHoraires = async () => {
 
 onMounted(() => {
   getAllServices();
-  getAllServiceFonctions();
+  getAllServicePostes();
   getAllPersonnels();
   getAllHoraires();
   getAllEthnie();

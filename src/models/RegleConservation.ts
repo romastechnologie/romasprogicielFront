@@ -3,8 +3,8 @@ export  interface RegleConservation {
     code: string;
     libelle: string;
     sortFinal:string;
-    dureeConservation:Date;
+    dureeConservation:number;
     description:string;
-    typeDuree:Date;
+    typeDuree:string;
     setFieldValue: (field: string ,value: any) => void;
   }
