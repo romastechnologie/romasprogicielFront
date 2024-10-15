@@ -5,10 +5,10 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 
-const  getDatePlusXDays = (x: number)=>{
+const getDatePlusXDays = (x: number) => {
   const currentDate = new Date();
   const futureDate = new Date();
-  
+
   futureDate.setDate(currentDate.getDate() + x);
   // Obtenez les composants de la date
   const year = futureDate.getFullYear();
@@ -30,14 +30,14 @@ const hideModal = (modalEl: HTMLElement | null): void => {
   document.body.style.paddingRight = '';
   removeModalBackdrop();
   myModal?.hide();
-  
+
 };
 
 
-const  ajouterPeriode = (dateStr, x, frequence)=> {
+const ajouterPeriode = (dateStr, x, frequence) => {
   // Convertir la date en objet Date
   let date = new Date(dateStr);
-  
+
   // Vérifier la fréquence et ajouter la quantité appropriée
   switch (frequence.toLowerCase()) {
     case "jour":
@@ -61,7 +61,7 @@ const  ajouterPeriode = (dateStr, x, frequence)=> {
       console.error("Fréquence non reconnue : ", frequence);
       return null;
   }
-  
+
   // Retourner la nouvelle date formatée en ISO (aaaa-mm-jj)
   return date.toISOString().split('T')[0];
 }
@@ -74,15 +74,28 @@ const showModal = (modalEl: HTMLElement | null): void => {
   myModal?.show()
 };
 
-const getUrlApiForFiles = (nomFichier:string|null, dossier="")=>{
-  if(nomFichier){
-    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/${dossier? dossier+"/":""}${nomFichier}`;
-  }else{
+const getUrlApiForFiles = (nomFichier: string | null, dossier = "") => {
+  if (nomFichier) {
+    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/${dossier ? dossier + "/" : ""}${nomFichier}`;
+  } else {
     return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/Erreur404.pdf`;
   }
 }
+const onFileChange = (e, accept: any = []) => {
 
-const  success = (message:string,temps:number = 5000) => {
+  const file = e.target.files[0];
+  const allowedTypes = accept != null ? accept : ['image/jpeg', 'image/png', 'application/pdf'];
+
+  if (file && !allowedTypes.includes(file.type)) {
+    // Vide le champ
+    e.target.value = '';
+    error('Fichier non valide. Veuillez sélectionner une image ou un fichier PDF.')
+    return false;
+  } else {
+    return e.target.files[0];
+  }
+};
+const success = (message: string, temps: number = 5000) => {
   Swal.fire({
     title: 'Succès',
     text: message,
@@ -94,7 +107,7 @@ const  success = (message:string,temps:number = 5000) => {
   });
 }
 
-const error = (message:string) => {
+const error = (message: string) => {
   Swal.fire({
     title: 'Erreur',
     text: message,
@@ -106,20 +119,20 @@ const error = (message:string) => {
   });
 }
 
-const  format_date = (value:any)=>{
+const format_date = (value: any) => {
   if (value) {
     return format(new Date(value), 'dd-MM-yyyy HH:mm', { locale: fr });
     //return moment(String(value)).format('DD-MM-YYYY hh:mm')
   }
 }
-const format_Date = (date:any) => {
+const format_Date = (date: any) => {
   if (date) {
     return format(new Date(date), 'dd-MM-yyyy', { locale: fr });
   }
 }
 
-const separateur = (montant:any)=>{ 
-  if(montant){
+const separateur = (montant: any) => {
+  if (montant) {
     return montant.toLocaleString('fr-FR');
   }
 }
@@ -134,7 +147,7 @@ const removeModalBackdrop = (): void => {
 
 
 const getAssetPath = (path: string): string => {
-    return '' + path;
+  return '' + path;
 };
 
 // function getAllCategorieAbonnes(route:string,element:any) {
@@ -148,36 +161,36 @@ const getAssetPath = (path: string): string => {
 //   });
 // } 
 
-const suppression = (id:number,element:any, route:string, entite:string) => {
+const suppression = (id: number, element: any, route: string, entite: string) => {
   Swal.fire({
-      text: "Vous êtes sur le point de supprimer " + entite +". Etes-vous sûr ?",
-      icon: "warning",
-      buttonsStyling: true,
-      showCancelButton: true,
-      confirmButtonText: "Supprimer",
-      cancelButtonText: `Annuler`,
-      heightAuto: false,
-      customClass: {
-        confirmButton: "btn btn-danger",
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
+    text: "Vous êtes sur le point de supprimer " + entite + ". Etes-vous sûr ?",
+    icon: "warning",
+    buttonsStyling: true,
+    showCancelButton: true,
+    confirmButtonText: "Supprimer",
+    cancelButtonText: `Annuler`,
+    heightAuto: false,
+    customClass: {
+      confirmButton: "btn btn-danger",
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
       ApiService.delete(`/${route}/${id}`)
         .then(({ data }) => {
-            Swal.fire({
-              title: 'Succès',
-              text: data.message,
-              icon: "success",
-              toast: true,
-              timer: 5000,
-              position: 'top-right',
-              showConfirmButton: false,
-            });
-            for(let i = 0; i < element.length; i++) {
-              if (element[i].id === id) {
-                element.splice(i, 1);
-              }
+          Swal.fire({
+            title: 'Succès',
+            text: data.message,
+            icon: "success",
+            toast: true,
+            timer: 5000,
+            position: 'top-right',
+            showConfirmButton: false,
+          });
+          for (let i = 0; i < element.length; i++) {
+            if (element[i].id === id) {
+              element.splice(i, 1);
             }
+          }
         }).catch(({ response }) => {
           Swal.fire({
             text: response.data.message, //'Oups il y a un problème',//
@@ -189,13 +202,14 @@ const suppression = (id:number,element:any, route:string, entite:string) => {
               confirmButton: "btn fw-semobold btn-light-danger",
             },
           });
-      });
-        } else if (result.isDenied) {
-          Swal.fire("La suppression n'est pas passée", "", "info");
-        }
-      });
+        });
+    } else if (result.isDenied) {
+      Swal.fire("La suppression n'est pas passée", "", "info");
+    }
+  });
 };
 
-export { getDatePlusXDays,ajouterPeriode, removeModalBackdrop,suppression,separateur, hideModal, getAssetPath,format_Date, showModal, format_date, success, error, getUrlApiForFiles,
+export {
+  getDatePlusXDays, ajouterPeriode, onFileChange, removeModalBackdrop, suppression, separateur, hideModal, getAssetPath, format_Date, showModal, format_date, success, error, getUrlApiForFiles,
 };
 

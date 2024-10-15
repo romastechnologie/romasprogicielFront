@@ -37,12 +37,12 @@
                             <label class="d-block text-black mb-10">
                               Type d'organisation <span class="text-danger">*</span>
                             </label>
-                            <Field name="typeorganisation" type="text" v-slot="{ field }">
+                            <Field name="typeOrganisation" type="text" v-slot="{ field }">
                             <Multiselect v-model="field.value" v-bind="field" :options="typeOrganisationOptions" :preserve-search="true"
                               :multiple="false" :searchable="true" placeholder="Sélectionner le type d'organisation"
                               label="label" track-by="label" />
                             </Field>
-                            <ErrorMessage name="typeorganisation" class="text-danger" />
+                            <ErrorMessage name="typeOrganisation" class="text-danger" />
                           </div>
                         </div>
                           
@@ -96,7 +96,7 @@
         const typeOrganisationSchema = Yup.object().shape({
           code: Yup.string().required('Le code est obligatoire'),
           libelle: Yup.string().required('Le libelle est obligatoire'),
-          typeorganisation: Yup.string().notRequired(),
+          typeOrganisation: Yup.string().notRequired(),
 
          
         });

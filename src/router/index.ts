@@ -255,6 +255,7 @@ import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/L
 import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue'
 import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue'
 import ListeFormatPage from "@/pages/GestionArchive/Format/ListeFormatPage.vue";
+import ListeMouvementPage from "@/pages/GestionArchive/Mouvement/ListeMouvementPage.vue";
 import ListeTagPage from "@/pages/GestionArchive/Tag/ListeTagPage.vue";
 import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplacementPage.vue";
 import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrganisationPage.vue";
@@ -800,6 +801,28 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeFormatPage,
         meta: {
           title: 'Liste des formats',
+        }
+      },
+      {
+        path: "liste-mouvement",
+        name: "ListeMouvementPage",
+        component: ListeMouvementPage,
+        meta: {
+          title: 'Liste des mouvements',
+        }
+      }
+    ]
+  },
+  {
+    path: "/mouvements",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-mouvement",
+        name: "ListeMouvementPage",
+        component: ListeMouvementPage,
+        meta: {
+          title: 'Liste des mouvements',
         }
       }
     ]
