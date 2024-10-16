@@ -290,7 +290,7 @@ async function sendDemande(values: any) {
 
 const getAllCategorieDemandes = async () => {
   try {
-    const response = await ApiService.get("/categorieDemandes");
+    const response = await ApiService.get("all/categorieDemandes");
     // categorieDemandes.value = response.data;
       categorieOptions.value = response.data.data.data.map((categorie: any) => ({
         value: categorie.id,
@@ -306,7 +306,7 @@ const getAllCategorieDemandes = async () => {
 
 const getAllTypeConges = async () => {
   try {
-    const response = await ApiService.get("/typeConges");
+    const response = await ApiService.get("all/typeConges");
     // categorieDemandes.value = response.data;
       typeCongeOptions.value = response.data.data.data.map((typeConge: any) => ({
         value: typeConge.id,
@@ -487,7 +487,7 @@ switch (value) {
 
 const getAllDemandes = async () => {
   try {
-    const response = await ApiService.get("/demandes");
+    const response = await ApiService.get("all/demandes");
     demandes.value = response.data;
 
   } catch (error) {

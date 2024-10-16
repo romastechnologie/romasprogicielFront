@@ -60,7 +60,7 @@
             <tr v-for="demande in filterDemande" :key="demande.personnel">
               <td> {{ demande.create_at.toString().slice(0, 10) }} </td>
               <td> {{ demande.categorie ? demande.categorie.libelle : "null" }} </td>
-              <td> <a :href="'http://localhost:3009/uploads/' + demande.demandeFileName" target="_blank"> {{
+              <td> <a :href="'http://localhost:3008/uploads/' + demande.demandeFileName" target="_blank"> {{
                 demande.demandeFileName }}
                 </a>
               </td>
@@ -259,7 +259,7 @@ export default defineComponent({
     }
 
     function getAllDemandes(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`all/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
            demandes.value = data.data.data;
             totalPages.value = data.data.totalPages;

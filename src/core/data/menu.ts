@@ -330,15 +330,26 @@ export const menu: MenuItem[] = [
             }
         ]
     },
-    {
-        title: "Gestion des demandes",
-        icon: "stroke-file",
-        icon1: "fill-file",
-        type: "link",
+{
+        title: "Demande",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
         badgeType: "light-primary",
-        path: "/demandes/liste-demande",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children: [
+            {
+                path: "/demandes/ajouter-demande",
+                title: "Ajouter une demande",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande",
+                title: "Liste des demandes",
+                type: "link"
+            },
+        ]
     },
     {
         title: "Présences",
