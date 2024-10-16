@@ -1549,7 +1549,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "editer-horaire/:id",
+        path: "editer-horaire",
         name: "EditHoraire",
         component: EditHorairePage,
         meta: {

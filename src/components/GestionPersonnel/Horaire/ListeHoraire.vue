@@ -1,16 +1,13 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
       <div
-        class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
-      >
+        class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
         <div class="d-sm-flex align-items-center">
-          <router-link
-           class="btn btn-primary"
-            to="/horaires/ajouter-horaire"
-          >
-          <i class="fa fa-plus-circle"></i>
+          <router-link v-if="horaires.length < 0" class="btn btn-primary" to="/horaires/ajouter-horaire"> <i class="fa fa-plus-circle"></i>
             Ajouter un horaire
           </router-link>
+
+          <router-link v-if="horaires.length > 0" class="btn btn-success" to="/horaires/editer-horaire"><i class="fa fa-plus-circle"></i> Modifier un horaire</router-link>
           <!-- <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
             type="button"
@@ -82,8 +79,15 @@
 
                 <th
                   scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Est jour ouvrable ?
+                </th>
+
+                <!-- <th
+                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
-                >Actions</th>
+                >Actions</th> -->
               </tr>
             </thead>
             <tbody>
@@ -93,7 +97,8 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureFermeture }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureDebutPause }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ horaire?.heureFinPause }} </td>
-                  <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
+                  <td class="shadow-none lh-1 fw-medium ">{{ (horaire.estActif == 0)? "Non ouvrable":"Ouvrable" }} </td>
+                  <!-- <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
 
@@ -109,7 +114,6 @@
                           </li>
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
-                             
                               href="javascript:void(0);"
                               @click="suppression(horaire.id, horaires, 'horaires', 'un horaire')"
                             >
@@ -121,7 +125,7 @@
                           </li>
                               </ul>
                           </div>
-                    </td>
+                    </td> -->
                   </tr>
                 </tbody>
               </table>
