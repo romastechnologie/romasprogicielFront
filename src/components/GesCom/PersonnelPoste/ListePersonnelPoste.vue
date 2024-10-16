@@ -6,10 +6,10 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/point-ventes/ajouter-point-vente"
+          to="/ajouter-personnelPoste"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un point de vente
+          Ajouter un Poste à un personnel
         </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -26,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black"
-            placeholder="Rechercher un point de vente"
+            placeholder="Rechercher le Poste d'une personne"
           />
           <button
             type="submit"
@@ -52,25 +52,25 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Nom
+                Photo
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Adresse
+                Type PersonnelPoste
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Personnel
+                Article
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Societe
+                Description
               </th>
               <th
                 scope="col"
@@ -79,44 +79,37 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(pointVente, index) in pointVentes" :key="index">
+            <tr >
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ pointVente.nomPointVente }}
+               
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ pointVente.adresse }}
+                
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ pointVente.personnel.nom }}
+                
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ pointVente.societe.nom }}
+                
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                    
-                    <li class="dropdown-item d-flex align-items-center">
-                      <router-link :to="{ name: 'EditPointVentePage', params: { id: pointVente.id } }" 
-                          class="dropdown-item d-flex align-items-center"><i
-                          class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>Modifier</router-link>
-                    </li>
-                    <!-- <li>
-                        <router-link :to="{ name: 'ViewPointVentePage', params: { id: pointVente.id } }" class="dropdown-item d-flex align-items-center">
-                            <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
-                        </router-link>
-                    </li> -->
-                    <li class="dropdown-item d-flex align-items-center">
+              <div class="dropdown">
+                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                  </span>
+                  <ul class="dropdown-menu">
+                    <li>
                       <a
-                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(pointVente.id,pointVentes,'pointVentes',`la pointVente ${pointVente.id}`)">
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" >
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                          Supprimer
                       </a>
                     </li>
                   </ul>
+              </div>
               </td>
             </tr>
           </tbody>
@@ -151,8 +144,8 @@ export default defineComponent({
       getAllPersonnelPostes();
     });
 
-    const pointVentes = ref<Array<PersonnelPoste>>([]);   
-    const pointVente = ref<PersonnelPoste>();
+    const personnelPostes = ref<Array<PersonnelPoste>>([]);   
+    const personnelPoste = ref<PersonnelPoste>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -177,9 +170,9 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllPersonnelPostes(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`all/pointVentes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/personnelPostes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          pointVentes.value = data.data.data;
+          personnelPostes.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -190,12 +183,12 @@ export default defineComponent({
       });
     }
     
-    function moddifier(EditpointVentes:PersonnelPoste) {
-      pointVente.value = EditpointVentes;
+    function moddifier(EditpersonnelPostes:PersonnelPoste) {
+      personnelPoste.value = EditpersonnelPostes;
     }
 
     const deletePersonnelPoste = (id: number) => {
-      ApiService.delete(`/pointVentes/${id}`)
+      ApiService.delete(`/personnelPostes/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,
@@ -223,9 +216,9 @@ export default defineComponent({
         });
       });
 
-      for(let i = 0; i < pointVentes.value.length; i++) {
-        if (pointVentes.value[i].id === id) {
-          pointVentes.value.splice(i, 1);
+      for(let i = 0; i < personnelPostes.value.length; i++) {
+        if (personnelPostes.value[i].id === id) {
+          personnelPostes.value.splice(i, 1);
         }
       }
     };
@@ -236,7 +229,7 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { pointVentes,
+    return { personnelPostes,
       checkPermission,
      getAllPersonnelPostes,
      deletePersonnelPoste,

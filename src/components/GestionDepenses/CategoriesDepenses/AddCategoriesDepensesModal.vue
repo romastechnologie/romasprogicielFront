@@ -154,7 +154,7 @@ export default {
             console.log('Data')
 
             try {
-                const response = await ApiService.get('/all/categoriesDepenses');
+                const response = await ApiService.get('/all/categorieDepense');
                 const categoriesDepensesData = response.data.data.data;
                 console.log('response',response)
                 console.log('categoriesDepensesData',categoriesDepensesData)

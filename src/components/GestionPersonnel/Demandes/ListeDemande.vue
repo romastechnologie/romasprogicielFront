@@ -60,7 +60,7 @@
             <tr v-for="demande in filterDemande" :key="demande.personnel">
               <td> {{ demande.create_at.toString().slice(0, 10) }} </td>
               <td> {{ demande.categorie ? demande.categorie.libelle : "null" }} </td>
-              <td> <a :href="'http://localhost:3009/uploads/' + demande.demandeFileName" target="_blank"> {{
+              <td> <a :href="'http://localhost:3008/uploads/' + demande.demandeFileName" target="_blank"> {{
                 demande.demandeFileName }}
                 </a>
               </td>
@@ -217,7 +217,7 @@ export default defineComponent({
         if (result.isConfirmed) {
           try {
             const response = await ApiService.delete(`/demandes/${id}`);
-           getAllDemandess()
+           getAllDemandes()
             Swal.fire("Demande supprimé avec succès!", "", "success");
             console.log(response);
           } catch (error) {
@@ -245,7 +245,7 @@ export default defineComponent({
               statut: "Refusée"
             });
             Swal.fire("Demande refusée avec succès", "", "success");
-           getAllDemandess()
+           getAllDemandes()
           } catch (error) {
             console.error('Erreur lors de la création du congé:', error);
             throw error;
@@ -259,7 +259,7 @@ export default defineComponent({
     }
 
     function getAllDemandes(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`all/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
            demandes.value = data.data.data;
             totalPages.value = data.data.totalPages;
@@ -290,7 +290,7 @@ export default defineComponent({
               statut: "Acceptée"
             });
             Swal.fire("Demande acceptée avec succès", "", "success");
-           getAllDemandess()
+           getAllDemandes()
           } catch (error) {
             console.error('Erreur lors de la mise à jour de la demande:', error);
             throw error;
@@ -313,7 +313,7 @@ export default defineComponent({
       }
     }
 
-    const getAllDemandess = async () => {
+    /*const getAllDemandes = async () => {
       try {
         const response = await ApiService.get("/demandes");
         demande.value = response.data;
@@ -322,7 +322,7 @@ export default defineComponent({
         console.error('Erreur lors de la recupération des demandes:', error);
         throw error;
       }
-    }
+    }*/
 
     onMounted(() => {
      getAllDemandes()
