@@ -78,7 +78,7 @@
             </thead>
             <tbody>
               <tr  v-for ="(demande, index) in demandes" :key="index">
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date( demande.dateDemande)}} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{format_date( demande.dateDemande) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande?.categorieId }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande?.personnelId }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ demande.motifDemande }} </td>
@@ -88,7 +88,7 @@
 
                         <ul class="dropdown-menu">
                           
-                         <!-- <li class="dropdown-item d-flex align-items-center">
+                          <!-- <li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
                               :to="{ name: 'ViewDemande',params: { id: demande.id } }"
@@ -136,7 +136,7 @@
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeDemande",
+    name: "ListeDemandeAttestation",
     components: {
       PaginationComponent
     },

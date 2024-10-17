@@ -330,15 +330,44 @@ export const menu: MenuItem[] = [
             }
         ]
     },
-    {
-        title: "Gestion des demandes",
-        icon: "stroke-file",
-        icon1: "fill-file",
-        type: "link",
+{
+        title: "Demande",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
         badgeType: "light-primary",
-        path: "/demandes/liste-demande",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children:[
+            {
+                path: "/demandes/ajouter-demande",
+                title: "Ajouter une demande",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-conge",
+                title: "Liste des demandes de congés",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-permission",
+                title: "Liste des demandes de permission",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-attestation",
+                title: "Liste des demandes d'attestation",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-autre",
+                title: "Liste des autres demandes",
+                type: "link"
+            },
+
+        ]
+       
+        
     },
     {
         title: "Présences",
@@ -419,6 +448,11 @@ export const menu: MenuItem[] = [
             {
                 path: "/conges/liste-conge",
                 title: "Liste des congés",
+                type: "link"
+            },
+            {
+                path: "/conges/calendrier",
+                title: "Calendrier de programmation",
                 type: "link"
             },
         ]
@@ -1483,7 +1517,7 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/categoriesDepenses/liste-categoriesdepenses",
-                title: "Ajouter une categorie depense",
+                title: "Liste des  categories depenses",
                 type: "link"
             }
            
@@ -1592,6 +1626,44 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+    {
+        title: "EtapeValidation",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/etapeValidations/ajouter-etapeValidations",
+                title: "Ajouter une etape validation",
+                type: "link"
+            },
+            {
+                path: "/etapeValidations/liste-etapeValidations",
+                title: "Liste des etapes validations",
+                type: "link"
+            },
+        ]
+    },
+    // {
+    //     title: "UserEtapes",
+    //     icon: "stroke-user",
+    //     icon1: "fill-user",
+    //     type: "sub",
+    //     badgeType: "light-primary",
+    //     active: false,
+    //     isPinned: false,
+    //     children: [
+           
+    //         {
+    //             path: "/userEtapes/liste-userEtapes",
+    //             title: "Liste des UserEtapes",
+    //             type: "link"
+    //         },
+    //     ]
+    // },
     
 
     {
