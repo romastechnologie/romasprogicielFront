@@ -285,6 +285,7 @@ import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/
 import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
 import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
 import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUserEtapes.vue";
+import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
 
 
 
@@ -302,6 +303,12 @@ import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFam
 import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
 import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
 import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
+import ListeDemandePermissionPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage.vue';
+import ListeDemandeCongePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeCongePage.vue';
+import ListeDemandeAttestationPage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAttestationPage.vue';
+import ViewDemandePage from '@/pages/GestionPersonnel/Demandes/ViewDemandePage.vue';
+import ListeCongeCalendrierPage from '@/pages/GestionPersonnel/Conge/ListeCongeCalendrierPage.vue';
+//import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
 // import AddChampsLibreFamillePage from "@/pages/ChampsLibre/AddChampsLibreFamillePage.vue"
@@ -1274,6 +1281,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des congés',
         }
       },
+      {
+        path: "calendrier",
+        name: "ListeCongeCalendrierPage",
+        component: ListeCongeCalendrierPage,
+        meta: {
+          title: 'Calendrier des congés',
+        }
+      },
     ]
   },
   {
@@ -1376,6 +1391,46 @@ const routes: Array<RouteRecordRaw> = [
         component: AddDemandePage,
         meta: {
           title: 'Ajouter une demande',
+        }
+      },
+      {
+        path: "liste-demande-permission",
+        name: "ListeDemandePermissionPage",
+        component: ListeDemandePermissionPage,
+        meta: {
+          title: 'Liste des demandes de permission',
+        }
+      },
+      {
+        path: "liste-demande-conge",
+        name: "ListeDemandeCongePage",
+        component: ListeDemandeCongePage,
+        meta: {
+          title: 'Liste des demandes de congé',
+        }
+      },
+      {
+        path: "liste-demande-attestation",
+        name: "ListeDemandeAttestationPage",
+        component: ListeDemandeAttestationPage,
+        meta: {
+          title: 'Liste des demandes d\'attestation',
+        }
+      },
+      {
+        path: "liste-demande-autre",
+        name: "ListeDemandeAutrePage",
+        component: ListeDemandePage,
+        meta: {
+          title: 'Liste des autres demandes',
+        }
+      },
+      {
+        path: "view-demande",
+        name: "ViewDemandePage",
+        component: ViewDemandePage,
+        meta: {
+          title: 'Voir les détails',
         }
       },
       {
@@ -1840,6 +1895,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des etapes de Validations',
         }
       },
+      {
+        path: "view-etapeValidations/:id",
+        name: "ViewEtapeValidationPage",
+        component: ViewEtapeValidationPage,
+        meta: {
+          title: 'Détails Etape Validation',
+        }
+      }
     ]
   },
   {

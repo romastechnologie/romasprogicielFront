@@ -46,7 +46,7 @@
                 </div>
               </div>
               
-              <div class="col-md-6">
+              <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Type de Durée <span class="text-danger">*</span>
@@ -65,6 +65,36 @@
                 </div>
                 <ErrorMessage name="typeDuree" class="text-danger"/>
               </div>
+
+              
+              <div class="col-md-12 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Circuit <span class="text-danger">*</span>
+                  </label>
+                  <Field name="circuit" v-slot="{ field }">
+                    <Multiselect v-model="field.value" v-bind="field" :options="circuitOptions"
+                      :preserve-search="true" :multiple="false" :searchable="true"
+                      placeholder="Sélectionner le circuit" label="label" track-by="label" />
+                  </Field>
+                  <ErrorMessage name="circuit" class="text-danger" />
+                </div>
+              </div>
+          
+              <div class="col-md-12 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Role Etape <span class="text-danger">*</span>
+                  </label>
+                  <Field name="roleetap" v-slot="{ field }">
+                    <Multiselect v-model="field.value" v-bind="field" :options="roleEtapOptions"
+                      :preserve-search="true" :multiple="false" :searchable="true"
+                      placeholder="Sélectionner le role etap" label="label" track-by="label" />
+                  </Field>
+                  <ErrorMessage name="roleetap" class="text-danger" />
+                </div>
+              </div>    
+
               
           <div class="col-md-12 d-flex flex-column mt-3">
             <div class="d-flex align-items-center ">
@@ -74,7 +104,7 @@
               >
                   Modifier une Etape Validation
               </button>
-              <router-link to="/circuits/liste-etapeValidation" 
+              <router-link to="/etapeValidations/liste-etapeValidations" 
                   class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                   <span class="position-relative"></span>Annuler</router-link>
             </div>
@@ -112,12 +142,26 @@
         statut: Yup.string().required("Le statut de l'etape validation est obligatoire"), 
         Duree: Yup.number().required("La Durée de l'etape validation est obligatoire"),
         typeDuree: Yup.string().required("Le Type Durée de l'etape validation est obligatoire"),
+        circuit: Yup.string().required("Le Type Durée de l'etape validation est obligatoire"),
+        // roleetap: Yup.string().required("Le Type Durée de l'etape validation est obligatoire"),
+
       });
   
+
+      onMounted(async () => {
+      await getAllCircuits();
+      await getAllRoleEtaps();
+
+
+      });
+
       const etapeValidationForm = ref<EtapeValidation>();
       const router = useRouter();
       const route = useRoute();
       const typeDureeOptions = ref([]);
+      const circuitOptions = ref([]);
+      const roleEtapOptions = ref([]);
+
   
   
   
@@ -170,6 +214,36 @@
   //     });
   // };
   
+  const getAllCircuits = async () => {
+      try {
+        const response = await ApiService.get('/all/circuits');
+        const circuitsData = response.data.data.data;
+        console.log('Data', circuitsData)
+        circuitOptions.value = circuitsData.map((circuit) => ({
+          value: circuit.id,
+          label: circuit.nom,
+        }));
+      }
+      catch (error) {
+        //error(response.data.message)
+      }
+    }
+
+
+    const getAllRoleEtaps = async () => {
+      try {
+        const response = await ApiService.get('/all/roleEtaps');
+        const roleEtapsData = response.data.data.data;
+        console.log('Data', roleEtapsData)
+        roleEtapOptions.value = roleEtapsData.map((roleEtap) => ({
+          value: roleEtap.id,
+          label: roleEtap.libelle,
+        }));
+      }
+      catch (error) {
+        //error(response.data.message)
+      }
+    }
   
   
   const editEtapeValidation = async (values, { resetForm }) => {
@@ -194,8 +268,9 @@
       });
   
       return { 
-        etapeValidationSchema, editEtapeValidation, etapeValidationForm, typeDureeOptions
-      };
+     
+      etapeValidationSchema, editEtapeValidation, etapeValidationForm, typeDureeOptions,circuitOptions,
+      roleEtapOptions };
     },
   });
   </script>

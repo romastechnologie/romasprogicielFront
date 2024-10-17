@@ -46,7 +46,7 @@
                   <ErrorMessage name="Duree" class="text-danger"/>
                 </div>
               </div>
-            <div class="col-md-6">
+            <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Type Durée <span class="text-danger">*</span>
@@ -92,10 +92,7 @@
                   </Field>
                   <ErrorMessage name="roleetap" class="text-danger" />
                 </div>
-              </div>
-              
-              
-          
+              </div>      
             <div class="col-md-12 mt-3">
               <div class="d-flex align-items-center ">
                 <button class="btn btn-success me-3" type="submit">
@@ -140,6 +137,9 @@
         statut: Yup.string().required("Le statut est obligatoire."),
         Duree: Yup.number().required("La Durée est obligatoire."),
         typeDuree: Yup.string().required("Le type de Duree est obligatoire."),
+        circuit: Yup.string().required("Le circuit est obligatoire."),
+        // roleetap: Yup.string().required("Le Role Etap est obligatoire."),
+        
       });
   
       onMounted(async () => {
@@ -157,8 +157,8 @@
       const router = useRouter();
       // const permissions= ref<Array<Permission>>([]);
       const typeDureeOptions = ref([]);
-    const circuitOptions = ref();
-    const roleEtapOptions = ref();
+    const circuitOptions = ref([]);
+    const roleEtapOptions = ref([]);
 
 
 
@@ -174,7 +174,7 @@
         console.log('Data', circuitsData)
         circuitOptions.value = circuitsData.map((circuit) => ({
           value: circuit.id,
-          label: circuit.statut,
+          label: circuit.nom,
         }));
       }
       catch (error) {

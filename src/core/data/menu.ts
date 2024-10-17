@@ -338,18 +338,36 @@ export const menu: MenuItem[] = [
         badgeType: "light-primary",
         active: false,
         isPinned: false,
-        children: [
+        children:[
             {
                 path: "/demandes/ajouter-demande",
                 title: "Ajouter une demande",
                 type: "link"
             },
             {
-                path: "/demandes/liste-demande",
-                title: "Liste des demandes",
+                path: "/demandes/liste-demande-conge",
+                title: "Liste des demandes de congés",
                 type: "link"
             },
+            {
+                path: "/demandes/liste-demande-permission",
+                title: "Liste des demandes de permission",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-attestation",
+                title: "Liste des demandes d'attestation",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-autre",
+                title: "Liste des autres demandes",
+                type: "link"
+            },
+
         ]
+       
+        
     },
     {
         title: "Présences",
@@ -430,6 +448,11 @@ export const menu: MenuItem[] = [
             {
                 path: "/conges/liste-conge",
                 title: "Liste des congés",
+                type: "link"
+            },
+            {
+                path: "/conges/calendrier",
+                title: "Calendrier de programmation",
                 type: "link"
             },
         ]

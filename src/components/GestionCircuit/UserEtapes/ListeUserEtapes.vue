@@ -66,11 +66,7 @@
             <tbody>
               <tr v-for="(userEtape, index) in userEtapes" :key="index">
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ userEtape.libelle }}
-                </td>
-                
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ userEtape.description }}
+                  {{ userEtape.userId }}
                 </td>
                 <td
                   class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
