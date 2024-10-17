@@ -9,7 +9,7 @@
                       <div class="modal-body">
             <Form ref="userEtapesForm" @submit="addUserEtapes" :validation-schema="userEtapesSchema">
               <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10" >
                     UserId <span class="text-danger">*</span>
