@@ -298,6 +298,9 @@ import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFam
 import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
 import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
 import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
+import ListeDemandePermissionPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage.vue';
+import ListeDemandeCongePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeCongePage.vue';
+import ListeDemandeAttestationPage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAttestationPage.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
 // import AddChampsLibreFamillePage from "@/pages/ChampsLibre/AddChampsLibreFamillePage.vue"
@@ -1372,6 +1375,30 @@ const routes: Array<RouteRecordRaw> = [
         component: AddDemandePage,
         meta: {
           title: 'Ajouter une demande',
+        }
+      },
+      {
+        path: "liste-demande-permission",
+        name: "ListeDemandePermissionPage",
+        component: ListeDemandePermissionPage,
+        meta: {
+          title: 'Liste des demandes de permission',
+        }
+      },
+      {
+        path: "liste-demande-conge",
+        name: "ListeDemandeCongePage",
+        component: ListeDemandeCongePage,
+        meta: {
+          title: 'Liste des demandes de congé',
+        }
+      },
+      {
+        path: "liste-demande-attestation",
+        name: "ListeDemandeAttestationPage",
+        component: ListeDemandeAttestationPage,
+        meta: {
+          title: 'Liste des demandes d\'attestation',
         }
       },
       {

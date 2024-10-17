@@ -1,16 +1,16 @@
 <template>
-  <AddDemandeModal />
+  <AddDemande />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import AddDemandeModal from "@/components/GestionPersonnel/Demandes/AddDemandeModal.vue";
+import AddDemande from "@/components/GestionPersonnel/Demandes/AddDemande.vue";
 
 export default defineComponent({
   name: "AddDemandePage",
   components: {
-    AddDemandeModal,
+    AddDemande,
   },
 });
 </script>

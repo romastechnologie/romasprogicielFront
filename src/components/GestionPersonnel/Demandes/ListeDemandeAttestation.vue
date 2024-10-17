@@ -136,7 +136,7 @@
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeDemande",
+    name: "ListeDemandeAttestation",
     components: {
       PaginationComponent
     },

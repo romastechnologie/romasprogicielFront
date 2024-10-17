@@ -67,7 +67,7 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Motif de la demande
+                  Motif de la permission
                 </th>
                 
                 <th
@@ -81,7 +81,7 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.dateDemande }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande?.categorieId }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande?.personnelId }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(demande.motifDemande) }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ format_date(demande.motifPermission) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
@@ -136,7 +136,7 @@
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeDemande",
+    name: "ListeDemandePermission",
     components: {
       PaginationComponent
     },

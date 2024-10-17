@@ -57,6 +57,9 @@
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                   Catégorie Demande
                 </th>
+                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                  Type Congé
+                </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -80,6 +83,7 @@
               <tr  v-for ="(demande, index) in demandes" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.dateDemande }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande?.categorieId }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ demande?.typeConge }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande?.personnelId }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ format_date(demande.motifDemande) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
@@ -136,7 +140,7 @@
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeDemande",
+    name: "ListeDemandeConge",
     components: {
       PaginationComponent
     },

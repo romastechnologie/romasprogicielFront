@@ -336,9 +336,38 @@ export const menu: MenuItem[] = [
         icon1: "fill-file",
         type: "link",
         badgeType: "light-primary",
-        path: "/demandes/liste-demande",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children:[
+            {
+                path: "/demandes/ajouter-demande",
+                title: "Ajouter une demande",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-conge",
+                title: "Liste des demandes de congés",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-permission",
+                title: "Liste des demandes de permission",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-attestation",
+                title: "Liste des demandes d'attestation",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-autre",
+                title: "Liste des autres demandes",
+                type: "link"
+            },
+
+        ]
+       
+        
     },
     {
         title: "Présences",

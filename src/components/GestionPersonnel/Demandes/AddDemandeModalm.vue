@@ -11,7 +11,7 @@
             aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <Form :validation-schema="schemaDemande()" enctype="multipart/form-data">
+          <Form  @submit="sendDemande" :validation-schema="schemaDemande" enctype="multipart/form-data">
 
             <div class="col-md-12 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -104,8 +104,8 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Motif de la permission <span class="text-danger">*</span>
               </label>
-              <Field name="motif" type="text" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="motif" class="text-danger" />
+              <Field name="motifPermission" type="text" class="form-control shadow-none fs-md-15 text-black" />
+              <ErrorMessage name="motifPermission" class="text-danger" />
             </div>
           </div>
           <div class="row">
@@ -143,7 +143,7 @@
             <ErrorMessage name="demandeFile" class="text-danger text-start mb-2" />
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-              <button type="submit" class="btn btn-primary" @click="sendDemande"> Déposer </button>
+              <button type="submit" class="btn btn-primary"> Déposer </button>
             </div>
           </Form>
         </div>
@@ -162,8 +162,12 @@ import Swal from 'sweetalert2'
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import ApiService from '@/services/ApiService';
 import axios from 'axios';
+import { error, hideModal, success } from '@/utils/utils';
+import { Demande } from '@/models/Demande';
+
 
 const router = useRouter();
+emits: ["refreshDemandes",'openmodal'],
 
 configure({
   validateOnBlur: true,
@@ -172,12 +176,16 @@ configure({
   validateOnModelUpdate: false,
 });
 
+
+
+
 const demandes = ref([] as any[]);
 const categorieOptions = ref([] as any[]);
 const typeCongeOptions = ref([] as any[]);
 const personnelOptions = ref([] as any[]);
 const closeDemandeModal = ref(null);
 const showE = ref(false)
+//const schemaDemande = ref(defaultSchema);
 
 //déclaration des champs
     const fieldHide1 = ref(true);
@@ -193,39 +201,42 @@ const showE = ref(false)
     const fieldHide11 = ref(false);
     const fieldHide12 = ref(false);
     const fieldHide13 = ref(false);
-    //const schemaDemande = ref(defaultSchema);
+    const schemaDemande = ref();
   
 
 
-function schemaDemande() {
-  return Yup.object().shape({
-    categorieDemande: Yup.string().required("La categorie est obligatoire."),
-    //personnel: Yup.string().required("Le personnel est obligatoire."),
-    demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
-  })
-}
+// function schemaDemande() {
+//   return Yup.object().shape({
+//     categorieDemande: Yup.string().required("La categorie est obligatoire."),
+//     //personnel: Yup.string().required("Le personnel est obligatoire."),
+//     demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
+//   })
+// }
 
 
 const permissionSchema = Yup.object().shape({
       categorieDemande: Yup.string().required('Le catégorie de demande est obligatoire'),
-      motif: Yup.string().required('Le motifest obligatoire'),
+      motifPermission: Yup.string().required('Le motif est obligatoire'),
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
+      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
     const congeSchema = Yup.object().shape({
       categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
       typeConge: Yup.string().required('Le type de congé est obligatoire'),
-      motif: Yup.string().required('Le motif est obligatoire'),
+      motifPermission: Yup.string().required('Le motif est obligatoire'),
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
+      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
     const attestationSchema = Yup.object().shape({
       categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
-      motif: Yup.string().required('Le motif est obligatoire'),
+      motifPermission: Yup.string().required('Le motif est obligatoire'),
+      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
       /*dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),*/
@@ -233,9 +244,56 @@ const permissionSchema = Yup.object().shape({
 
     const defaultSchema = Yup.object().shape({
       categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
+      motifDemande:Yup.string().required('Le motif de demande est obligatoire'),
+      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 const perso = ref();
 const cate = ref();
+
+const addDemande = async (values:any, {resetForm}: {resetForm: () => void  }) => {
+          values = values as Demande;
+          loading.value = false;
+          if(isupdate.value) {
+            ApiService.put(`/demandes/${values.id}`,values)
+            .then(({ data }) => {
+              if(data.code == 200) { 
+                success(data.message);
+                resetForm();
+                hideModal(addDemandeModalRef.value);
+                isupdate.value=false;
+                btnTitle();
+                emit("refreshDemandes");
+                router.push('/demandes/liste-demande');
+              }
+            }).catch(({ response }) => {
+              error(response.data.message);
+            });
+          }else{
+            ApiService.post("/demandes",values)
+            .then(({ data }) => {
+              if(data.code == 201) { 
+                success(data.message)
+                resetForm();
+                hideModal(addDemandeModalRef.value);
+                //router.push('/demandes/liste-demande');
+                emit("refreshDemandes");
+    
+              }
+            }).catch(({ response }) => {
+              error(response.data.message);
+            });
+          }
+        }; 
+    
+        /*const resetValue = () => {
+          const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
+          isupdate.value=false;
+          formFields.forEach(field => {
+            field.value = '';
+          });
+          btnTitle()
+        };*/
+    
 
 async function sendDemande(values: any) {
 
@@ -303,6 +361,7 @@ const getAllCategorieDemandes = async () => {
     throw error;
   }
 }
+
 
 const getAllTypeConges = async () => {
   try {
@@ -504,3 +563,4 @@ onMounted(() => {
 })
 
 </script>
+    
