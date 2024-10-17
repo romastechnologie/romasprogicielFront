@@ -138,7 +138,7 @@ export default defineComponent({
 
     const fetchMission = async () => {
       try {
-        const response = await axios.get('/missions');
+        const response = await axios.get('all/missions');
         const missionsData = response.data.data.data;
         missionOptions.value = missionsData.map((mission) => ({
           value: mission.id,
