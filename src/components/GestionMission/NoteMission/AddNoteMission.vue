@@ -70,6 +70,8 @@ import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
 import { error, success,ajouterPeriode } from '@/utils/utils';
 import { useRouter } from 'vue-router';
+import { NoteMission } from '@/models/NoteMission';
+
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import axios from 'axios';
 

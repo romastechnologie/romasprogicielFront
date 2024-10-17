@@ -75,6 +75,8 @@ import { useRoute, useRouter } from 'vue-router';
 import ApiService from '@/services/ApiService';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { NoteMission } from '@/models/NoteMission';
+
 import Multiselect from '@vueform/multiselect'
 
 export default defineComponent({
