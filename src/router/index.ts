@@ -281,6 +281,10 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
+import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
+import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
+import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
+import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUserEtapes.vue";
 
 
 
@@ -1804,6 +1808,50 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeCircuitPage,
         meta: {
           title: 'Liste des circuits',
+        }
+      },
+    ]
+  },
+  {
+    path: "/etapeValidations",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-etapeValidations",
+        name: "AddEtapeValidationPage",
+        component: AddEtapeValidationPage,
+        meta: {
+          title: 'Ajouter une Etape Validation',
+        }
+      },
+      {
+        path: "modifier-etapeValidation/:id",
+        name: "EditEtapeValidationPage",
+        component: EditEtapeValidationPage,
+        meta: {
+          title: 'Modifier une Etape Validation',
+        }
+      },
+      {
+        path: "liste-etapeValidations",
+        name: "ListeEtapeValidationPage",
+        component: ListeEtapeValidationPage,
+        meta: {
+          title: 'Liste des etapes de Validations',
+        }
+      },
+    ]
+  },
+  {
+    path: "/userEtapes",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-userEtapes",
+        name: "liste-userEtapes",
+        component: ListeUserEtapesPage,
+        meta: {
+          title: 'Liste UserEtapes',
         }
       },
     ]

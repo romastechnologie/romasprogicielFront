@@ -1494,7 +1494,7 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/categoriesDepenses/liste-categoriesdepenses",
-                title: "Ajouter une categorie depense",
+                title: "Liste des  categories depenses",
                 type: "link"
             }
            
@@ -1603,6 +1603,44 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+    {
+        title: "EtapeValidation",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/etapeValidations/ajouter-etapeValidations",
+                title: "Ajouter une etape validation",
+                type: "link"
+            },
+            {
+                path: "/etapeValidations/liste-etapeValidations",
+                title: "Liste des etapes validations",
+                type: "link"
+            },
+        ]
+    },
+    // {
+    //     title: "UserEtapes",
+    //     icon: "stroke-user",
+    //     icon1: "fill-user",
+    //     type: "sub",
+    //     badgeType: "light-primary",
+    //     active: false,
+    //     isPinned: false,
+    //     children: [
+           
+    //         {
+    //             path: "/userEtapes/liste-userEtapes",
+    //             title: "Liste des UserEtapes",
+    //             type: "link"
+    //         },
+    //     ]
+    // },
     
 
 
