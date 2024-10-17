@@ -94,13 +94,12 @@
   
     setup: () => {
       const horaireSchema = Yup.object().shape({
-            //refHoraire: Yup.string().required("La référence est obligatoire."),
-            jour: Yup.string().required("Le jour est obligatoire."),
-            heureOuverture: Yup.string().required("L'heure d'ouverture est obligatoire."),
-            heureFermeture: Yup.string().required("L'heure de fermeture est obligatoire."),
-            heureDebutPause: Yup.string().required("L'heure de début est obligatoire."),
-            heureFinPause: Yup.string().required("L'heure de fin est obligatoire."),
-            
+          //refHoraire: Yup.string().required("La référence est obligatoire."),
+          jour: Yup.string().required("Le jour est obligatoire."),
+          heureOuverture: Yup.string().required("L'heure d'ouverture est obligatoire."),
+          heureFermeture: Yup.string().required("L'heure de fermeture est obligatoire."),
+          heureDebutPause: Yup.string().required("L'heure de début est obligatoire."),
+          heureFinPause: Yup.string().required("L'heure de fin est obligatoire."),
       });
   
       onMounted(() => {

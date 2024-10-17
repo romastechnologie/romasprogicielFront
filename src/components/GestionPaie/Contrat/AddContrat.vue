@@ -1,590 +1,485 @@
 <template>
-  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-      <Form ref="contratForm" @submit="addContrat" :validation-schema="contratSchema">
-        <div class="row">
-          <div class="col-md-4 mb-3">
-            <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
-            <Field name="refContrat" class="form-control" type="text" />
-            <ErrorMessage name="refContrat" class="text-danger" />
-          </div>
-
-          <div class="col-md-4  mb-3">
-            <label for="dateDebut" class="form-label"> Date de début<span class="text-danger">*</span></label>
-            <Field name="dateDebut" class="form-control" type="Date" />
-            <ErrorMessage name="dateDebut" class="text-danger" />
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <label for="dateFin" class="form-label"> Date de fin<span class="text-danger">*</span></label>
-            <Field name="dateFin" class="form-control" type="Date" />
-            <ErrorMessage name="dateFin" class="text-danger" />
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="salaireDeBase" class="form-label">Salaire de base<span class="text-danger">*</span></label>
-            <Field name="salaireDeBase" class="form-control" type="text" v-model="salaireDeBase" />
-            <ErrorMessage name="salaireDeBase" class="text-danger" />
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="heuresTravaillees" class="form-label">Heures de travail<span
-                class="text-danger">*</span></label>
-            <Field name="heuresTravaillees" class="form-control" type="number" />
-            <ErrorMessage name="heuresTravaillees" class="text-danger" />
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <label for="renouvelable" class="form-label">Renouvelable</label>
-            <Field name="renouvelable" class="form-control" type="text" />
-            <ErrorMessage name="renouvelable" class="text-danger" />
-          </div>
-
-          <div class="col-md-4  mb-3">
-            <label for="dateFinPeriodeEssai" class="form-label"> Date fin de période d'Essai<span
-                class="text-danger">*</span></label>
-            <Field name="dateFinPeriodeEssai" class="form-control" type="Date" />
-            <ErrorMessage name="dateFinPeriodeEssai" class="text-danger" />
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Période de Paie <span class="text-danger">*</span>
-              </label>
-              <Field name="periodePaie" type="text" v-slot="{ field }">
-                <Multiselect :searchable="true" :options="['Mensuel', 'Hebdomadaire', 'Bimensuel', 'Bihebdomadaire']"
-                  v-model="field.value" v-bind="field" placeholder="Sélectionner la période" />
-              </Field>
-              <ErrorMessage name="periodePaie" class="text-danger" />
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Type Contrat <span class="text-danger">*</span>
-              </label>
-              <Field name="types" v-model="types" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le type" label="label"
-                  track-by="label" />
-              </Field>
-              <ErrorMessage name="types" class="text-danger" />
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Personnel <span class="text-danger">*</span>
-              </label>
-              <Field name="personnel" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
-                  track-by="label" />
-              </Field>
-              <ErrorMessage name="personnel" class="text-danger" />
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Mode de tarification <span class="text-danger">*</span>
-              </label>
-              <Field name="modeDeTarification" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="modeDeTarificationOptions"
-                  :preserve-search="true" :multiple="false" :searchable="true" placeholder="Sélectionner le mode"
-                  label="label" track-by="label" />
-              </Field>
-              <ErrorMessage name="modeDeTarification" class="text-danger" />
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-               Postes <span class="text-danger">*</span>
-              </label>
-              <Field name="poste" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="posteOptions"
-                  :preserve-search="true" :multiple="false" :searchable="true" placeholder="Sélectionner la fonction"
-                  label="label" track-by="label" />
-              </Field>
-              <ErrorMessage name="poste" class="text-danger" />
-            </div>
-          </div>
-
-          <div class="col-md-12">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                 Attributions <span class="text-danger">*</span>
-                </label>
-                <Field name="attribution" v-slot="{ field }">
-                  <Multiselect 
-                    mode="tags"
-                    :close-on-select="false"
-                    :options="attributionOptions" 
-                    :searchable="true" 
-                    :multiple="true"
-                    v-model="field.value"
-                    v-bind="field"
-                    placeholder="Sélectionner les attributions"
-                  />
-                </Field>
-                <ErrorMessage name="attribution" class="text-danger"/>
-              </div>
-            </div>
-
-          <div class="col-md-12 mb-md-25">
-            <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
-              <div class="row">
-                <div class="border border-primary mb-10">
-                  <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                    style="background-color: #0a59a4">
-                    <div class="col-md-7">
-                      <h3 class="fs-4 text-white">
-                        HoraireContrats
-                      </h3>
-                    </div>
-                    <div class="col-md-5">
-                      <div class="d-flex float-end">
-                        <button
-                          class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                          type="button" :class="{ 'cursor-not-allowed': isDisableeeeeee }" :disabled="isDisableeeeeee"
-                          @click="addRowHoraireContrat()">
-                          <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
-                          Ajouter un horaireContrat
-                        </button>
-                        <router-link to="/liste-mouvements"></router-link>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="row d-flex align-items-center justify-content-between mt-10">
-                      <div class="col-md-3">
-                        <label class="d-block text-black fw-semibold">
-                          Heure d'arrivée
-                          <span class="text-danger">*</span>
-                        </label>
-                      </div>
-                      <div class="col-md-3">
-                        <label class="d-block text-black fw-semibold">
-                          Heure de début de pause
-                          <span class="text-danger">*</span>
-                        </label>
-                      </div>
-                      <div class="col-md-2">
-                        <label class="d-block text-black fw-semibold mb-10">
-                          Heure de fin de pause<span class="text-danger">*</span>
-                        </label>
-                      </div>
-                      <div class="col-md-2">
-                        <label class="d-block text-black fw-semibold mb-10">
-                          Heure de départ <span class="text-danger">*</span>
-                        </label>
-                      </div>
-                      <div class="col-md-2">
-                        <label class="d-block text-black fw-semibold mb-10">
-                          Actions <span class="text-danger">*</span>
-                        </label>
-                      </div>
-                    </div>
-                    <hr class="mt-0" />
-                    <div class="row" v-for="(horaireContrat, index) in horaireContrats" :key="index">
-                      <div class="col-md-3 mb-2">
-                        <div class="form-group ">
-                          <input v-model="horaireContrat.heureArrive" type="time"
-                            class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                          <div class="invalid-feedback" v-if="valideteRowHoraireContrat(horaireContrat.heureArrive)">
-                            L"heure d'arrivée est obligatoire.
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-3 mb-2">
-                        <div class="form-group">
-                          <input v-model="horaireContrat.heureDebutPause" type="time"
-                            class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                        </div>
-                        <div class="invalid-feedback" v-if="valideteRowHoraireContrat(horaireContrat.heureDebutPause)">
-                          L'heure de début de pause est obligatoire.
-                        </div>
-                      </div>
-                      <div class="col-md-2 mb-2">
-                        <div class="form-group ">
-                          <input v-model="horaireContrat.heureFinPause" type="time"
-                            class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                          <div class="invalid-feedback" v-if="valideteRowHoraireContrat(horaireContrat.heureFinPause)">
-                            L'heure de fin de pause est obligatoire.
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 mb-2">
-                        <div class="form-group ">
-                          <input v-model="horaireContrat.heureDepart" type="time"
-                            class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                          <div class="invalid-feedback" v-if="valideteRowHoraireContrat(horaireContrat.heureDepart)">
-                            L'heure de départ est obligatoire.
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 mb-2">
-                        <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
-                          @click="removeRowHoraireContrat(index)">
-                          <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+    <Card3 colClass="col-md-12 simple-form-wizard" pre="true" preClass="f-m-light mt-1" headerTitle="true"
+        title="Edition de contrat" desc="Edition de contrat par type de contrat">
+        <form-wizard  class="border border-primary"
+          :before-change="validateStep"
+          @on-complete="addContrat" 
+          shape="tab"
+          back-button-text="Précédent"
+          next-button-text="Suivant"
+          finish-button-text="Enregistrer"
+          color="#9b59b6">
+          <tab-content title="Information Générale">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="ref" class="form-label">Durée du contrat<span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input v-model="contrat.dureeContrat" class="form-control" type="text" for="inputGroupSelect01" >
+                  <select class="form-select form-control" style="width: 20px !important;">
+                    <option value="...">...</option>
+                    <option value="Jour(s)">Jour(s)</option>
+                    <option value="Mois">Mois</option>
+                    <option value="Ans">Ans</option>
+                  </select>
+                  <span class="invalid-feedback"></span>
                 </div>
               </div>
+              <div class="col-md-4 mb-3">
+                <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
+                <input v-model="contrat.refContrat" class="form-control" type="text" />
+                <span class="invalid-feedback"></span>
+              </div>
+              <div class="col-md-4  mb-3">
+                <label for="dateDebut" class="form-label">Date d'embauche<span class="text-danger">*</span></label>
+                <input v-model="contrat.dateDebut" class="form-control" type="Date" />
+                <span class="invalid-feedback"></span>
+              </div>
+            
+              <div class="col-md-4 mb-3">
+                <label for="salaireDeBase" class="form-label">Salaire de base<span class="text-danger">*</span></label>
+                <input v-model="contrat.salaireDeBase" class="form-control" type="text" />
+                <span class="invalid-feedback"></span>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Mode de tarification <span class="text-danger">*</span>
+                  </label>
+                    <Multiselect v-model="contrat.modeDeTarification" :options="modeDeTarificationOptions"
+                      :preserve-search="true" :multiple="false" :searchable="true" placeholder="Sélectionner le mode"
+                      label="label" track-by="label" />
+                    <span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Catégorie de contrat <span class="text-danger">*</span>
+                  </label>
+                    <Multiselect :searchable="true" :options="['Contrat à durée déterminée (CDD)', 'Contrat à durée indéterminée (CDI)']"
+                    v-model="contrat.periodePaie" placeholder="Sélectionner la catégorie de contrat" />
+                  <span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="ref" class="form-label">Période d'essai<span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input v-model="contrat.dureePeriodeEssai" class="form-control" type="text" for="inputGroupSelect01" >
+                  <select class="form-select form-control" style="width: 20px !important;">
+                    <option value="...">...</option>
+                    <option value="Jour(s)">Jour(s)</option>
+                    <option value="Mois">Mois</option>
+                    <option value="Ans">Ans</option>
+                  </select>
+                  <span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="dateFin" class="form-label">Date de fin de contrat<span class="text-danger">*</span></label>
+                <input v-model="contrat.dateFin" class="form-control" type="Date" />
+                <span class="invalid-feedback"></span>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="renouvelable" class="form-label">Renouvelable</label>
+                  <div class="form-check-size">
+                    <div class="form-check form-check-inline radio radio-primary">
+                      <input class="form-check-input" id="oui" v-model="contrat.renouvelable" type="radio"  value="1">
+                      <label class="form-check-label mb-0" for="oui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline radio radio-primary">
+                      <input class="form-check-input" id="non" v-model="contrat.renouvelable" type="radio"  value="0">
+                      <label class="form-check-label mb-0" for="non">Non</label>
+                    </div>
+                  </div>
+                <span class="invalid-feedback"></span>
+              </div>
+              <div class="col-md-4  mb-3">
+                <label for="dateFinPeriodeEssai" class="form-label"> Date fin de période d'Essai<span
+                    class="text-danger">*</span></label>
+                <input v-model="contrat.dateFinPeriodeEssai" class="form-control" type="Date" />
+                <span class="invalid-feedback"></span>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Période de Paie <span class="text-danger">*</span>
+                  </label>
+                    <Multiselect :searchable="true" :options="['Mensuel', 'Hebdomadaire', 'Bimensuel', 'Bihebdomadaire']"
+                    v-model="contrat.periodePaie" placeholder="Sélectionner la période" />
+                  <span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Type Contrat <span class="text-danger">*</span>
+                  </label>
+                    <Multiselect v-model="contrat.typeContrat" :options="typeOptions" :preserve-search="true"
+                      :multiple="false" :searchable="true" placeholder="Sélectionner le type" label="label"
+                      track-by="label" />
+                  <span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Personnel <span class="text-danger">*</span>
+                  </label>
+                    <Multiselect v-model="contrat.personnel" :options="personnelOptions" :preserve-search="true"
+                      :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
+                      track-by="label" />
+                  <span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Poste Occupé <span class="text-danger">*</span>
+                  </label>
+                    <Multiselect v-model="contrat.poste" :options="fonctionOptions"
+                      :preserve-search="true" :multiple="false" :searchable="true" placeholder="Sélectionner la fonction"
+                      label="label" track-by="label" />
+                    <span class="invalid-feedback"></span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                    <label class="d-block text-black fw-semibold mb-10">
+                     Attributions <span class="text-danger">*</span>
+                    </label>
+                      <Multiselect 
+                        mode="tags"
+                        :close-on-select="false"
+                        :options="attributionOptions" 
+                        :searchable="true" 
+                        :multiple="true"
+                        v-model="contrat.attribution"
+                        placeholder="Sélectionner les attributions"/>
+                      <span class="invalid-feedback"></span>
+                  </div>
+                </div>             
             </div>
-          </div>
-
-
-           <!-- <div class="col-md-12 mb-md-25">
-            <div class="accordion" id="basicAccordion">
-              <div class="accordion-item mb-0 bord1">
-                <h2 class="accordion-header" id="headingOne">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#basicCollapseOne" aria-expanded="false" aria-controls="basicCollapseOne">
-                    Choisir des fonctions
-                  </button>
-                </h2>
-                <div id="basicCollapseOne" class="accordion-collapse collapse" data-bs-parent="#basicAccordion">
-                  <div class="accordion-body">
-
-                    <div class="tab-content" id="myTabContent">
-                      <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
-                        <div class="row">
-                          <div class="border border-primary mb-10">
-                            <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                              style="background-color: #0a59a4">
-                              <div class="col-md-7">
-                                <h3 class="fs-4 text-white">
-                                  Fonctions
-                                </h3>
-                              </div>
-                              <div class="col-md-5">
-                                <div class="d-flex float-end">
-                                  <button
-                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                    type="button" :class="{ 'cursor-not-allowed': isDisableee }" :disabled="isDisableee"
-                                    @click="addRowFonction()">
-                                    <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
-                                    Ajouter une fonction
-                                  </button>
-                                  <router-link to="/liste-mouvements"></router-link>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div class="row d-flex align-items-center justify-content-between mt-10">
-                                <div class="col-md-2">
-                                  <label class="d-block text-black fw-semibold">
-                                    Etat
-                                    <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label class="d-block text-black fw-semibold">
-                                    Fonction
-                                    <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label class="d-block text-black fw-semibold">
-                                    Organisation
-                                    <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label class="d-block text-black fw-semibold mb-10">
-                                    Date de début <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label class="d-block text-black fw-semibold mb-10">
-                                    Date de fin <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label class="d-block text-black fw-semibold mb-10">
-                                    Action
-                                  </label>
-                                </div>
-                              </div>
-                              <hr class="mt-0" />
-                              <div class="row" v-for="(fonction, index) in fonctions" :key="index">
-                                <div class="col-md-2 mb-2">
-                                  <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
-                                    <label for="estActif" class="form-check-label fw-medium position-relative top-1">
-                                      Est Actif ?
-                                    </label>
-                                    <input name="estActif" v-model="fonction.estActif" type="checkbox"
-                                      class="form-check-input shadow-none" />
-                                    <ErrorMessage name="estActif" class="text-danger" />
-                                  </div>
-                                </div>
-                                <div class="col-md-2 mb-2">
-                                  <div class="">
-                                    <Multiselect :options="fonctionOptions" :searchable="true" track-by="label"
-                                      label="label" v-model="fonction.fonction"
-                                      placeholder="Sélectionner la Fonction" />
-                                    <div class="invalid-feedback" v-if="valideteRowFonction(fonction.fonction)">
-                                      La fonction est obligatoire.
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-md-2 mb-2">
-                                  <div class="">
-                                    <Field name="Organisation" type="text" v-slot="{ field }">
-                                      <Multiselect v-model="field.value" v-bind="field" :options="OrganisationOptions"
-                                        :preserve-search="true" :multiple="false" :searchable="true"
-                                        placeholder="Sélectionner l'organisation" label="label" track-by="label" />
-                                    </Field>
-                                    <ErrorMessage name="Organisation" class="text-danger" />
-                                  </div>
-                                </div>
-                                <div class="col-md-2 mb-2">
-                                  <div class="form-group mb-5 mb-sm-5 mb-md-5">
-                                    <input v-model="fonction.dateDebut" type="date"
-                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                                    <div class="invalid-feedback" v-if="valideteRowFonction(fonction.dateDebut)">
-                                      La date de début est obligatoire.
-                                    </div>
-                                  </div>
-
-                                </div>
-                                <div class="col-md-2 mb-2">
-                                  <div class="form-group mb-5 mb-sm-5 mb-md-5">
-                                    <input v-model="fonction.dateFin" type="date"
-                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                                  </div>
-                                  <div class="invalid-feedback" v-if="valideteRowFonction(fonction.dateFin)">
-                                    La date de fin est obligatoire.
-                                  </div>
-                                </div>
-                                <div class="col-md-2 mb-2">
-                                  <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
-                                    @click="removeRowFonction(index)">
-                                    <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                                  </button>
-                                </div>
+          </tab-content>
+          <tab-content title="Horaire de travail">
+           <div class="row">
+              <div class="col-md-12 mb-md-25">
+                <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+                  <div class="row">
+                    <div class="border border-primary mb-10">
+                      <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                        style="background-color: #0a59a4">
+                        <div class="col-md-7">
+                          <h3 class="fs-4 text-white">
+                            Les horaires de l'entreprise
+                          </h3>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="row d-flex align-items-center justify-content-between mt-2">
+                          <div class="col-md-2">
+                            <label class="d-block text-black fw-semibold">
+                              Jour
+                              <span class="text-danger">*</span>
+                            </label>
+                          </div> 
+                          <div class="col-md-2">
+                            <label class="d-block text-black fw-semibold">
+                              Heure d'ouverture
+                              <span class="text-danger">*</span>
+                            </label>
+                          </div>
+                        
+                          <div class="col-md-2">
+                            <label class="d-block text-black fw-semibold">
+                              Début de pause
+                              <span class="text-danger">*</span>
+                            </label>
+                          </div>
+                          <div class="col-md-2">
+                            <label class="d-block text-black fw-semibold mb-10">
+                              Fin de pause<span class="text-danger">*</span>
+                            </label>
+                          </div>
+                          <div class="col-md-2">
+                            <label class="d-block text-black fw-semibold">
+                              Heure de fermeture
+                              <span class="text-danger">*</span>
+                            </label>
+                          </div>
+                          <div class="col-md-2">
+                            <label class="d-block text-black fw-semibold mb-10">
+                              Est jour ouvrable<span class="text-danger">*</span>
+                            </label>
+                          </div>
+                        </div>
+                        <hr class="mt-0" />
+                        <div class="row" v-for="(horaire, index) in horaires" :key="index">
+                          <div class="col-md-2 mb-2">
+                            <div class="form-group ">
+                              <input :disabled="horaire.estActif=='0'" readonly class="form-control shadow-none fs-md-15 text-black" type="text" v-model="horaire.jour" 
+                              :class="valideteRowHoraire(horaire.jour,horaire.estActif) ? 'is-invalid' : ''" />
+                              <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.jour,horaire.estActif)">
+                                Champs obligatoire.
                               </div>
                             </div>
                           </div>
+                          <div class="col-md-2 mb-2">
+                            <div class="form-group ">
+                              <input :disabled="horaire.estActif=='0'" v-model="horaire.heureOuverture" type="time" :class="valideteRowHoraire(horaire.heureOuverture,horaire.estActif) ? 'is-invalid' : ''" class="form-control shadow-none fs-md-15 text-black"
+                                placeholder="Saisir le nom" />
+                              <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.heureOuverture,horaire.estActif)">
+                                Champs obligatoire.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2 mb-2">
+                            <div class="form-group ">
+                              <input  :disabled="horaire.estActif=='0'" v-model="horaire.heureDebutPause" type="time" :class="valideteRowHoraire(horaire.heureDebutPause,horaire.estActif) ? 'is-invalid' : ''"
+                                class="form-control shadow-none fs-md-15 text-black"/>
+                              <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.heureDebutPause,horaire.estActif)">
+                                Champs obligatoire.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2 mb-2">
+                            <div class="form-group">
+                              <input :disabled="horaire.estActif=='0'" v-model="horaire.heureFinPause" type="time" :class="valideteRowHoraire(horaire.heureFinPause,horaire.estActif) ? 'is-invalid' : ''"
+                                class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.heureFinPause,horaire.estActif)">
+                                  Champs obligatoire.
+                                </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2 mb-2">
+                            <div class="form-group ">
+                              <input :disabled="horaire.estActif=='0'" v-model="horaire.heureFermeture" type="time" :class="valideteRowHoraire(horaire.heureFermeture,horaire.estActif) ? 'is-invalid' : ''" class="form-control shadow-none fs-md-15 text-black"
+                                placeholder="Saisir le nom" />
+                              <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.heureFermeture,horaire.estActif)">
+                                Champs obligatoire.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2 mb-2">
+                              <div class="form-check-size">
+                                <div class="form-check form-check-inline radio radio-primary">
+                                  <input class="form-check-input" :id="index" v-model="horaire.estActif" type="radio" :name="`radio${index}`" value="1">
+                                  <label class="form-check-label mb-0" :for="index">Oui</label>
+                                </div>
+                                <div class="form-check form-check-inline radio radio-primary">
+                                  <input class="form-check-input" :id="`radio${index}`" v-model="horaire.estActif" type="radio" :name="`radio${index}`" value="0">
+                                  <label class="form-check-label mb-0" :for="`radio${index}`">Non</label>
+                                </div>
+                              </div>
+                              <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.estActif,horaire.estActif)">
+                                Champs obligatoire.
+                              </div>
+                          </div> 
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>-->
-         
-
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
-              <div class="row">
-                <div class="border border-primary mb-5">
-                  <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                    style="background-color: #0a59a4">
-                    <div class="col-md-3">
-                      <h3 class="fs-4 text-white">Prime</h3>
-                    </div>
-                    <!-- <div class="col-md-4">
-                            <h3 class="fs-4 text-white">Montant total : {{ montantTotal }}</h3>
-                          </div> -->
-                    <div class="col-md-3">
-                      <div class="d-flex float-end">
-                        <button
-                          class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                          type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
-                          @click="addRowPrime">
-                          <i class="fa fa-plus-circle"></i>
-                          Ajouter une prime
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="card-body p-15 p-sm-20 p-md-25">
-                      <div class="table-responsive">
-                        <table class="table table-fixed text-nowrap align-middle mb-0">
-                          <thead>
-                            <tr>
-                              <th scope="col" class="prime">Type prime</th>
-                              <th scope="col" class="quantite">Valeur</th>
-                              <th scope="col" class="prix-unitaire">Quantité</th>
-                              <th scope="col">Valeur Unitaire</th>
-                              <th scope="col">Montant</th>
-                              <th scope="col">Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr v-for="(prime, index) in primes" :key="index">
-                              <td class="typePrime-col">
-                                <Multiselect :options="typePrimeOptions" :searchable="true" track-by="label"
-                                  label="label" v-model="prime.typePrime" placeholder=""
-                                  @select="selectTypePrime(prime.typePrime, prime)" />
-                                <span class="invalid-feedback" v-if="validateRowPrime(prime.typePrime)">
-                                  Le type de prime est obligatoire.
-                                </span>
-                              </td>
-                              <td class="valeur-col">
-                                <input type="text" :readonly="true" v-model="prime.valeur" class="form-control" />
-                              </td>
-                              <td class="quantite-col">
-                                <input type="text" v-model="prime.quantite"
-                                  :class="validateRowPrime(prime.quantite) ? 'form-control is-invalid' : 'form-control'"
-                                  placeholder="Entrer la quantité" />
-                                <span class="invalid-feedback" v-if="validateRowPrime(prime.quantite)">
-                                  La quantité est obligatoire.
-                                </span>
-                              </td>
-                              <td class="valeurUnitaire-col">
-                                <input type="text" v-model="prime.valeurUnitaire" class="form-control" placeholder="" />
-                              </td>
-                              <td class="montant-col">
-                                <input type="text" v-model="prime.montant" :readonly="true" class="form-control"
-                                  placeholder="" />
-                              </td>
-                              <td class="actions-col pe-0">
-                                <div class="button-container" style="white-space: nowrap">
-                                  <button type="button" class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                    @click="removeRowPrime(index)">
-                                    <i class="icofont icofont-ui-delete"></i>
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                    <div class="col-md-12 mt-3">
+                      <label for="nobreheuresTravail" class="form-label">Heures de travail<span
+                          class="text-danger">*</span></label>
+                      <input readonly  v-model="contrat.nobreheuresTravail" class="form-control" type="number" />
+                      <span class="invalid-feedback"></span>
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> 
             </div>
-          </div>
-
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
-              <div class="row">
-                <div class="border border-primary mb-5">
-                  <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                    style="background-color: #0a59a4">
-                    <div class="col-md-3">
-                      <h3 class="fs-4 text-white">Retenue</h3>
-                    </div>
-                    <!-- <div class="col-md-4">
-                            <h3 class="fs-4 text-white">Montant total : {{ montantTotal }}</h3>
-                          </div> -->
-                    <div class="col-md-3">
-                      <div class="d-flex float-end">
-                        <button
-                          class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                          type="button" :class="{ 'cursor-not-allowed': isDisablee }" :disabled="isDisablee"
-                          @click="addRowRetenue">
-                          <i class="fa fa-plus-circle"></i>
-                          Ajouter une retenue
-                        </button>
-                      </div>
+          </tab-content>
+          <tab-content title="Primes et Retenues">
+            <div class="row">
+              <div class="border border-primary mb-5">
+                <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                  style="background-color: #0a59a4">
+                  <div class="col-md-3">
+                    <h3 class="fs-4 text-white">Prime</h3>
+                  </div>
+                  <!-- <div class="col-md-4">
+                          <h3 class="fs-4 text-white">Montant total : {{ montantTotal }}</h3>
+                        </div> -->
+                  <div class="col-md-3">
+                    <div class="d-flex float-end">
+                      <button
+                        class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                        type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
+                        @click="addRowPrime">
+                        <i class="fa fa-plus-circle"></i>
+                        Ajouter une prime
+                      </button>
                     </div>
                   </div>
-                  <div>
-                    <div class="card-body p-15 p-sm-20 p-md-25">
-                      <div class="table-responsive">
-                        <table class="table table-fixed text-nowrap align-middle mb-0">
-                          <thead>
-                            <tr>
-                              <th scope="col" class="prime">Type retenue</th>
-                              <th scope="col" class="quantite">Valeur</th>
-                              <th scope="col" class="prix-unitaire">Quantité</th>
-                              <th scope="col">Valeur Unitaire</th>
-                              <th scope="col">Montant</th>
-                              <th scope="col">Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr v-for="(retenue, index) in retenues" :key="index">
-                              <td class="typeRetenue-col">
-                                <Multiselect :options="typeRetenueOptions" :searchable="true" track-by="label"
-                                  label="label" v-model="retenue.typeRetenue" placeholder=""
-                                  @select="selectTypeRetenue(retenue.typeRetenue, retenue)" />
-                                <span class="invalid-feedback" v-if="validateRowRetenue(retenue.typeRetenue)">
-                                  Le type de retenue est obligatoire.
-                                </span>
-                              </td>
-                              <td class="valeur-col">
-                                <input type="text" :readonly="true" v-model="retenue.valeur" class="form-control" />
-                              </td>
-                              <td class="quantite-col">
-                                <input type="text" v-model="retenue.quantite"
-                                  :class="validateRowRetenue(retenue.quantite) ? 'form-control is-invalid' : 'form-control'"
-                                  placeholder="Entrer la quantité" />
-                                <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
-                                  La quantité est obligatoire.
-                                </span>
-                              </td>
-                              <td class="valeurUnitaire-col">
-                                <input type="text" v-model="retenue.valeurUnitaire" class="form-control"
-                                  placeholder="" />
-                              </td>
-                              <td class="montant-col">
-                                <input type="text" v-model="retenue.montant" :readonly="true" class="form-control"
-                                  placeholder="" />
-                              </td>
-                              <td class="actions-col pe-0">
-                                <div class="button-container" style="white-space: nowrap">
-                                  <button type="button" class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                    @click="removeRowRetenue(index)">
-                                    <i class="icofont icofont-ui-delete"></i>
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                </div>
+                <div>
+                  <div class="card-body p-15 p-sm-20 p-md-25">
+                    <div class="table-responsive">
+                      <table class="table table-fixed text-nowrap align-middle mb-0">
+                        <thead>
+                          <tr>
+                            <th scope="col" class="prime">Type prime</th>
+                            <th scope="col" class="quantite">Valeur</th>
+                            <th scope="col" class="prix-unitaire">Quantité</th>
+                            <th scope="col">Valeur Unitaire</th>
+                            <th scope="col">Montant</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(prime, index) in primes" :key="index">
+                            <td class="typePrime-col">
+                              <Multiselect :options="typePrimeOptions" :searchable="true" track-by="label"
+                                label="label" v-model="prime.typePrime" placeholder=""
+                                @select="selectTypePrime(prime.typePrime, prime)" />
+                              <span class="invalid-feedback" v-if="validateRowPrime(prime.typePrime)">
+                                Le type de prime est obligatoire.
+                              </span>
+                            </td>
+                            <td class="valeur-col">
+                              <input type="text" :readonly="true" v-model="prime.valeur" class="form-control" />
+                            </td>
+                            <td class="quantite-col">
+                              <input type="text" v-model="prime.quantite"
+                                :class="validateRowPrime(prime.quantite) ? 'form-control is-invalid' : 'form-control'"
+                                placeholder="Entrer la quantité" />
+                              <span class="invalid-feedback" v-if="validateRowPrime(prime.quantite)">
+                                La quantité est obligatoire.
+                              </span>
+                            </td>
+                            <td class="valeurUnitaire-col">
+                              <input type="text" v-model="prime.valeurUnitaire" class="form-control" placeholder="" />
+                            </td>
+                            <td class="montant-col">
+                              <input type="text" v-model="prime.montant" :readonly="true" class="form-control"
+                                placeholder="" />
+                            </td>
+                            <td class="actions-col pe-0">
+                              <div class="button-container" style="white-space: nowrap">
+                                <button type="button" class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                  @click="removeRowPrime(index)">
+                                  <i class="icofont icofont-ui-delete"></i>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="border border-primary mb-5">
+                <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                  style="background-color: #0a59a4">
+                  <div class="col-md-3">
+                    <h3 class="fs-4 text-white">Retenue</h3>
+                  </div>
+                  <!-- <div class="col-md-4">
+                          <h3 class="fs-4 text-white">Montant total : {{ montantTotal }}</h3>
+                        </div> -->
+                  <div class="col-md-3">
+                    <div class="d-flex float-end">
+                      <button
+                        class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                        type="button" :class="{ 'cursor-not-allowed': isDisablee }" :disabled="isDisablee"
+                        @click="addRowRetenue">
+                        <i class="fa fa-plus-circle"></i>
+                        Ajouter une retenue
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="card-body p-15 p-sm-20 p-md-25">
+                    <div class="table-responsive">
+                      <table class="table table-fixed text-nowrap align-middle mb-0">
+                        <thead>
+                          <tr>
+                            <th scope="col" class="prime">Type retenue</th>
+                            <th scope="col" class="quantite">Valeur</th>
+                            <th scope="col" class="prix-unitaire">Quantité</th>
+                            <th scope="col">Valeur Unitaire</th>
+                            <th scope="col">Montant</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(retenue, index) in retenues" :key="index">
+                            <td class="typeRetenue-col">
+                              <Multiselect :options="typeRetenueOptions" :searchable="true" track-by="label"
+                                label="label" v-model="retenue.typeRetenue" placeholder=""
+                                @select="selectTypeRetenue(retenue.typeRetenue, retenue)" />
+                              <span class="invalid-feedback" v-if="validateRowRetenue(retenue.typeRetenue)">
+                                Le type de retenue est obligatoire.
+                              </span>
+                            </td>
+                            <td class="valeur-col">
+                              <input type="text" :readonly="true" v-model="retenue.valeur" class="form-control" />
+                            </td>
+                            <td class="quantite-col">
+                              <input type="text" v-model="retenue.quantite"
+                                :class="validateRowRetenue(retenue.quantite) ? 'form-control is-invalid' : 'form-control'"
+                                placeholder="Entrer la quantité" />
+                              <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
+                                La quantité est obligatoire.
+                              </span>
+                            </td>
+                            <td class="valeurUnitaire-col">
+                              <input type="text" v-model="retenue.valeurUnitaire" class="form-control"
+                                placeholder="" />
+                            </td>
+                            <td class="montant-col">
+                              <input type="text" v-model="retenue.montant" :readonly="true" class="form-control"
+                                placeholder="" />
+                            </td>
+                            <td class="actions-col pe-0">
+                              <div class="button-container" style="white-space: nowrap">
+                                <button type="button" class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                  @click="removeRowRetenue(index)">
+                                  <i class="icofont icofont-ui-delete"></i>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="col-md-12 mt-3">
-            <div class="d-flex align-items-center ">
-              <button class="btn btn-success me-3" type="submit">
-                Ajouter un contrat
-              </button>
-              <router-link to="/contrats/liste-contrats" class=" btn btn-danger"><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                <span class="position-relative"></span>Annuler</router-link>
-            </div>
-          </div>
-        </div>
-      </Form>
-    </div>
-  </div>
+          </tab-content>
+        </form-wizard>
+    </Card3>
 </template>
 
 <script lang="ts">
 
-import { defineComponent, onMounted, ref, watch, reactive, computed } from 'vue';
+import { defineComponent, onMounted, ref, watch, reactive, computed, defineAsyncComponent } from 'vue';
 import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
+import { tab } from "@/core/data/forms"
+import { FormWizard, TabContent } from "vue3-form-wizard";
+import 'vue3-form-wizard/dist/style.css'
 import * as Yup from 'yup';
 import axios from 'axios';
 import ApiService from '@/services/ApiService';
 import { Contrat } from '@/models/Contrat';
+import useVuelidate from '@vuelidate/core';
 import { error, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
-import VueMultiselect from 'vue-multiselect'
+import VueMultiselect from 'vue-multiselect';
+import { required, email } from '@vuelidate/validators';
+const Card3 = defineAsyncComponent(() => import("@/components/common/card/CardData3.vue"))
+
 
 export default defineComponent({
   name: "AddContrat",
   components: {
+    tab,
+    FormWizard,
+    TabContent,
+    Card3,
     Form,
     Field,
     ErrorMessage,
@@ -596,7 +491,7 @@ export default defineComponent({
     const contratSchema = Yup.object().shape({
       refContrat: Yup.string().required("La référence est obligatoire."),
       salaireDeBase: Yup.string().required("Le salaire est obligatoire."),
-      heuresTravaillees: Yup.number().typeError("veuillez entrer des nombres").required("Les heures sont obligatoires."),
+      nobreheuresTravail: Yup.number().typeError("veuillez entrer des nombres").required("Les heures sont obligatoires."),
       dateDebut: Yup.date().typeError("veuillez entrer une date valide").required("La date de début est obligatoire."),
       dateFin: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
       dateFinPeriodeEssai: Yup.date().typeError("veuillez entrer une date valide").required("La période est obligatoire."),
@@ -617,8 +512,65 @@ export default defineComponent({
       await getAllPersonnel();
       await getAllModeTarifications();
       await getAllOrganisations();
-      await fetchPoste();
+      await fetchFonction();
     });
+
+    const contrat = ref({
+      refContrat: '',
+      poste:'',
+      salaireDeBase: '',
+      nobreheuresTravail: '',
+      dateDebut:null,
+      dateFin: null,
+      dateFinPeriodeEssai: null,
+      periodePaie: '',
+      renouvelable: '',
+      typeContrat: '',
+      personnel: '',
+      attribution: [],
+      modeDeTarification: '',
+      dureePeriodeEssai: null,
+      dureeContrat:null,
+    });
+
+    const rules = {
+      contrat:{
+        refContrat: { required  },
+        poste:{ required  },
+        dureePeriodeEssai: { required },
+        salaireDeBase: { required },
+        nobreheuresTravail: { required },
+        dateFin: { required },
+        dateFinPeriodeEssai: { required },
+        periodePaie: { required },
+        renouvelable: { required },
+        typeContrat: { required },
+        personnel: { required },
+        attribution: { required },
+        modeDeTarification: { required },
+      }
+    }
+
+    const v$ = useVuelidate(rules, { contrat });
+
+    const validateStep = async (tabIndex) => {
+      // Define what to validate for each step based on the tabIndex
+      let fieldsToValidate;
+      if (tabIndex === 0) {
+        fieldsToValidate = [v$.value.form.salaireDeBase, v$.value.form.email];
+      } else if (tabIndex === 1) {
+        fieldsToValidate = [v$.value.form.address, v$.value.form.city];
+      } else {
+        return true; // Last step doesn't need validation
+      }
+
+      // Mark fields as touched and validate
+      fieldsToValidate.forEach(field => field.$touch());
+
+      // Check if any field in the current step is invalid
+      const isStepValid = fieldsToValidate.every(field => !field.$invalid);
+      return isStepValid;
+    };
 
     const contratForm = ref(null);
     const showMErr = ref(false);
@@ -637,9 +589,6 @@ export default defineComponent({
     const attribution = ref();
     const OrganisationOptions = ref();
     const Organisation = ref();
-    const poste = ref();
-
-
 
     const modeDeTarificationOptions = ref([]);
     const personnels = ref([] as any[]);
@@ -691,20 +640,24 @@ export default defineComponent({
       }
     }
 
-    /*const getAllPersonnel = async () => {
-    try {
-      const response = await ApiService.get('/all/personnels');
-      personnels.value = response.data.data.data;
-      personnelOptions.value = response.data.map((personnel: any) => ({
-        value: personnel.id,
-        label: `${personnel.nom + " " + personnel.prenom}`
-      }));
-      console.log(response);
-    } catch (error) {
-      console.error('Erreur lors de la recupération des personnels:', error);
-      throw error;
+  function getAllHoraires(page = 1, limi = 10, searchTerm = '') {
+        ApiService.get(`/horaires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+          .then(({ data }) => {
+            data.data.data.forEach(horaire => {
+            horaires.push({
+              id:horaire.id,
+              jour: horaire.jour,
+              heureOuverture: horaire.heureOuverture,
+              heureFermeture:horaire.heureFermeture,
+              heureDebutPause: horaire.heureDebutPause,
+              heureFinPause:  horaire.heureFinPause,
+              estActif: horaire.estActif
+            })});
+          })
+          .catch(({ response }) => {
+            error(response.data.message)
+        });
     }
-  }*/
 
     const getAllTypePrime = async () => {
       try {
@@ -774,6 +727,14 @@ export default defineComponent({
       heureDebutPause: ""
     }]);
 
+    const valideteRowHoraire = (e,d) => {
+      if ((e == "" || e == "" || e == 0 || e == "0" || e == null || e < 0) && d !="0") {
+        console.log('erg')
+        return true;
+      } else {
+        return false;
+      }
+    };
 
 
     const addRowHoraireContrat = () => {
@@ -822,6 +783,7 @@ export default defineComponent({
     const isDisablee = ref(true);
 
     const isDisableee = ref(true);
+    const horaires = reactive([]);
 
     const primes = reactive([
       {
@@ -975,32 +937,32 @@ export default defineComponent({
       updateAllMontants();
     };
     //const isDisable = ref(true);
-    const postes = reactive([
+    const fonctions = reactive([
       {
         estActif: "",
-        poste: "",
+        fonction: "",
         organisation: "",
         dateDebut: "",
         dateFin: ""
       },
     ]);
 
-    const addRowPoste = () => {
-      postes.push({
+    const addRowFonction = () => {
+      fonctions.push({
         estActif: "",
-        poste: "",
+        fonction: "",
         organisation: "",
         dateDebut: "",
         dateFin: ""
       });
     };
 
-    const removeRowPoste = (index) => {
-      if (postes.length > 1) postes.splice(index, 1);
+    const removeRowFonction = (index) => {
+      if (fonctions.length > 1) fonctions.splice(index, 1);
       //totals();
     };
 
-    const valideteRowPoste = (e) => {
+    const valideteRowFonction = (e) => {
       if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
         console.log('erg')
         return true;
@@ -1022,11 +984,11 @@ export default defineComponent({
         },
         { deep: true }
       );*/
-    watch(postes, (newValue, oldValue) => {
+    watch(fonctions, (newValue, oldValue) => {
       Object.keys(newValue).forEach(function (key) {
         if (
           newValue[key].estActif == "" ||
-          newValue[key].poste == "" ||
+          newValue[key].fonction == "" ||
           newValue[key].organisation == "" ||
           newValue[key].dateDebut == "" ||
           newValue[key].dateFin == ""
@@ -1038,17 +1000,17 @@ export default defineComponent({
       });
     });
 
-    const { remove, push, fields, update } = useFieldArray("postes");
+    const { remove, push, fields, update } = useFieldArray("fonctions");
 
-    const posteOptions = ref([]);
-    const fetchPoste = async () => {
+    const fonctionOptions = ref([]);
+    const fetchFonction = async () => {
       try {
-        const response = await axios.get("/postes");
-        const posteData = response.data.data.data;
-        console.log("ZZZZZZZZZZ ===> ", posteData)
-        posteOptions.value = posteData.map((poste) => ({
-          value: poste.id,
-          label: `${poste.libelle}`,
+        const response = await axios.get("/fonctions");
+        const fonctionData = response.data.data.data;
+        console.log("ZZZZZZZZZZ ===> ", fonctionData)
+        fonctionOptions.value = fonctionData.map((fonction) => ({
+          value: fonction.id,
+          label: `${fonction.libelle}`,
         }));
       } catch (error) {
         //
@@ -1071,12 +1033,12 @@ export default defineComponent({
         montant: retenue.montant,
         quantite: retenue.quantite,
       }));
-      values.postes = postes.map(poste => ({
-        estActif: poste.estActif,
-        poste: poste.poste,
-        organisation: poste.organisation,
-        dateDebut: poste.dateDebut,
-        dateFin: poste.dateFin,
+      values.fonctions = fonctions.map(fonction => ({
+        estActif: fonction.estActif,
+        fonction: fonction.fonction,
+        organisation: fonction.organisation,
+        dateDebut: fonction.dateDebut,
+        dateFin: fonction.dateFin,
       }));
       values.horaireContrats = horaireContrats.map(horaireContrat => ({
         heureArrive: horaireContrat.heureArrive,
@@ -1124,8 +1086,14 @@ export default defineComponent({
       { deep: true }
     );
 
+    onMounted(async () => {
+      getAllHoraires();
+    })
+
 
     return {
+      contrat,
+      horaires,
       contratSchema,
       addContrat,
       contratForm,
@@ -1139,10 +1107,10 @@ export default defineComponent({
       addRowPrime,
       validateRowPrime,
       isDisable, primes,
-      isDisableee, posteOptions,
-      removeRowPoste,
-      addRowPoste,
-      valideteRowPoste, postes,
+      isDisableee, fonctionOptions,
+      removeRowFonction,
+      addRowFonction,
+      valideteRowFonction, fonctions,
       salaireDeBase,
       typeRetenueOptions,
       typeRetenues,
@@ -1159,7 +1127,12 @@ export default defineComponent({
       Organisation, removeRowHoraireContrat,
       addRowHoraireContrat,
       valideteRowHoraireContrat,
-     attributionOptions, attribution, horaireContrats, isDisableeeeee
+      valideteRowHoraire,
+     attributionOptions, 
+     attribution, 
+     horaireContrats, 
+     isDisableeeeee,
+     validateStep
     };
   },
 });
@@ -1218,4 +1191,5 @@ input[readonly] {
 .form-control {
   width: 100%;
 }
+
 </style>
