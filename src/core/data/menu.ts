@@ -1666,5 +1666,157 @@ export const menu: MenuItem[] = [
     // },
     
 
+    {
+        title: "Role Etape",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+
+            {
+                path: "/roleetaps/ajouter-roleetap",
+                title: "Ajouter un role etape",
+                type: "link"
+            },
+          
+            {
+                path: "/roleetaps/liste-roleetaps",
+                title: "Liste des role etapes",
+                type: "link"
+            },
+        ]
+    },
+    
+
+
+
+    {
+        headTitle1: "Gestion Model",
+        headTitle2: "Model,Type",
+        type: "headtitle"
+    },
+    {
+        title: "Model",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/models/ajouter-model",
+                title: "Ajouter un model",
+                type: "link"
+            },
+            {
+                path: "/models/liste-models",
+                title: "Liste des models",
+                type: "link"
+            },
+        ]
+    },
+    
+
+    {
+        title: "Type",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+
+          
+            {
+                path: "/types/liste-types",
+                title: "Liste des types",
+                type: "link"
+            },
+        ]
+    },
+    
+
+
+
+
+    
+
+    {
+        headTitle1: "Gestion Mission",
+        headTitle2: "Mission,Rapport",
+        type: "headtitle"
+    },
+    {
+        title: "Mission",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/missions/ajouter-mission",
+                title: "Ajouter une mission",
+                type: "link"
+            },
+            {
+                path: "/missions/liste-missions",
+                title: "Liste des missions",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "NoteMission",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/noteMissions/ajouter-noteMissions",
+                title: "Ajouter une note mission",
+                type: "link"
+            },
+            {
+                path: "/noteMissions/liste-noteMissions",
+                title: "Liste des notes missions",
+                type: "link"
+            },
+        ]
+    },
+    
+    
+
+    {
+        title: "Rapport",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+
+          
+            {
+                path: "/rapports/liste-rapports",
+                title: "Liste des rapports",
+                type: "link"
+            },
+        ]
+    },
+    
+
 
 ]
+
