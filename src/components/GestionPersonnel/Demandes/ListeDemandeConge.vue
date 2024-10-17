@@ -83,7 +83,7 @@
               <tr  v-for ="(demande, index) in demandes" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date( demande.dateDemande) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande?.categorieId }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ demande?.typeConge.libelle }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ demande?.typeConge }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande?.personnelId }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ demande.motifDemande }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
