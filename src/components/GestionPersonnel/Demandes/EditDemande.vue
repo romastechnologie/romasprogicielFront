@@ -114,7 +114,7 @@ async function updateDemande() {
 
 const getAllCategorieDemandes = async () => {
     try {
-        const response = await ApiService.get("/categorieDemandes");
+        const response = await ApiService.get("all/categorieDemandes");
         categorieDemandes.value = response.data.data.data;
         categorieOptions.value = response.data.data.data.map((categorie: any) => ({
         value: categorie.id,
@@ -129,7 +129,7 @@ const getAllCategorieDemandes = async () => {
 
 const getDemande = async () => {
     try {
-        const response = await ApiService.get(`/demandes/${route.params.id}`);
+        const response = await ApiService.get(`all/demandes/${route.params.id}`);
         demandes.value = response.data;
         category.value = response.data.categorie
         console.log("Response", response);

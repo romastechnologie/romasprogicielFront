@@ -456,21 +456,23 @@ switch (value) {
 
 }
 const addDemande = async (values: any, { resetForm }) => {
-      values['types'] = types.value.value
-      values['categories'] = categories.value.value
-      values['personnel'] = personnels.value.value
+      values['typeConge'] = typeConge.value
+      values['categories'] = categories.value
+      values['personnel'] = personnels.value
       console.log('Données envoyées', values)
       if (showMErr.value === false) {
         ApiService.post("/demandes", values)
            .then(({ data }) => {
+            console.log("data   ",data)
              if (data.code == 201) {
               success(data.message);
                //resetForm();
              console.log('flefelef')
-              router.push({ name: "ListeDemande" });
+            //router.push({ name: "ListeDemandePage" });
            }
            }).catch(({ response }) => {
-            error(response.data.message);
+            console.log("response   ",response)
+            error(response.message);
           });
        }
     };
@@ -509,7 +511,7 @@ const addDemande = async (values: any, { resetForm }) => {
       const getAllPersonnels = async () => {
         try{
         const response = await ApiService.get('/all/personnels');
-        const personnelsData = response.data;
+        const personnelsData = response.data.data.data;
         console.log(personnelsData,"gggggggggg");
         personnelOptions.value = personnelsData.map((personnel) => ({
           value: personnel.id,
