@@ -1,5 +1,4 @@
 <template>
-  <!-- Demande -->
   <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true" id="AddDemandeModal" role="dialog"
     ref="addDemandeModalRef">
