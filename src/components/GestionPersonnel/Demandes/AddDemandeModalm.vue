@@ -130,7 +130,7 @@
           <div  v-show="fieldHide4" class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
-                Date de Reprise  <span class="text-danger">*</span>
+                Date de Reprise<span class="text-danger">*</span>
               </label>
               <Field name="dateReprise" type="date" class="form-control shadow-none fs-md-15 text-black" />
               <ErrorMessage name="dateReprise" class="text-danger" />

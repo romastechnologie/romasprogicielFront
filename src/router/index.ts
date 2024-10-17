@@ -287,11 +287,22 @@ import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidatio
 import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUserEtapes.vue";
 import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
 
+import ListeRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/ListeRoleEtapPage.vue";
+import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
+import EditRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/EditRoleEtapPage.vue";
 
 
+import ListeModelPage from "@/pages/GestionModel/Model/ListeModelPage.vue";
+import AddModelPage from "@/pages/GestionModel/Model/AddModelPage.vue";
+import EditModelPage from "@/pages/GestionModel/Model/EditModelPage.vue";
 
+import ListeTypePage from "@/pages/GestionModel/Type/ListeTypePage.vue";
 
+import ListeMissionPage from "@/pages/GestionMission/Mission/ListeMissionPage.vue";
+import AddMissionPage from "@/pages/GestionMission/Mission/AddMissionPage.vue";
+import EditMissionPage from "@/pages/GestionMission/Mission/EditMissionPage.vue";
 
+import ListeRapportPage from "@/pages/GestionMission/Rapport/ListeRapportPage.vue";
 
 
 // Champs Libres Famille
@@ -1619,7 +1630,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "editer-horaire/:id",
+        path: "editer-horaire",
         name: "EditHoraire",
         component: EditHorairePage,
         meta: {
@@ -1921,6 +1932,156 @@ const routes: Array<RouteRecordRaw> = [
   },
 
 
+  {
+    path: "/roleetaps",
+    component: BodyView,
+    children: [
+    
+
+      {
+        path: "ajouter-roleetap",
+        name: "AddRoleEtapPage",
+        component: AddRoleEtapPage,
+        meta: {
+          title: 'Ajouter  roleetape',
+        }
+      },
+        {
+        path: "modifier-roleetap/:id",
+        name: "EditRoleEtapPage",
+        component: EditRoleEtapPage,
+        meta: {
+          title: 'Modifier role etape',
+        }
+      },
+     
+      {
+        path: "liste-roleetaps",
+        name: "ListeRoleEtapPage",
+        component: ListeRoleEtapPage,
+        meta: {
+          title: 'Liste des roles etapes',
+        }
+      },
+    ]
+  },
+
+
+
+  
+  {
+    path: "/models",
+    component: BodyView,
+    children: [
+    
+
+      {
+        path: "ajouter-model",
+        name: "AddModelPage",
+        component: AddModelPage,
+        meta: {
+          title: 'Ajouter  model',
+        }
+      },
+        {
+        path: "modifier-model/:id",
+        name: "EditModelPage",
+        component: EditModelPage,
+        meta: {
+          title: 'Modifier model',
+        }
+      },
+     
+      {
+        path: "liste-models",
+        name: "ListeModelPage",
+        component: ListeModelPage,
+        meta: {
+          title: 'Liste des models',
+        }
+      },
+    ]
+  },
+
+
+
+
+   
+  {
+    path: "/types",
+    component: BodyView,
+    children: [
+    
+      
+     
+      {
+        path: "liste-types",
+        name: "ListeTypePage",
+        component: ListeTypePage,
+        meta: {
+          title: 'Liste des types',
+        }
+      },
+    ]
+  },
+
+
+  
+  {
+    path: "/missions",
+    component: BodyView,
+    children: [
+    
+
+      {
+        path: "ajouter-mission",
+        name: "AddMissionPage",
+        component: AddMissionPage,
+        meta: {
+          title: 'Ajouter  mission',
+        }
+      },
+        {
+        path: "modifier-mission/:id",
+        name: "EditMissionPage",
+        component: EditMissionPage,
+        meta: {
+          title: 'Modifier mission',
+        }
+      },
+     
+      {
+        path: "liste-missions",
+        name: "ListeMissionPage",
+        component: ListeMissionPage,
+        meta: {
+          title: 'Liste des missions',
+        }
+      },
+    ]
+  },
+
+
+
+
+  {
+    path: "/rapports",
+    component: BodyView,
+    children: [
+    
+      
+     
+      {
+        path: "liste-rapports",
+        name: "ListeRapportPage",
+        component: ListeRapportPage,
+        meta: {
+          title: 'Liste des rapport',
+        }
+      },
+    ]
+  },
+ 
 
   {
     path: "/produits",
