@@ -63,7 +63,7 @@
 import { defineComponent, ref, watch, onMounted } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
-import { Rapport } from '../../models/Rapport';
+import { Rapport } from '@/models/Rapport';
 import Multiselect from '@vueform/multiselect'
 import axios from 'axios';
 import ApiService from '@/services/ApiService';
