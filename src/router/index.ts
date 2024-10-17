@@ -285,6 +285,7 @@ import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/
 import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
 import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
 import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUserEtapes.vue";
+import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
 
 
 
@@ -1840,6 +1841,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des etapes de Validations',
         }
       },
+      {
+        path: "view-etapeValidations/:id",
+        name: "ViewEtapeValidationPage",
+        component: ViewEtapeValidationPage,
+        meta: {
+          title: 'Détails Etape Validation',
+        }
+      }
     ]
   },
   {
