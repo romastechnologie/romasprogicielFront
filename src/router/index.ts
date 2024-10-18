@@ -304,9 +304,9 @@ import EditMissionPage from "@/pages/GestionMission/Mission/EditMissionPage.vue"
 
 import ListeRapportPage from "@/pages/GestionMission/Rapport/ListeRapportPage.vue";
 
-//import AddNoteMissionPage from "@/components/GestionMissions/NoteMission/AddNoteMission.vue";
-//import EditNoteMissionPage from "@/components/GestionMissions/NoteMission/EditNoteMission.vue";
-//import ListeNoteMissionPage from "@/components/GestionMissions/NoteMission/ListeNoteMission.vue";
+import AddNoteMissionPage from "@/components/GestionMission/NoteMission/AddNoteMission.vue";
+import EditNoteMissionPage from "@/components/GestionMission/NoteMission/EditNoteMission.vue";
+import ListeNoteMissionPage from "@/components/GestionMission/NoteMission/ListeNoteMission.vue";
 
 
 // Champs Libres Famille

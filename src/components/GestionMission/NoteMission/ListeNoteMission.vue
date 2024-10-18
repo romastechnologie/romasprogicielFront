@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/noteMissions/ajouter-noteMisions"
+          to="/noteMissions/ajouter-noteMissions"
         >
           <i class="fa fa-plus-circle"></i>
           Ajouter une Note Mission
