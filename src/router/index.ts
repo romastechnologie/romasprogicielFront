@@ -304,6 +304,10 @@ import EditMissionPage from "@/pages/GestionMission/Mission/EditMissionPage.vue"
 
 import ListeRapportPage from "@/pages/GestionMission/Rapport/ListeRapportPage.vue";
 
+import AddNoteMissionPage from "@/components/GestionMission/NoteMission/AddNoteMission.vue";
+import EditNoteMissionPage from "@/components/GestionMission/NoteMission/EditNoteMission.vue";
+import ListeNoteMissionPage from "@/components/GestionMission/NoteMission/ListeNoteMission.vue";
+
 
 // Champs Libres Famille
 
@@ -2024,9 +2028,6 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-
-
-  
   {
     path: "/missions",
     component: BodyView,
@@ -2060,9 +2061,37 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+  {
+    path: "/noteMissions",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-noteMissions",
+        name: "AddNoteMissionPage",
+        component: AddNoteMissionPage,
+        meta: {
+          title: 'Ajouter une Note Mission',
+        }
+      },
+      {
+        path: "modifier-noteMissions/:id",
+        name: "EditNoteMissionPage",
+        component: EditNoteMissionPage,
+        meta: {
+          title: 'Modifier une Note Mission',
+        }
+      },
+      {
+        path: "liste-noteMissions",
+        name: "ListeNoteMissionPage",
+        component: ListeNoteMissionPage,
+        meta: {
+          title: 'Liste des notes missions',
+        }
+      },
+    ]
 
-
-
+  },
 
   {
     path: "/rapports",
@@ -3387,6 +3416,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   }
 ]
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
