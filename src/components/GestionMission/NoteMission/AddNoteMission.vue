@@ -45,9 +45,8 @@
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la Référence"/>
                 <ErrorMessage name="reference" class="text-danger"/>
               </div>
-            </div>
-        
-          <div class="col-md-6">
+            </div>  
+          <div class="col-md-12 d-flex flex-column mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
                 Ajouter une Note Mission
@@ -63,7 +62,6 @@
   </div>
 </template>
 <script lang="ts">
-
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
@@ -74,8 +72,6 @@ import { NoteMission } from '@/models/NoteMission';
 
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import axios from 'axios';
-
-
 export default defineComponent({
   name: "AddNoteMission",
   components: {
@@ -84,13 +80,12 @@ export default defineComponent({
     ErrorMessage,
     Multiselect
   },
-
   setup: () => {
     const noteMissionSchema = Yup.object().shape({
       objet: Yup.string().required("L'objet est obligatoire."),
       budget: Yup.number().required("Le budget est obligatoire."),
-      contenue: Yup.string().required("Le contenu de Duree est obligatoire."),
-      reference: Yup.string().required("La Référence de Duree est obligatoire."),
+      contenue: Yup.string().required("Le contenue  est obligatoire."),
+      reference: Yup.string().required("La Référence est obligatoire."),
 
     });
 
@@ -103,10 +98,6 @@ export default defineComponent({
     const router = useRouter();
     // const permissions= ref<Array<Permission>>([]);
 
-
-
-
-   
     const addNoteMission = async (values, {resetForm}) => {
       ApiService.post("/noteMissions",values)
         .then(({ data }) => {
