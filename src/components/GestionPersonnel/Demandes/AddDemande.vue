@@ -487,7 +487,7 @@ switch (value) {
     fieldHide4.value = true;
     fieldHide5.value = true;
     fieldHide6.value = true;
-    fieldHide7.value = true;
+    fieldHide7.value = false;
     fieldHide8.value = true;
     fieldHide9.value = true;
     fieldHide10.value = true;
@@ -507,7 +507,7 @@ switch (value) {
     fieldHide4.value = false;
     fieldHide5.value = true;
     fieldHide6.value = false;
-    fieldHide7.value = true;
+    fieldHide7.value = false;
     fieldHide8.value = true;
     fieldHide9.value = true;
     fieldHide10.value = true;
