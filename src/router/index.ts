@@ -2061,7 +2061,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
- /* {
+  {
     path: "/noteMissions",
     component: BodyView,
     children: [
@@ -2091,7 +2091,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
 
-  },*/
+  },
 
   {
     path: "/rapports",

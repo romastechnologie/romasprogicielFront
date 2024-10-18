@@ -52,7 +52,7 @@
             </div>
           </div>
           
-          <div v-show="fieldHide5" class="col-md-6 mb-3">
+          <div  class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Motif de la demande <span class="text-danger">*</span>
@@ -67,7 +67,7 @@
               <ErrorMessage name="motifDemande" class="text-danger" />
             </div>
           </div>
-          <div  v-show="fieldHide1" class="col-md-6 mb-3">
+           <!-- <div  v-show="fieldHide5" class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Motif de la permission <span class="text-danger">*</span>
@@ -81,7 +81,7 @@
               </Field>
               <ErrorMessage name="motifPermission" class="text-danger" />
             </div>
-          </div>
+          </div>-->
         
           <div class="row">
           <div  v-show="fieldHide2" class="col-md-4 mb-3">
@@ -252,7 +252,7 @@ const showE = ref(false)
       });*/
       const permissionSchema = Yup.object().shape({
       categorieDemande: Yup.string().required('Le catégorie de demande est obligatoire'),
-      motifPermission: Yup.string().required('Le motif est obligatoire'),
+      motifDemande: Yup.string().required('Le motif est obligatoire'),
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
@@ -262,7 +262,7 @@ const showE = ref(false)
     const congeSchema = Yup.object().shape({
       categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
       typeConge: Yup.string().required('Le type de congé est obligatoire'),
-      motifPermission: Yup.string().required('Le motif est obligatoire'),
+      motifDemande: Yup.string().required('Le motif est obligatoire'),
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
@@ -271,7 +271,15 @@ const showE = ref(false)
 
     const attestationSchema = Yup.object().shape({
       categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
-      motifPermission: Yup.string().required('Le motif est obligatoire'),
+      motifDemande: Yup.string().required('Le motif est obligatoire'),
+      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
+      /*dateDebut: Yup.date().required('La date de début est obligatoire'),
+      dateFin: Yup.date().required('La date de fin est obligatoire'),
+      dateReprise: Yup.date().required('La date de reprise est obligatoire'),*/
+    });
+    const pretSchema = Yup.object().shape({
+      categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
+      motifDemande: Yup.string().required('Le motif est obligatoire'),
       demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
       /*dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
@@ -355,9 +363,9 @@ switch (value) {
     fieldHide13.value = true;
     break;
 
-  /*case 4:
-    // attestation
-   // demandeSchema.value = permissionSchema;
+  case 4:
+    // pret
+   demandeSchema.value = pretSchema;
     fieldHide1.value = true;
     fieldHide2.value = false;
     fieldHide3.value = false;
@@ -372,7 +380,7 @@ switch (value) {
     fieldHide12.value = false;
     fieldHide13.value = false;
     
-    break;*/
+    break;
 
  /* case 5:
     // resiliation
