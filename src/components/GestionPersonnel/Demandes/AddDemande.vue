@@ -67,6 +67,110 @@
               <ErrorMessage name="motifDemande" class="text-danger" />
             </div>
           </div>
+          <div v-show="fieldHide7" class="col-md-12 mb-md-25">
+                                      <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+                                        <div class="row">
+                                          <div class="border border-primary mb-10">
+                                            <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                                              style="background-color: #0a59a4">
+                                              <div class="col-md-7">
+                                                <h3 class="fs-4 text-white">
+                                                  Echeances
+                                                </h3>
+                                              </div>
+                                              <div class="col-md-5">
+                                                <div class="d-flex float-end">
+                                                  <button
+                                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                                                    type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
+                                                    @click="addRowEcheance()">
+                                                    <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
+                                                    Ajouter une echeance
+                                                  </button>
+                                                  <router-link to="/liste-mouvements"></router-link>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div>
+                                              <div class="row d-flex align-items-center justify-content-between mt-10">
+                                                <!--<div class="col-md-3">
+                                                  <label class="d-block text-black fw-semibold">
+                                                   Titre
+                                                    <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>-->
+                                                <div class="col-md-3">
+                                                  <label class="d-block text-black fw-semibold">
+                                                   Date Echéance
+                                                    <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Montant<span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Reste à payer <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                    Actions <span class="text-danger">*</span>
+                                                  </label>
+                                                </div>
+                                              </div>
+                                              <hr class="mt-0" />
+                                              <div class="row" v-for="(echeance, index) in echeances" :key="index">
+                                                <!--<div class="col-md-3 mb-2">
+                                                  <div class="form-group ">
+                                                    <input v-model="echeance.titre" name="titre" type="text" class="form-control shadow-none fs-md-15 text-black"
+                                                      placeholder="Saisir le titre" />
+                                                    <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.titre)">
+                                                      Le titre est obligatoire.
+                                                    </div>
+                                                  </div>
+                                                </div>-->
+                                                <div class="col-md-3 mb-2">
+                                                  <div class="form-group ">
+                                                    <input v-model="echeance.dateEcheance" name="dateEcheance" type="date"
+                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="saisir la dateEcheance" />
+                                                    <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.dateEcheance)">
+                                                      La date Echeance est obligatoire.
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-3 mb-2">
+                                                  <div class="form-group">
+                                                    <input v-model="echeance.montant" name="montant" type="number"
+                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="entrer le montant" />
+                                                  </div>
+                                                  <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.montant)">
+                                                    Le montant est obligatoire.
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-3 mb-2">
+                                                  <div class="form-group">
+                                                    <input v-model="echeance.resteAPaye" name="resteAPaye" type="number"
+                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                                                  </div>
+                                                  <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.resteAPaye)">
+                                                    La date de fin est obligatoire.
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-3 mb-2">
+                                                    <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                                                    @click="removeRowEcheance(index)">
+                                                   <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                                                    </button>
+                                             </div> 
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
            <!-- <div  v-show="fieldHide5" class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
@@ -177,8 +281,8 @@
   
   <script lang="ts">
   
-  import { defineComponent, onMounted, ref} from 'vue';
-  import { Form, Field, ErrorMessage } from 'vee-validate';
+  import { defineComponent, onMounted, reactive, ref, watch} from 'vue';
+  import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
   import * as Yup from 'yup';
   import ApiService from '@/services/ApiService';
   import { error, success } from '@/utils/utils';
@@ -300,6 +404,55 @@ const showE = ref(false)
   });
   
     
+  const isDisable = ref(true);
+    const echeances = reactive([{
+      //titre: "",
+      resteAPaye: "",
+      dateEcheance: "",
+      montant: ""
+    }]);
+
+
+    const addRowEcheance = () => {
+        echeances.push({
+          //titre: "",
+          dateEcheance: "",
+          montant: "",
+          resteAPaye: ""
+        });
+      };
+  
+      const removeRowEcheance = (index) => {
+        if (echeances.length > 1) echeances.splice(index, 1);
+        //totals();
+      };
+  
+      watch(
+        echeances,
+        (newValue) => {
+          isDisable.value =
+          newValue.some(
+            (echeance) =>
+            //valideteRowEcheance(echeance.titre) ||
+            valideteRowEcheance(echeance.dateEcheance) ||
+            valideteRowEcheance(echeance.montant) ||
+            valideteRowEcheance(echeance.resteAPaye)
+          );
+        },
+        { deep: true }
+      );
+  
+      const valideteRowEcheance = (e) => {
+        if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
+          console.log('erg')
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      const { remove, push, fields, update } = useFieldArray("echeances");
+
   
 const categorieDemandeChange = async (value) => {
 
@@ -372,7 +525,7 @@ switch (value) {
     fieldHide4.value = false;
     fieldHide5.value = false;
     fieldHide6.value = false;
-    fieldHide7.value = false;
+    fieldHide7.value = true;
     fieldHide8.value = false;
     fieldHide9.value = false;
     fieldHide10.value = false;
@@ -543,7 +696,10 @@ const addDemande = async (values: any, { resetForm }) => {
       fieldHide10,
       fieldHide11,
       fieldHide12,
-      fieldHide13,defaultSchema,
+      fieldHide13,defaultSchema,isDisable,
+        removeRowEcheance,
+      addRowEcheance,
+      valideteRowEcheance,echeances,
       //categorieOptions,
       typeCongeOptions,typeConge,personnel};
     },
