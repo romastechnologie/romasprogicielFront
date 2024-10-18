@@ -24,7 +24,6 @@
                           </div>
 
 
-
                           <div class="col-md-12 mb-3">
                   <div class="form-group mb-15 mb-sm-20 mb-md-25">
                     <label class="d-block text-black fw-semibold mb-10">
@@ -85,7 +84,7 @@ export default defineComponent({
   },
   setup(props, { emit }){
     const rapportSchema = Yup.object().shape({
-      contenu: Yup.string().required("Contenu est obligatoire"),
+      contenu: Yup.string().required("Le contenu est obligatoire"),
       mission: Yup.string().required('La mission est obligatoire'),
     });
 
@@ -115,9 +114,9 @@ export default defineComponent({
     }
 
     const getRapport = async (id: number) => {
-      return ApiService.get("/rapportmissions/"+id)
+      return ApiService.get("/rapportMissions/"+id)
       .then(({ data }) => {
-        // map data in form
+
         const donnees = data.data;
         for (const key in donnees) {
           rapportForm.value?.setFieldValue(key, 
@@ -152,7 +151,7 @@ export default defineComponent({
     const addRapport = async (values: any, rapportForm) => {
       values = values as Rapport;
       if(isUPDATE.value){
-        ApiService.put("/rapportmissions/"+values.id,values)
+        ApiService.put("/rapportMissions/"+values.id,values)
         .then(({ data }) => {
             if(data.code == 200) { 
               success(data.message);
@@ -167,7 +166,7 @@ export default defineComponent({
             error(response.data.message);
         });
       }else{
-        ApiService.post("/rapportmissions",values)
+        ApiService.post("/rapportMissions",values)
         .then(({ data }) => {
             if(data.code == 201) { 
               success(data.message);

@@ -1,6 +1,9 @@
 export  interface Rapport {
     id: number;
     contenu: string;
-    missionId: number;
-    setFieldValue: (field: string, value: any) => void;
+    mission?: {
+      id: number;
+      description: string;
+  };
+      setFieldValue: (field: string, value: any) => void;
   }
