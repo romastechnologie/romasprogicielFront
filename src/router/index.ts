@@ -82,6 +82,8 @@ import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
 import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
+import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
+
 //import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
 // import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
 //import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
@@ -478,6 +480,21 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeCategoriesDepensesPage,
         meta: {
           title: 'Ajouter une categorie de depense',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/echeances",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-echeances",
+        name: "ListeEchances",
+        component: ListeEcheancesPage,
+        meta: {
+          title: 'Ajouter une echeance',
         }
       },
     ]

@@ -410,6 +410,17 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false
     },
+
+    {
+        title: "Echeances",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/echeances/liste-echeances",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
     {
         title: "Postes",
         icon: "stroke-learning",
