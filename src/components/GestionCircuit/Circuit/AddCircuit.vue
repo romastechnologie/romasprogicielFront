@@ -13,7 +13,20 @@
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-3"> 
+            <label for="Duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input v-model="Duree" name="Duree" id="Duree" class="form-control" type="number" placeholder="Entrez la durée">
+              <select v-model="typeDuree" name="typeDuree" class="form-select form-control" style="width: 20px !important;">
+                <option value="...">...</option>
+                <option value="Jour(s)">Jour(s)</option>
+                <option value="Mois">Mois</option>
+                <option value="Annees">Années</option>
+              </select>
+              <span class="invalid-feedback"></span>
+            </div>
+          </div>
+             <!--<div class="col-md-4 mb-3">
                 <label for="ref" class="form-label">Durée du circuit<span class="text-danger">*</span></label>
                 <div class="input-group">
                   <input  class="form-control" type="text" for="inputGroupSelect01" >
@@ -25,9 +38,9 @@
                   </select>
                   <span class="invalid-feedback"></span>
                 </div>
-              </div>
+              </div>-->
 
-          <div class="col-md-6">
+          <!-- <div class="col-md-6">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Duree <span class="text-danger">*</span>
@@ -36,8 +49,8 @@
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la Durée"/>
                 <ErrorMessage name="Duree" class="text-danger"/>
               </div>
-            </div>
-          <div class="col-md-6">
+            </div>-->
+          <!--<div class="col-md-6">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
                   Type de Durée <span class="text-danger">*</span>
@@ -55,7 +68,7 @@
                 </Field>  
               </div>
               <ErrorMessage name="typeDuree" class="text-danger"/>
-            </div>
+            </div>-->
 
             <div class="col-md-12 mb-md-25">
                                       <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
@@ -103,7 +116,7 @@
                                                     Role Etape <span class="text-danger">*</span>
                                                   </label>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                               <label class="d-block text-black fw-semibold mb-10">
                                               Personnels <span class="text-danger">*</span>
@@ -111,9 +124,9 @@
                                               </div>
                                             </div>
             
-                                                <div class="col-md-2">
+                                                <div class="col-md-1">
                                                   <label class="d-block text-black fw-semibold mb-10">
-                                                    Actions <span class="text-danger">*</span>
+                                                    Actions
                                                   </label>
                                                 </div>
                                               </div>
@@ -130,7 +143,7 @@
                                                 </div>
                                                 <div class="col-md-2 mb-2">
                                                   <div class="form-group ">
-                                                    <input v-model="circuit.ordre" type="text"
+                                                    <input v-model="circuit.ordre" type="number"
                                                       class="form-control shadow-none fs-md-15 text-black" placeholder="saisir ordre" />
                                                     <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.ordre)">
                                                       L'ordre est obligatoire.
@@ -139,32 +152,35 @@
                                                 </div>
                                                 <div class="col-md-2 mb-2">
                                                   <div class="input-group">
-                                              <input  class="form-control" type="text" for="inputGroupSelect01" >
-                                              <select class="form-select form-control" style="width: 20px !important;">
+                                              <input v-model="circuit.duree" class="form-control" type="number" for="inputGroupSelect01" >
+                                              <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
+                                                    La durée est obligatoire.
+                                                  </div>
+                                              <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
                                                 <option value="...">...</option>
                                                 <option value="Jour(s)">Jour(s)</option>
                                                 <option value="Mois">Mois</option>
                                                 <option value="Annees">Annees</option>
                                               </select>
-                                                  <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
-                                                    La durée est obligatoire.
+                                                  <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.typeDuree)">
+                                                    Le type de durée est obligatoire.
                                                   </div>
                                                 </div>
                                               </div>
                                                 <div class="col-md-2 mb-2">
                                                   <div class="form-group ">
                                                   <Multiselect 
-                                                  mode="tags"
+                                                  
                                                   :close-on-select="false"
                                                   :options="roleOptions" 
                                                   :searchable="true" 
-                                                  :multiple="true"
-                                                  
-                                                  placeholder="Sélectionner le role"/>
+                                                  :multiple="false"
+                                                  v-model="circuit.role"
+                                                  placeholder="Choisir le role"/>
                                                 <span class="invalid-feedback" v-if="valideteRowCircuit(circuit.role)"></span>
                                                   </div>
                                                 </div>
-                                                <div class="col-md-2 mb-2">
+                                                <div class="col-md-3 mb-2">
                                                   <div class="form-group ">
                                                   <Multiselect 
                                                   mode="tags"
@@ -172,13 +188,13 @@
                                                   :options="personnelOptions" 
                                                   :searchable="true" 
                                                   :multiple="true"
-                                                  
+                                                  v-model="circuit.personnel"
                                                   placeholder="Sélectionner les personnels"/>
                                                 <span class="invalid-feedback" v-if="valideteRowCircuit(circuit.personnel)"></span>
                                                   </div>
                                                 </div>
                                                 
-                                                <div class="col-md-2 mb-2">
+                                                <div class="col-md-1 mb-2">
                                                     <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
                                                     @click="removeRowCircuit(index)">
                                                    <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
@@ -239,26 +255,23 @@ export default defineComponent({
     });
 
     const circuitForm = ref(null);
-    const typeDuree = ref();
     const nom = ref();
-    //const showMErr = ref(false);
-    //const permissions = ref(null);
     const router = useRouter();
-    // const permissions= ref<Array<Permission>>([]);
+    const roleOptions=ref([]);
     const typeDureeOptions = ref([]);
     const personnelOptions = ref();
-    const roleOptions = ref();
-    const role = ref();
-    const personnel = ref();
+
     const isDisable = ref(true);
-    const circuitOptions = ref([]);
+    const typeDuree = ref();
+    const Duree = ref();
     
     const circuits = reactive([{
       nom: "",
       role: "",
       ordre: "",
       duree: "",
-      personnel: ""
+      typeDuree: "",
+      personnel: []
     }]);
 
     const addRowCircuit = () => {
@@ -267,7 +280,8 @@ export default defineComponent({
         role: "",
         ordre: "",
         duree: "",
-        personnel:""
+        typeDuree: "",
+        personnel:[]
       });
     };
 
@@ -286,6 +300,7 @@ export default defineComponent({
           valideteRowCircuit(circuit.ordre) ||
           valideteRowCircuit(circuit.role) ||
           valideteRowCircuit(circuit.duree)||
+          valideteRowCircuit(circuit.typeDuree)||
           valideteRowCircuit(circuit.personnel)
         );
       },
@@ -293,7 +308,7 @@ export default defineComponent({
     );
 
     const valideteRowCircuit = (e) => {
-      if (e == "" || e == "" || e == 0 || e == "0" || e == null || e < 0) {
+      if (e == "" || e == "" || e == "" || e == 0 || e == "0" || e == null || e < 0) {
         console.log('erg')
         return true;
       } else {
@@ -357,13 +372,13 @@ export default defineComponent({
       getAllRoleEtaps();
     })
     
-    return { circuitSchema,
+    return { circuitSchema,Duree,typeDuree,
        addCircuit,
-        circuitForm,typeDureeOptions,circuitOptions,
+        circuitForm,typeDureeOptions,
       isDisable,
       circuits,removeRowCircuit,
       addRowCircuit,
-      valideteRowCircuit,personnelOptions,personnel,roleOptions,role
+      valideteRowCircuit,personnelOptions,roleOptions,
       };
     
   },
