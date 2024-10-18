@@ -1772,6 +1772,29 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+
+    {
+        title: "NoteMission",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/noteMissions/ajouter-noteMissions",
+                title: "Ajouter une note mission",
+                type: "link"
+            },
+            {
+                path: "/noteMissions/liste-noteMissions",
+                title: "Liste des notes missions",
+                type: "link"
+            },
+        ]
+    },
+    
     
 
     {
