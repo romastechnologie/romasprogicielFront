@@ -91,7 +91,7 @@
                       style="background-color: #0a59a4">
                       <div class="col-md-7">
                         <h3 class="fs-4 text-white">
-                          Equipes
+                          Equipes de l'inventaire
                         </h3>
                       </div>
                       <div class="col-md-5">
@@ -832,7 +832,8 @@ watch(
           qtitePhysique: produit.qtitePhysique,
           qtiteLogique: produit.qtiteLogique,
           qtiteFiche: produit.qtiteFiche,
-          ecart: produit.ecart,
+          ecartReel: produit.ecartReel,
+          ecartLogique: produit.ecartLogique,
           nomProd: produit.produit.split('|')[1]
       }));
       console.log('DOnnées =>', values)
