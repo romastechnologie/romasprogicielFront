@@ -10,25 +10,21 @@
         </div>
         <div class="modal-body">
           <Form ref="mouvementForm" @submit="addMouvement" :validation-schema="mouvementSchema">
-           <!-- <fieldset class="border rounded-3 p-1">
-              <legend class="float-none w-auto px-3">
-                Source
-              </legend>-->
-              <div class="row">
-                <div class="col-md-12 mb-3">
-                  <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                    <label class="d-block text-black mb-10">
-                      Type Mouvement <span class="text-danger">*</span>
-                    </label>
-                    <Field name="typeMouvement" type="text" v-slot="{ field }">
-                      <Multiselect v-model="field.value" :options="typeMouvement" v-bind="field" :preserve-search="true" :multiple="false"
-                        :searchable="true" placeholder="Sélectionner un type de mouvement" label="label"
-                        track-by="label" />
-                    </Field>
-                    <ErrorMessage name="typeMouvement" class="text-danger" />
-                  </div>
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Type Mouvement <span class="text-danger">*</span>
+                  </label>
+                  <Field name="typeMouvement" v-model="typeMouv" type="text" v-slot="{ field }">
+                    <Multiselect v-model="field.value" :options="typeMouvement" v-bind="field" :preserve-search="true"
+                      :multiple="false" :searchable="true" placeholder="Sélectionner un type de mouvement" label="label"
+                      track-by="label" />
+                  </Field>
+                  <ErrorMessage name="typeMouvement" class="text-danger" />
                 </div>
               </div>
+            </div>
             <!--</fieldset>-->
             <fieldset class="border rounded-3 p-1">
               <legend class="float-none w-auto px-3">
@@ -65,7 +61,7 @@
             <div class="row">
 
               <div class="col-md-6 mb-3">
-                <fieldset class="border rounded-3 p-1" disabled>
+                <fieldset class="border rounded-3 p-1">
                   <legend class="float-none w-auto px-3">
                     Document informations
                   </legend>
@@ -75,12 +71,12 @@
                         <label class="d-block text-black mb-10">
                           Type Document <span class="text-danger">*</span>
                         </label>
-                        <Field name="typeeDocument" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" :preserve-search="true" :multiple="false"
-                            :searchable="true" placeholder="Sélectionner un typee document" label="label"
-                            track-by="label" />
+                        <Field name="typeDocument" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :options="typeDocument"
+                            :preserve-search="true" :multiple="false" :searchable="true"
+                            placeholder="Sélectionner un type document" label="label" track-by="label" />
                         </Field>
-                        <ErrorMessage name="typeeDocument" class="text-danger" />
+                        <ErrorMessage name="typeDocument" class="text-danger" />
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -89,8 +85,18 @@
                           Document <span class="text-danger">*</span>
                         </label>
                         <Field name="document" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" :preserve-search="true" :multiple="false"
-                            :searchable="true" placeholder="Sélectionner un document" label="label" track-by="label" />
+                          <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
+                            :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
+                              const results = await getDocumentByKey(query);
+                              if (results && results.length > 0) {
+                                return results;
+                              } else if (query.length >= 3) {
+                                return [{ value: '', label: 'Aucun enregistrement trouvé' }];
+                              } else {
+                                return [];
+                              }
+                            }" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un document" />
+
                         </Field>
                         <ErrorMessage name="document" class="text-danger" />
                       </div>
@@ -98,10 +104,10 @@
                   </div>
                 </fieldset>
               </div>
-              <div class="col-md-6 mb-3">
+              <div class="col-md-6 mb-3" v-show="!etatAffiche">
                 <fieldset class="border rounded-3 p-1" disabled>
                   <legend class="float-none w-auto px-3">
-                    Destination
+                    {{ bloc2Title }}
                   </legend>
                   <div class="row">
                     <div class="col-md-12">
@@ -120,6 +126,27 @@
                     <div class="col-md-12">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
+                          Personnel <span class="text-danger">*</span>
+                        </label>
+                        <Field name="personnel" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
+                            :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
+                              const results = await getPersonnelByKey(query);
+                              if (results && results.length > 0) {
+                                return results;
+                              } else if (query.length >= 3) {
+                                return [{ value: '', label: 'Aucun enregistrement trouvé' }];
+                              } else {
+                                return [];
+                              }
+                            }" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un personnel" />
+                        </Field>
+                        <ErrorMessage name="personnel" class="text-danger" />
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
                           Emplacement Destination <span class="text-danger">*</span>
                         </label>
                         <Field name="emplacementDestination" type="text" v-slot="{ field }">
@@ -133,7 +160,45 @@
                   </div>
                 </fieldset>
               </div>
-
+              <div class="col-md-6 mb-3" v-show="etatAffiche">
+                <fieldset class="border rounded-3 p-1" disabled>
+                  <legend class="float-none w-auto px-3">
+                    Informations
+                  </legend>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th class="shadow-none lh-1 fw-medium text-black">
+                              Titre :
+                            </th>
+                            <td class="shadow-none lh-1 fw-medium text-black">
+                              Info
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="shadow-none lh-1 fw-medium text-black">
+                              Titre :
+                            </th>
+                            <td class="shadow-none lh-1 fw-medium text-black">
+                              Info
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="shadow-none lh-1 fw-medium text-black">
+                              Titre :
+                            </th>
+                            <td class="shadow-none lh-1 fw-medium text-black">
+                              Info
+                            </td>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
             </div>
 
             <button class="btn btn-primary" type="submit">
@@ -141,10 +206,6 @@
             </button>
           </Form>
         </div>
-        <!-- <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" type="button">Save changes</button>
-                    </div> -->
       </div>
     </div>
   </div>
@@ -183,25 +244,26 @@ export default {
     const mouvementSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       libelle: Yup.string().required('Le libelle est obligatoire'),
-
     });
 
 
+    const etatAffiche = ref(false);
     const mouvementnew = ref(props.id);
     const typeMouvement = ref([
       {
-        value:"Retour",label:"Retour"
+        value: "Retour", label: "Retour"
       },
       {
-        value:"Sortie",label:"Sortie"
+        value: "Sortie", label: "Sortie"
       },
       {
-        value:"Destruction",label:"Destruction"
+        value: "Destruction", label: "Destruction"
       },
       {
-        value:"Déplacement",label:"Déplacement"
+        value: "Déplacement", label: "Déplacement"
       },
     ])
+    const typeMouv = ref("");
     const mouvementForm = ref<any | null>(null);
     const addMouvementModalRef = ref<null | HTMLElement>(null);
     let mouvements = ref<Array<any>>([]);
@@ -209,6 +271,8 @@ export default {
     const btntext = ref('Ajouter');
     const isupdate = ref(false);
     const router = useRouter();
+    const bloc2Title = ref("Document")
+    const etatDocument = ref("Libre")
 
     watch(() => props.id, (newValue) => {
       if (newValue != 0) {
@@ -231,6 +295,34 @@ export default {
         });
     }
 
+    const getDocumentByKey = async (valeur: any) => {
+      try {
+        console.log("ERRRRRRRIIIII ===> ", valeur);
+          const etat = etatDocument.value;
+          const retourr = await axios.get(`get/documents/${valeur}/${etat}`);
+          console.log("EEEEEEEE ===> ", retourr);
+          const data = retourr.data.data.data;
+          return data.map((da) => ({
+          value: da.id,
+          label: da.nom,
+        }));
+        } catch (error) {
+          console.log("ERREREUR  ===> ", error)
+        }
+    }
+
+    const getPersonnelByKey = async (valeur: any) => {
+      try {
+          const retourr = await axios.get(`get/personnel/${valeur}`);
+          const data = retourr.data.data.data;
+          return data.map((da) => ({
+          value: da.id,
+          label: da.nom,
+        }));
+        } catch (error) {
+          console.log("ERREREUR  ===> ", error)
+        }
+    }
     const btnTitle = async () => {
       if (isupdate.value) {
         title.value = "Modifier le Mouvement";
@@ -240,9 +332,37 @@ export default {
         btntext.value = "Ajouter";
       }
     }
+    const btnTitle2 = async () => {
+      if (typeMouv.value == "Retour") {
+        title.value = "Ajouter un retour";
+        btntext.value = "Ajouter";
+        bloc2Title.value = "Infos Sortie"
+        etatAffiche.value = true;
+        etatDocument.value = "Sortie";
+      } else if (typeMouv.value == "Sortie") {
+        title.value = "Ajouter une sortie";
+        btntext.value = "Sortir";
+        bloc2Title.value = "Infos Document"
+        etatAffiche.value = false;
+        etatDocument.value = "Libre";
+      } else if (typeMouv.value == "Destruction") {
+        title.value = "Commencer une destruction";
+        btntext.value = "Détruire";
+        bloc2Title.value = "Info personne";
+        etatAffiche.value = false;
+        etatDocument.value = "Libre";
+      } else if (typeMouv.value == "Déplacement") {
+        title.value = "Déplacer un document";
+        btntext.value = "Déplacer";
+        bloc2Title.value = "Destination";
+        etatAffiche.value = false;
+        etatDocument.value = "Libre";
+      } else {
+
+      }
+    }
 
     const addMouvement = async (values: any, { resetForm }: { resetForm: () => void }) => {
-      //values = values;
       loading.value = false;
       if (isupdate.value) {
         await axios.put(`/mouvements/${values.id}`, values)
@@ -262,21 +382,25 @@ export default {
       } else {
         await axios.post("/mouvements", values)
           .then(({ data }) => {
-            console.log("ZZZZZZZjjj ==> ", data)
             if (data.code == 201) {
               success(data.message)
               resetForm();
               hideModal(addMouvementModalRef.value);
-              //router.push('/mouvements/liste-mouvement');
               emit("refreshMouvements");
-
             }
           }).catch(({ response }) => {
-            console.log("ZZZZZZZ ==> ", response)
             error(response.data.message);
           });
       }
     };
+
+    watch(() => typeMouv.value, async (newValue, oldValue) => {
+      if (newValue && oldValue != newValue) {
+        typeMouv.value = newValue.toString();
+        await btnTitle2()
+      }
+    })
+
 
     const resetValue = () => {
       const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
@@ -286,26 +410,11 @@ export default {
       });
       btnTitle()
     };
-
     return {
-      mouvements, title, btntext, resetValue, mouvementSchema,
-      addMouvement,typeMouvement, mouvementForm, addMouvementModalRef, mouvementnew,
+      mouvements, title, btntext, resetValue,getPersonnelByKey, mouvementSchema, bloc2Title, getDocumentByKey,
+      addMouvement, typeMouvement, typeMouv, mouvementForm, addMouvementModalRef, mouvementnew, etatAffiche,
       //refreshMouvements
     };
   },
 };
 </script>@/models/Mouvement
-<style>
-/* fieldset.scheduler-border {
-  border: 1px groove #ddd !important;
-  padding: 0 1.4em 1.4em 1.4em !important;
-  margin: 0 0 1.5em 0 !important;
-  -webkit-box-shadow: 0px 0px 0px 0px #000;
-  box-shadow: 0px 0px 0px 0px #000;
-}
-
-legend.scheduler-border {
-    width:inherit;
-    border-bottom:none;
-} */
-</style>
