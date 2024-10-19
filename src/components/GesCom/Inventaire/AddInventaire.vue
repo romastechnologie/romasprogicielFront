@@ -6,9 +6,9 @@
         :validation-schema="inventaireSchema"
         :keep-values="valuess"
       >
-            <div class="row">
+          <div class="row">
             <div class="col-md-4">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <div class="form-group mb-3">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date de début <span class="text-danger">*</span>
                   </label>
@@ -18,7 +18,7 @@
               <ErrorMessage name="dateDebut" class="text-danger"/>
               </div>
               <div class="col-md-4">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <div class="form-group mb-3">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date de fin <span class="text-danger">*</span>
                   </label>
@@ -27,29 +27,44 @@
                 </div>
                 <ErrorMessage name="dateFin" class="text-danger"/>
               </div>
-              <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <!-- <div class="col-md-4 mb-5">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Personnes concernées <span class="text-danger">*</span>
+                  </label>
+                  <Field  name="personnel"  v-slot="{ field }">
+                    <Multiselect
+                      :options="personneOptions"
+                      :searchable="true"
+                      multiple="true"
+                      mode="tags"
+                      track-by="label"
+                      label="label"
+                      v-model = "field.value"
+                      v-bind = "field"
+                      placeholder="Sélectionnez les personnes"
+                    />
+                  </Field>  
+                  <ErrorMessage name="personnel" class="text-danger"/>
+                </div>
+              </div> -->
+            <div class="col-md-4 mb-3">
+              <div class="form-group">
                 <label class="d-block text-black fw-semibold mb-10">
-                  Personnes concernées <span class="text-danger">*</span>
+                    Magasin <span class="text-danger">*</span>
                 </label>
-                <Field  name="personnel"  v-slot="{ field }">
-                  <Multiselect
-                    :options="personneOptions"
-                    :searchable="true"
-                    multiple="true"
-                    mode="tags"
-                    track-by="label"
-                    label="label"
-                    v-model = "field.value"
-                    v-bind = "field"
-                    placeholder="Sélectionnez les personnes"
-                  />
-                </Field>  
-                <ErrorMessage name="personnel" class="text-danger"/>
+                <Multiselect
+                  :options="magasinOptions"
+                  :searchable="true"
+                  track-by="label"
+                  label="label"
+                  placeholder="Sélectionner le magasin"
+                  @select="selectMag(magasin.magasin, magasin)"
+                />
               </div>
             </div>
-              <div class="col-md-12">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <div class="col-md-12 mb-3">
+            <div class="form-group">
               <label class="d-block text-black fw-semibold mb-10">
                 Motif
               </label>
@@ -57,13 +72,11 @@
                 name="motif"
                 as="textarea"
                 cols="15"
-                rows="6"
+                rows="1"
                 placeholder="Entrer le motif"
                 v-slot="{ field }"
-                class="form-control shadow-none rounded-0 text-black"
-              >
-                <textarea
-                  class="form-control shadow-none rounded-0 text-black"
+                class="form-control shadow-none rounded-0 text-black">
+                <textarea class="form-control shadow-none rounded-0 text-black" cols="1"
                   v-model="field.value"
                 ></textarea>
               </Field>
@@ -72,7 +85,7 @@
           </div>
 
           <div class="col-md-12 mb-md-25">
-            <div class="accordion" id="basicAccordion">
+            <!-- <div class="accordion" id="basicAccordion">
               <div class="accordion-item mb-0 bord1">
                 <h2 class="accordion-header" id="headingOne">
                   <button
@@ -113,12 +126,10 @@
                         id="home-tab-pane"
                         role="tabpanel"
                         tabindex="0"
-                      >
+                      > -->
                         <div class="row">
                           <div class="border border-primary mb-10">
-                            <div
-                              class="row d-flex align-items-center justify-content-between fw-bold py-2 bg-primary"
-                            >
+                            <div class="row d-flex align-items-center justify-content-between fw-bold py-2 bg-primary">
                               <div class="col-md-7">
                                 <h4 class="fs-4 text-white">Magasins</h4>
                               </div>
@@ -129,248 +140,203 @@
                                     type="button"
                                     :class="{ 'cursor-not-allowed': isDisable }"
                                     :disabled="isDisable"
-                                    @click="addRowMagasin()"
-                                  >
-                                    <i
-                                      class="fa fa-plus-circle position-relative ms-5 fs-12"
-                                    ></i
+                                    @click="addRowProduit()">
+                                    <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i
                                     >Ajouter un magasin
                                   </button>
-                                  <router-link
-                                    to="/liste-mouvements"
-                                  ></router-link>
                                 </div>
                               </div>
                             </div>
                             <div>
-                              <div
-                                class="row d-flex align-items-center justify-content-between mt-10"
-                              >
-                                <div class="col-md-10">
-                                  <label class="d-block text-black fw-semibold">
-                                    Magasin
-                                    <span class="text-danger">*</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2">
-                                  <label
-                                    class="d-block text-black fw-semibold mb-10"
-                                  >
-                                    Action
-                                  </label>
-                                </div>
-                              </div>
-                              <hr class="mt-0" />
-                              <div
-                                class="row"
-                                v-for="(magasin, magasinIndex) in magasins" :key="magasinIndex"
-                              >
-                                <div class="col-md-10 mb-5">
-                                  <div class="">
-                                    <Multiselect
-                                      :options="magasinOptions"
-                                      :searchable="true"
-                                      track-by="label"
-                                      label="label"
-                                      v-model="magasin.magasin"
-                                      placeholder="Sélectionner le magasin"
-                                      @select="
-                                        selectMag(magasin.magasin, magasin)
-                                      "
-                                    />
-                                  </div>
-                                </div>
-                                <div class="col-md-2">
-                                  <button
-                                    class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                    type="button"
-                                    @click="removeRowMagasin(magasinIndex)"
-                                  >
-                                    <i
-                                      class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                                    ></i>
-                                  </button>
-                                </div>
-
+                              <div class="row">
                                 <!-- Produit -->
-                                <div class="row mt-10 marge-droite">
+                                <div class="row mt-10">
                                   <div class="col-md-3">
                                     <label
-                                      class="d-block text-black fw-semibold"
-                                    >
+                                      class="d-block text-black fw-semibold">
                                       Produit
                                       <span class="text-danger">*</span>
                                     </label>
                                   </div>
                                   <div class="col-md-2">
-                                    <label
-                                      :readOnly="true"
-                                      class="d-block text-black fw-semibold mb-10" 
-                                      
-                                    >
-                                      Quantité Logique<span class="text-danger">*</span>
+                                    <label class="d-block text-black fw-semibold mb-10" >
+                                      Stock Logique<span class="text-danger">*</span>
                                     </label>
                                   </div>
                                   <div class="col-md-2">
-                                    <label
-                                      class="d-block text-black fw-semibold mb-10"
-                                    >
-                                    Quantité physique<span class="text-danger"
-                                        >*</span
-                                      >
+                                    <label  class="d-block text-black fw-semibold mb-10" >
+                                      Stock Fiche<span class="text-danger">*</span>
                                     </label>
                                   </div>
                                   <div class="col-md-2">
-                                    <label
-                                      class="d-block text-black fw-semibold mb-10" 
-                                      :readOnly="true"
-                                    >
-                                      Ecart<span class="text-danger">*</span>
+                                    <label  class="d-block text-black fw-semibold mb-10">Stock Mag<span class="text-danger">*</span>
                                     </label>
                                   </div>
-                                  <div class="col-md-3">
+                                  <div class="col-md-1">
                                     <label
-                                      class="d-block text-black fw-semibold mb-10"
-                                    >
+                                      class="d-block text-black fw-semibold mb-10" :readOnly="true">Ecart Reel<span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-1">
+                                    <label
+                                      class="d-block text-black fw-semibold mb-10" :readOnly="true">Ecart Log<span class="text-danger">*</span>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-1">
+                                    <label class="d-block text-black fw-semibold mb-10">
                                       Action
                                     </label>
                                   </div>
-                                  <hr class="mt-0 hr-longeur" />
+                                  <hr class="mt-0" />
                                 </div>
                                 <div
-                                  class="row marge-droite"
-                                  v-for="(produit, produitIndex) in magasin.produits" :key="produitIndex"
-                                >
-                                  <div class="col-md-3">
-                                    <div
-                                      class="form-group mb-15 mb-sm-20 mb-md-25"
-                                    >
-                                      <Multiselect
-                                        :options="produitOptions"
-                                        :searchable="true"
-                                        track-by="label"
-                                        label="label"
-                                        v-model="produit.produit"
-                                        placeholder="Sélectionner le produit"
-                                        @select="
-                                          selectProd(produit.produit, produit)
-                                        "
-                                      />
-                                      <div
-                                        class="invalid-feedback"
-                                        v-if="
-                                          validateRowProduit(produit.produit)
-                                        "
-                                      >
-                                        Le produit est obligatoire.
+                                  class="row" v-for="(produit, produitIndex) in produits" :key="produitIndex">
+                                    <div class="col-md-3">
+                                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                        <Multiselect
+                                          :options="produitOptions"
+                                          :searchable="true"
+                                          track-by="label"
+                                          label="label"
+                                          v-model="produit.produit"
+                                          placeholder="Sélectionner le produit"
+                                          @select="
+                                            selectProd(produit.produit, produit)
+                                          "
+                                        />
+                                        <div
+                                          class="invalid-feedback"
+                                          v-if="
+                                            validateRowProduit(produit.produit)" >
+                                          Le produit est obligatoire.
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <div
-                                      class="form-group mb-15 mb-sm-20 mb-md-25"
-                                    >
-                                      <input
-                                        type="number"
-                                        :readonly="true"
-                                        v-model="produit.qtiteLogique"
-                                        :class="
-                                          validateRowProduit(produit.qtiteLogique)
-                                            ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                            : 'form-control shadow-none fs-md-15 text-black '
-                                        "
-                                        placeholder="Entrer la quantité"
-                                      />
+                                    <div class="col-md-2">
                                       <div
-                                        v-if="validateRowProduit(produit.qtiteLogique)"
-                                        class="invalid-feedback"
-                                      >
-                                        La quantité est obligatoire.
+                                        class="form-group mb-15 mb-sm-20 mb-md-25">
+                                        <input
+                                          type="number"
+                                          :readonly="true"
+                                          v-model="produit.qtiteLogique"
+                                          :class="
+                                            validateRowProduit(produit.qtiteLogique)
+                                              ? 'form-control shadow-none fs-md-15 text-black is-invalid '
+                                              : 'form-control shadow-none fs-md-15 text-black '
+                                          "
+                                          placeholder="Entrer la quantité"
+                                        />
+                                        <div
+                                          v-if="validateRowProduit(produit.qtiteLogique)"
+                                          class="invalid-feedback">
+                                          La quantité est obligatoire.
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <div
-                                      class="form-group mb-15 mb-sm-20 mb-md-25"
-                                    >
-                                      <input
-                                        v-model="produit.qtitePhysique"
-                                        type="number"
-                                        :class="
-                                          validateRowProduit(produit.qtitePhysique)
-                                            ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                            : 'form-control shadow-none fs-md-15 text-black '
-                                        "
-                                        placeholder="Entrer la quantité"
-                                      />
+                                    <div class="col-md-2">
                                       <div
-                                        v-if="validateRowProduit(produit.qtitePhysique)"
-                                        class="invalid-feedback"
+                                        class="form-group mb-15 mb-sm-20 mb-md-25"
                                       >
-                                        La quantité est obligatoire.
+                                        <input
+                                          v-model="produit.qtitePhysique"
+                                          type="number"
+                                          :class="
+                                            validateRowProduit(produit.qtitePhysique)
+                                              ? 'form-control shadow-none fs-md-15 text-black is-invalid '
+                                              : 'form-control shadow-none fs-md-15 text-black '
+                                          "
+                                          placeholder="Entrer la quantité"/>
+                                        <div
+                                          v-if="validateRowProduit(produit.qtitePhysique)"
+                                          class="invalid-feedback">
+                                          La quantité est obligatoire.
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <div
-                                      class="form-group mb-15 mb-sm-20 mb-md-25"
-                                    >
-                                      <input
-                                        v-model="produit.ecart"
-                                        :readonly="true"
-                                        type="number" 
-                                        :class="
-                                          validateRowProduit(produit.ecart)
-                                            ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                            : 'form-control shadow-none fs-md-15 text-black '
-                                        "
-                                        placeholder="Entrer l'écart"
-                                      />
+                                    <div class="col-md-2">
                                       <div
-                                        v-if="validateRowProduit(produit.ecart)"
-                                        class="invalid-feedback"
+                                        class="form-group mb-15 mb-sm-20 mb-md-25"
                                       >
-                                        L'écart est obligatoire.
+                                        <input
+                                          v-model="produit.qtitePhysique"
+                                          type="number"
+                                          :class="
+                                            validateRowProduit(produit.qtitePhysique)
+                                              ? 'form-control shadow-none fs-md-15 text-black is-invalid '
+                                              : 'form-control shadow-none fs-md-15 text-black '
+                                          "
+                                          placeholder="Entrer la quantité"/>
+                                        <div
+                                          v-if="validateRowProduit(produit.qtitePhysique)"
+                                          class="invalid-feedback">
+                                          La quantité est obligatoire.
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-3 mb-5">
-                                    <button
-                                      class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                                      type="button"
-                                      @click="removeRowProduit(magasinIndex, produitIndex)"
-                                    >
-                                      <i
-                                        class="fa fa-trash-o lh-1 me-1 position-relative top-2"
-                                      ></i>
-                                    </button>
-                                  </div>
-                                </div>
-                                <div class="d-flex justify-content-center mb-4">
-                                  <div class="d-flex">
-                                    <button
-                                      class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                      type="button"
-                                      @click="addRowProduit(magasinIndex)"
-                                    >
-                                      <i
-                                        class="fa fa-plus-circle position-relative ms-5 fs-12"
-                                      ></i
-                                      >Ajouter un produit
-                                    </button>
-                                  </div>
+                                    <div class="col-md-1">
+                                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                        <input
+                                          v-model="produit.ecart"
+                                          :readonly="true"
+                                          type="number" 
+                                          :class="
+                                            validateRowProduit(produit.ecart)
+                                              ? 'form-control shadow-none fs-md-15 text-black is-invalid '
+                                              : 'form-control shadow-none fs-md-15 text-black '
+                                          "
+                                          placeholder="Entrer l'écart"
+                                        />
+                                        <div
+                                          v-if="validateRowProduit(produit.ecart)"
+                                          class="invalid-feedback"
+                                        >
+                                          L'écart est obligatoire.
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                        <input
+                                          v-model="produit.ecart"
+                                          :readonly="true"
+                                          type="number" 
+                                          :class="
+                                            validateRowProduit(produit.ecart)
+                                              ? 'form-control shadow-none fs-md-15 text-black is-invalid '
+                                              : 'form-control shadow-none fs-md-15 text-black '
+                                          "
+                                          placeholder="Entrer l'écart"
+                                        />
+                                        <div
+                                          v-if="validateRowProduit(produit.ecart)"
+                                          class="invalid-feedback"
+                                        >
+                                          L'écart est obligatoire.
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-1 mb-5">
+                                      <button
+                                        class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                                        type="button"
+                                        @click="removeRowProduit(produitIndex)">
+                                        <i
+                                          class="fa fa-trash-o lh-1 me-1 position-relative top-2"
+                                        ></i>
+                                      </button>
+                                    </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    <!--</div>
+                 </div>
                 </div>
-              </div>
+                </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center">
@@ -440,36 +406,54 @@ export default defineComponent({
 
     // formulaire dynamique start
     const isDisable = ref(true);
-    const magasins = reactive([
-  {
-    magasin: '',
-    produits: [
+    // const magasins = reactive([
+    //   {
+    //     magasin: '',
+    //     produits: [
+    //       {
+    //         produit: '',
+    //         qtitePhysique: 0,
+    //         qtiteLogique: 0,
+    //         ecart: 0,
+    //       },
+    //     ],
+    //   },
+    // ]);
+
+    const produits = reactive([
       {
         produit: '',
         qtitePhysique: 0,
         qtiteLogique: 0,
         ecart: 0,
       },
-    ],
-  },
-]);
+    ]);
 
-const addRowMagasin = () => {
-  magasins.push({
-    magasin: '',
-    produits: [
-      {
-        produit: '',
-        qtitePhysique: 0,
-        qtiteLogique: 0,
-        ecart: 0,
-      },
-    ],
-  });
-};
+// const addRowMagasin = () => {
+//   magasins.push({
+//     magasin: '',
+//     produits: [
+//       {
+//         produit: '',
+//         qtitePhysique: 0,
+//         qtiteLogique: 0,
+//         ecart: 0,
+//       },
+//     ],
+//   });
+// };
 
-const addRowProduit = (magasinIndex) => {
-  magasins[magasinIndex].produits.push({
+// const addRowProduit = () => {
+//   magasins[magasinIndex].produits.push({
+//     produit: '',
+//     qtitePhysique: 0,
+//     qtiteLogique: 0,
+//     ecart: 0,
+//   });
+// };
+
+const addRowProduit = () => {
+  produits.push({
     produit: '',
     qtitePhysique: 0,
     qtiteLogique: 0,
@@ -477,12 +461,17 @@ const addRowProduit = (magasinIndex) => {
   });
 };
 
-const removeRowMagasin = (index) => {
-  magasins.splice(index, 1);
-};
 
-const removeRowProduit = (magasinIndex, produitIndex) => {
-  magasins[magasinIndex].produits.splice(produitIndex, 1);
+// const removeRowMagasin = (index) => {
+//   magasins.splice(index, 1);
+// };
+
+// const removeRowProduit = (magasinIndex, produitIndex) => {
+//   magasins[magasinIndex].produits.splice(produitIndex, 1);
+// };
+
+const removeRowProduit = ( produitIndex) => {
+  produits.splice(produitIndex, 1);
 };
 
 const selectMag = (selectedMagasin, magasin) => {
@@ -501,14 +490,24 @@ const selectProd = (selectedProduit, produit) => {
 const calculEcart = (produit) => {
     produit.ecart = produit.qtiteLogique - produit.qtitePhysique;
 };
+// watch(
+//   () => magasins,
+//   (newMagasins) => {
+//     newMagasins.forEach(magasin => {
+//       magasin.produits.forEach(produit => {
+//         calculEcart(produit);
+//       });
+//     });
+//   },
+//   { deep: true }
+// );
+
 watch(
-  () => magasins,
-  (newMagasins) => {
-    newMagasins.forEach(magasin => {
-      magasin.produits.forEach(produit => {
+  () => produits,
+  (newProduits) => {
+    newProduits.forEach(produit => {
         calculEcart(produit);
       });
-    });
   },
   { deep: true }
 );
@@ -531,20 +530,35 @@ const validateRowProduit = (e) => {
   return e === '' || e === 0 || e === '0' || e == null || e < 0;
 };
 
-    watch(
-  magasins,
+//     watch(
+//   magasins,
+//   (newValue) => {
+//     isDisable.value = newValue.some(
+//       (magasin) =>
+//         magasin.magasin === '' ||
+//         magasin.produits.some(
+//           (produit) =>
+//             produit.produit === '' ||
+//             produit.qtitePhysique === 0 ||
+//             produit.qtitePhysique < 0 ||
+//             produit.qtiteLogique === 0 ||
+//             produit.ecart === 0
+//         )
+//     );
+//   },
+//   { deep: true }
+// );
+
+watch(
+  produits,
   (newValue) => {
-    isDisable.value = newValue.some(
-      (magasin) =>
-        magasin.magasin === '' ||
-        magasin.produits.some(
-          (produit) =>
-            produit.produit === '' ||
-            produit.qtitePhysique === 0 ||
-            produit.qtitePhysique < 0 ||
-            produit.qtiteLogique === 0 ||
-            produit.ecart === 0
-        )
+    isDisable.value =newValue.some(
+      (produit) =>
+        produit.produit === '' ||
+        produit.qtitePhysique === 0 ||
+        produit.qtitePhysique < 0 ||
+        produit.qtiteLogique === 0 ||
+        produit.ecart === 0
     );
   },
   { deep: true }
@@ -606,20 +620,16 @@ const validateRowProduit = (e) => {
       const year = today.getFullYear();
       const hours = String(today.getHours()).padStart(2, "0");
       const minutes = String(today.getMinutes()).padStart(2, "0");
-
       return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
 
     const addInventaire = async (values, { resetForm }) => {
-      values.magasins = magasins.map((magasin) => ({
-        magasin: magasin.magasin.split('|')[0],
-        produits: magasin.produits.map((produit) => ({
+      values.produits =produits.map((produit) => ({
           produit: produit.produit.split('|')[0],
           qtitePhysique: produit.qtitePhysique,
           qtiteLogique: produit.qtiteLogique,
           ecart: produit.ecart,
-          nomProd: produit.produit.split('|')[1],
-        })),
+          nomProd: produit.produit.split('|')[1]
       }));
       console.log('DOnnées =>', values)
       // ApiService.post("/inventaires", values)
@@ -656,12 +666,10 @@ const validateRowProduit = (e) => {
       inventaireSchema,
       addInventaire,
       inventaireForm,
-      magasins,
-      removeRowMagasin,
       removeRowProduit,
-      addRowMagasin,
       addRowProduit,
       validateRowProduit,
+      produits,
       valuess,
       clientOptions,
       magasinOptions,

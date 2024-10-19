@@ -1217,6 +1217,62 @@ export const menu: MenuItem[] = [
         ]
     },
     {
+        title: "Equipe",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/equipes/ajouter-equipe",
+                title: "Ajouter une équipe",
+                type: "link"
+            },
+            
+           /* {
+                path: "/equipes/modifier-equipe",
+                title: "Modifier une équipe",
+                type: "link"
+            },
+            {
+                path: "/equipes/liste-equipes",
+                title: "Liste des équipes",
+                type: "link"
+            }*/
+        ]
+    },
+
+    {
+        title: "Mouvement",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+           
+            {
+                path: "/mouvements/ajouter-mouvement",
+                title: "Ajouter un mouvement",
+                type: "link"
+            },
+           /* {
+                path: "/equipes/modifier-equipe",
+                title: "Modifier une équipe",
+                type: "link"
+            },
+            {
+                path: "/equipes/liste-equipes",
+                title: "Liste des équipes",
+                type: "link"
+            }*/
+        ]
+    },
+
+    {
         title: "Paramètres",
         icon: "stroke-learning",
         icon1: "fill-learning",
@@ -1345,6 +1401,7 @@ export const menu: MenuItem[] = [
                 title: " mode de paiement",
                 type: "link"
             },
+           
             {
                 path: "/commandes-clients/liste-commande-client/",
                 title: "commandes clients",
