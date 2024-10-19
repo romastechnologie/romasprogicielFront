@@ -886,7 +886,8 @@ watch(
       addRowEquipe,
       removeRowEquipe,
       equipes,
-      personneOptions
+      personneOptions,
+      roleOptions
     };
   },
 });
