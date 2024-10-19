@@ -3,7 +3,12 @@ import ApiService from "@/services/ApiService";
 import Swal from "sweetalert2";
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { v4 as uuidv4 } from 'uuid';
 
+
+const generateUuid = ()=> {
+  return uuidv4(); // Générer un UUID v4
+}
 
 const getDatePlusXDays = (x: number) => {
   const currentDate = new Date();
@@ -210,6 +215,6 @@ const suppression = (id: number, element: any, route: string, entite: string) =>
 };
 
 export {
-  getDatePlusXDays, ajouterPeriode, onFileChange, removeModalBackdrop, suppression, separateur, hideModal, getAssetPath, format_Date, showModal, format_date, success, error, getUrlApiForFiles,
+  getDatePlusXDays,generateUuid, ajouterPeriode, onFileChange, removeModalBackdrop, suppression, separateur, hideModal, getAssetPath, format_Date, showModal, format_date, success, error, getUrlApiForFiles,
 };
 
