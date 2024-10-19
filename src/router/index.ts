@@ -82,6 +82,8 @@ import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
 import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
+import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
+
 //import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
 // import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
 //import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
@@ -194,6 +196,7 @@ import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue"
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
 import AddPersonnelNewPage from "@/pages/GesCom/Personnel/AddPersonnelNewPage.vue";
 
+
 //Etats
 import EtatProduitsDisponibles from "@/pages/GesCom/Etats/EtatProduitsDisponibles.vue";
 import EtatProduitsRupturePage from "@/pages/GesCom/Etats/EtatProduitsRupturePage.vue";
@@ -282,12 +285,32 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
+import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
+import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
+import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
+import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUserEtapes.vue";
+import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
+
+import ListeRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/ListeRoleEtapPage.vue";
+import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
+import EditRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/EditRoleEtapPage.vue";
 
 
+import ListeModelPage from "@/pages/GestionModel/Model/ListeModelPage.vue";
+import AddModelPage from "@/pages/GestionModel/Model/AddModelPage.vue";
+import EditModelPage from "@/pages/GestionModel/Model/EditModelPage.vue";
 
+import ListeTypePage from "@/pages/GestionModel/Type/ListeTypePage.vue";
 
+import ListeMissionPage from "@/pages/GestionMission/Mission/ListeMissionPage.vue";
+import AddMissionPage from "@/pages/GestionMission/Mission/AddMissionPage.vue";
+import EditMissionPage from "@/pages/GestionMission/Mission/EditMissionPage.vue";
 
+import ListeRapportPage from "@/pages/GestionMission/Rapport/ListeRapportPage.vue";
 
+import AddNoteMissionPage from "@/components/GestionMission/NoteMission/AddNoteMission.vue";
+import EditNoteMissionPage from "@/components/GestionMission/NoteMission/EditNoteMission.vue";
+import ListeNoteMissionPage from "@/components/GestionMission/NoteMission/ListeNoteMission.vue";
 
 
 // Champs Libres Famille
@@ -299,6 +322,17 @@ import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFam
 import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
 import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
 import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
+import ListeDemandePermissionPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage.vue';
+import ListeDemandeCongePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeCongePage.vue';
+import ListeDemandeAttestationPage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAttestationPage.vue';
+import ViewDemandePage from '@/pages/GestionPersonnel/Demandes/ViewDemandePage.vue';
+import ListeCongeCalendrierPage from '@/pages/GestionPersonnel/Conge/ListeCongeCalendrierPage.vue';
+import ListeEquipePage from '@/pages/GesCom/Equipe/ListeEquipePage.vue';
+import EditEquipePage from '@/pages/GesCom/Equipe/EditEquipePage.vue';
+import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
+import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
+
+//import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
 // import AddChampsLibreFamillePage from "@/pages/ChampsLibre/AddChampsLibreFamillePage.vue"
@@ -453,6 +487,21 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeCategoriesDepensesPage,
         meta: {
           title: 'Ajouter une categorie de depense',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/echeances",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-echeances",
+        name: "ListeEchances",
+        component: ListeEcheancesPage,
+        meta: {
+          title: 'Ajouter une echeance',
         }
       },
     ]
@@ -1293,6 +1342,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des congés',
         }
       },
+      {
+        path: "calendrier",
+        name: "ListeCongeCalendrierPage",
+        component: ListeCongeCalendrierPage,
+        meta: {
+          title: 'Calendrier des congés',
+        }
+      },
     ]
   },
   {
@@ -1395,6 +1452,46 @@ const routes: Array<RouteRecordRaw> = [
         component: AddDemandePage,
         meta: {
           title: 'Ajouter une demande',
+        }
+      },
+      {
+        path: "liste-demande-permission",
+        name: "ListeDemandePermissionPage",
+        component: ListeDemandePermissionPage,
+        meta: {
+          title: 'Liste des demandes de permission',
+        }
+      },
+      {
+        path: "liste-demande-conge",
+        name: "ListeDemandeCongePage",
+        component: ListeDemandeCongePage,
+        meta: {
+          title: 'Liste des demandes de congé',
+        }
+      },
+      {
+        path: "liste-demande-attestation",
+        name: "ListeDemandeAttestationPage",
+        component: ListeDemandeAttestationPage,
+        meta: {
+          title: 'Liste des demandes d\'attestation',
+        }
+      },
+      {
+        path: "liste-demande-autre",
+        name: "ListeDemandeAutrePage",
+        component: ListeDemandePage,
+        meta: {
+          title: 'Liste des autres demandes',
+        }
+      },
+      {
+        path: "view-demande",
+        name: "ViewDemandePage",
+        component: ViewDemandePage,
+        meta: {
+          title: 'Voir les détails',
         }
       },
       {
@@ -1583,7 +1680,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "editer-horaire/:id",
+        path: "editer-horaire",
         name: "EditHoraire",
         component: EditHorairePage,
         meta: {
@@ -1831,8 +1928,235 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+  {
+    path: "/etapeValidations",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-etapeValidations",
+        name: "AddEtapeValidationPage",
+        component: AddEtapeValidationPage,
+        meta: {
+          title: 'Ajouter une Etape Validation',
+        }
+      },
+      {
+        path: "modifier-etapeValidation/:id",
+        name: "EditEtapeValidationPage",
+        component: EditEtapeValidationPage,
+        meta: {
+          title: 'Modifier une Etape Validation',
+        }
+      },
+      {
+        path: "liste-etapeValidations",
+        name: "ListeEtapeValidationPage",
+        component: ListeEtapeValidationPage,
+        meta: {
+          title: 'Liste des etapes de Validations',
+        }
+      },
+      {
+        path: "view-etapeValidations/:id",
+        name: "ViewEtapeValidationPage",
+        component: ViewEtapeValidationPage,
+        meta: {
+          title: 'Détails Etape Validation',
+        }
+      }
+    ]
+  },
+  {
+    path: "/userEtapes",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-userEtapes",
+        name: "liste-userEtapes",
+        component: ListeUserEtapesPage,
+        meta: {
+          title: 'Liste UserEtapes',
+        }
+      },
+    ]
+  },
 
 
+  {
+    path: "/roleetaps",
+    component: BodyView,
+    children: [
+    
+
+      {
+        path: "ajouter-roleetap",
+        name: "AddRoleEtapPage",
+        component: AddRoleEtapPage,
+        meta: {
+          title: 'Ajouter  roleetape',
+        }
+      },
+        {
+        path: "modifier-roleetap/:id",
+        name: "EditRoleEtapPage",
+        component: EditRoleEtapPage,
+        meta: {
+          title: 'Modifier role etape',
+        }
+      },
+     
+      {
+        path: "liste-roleetaps",
+        name: "ListeRoleEtapPage",
+        component: ListeRoleEtapPage,
+        meta: {
+          title: 'Liste des roles etapes',
+        }
+      },
+    ]
+  },
+
+
+
+  
+  {
+    path: "/models",
+    component: BodyView,
+    children: [
+    
+
+      {
+        path: "ajouter-model",
+        name: "AddModelPage",
+        component: AddModelPage,
+        meta: {
+          title: 'Ajouter  model',
+        }
+      },
+        {
+        path: "modifier-model/:id",
+        name: "EditModelPage",
+        component: EditModelPage,
+        meta: {
+          title: 'Modifier model',
+        }
+      },
+     
+      {
+        path: "liste-models",
+        name: "ListeModelPage",
+        component: ListeModelPage,
+        meta: {
+          title: 'Liste des models',
+        }
+      },
+    ]
+  },
+
+
+
+
+   
+  {
+    path: "/types",
+    component: BodyView,
+    children: [
+    
+      
+     
+      {
+        path: "liste-types",
+        name: "ListeTypePage",
+        component: ListeTypePage,
+        meta: {
+          title: 'Liste des types',
+        }
+      },
+    ]
+  },
+  {
+    path: "/missions",
+    component: BodyView,
+    children: [
+    
+
+      {
+        path: "ajouter-mission",
+        name: "AddMissionPage",
+        component: AddMissionPage,
+        meta: {
+          title: 'Ajouter  mission',
+        }
+      },
+        {
+        path: "modifier-mission/:id",
+        name: "EditMissionPage",
+        component: EditMissionPage,
+        meta: {
+          title: 'Modifier mission',
+        }
+      },
+     
+      {
+        path: "liste-missions",
+        name: "ListeMissionPage",
+        component: ListeMissionPage,
+        meta: {
+          title: 'Liste des missions',
+        }
+      },
+    ]
+  },
+  {
+    path: "/noteMissions",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-noteMissions",
+        name: "AddNoteMissionPage",
+        component: AddNoteMissionPage,
+        meta: {
+          title: 'Ajouter une Note Mission',
+        }
+      },
+      {
+        path: "modifier-noteMissions/:id",
+        name: "EditNoteMissionPage",
+        component: EditNoteMissionPage,
+        meta: {
+          title: 'Modifier une Note Mission',
+        }
+      },
+      {
+        path: "liste-noteMissions",
+        name: "ListeNoteMissionPage",
+        component: ListeNoteMissionPage,
+        meta: {
+          title: 'Liste des notes missions',
+        }
+      },
+    ]
+
+  },
+
+  {
+    path: "/rapports",
+    component: BodyView,
+    children: [
+    
+      
+     
+      {
+        path: "liste-rapports",
+        name: "ListeRapportPage",
+        component: ListeRapportPage,
+        meta: {
+          title: 'Liste des rapport',
+        }
+      },
+    ]
+  },
+ 
 
   {
     path: "/produits",
@@ -2553,6 +2877,55 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+
+
+  {
+    path: "/equipes",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-equipe",
+        name: "AddEquipe",
+        component: AddEquipePage,
+        meta: {
+          title: 'Ajouter une équipe',
+        }
+      },
+      /*{
+        path: "modifier-equipe",
+        name: "EditEquipe",
+        component: EditEquipePage,
+        props: true,
+        meta: {
+          title: 'Modifier un équipe',
+        }
+      },
+      {
+        path: "liste-equipes",
+        name: "ListeEquipe",
+        component: ListeEquipePage,
+        meta: {
+          title: 'Liste des équipes',
+        }
+      },*/
+    ]
+  },
+
+  {
+    path: "/mouvements",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-mouvement",
+        name: "AddMouvement",
+        component: AddMouvementPage,
+        meta: {
+          title: 'Ajouter un mouvement',
+        }
+      },
+      
+    ]
+  },
   {
     path: "/transactions",
     component: BodyView,
@@ -3138,6 +3511,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   }
 ]
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

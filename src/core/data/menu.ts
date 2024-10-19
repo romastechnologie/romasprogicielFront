@@ -330,15 +330,44 @@ export const menu: MenuItem[] = [
             }
         ]
     },
-    {
-        title: "Gestion des demandes",
-        icon: "stroke-file",
-        icon1: "fill-file",
-        type: "link",
+{
+        title: "Demande",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
         badgeType: "light-primary",
-        path: "/demandes/liste-demande",
         active: false,
-        isPinned: false
+        isPinned: false,
+        children:[
+            {
+                path: "/demandes/ajouter-demande",
+                title: "Ajouter une demande",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-conge",
+                title: "Liste des demandes de congés",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-permission",
+                title: "Liste des demandes de permission",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-attestation",
+                title: "Liste des demandes d'attestation",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-autre",
+                title: "Liste des autres demandes",
+                type: "link"
+            },
+
+        ]
+       
+        
     },
     {
         title: "Présences",
@@ -381,6 +410,17 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false
     },
+
+    {
+        title: "Echeances",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/echeances/liste-echeances",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
     {
         title: "Postes",
         icon: "stroke-learning",
@@ -419,6 +459,11 @@ export const menu: MenuItem[] = [
             {
                 path: "/conges/liste-conge",
                 title: "Liste des congés",
+                type: "link"
+            },
+            {
+                path: "/conges/calendrier",
+                title: "Calendrier de programmation",
                 type: "link"
             },
         ]
@@ -564,6 +609,51 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+
+    {
+        title: "Ouverture/Fermeture de caisse",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/ouv_fers/ajouter-ouv_fer",
+                title: "Faire une ouverture de caisse ",
+                type: "link"
+            },
+            {
+                path: "/ouv_fers/liste-ouv_fer",
+                title: "Liste des ouvertures/fermetures",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Monnaie",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/monnaies/liste-monnaie",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
+    {
+        title: "User Compte",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/userComptes/liste-userCompte",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
 
     {
         title: "Finance",
@@ -898,51 +988,7 @@ export const menu: MenuItem[] = [
             },
         ]
     },
-    {
-        title: "Ouverture/Fermeture de caisse",
-        icon: "stroke-calendar",
-        icon1: "fill-calendar",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/ouv_fers/ajouter-ouv_fer",
-                title: "Faire une ouverture de caisse ",
-                type: "link"
-            },
-            {
-                path: "/ouv_fers/liste-ouv_fer",
-                title: "Liste des ouvertures/fermetures",
-                type: "link"
-            },
-        ]
-    },
-
-    {
-        title: "Monnaie",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/monnaies/liste-monnaie",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false
-    },
-
-    {
-        title: "User Compte",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/userComptes/liste-userCompte",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false
-    },
-
-
+   
     {
         headTitle1: "GesCom",
         headTitle2: "GesCom",
@@ -1181,6 +1227,62 @@ export const menu: MenuItem[] = [
         ]
     },
     {
+        title: "Equipe",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/equipes/ajouter-equipe",
+                title: "Ajouter une équipe",
+                type: "link"
+            },
+            
+           /* {
+                path: "/equipes/modifier-equipe",
+                title: "Modifier une équipe",
+                type: "link"
+            },
+            {
+                path: "/equipes/liste-equipes",
+                title: "Liste des équipes",
+                type: "link"
+            }*/
+        ]
+    },
+
+    {
+        title: "Mouvement",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+           
+            {
+                path: "/mouvements/ajouter-mouvement",
+                title: "Ajouter un mouvement",
+                type: "link"
+            },
+           /* {
+                path: "/equipes/modifier-equipe",
+                title: "Modifier une équipe",
+                type: "link"
+            },
+            {
+                path: "/equipes/liste-equipes",
+                title: "Liste des équipes",
+                type: "link"
+            }*/
+        ]
+    },
+
+    {
         title: "Paramètres",
         icon: "stroke-learning",
         icon1: "fill-learning",
@@ -1309,6 +1411,7 @@ export const menu: MenuItem[] = [
                 title: " mode de paiement",
                 type: "link"
             },
+           
             {
                 path: "/commandes-clients/liste-commande-client/",
                 title: "commandes clients",
@@ -1493,7 +1596,7 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/categoriesDepenses/liste-categoriesdepenses",
-                title: "Ajouter une categorie depense",
+                title: "Liste des  categories depenses",
                 type: "link"
             }
            
@@ -1602,7 +1705,197 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+    {
+        title: "EtapeValidation",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/etapeValidations/ajouter-etapeValidations",
+                title: "Ajouter une etape validation",
+                type: "link"
+            },
+            {
+                path: "/etapeValidations/liste-etapeValidations",
+                title: "Liste des etapes validations",
+                type: "link"
+            },
+        ]
+    },
+    // {
+    //     title: "UserEtapes",
+    //     icon: "stroke-user",
+    //     icon1: "fill-user",
+    //     type: "sub",
+    //     badgeType: "light-primary",
+    //     active: false,
+    //     isPinned: false,
+    //     children: [
+           
+    //         {
+    //             path: "/userEtapes/liste-userEtapes",
+    //             title: "Liste des UserEtapes",
+    //             type: "link"
+    //         },
+    //     ]
+    // },
+    
+
+    {
+        title: "Role Etape",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+
+            {
+                path: "/roleetaps/ajouter-roleetap",
+                title: "Ajouter un role etape",
+                type: "link"
+            },
+          
+            {
+                path: "/roleetaps/liste-roleetaps",
+                title: "Liste des role etapes",
+                type: "link"
+            },
+        ]
+    },
+    
+
+
+
+    {
+        headTitle1: "Gestion Model",
+        headTitle2: "Model,Type",
+        type: "headtitle"
+    },
+    {
+        title: "Model",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/models/ajouter-model",
+                title: "Ajouter un model",
+                type: "link"
+            },
+            {
+                path: "/models/liste-models",
+                title: "Liste des models",
+                type: "link"
+            },
+        ]
+    },
+    
+
+    {
+        title: "Type",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+
+          
+            {
+                path: "/types/liste-types",
+                title: "Liste des types",
+                type: "link"
+            },
+        ]
+    },
+    
+
+
+
+
+    
+
+    {
+        headTitle1: "Gestion Mission",
+        headTitle2: "Mission,Rapport",
+        type: "headtitle"
+    },
+    {
+        title: "Mission",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/missions/ajouter-mission",
+                title: "Ajouter une mission",
+                type: "link"
+            },
+            {
+                path: "/missions/liste-missions",
+                title: "Liste des missions",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "NoteMission",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/noteMissions/ajouter-noteMissions",
+                title: "Ajouter une note mission",
+                type: "link"
+            },
+            {
+                path: "/noteMissions/liste-noteMissions",
+                title: "Liste des notes missions",
+                type: "link"
+            },
+        ]
+    },
+    
+    
+
+    {
+        title: "Rapport",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+
+          
+            {
+                path: "/rapports/liste-rapports",
+                title: "Liste des rapports",
+                type: "link"
+            },
+        ]
+    },
     
 
 
 ]
+

@@ -26,7 +26,7 @@ import Lightbox from 'vue-easy-lightbox'
 import rate from 'vue-rate'
 import VueNumber from "vue-number-animation";
 import VueJsTour from '@globalhive/vuejs-tour';
-import Multiselect from 'vue-multiselect'
+import Multiselect from 'vue-multiselect';
 import AosVue from "aos-vue";
 import SimpleTypeahead from 'vue3-simple-typeahead';
 import { VueMasonryPlugin } from 'vue-masonry';

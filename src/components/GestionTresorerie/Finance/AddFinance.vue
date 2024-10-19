@@ -65,8 +65,6 @@
                                 <ErrorMessage name="tresorerie" class="text-danger" />
                             </div>
                         </div>
-
-
                     </div>
                     <div class="col-md-6">
                         <div class="row">
@@ -101,11 +99,9 @@
                                             <ErrorMessage name="qteBillet" />
                                         </div>
                                         <div class="col-md-4">
-
                                             <Field name="montant" id="montant" type="text" v-model="billetage.montant"
                                                 placeholder="Entrer le montant" disabled class="form-control" />
                                             <ErrorMessage name="montant" />
-
                                         </div>
                                     </div>
 
@@ -153,6 +149,7 @@ const tresorerieList = ref<Tresorerie[]>([])
 const monnaieList = ref([] as any[])
 const billetageList = reactive<Billetage[]>([])
 let montantTotal = ref(0)
+
 
 
 const caisses = computed(() => {
