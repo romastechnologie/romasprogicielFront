@@ -17,41 +17,79 @@
                   <td>{{ produit?.refProd }}</td>
                 </tr>
                 <tr>
-                  <td>Nom</td>
-                  <td>{{ produit?.nomProd }}</td>
-                </tr>
-                <tr>
-                  <td>Marque</td>
-                  <td>{{ produit?.marqProd }}</td>
-                </tr>
-                <tr>
-                  <td>Modele</td>
-                  <td>{{ produit?.modeleProd }}</td>
-                </tr>
-                <tr>
-                  <td>Description</td>
-                  <td>{{ produit?.descProd }}</td>
-                </tr>
-                <tr>
-                  <td>Code Qr</td>
-                  <td>{{ produit?.codeQR }}</td>
-                </tr>
-                <tr>
-                  <td>Code barre</td>
-                  <td>{{ produit?.codeBarre }}</td>
+                  <td>Mode Prix</td>
+                  <td>{{ produit?.modeDefPrix}}</td>
                 </tr>
                 <tr>
                   <td>Famille</td>
-                  <td>{{ produit?.famille.libelle }}</td>
+                  <td>{{ produit?.famille }}</td>
                 </tr>
                 <tr>
-                  <td>Seuil approvisionnement</td>
-                  <td>{{ produit?.seuilAppro }}</td>
+                  <td>Référence</td>
+                  <td>{{ produit?.refProd }}</td>
+                </tr>
+                <tr>
+                  <td>Nom du Produit</td>
+                  <td>{{ produit?.nomProd }}</td>
+                </tr>
+                <tr>
+                  <td>Magasin par Defaut</td>
+                  <td>{{ produit?.magasin }}</td>
+                </tr>
+                <tr>
+                  <td>Méthode de Gestion</td>
+                  <td>{{ produit?.methode }}</td>
+                </tr>
+                <tr>
+                  <td>Prix de Vente</td>
+                  <td>{{ produit?.prixVente }}</td>
+                </tr>
+                <tr>
+                  <td>Seuil d'approvisionnement</td>
+                  <td>{{ produit?.seuilAppro}}</td>
                 </tr>
                 <tr>
                   <td>Seuil alerte</td>
                   <td>{{ produit?.seuilAlerte }}</td>
                 </tr>
+                <tr>
+                  <td>Description</td>
+                  <td>{{ produit?.descProd }}</td>
+                </tr>
+                
+                <p>CONDITIONNEMENT DU PRODUIT</p>
+                
+                <tr>
+                  <td>CONDITIONNEMENT</td>
+                  <td>{{ conditionnement?.conditionnement }}</td>
+                </tr>
+
+                <tr>
+                <td>Quantité</td>
+                  <td>{{ conditionnement?.quantite }}</td>
+                </tr>
+
+                <tr>
+                <td>Prix Min</td>
+                  <td>{{ conditionnement?.prixMin }}</td>
+                </tr>
+
+                <tr>
+                <td>Prix Vente</td>
+                  <td>{{ conditionnement?.prixVente }}</td>
+                </tr>
+
+                <tr>
+                <td>Prix Max</td>
+                  <td>{{ conditionnement?.prixMax }}</td>
+                </tr>
+
+                
+                <tr>
+                <td>Image</td>
+                  <td>{{ image?.urlImage}}</td>
+                </tr>
+
               </tbody>
             </table>
           </div>

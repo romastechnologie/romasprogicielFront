@@ -148,7 +148,7 @@ export default defineComponent({
   setup(){
     
     onMounted(() => {
-      getAllProduits();
+      getAllProduit();
     });
 
     const produits = ref<Array<Produit>>([]);   
@@ -164,19 +164,19 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllProduits(page_, limit_);
+        getAllProduit(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllProduits(page.value, limit.value, searchTerm.value );
+      getAllProduit(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
-    function getAllProduits(page = 1, limi = 10, searchTerm = '') {
+    function getAllProduit(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`all/produits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           produits.value = data.data.data;
@@ -238,7 +238,7 @@ export default defineComponent({
 
     return { produits,
       checkPermission,
-     getAllProduits,
+     getAllProduit,
      deleteProduit,
      moddifier ,
      suppression,
