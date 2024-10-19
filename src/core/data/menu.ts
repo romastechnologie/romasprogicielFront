@@ -410,6 +410,17 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false
     },
+
+    {
+        title: "Echeances",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/echeances/liste-echeances",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
     {
         title: "Postes",
         icon: "stroke-learning",
@@ -598,6 +609,51 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+
+    {
+        title: "Ouverture/Fermeture de caisse",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/ouv_fers/ajouter-ouv_fer",
+                title: "Faire une ouverture de caisse ",
+                type: "link"
+            },
+            {
+                path: "/ouv_fers/liste-ouv_fer",
+                title: "Liste des ouvertures/fermetures",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Monnaie",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/monnaies/liste-monnaie",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
+    {
+        title: "User Compte",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/userComptes/liste-userCompte",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
 
     {
         title: "Finance",
@@ -922,51 +978,7 @@ export const menu: MenuItem[] = [
             },
         ]
     },
-    {
-        title: "Ouverture/Fermeture de caisse",
-        icon: "stroke-calendar",
-        icon1: "fill-calendar",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
-                path: "/ouv_fers/ajouter-ouv_fer",
-                title: "Faire une ouverture de caisse ",
-                type: "link"
-            },
-            {
-                path: "/ouv_fers/liste-ouv_fer",
-                title: "Liste des ouvertures/fermetures",
-                type: "link"
-            },
-        ]
-    },
-
-    {
-        title: "Monnaie",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/monnaies/liste-monnaie",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false
-    },
-
-    {
-        title: "User Compte",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/userComptes/liste-userCompte",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false
-    },
-
-
+   
     {
         headTitle1: "GesCom",
         headTitle2: "GesCom",
