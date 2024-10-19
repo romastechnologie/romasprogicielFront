@@ -329,6 +329,8 @@ import ListeCongeCalendrierPage from '@/pages/GestionPersonnel/Conge/ListeCongeC
 import ListeEquipePage from '@/pages/GesCom/Equipe/ListeEquipePage.vue';
 import EditEquipePage from '@/pages/GesCom/Equipe/EditEquipePage.vue';
 import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
+import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
+
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
@@ -2883,6 +2885,22 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des équipes',
         }
       },*/
+    ]
+  },
+
+  {
+    path: "/mouvements",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-mouvement",
+        name: "AddMouvement",
+        component: AddMouvementPage,
+        meta: {
+          title: 'Ajouter un mouvement',
+        }
+      },
+      
     ]
   },
   {

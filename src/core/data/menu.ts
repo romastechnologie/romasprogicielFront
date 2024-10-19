@@ -1230,6 +1230,7 @@ export const menu: MenuItem[] = [
                 title: "Ajouter une équipe",
                 type: "link"
             },
+            
            /* {
                 path: "/equipes/modifier-equipe",
                 title: "Modifier une équipe",
@@ -1242,6 +1243,35 @@ export const menu: MenuItem[] = [
             }*/
         ]
     },
+
+    {
+        title: "Mouvement",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+           
+            {
+                path: "/mouvements/ajouter-mouvement",
+                title: "Ajouter un mouvement",
+                type: "link"
+            },
+           /* {
+                path: "/equipes/modifier-equipe",
+                title: "Modifier une équipe",
+                type: "link"
+            },
+            {
+                path: "/equipes/liste-equipes",
+                title: "Liste des équipes",
+                type: "link"
+            }*/
+        ]
+    },
+
     {
         title: "Paramètres",
         icon: "stroke-learning",
