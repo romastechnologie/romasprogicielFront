@@ -260,6 +260,7 @@ import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/L
 import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue'
 import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue'
 import ListeFormatPage from "@/pages/GestionArchive/Format/ListeFormatPage.vue";
+import ListeMouvementPage from "@/pages/GestionArchive/Mouvement/ListeMouvementPage.vue";
 import ListeTagPage from "@/pages/GestionArchive/Tag/ListeTagPage.vue";
 import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplacementPage.vue";
 import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrganisationPage.vue";
@@ -330,6 +331,7 @@ import ListeEquipePage from '@/pages/GesCom/Equipe/ListeEquipePage.vue';
 import EditEquipePage from '@/pages/GesCom/Equipe/EditEquipePage.vue';
 import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
+import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
 
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
@@ -860,6 +862,28 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeFormatPage,
         meta: {
           title: 'Liste des formats',
+        }
+      },
+      {
+        path: "liste-mouvement",
+        name: "ListeMouvementPage",
+        component: ListeMouvementPage,
+        meta: {
+          title: 'Liste des mouvements',
+        }
+      }
+    ]
+  },
+  {
+    path: "/mouvements",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-mouvement",
+        name: "ListeMouvementPage",
+        component: ListeMouvementPage,
+        meta: {
+          title: 'Liste des mouvements',
         }
       }
     ]
@@ -2413,6 +2437,14 @@ const routes: Array<RouteRecordRaw> = [
         component: AddInventairePage,
         meta: {
           title: 'Ajouter un inventaire',
+        }
+      },
+      {
+        path: "miseajour-inventaire/:id",
+        name: "MiseAJourInventaire",
+        component: MiseAJourInventairePage,
+        meta: {
+          title: 'Mise à jour des inventaires',
         }
       },
       {

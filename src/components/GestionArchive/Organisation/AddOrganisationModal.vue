@@ -18,8 +18,7 @@
                   </label>
                   <Field name="typeorganisation" type="text" v-slot="{ field }">
                     <Multiselect v-model="field.value" v-bind="field" :options="typeOrganisationOptions"
-                      :preserve-search="true" :multiple="false" :searchable="true"
-                      @select="modificationOrganisation"
+                      :preserve-search="true" :multiple="false" :searchable="true" @select="modificationOrganisation"
                       placeholder="Sélectionner le type d'organisation" label="label" track-by="label" />
                   </Field>
                   <ErrorMessage name="typeorganisation" class="text-danger" />
@@ -27,13 +26,15 @@
               </div>
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black mb-10">
+                  <label v-if="etatOrganisation == false" class="d-block text-black mb-10">
                     Organiation <span class="text-danger">*</span>
+                  </label>
+                  <label v-else class="d-block text-black mb-10">
+                    Organiation
                   </label>
                   <Field name="organisation" type="text" v-slot="{ field }">
                     <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions"
-                      :preserve-search="true" :multiple="false" :searchable="true"
-                      :disabled="etatOrganisation"
+                      :preserve-search="true" :multiple="false" :searchable="true" :disabled="etatOrganisation"
                       placeholder="Sélectionner l'organisation" label="label" track-by="label" />
                   </Field>
                   <ErrorMessage name="organisation" class="text-danger" />
@@ -83,6 +84,7 @@ import { error, hideModal, success } from '@/utils/utils';
 import { Organisation } from '@/models/Organisation';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
+import axios from 'axios';
 
 export default {
   name: "AddOrganisationModal",
@@ -104,11 +106,12 @@ export default {
   setup: (props: any, { emit }: { emit: Function }) => {
 
     const loading = ref<boolean>(false);
+    const etatOrganisation = ref(true);
     const organisationSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       nom: Yup.string().required('Le nom est obligatoire'),
       organisation: Yup.string().required("L'organisation est obligatoire."),
-      typeorganisation: Yup.string().required("Le type d'organisation est obligatoire."),
+       typeorganisation: etatOrganisation.value == true ? Yup.string().notRequired() :  Yup.string().required("Le type d'organisation est obligatoire."),
 
     });
 
@@ -120,7 +123,7 @@ export default {
     const title = ref('Ajouter une organisation');
     const btntext = ref('Ajouter');
     const isupdate = ref(false);
-    const etatOrganisation = ref(true);
+    
     const router = useRouter();
     const typeOrganisationOptions = ref();
     const typeOrganisation = ref();
@@ -132,11 +135,7 @@ export default {
 
 
     onMounted(async () => {
-
       await getAllTypeOrganisations();
-      await getAllOrganisations("");
-
-
     });
 
     watch(() => props.id, (newValue) => {
@@ -173,28 +172,37 @@ export default {
     }
 
 
-    const getAllOrganisations = async (id:string = "") => {
+    const getAllOrganisations = async (id: string = "") => {
       try {
-        console.log('ZZZPPPPPPPPPPP ===> ',id);
-        const response = await ApiService.get(`/api/organisation/by/typeoragnisation${id? "/"+ id : "/"}`);
-        console.log("POPOPOPOPOPOPPOPOPO ===> ", response);
-        const organisationsData = response.data.data.data;
+        console.log('ZZZPPPPPPPPPPP ===> ', id);
+        const response = await axios.get(`/organisation/by/typeoragnisation${id ? "/" + id : "/"}`);
+        
+        const organisationsData = response.data.data;
+        console.log("POPOPOPOPOPOPPOPOPO ===> ", organisationsData);
         organisationOptions.value = organisationsData.map((organisation) => ({
           value: organisation.id,
           label: organisation.nom,
         }));
+        if(organisationsData.length > 0){
+          etatOrganisation.value = false;
+        }else{
+          etatOrganisation.value = true;
+        }
+
         return organisationOptions.value;
       }
       catch (error) {
         //error(response.data.message)
       }
     }
+    const lesTypesOrganisations = ref<Array<any>>([]);
 
     const getAllTypeOrganisations = async () => {
       try {
         const response = await ApiService.get('/all/typeOrganisations');
         const typeOrganisationsData = response.data.data.data;
         console.log('Data', typeOrganisationsData)
+        lesTypesOrganisations.value = typeOrganisationsData;
         typeOrganisationOptions.value = typeOrganisationsData.map((typeOrganisation) => ({
           value: typeOrganisation.id,
           label: typeOrganisation.libelle,
@@ -249,15 +257,22 @@ export default {
       btnTitle()
     };
 
-    const modificationOrganisation = async (value) =>{
+    const modificationOrganisation = async (value) => {
       console.log("La valeur de l'élément séléctionné est : ==> ", value);
-      await getAllOrganisations(value);
-      console.log("IIIIIIIIIIii  ==> ", organisationOptions.value);
+      const lesTypes = lesTypesOrganisations.value;
+      console.log("PPPPPPPPPPPPP ==> ", lesTypes);
+      const objetTrouv = (lesTypes).find(objet=>objet.id === value);
+      if(objetTrouv.typeOrganisation && objetTrouv.typeOrganisation != undefined){
+        const type = objetTrouv.typeOrganisation
+        await getAllOrganisations(type.id);
+      }else{
+        etatOrganisation.value = true;
+      }
     }
 
     return {
       modificationOrganisation,
-      organisations, title, btntext,etatOrganisation, resetValue, organisationSchema,
+      organisations, title, btntext, etatOrganisation, resetValue, organisationSchema,
       addOrganisation, organisationForm, addOrganisationModalRef, organisationnew, typeOrganisation, organisation, typeOrganisationOptions, organisationOptions,
       //refreshOrganisations
     };
