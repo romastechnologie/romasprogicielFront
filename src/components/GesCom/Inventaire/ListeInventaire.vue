@@ -98,10 +98,20 @@
                 {{ inventaire.dateFin }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-               
+                <div v-if="inventaire.inventaiprocondimags.length === 0 && inventaire.inventairePartielles.length === 0">
+                  Inventaire Global
+                </div>
+                <div v-else>
+                  Inventaire Partiel
+                </div>
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-               
+                <div v-if="inventaire.estCloturer === true">
+                  Cloturé
+                </div>
+                <div v-else>
+                  En cours
+                </div>
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -115,25 +125,24 @@
                     <li >
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);"
-                        data-bs-toggle="modal"
-                        data-bs-target="#AddInventaireModal"
-                        @click="moddifier(inventaire)"
-                      >
+                        href="javascript:void(0);">
                         <i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>
-                        Modifier
+                        Détail
                       </a>
+                    </li>
+                    <li >
+                       <router-link :to="{ name: 'MiseAJourInventaire', params: { id: inventaire.id } }" 
+                          class="dropdown-item d-flex align-items-center"><i
+                          class="flaticon-pen lh-1 me-8 position-relative top-1"
+                        ></i>Mise à Jour</router-link>
                     </li>
                     <li >
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(inventaire.id,inventaires,'inventaires','la inventaire')"
-                      >
-                        <i
-                          class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
-                        ></i>
+                        href="javascript:void(0);" @click="suppression(inventaire.id,inventaires,'inventaires','la inventaire')" >
+                        <i  class="fa fa-trash-o lh-1 me-8 position-relative top-1"  ></i>
                         Supprimer
                       </a>
                     </li>

@@ -1086,6 +1086,11 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
+                path: "/inventaires/miseajour-inventaire",
+                title: "Mise à jour des inventaires",
+                type: "link"
+            },
+            {
                 path: "/suivi-stock/liste-suivi-stock",
                 title: "Suivi du stock",
                 type: "link"
