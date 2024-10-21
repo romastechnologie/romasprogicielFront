@@ -64,6 +64,7 @@ import { Form, Field, ErrorMessage, configure } from "vee-validate";
 import * as Yup from "yup";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
+import { Tresorerie } from "@/models/Tresorerie";
 import ApiService from "@/services/ApiService";
 import Multiselect from "@vueform/multiselect";
 

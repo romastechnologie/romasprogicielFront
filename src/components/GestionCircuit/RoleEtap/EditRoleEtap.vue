@@ -88,11 +88,7 @@
       const roleetapForm = ref<RoleEtap>();
       const router = useRouter();
       const route = useRoute();
-  
-  
-  
-  
-     
+
   
       function getRoleEtap(id:number) {
         ApiService.get("/roleetaps/"+id.toString())

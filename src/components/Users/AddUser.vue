@@ -90,9 +90,17 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Rôle <span class="text-danger">*</span>
               </label>
-              <Multiselect v-model="roles" :options="roleOptions" :close-on-select="false" :preserve-search="true"
-                :clear-on-select="false" :multiple="true" :searchable="true" placeholder="Sélectionner le rôle"
-                label="label" track-by="label" />
+              <Multiselect 
+                v-model="roles" 
+                :options="roleOptions" 
+                :close-on-select="true" 
+                :preserve-search="true"
+                :clear-on-select="false" 
+                :multiple="true" 
+                :searchable="true" 
+                placeholder="Sélectionner le rôle"
+                label="label" 
+                track-by="label" />
               <span class="text-danger" v-if="showMErr">Le rôle est obligatoire</span>
             </div>
           </div>
@@ -241,12 +249,14 @@ export default defineComponent({
       return password
     }
     const showMErr = ref(false);
-    const roles = ref([])
+    const roles = ref([]);
+    let roles_ = ref([]);
     const personnelId = ref();
 
     const addUser = async (values: any, { resetForm }) => {
-      values['roles'] = roles.value.map(role => role.value)
-      values['personnel'] = personnelId.value.value;
+      console.log("Valeurs du formulaire: ", values);
+      values['roles'] = roles.value;
+      values['personnel'] = personnelId.value;
       if (roles.value.length === 0) {
         showMErr.value = true;
       }
@@ -273,6 +283,7 @@ export default defineComponent({
       try {
         const response = await axios.get('/roles');
         const rolesData = response.data.data;
+        roles_ = rolesData;
         roleOptions.value = rolesData.map((role: any) => ({
           value: role.id,
           label: `${role.nom}`
@@ -284,13 +295,16 @@ export default defineComponent({
 
     const getAllPersonnel = async () => {
       try {
-        const response = await ApiService.get('/personnels');
-        personnels.value = response.data;
-        personnelOptions.value = response.data.map((personnel: any) => ({
+
+        const response = await ApiService.get('/all/personnels');
+        //console.log("personnels reccuperer avec succes", response.data.data.data);
+        personnels.value = response.data.data.data;
+
+        personnelOptions.value = response.data.data.data.map((personnel: any) => ({
           value: personnel.id,
           label: `${personnel.nom + " " + personnel.prenom}`
         }));
-        console.log(response);
+        
       } catch (error) {
         console.error('Erreur lors de la recupération des personnels:', error);
         throw error;
@@ -298,8 +312,10 @@ export default defineComponent({
     }
 
     const selectPersonnel = (id: any) => {
-      console.log("L'id du personnel sélectionné: ", id)
-      const personnel = personnels.value.find(personnel => personnel.id == id.value)
+      console.log("L'id du personnel sélectionné: ", id);
+      const personnel = personnels.value.find(personnel => personnel.id == id);
+      console.log("Personnel sélectionné: ",  personnel );
+
       selectpersonnel.value.nom = personnel.nom;
       selectpersonnel.value.prenom = personnel.prenom;
       selectpersonnel.value.telephone = personnel.telephone;

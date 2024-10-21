@@ -64,8 +64,6 @@
                                 <ErrorMessage name="tresorerie" class="text-danger" />
                             </div>
                         </div>
-
-
                     </div>
                     <div class="col-md-6">
   <div class="row">
@@ -170,6 +168,7 @@ const tresorerieList = ref<Tresorerie[]>([])
 const monnaieList = ref([] as any[])
 const billetageList = reactive<Billetage[]>([])
 let montantTotal = ref(0)
+
 
 
 const caisses = computed(() => {

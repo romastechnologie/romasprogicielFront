@@ -36,6 +36,7 @@
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.2",
     "swiper": "^8.4.5",
+    "uuid": "^10.0.0",
     "v-onboarding": "^2.6.0",
     "v3-tour": "^3.1.2",
     "vee-validate": "^4.12.8",

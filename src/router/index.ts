@@ -196,6 +196,7 @@ import ListeOperationPage from "@/pages/GesCom/Operation/ListeOperationPage.vue"
 import ListeTypeComptePage from "@/pages/GesCom/TypeCompte/ListeTypeComptePage.vue";
 import AddPersonnelNewPage from "@/pages/GesCom/Personnel/AddPersonnelNewPage.vue";
 
+
 //Etats
 import EtatProduitsDisponibles from "@/pages/GesCom/Etats/EtatProduitsDisponibles.vue";
 import EtatProduitsRupturePage from "@/pages/GesCom/Etats/EtatProduitsRupturePage.vue";
@@ -259,6 +260,7 @@ import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/L
 import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue'
 import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue'
 import ListeFormatPage from "@/pages/GestionArchive/Format/ListeFormatPage.vue";
+import ListeMouvementPage from "@/pages/GestionArchive/Mouvement/ListeMouvementPage.vue";
 import ListeTagPage from "@/pages/GestionArchive/Tag/ListeTagPage.vue";
 import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplacementPage.vue";
 import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrganisationPage.vue";
@@ -325,6 +327,11 @@ import ListeDemandeCongePage from '@/pages/GestionPersonnel/Demandes/ListeDemand
 import ListeDemandeAttestationPage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAttestationPage.vue';
 import ViewDemandePage from '@/pages/GestionPersonnel/Demandes/ViewDemandePage.vue';
 import ListeCongeCalendrierPage from '@/pages/GestionPersonnel/Conge/ListeCongeCalendrierPage.vue';
+import ListeEquipePage from '@/pages/GesCom/Equipe/ListeEquipePage.vue';
+import EditEquipePage from '@/pages/GesCom/Equipe/EditEquipePage.vue';
+import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
+import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
+
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
@@ -854,6 +861,28 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeFormatPage,
         meta: {
           title: 'Liste des formats',
+        }
+      },
+      {
+        path: "liste-mouvement",
+        name: "ListeMouvementPage",
+        component: ListeMouvementPage,
+        meta: {
+          title: 'Liste des mouvements',
+        }
+      }
+    ]
+  },
+  {
+    path: "/mouvements",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-mouvement",
+        name: "ListeMouvementPage",
+        component: ListeMouvementPage,
+        meta: {
+          title: 'Liste des mouvements',
         }
       }
     ]
@@ -2846,6 +2875,55 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des comptes',
         }
       },
+    ]
+  },
+
+
+  {
+    path: "/equipes",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-equipe",
+        name: "AddEquipe",
+        component: AddEquipePage,
+        meta: {
+          title: 'Ajouter une équipe',
+        }
+      },
+      /*{
+        path: "modifier-equipe",
+        name: "EditEquipe",
+        component: EditEquipePage,
+        props: true,
+        meta: {
+          title: 'Modifier un équipe',
+        }
+      },
+      {
+        path: "liste-equipes",
+        name: "ListeEquipe",
+        component: ListeEquipePage,
+        meta: {
+          title: 'Liste des équipes',
+        }
+      },*/
+    ]
+  },
+
+  {
+    path: "/mouvements",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-mouvement",
+        name: "AddMouvement",
+        component: AddMouvementPage,
+        meta: {
+          title: 'Ajouter un mouvement',
+        }
+      },
+      
     ]
   },
   {

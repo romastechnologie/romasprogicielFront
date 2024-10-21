@@ -3,7 +3,7 @@
       <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
         <Form ref="missionForm" @submit="addMission" :validation-schema="missionSchema">
           <div class="row">
-             <!--div class="col-md-6">
+            <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Description <span class="text-danger">*</span>
@@ -46,7 +46,7 @@
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date fin"/>
                   <ErrorMessage name="dateFin" class="text-danger"/>
                 </div>
-              </div>-->
+              </div>
               <div class="col-md-12 mb-md-25">
                                       <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                                         <div class="row">

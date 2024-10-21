@@ -6,10 +6,10 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/personnelles/ajouter-personnel"
+          to="/depenses/ajouter-depense"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un personnel
+          Ajouter une dépense
         </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -26,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black"
-            placeholder="Rechercher un personnel"
+            placeholder="Rechercher une dépense"
           />
           <button
             type="submit"
@@ -47,42 +47,30 @@
       <div class="table-responsive">
         <table class="table text-nowrap align-middle mb-0">
           <thead>
-            <tr>
+            <tr>  
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Nom
+                Date
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Prenom
+                Type de mouvement
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Sexe
+                Montant
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Civilite
-              </th>
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Nom utilisaeur
-              </th>
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Tel
+                Bénéficiaire
               </th>
               <th
                 scope="col"
@@ -91,49 +79,48 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(personnel, index) in personnels" :key="index">
+            <tr v-for="(depense, index) in depenses" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ personnel.nom }}
+                {{ format_Date(depense.dateDepense) }}
+              </td>
+               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ depense.typeMouvement }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ personnel.prenom }}
+                {{ depense.montant }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ personnel.sexe }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ personnel.civilite }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ personnel.nomUtilisateur }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ personnel.tel }}
+                {{ depense.beneficiaire }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                  <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                    <li class="dropdown-item d-flex align-items-center">
-                      <!--<router-link :to="{ name: 'EditPersonnelPage', params: { id: personnel.id } }" 
+              <div class="dropdown">
+                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                  </span>
+                  <ul class="dropdown-menu">
+                    <li >
+                      <router-link :to="{ name: 'EditDepensePage', params: { id: depense.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>Modifier</router-link>-->
+                        ></i>Modifier</router-link>
                     </li>
-                    <li class="dropdown-item d-flex align-items-center">
-                        <!--<router-link :to="{ name: 'ViewPersonnelPage', params: { id: personnel.id } }" class="dropdown-item d-flex align-items-center">
+                    <li>
+                        <router-link :to="{ name: 'ViewDepensePage', params: { id: depense.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
-                        </router-link>-->
+                        </router-link>
                     </li>
-                    <li class="dropdown-item d-flex align-items-center">
+                    <li >
                       <a
-                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(personnel.id,personnels,'personnels',`l\'personnel ${personnel.id}`)">
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(depense.id,depenses,'depenses',`l\'depense ${depense.id}`)">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                          Supprimer
                       </a>
                     </li>
                   </ul>
+              </div>
               </td>
             </tr>
           </tbody>
@@ -151,25 +138,25 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { Personnel } from "@/models/Personnel";
+import { Depense } from "@/models/Depense";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListePersonnel",
+  name: "ListeDepense",
   components: {
     PaginationComponent
   },
   setup(){
     
     onMounted(() => {
-      getAllPersonnels();
+      getAllDepenses();
     });
 
-    const personnels = ref<Array<Personnel>>([]);   
-    const personnel = ref<Personnel>();
+    const depenses = ref<Array<Depense>>([]);   
+    const depense = ref<Depense>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -181,23 +168,22 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllPersonnels(page_, limit_);
+        getAllDepenses(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllPersonnels(page.value, limit.value, searchTerm.value );
+      getAllDepenses(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
-    function getAllPersonnels(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`all/personnels?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllDepenses(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`all/depenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          console.log(data.data.data);
-          personnels.value = data.data.data;
+          depenses.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -208,12 +194,12 @@ export default defineComponent({
       });
     }
     
-    function moddifier(Editpersonnels:Personnel) {
-      personnel.value = Editpersonnels;
+    function moddifier(Editdepenses:Depense) {
+      depense.value = Editdepenses;
     }
 
-    const deletePersonnel = (id: number) => {
-      ApiService.delete(`/personnels/${id}`)
+    const deleteDepense = (id: number) => {
+      ApiService.delete(`/depenses/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,
@@ -241,9 +227,9 @@ export default defineComponent({
         });
       });
 
-      for(let i = 0; i < personnels.value.length; i++) {
-        if (personnels.value[i].id === id) {
-          personnels.value.splice(i, 1);
+      for(let i = 0; i < depenses.value.length; i++) {
+        if (depenses.value[i].id === id) {
+          depenses.value.splice(i, 1);
         }
       }
     };
@@ -254,10 +240,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { personnels,
+    return { depenses,
       checkPermission,
-     getAllPersonnels,
-     deletePersonnel,
+     getAllDepenses,
+     deleteDepense,
      moddifier ,
      suppression,
      page, 
