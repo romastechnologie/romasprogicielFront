@@ -7,6 +7,7 @@
         :keep-values="valuess">
           <div class="row">
             <div class="col-md-4">
+              <h1></h1>
             </div>
           <div class="col-md-12 mb-md-25">
             <div class="row">
@@ -54,11 +55,6 @@
                       <div class="col-md-1">
                         <label
                           class="d-block text-black fw-semibold mb-10" :readOnly="true">Ecart Log
-                        </label>
-                      </div>
-                      <div class="col-md-1">
-                        <label class="d-block text-black fw-semibold mb-10">
-                          Action
                         </label>
                       </div>
                       <hr class="mt-0" />
@@ -359,7 +355,7 @@ watch(
     const magasinsss: any = ref(null);
     const produitsss: any = ref(null);
     const valuess = ref();
-
+    const magasinss = ref("");
     // const fetchMagasins = async () => {
     //   try {
     //     const response = await axios.get("all/magasins");
@@ -419,6 +415,7 @@ watch(
     function getAllInventaireById(id) {
         ApiService.get(`/inventaire/`+id)
           .then(({ data }) => {
+            magasinss.value = data.data.data.magasin.libelle
             data.data.data.inventaiprocondimags.forEach(produit => {
             produits.push({
               id: produit.id,
