@@ -162,3 +162,34 @@ const isDisable = ref(true);
           prenom: enfant.prenom,
           dateNaissance: enfant.dateNaissance,
         }));
+
+
+        <div class="col-md-4 mb-3"> 
+  <label for="duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
+  <div class="input-group">
+    <input name="dureeCircuit" id="duree" class="form-control" type="text" placeholder="Entrez la durée">
+    <select name="uniteDuree" class="form-select form-control" style="width: 20px !important;">
+      <option value="...">...</option>
+      <option value="Jour(s)">Jour(s)</option>
+      <option value="Mois">Mois</option>
+      <option value="Annees">Années</option>
+    </select>
+    <span class="invalid-feedback"></span>
+  </div>
+</div>
+
+<div class="col-md-4 mb-3"> 
+  <label for="distance" class="form-label">Distance parcourue <span class="text-danger">*</span></label>
+  <div class="input-group">
+    <input name="distanceParcourue" id="distance" class="form-control" type="text" placeholder="Entrez la distance">
+    <select name="uniteDistance" class="form-select form-control" style="width: 20px !important;">
+      <option value="...">...</option>
+      <option value="Kilomètres">Kilomètres</option>
+      <option value="Miles">Miles</option>
+    </select>
+    <span class="invalid-feedback"></span>
+  </div>
+</div>
+
+v-model="circuit.Duree"
+v-model="circuit.typeDuree"
