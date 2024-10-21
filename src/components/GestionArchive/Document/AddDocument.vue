@@ -80,11 +80,11 @@
 
           <div class="col-md-4 mt-3">
             <label for="fichier" class="form-label">Fichier<span class="text-danger">*</span></label>
-            <Field name="fichier" class="form-control" type="file" />
+            <Field name="fichier" @change="fichierChange" class="form-control" type="file" />
             <ErrorMessage name="fichier" class="text-danger" />
           </div>
           <div class="col-md-4 mt-3">
-            <label for="dateFinConservation" class="form-label">Date de fin de conservation<span
+            <label for="dateFinConservation" class="form-label">Date debut conservation<span
                 class="text-danger">*</span></label>
             <Field name="dateFinConservation" class="form-control" type="date" />
             <ErrorMessage name="dateFinConservation" class="text-danger" />
@@ -105,7 +105,7 @@
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Organisation<span class="text-danger">*</span>
+                Organisation de production<span class="text-danger">*</span>
               </label>
               <Field name="organisation" v-model="organisations" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions" :preserve-search="true"
@@ -118,14 +118,14 @@
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Format <span class="text-danger">*</span>
+                Emplacement<span class="text-danger">*</span>
               </label>
-              <Field name="formatDoc" v-model="formats" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="formatOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le format" label="label"
+              <Field name="emplacement" v-model="emplacement" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="emplacementOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner un emplacement" label="label"
                   track-by="label" />
               </Field>
-              <ErrorMessage name="formatDoc" class="text-danger" />
+              <ErrorMessage name="emplacement" class="text-danger" />
             </div>
           </div>
           <div class="col-12">
@@ -157,13 +157,14 @@
                                   {{ regle.typeDocument.nom }}
                                 </td>
                                 <td class="text-center">
-                                  {{ regle.dureeConservation + " " + regle.typeDuree }}
+                                  {{ regle.regleConservation?.dureeConservation + " " +
+                                    regle.regleConservation?.typeDuree }}
                                 </td>
                                 <td class="text-center">
                                   {{ regle.dateFinConservation }}
                                 </td>
                                 <td class="text-center">
-                                  {{ regle.SortFinal }}
+                                  {{ regle.regleConservation?.SortFinal }}
                                 </td>
                               </tr>
                             </tbody>
@@ -198,7 +199,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
 import { Document } from '@/models/Document';
-import { error, success,ajouterPeriode } from '@/utils/utils';
+import { error, success, ajouterPeriode, onFileChange } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import axios from 'axios';
@@ -221,20 +222,13 @@ export default defineComponent({
       dateConservation: Yup.string().required("La date est obligatoire."),
       fichier: Yup.string().required("Le fichier est obligatoire."),
       organisation: Yup.string().required("L'organisation est obligatoire."),
-      formatDoc: Yup.string().required("Le format est obligatoire."),
       tagDoc: Yup.string().required("Le tag est obligatoire."),
+      emplacement: Yup.string().required("L'emplacement est obligatoire."),
       categorie: Yup.string().required("Le tag est obligatoire."),
       typeDoc: Yup.string().required("Le type est obligatoire."),
     });
 
-    onMounted(async () => {
-      await getAllTypeDocument();
-      await getAllFormats();
-      await getAllTags();
-      await getAllOrganisations();
-      await getAllCategorie();
-      await getCurrentDate();
-    });
+
 
     const documentForm = ref(null);
     const tagOptions = ref();
@@ -243,22 +237,38 @@ export default defineComponent({
     const organisations = ref();
     const reglesConservations = ref<Array<any>>([])
     const tag = ref();
+    const selectedFile = ref<any>();
     const typeDoc = ref();
     const formats = ref();
     const categorie = ref();
     const dateConservation = ref();
-    const lesRegles =ref<Array<number>>([]);
+    const lesRegles = ref<Array<number>>([]);
+    const emplacementOptions = ref<Array<any>>()
+    const emplacement = ref()
     //const showMErr = ref(false);
     //const permissions = ref(null);
     const typeOptions = ref([]);
     const router = useRouter();
     // const permissions= ref<Array<Permission>>([]);
-   
+
+    const fichierChange = (e) => {
+      selectedFile.value = onFileChange(e, ['image/jpeg', 'image/png', 'application/pdf']);
+    }
+
     const addDocument = async (values, { resetForm }) => {
       values["regles"] = lesRegles.value;
-      console.log('je recupère', values)
+      let formData = new FormData();
+      for (let i in values) {
+        if (i != 'urlImage' && (values[i] !== undefined))
+          formData.append(i, values[i]);
+      }
+      formData.append('folderName', 'abonnes');
 
-      axios.post("/documents", values,{ headers: { 'Content-Type': 'multipart/form-data','Accept': '*/*' } })
+      if (selectedFile.value) {
+        formData.append('urlImage', selectedFile.value);
+      }
+
+      axios.post("/documents", formData, { headers: { 'Content-Type': 'multipart/form-data', 'Accept': '*/*' } })
         .then(({ data }) => {
           if (data.code == 201) {
             success(data.message)
@@ -271,16 +281,20 @@ export default defineComponent({
     }
 
     const getAllTypeDocument = async () => {
+      console.log("Je suis dedans ")
       try {
-        const response = await ApiService.get('/all/typedocuments');
-        const typesData = response.data.data.data;
+        console.log("Je suis dedans OPOPOPOPOPO ")
+        const response = await axios.get('all/typedocuments');
         console.log("EEEEEEEEEEE ===> ", response);
+        const typesData = response.data.data.data;
+
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
           label: type.nom,
         }));
       }
       catch (error) {
+        console.log("Erreur ", error)
         //error(response.data.message)
       }
     }
@@ -295,7 +309,7 @@ export default defineComponent({
 
     const getAllOrganisations = async () => {
       try {
-        const response = await ApiService.get('/all/organisations');
+        const response = await axios.get('/all/organisations');
         const organisationsData = response.data.data.data;
         console.log("RESPONSE ORGANISATION ===> ", response);
         organisationOptions.value = organisationsData.map((organisations) => ({
@@ -310,7 +324,7 @@ export default defineComponent({
 
     const getAllFormats = async () => {
       try {
-        const response = await ApiService.get('/formats');
+        const response = await axios.get('/formats');
         const formatsData = response.data.data.data;
         console.log("RESPONSE FORMAT ===> ", response)
         formatOptions.value = formatsData.map((formats) => ({
@@ -322,10 +336,24 @@ export default defineComponent({
         //error(response.data.message)
       }
     }
+    const getEmplacements = async () => {
+      try {
+        const response = await axios.get('/emplacements');
+        const emplacementDatas = response.data.data.data;
+        console.log("RESPONSE EMPLACEMENT ===> ", response)
+        emplacementOptions.value = emplacementDatas.map((empl) => ({
+          value: empl.id,
+          label: empl.libelle,
+        }));
+      }
+      catch (error) {
+        //error(response.data.message)
+      }
+    }
     const categoriesOptions = ref<Array<any>>([]);
     const getAllCategorie = async () => {
       try {
-        const response = await ApiService.get('/all/categorieDocuments');
+        const response = await axios.get('/all/categorieDocuments');
 
         const formatsData = response.data.data.data;
 
@@ -349,15 +377,18 @@ export default defineComponent({
       if (type && categoriee) {
         try {
           const response = await axios.get(`/getAllRegleByTypeOrCategorie?categorie=${categoriee}&type=${type}`);
+          console.log("EERRRR ==> ", response)
           const formatsData = response.data.data;
+
+          console.log("formatsData ==> ", formatsData)
           success(`Ces informations ont permis de trouvé ${formatsData.length} règle(s) de conservation de ce document`)
-          for(let r of formatsData){
+          for (let r of formatsData) {
             lesRegles.value.push(r.id);
           }
-          reglesConservations.value = formatsData.map((regles)=>{
+          reglesConservations.value = formatsData.map((regles) => {
             return {
               ...regles,
-              dateFinConservation: ajouterPeriode(date.toLowerCase(),regles.dureeConservation, regles.typeDuree),
+              dateFinConservation: ajouterPeriode(date.toLowerCase(), regles.regleConservation?.dureeConservation, regles.regleConservation?.typeDuree),
             }
           });
         }
@@ -382,7 +413,7 @@ export default defineComponent({
         //error(response.data.message)
       }
     }
-   
+
     watch(categorie, async (newVal, oldVal) => {
       categorie.value = newVal;
       await getAllRegleByTypeOrCategorie();
@@ -393,8 +424,15 @@ export default defineComponent({
       dateConservation.value = newVal;
       await getAllRegleByTypeOrCategorie();
     })
-    
-    return { documentSchema, categorie, dateConservation, getCurrentDate, categoriesOptions, organisations, getAllRegleByTypeOrCategorie, typeDoc, formats, reglesConservations, addDocument, documentForm, typeOptions, formatOptions, organisationOptions, tagOptions };
+    onMounted(async () => {
+      await getAllTypeDocument();
+      await getAllTags();
+      await getAllOrganisations();
+      await getAllCategorie();
+      await getCurrentDate();
+      await getEmplacements();
+    });
+    return { documentSchema, emplacementOptions, emplacement, onFileChange, fichierChange, categorie, dateConservation, getCurrentDate, categoriesOptions, organisations, getAllRegleByTypeOrCategorie, typeDoc, formats, reglesConservations, addDocument, documentForm, typeOptions, formatOptions, organisationOptions, tagOptions };
   },
 });
 </script>

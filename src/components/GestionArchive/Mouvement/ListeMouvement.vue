@@ -8,11 +8,11 @@
             class="btn btn-primary"
             href="#"
             data-bs-toggle="modal"
-            data-bs-target="#AddOrganisationModal"
+            data-bs-target="#AddMouvementModal"
           >
           <i class="fa fa-plus-circle"></i>
             <!-- <i class="fa fa-plus-circle"></i> -->
-            Ajouter une organisation
+            Ajouter un mouvement
           </a>
           <!-- <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -29,7 +29,7 @@
               v-model="searchTerm"
               @keyup="rechercher"
               class="form-control shadow-none text-black"
-              placeholder="Rechercher une organisation"
+              placeholder="Rechercher un mouvement"
             />
             <button
               type="submit"
@@ -57,17 +57,14 @@
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type organisation
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Libelle
                   
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Nom
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >DATE DE CREATION
                   
-                </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Organisation 
                 </th>
                 <th
                   scope="col"
@@ -76,33 +73,29 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(organisation, index) in organisations" :key="index">
+              <tr v-for="(mouvement, index) in mouvements" :key="index">
                 <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ organisation.code }}
+                  {{ mouvement.code }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ organisation.typeorganisation.libelle}}
+                  {{ mouvement.libelle }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ organisation.nom}}
+                  {{ format_date(mouvement.createdAt)  }}
                 </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ organisation.organisation?.nom}}
-                </td>
-                
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"
                 >
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                   <li class="dropdown-item d-flex align-items-center">
-                    <a  href="javascript:void(0);" @click="moddifier(organisation)">
+                    <a  href="javascript:void(0);" @click="moddifier(mouvement)">
                     <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </a>
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                        @click="suppression(organisation.id,organisations,'organisations',`l'organisation ${organisation.nom}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                        @click="suppression(mouvement.id,mouvements,'mouvements',`le mouvement ${mouvement.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                          Supprimer
                     </a>
                   </li>
@@ -118,39 +111,37 @@
         </div>
       </div>
     </div>
-    <AddOrganisationModal
-      @get-all-organisations="getAllOrganisations"
-      :id="idorganisation"
+    <AddMouvementModal
+      @get-all-mouvements="getAllMouvements"
+      :id="idmouvement"
       @openmodal="showModalEdite"
       @close="recharger"
-      @refreshOrganisations="refreshOrganisations"
+      @refreshMouvements="refreshMouvements"
     />
   </template>
   <script lang="ts">
   import { defineComponent, onMounted, ref  } from "vue";
-  import AddOrganisationModal from "./AddOrganisationModal.vue";
+  import AddMouvementModal from "./AddMouvementModal.vue";
   import ApiService from "@/services/ApiService";
   import { format_date, showModal, suppression, error, } from "@/utils/utils";
   import { useRouter } from "vue-router";
-  import { Organisation } from "@/models/Organisation";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeOrganisation",
+    name: "ListeMouvement",
     components: {
-      AddOrganisationModal,
+      AddMouvementModal,
       PaginationComponent
     },
     setup: () => {
   
       onMounted(() => {
-        getAllOrganisations();
+        getAllMouvements();
       });
   
-      const organisations = ref<Array<any>>([]);
-      const idorganisation = ref(0);
-      // const organisation = ref<Organisation>();
+      const mouvements = ref<Array<any>>([]);
+      const idmouvement = ref(0);
       const loading = ref<boolean>(false);
       const router = useRouter();
   
@@ -164,35 +155,34 @@
       const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
         try {
           page.value = page_;
-          getAllOrganisations(page_, limit_);
+          getAllMouvements(page_, limit_);
         } catch (error) {
           //
         }
       };
   
        function rechercher(){
-        getAllOrganisations(page.value, limit.value, searchTerm.value );
+        getAllMouvements(page.value, limit.value, searchTerm.value );
       }
   
       const recharger = () => {
-        getAllOrganisations();
+        getAllMouvements();
       };
       // END PAGINATE
   
       onMounted(() => {
         loading.value=false;
-        getAllOrganisations()
+        getAllMouvements()
       });
   
-      const refreshOrganisations = () => {
-          getAllOrganisations();
+      const refreshMouvements = () => {
+          getAllMouvements();
       };
   
-      const getAllOrganisations = (page = 1, limi = 10, searchTerm = '')=> {
-        return ApiService.get(`/all/organisations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      function getAllMouvements(page = 1, limi = 10, searchTerm = '') {
+        return ApiService.get(`/mouvements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            organisations.value = data.data.data;
-            console.log("organisations.value ===> ", organisations.value)
+            mouvements.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -203,27 +193,27 @@
         });
       }
       
-      function moddifier(Editorganisation:Organisation) {
-        idorganisation.value = Editorganisation.id;
+      function moddifier(Editmouvement:any) {
+        idmouvement.value = Editmouvement.id;
       }
   
       function showModalEdite(model:any){
         showModal(model);
-        idorganisation.value=0;
+        idmouvement.value=0;
       }
   
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
   
-      const checkOrganisation = (name:string) => {
+      const checkMouvement = (name:string) => {
         return privileges.value.includes(name);
       }
   
       return {suppression,
-        checkOrganisation,
-       organisations,
-        format_date,
-        getAllOrganisations,
-        idorganisation,
+        checkMouvement,
+       mouvements,
+       format_date,
+        getAllMouvements,
+        idmouvement,
         moddifier,
         showModalEdite,
         page, 
@@ -234,7 +224,7 @@
         searchTerm,
         rechercher,
         recharger,
-        refreshOrganisations,
+        refreshMouvements,
        };
     },
   

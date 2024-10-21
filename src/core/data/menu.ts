@@ -679,7 +679,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion des Archives",
-        headTitle2: "Document, Format, Tag, Emplacement,Organisation,TypeOrganisation,CategorieDocument,TypeDocument,TypeEmplacement,RegleConservation",
+        headTitle2: "Document, Format,Mouvement, Tag, Emplacement,Organisation,TypeOrganisation,CategorieDocument,TypeDocument,TypeEmplacement,RegleConservation",
         type: "headtitle"
     },
     {
@@ -710,6 +710,16 @@ export const menu: MenuItem[] = [
         icon1: "fill-learning",
         type: "link",
         path: "/formats/liste-format",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Mouvement",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/mouvements/liste-mouvement",
         badgeType: "light-primary",
         active: false,
         isPinned: false

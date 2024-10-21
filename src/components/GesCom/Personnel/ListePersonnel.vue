@@ -116,15 +116,15 @@
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                   <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                     <li class="dropdown-item d-flex align-items-center">
-                      <router-link :to="{ name: 'EditPersonnelPage', params: { id: personnel.id } }" 
+                      <!--<router-link :to="{ name: 'EditPersonnelPage', params: { id: personnel.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>Modifier</router-link>
+                        ></i>Modifier</router-link>-->
                     </li>
                     <li class="dropdown-item d-flex align-items-center">
-                        <router-link :to="{ name: 'ViewPersonnelPage', params: { id: personnel.id } }" class="dropdown-item d-flex align-items-center">
+                        <!--<router-link :to="{ name: 'ViewPersonnelPage', params: { id: personnel.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
-                        </router-link>
+                        </router-link>-->
                     </li>
                     <li class="dropdown-item d-flex align-items-center">
                       <a
@@ -196,6 +196,7 @@ export default defineComponent({
     function getAllPersonnels(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`all/personnels?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log(data.data.data);
           personnels.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;

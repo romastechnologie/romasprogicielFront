@@ -22,8 +22,8 @@
                 Mode prix <span class="text-danger">*</span>
               </label>
               <Field name="modeDefPrix" v-model="modeDefPrix" v-slot="{ field }">
-                <Multiselect :options="['HT(Hors Taxes)','TTC(Toutes Taxes Comprises)']" :searchable="true"
-                  :disabled="(modeDefPrix=='HT(Hors Taxes)')? true : false" track-by="label" label="label"
+                <Multiselect :options="['HT(Hors Taxes)', 'TTC(Toutes Taxes Comprises)']" :searchable="true"
+                  :disabled="(modeDefPrix == 'HT(Hors Taxes)') ? true : false" track-by="label" label="label"
                   v-model="field.value" v-bind="field" placeholder="Choisir le mode de prix" />
               </Field>
               <ErrorMessage name="modeDefPrix" class="text-danger" />
@@ -101,7 +101,7 @@
                 Méthode de gestion<span class="text-danger">*</span>
               </label>
               <Field name="methode" v-slot="{ field }">
-                <Multiselect :options="['Mt1','Mt2']" :searchable="true" track-by="label" label="label"
+                <Multiselect :options="['Mt1', 'Mt2']" :searchable="true" track-by="label" label="label"
                   v-model="field.value" v-bind="field" placeholder="Sélectionner la methode" />
               </Field>
               <ErrorMessage name="methode" class="text-danger" />
@@ -187,6 +187,29 @@
               <ErrorMessage name="couleur" class="text-danger" />
             </div>
           </div>
+          <div class="col-8">
+  <div class="form-group mb-2 mb-sm-2 mb-md-2">
+    <label class="d-block text-black fw-semibold mb-1">
+      Magasins du produit <span class="text-danger">*</span>
+    </label>
+    <Field name="magasinTout" v-slot="{ field }">
+      <Multiselect 
+        :options="magasinOptions"
+        :multiple="true"
+        mode="tags"
+        :taggable="true"
+        :searchable="true"
+        track-by="value"
+        label="label"
+        v-model="field.value" 
+        v-bind="field"
+        placeholder="Sélectionner le magasin" 
+      />
+    </Field>
+    <ErrorMessage name="magasinTout" class="text-danger" />
+  </div>
+</div>
+
           <div class="col-md-2">
             <div class="form-group mb-2 mb-sm-2 mb-md-2">
             </div>
@@ -283,8 +306,8 @@
                             <Multiselect :options="conditionnementOptions" :searchable="true" track-by="label"
                               label="label" v-model="conditionnement.conditionnement"
                               placeholder="Sélectionner le conditionnement" @select="
-                                        selectConditionnement(conditionnement.conditionnement, conditionnement)
-                                      " />
+                                selectConditionnement(conditionnement.conditionnement, conditionnement)
+                                " />
                             <div class="invalid-feedback" v-if="valideteRowProduit(conditionnement.conditionnement)">
                               Le conditionnement est obligatoire.
                             </div>
@@ -292,11 +315,10 @@
                         </div>
                         <div class="col-md-2">
                           <div class="form-group mb-2 mb-sm-2 mb-md-2">
-                            <input type="number" v-model="conditionnement.quantite" :readonly="true" :class="
-                                        valideteRowProduit(conditionnement.quantite)
-                                          ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                          : 'form-control shadow-none fs-md-15 text-black '
-                                      " placeholder="Entrer la quantité" />
+                            <input type="number" v-model="conditionnement.quantite" :readonly="true" :class="valideteRowProduit(conditionnement.quantite)
+                              ? 'form-control shadow-none fs-md-15 text-black is-invalid '
+                              : 'form-control shadow-none fs-md-15 text-black '
+                              " placeholder="Entrer la quantité" />
                             <div v-if="valideteRowProduit(conditionnement.quantite)" class="invalid-feedback">
                               La quantité est obligatoire.
                             </div>
@@ -306,21 +328,14 @@
                           <div class="form-group mb-2 mb-sm-2 mb-md-2">
                             <input v-model="conditionnement.prixMin" type="number"
                               class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prix" />
-                            <!-- <div
-                                      v-if="valideteRowProduit(conditionnement.prixMin)"
-                                      class="invalid-feedback"
-                                    >
-                                      Le prix min est obligatoire.
-                                    </div>-->
                           </div>
                         </div>
                         <div class="col-md-2">
                           <div class="form-group mb-2 mb-sm-2 mb-md-2">
-                            <input v-model="conditionnement.prixVente" type="number" :class="
-                                        valideteRowProduit(conditionnement.prixVente)
-                                          ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                          : 'form-control shadow-none fs-md-15 text-black '
-                                      " placeholder="Entrer le prix" />
+                            <input v-model="conditionnement.prixVente" type="number" :class="valideteRowProduit(conditionnement.prixVente)
+                              ? 'form-control shadow-none fs-md-15 text-black is-invalid '
+                              : 'form-control shadow-none fs-md-15 text-black '
+                              " placeholder="Entrer le prix" />
                             <div v-if="valideteRowProduit(conditionnement.prixVente)" class="invalid-feedback">
                               Le prix de vente est obligatoire.
                             </div>
@@ -330,12 +345,6 @@
                           <div class="form-group mb-2 mb-sm-2 mb-md-2">
                             <input type="number" class="form-control shadow-none fs-md-15 text-black"
                               placeholder="Entrer le prix max" v-model="conditionnement.prixMax" />
-                            <!----<div
-                                      v-if="valideteRowProduit(conditionnement.prixMax)"
-                                      class="invalid-feedback"
-                                    >
-                                      Le prix max est obligatoire
-                                    </div>-->
                           </div>
                         </div>
                         <div class="col-md-1">
@@ -455,6 +464,7 @@ export default defineComponent({
       nomProd: Yup.string().required("Le nom est obligatoire"),
       descProd: Yup.string().notRequired(),
       famille: Yup.string().required("La famille est obligatoire"),
+      magasinTout:Yup.array(),
       //estService: Yup.boolean().notRequired(),
       //estModeCarreau: Yup.boolean().notRequired(),
       magasin: Yup.string().when([], (value, schema) => {
@@ -507,8 +517,8 @@ export default defineComponent({
     const modeDefPrixOptions = ref([]);
     const magasinOptions = ref([]);
     const methodeOptions = ref([]);
-    const estService= ref(false)
-    const estModeCarreau= ref(false)
+    const estService = ref(false)
+    const estModeCarreau = ref(false)
 
     watch(estService, () => {
       console.log('estservice', estService.value)
@@ -583,12 +593,12 @@ export default defineComponent({
     // };
 
     const modeDefPrix = ref("");
-    const selectGroupe =(value)=>{
-      console.log(value,"valuevaluevaluevalue");
-      if(parseInt(value.split("|")[1]) > 0) {
-        modeDefPrix.value ="TTC(Toutes Taxes Comprises)";
+    const selectGroupe = (value) => {
+      console.log(value, "valuevaluevaluevalue");
+      if (parseInt(value.split("|")[1]) > 0) {
+        modeDefPrix.value = "TTC(Toutes Taxes Comprises)";
       } else {
-        modeDefPrix.value ="HT(Hors Taxes)";
+        modeDefPrix.value = "HT(Hors Taxes)";
       }
     }
 
@@ -733,8 +743,20 @@ export default defineComponent({
       fetchMagasin();
       fetchGroupTaxe();
     });
+    const selectedCities1 = ref([]);
+    const selectedCities2 = ref([]);
+    const cities = ref([
+      { name: 'New York', code: 'NY' },
+      { name: 'Rome', code: 'RM' },
+      { name: 'London', code: 'LDN' },
+      { name: 'Istanbul', code: 'IST' },
+      { name: 'Paris', code: 'PRS' }
+    ]);
 
     return {
+      selectedCities1,
+      selectedCities2,
+      cities,
       produitSchema,
       addProduit,
       produitForm,
@@ -772,18 +794,23 @@ export default defineComponent({
 .cursor-not-allowed {
   cursor: not-allowed;
 }
+
 .cursor-not-allowed {
   cursor: not-allowed;
 }
+
 .marge-droite {
   margin-left: 15px;
 }
+
 .hr-longeur {
   width: 80%;
 }
+
 .bord1 {
   border: 1px solid #07a;
 }
+
 .fond {
   background-color: rgb(94, 191, 233);
 }
