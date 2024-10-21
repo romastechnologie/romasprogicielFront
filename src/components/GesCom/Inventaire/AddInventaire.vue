@@ -4,8 +4,7 @@
       <Form
         @submit="addInventaire"
         :validation-schema="inventaireSchema"
-        :keep-values="valuess"
-      >
+        :keep-values="valuess">
           <div class="row">
             <div class="col-md-4">
                 <div class="form-group mb-3">
@@ -58,8 +57,9 @@
                   :searchable="true"
                   track-by="label"
                   label="label"
+                  v-model="magasin"
                   placeholder="Sélectionner le magasin"
-                  @select="selectMag(magasin.magasin, magasin)"
+                  @select="selectMag(magasin)"
                 />
               </div>
             </div>
@@ -98,7 +98,7 @@
                         <div class="d-flex float-end">
                           <button
                             class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                            type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
+                            type="button" :class="{ 'cursor-not-allowed': isDisables }" :disabled="isDisables"
                             @click="addRowEquipe()">
                             <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
                             Ajouter une equipe
@@ -109,17 +109,13 @@
                     </div>
                     <div>
                       <div class="row d-flex align-items-center justify-content-between mt-10">
-                        <div class="col-md-3">
+                        <!-- <div class="col-md-3">
                           <label class="d-block text-black fw-semibold">
                             Nom Complet
                             <span class="text-danger">*</span>
                           </label>
-                        </div>
-                        <div class="col-md-3">
-                          <label class="d-block text-black fw-semibold mb-10">
-                            Role<span class="text-danger">*</span>
-                          </label>
-                        </div>
+                        </div> -->
+                        
                         <div class="col-md-3">
                     <div class="form-group mb-15 mb-sm-20 mb-md-25">
                       <label class="d-block text-black fw-semibold mb-10">
@@ -127,6 +123,11 @@
                       </label>  
                       </div>
                     </div>
+                    <div class="col-md-3">
+                          <label class="d-block text-black fw-semibold mb-10">
+                            Role<span class="text-danger">*</span>
+                          </label>
+                        </div>
                         <div class="col-md-3">
                           <label class="d-block text-black fw-semibold mb-10">
                             Actions
@@ -135,7 +136,7 @@
                       </div>
                       <hr class="mt-0" />
                       <div class="row" v-for="(equipe, index) in equipes" :key="index">
-                        <div class="col-md-3 mb-2">
+                        <!-- <div class="col-md-3 mb-2">
                           <div class="form-group ">
                             <input v-model="equipe.nomComplet" type="text" class="form-control shadow-none fs-md-15 text-black"
                               placeholder="Saisir le nomComplet" />
@@ -143,26 +144,10 @@
                               Le nomComplet est obligatoire.
                             </div>
                           </div>
-                        </div>
-                        
-                        <div class="col-md-3 mb-2">
+                        </div> -->
+                        <div class="col-md-4 mb-2">
                           <div class="form-group ">
                           <Multiselect 
-                          
-                          :close-on-select="false"
-                          :options="roleOptions" 
-                          :searchable="true" 
-                          :multiple="false"
-                          v-model="equipe.role"
-                          placeholder="Choisir le role"/>
-                        <span class="invalid-feedback" v-if="valideteRowEquipe(equipe.role)"></span>
-                          </div>
-                        </div>
-                        <div class="col-md-3 mb-2">
-                          <div class="form-group ">
-                          <Multiselect 
-                          
-                          :close-on-select="false"
                           :options="personnelOptions" 
                           :searchable="true" 
                           :multiple="false"
@@ -171,7 +156,17 @@
                         <span class="invalid-feedback" v-if="valideteRowEquipe(equipe.personnel)"></span>
                           </div>
                         </div>
-                        
+                        <div class="col-md-3 mb-2">
+                          <div class="form-group ">
+                            <Multiselect 
+                            :options="roleOptions" 
+                            :searchable="true" 
+                            :multiple="false"
+                            v-model="equipe.role"
+                            placeholder="Choisir le role"/>
+                            <span class="invalid-feedback" v-if="valideteRowEquipe(equipe.role)"></span>
+                          </div>
+                        </div>
                         <div class="col-md-3 mb-2">
                             <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
                             @click="removeRowEquipe(index)">
@@ -243,7 +238,7 @@
                                     :disabled="isDisable"
                                     @click="addRowProduit()">
                                     <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i
-                                    >Ajouter un magasin
+                                    >Ajouter un produit
                                   </button>
                                 </div>
                               </div>
@@ -261,26 +256,26 @@
                                   </div>
                                   <div class="col-md-2">
                                     <label class="d-block text-black fw-semibold mb-10" >
-                                      Stock Logique<span class="text-danger">*</span>
+                                      Stock Logique
                                     </label>
                                   </div>
                                   <div class="col-md-2">
                                     <label  class="d-block text-black fw-semibold mb-10" >
-                                      Stock Fiche<span class="text-danger">*</span>
+                                      Stock Fiche
                                     </label>
                                   </div>
                                   <div class="col-md-2">
-                                    <label  class="d-block text-black fw-semibold mb-10">Stock Mag<span class="text-danger">*</span>
+                                    <label  class="d-block text-black fw-semibold mb-10">Stock Mag
                                     </label>
                                   </div>
                                   <div class="col-md-1">
                                     <label
-                                      class="d-block text-black fw-semibold mb-10" :readOnly="true">Ecart Reel<span class="text-danger">*</span>
+                                      class="d-block text-black fw-semibold mb-10" :readOnly="true">Ecart Reel
                                     </label>
                                   </div>
                                   <div class="col-md-1">
                                     <label
-                                      class="d-block text-black fw-semibold mb-10" :readOnly="true">Ecart Log<span class="text-danger">*</span>
+                                      class="d-block text-black fw-semibold mb-10" :readOnly="true">Ecart Log
                                     </label>
                                   </div>
                                   <div class="col-md-1">
@@ -291,19 +286,18 @@
                                   <hr class="mt-0" />
                                 </div>
                                 <div
-                                  class="row" v-for="(produit, produitIndex) in produits" :key="produitIndex">
-                                    <div class="col-md-3">
-                                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                  class="row gx-2 gy-0" v-for="(produit, produitIndex) in produits" :key="produitIndex">
+                                    <div class="col-md-3 mb-2">
+                                      <div class="form-group ">
                                         <Multiselect
                                           :options="produitOptions"
                                           :searchable="true"
                                           track-by="label"
                                           label="label"
+                                          :disabled="isDis"
                                           v-model="produit.produit"
                                           placeholder="Sélectionner le produit"
-                                          @select="
-                                            selectProd(produit.produit, produit)
-                                          "
+                                          @select="selectProd(produit.produit, produit)"
                                         />
                                         <div
                                           class="invalid-feedback"
@@ -313,12 +307,11 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 mb-2">
                                       <div
-                                        class="form-group mb-15 mb-sm-20 mb-md-25">
+                                        class="form-group ">
                                         <input
                                           type="number"
-                                          :readonly="true"
                                           v-model="produit.qtiteLogique"
                                           :class="
                                             validateRowProduit(produit.qtiteLogique)
@@ -334,9 +327,29 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 mb-2">
                                       <div
-                                        class="form-group mb-15 mb-sm-20 mb-md-25"
+                                        class="form-group "
+                                      >
+                                        <input
+                                          v-model="produit.qtiteFiche"
+                                          type="number"
+                                          :class="
+                                            validateRowProduit(produit.qtiteFiche)
+                                              ? 'form-control shadow-none fs-md-15 text-black is-invalid '
+                                              : 'form-control shadow-none fs-md-15 text-black '
+                                          "
+                                          placeholder="Entrer la quantité"/>
+                                        <div
+                                          v-if="validateRowProduit(produit.qtiteFiche)"
+                                          class="invalid-feedback">
+                                          La quantité est obligatoire.
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                      <div
+                                        class="form-group "
                                       >
                                         <input
                                           v-model="produit.qtitePhysique"
@@ -354,41 +367,21 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-md-2">
-                                      <div
-                                        class="form-group mb-15 mb-sm-20 mb-md-25"
-                                      >
+                                    <div class="col-md-1 mb-2">
+                                      <div class="form-group ">
                                         <input
-                                          v-model="produit.qtitePhysique"
-                                          type="number"
-                                          :class="
-                                            validateRowProduit(produit.qtitePhysique)
-                                              ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                              : 'form-control shadow-none fs-md-15 text-black '
-                                          "
-                                          placeholder="Entrer la quantité"/>
-                                        <div
-                                          v-if="validateRowProduit(produit.qtitePhysique)"
-                                          class="invalid-feedback">
-                                          La quantité est obligatoire.
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-1">
-                                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                        <input
-                                          v-model="produit.ecart"
+                                          v-model="produit.ecartReel"
                                           :readonly="true"
                                           type="number" 
                                           :class="
-                                            validateRowProduit(produit.ecart)
+                                            validateRowProduit(produit.ecartReel)
                                               ? 'form-control shadow-none fs-md-15 text-black is-invalid '
                                               : 'form-control shadow-none fs-md-15 text-black '
                                           "
                                           placeholder="Entrer l'écart"
                                         />
                                         <div
-                                          v-if="validateRowProduit(produit.ecart)"
+                                          v-if="validateRowProduit(produit.ecartReel)"
                                           class="invalid-feedback"
                                         >
                                           L'écart est obligatoire.
@@ -396,27 +389,27 @@
                                       </div>
                                     </div>
                                     <div class="col-md-1">
-                                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                      <div class="form-group mb-2">
                                         <input
-                                          v-model="produit.ecart"
+                                          v-model="produit.ecartLogique"
                                           :readonly="true"
                                           type="number" 
                                           :class="
-                                            validateRowProduit(produit.ecart)
+                                            validateRowProduit(produit.ecartLogique)
                                               ? 'form-control shadow-none fs-md-15 text-black is-invalid '
                                               : 'form-control shadow-none fs-md-15 text-black '
                                           "
                                           placeholder="Entrer l'écart"
                                         />
                                         <div
-                                          v-if="validateRowProduit(produit.ecart)"
+                                          v-if="validateRowProduit(produit.ecartLogique)"
                                           class="invalid-feedback"
                                         >
                                           L'écart est obligatoire.
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-md-1 mb-5">
+                                    <div class="col-md-1 mb-2">
                                       <button
                                         class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
                                         type="button"
@@ -438,15 +431,13 @@
                 </div>
             </div>
           </div> -->
-
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center">
               <button
                 class="btn btn-success me-3"
                 type="submit"
                 :disabled="isDisable"
-                :class="{ 'cursor-not-allowed': isDisable }"
-              >
+                :class="{ 'cursor-not-allowed': isDisable }">
                 Ajouter un inventaire
               </button>
               <router-link
@@ -493,9 +484,7 @@ export default defineComponent({
     const inventaireSchema = Yup.object().shape({
       dateDebut: Yup.date().typeError('Entrer une date valide').required('La date de debut est obligatoire'),
       dateFin: Yup.string().typeError('Entrer une date valide').required('La date de fin est obligatoire'),
-      // client: Yup.string().required("Le client est obligatoire"),
       motif: Yup.string().notRequired(),
-      personnel: Yup.array().required('Les personnes sont obligatoires'),
     });
 
     const inventaireForm = ref<Inventaire | null>(null);
@@ -504,6 +493,7 @@ export default defineComponent({
     const magasinOptions = ref([]);
     const produitOptions = ref([]);
     const personneOptions = ref([]);
+    const magasin = ref();
 
     // formulaire dynamique start
     const isDisable = ref(true);
@@ -579,21 +569,27 @@ const removeRowProduit = ( produitIndex) => {
   produits.splice(produitIndex, 1);
 };
 
-const selectMag = (selectedMagasin, magasin) => {
-  magasin.magasin = selectedMagasin;
+const selectMag = (selectedMagasin) => {
+  fetchProduits(selectedMagasin.split("|")[0]);
+  if(selectedMagasin.split("|")[0]){
+    isDis.value=false;
+  }else{
+    isDis.value=true;
+  }
 };
 
 const selectProd = (selectedProduit, produit) => {
   produit.produit = selectedProduit;
-  produit.qtitePhysique = 0;
+  //produit.qtitePhysique = 0;
   // produit.qtiteLogique = selectedProduit.split("|")[2];
-  produit.qtiteLogique = parseFloat(selectedProduit.split("|")[2]);
+  //produit.qtiteLogique = parseFloat(selectedProduit.split("|")[2]);
   // produit.ecart = produit.qtiteLogique - produit.qtitePhysique;
   calculEcart(produit);
 };
 
 const calculEcart = (produit) => {
-    produit.ecart = produit.qtiteLogique - produit.qtitePhysique;
+    produit.ecartLogique = produit.qtiteLogique - produit.qtitePhysique;
+    produit.ecartReel = produit.qtiteFiche - produit.qtitePhysique;
 };
 // watch(
 //   () => magasins,
@@ -632,7 +628,7 @@ const fetchPersonnes = async () => {
     };
 
 const validateRowProduit = (e) => {
-  return e === '' || e === 0 || e === '0' || e == null || e < 0;
+  return e === '' || e == null || e < 0;
 };
 
 //     watch(
@@ -659,12 +655,10 @@ watch(
   (newValue) => {
     isDisable.value =newValue.some(
       (produit) =>
-        produit.produit === '' ||
-        produit.qtitePhysique === 0 ||
-        produit.qtitePhysique < 0 ||
-        produit.qtiteLogique === 0 ||
-        produit.ecartLogique === 0 ||
-        produit.ecartReel === 0
+        produit.produit === '' 
+        //  produit.qtiteFiche >= 0 ||
+        //  produit.qtitePhysique >= 0 ||
+        //  produit.qtiteLogique >= 0 
     );
   },
   { deep: true }
@@ -674,7 +668,6 @@ watch(
     onMounted(() => {
       fetchMagasins();
       fetchClient();
-      fetchProduits();
       fetchPersonnes();
       getAllRoles();
       getAllPersonnels()
@@ -687,19 +680,20 @@ watch(
     const personnelOptions = ref();
 
     const isDisables = ref(true);
+    const isDis =  ref(true);
     
-    
+    isDis.value = (magasin.value)? false:true;
     const equipes = reactive([{
-      nomComplet: "",
+      //nomComplet: "",
       role: "",
-      personnel: []
+      personnel: ""
     }]);
 
     const addRowEquipe = () => {
       equipes.push({
-        nomComplet: "",
+       // nomComplet: "",
         role: "",
-        personnel:[]
+        personnel:""
       });
     };
 
@@ -714,7 +708,6 @@ watch(
         isDisables.value =
         newValue.some(
           (equipe) =>
-          valideteRowEquipe(equipe.nomComplet) ||
           valideteRowEquipe(equipe.role) ||
           valideteRowEquipe(equipe.personnel)
         );
@@ -731,25 +724,11 @@ watch(
       }
     };
 
-
-    const addEquipe = async (values, {resetForm}) => {
-      ApiService.post("/equipes",values)
-        .then(({ data }) => {
-          if(data.code == 201) { 
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeEquipePage" });
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-        });
-    };
-
     const getAllPersonnels = async () => {
       try{
       const response = await ApiService.get('/all/personnels');
       const canalsData = response.data.data.data;
-      console.log('Data',canalsData)
+      console.log('DataDataData',canalsData)
       personnelOptions.value = canalsData.map((personnel) => ({
         value:personnel.id,
         label:personnel.nom + " " + personnel.prenom ,
@@ -775,7 +754,6 @@ watch(
       }
     }
 
-    const { remove, push, fields, update } = useFieldArray("magasins");
     const magasinsss: any = ref(null);
     const produitsss: any = ref(null);
     const valuess = ref();
@@ -794,17 +772,20 @@ watch(
       }
     };
 
-    const fetchProduits = async () => {
+    const fetchProduits = async (magasin) => {
       try {
-        const response = await axios.get("all/produits");
-        const produitsData = response.data.data.data;
-        produitsss.value = produitsData;
+        const response = await axios.get("all/produitconditionnementmagasins/"+magasin);
+       
+        const produitsData = response.data.data;
+        console.log(produitsData,"produitsDataproduitsDataproduitsDataproduitsData");
         produitOptions.value = produitsData.map((produit) => ({
-          value: produit.id + "|" + produit.nomProd + "|" + produit.qtiteLogique,
-          label: `${produit.refProd} - ${produit.nomProd}`,
+          value: produit.id + "|" + `${produit.produitcondi.produit.refProd} - ${produit.produitcondi.produit.nomProd} [${produit.produitcondi.conditionnement.libelle}]` + "|" + produit.qtiteLogique,
+          label: `${produit.produitcondi.produit.refProd} - ${produit.produitcondi.produit.nomProd} [${produit.produitcondi.conditionnement.libelle}]`,
         }));
+        console.log(produitOptions.value,"response.data.data");
       } catch (error) {
         //
+        console.log(error,"errorerrorerror")
       }
     };
 
@@ -827,27 +808,30 @@ watch(
     };
 
     const addInventaire = async (values, { resetForm }) => {
-      values.produits =produits.map((produit) => ({
-          produit: produit.produit.split('|')[0],
-          qtitePhysique: produit.qtitePhysique,
-          qtiteLogique: produit.qtiteLogique,
-          qtiteFiche: produit.qtiteFiche,
+      values.inventaiprocondimags =produits.map((produit) => ({
+          procondimag: produit.produit.split('|')[0],
+          qtePhysique: produit.qtitePhysique,
+          qteLogique: produit.qtiteLogique,
+          qteFiche: produit.qtiteFiche,
           ecartReel: produit.ecartReel,
           ecartLogique: produit.ecartLogique,
           nomProd: produit.produit.split('|')[1]
       }));
+      values.magasin=magasin.value.split('|')[0];
+      values.equipes=equipes;
+
       console.log('DOnnées =>', values)
-      // ApiService.post("/inventaires", values)
-      //   .then(({ data }) => {
-      //     if (data.code == 201) {
-      //       success(data.message);
-      //       resetForm();
-      //       router.push({ name: "ListeInventairePage" });
-      //     }
-      //   })
-      //   .catch(({ response }) => {
-      //     error(response.data.message);
-      //   });
+      ApiService.post("/inventaires", values)
+        .then(({ data }) => {
+          if (data.code == 201) {
+            success(data.message);
+            resetForm();
+            router.push({ name: "ListeInventairePage" });
+          }
+        })
+        .catch(({ response }) => {
+          error(response.data.message);
+        });
     };
 
     const fetchClient = async () => {
@@ -878,9 +862,12 @@ watch(
       valuess,
       clientOptions,
       magasinOptions,
+      magasin,
       produitOptions,
       selectProd,
       isDisable,
+      isDisables,
+      isDis,
       getCurrentDateTime,
       selectMag,
       valideteRowEquipe,
@@ -888,6 +875,7 @@ watch(
       removeRowEquipe,
       equipes,
       personneOptions,
+      personnelOptions,
       roleOptions
     };
   },
