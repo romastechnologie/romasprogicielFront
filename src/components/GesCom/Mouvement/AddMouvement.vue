@@ -5,6 +5,20 @@
         <div class="row">
           <div class="col-md-12 mb-md-25">
             <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+              <div class="row mb-10">
+                <div class="col-4 offset-8">
+                  <div class="form-group ">
+                    <label class="d-block text-black fw-semibold mb-1">
+                      Magasins<span class="text-danger">*</span>
+                    </label>
+                    <Field name="magasin" v-slot="{ field }">
+                      <Multiselect :options="magasinOptions" :multiple="false" mode="tags" :taggable="true"
+                        :searchable="true" track-by="value" label="label" v-model="field.value" v-bind="field"
+                        placeholder="Sélectionner le magasin" />
+                    </Field>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="border border-primary mb-10">
                   <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
@@ -26,13 +40,6 @@
                   </div>
                   <div>
                     <div class="row d-flex align-items-center justify-content-between mt-10">
-                      <div class="col-md-3">
-                        <label class="d-block text-black fw-semibold">
-                          Magasin
-                          <span class="text-danger">*</span>
-                        </label>
-                      </div>
-
                       <div class="col-md-5">
                         <label class="d-block text-black fw-semibold mb-10">
                           Produit <span class="text-danger">*</span>
@@ -60,9 +67,9 @@
                     <div class="row" v-for="mouvement in mouvements" :key="mouvement.index">
 
                       <div class="col-md-3 mb-2">
-                        <div class="form-group ">                            
-                              <Multiselect :close-on-select="true" :options="magasinOptions" :searchable="true"
-                              :multiple="false" v-model="mouvement.magasin" placeholder="Choisir le magasin" />
+                        <div class="form-group ">
+                          <Multiselect :close-on-select="true" :options="magasinOptions" :searchable="true"
+                            :multiple="false" v-model="mouvement.magasin" placeholder="Choisir le magasin" />
                         </div>
                       </div>
                       <div class="col-md-5 mb-2">
@@ -85,9 +92,9 @@
 
                       <div class="col-md-2 mb-2">
                         <div class="form-group ">
-                            <Multiselect :searchable="true" :options="lestypes" v-model="mouvement.type"
-                              placeholder="Sélectionner le type" />
-                          <span class="invalid-feedback" v-if="valideteRowMouvement(mouvement.type)"></span>
+                          <Multiselect :searchable="true" :options="lestypes" v-model="mouvement.typeOperation"
+                            placeholder="Sélectionner le type" />
+                          <span class="invalid-feedback" v-if="valideteRowMouvement(mouvement.typeOperation)"></span>
                         </div>
                       </div>
 
@@ -128,6 +135,7 @@ import ApiService from '@/services/ApiService';
 import { error, generateUuid, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
+import axios from 'axios';
 
 export default defineComponent({
   name: "AddMouvement",
@@ -142,7 +150,7 @@ export default defineComponent({
       mouvements: Yup.array().of(
         Yup.object().shape({
           magasin: Yup.string().required("Le magasin est obligatoire."),
-          type: Yup.string().required("Le type d'opération est obligatoire."),
+          typeOperation: Yup.string().required("Le typeOperation d'opération est obligatoire."),
           qte: Yup.number().required("La quantité est obligatoire.").min(1, "La quantité doit être supérieure à 0."),
           produit: Yup.number().min(1, "Au moins un produit doit être sélectionné.").required("Le produit est obligatoire."),
         })
@@ -156,38 +164,20 @@ export default defineComponent({
     const produitOptions = ref([]);
     const isDisable = ref(true);
 
-    const mouvements = ref<Array<{ index: string; magasin: number | null; type: string | null; qte: number | null; produit: number | null; }>>([]);
-
-    // const addRowMouvement = () => {
-    //   mouvements.value.push({
-    //     index: generateUuid(),
-    //     magasin: 0,
-    //     type: null,
-    //     qte: null,
-    //     produit: 0
-    //   });
-    //   console.log("Le contenu de Mouvements est celui là ===> ",  mouvements.value)
-    //   //valideteRowMouvement(); // Valide après l'ajout d'une ligne
-    // };
+    const mouvements = ref<Array<{ index: string; magasin: number | null; produitOp: Array<any> | null; etat: boolean; typeOperation: string | null; qte: number | null; produit: number | null; }>>([]);
 
     const addRowMouvement = () => {
       mouvements.value.push({
         index: generateUuid(),
         magasin: null, // Modifié
-        type: null,
+        produitOp: [],
+        etat: true,
+        typeOperation: null,
         qte: null,
         produit: null // Modifié
       });
       console.log("Le contenu de Mouvements est celui là ===> ", mouvements.value);
     };
-
-    // const valideteRowMouvement = (e) => {
-    //   if (e === null || e === undefined || e === "" || e === 0) {
-    //     return true; // Champs invalides
-    //   } else {
-    //     return false; // Champs valides
-    //   }
-    // };
 
 
     const lestypes = ref([
@@ -202,17 +192,6 @@ export default defineComponent({
       }
     };
 
-
-    // watch(mouvements, (newValue) => {
-    //   isDisable.value = newValue.some((mouvement) =>
-    //     valideteRowMouvement(mouvement)
-    //   );
-    // }, { deep: true });
-
-    // const valideteRowMouvement = (row) => {
-    //   return !row.magasin || !row.type || !row.qte || !row.produit;
-    // };
-
     const valideteRowMouvement = (e) => {
       if (e === null || e === undefined || e === "" || e === 0) {
         return true; // Champs invalides
@@ -225,6 +204,7 @@ export default defineComponent({
     const addMouvement = async () => {
       if (!mouvementForm.value) return;
       const isValid = await mouvementForm.value.validate();
+      console.log('mouvementForm.valuemouvementForm.valuemouvementForm.value ===> ', mouvements.value);
       if (isValid) {
         try {
           await ApiService.post('/suivi', mouvements.value);
@@ -234,6 +214,18 @@ export default defineComponent({
           error("Erreur lors de l'ajout du mouvement");
           console.error(err);
         }
+      }
+    };
+
+    const getProduitsByMagasin = async (magasin: number) => {
+      try {
+        const produits = await axios.get(`/getProdCondMagByMag/${magasin}`);
+        produitOptions.value = (produits.data.data.data).map((produit) => ({
+          value: produit.id,
+          label: produit.nomProd,
+        }));
+      } catch (err) {
+        error("Erreur lors du chargement des options");
       }
     };
 
