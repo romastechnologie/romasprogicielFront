@@ -18,9 +18,9 @@
                     <li class="onhover-dropdown">
                         <NotificationBox />
                     </li>
-                    <!-- <li class="onhover-dropdown">
+                    <li class="onhover-dropdown">
                         <BookmarkSearch />
-                    </li> -->
+                    </li>
                     <li>
                         <ModeView />
                     </li>

@@ -904,9 +904,10 @@ export default defineComponent({
     const serviceOptions = ref([]);
 
     const addPersonnel = async (values, {resetForm}) => {
+      
       values.fonctions = fonctions.map(fonction => ({
         estActif: fonction.estActif,
-        fonction: fonction.fonction,
+        fonction: fonction.fonction,  
         dateDebut: fonction.dateDebut,
         dateFin: fonction.dateFin,
       }));
@@ -924,7 +925,7 @@ export default defineComponent({
 
     const fetchFonction = async () => {
       try {
-        const response = await ApiService.get("/fonctions");
+        const response = await ApiService.get("/all/postes");
         const fonctionData = response.data.data.data;
         fonctionOptions.value = fonctionData.map((fonction) => ({
           value: fonction.id,
@@ -938,7 +939,7 @@ export default defineComponent({
     const getAllReligions = async () => {
         try{
         const response = await ApiService.get('/all/religions');
-        const religionsData = response.data.data;
+        const religionsData = response.data.data.data;
 
         religionOptions.value = religionsData.map((religion) => ({
           value: religion.id,
@@ -953,7 +954,7 @@ export default defineComponent({
       const getAllEthnies = async () => {
         try{
         const response = await ApiService.get('/all/ethnies');
-        const ethniesData = response.data.data;
+        const ethniesData = response.data.data.data;
 
         ethnieOptions.value = ethniesData.map((ethnie) => ({
           value: ethnie.id,
@@ -967,26 +968,28 @@ export default defineComponent({
 
       const getAllServices = async () => {
         try{
-        const response = await ApiService.get('/services');
-        const servicesData = response.data.data;
-        console.log("465484635418416541 ===> ", servicesData);
+          console.log("nous sommes icic oo");
+          const response = await ApiService.get('/services');
+          console.log("mes services", response.data.data.data);
+        const servicesData = response.data.data.data;
 
-        serviceOptions.value = servicesData.data.map((service) => ({
+        serviceOptions.value = servicesData.map((service) => ({
           value: service.id,
           label: service.libelle,
         }));
         }
         catch(error){
-          //error(response.data.message)
+        // error(response.data.message)
+        console.log("une erreur s'est produite aau niveau de service", error);
         }
       } 
 
       
     onMounted(async () => {
-     await fetchFonction();
-     await getAllReligions();
-     await getAllEthnies();
-     await getAllServices();
+      fetchFonction();
+      getAllReligions();
+      getAllEthnies();
+      getAllServices();
     })
 
     return { personnelSchema,
