@@ -5,11 +5,11 @@
         <div class="row">
           <div class="col-md-12 mb-md-25">
             <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
-              <div class="row mb-10">
-                <div class="col-4 offset-8">
+              <div class="row mb-5">
+                <div class="col-4 offset-8" syle="margin-bottom:12px;">
                   <div class="form-group ">
                     <label class="d-block text-black fw-semibold mb-1">
-                      Magasins<span class="text-danger">*</span>
+                      Magasin<span class="text-danger">*</span>
                     </label>
                     <Field name="magasin" v-slot="{ field }">
                       <Multiselect :options="magasinOptions" :multiple="false" mode="tags" :taggable="true"
