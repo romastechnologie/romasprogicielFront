@@ -125,8 +125,7 @@
                     <li >
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);""
-                      >
+                        href="javascript:void(0);">
                         <i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>
@@ -134,27 +133,16 @@
                       </a>
                     </li>
                     <li >
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);"
-                        data-bs-toggle="modal"
-                        data-bs-target="#AddInventaireModal"
-                        @click="moddifier(inventaire)"
-                      >
-                        <i
+                       <router-link :to="{ name: 'MiseAJourInventaire', params: { id: inventaire.id } }" 
+                          class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>
-                        Modifier
-                      </a>
+                        ></i>Mise à Jour</router-link>
                     </li>
                     <li >
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(inventaire.id,inventaires,'inventaires','la inventaire')"
-                      >
-                        <i
-                          class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
-                        ></i>
+                        href="javascript:void(0);" @click="suppression(inventaire.id,inventaires,'inventaires','la inventaire')" >
+                        <i  class="fa fa-trash-o lh-1 me-8 position-relative top-1"  ></i>
                         Supprimer
                       </a>
                     </li>
