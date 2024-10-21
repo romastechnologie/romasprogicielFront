@@ -70,6 +70,18 @@
               </th>
               <th
                 scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Type
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Statut
+              </th>
+              <th
+                scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
               >ACTIONS</th>
             </tr>
@@ -84,6 +96,12 @@
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ inventaire.dateFin }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+               
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+               
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
