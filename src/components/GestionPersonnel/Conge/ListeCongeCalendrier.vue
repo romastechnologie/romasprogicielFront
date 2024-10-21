@@ -1,4 +1,9 @@
 <template>
+  <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+    <div
+      class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
+    >
+  </div>
   <div class="px-lg-4 py-lg- p-md-3 p-3 text-start">
       <button v-if="onListe" class="btn btn-secondary mb-3" @click="onListe = false">
         Calendrier
@@ -22,82 +27,11 @@
         <input type="search" class="form-control" @input="sortCongeWithSearch($event.target)"
           placeholder="Rechercher par intitulé">
       </div>
-      <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center">
-        <span class="mx-2"> Date </span>
-        <input type="date" class="form-control" @input="sortCongeWithDateDebut($event.target)" />
-      </div>
+      
     </div>
     <div v-if="onListe" class="card rounded rounded-4 px-2 pt-4 py-1">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th scope="col"> Personnel </th>
-            <th scope="col"> Date de debut </th>
-            <th scope="col"> Date de fin prévue </th>
-            <th scope="col"> Date de fin </th>
-            <th scope="col"> Date de reprise </th>
-            <th scope="col"> Statut </th>
-            <th scope="col"> Actions </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="personnelConge in filterConge" :key="personnelConge.personnel">
-            <td> {{ personnelConge.personnel ? personnelConge.personnel.nom + " " + personnelConge.personnel.prenom :
-              "null"
-              }} </td>
-            <td> {{ personnelConge.dateDebut.toString().slice(0, 10) }} </td>
-            <td> {{ personnelConge.dateFinPrevu.toString().slice(0, 10) }} </td>
-            <td> {{ personnelConge.dateFin.toString().slice(0, 10) }} </td>
-            <td> {{ personnelConge.dateReprise.toString().slice(0, 10) }} </td>
-            <td v-if="personnelConge.statut === 'Confirmé'" class="text-center"> <span
-                class="badge badge-success">Confirmé</span>
-            </td>
-            <td v-else-if="personnelConge.statut === 'Annulé'" class="text-center"> <span
-                class="badge badge-danger">Annulé</span>
-            </td>
-            <td v-else-if="personnelConge.statut === 'Interrompu'" class="text-center"> <span
-                class="badge badge-primary">Interrompu</span>
-            </td>
-            <td class="shadow-none lh-1 fw-medium text-black pe-0  text-end">
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false" v-if="personnelConge.statut != 'Annulé'">Actions</button>
-              <ul class="dropdown-menu dropdown-block"
-                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
-                data-popper-placement="bottom-start">
-                <li class="dropdown-item d-flex align-items-center"
-                  v-if="personnelConge.statut != 'Annulé' && personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Terminé'">
-                  <a @click="pauseConge(personnelConge.id)" type="button">
-                    <i class="fa fa-pause lh-2 me-8 p-1 position-relative top-1"></i>
-                    Interrompre
-                  </a>
-                </li>
-                <li class="dropdown-item d-flex align-items-center"
-                  v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
-                  <a @click="cancelConge(personnelConge.id)">
-                    <i class="fa fa-check lh-2 me-8 p-1 position-relative top-1"></i>
-                    Accepté
-                  </a>
-                </li>
-                <li class="dropdown-item d-flex align-items-center"
-                  v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
-                  <router-link :to="`/conges/edit-conge/${personnelConge.id}`" class="text-decoration-none p-1">
-                    <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
-                  </router-link>
-                </li>
-                <li class="dropdown-item d-flex align-items-center">
-                  <a @click="deleteConge(personnelConge.id)">
-                    <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
-                    Supprimé
-                  </a>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="filterConge.length == 0" class="fs-5 d-flex justify-content-center">
-        La liste est vide
-      </div>
+    </div>
+      
     </div>
 </template>
  

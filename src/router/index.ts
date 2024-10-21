@@ -331,6 +331,7 @@ import ListeEquipePage from '@/pages/GesCom/Equipe/ListeEquipePage.vue';
 import EditEquipePage from '@/pages/GesCom/Equipe/EditEquipePage.vue';
 import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
+import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
 
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
@@ -2436,6 +2437,14 @@ const routes: Array<RouteRecordRaw> = [
         component: AddInventairePage,
         meta: {
           title: 'Ajouter un inventaire',
+        }
+      },
+      {
+        path: "miseajour-inventaire/:id",
+        name: "MiseAJourInventaire",
+        component: MiseAJourInventairePage,
+        meta: {
+          title: 'Mise à jour des inventaires',
         }
       },
       {
