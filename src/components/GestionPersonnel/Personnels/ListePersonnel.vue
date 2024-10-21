@@ -89,9 +89,10 @@ function sortPersonnelWithSearch(searchDemande: any) {
 // ------------------------------------------ GET DATA --------------------------------
 const getAllPersonnel = async () => {
   try {
-    const response = await ApiService.get('/personnels');
+    console.log("nous somme ici");
+    const response = await ApiService.get('/all/personnels');
     personnels.value = response.data;
-    console.log(response);
+    console.log("personnels reccuperer avec succes",response);
   } catch (error) {
     console.error('Erreur lors de la recupération des personnels:', error);
     throw error;
