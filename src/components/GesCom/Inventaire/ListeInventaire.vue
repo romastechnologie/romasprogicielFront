@@ -98,10 +98,20 @@
                 {{ inventaire.dateFin }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-               
+                <div v-if="inventaire.inventaiprocondimags.length === 0 && inventaire.inventairePartielles.length === 0">
+                  Inventaire Global
+                </div>
+                <div v-else>
+                  Inventaire Partiel
+                </div>
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-               
+                <div v-if="inventaire.estCloturer === true">
+                  Cloturé
+                </div>
+                <div v-else>
+                  En cours
+                </div>
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -112,6 +122,17 @@
                       <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
                   </span>
                   <ul class="dropdown-menu">
+                    <li >
+                      <a
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);""
+                      >
+                        <i
+                          class="flaticon-pen lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Détail
+                      </a>
+                    </li>
                     <li >
                       <a
                         class="dropdown-item d-flex align-items-center"
