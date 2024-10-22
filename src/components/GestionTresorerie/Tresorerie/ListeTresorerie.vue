@@ -132,116 +132,76 @@
 
     </div>
 </template>
-
 <script setup lang="ts">
-
-import { Tresorerie } from '@/models/Tresorerie';
-
-import { onMounted, reactive, ref } from "vue";
-import axios from "axios";
-import { Form, Field, ErrorMessage, configure } from "vee-validate";
-import * as Yup from 'yup'
-import { useRouter } from "vue-router";
+import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
-import { TypeTresorerie } from '@/models/TypeTresorerie';
 import ApiService from '@/services/ApiService';
-import { format_date, showModal, suppression, error, } from "@/utils/utils";
+import { format_date } from "@/utils/utils";
 
+const tresorerieList = ref([]);  // Initialize as an empty array
+const page = ref(1);
+const limit = ref(10);
+const searchTerm = ref('');
+const totalPages = ref(0);
+const totalElements = ref(0);
 
-const tresorerieList = ref<Tresorerie[]>([])
-const typeTresorerieList = ref<TypeTresorerie[]>([])
-const typeTresorerie = ref<TypeTresorerie>({})
-const close = ref(null)
+const getAllTresoreries = (page = 1, limi = 10, searchTerm = '') => {
+  return ApiService.get(`/all/tresoreries?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    .then(({ data }) => {
+      tresorerieList.value = data.data.data;
+      totalPages.value = data.data.totalPages;
+      totalElements.value = data.data.totalElements;
+      limit.value = data.data.limit;
+      return data.data;
+    })
+    .catch(({ response }) => {
+      console.error(response.data.message);
+    });
+};
 
-
-const getTresorerie = () => {
-    ApiService.get('/tresoreries')
-        .then(res => {
-            tresorerieList.value = res.data
-            console.log(res)
-        })
-}
+const rechercher = () => {
+  getAllTresoreries(page.value, limit.value, searchTerm.value);
+};
 
 const deleteTresorerie = async (id: any) => {
-    Swal.fire({
-            title: 'Etes-vous sûr?',
-            text: "Vous voulez vraiment supprimer cette tresorerie !",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#ddd',
-            cancelButtonText: 'Non',
-            confirmButtonText: 'Oui!'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                await ApiService.delete('/tresoreries/' + id + '').then(() => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Utilisateur supprimé avec succès!',
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                    getTresorerie();
-                }).catch(error => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erreur de suppression!',
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                    console.error('Erreur détectée pendant la suppression:', error);
-                });
-            
-            }
-        })
-}
-
+  Swal.fire({
+    title: 'Etes-vous sûr?',
+    text: "Vous voulez vraiment supprimer cette tresorerie !",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#ddd',
+    cancelButtonText: 'Non',
+    confirmButtonText: 'Oui!'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      await ApiService.delete(`/tresoreries/${id}`).then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Utilisateur supprimé avec succès!',
+          showConfirmButton: false,
+          timer: 1000
+        });
+        rechercher();
+      }).catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur de suppression!',
+          showConfirmButton: false,
+          timer: 1000
+        });
+        console.error('Erreur détectée pendant la suppression:', error);
+      });
+    }
+  });
+};
 
 onMounted(() => {
-    getTresorerie()
-    // tresorerieList.value.push({
-    //     typeTresorerieName: tresorerie.value.typeTresorerieName
-    // })
-})
+  getAllTresoreries();
+});
 
-
-function calculerMontantTotal(tresorerie: any) {
-    let total = tresorerie.montant;
-    if (tresorerie.typeTresorerie && tresorerie.typeTresorerie.length > 0) {
-        tresorerie.typeTresorerie.forEach((enfant: any) => {
-            total += calculerMontantTotal(enfant)
-        });
-    }
-
-    return total;
-}
-
-function calculerMontantType(typeTresorerie: any) {
-    let total = 0
-    if (typeTresorerie.tresorerie && typeTresorerie.tresorerie.length > 0) {
-        typeTresorerie.tresorerie.forEach((element: any) => {
-            total += element.montant
-        })
-    }
-    return total;
-}
-
-function total() {
-    let total = 0;
-    for (const tresorerie of tresorerieList.value) {
-        total += tresorerie.montant;
-    }
-    return total;
-}
-
-// function calculerMontantTresorerie(tresorerie: any) {
-//     let nom = tresorerie.nom
-//     let total = tresorerie.montant
-//     for (const tresoreries of tresorerieList.value) {
-//         if (nom == tresoreries.typeTresorerie?.libelle)
-//             total += tresoreries.montant
-//     }
-//     return total;
-// }
+const total = () => {
+  return tresorerieList.value.reduce((sum, tresorerie) => sum + tresorerie.montant, 0);
+};
 
 </script>

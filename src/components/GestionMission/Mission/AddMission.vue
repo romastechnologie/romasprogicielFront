@@ -30,9 +30,9 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Date debut  <span class="text-danger">*</span>
                   </label>
-                  <Field name="datedebut" type="Date" 
+                  <Field name="dateDebut" type="Date" 
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date début"/>
-                  <ErrorMessage name="datedebut" class="text-danger"/>
+                  <ErrorMessage name="dateDebut" class="text-danger"/>
                 </div>
               </div>
          
@@ -42,7 +42,7 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Date fin  <span class="text-danger">*</span>
                   </label>
-                  <Field name="datefin" type="Date" 
+                  <Field name="dateFin" type="Date" 
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date fin"/>
                   <ErrorMessage name="dateFin" class="text-danger"/>
                 </div>
@@ -175,8 +175,8 @@
   import { defineComponent, onMounted, reactive, ref, watch } from 'vue';
   import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
   import * as Yup from 'yup';
+  import { Mission} from '@/models/Mission';
   import ApiService from '@/services/ApiService';
-  import { Document } from '@/models/Document';
   import { error, success,ajouterPeriode } from '@/utils/utils';
   import { useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
@@ -195,8 +195,8 @@
       const missionSchema = Yup.object().shape({
         description: Yup.string().required("Description est obligatoire."),
         destination: Yup.string().required("Destination est obligatoire."),
-        datedebut: Yup.string().required("Date debut est obligatoire."),
-        datefin: Yup.string().required("Date fin est obligatoire."),
+        dateDebut: Yup.string().required("Date debut est obligatoire."),
+        dateFin: Yup.string().required("Date fin est obligatoire."),
 
       });
   
@@ -206,10 +206,8 @@
       const missionForm = ref(null);
       const description = ref();
       const destination= ref();
-      const datedebut= ref();
-      const datefin= ref();
-      const missionOptions = ref([]);
-      const typeDuree = ref([]);
+      const dateDebut= ref();
+      const dateFin= ref();
 
 
     const isDisable = ref(true);
@@ -283,10 +281,12 @@
       };
   
       return { missionSchema,
-         addMission,isDisable,
-          missionForm,removeRowMission,
-      addRowMission,
-      valideteRowMission,missionOptions,missions
+         addMission,
+         isDisable,
+        missionForm,
+         removeRowMission,
+        addRowMission,
+        valideteRowMission,
         };
       
     },

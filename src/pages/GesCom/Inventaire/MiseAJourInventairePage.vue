@@ -6,7 +6,7 @@
     import { defineComponent } from "vue";
   
     
-    import MiseAJourInventaire from "@/components/GesCom/Inventaire/MiseAJourInventaire.vue";
+    import MiseAJourInventaire from "@/components/GesCom/Inventaire/MiseAjourInventaire.vue";
   
     export default defineComponent({
       name: "MiseAJourInventairePage",

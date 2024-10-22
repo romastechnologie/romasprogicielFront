@@ -1,5 +1,5 @@
 <template>
-    <<div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+    <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
          <div
            class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
          >
@@ -169,6 +169,7 @@
        function getAllRapport(page = 1, limi = 10, searchTerm = '') {
          return ApiService.get(`rapportmissions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
          .then(({ data }) => {
+          console.log(data); 
            rapports.value = data.data.data;
            totalPages.value = data.data.totalPages;
            limit.value = data.data.limit;

@@ -81,11 +81,12 @@
                 </td>
              
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ mission.dateDebut }}
+                  {{ format_date(mission.dateDebut) }}
                 </td>
 
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ mission.dateFin }}
+                  {{ format_date(mission.dateFin) }}
+
                 </td>
 
                 <td
@@ -132,10 +133,10 @@
   import Swal from "sweetalert2";
   import { Mission } from "@/models/Mission";
   import ApiService from "@/services/ApiService";
-  import { suppression, error } from "@/utils/utils";
+  import { format_date, suppression, error } from "@/utils/utils";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
-  
+
   export default defineComponent({
     name: "ListeMission",
     components: {
@@ -243,6 +244,7 @@
        page, 
       totalPages,
       limit,
+      format_date,
       totalElements,
       handlePaginate,
       rechercher,
