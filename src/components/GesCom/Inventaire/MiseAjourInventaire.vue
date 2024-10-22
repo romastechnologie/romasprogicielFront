@@ -159,8 +159,7 @@
                               :class="
                                 validateRowProduit(produit.ecartReel)
                                   ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                  : 'form-control shadow-none fs-md-15 text-black '
-                              "
+                                  : 'form-control shadow-none fs-md-15 text-black '"
                               placeholder="Entrer l'écart"
                             />
                             <div
@@ -308,19 +307,6 @@ watch(
   { deep: true }
 );
 
-
-const fetchPersonnes = async () => {
-      try {
-        const response = await ApiService.get('all/personnels');
-        const personneData = response.data.data.data;
-        personneOptions.value = personneData.map((personnels) => ({
-          value: personnels.id,
-          label: `${personnels.nom}`,
-        }));
-      } catch (error) {
-        //
-      }
-    };
 
 const validateRowProduit = (e) => {
   return e === '' || e == null || e < 0;
