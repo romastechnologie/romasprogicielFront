@@ -1,16 +1,25 @@
 <template>
   <div class="px-lg-4 py-lg- p-md-3 p-3 text-start">
-    <a 
-               class="btn btn-primary mb-3"
-               href="#"
-               data-bs-toggle="modal"
-             data-bs-target="#AddCongeModal"
-           >
-           <i class="fa fa-plus-circle mx-2"></i>
-             Programmer un congé 
-           </a>
-
-
+    <router-link to="/conges/ajouter-conge">
+      <button class="btn btn-primary mb-3">
+        <i class="fa fa-plus-circle mx-2"></i>
+        Programmer un congé
+      </button>
+    </router-link>
+    <div class="d-flex justify-content-around">
+      <button v-if="!onListe" class="btn btn-secondary mb-3" @click="onListe = true">
+        Liste
+      </button>
+      <button v-if="onListe" class="btn btn-primary mb-3" @click="onListe = true">
+        Liste
+      </button>
+      <button v-if="onListe" class="btn btn-secondary mb-3" @click="onListe = false">
+        Calendrier
+      </button>
+      <button v-if="!onListe" class="btn btn-primary mb-3" @click="onListe = false">
+        Calendrier
+      </button>
+    </div>
     <div v-if="!onListe" class="mb-5">
       <FullCalendar class='demo-app-calendar' :options='calendarOptions'>
         <template v-slot:eventContent='arg'>
@@ -100,7 +109,6 @@
           La liste est vide
         </div>
       </div> -->
-
     <div v-if="onListe" class="col-12 mb-2 d-flex justify-content-around align-items-center flex-wrap">
       <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
         <i class="fa fa-search mx-2"></i>
@@ -212,12 +220,14 @@
       </div>
     </div>
   </div>
-  <AddCongeModal :item="selectedItem"   @close="recharger"/>
 </template>
  
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+
+// -------------------------------------------------- START CALENDAR LIBRARY ----------------------------------------------
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -226,36 +236,8 @@ import multiMonthPlugin from '@fullcalendar/multimonth'
 import interactionPlugin from '@fullcalendar/interaction'
 import frLocale from '@fullcalendar/core/locales/fr'
 import ApiService from '@/services/ApiService';
-import { defineComponent, onMounted, ref  } from "vue";
-import AddCongeModal from "./AddCongeModal.vue";
-import { format_date, showModal, suppression, error, } from "@/utils/utils";
-import { useRouter } from "vue-router";
-import { Conge } from "@/models/Conge";
-import PaginationComponent from '@/components/Utilities/Pagination.vue';
-import JwtService from "@/services/JwtService";
 
-export default defineComponent({
-       name: "ListeConge",
-       components: {
-         AddCongeModal,
-         PaginationComponent
-     },
-     setup: () => {
-       const modules = {
-     
-       };
-       
-const conges = ref<Array<Conge>>([]);
-       const conge = ref<Conge>();
-       const addCongeModalRef = ref<null | HTMLElement>(null);
-       const selectedItem = ref(0);
-   
-
-       const searchTerm = ref('');
-       const page = ref(1);
-       const totalPages = ref(0);
-       const limit = ref(10);
-       const totalElements = ref(0);
+const conges = ref([] as any[]);
 
 const calendarOptions = ref({
   plugins: [
@@ -296,6 +278,7 @@ function handleEventClick(clickInfo: any) {
   Swal.fire(clickInfo.event.title, "");
 }
 
+//  ----------------------------------------------- END CALENDAR LIBRARY ---------------------------------------------
 
 const onListe = ref(true);
 
@@ -503,29 +486,6 @@ onMounted(() => {
   getAllPersonnelConges();
 })
 
-return { modules,
-         checkPermission,
-               selectedItem,
-               conges,
-               recharger,
-               suppression, 
-               moddifier, 
-               page, 
-               totalPages,
-               limit,
-               totalElements,
-               getAllConge,
-               handlePaginate,
-               searchTerm,
-               rechercher, 
-               addCongeModalRef,
-               getAllPersonnelConges,
-               pauseConge,
-       };
-
-},
-});
-
 </script>
 
 <style>
@@ -551,3 +511,5 @@ a {
 }
 
 </style>
+
+

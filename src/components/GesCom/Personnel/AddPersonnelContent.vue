@@ -1247,21 +1247,29 @@ export default defineComponent({
       tabs.forEach((tab, index) => {
         const li = document.createElement('li');
         li.classList.add('nav-item');
-        li.innerHTML = `
-          <button class="nav-link" class="${currentStep.value > index ? 'active' : ''}" 
-              id="${tab.id}" role="tab" aria-controls="detail-product" aria-selected="false">
-              <div class="nav-rounded">
-                  <div class="product-icons">
-                      <svg class="stroke-icon">
-                          <use href="${require('@/assets/svg/icon-sprite.svg')+'#'+ tab.icon}"></use>
-                      </svg>
-                  </div>
-              </div>
-              <div class="product-tab-content">
-                  <h5>${ tab.title }</h5>
-                  <p>${ tab.desc }</p>
-              </div>
-          </button>`;
+      li.innerHTML = `
+  <button 
+    class="nav-link ${currentStep.value === (index + 1) ? 'active' : ''}" 
+    id="${tab.id}" 
+    role="tab" 
+    aria-controls="detail-product" 
+    aria-selected="${currentStep.value === (index + 1)}"
+    @click="goToStep(${index + 1})"
+  >
+    <div class="nav-rounded">
+      <div class="product-icons">
+        <svg class="stroke-icon">
+          <use href="${require('@/assets/svg/icon-sprite.svg')+'#'+ tab.icon}"></use>
+        </svg>
+      </div>
+    </div>
+    <div class="product-tab-content">
+      <h5>${ tab.title }</h5>
+      <p>${ tab.desc }</p>
+    </div>
+  </button>
+`;
+
         tabContainer.value.appendChild(li);
         const tabElements = tabContainer.value.querySelectorAll('.nav-link');
         tabElements.forEach((tab, index) => {
@@ -1338,10 +1346,11 @@ let activeclass = ref<string>('Informations générales du personnel')
 
     // Revenir à l'étape précédente
     const previousStep = () => {
-      if (currentStep.value > 1) {
-        currentStep.value--;
-      }
-    };
+  if (currentStep.value > 1) {
+    currentStep.value--;
+    showTab(currentStep.value); // Afficher l'onglet correspondant à l'étape précédente
+  }
+};
 
     // Soumettre le formulaire
     const handleSubmitForm = (values) => {
@@ -1420,4 +1429,9 @@ let activeclass = ref<string>('Informations générales du personnel')
 .fond {
   background-color: rgb(94, 191, 233);
 }
+
+.step-active {
+  color: purple; 
+}
+
 </style>
