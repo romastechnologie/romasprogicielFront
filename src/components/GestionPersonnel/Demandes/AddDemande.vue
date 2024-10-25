@@ -214,14 +214,15 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 mb-3">
-            <div>
-              <input type="file" @change="onFileChange" accept=".pdf,.doc,.docx" />
-              <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-              <button @click="submitFile" :disabled="!isFileValid">Soumettre le fichier</button>
-            </div>
+          <div>
+                    <div class="col-md-6">
+                      <label for="fileInput">Sélectionnez un fichier (.pdf, .doc, .docx) :</label>
+                      <input id="fileInput" type="file" @change="onFileChange" accept=".pdf,.doc,.docx" class="form-control" />
+                    </div>
+                  </div>
 
-          </div>
+                  <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+                
 
           <!--  <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -391,7 +392,27 @@ const showE = ref(false)
       demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
-  
+    const file = ref(null);
+    const errorMessage = ref('');
+    const maxFileSize = 5 * 1024 * 1024; // 5 Mo
+
+    const onFileChange = (event) => {
+      const selectedFile = event.target.files[0];
+      const allowedExtensions = /(\.pdf|\.doc|\.docx)$/i;
+
+      if (!allowedExtensions.test(selectedFile.name)) {
+        errorMessage.value = 'Seuls les fichiers .pdf, .doc, et .docx sont autorisés.';
+        return;
+      }
+
+      if (selectedFile.size > maxFileSize) {
+        errorMessage.value = 'Le fichier ne doit pas dépasser 5 Mo.';
+        return;
+      }
+
+      file.value = selectedFile;
+      errorMessage.value = '';
+    };
       onMounted(() => {
         getAllTypeConges()
         getAllCategorieDemandes()
@@ -694,9 +715,18 @@ const addDemande = async (values: any, { resetForm }) => {
       fieldHide13,defaultSchema,isDisable,
         removeRowEcheance,
       addRowEcheance,
-      valideteRowEcheance,echeances,
+      valideteRowEcheance,
+      echeances,
+      onFileChange,
+      errorMessage,
       //categorieOptions,
       typeCongeOptions,typeConge,personnel};
     },
   });
   </script>
+
+<style scoped>
+.error {
+  color: red;
+}
+</style>
