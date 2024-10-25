@@ -78,9 +78,10 @@
           </thead>
           <tbody>
             <tr  v-for ="(demande, index) in demandes" :key="index">
+             
                 <td class="shadow-none lh-1 fw-medium ">{{ format_date( demande?.dateDemande)}} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{demande.categorieDemande}} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel}} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{demande?.categorie?.libelle}} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom}} </td>
                 <td class="shadow-none lh-1 fw-medium">{{ demande?.motifDemande }} </td>
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                   <div class="dropdown">
@@ -174,6 +175,7 @@ export default defineComponent({
     function getAllDemandes(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log(data,'data');
           demandes.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
