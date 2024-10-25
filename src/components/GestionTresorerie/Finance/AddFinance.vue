@@ -280,7 +280,7 @@ function getAllUsers() {
 
 const getAllPersonnels = async () => {
     try {
-        const response = await ApiService.get('/personnels');
+        const response = await ApiService.get('all/personnels');
         const personnelsData = response.data.data.data;
         console.log('Data', personnelsData)
         personnelOptions.value = personnelsData.map((personnel) => ({

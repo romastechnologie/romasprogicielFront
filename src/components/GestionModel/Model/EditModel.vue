@@ -81,9 +81,6 @@ export default defineComponent({
 
 
 
-
-   
-
     function getModel(id:number) {
       ApiService.get("/models/"+id.toString())
         .then(({ data }) => {

@@ -34,22 +34,7 @@
         </form>
        
       </div>
-            <!--<div class="d-flex align-items-center">
-                <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
-                    <input type="text" v-model="searchTerm" @keyup="rechercher"
-                        class="form-control shadow-none text-black"
-                        placeholder="Rechercher un privilege" />
-                    <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
-                        <i class="flaticon-search-interface-symbol"></i>
-                    </button>
-                </form>
-                 <button
-          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
-          type="button"
-        >
-          <i class="flaticon-dots"></i>
-        </button> 
-            </div>-->
+        
         </div>
         <div class="card-body p-15 p-sm-20 p-md-25">
             <div class="table-responsive">
@@ -59,7 +44,6 @@
                             <th scope="col">Id</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Montant</th>
-                            <!--<th scope="col">Type de Trésorerie</th>-->
                             <th scope="col">Date de création</th>
                             <th scope="col">Actions</th>
                         </tr>
@@ -69,7 +53,6 @@
                             <th class="shadow-none lh-1 fw-medium text-black-emphasis">{{ tresorerie.id }}</th>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ tresorerie.nom }}</td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ tresorerie.montant }}</td>
-                            <!--<td>{{ tresorerie.typeTresorerie?.libelle }}</td>-->
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ format_date(tresorerie.dateCreation)}}</td>
 
                             <td class="shadow-none lh-1 fw-medium text-black pe-0">

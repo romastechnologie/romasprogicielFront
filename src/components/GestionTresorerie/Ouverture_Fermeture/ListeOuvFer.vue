@@ -3,24 +3,16 @@
         <div
             class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
             <div class="d-sm-flex align-items-center">
-                <router-link class="btn btn-primary" to="/ouv_fers/ajouter-ouv_fer">
-                    <i class="fa fa-plus-circle"></i>
-                    <!-- <i class="fa fa-plus-circle"></i> -->
-                    Add ouverture
-                </router-link>
-                <router-link class="btn btn-primary" to="/ouv_fers/ajouter-fermeture">
-                    <i class="fa fa-plus-circle"></i>
-                    <!-- <i class="fa fa-plus-circle"></i> -->
-                    Add fermeture
-                </router-link>
-                <!-- <button
-          class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
-          type="button"
-        >
-          Exporter
-          <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
-        </button> -->
-            </div>
+    <router-link class="btn btn-primary me-2" to="/ouv_fers/ajouter-ouv_fer">
+        <i class="fa fa-plus-circle"></i>
+        Add ouverture
+    </router-link>
+    <router-link class="btn btn-primary" to="/ouv_fers/ajouter-fermeture">
+        <i class="fa fa-plus-circle"></i>
+        Add fermeture
+    </router-link>
+</div>
+
             <div class="d-flex align-items-center">
                 <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
                     <input type="text" v-model="searchTerm" @keyup="rechercher"
@@ -124,25 +116,28 @@ import Swal from "sweetalert2";
     }
     
     const deleteouvFer = async (id: any) => {
-        Swal.fire({
-            title: 'Etes-vous sûr?',
-            text: "Vous voulez vraiment supprimer cette ouverture !",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#ddd',
-            cancelButtonText: 'Non',
-            confirmButtonText: 'Oui!'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                await ApiService.delete('/ouv_fers/' + id + '').then(() => {
+    console.log("ID à supprimer:", id); 
+    Swal.fire({
+        title: 'Etes-vous sûr?',
+        text: "Vous voulez vraiment supprimer cette ouverture !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#ddd',
+        cancelButtonText: 'Non',
+        confirmButtonText: 'Oui!'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            await ApiService.delete('/ouv_fers/' + id + '')
+                .then(() => {
                     Swal.fire({
                         icon: 'success',
                         title: 'Ouverture supprimée avec succès!',
                         showConfirmButton: false,
                         timer: 1000
                     });
-                    getTresorerie();
+                    // Assurez-vous de rafraîchir la liste après la suppression
+                    getouvFer();
                 }).catch(error => {
                     Swal.fire({
                         icon: 'error',
@@ -152,12 +147,8 @@ import Swal from "sweetalert2";
                     });
                     console.error('Erreur détectée pendant la suppression:', error);
                 });
-            
-            }
-        })
-    }
-
-    
-    
+        }
+    });
+}
 
 </script>
