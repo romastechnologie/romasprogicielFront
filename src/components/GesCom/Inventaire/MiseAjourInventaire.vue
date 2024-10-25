@@ -14,7 +14,7 @@
               <div class="border border-primary mb-10">
                 <div class="row d-flex align-items-center justify-content-between fw-bold py-2 bg-primary">
                   <div class="col-md-7">
-                    <h4 class="fs-4 text-white">Magasins</h4>
+                    <h4 class="fs-4 text-white px-5">Magasins</h4>
                   </div>
                   <div class="col-md-5">
                     <div class="d-flex float-end">
@@ -63,15 +63,6 @@
                       class="row gx-2 gy-0" v-for="(produit, produitIndex) in produits" :key="produitIndex">
                         <div class="col-md-4 mb-2">
                           <div class="form-group ">
-                            <!-- <Multiselect
-                              :options="produitOptions"
-                              :searchable="true"
-                              track-by="label"
-                              label="label"
-                              v-model="produit.produit"
-                              placeholder="Sélectionner le produit"
-                              @select="selectProd(produit.produit, produit)"
-                            /> -->
                             <input
                               type="number"
                               v-model="produit.nomProd"
@@ -159,8 +150,7 @@
                               :class="
                                 validateRowProduit(produit.ecartReel)
                                   ? 'form-control shadow-none fs-md-15 text-black is-invalid '
-                                  : 'form-control shadow-none fs-md-15 text-black '
-                              "
+                                  : 'form-control shadow-none fs-md-15 text-black '"
                               placeholder="Entrer l'écart"
                             />
                             <div
@@ -192,13 +182,6 @@
                             </div>
                           </div>
                         </div>
-                        <!-- <div class="col-md-1 mb-2">
-                          <button
-                            class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
-                            @click="removeRowProduit(produitIndex)">
-                            <i class="fa fa-trash-o lh-1 me-1 position-relative top-2" ></i>
-                          </button>
-                        </div> -->
                     </div>
                   </div>
                 </div>
@@ -308,19 +291,6 @@ watch(
   { deep: true }
 );
 
-
-const fetchPersonnes = async () => {
-      try {
-        const response = await ApiService.get('all/personnels');
-        const personneData = response.data.data.data;
-        personneOptions.value = personneData.map((personnels) => ({
-          value: personnels.id,
-          label: `${personnels.nom}`,
-        }));
-      } catch (error) {
-        //
-      }
-    };
 
 const validateRowProduit = (e) => {
   return e === '' || e == null || e < 0;

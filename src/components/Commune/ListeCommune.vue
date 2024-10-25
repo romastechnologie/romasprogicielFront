@@ -98,8 +98,7 @@
                         href="javascript:void(0);"
                         data-bs-toggle="modal"
                         data-bs-target="#AddCommuneModal"
-                        @click="moddifier(commune)"
-                      >
+                        @click="moddifier(commune)">
                         <i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>
