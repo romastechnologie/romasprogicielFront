@@ -1,11 +1,15 @@
 <template>
   <div class="px-lg-4 py-lg- p-md-3 p-3 text-start">
-    <router-link to="/conges/ajouter-conge">
-      <button class="btn btn-primary mb-3">
-        <i class="fa fa-plus-circle mx-2"></i>
-        Programmer un congé
-      </button>
-    </router-link>
+    <a 
+               class="btn btn-primary mb-3"
+               href="#"
+               data-bs-toggle="modal"
+             data-bs-target="#AddCongeModal"
+           >
+           <i class="fa fa-plus-circle mx-2"></i>
+             Programmer un congé 
+           </a>
+
 
     <div v-if="!onListe" class="mb-5">
       <FullCalendar class='demo-app-calendar' :options='calendarOptions'>
@@ -15,7 +19,88 @@
         </template>
       </FullCalendar>
     </div>
-  
+    <!-- <div class="d-flex justify-content-center mb-2">
+        <button class="btn btn-secondary" v-if="changeConge == true" @click="changeConge = false"> Congé sans demande
+        </button>
+        <button class="btn btn-secondary" v-if="changeConge == false" @click="changeConge = true"> Congé avec demande
+        </button>
+      </div> -->
+    <!-- <div v-if="!changeConge" class="col-12 mb-2 d-flex justify-content-around align-items-center flex-wrap">
+        <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
+          <span class="material-symbols-outlined mx-2">
+            search
+          </span>
+          <input type="search" class="form-control" @input="sortCongeDemandeWithSearch($event.target)"
+            placeholder="Rechercher par personnel">
+        </div>
+        <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center">
+          <span class="mx-2"> Date </span>
+          <input type="date" class="form-control" @input="sortCongeDemandeWithDateDebut($event.target)" />
+        </div>
+      </div> -->
+    <!-- <div v-if="!changeConge" class="card rounded rounded-4 px-2 pt-4 py-1 overflow-auto">
+        <table class="table m-0">
+          <thead>
+            <tr>
+              <th scope="col"> Type de congé </th>
+              <th scope="col"> Personnel </th>
+              <th scope="col"> Date de debut </th>
+              <th scope="col"> Date de fin prévue </th>
+              <th scope="col"> Date de fin </th>
+              <th scope="col"> Date de reprise </th>
+              <th scope="col"> Statut </th>
+              <th scope="col"> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="personnelConge in filterCongeDemande" :key="personnelConge.id">
+              <td> {{ personnelConge.conge.type ? personnelConge.conge.type.libelle : "null" }} </td>
+              <td> {{ personnelConge.personnel ? personnelConge.personnel.nom + " " + personnelConge.personnel.prenom : "null" }} </td>
+              <td> {{ personnelConge.conge.dateDebut.toString().slice(0, 10) }} </td>
+              <td> {{ personnelConge.conge.dateFinPrevu.toString().slice(0, 10) }} </td>
+              <td> {{ personnelConge.conge.dateFin.toString().slice(0, 10) }} </td>
+              <td> {{ personnelConge.conge.dateReprise.toString().slice(0, 10) }} </td>
+              <td v-if="personnelConge.conge.statut === 'Confirmé'" class="text-center"> Confirmé </td>
+              <td v-else-if="personnelConge.conge.statut === 'Annulé'" class="text-center"> Annulé </td>
+              <td v-else-if="personnelConge.conge.statut === 'Interrompu'" class="text-center"> Interrompu </td>
+              <td v-else-if="personnelConge.conge.statut === 'Terminé'" class="text-center"> Terminé </td>
+              <td>
+                <div class="d-flex justify-content-center">
+                  <span @click="pauseConge(personnelConge.conge.id)" type="button"
+                    v-if="personnelConge.conge.statut != 'Annulé' && personnelConge.conge.statut != 'Interrompu' && personnelConge.conge.statut != 'Terminé'"
+                    class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger text-center"
+                    >
+                    pause
+                  </span>
+                  <span @click="cancelConge(personnelConge.conge.id)" type="button"
+                    v-if="personnelConge.conge.statut != 'Interrompu' && personnelConge.conge.statut != 'Annulé' && personnelConge.conge.statut != 'Terminé'"
+                    class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger text-center"
+                    >
+                    cancel
+                  </span>
+                  <router-link :to="`/updateConge/${personnelConge.conge.id}`" class="text-decoration-none"
+                    v-if="personnelConge.conge.statut != 'Interrompu' && personnelConge.conge.statut != 'Annulé' && personnelConge.conge.statut != 'Terminé'">
+                    <span type="button"
+                      class="material-symbols-outlined card fs-3 d-flex justify-content-center align-items-center text-success text-center"
+                      >
+                      update
+                    </span>
+                  </router-link>
+                  <span @click="deleteConge(conge.id)" type="button" 
+                    class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger text-center"
+                    >
+                    delete
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div v-if="filterCongeDemande.length == 0" class="fs-5 d-flex justify-content-center">
+          La liste est vide
+        </div>
+      </div> -->
+
     <div v-if="onListe" class="col-12 mb-2 d-flex justify-content-around align-items-center flex-wrap">
       <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
         <i class="fa fa-search mx-2"></i>
@@ -58,7 +143,33 @@
             <td v-else-if="personnelConge.statut === 'Interrompu'" class="text-center"> <span
                 class="badge badge-primary">Interrompu</span>
             </td>
-           
+            <!-- <td v-else-if="personnelConge.statut === 'Terminé'" class="text-center"> <span class="badge badge-danger">Terminé</span>
+            </td> -->
+            <!-- <td>
+              <div class="d-flex justify-content-center">
+                <span @click="pauseConge(personnelConge.id)" type="button"
+                  v-if="personnelConge.statut != 'Annulé' && personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Terminé'"
+                  class="material-symbols-outlined card fs-6 mx-1 d-flex justify-content-center align-items-center text-danger text-center">
+                  pause
+                </span>
+                <span @click="cancelConge(personnelConge.id)" type="button"
+                  v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'"
+                  class="material-symbols-outlined card fs-6 mx-1 d-flex justify-content-center align-items-center text-danger text-center">
+                  cancel
+                </span>
+                <router-link :to="`/conges/edit-conge/${personnelConge.id}`" class="text-decoration-none"
+                  v-if="personnelConge.statut != 'Interrompu' && personnelConge.statut != 'Annulé' && personnelConge.statut != 'Terminé'">
+                  <span type="button"
+                    class="material-symbols-outlined card fs-6 d-flex justify-content-center align-items-center text-success text-center">
+                    update
+                  </span>
+                </router-link>
+                <span @click="deleteConge(personnelConge.id)" type="button"
+                  class="material-symbols-outlined card fs-3 mx-1 d-flex justify-content-center align-items-center text-danger text-center">
+                  delete
+                </span>
+              </div>
+            </td> -->
             <td class="shadow-none lh-1 fw-medium text-black pe-0  text-end">
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false" v-if="personnelConge.statut != 'Annulé'">Actions</button>
@@ -101,15 +212,12 @@
       </div>
     </div>
   </div>
+  <AddCongeModal :item="selectedItem"   @close="recharger"/>
 </template>
  
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import {Conge } from '@/models/Conge';
-
-// -------------------------------------------------- START CALENDAR LIBRARY ----------------------------------------------
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -118,8 +226,36 @@ import multiMonthPlugin from '@fullcalendar/multimonth'
 import interactionPlugin from '@fullcalendar/interaction'
 import frLocale from '@fullcalendar/core/locales/fr'
 import ApiService from '@/services/ApiService';
+import { defineComponent, onMounted, ref  } from "vue";
+import AddCongeModal from "./AddCongeModal.vue";
+import { format_date, showModal, suppression, error, } from "@/utils/utils";
+import { useRouter } from "vue-router";
+import { Conge } from "@/models/Conge";
+import PaginationComponent from '@/components/Utilities/Pagination.vue';
+import JwtService from "@/services/JwtService";
 
-const conges = ref([] as any[]);
+export default defineComponent({
+       name: "ListeConge",
+       components: {
+         AddCongeModal,
+         PaginationComponent
+     },
+     setup: () => {
+       const modules = {
+     
+       };
+       
+const conges = ref<Array<Conge>>([]);
+       const conge = ref<Conge>();
+       const addCongeModalRef = ref<null | HTMLElement>(null);
+       const selectedItem = ref(0);
+   
+
+       const searchTerm = ref('');
+       const page = ref(1);
+       const totalPages = ref(0);
+       const limit = ref(10);
+       const totalElements = ref(0);
 
 const calendarOptions = ref({
   plugins: [
@@ -366,6 +502,29 @@ const getAllPersonnelConges = async () => {
 onMounted(() => {
   getAllPersonnelConges();
 })
+
+return { modules,
+         checkPermission,
+               selectedItem,
+               conges,
+               recharger,
+               suppression, 
+               moddifier, 
+               page, 
+               totalPages,
+               limit,
+               totalElements,
+               getAllConge,
+               handlePaginate,
+               searchTerm,
+               rechercher, 
+               addCongeModalRef,
+               getAllPersonnelConges,
+               pauseConge,
+       };
+
+},
+});
 
 </script>
 
