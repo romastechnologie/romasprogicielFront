@@ -22,11 +22,7 @@
                 </tr>
                 <tr>
                   <td>Famille</td>
-                  <td>{{ produit?.famille }}</td>
-                </tr>
-                <tr>
-                  <td>Référence</td>
-                  <td>{{ produit?.refProd }}</td>
+                  <td>{{ produit?.famille.libelleFamille }}</td>
                 </tr>
                 <tr>
                   <td>Nom du Produit</td>

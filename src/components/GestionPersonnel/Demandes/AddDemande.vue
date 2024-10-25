@@ -265,7 +265,7 @@
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
-                  Ajouter un demande
+                  Ajouter une demande
               </button>
               <router-link to="/demandes/liste-demande" 
               class=" btn btn-danger"><i
@@ -627,9 +627,9 @@ const addDemande = async (values: any, { resetForm }) => {
             console.log("data   ",data)
              if (data.code == 201) {
               success(data.message);
-               //resetForm();
+              //  resetForm();
              console.log('flefelef')
-            //router.push({ name: "ListeDemandePage" });
+            // router.push({ name: "ListeDemandePage" });
            }
            }).catch(({ response }) => {
             console.log("response   ",response)
@@ -655,7 +655,7 @@ const addDemande = async (values: any, { resetForm }) => {
 
       const getAllCategorieDemandes = async () => {
         try{
-        const response = await ApiService.get('/categorieDemandes');
+        const response = await ApiService.get('all/categorieDemandes');
         const categoriesData = response.data.data.data;
 
         categorieOptions.value = categoriesData.map((categorie) => ({
