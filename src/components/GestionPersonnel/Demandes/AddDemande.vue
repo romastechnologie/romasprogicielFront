@@ -671,7 +671,7 @@ const addDemande = async (values: any, { resetForm }) => {
 
       const getAllCategorieDemandes = async () => {
         try{
-        const response = await ApiService.get('all/categorieDemandes');
+        const response = await ApiService.get('/categorieDemandes');
         const categoriesData = response.data.data.data;
 
         categorieOptions.value = categoriesData.map((categorie) => ({
