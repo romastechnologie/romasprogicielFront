@@ -176,11 +176,11 @@
         const getAllTypeEmplacements = async () => {
         try{
         const response = await ApiService.get('/all/typeEmplacements');
-        const typeEmplacementsData = response.data.data;
+        const typeEmplacementsData = response.data.data.data;
         console.log('Data', typeEmplacementsData)
         typeEmplacementOptions.value = typeEmplacementsData.map((typeEmplacement) => ({
           value: typeEmplacement.id,
-          label: typeEmplacement.libelle,
+          label: typeEmplacement.description,
         }));
         }
         catch(error){
