@@ -74,6 +74,13 @@
               >
                 Ordre
               </th>
+
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Type Emplacement
+              </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
@@ -93,6 +100,9 @@
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{typeEmplacement.ordre }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{typeEmplacement?.typesemplacements }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
