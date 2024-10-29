@@ -2,111 +2,142 @@
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing form theme-form">
       <div class="card rounded rounded-4 px-2 pt-4 py-4 overflow-auto">
-        <div class="d-flex mb-2">
-          <div class="col-3 mx-2 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-            <h6> Date </h6>
-          </div>
-          <div class="col-4 mx-2 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-            <h6> Personnel </h6>
-          </div>
-          <div class="col-2 mx-2 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-            <h6> Heure d'arrivée </h6>
-          </div>
-          <div class="col-2 mx-2 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-            <h6> Heure de depart </h6>
-          </div>
-          <div class="col-2 mx-2 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-            <h6> Durée </h6>
-          </div>
-          <div class="col-3 mx-1 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-            <h6> Présence </h6>
-          </div>
-          <div class="col-2 mx-2 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-            <h6> Statut justifié </h6>
-          </div>
-          <div class="mx-2 text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-            <h6> </h6>
-          </div>
-        </div>
-        <template v-for="presence in presences" :key="presence.personnel">
-          <Form :validation-schema="schemaPresence()" :id="`${presence.personnel}`" class="d-flex mb-2">
-            <div class="col-3 mx-2">
-              <Field type="date" v-model="presence.date" name="date" id="date" class="form-control mb-1" readonly />
-              <ErrorMessage name="date" class="text-danger text-start mb-2" />
-            </div>
-            <div class="col-4 mx-2">
-              <select name="personnel" id="personnel" class="form-select mb-1" disabled>
-                <template v-for="personnel in personnels" :key="personnel.id">
-                  <option v-if="personnel.id === presence.personnel">
-                    {{ personnel.nom + " " + personnel.prenom }} </option>
-                </template>
-              </select>
-            </div>
-            <div class="col-2 mx-2">
-              <Field
-                v-if="presence.statutJustifie == '' || presence.statutJustifie == 'Non' || presence.statutJustifie == 'Oui'"
-                v-model="presence.heureArrivee" type="text" name="heureArrivee" id="heureArrivee"
-                class="form-control mb-1" />
-              <Field v-if="presence.statutJustifie == 'En congé'" readonly v-model="presence.heureArrivee" type="text"
-                name="heureArrivee" id="heureArrivee" class="form-control mb-1" />
-              <ErrorMessage name="heureArrivee" class="text-danger text-start mb-2" />
-            </div>
-            <div class="col-2 mx-2">
-              <Field
-                v-if="presence.statutJustifie == '' || presence.statutJustifie == 'Non' || presence.statutJustifie == 'Oui'"
-                v-model="presence.heureDepart" @change="calculateDuration(presence)" type="text" name="heureDepart"
-                id="heureDepart" class="form-control mb-1" />
-              <Field v-if="presence.statutJustifie == 'En congé'" readonly v-model="presence.heureDepart"
-                @change="calculateDuration(presence)" type="text" name="heureDepart" id="heureDepart"
-                class="form-control mb-1" />
-              <ErrorMessage name="heureDepart" class="text-danger text-start mb-2" />
-            </div>
-            <div class="col-2 mx-2">
-              <Field v-model="presence.duree" type="text" name="duree" id="duree" class="form-control mb-1" disabled/>
-              <ErrorMessage name="duree" class="text-danger text-start mb-2" />
-            </div>
-            <div class="col-3 mx-1 d-flex justify-content-center align-items-center">
-              <div class="form-check">
-                <input
-                  v-if="presence.statutJustifie == '' || presence.statutJustifie == 'Non' || presence.statutJustifie == 'Oui'"
-                  v-model="presence.statut" class="form-check-input" type="radio" value="present" name="presence"
-                  id="present">
-                <input v-if="presence.statutJustifie == 'En congé'" disabled v-model="presence.statut"
-                  class="form-check-input" type="radio" value="present" name="presence" id="present">
-                <label for="present"> Présent </label>
+        <div class="row">
+          <div class="col-md-12 mb-md-25">
+            <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+              <div class="row">
+                <div class="border border-primary mb-10">
+                  <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                    style="background-color: #0a59a4">
+                    <div class="col-md-7">
+                      <h3 class="fs-4 text-white">
+                        Les horaires de l'entreprise
+                      </h3>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="row d-flex align-items-center justify-content-between mt-2">
+                      <div class="col-md-2">
+                        <label class="d-block text-black fw-semibold">
+                          Jour
+                          <span class="text-danger">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="d-block text-black fw-semibold">
+                          Heure d'ouverture
+                          <span class="text-danger">*</span>
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="d-block text-black fw-semibold">
+                          Début de pause
+                          <span class="text-danger">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="d-block text-black fw-semibold mb-10">
+                          Fin de pause<span class="text-danger">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="d-block text-black fw-semibold">
+                          Heure de fermeture
+                          <span class="text-danger">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="d-block text-black fw-semibold mb-10">
+                          Est jour ouvrable<span class="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+                    <hr class="mt-0" />
+                    <div class="row" v-for="(horaire, index) in horaires" :key="index">
+                      <div class="col-md-2 mb-2">
+                        <div class="form-group ">
+                          <input :disabled="horaire.estActif == '0'" readonly
+                            class="form-control shadow-none fs-md-15 text-black" type="text" v-model="horaire.jour"
+                            :class="valideteRowHoraire(horaire.jour, horaire.estActif) ? 'is-invalid' : ''" />
+                          <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.jour, horaire.estActif)">
+                            Champs obligatoire.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2 mb-2">
+                        <div class="form-group ">
+                          <input :disabled="horaire.estActif == '0'" v-model="horaire.heureOuverture" type="time"
+                            :class="valideteRowHoraire(horaire.heureOuverture, horaire.estActif) ? 'is-invalid' : ''"
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="Saisir le nom" />
+                          <div class="invalid-feedback"
+                            v-if="valideteRowHoraire(horaire.heureOuverture, horaire.estActif)">
+                            Champs obligatoire.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2 mb-2">
+                        <div class="form-group ">
+                          <input :disabled="horaire.estActif == '0'" v-model="horaire.heureDebutPause" type="time"
+                            :class="valideteRowHoraire(horaire.heureDebutPause, horaire.estActif) ? 'is-invalid' : ''"
+                            class="form-control shadow-none fs-md-15 text-black" />
+                          <div class="invalid-feedback"
+                            v-if="valideteRowHoraire(horaire.heureDebutPause, horaire.estActif)">
+                            Champs obligatoire.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2 mb-2">
+                        <div class="form-group">
+                          <input :disabled="horaire.estActif == '0'" v-model="horaire.heureFinPause" type="time"
+                            :class="valideteRowHoraire(horaire.heureFinPause, horaire.estActif) ? 'is-invalid' : ''"
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                          <div class="invalid-feedback"
+                            v-if="valideteRowHoraire(horaire.heureFinPause, horaire.estActif)">
+                            Champs obligatoire.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2 mb-2">
+                        <div class="form-group ">
+                          <input :disabled="horaire.estActif == '0'" v-model="horaire.heureFermeture" type="time"
+                            :class="valideteRowHoraire(horaire.heureFermeture, horaire.estActif) ? 'is-invalid' : ''"
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="Saisir le nom" />
+                          <div class="invalid-feedback"
+                            v-if="valideteRowHoraire(horaire.heureFermeture, horaire.estActif)">
+                            Champs obligatoire.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2 mb-2">
+                        <div class="form-check-size">
+                          <div class="form-check form-check-inline radio radio-primary">
+                            <input class="form-check-input" :id="index" v-model="horaire.estActif" type="radio"
+                              :name="`radio${index}`" value="1">
+                            <label class="form-check-label mb-0" :for="index">Oui</label>
+                          </div>
+                          <div class="form-check form-check-inline radio radio-primary">
+                            <input class="form-check-input" :id="`radio${index}`" v-model="horaire.estActif"
+                              type="radio" :name="`radio${index}`" value="0">
+                            <label class="form-check-label mb-0" :for="`radio${index}`">Non</label>
+                          </div>
+                        </div>
+                        <div class="invalid-feedback" v-if="valideteRowHoraire(horaire.estActif, horaire.estActif)">
+                          Champs obligatoire.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 mt-3">
+                  <label for="nobreheuresTravail" class="form-label">Heures de travail<span
+                      class="text-danger">*</span></label>
+                  <input readonly v-model="contrat.nobreheuresTravail" class="form-control" type="number" />
+                  <span class="invalid-feedback"></span>
+                </div>
               </div>
-              <div class="form-check mx-3">
-                <input v-model="presence.statut" class="form-check-input" type="radio" value="absent" name="presence"
-                  id="absent">
-                <label for="absent"> Absent </label>
-              </div>
             </div>
-            <div
-              v-if="presence.statutJustifie == '' || presence.statutJustifie == 'Non' || presence.statutJustifie == 'Oui'"
-              class="col-2 mx-2">
-              <select v-model="presence.statutJustifie" name="statutJustifie" id="statutJustifie" class="form-select"
-                as="select">
-                <option value="Oui"> Oui </option>
-                <option value="Non"> Non </option>
-              </select>
-            </div>
-            <div v-else-if="presence.statutJustifie == 'En congé'" class="col-2 mx-2">
-              <select disabled v-model="presence.statutJustifie" name="statutJustifie" id="statutJustifie"
-                class="form-select" as="select">
-                <option value="En congé"> En congé </option>
-              </select>
-            </div>
-          </Form>
-        </template>
-        <div v-if="filterPersonnel.length == 0" class="fs-5 d-flex justify-content-center">
-          La liste est vide
-        </div>
-        <div>
-          <button @click="sendPresence" class="btn btn-primary mx-2"> Envoyer </button>
-          <router-link to="/presences/liste-presence">
-            <button type="submit" class="btn btn-danger">
-              Annuler </button>
-          </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -143,7 +174,6 @@ interface Presence {
 const presences = reactive<Presence[]>([]);
 
 const calculateDuration = (presence: Presence) => {
-  // Vérifier si les champs contiennent "-"
   if (presence.heureArrivee === "-" || presence.heureDepart === "-") {
     presence.duree = "0"; // Si l'un des champs contient "-", définir la durée sur 0
     return;
@@ -169,6 +199,8 @@ const calculateDuration = (presence: Presence) => {
   // Mettre à jour la propriété 'duree' avec la durée formatée
   presence.duree = formattedDuration;
 }
+
+
 
 const personnels = ref([] as any[]);
 const conges = ref([] as any[]);
@@ -198,11 +230,22 @@ function schemaPresence() {
     statutJustifie: yup.string().required("La justification du statut est obligatoire."),
   })
 }
-
+const getAllPersonnels = ()=>{
+  function schemaPresence() {
+  return yup.object().shape({
+    date: yup.date().required("La date est obligatoire."),
+    heureArrivee: yup.string().required("L'heure d'arrivée est obligatoire."),
+    heureDepart: yup.string().required("L'heure de départ est obligatoire."),
+    statut: yup.string().required("Le statut est obligatoire."),
+    duree: yup.string().required("La durée est obligatoire."),
+    statutJustifie: yup.string().required("La justification du statut est obligatoire."),
+  })
+}
+}
 async function sendPresence() {
 
   try {
-    const response = await ApiService.post(`/presences`, presences);
+    const response = await ApiService.post(`/personnels`, presences);
     Swal.fire({
       timer: 1500,
       position: "top-end",
@@ -216,7 +259,6 @@ async function sendPresence() {
   }
 }
 
-// --------------------------------------------- GET ----------------------------------------------------
 const getAllPersonnelConges = async () => {
   try {
     const response = await ApiService.get('/personnelConges');

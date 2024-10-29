@@ -227,7 +227,7 @@ import axios from "axios";
 import Multiselect from "@vueform/multiselect";
 
 export default defineComponent({
-  name: "AddInventaire",
+  name: "MiseAjourInventaire",
   components: {
     Form,
     Field,
@@ -315,7 +315,6 @@ watch(
       if(route.params.id) {
         getAllInventaireById(route.params.id);
       }
-      
     });
 
 
@@ -383,7 +382,7 @@ watch(
     };
 
     function getAllInventaireById(id) {
-        ApiService.get(`/inventaire/`+id)
+        ApiService.get(`/inventaires/`+id)
           .then(({ data }) => {
             magasinss.value = data.data.data.magasin.libelle
             data.data.data.inventaiprocondimags.forEach(produit => {

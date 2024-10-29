@@ -11,12 +11,12 @@
                     <Form ref="emplacementForm" @submit="addEmplacement" :validation-schema="emplacementSchema">
                       <div class="row">
 
-                        <div v-if="dernierCodeMessage" class="alert alert-info">
-                                 Dernier code est : {{ dernierCodeMessage }}
+                        <div class="col-md-12 mb-3">
+                          <div v-if="dernierCodeMessage">
+                       <p>  Dernier code est : {{ dernierCodeMessage }}</p>  
                         </div>
 
 
-                        <div class="col-md-12 mb-3">
                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                           <label class="d-block text-black mb-10">
                             Type d'emplacement <span class="text-danger">*</span>
@@ -161,13 +161,6 @@
       });
   
      
-      
-      watch(typeEmplacementSelected, (newTypeId) => {
-        const selectedType = typeEmplacementOptions.value.find(type => type.value === newTypeId);
-        if (selectedType) {
-          emplacementForm.value?.setFieldValue("code", selectedType.prefix);
-        }
-      });
   
       const getEmplacement = async (id: number) => {
         return ApiService.get("/emplacements/" + id)
@@ -181,28 +174,6 @@
           });
       }
   
-
-
-      watch(typeEmplacementSelected, async (newTypeId) => {
-      const selectedType = typeEmplacementOptions.value.find(type => type.value === newTypeId);
-      if (selectedType) {
-        emplacementForm.value?.setFieldValue("code", selectedType.prefix);
-        await fetchDernierCode(); // Call function to get the last recorded code
-      }
-    });
-
-    const fetchDernierCode = async () => {
-      try {
-        const response = await ApiService.get('/derniercode');
-        if (response.data.code) {
-          dernierCodeMessage.value = response.data.code;
-        } else {
-          dernierCodeMessage.value = "Code inexistant pour cet emplacement.";
-        }
-      } catch (error) {
-        dernierCodeMessage.value = "Impossible de récupérer le dernier code.";
-      }
-    };
       const btnTitle = async () => {
         if (isupdate.value) {
           title.value = "Modifier l'emplacement";
@@ -238,7 +209,7 @@
             label: emplacement.description,
           }));
         } catch (error) {
-          // Handle error
+          
         }
       }
   
@@ -283,6 +254,32 @@
         });
         btnTitle()
       };
+
+      const fetchDernierCode = async () => {
+  try {
+    const response = await ApiService.get('/derniercode');
+    console.log("Response from derniercode API:", response); // Log response for debugging
+    if (response.data.code === 200 && response.data.data) {
+      dernierCodeMessage.value = response.data.data.code;  // Correctly access the nested code
+    } else {
+      dernierCodeMessage.value = "Code inexistant pour cet emplacement.";
+    }
+  } catch (error) {
+    console.error("Error fetching dernier code:", error);
+    dernierCodeMessage.value = "Impossible de récupérer le dernier code.";
+  }
+};
+
+watch(typeEmplacementSelected, async (newTypeId) => {
+  const selectedType = typeEmplacementOptions.value.find(type => type.value === newTypeId);
+  if (selectedType) {
+    emplacementForm.value?.setFieldValue("code", selectedType.prefix);
+    await fetchDernierCode(); // Call function to get the last recorded code
+  } else {
+    dernierCodeMessage.value = ''; // Clear message if no type is selected
+  }
+});
+
   
       return {
         emplacements,
@@ -296,10 +293,10 @@
         emplacementnew,
         typeEmplacementOptions,
         emplacementOptions,
-        typeEmplacementSelected,
-        dernierCodeMessage, // Bind this to the Multiselect component for typeEmplacement
+        typeEmplacementSelected, 
+        dernierCodeMessage,
       };
     },
   };
   </script>
-  y@/models/Emplacement
+  @/models/Emplacement
