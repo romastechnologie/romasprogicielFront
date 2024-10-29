@@ -613,7 +613,7 @@ export default defineComponent({
      const getAllPersonnel = async () => {
       try{
       const response = await ApiService.get('/all/personnels');
-      const personnelsData = response.data;
+      const personnelsData = response.data.data.data;
       console.log('Data', personnelsData)
       personnelOptions.value = personnelsData.map((personnel) => ({
         value: personnel.id,
@@ -1005,7 +1005,7 @@ export default defineComponent({
     const fonctionOptions = ref([]);
     const fetchFonction = async () => {
       try {
-        const response = await axios.get("/fonctions");
+        const response = await axios.get("all/postes");
         const fonctionData = response.data.data.data;
         console.log("ZZZZZZZZZZ ===> ", fonctionData)
         fonctionOptions.value = fonctionData.map((fonction) => ({

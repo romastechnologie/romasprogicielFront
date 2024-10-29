@@ -27,10 +27,10 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label v-if="etatOrganisation == false" class="d-block text-black mb-10">
-                    Organiation <span class="text-danger">*</span>
+                    Organisation <span class="text-danger">*</span>
                   </label>
                   <label v-else class="d-block text-black mb-10">
-                    Organiation
+                    Organisation
                   </label>
                   <Field name="organisation" type="text" v-slot="{ field }">
                     <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions"
@@ -110,7 +110,7 @@ export default {
     const organisationSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       nom: Yup.string().required('Le nom est obligatoire'),
-      organisation: Yup.string().required("L'organisation est obligatoire."),
+      organisation: Yup.string().notRequired(),
        typeorganisation: etatOrganisation.value == true ? Yup.string().notRequired() :  Yup.string().required("Le type d'organisation est obligatoire."),
 
     });
