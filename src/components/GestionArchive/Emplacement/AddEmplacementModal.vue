@@ -180,7 +180,7 @@
         console.log('Data', typeEmplacementsData)
         typeEmplacementOptions.value = typeEmplacementsData.map((typeEmplacement) => ({
           value: typeEmplacement.id,
-          label: typeEmplacement.description,
+          label: typeEmplacement.libelle,
         }));
         }
         catch(error){

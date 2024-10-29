@@ -48,12 +48,7 @@
           <table  class="table text-nowrap align-middle mb-0">
             <thead>
               <tr>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                  Référence du Contrat
-                </th>
+         
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                   Date Début
                 </th>
@@ -102,7 +97,6 @@
             </thead>
             <tbody>
               <tr  v-for ="(contrat, index) in contrats" :key="index">
-                  <td class="shadow-none lh-1 fw-medium ">{{ contrat.refContrat }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(contrat?.dateDebut) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(contrat.dateFin) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ contrat.salaireDeBase }} </td>
