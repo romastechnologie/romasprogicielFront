@@ -343,7 +343,7 @@ export default defineComponent({
         console.log("RESPONSE EMPLACEMENT ===> ", response)
         emplacementOptions.value = emplacementDatas.map((empl) => ({
           value: empl.id,
-          label: empl.libelle,
+          label: empl.code,
         }));
       }
       catch (error) {
