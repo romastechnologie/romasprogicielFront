@@ -25,7 +25,7 @@
                   Libellé <span class="text-danger">*</span>
                 </label>
                 <Field name="nom" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libellé"/>
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>

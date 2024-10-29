@@ -10,7 +10,8 @@
                     <ul class="bookmark-dropdown">
                         <li class="custom-scrollbar">
                             <div class="row">
-                                <div class="col-6 text-center"><a href="/mofi/app/bookmark" class="">
+                                <div class="col-6 text-center">
+                                    <a type="button" class="" @click="commence">
                                         <div class="bookmark-content">
                                             <div class="bookmark-icon"><svg>
                                                     <use
@@ -24,7 +25,8 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6 text-center"><a class="">
+                                <div class="col-6 text-center">
+                                    <a class="" @click="depart">
                                         <div class="bookmark-content">
                                             <div class="bookmark-icon">
                                                 <svg>
@@ -70,24 +72,32 @@
                                         <div class="ProfileCard-realName bookmark-realName">
                                             <router-link :to="{ path: menuItem.path }" class="realname">{{
                                                 menuItem.title }}</router-link>
-                                            <span class="pull-right "><a href="JavaScript:void(0);"
-                                                    @click="addToBookmark(menuItem)"><i
-                                                        class="fa fa-star-o f-16 bookmark-search f-right"
-                                                        :class="menuItem.bookmark ? 'text-warning' : ''"></i></a></span>
+                                            <span class="pull-right ">
+                                                <a href="JavaScript:void(0);"
+                                                    @click="addToBookmark(menuItem)">
+                                                    <i class="fa fa-star-o f-16 bookmark-search f-right"
+                                                        :class="menuItem.bookmark ? 'text-warning' : ''">
+                                                    </i>
+                                                </a>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div :class="bookmarkSearchResultEmpty ? 'Typeahead-menu is-open' : 'Typeahead-menu'">
                                 <div class="tt-dataset tt-dataset-0">
-                                    <div class="EmptyMessage"> Your search turned up 0 results. Opps There are no result
-                                        found.</div>
+                                    <div class="EmptyMessage"> 
+                                        Your search turned up 0 results. Opps There are no result found.
+                                    </div>
                                 </div>
                             </div>
                         </li>
 
-                        <li @click="openBookmark"><a class="f-w-700 d-block flip-back" id="flip-back"
-                                href="javascript:void(0)">Back</a></li>
+                        <li @click="openBookmark">
+                            <a class="f-w-700 d-block flip-back" id="flip-back"
+                                href="javascript:void(0)">Back
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -99,7 +109,9 @@
     import { ref, watch, onMounted } from 'vue'
     import { useMenuStore } from "@/store/menu"
     import { storeToRefs } from "pinia";
+    import { error, success } from '@/utils/utils';
     import { log } from '@/core/data/sociall-app';
+    import axios from "axios";
     interface bookmark {
         icon1: string,
         path: string,
@@ -147,9 +159,38 @@
             items.bookmark = false;
         }
     }
+    const commence = async()=>{
+       console.log('commence')
+       try{
+        const {data} = await axios.get('/maPresence')
+        console.log('data',data)
+        if(data.code == 201){
+           console.log('commence', 'Moi commence')
+           success(data.message)
+        }else{
+           error(data.message) 
+        }
+       }catch(error){
+        console.log('commence', 'Erreur lors de la récupération de ma présence', error)
+       }
+    }
+    const depart = async()=>{
+       console.log('Départ')
+       try{
+        const {data} = await axios.get('/monDepart')
+        console.log('data',data)
+        if(data.code == 201){
+           console.log('commence', 'Moi commence')
+           success(data.message)
+        }else{
+            error(data.message)
+        }
+       }catch(error){
+        console.log('commence', 'Erreur lors de la récupération de ma présence', error)
+       }
+    }
     onMounted(() => {
         menu.filter((items) => {
-
             if (items.bookmark) {
                 bookmarkItems.value.push(items)
             }
