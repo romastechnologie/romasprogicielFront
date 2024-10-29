@@ -255,30 +255,31 @@
         btnTitle()
       };
 
-      const fetchDernierCode = async () => {
+      const fetchDernierCode = async (typeEmplacementId) => {
   try {
-    const response = await ApiService.get('/derniercode');
+    const response = await ApiService.get(`/derniercode/${typeEmplacementId}`);
     console.log("Response from derniercode API:", response); // Log response for debugging
     if (response.data.code === 200 && response.data.data) {
-      dernierCodeMessage.value = response.data.data.code;  // Correctly access the nested code
+      dernierCodeMessage.value = response.data.data.code;  // Display the fetched code
     } else {
-      dernierCodeMessage.value = "Code inexistant pour cet emplacement.";
+      dernierCodeMessage.value = "Code inexistant pour ce type d'emplacement.";
     }
   } catch (error) {
     console.error("Error fetching dernier code:", error);
     dernierCodeMessage.value = "Impossible de récupérer le dernier code.";
   }
-};
+}
 
 watch(typeEmplacementSelected, async (newTypeId) => {
   const selectedType = typeEmplacementOptions.value.find(type => type.value === newTypeId);
   if (selectedType) {
     emplacementForm.value?.setFieldValue("code", selectedType.prefix);
-    await fetchDernierCode(); // Call function to get the last recorded code
+    await fetchDernierCode(newTypeId); // Pass the selected type ID
   } else {
     dernierCodeMessage.value = ''; // Clear message if no type is selected
   }
 });
+
 
   
       return {
