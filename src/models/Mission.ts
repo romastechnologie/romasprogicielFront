@@ -2,8 +2,8 @@ export  interface Mission {
     id: number;
     description: string;
     destination: string;
-    datedebut: Date;
-    datefin: Date;
+    dateDebut: Date;
+    dateFin: Date;
 
     setFieldValue: (field: string, value: any) => void;
   }

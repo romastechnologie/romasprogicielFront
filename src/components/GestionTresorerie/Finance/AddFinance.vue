@@ -2,7 +2,6 @@
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
         <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing ">
             <Form class="row g-3" :validation-schema="schema" @submit="sendFinance">
-                <div class="row">
                     <div class="col-md-6">
                         <div class="my-3">
                             <label for="fichier">Fichier</label>
@@ -67,50 +66,70 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="row">
-                            <p class="col-md-4 text-center">
-                                Monnaie
-                            </p>
-                            <p class="col-md-3">
-                                Quantité de billet
-                            </p>
-                            <p class="col-md-4">
-                                Montant
-                            </p>
-                        </div>
-                        <template v-for="billetage in billetageList" :key="billetage.monnaie">
-                            <Form :validation-schema="schema" class="container m-3">
-                                <div class="">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <select name="monnaie" id="monnaie" disabled
-                                                placeholder="Sélectionner la monnaie" class="form-control">
-                                                <template v-for="monnaie in monnaieList" :key="monnaie.id">
-                                                    <option v-if="billetage.monnaie == monnaie.id">
-                                                        {{ monnaie.valeur }}
-                                                    </option>
-                                                </template>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <Field name="qteBillet" id="qteBillet" v-model="billetage.qteBillet"
-                                                type="number" placeholder="Entrer la quantité" class="form-control"
-                                                @change="billetage.montant = billetage.valueAct * billetage.qteBillet" />
-                                            <ErrorMessage name="qteBillet" />
-                                        </div>
-                                        <div class="col-md-4">
-                                            <Field name="montant" id="montant" type="text" v-model="billetage.montant"
-                                                placeholder="Entrer le montant" disabled class="form-control" />
-                                            <ErrorMessage name="montant" />
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </Form>
-                        </template>
-                        <p>Montant Total: {{ montantTotal }}</p>
-                    </div>
+  <div class="row">
+    <div class="col-md-12 mb-md-25">
+      <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+        <div class="row">
+          <div class="border border-primary mb-10">
+            <div class="row d-flex align-items-center justify-content-between fw-bold py-2" style="background-color: #0a59a4">
+              <div class="col-md-7">
+                <h3 class="fs-4 text-white">Billetage</h3>
+              </div>
+            </div>
+            <div>
+              <div class="row d-flex align-items-center justify-content-between mt-2">
+                <div class="col-md-3">
+                  <label class="d-block text-black fw-semibold">Monnaie</label>
                 </div>
+                <div class="col-md-3">
+                  <label class="d-block text-black fw-semibold">Quantité</label>
+                </div>
+                <div class="col-md-3">
+                  <label class="d-block text-black fw-semibold">Montant</label>
+                </div>
+              </div>
+              <hr class="mt-0" />
+                        <template v-for="(billetage,index) in billetageList" :key="index">
+    <Form :validation-schema="schema" class="container m-3">
+        <div class="">
+            <div class="row">
+                <div class="col-md-4">
+                    <input name="monnaie" id="monnaie" 
+                        placeholder="Sélectionner la monnaie" v-model="billetage.libelle" readonly class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <Field  name="qteBillet" 
+         id="qteBillet" 
+         type="number" 
+         placeholder="Entrer la quantité" 
+         class="form-control" 
+         :value="billetage.qteBillet"
+         @input="event => handleBilletageInput(event, billetage)" />
+                    <ErrorMessage name="qteBillet" />
+                </div>
+                <div class="col-md-4">
+                    <Field name="montant" 
+                           id="montant" 
+                           type="text" 
+                           v-model="billetage.montant"
+                           placeholder="Montant" 
+                           readonly class="form-control" />
+                    <ErrorMessage name="montant" />
+                </div>
+            </div>
+        </div>
+    </Form>
+</template>
+<p>Montant Total: {{ montantTotal }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Ajouter une finance</button>
                     <router-link to="/finances/liste-finance/" type="button"
@@ -158,6 +177,7 @@ const caisses = computed(() => {
 
 
 interface Billetage {
+    libelle:string
     montant: number
     qteBillet: number
     valueAct: number
@@ -260,7 +280,7 @@ function getAllUsers() {
 
 const getAllPersonnels = async () => {
     try {
-        const response = await ApiService.get('/personnels');
+        const response = await ApiService.get('all/personnels');
         const personnelsData = response.data.data.data;
         console.log('Data', personnelsData)
         personnelOptions.value = personnelsData.map((personnel) => ({
@@ -295,32 +315,53 @@ const getTresorerie = () => {
         console.log(tresorerieList.value)
     })
 }
-
 const getMonnaie = async () => {
-    await ApiService.get('/monnaies').then(res => {
-        console.log(res.data,"res.data");
-        monnaieList.value = res.data
-        console.log(monnaieList.value)
-
-        monnaieList.value.forEach(element => {
-            billetageList.push({
-                montant: 0,
-                valueAct: element.valeur,
-                monnaie: element.id,
-                qteBillet: 0,
-                finance: 0
-            })
-        });
-    })
-}
-
-const calculateTotal = () => {
-    montantTotal.value = billetageList.reduce((total, billetage) => total + billetage.montant, 0);
-    return montantTotal;
+  try {
+    const res = await ApiService.get("/monnaies");
+    monnaieList.value = res.data.data.data;
+    monnaieList.value.forEach((element) => {
+      billetageList.push({
+        libelle:element.libelle,
+        montant: 0,
+        valueAct: element.valeur,
+        monnaie: element.id,
+        qteBillet: 0,
+      });
+    });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des monnaies:", error);
+  }
 };
-watch(billetageList, () => {
+
+function handleBilletageInput(event: Event, billetage: Billetage) {
+  const newValue = Number((event.target as HTMLInputElement).value); 
+  billetage.qteBillet = newValue || 0; 
+  updateMontant(billetage); 
+};
+
+
+const updateMontant = (billetage: Billetage) => {
+  // Recalculate the montant for the current billetage
+  billetage.montant = billetage.qteBillet * billetage.valueAct || 0; // Ensure default is 0
+  calculateTotal(); // Update the total
+};
+
+// Calculate total montant across all billetage entries
+const calculateTotal = () => {
+  montantTotal.value = billetageList.reduce((total, billetage) => {
+    return total + (billetage.montant || 0); // Ensure montant is considered as 0 if undefined
+  }, 0);
+};
+
+// Watch billetageList deeply for changes and recalculate automatically
+watch(
+  billetageList,
+  () => {
     calculateTotal();
-});
+  },
+  { deep: true }
+);
+
 
 onMounted(() => {
     getTresorerie();
@@ -329,6 +370,7 @@ onMounted(() => {
     calculateTotal();
     getAllUsers();
     getAllPersonnels();
+    
 })
 
 </script>

@@ -31,6 +31,7 @@
                             <Multiselect v-model="tresorerie.typeTresorerieId" :options="tresorerieOptions" :close-on-select="true" :clear-on-select="false" :multiple="false" :preserve-search="true" :searchable="true" placeholder="Sélectionner le type de trésorerie" label="label" track-by="label" />
                             <ErrorMessage name="typeTresorerieId" class="text-danger" />
                         </div>
+                        
 
                         <div class="col-4 my-3">
                             <label for="montant">Montant</label>
@@ -64,6 +65,7 @@ import { Form, Field, ErrorMessage, configure } from "vee-validate";
 import * as Yup from "yup";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
+import { Tresorerie } from "@/models/Tresorerie";
 import ApiService from "@/services/ApiService";
 import Multiselect from "@vueform/multiselect";
 

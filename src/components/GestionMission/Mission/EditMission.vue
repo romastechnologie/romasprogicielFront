@@ -31,9 +31,9 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Date debut<span class="text-danger">*</span>
                   </label>
-                  <Field name="datedebut" type="date" 
+                  <Field name="dateDebut" type="date" 
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date debut"/>
-                  <ErrorMessage name="datedebut" class="text-danger"/>
+                  <ErrorMessage name="dateDebut" class="text-danger"/>
                 </div>
               </div>
   
@@ -43,9 +43,9 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Date fin<span class="text-danger">*</span>
                   </label>
-                  <Field name="datefin" type="date" 
+                  <Field name="dateFin" type="date" 
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date de fin"/>
-                  <ErrorMessage name="datefin" class="text-danger"/>
+                  <ErrorMessage name="dateFin" class="text-danger"/>
                 </div>
               </div>
   
@@ -97,8 +97,8 @@
       const missionSchema = Yup.object().shape({
         description: Yup.string().required("Description est obligatoire."),
         destination: Yup.string().required("Destination est obligatoire."),
-        datedebut: Yup.string().required("Date debut est obligatoire."),
-        datefin: Yup.string().required("Date debut est obligatoire."),
+        dateDebut: Yup.string().required("Date debut est obligatoire."),
+        dateFin: Yup.string().required("Date Fin est obligatoire."),
 
       });
   

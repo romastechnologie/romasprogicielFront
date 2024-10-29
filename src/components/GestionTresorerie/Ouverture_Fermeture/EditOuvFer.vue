@@ -4,61 +4,69 @@
                 <Form @submit="updateTresorerie" :validation-schema="schema" class="card">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="row">
-                                <p class="col-md-3">
-                                    monnaie
-                                </p>
-                                <p class="col-md-3">
-                                    Quantité de billet
-                                </p>
-                                <p class="col-md-3">
-                                    Montant
-                                </p>
-                            </div>
-                            <template v-for="billetage in billetageList" :key="billetage.monnaie">
-                                <Form :validation-schema="schema" class="card">
-                                    <div class="container">
-
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="">
-                                                    <select name="monnaie" id="monnaie" readonly
-                                                        placeholder="Sélectionner la monnaie" class="form-control"
-                                                        v-model="billetage.valueAct">
-                                                        <template v-for="monnaie in monnaieList" :key="monnaie.id">
-                                                            <option v-if="billetage.monnaie == monnaie.id"
-                                                                :value="monnaie.valeur">
-                                                                {{ monnaie.valeur }}
-                                                            </option>
-                                                        </template>
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="">
-                                                    <Field name="qteBillet" id="qteBillet" v-model="billetage.qteBillet"
-                                                        type="number" placeholder="Entrer la quantité"
-                                                        class="form-control"
-                                                        @change="billetage.montant = billetage.valueAct * billetage.qteBillet" />
-                                                    <ErrorMessage name="qteBillet" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="">
-                                                    <Field name="montant" id="montant" type="text"
-                                                        v-model="billetage.montant" placeholder="Entrer le montant"
-                                                        readonly class="form-control" />
-                                                    <ErrorMessage name="montant" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </Form>
-                            </template>
-                            <p>Montant total: {{ montantTotal }}</p>
-                        </div>
+                
+                <div class="row">
+<div class="col-md-12 mb-md-25">
+ <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+   <div class="row">
+     <div class="border border-primary mb-10">
+       <div class="row d-flex align-items-center justify-content-between fw-bold py-2" style="background-color: #0a59a4">
+         <div class="col-md-7">
+           <h3 class="fs-4 text-white">Billetage</h3>
+         </div>
+       </div>
+       <div>
+         <div class="row d-flex align-items-center justify-content-between mt-2">
+           <div class="col-md-3">
+             <label class="d-block text-black fw-semibold">Monnaie</label>
+           </div>
+           <div class="col-md-3">
+             <label class="d-block text-black fw-semibold">Quantité</label>
+           </div>
+           <div class="col-md-3">
+             <label class="d-block text-black fw-semibold">Montant</label>
+           </div>
+         </div>
+         <hr class="mt-0" />
+                   <template v-for="(billetage,index) in billetageList" :key="index">
+<Form :validation-schema="schema" class="container m-3">
+   <div class="">
+       <div class="row">
+           <div class="col-md-4">
+               <input name="monnaie" id="monnaie" 
+                   placeholder="Sélectionner la monnaie" v-model="billetage.libelle" readonly class="form-control">
+           </div>
+           <div class="col-md-4">
+               <Field  name="qteBillet" 
+    id="qteBillet" 
+    type="number" 
+    placeholder="Entrer la quantité" 
+    class="form-control" 
+    :value="billetage.qteBillet"
+    @input="event => handleBilletageInput(event, billetage)" />
+               <ErrorMessage name="qteBillet" />
+           </div>
+           <div class="col-md-4">
+               <Field name="montant" 
+                      id="montant" 
+                      type="text" 
+                      v-model="billetage.montant"
+                      placeholder="Montant" 
+                      readonly class="form-control" />
+               <ErrorMessage name="montant" />
+           </div>
+       </div>
+   </div>
+</Form>
+</template>
+<p>Montant Total: {{ montantTotal }}</p>
+   </div>
+ </div>
+</div>
+</div>
+</div>
+</div>
+           </div>
                         <div class="col-md-6">
                             <template v-for="ouv_fer in ouvFerList" :key="ouv_fer.id">
                                 <div class="card-body" v-if="ouv_fer.id == $route.params.id">
@@ -103,10 +111,10 @@ const ouv_fer = ref<Ouv_Fer>({})
 
 interface Billetage {
     montant: number
+    libelle: number
     qteBillet: number
     valueAct: number
     monnaie: number
-    // financeName?: string
     ouv_fer?: number
 }
 const billetageList = reactive<Billetage[]>([])
@@ -116,8 +124,7 @@ let montantTotal = ref(0)
 
 const schema = Yup.object().shape({
     fondDeRoulement: Yup.string().required('Le fond de roulement est obligatoire').label('Fond de roulement'),
-    // ecart: Yup.number().required('L\'écart est obligatoire').label('Ecart'),
-    // solde: Yup.string().required('Le solde est obligatoire').label('Solde'),
+   
 
 })
 
@@ -160,43 +167,50 @@ const getTresorerie = async () => {
 }
 
 const getMonnaie = async () => {
-    await ApiService.get('/monnaies').then(res => {
-        monnaieList.value = res.data
-        console.log(monnaieList.value)
+  try {
+    const res = await ApiService.get("/monnaies");
+    monnaieList.value = res.data.data.data;
+    monnaieList.value.forEach((element) => {
+      billetageList.push({
+        libelle:element.libelle,
+        montant: 0,
+        valueAct: element.valeur,
+        monnaie: element.id,
+        qteBillet: 0,
+      });
+    });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des monnaies:", error);
+  }
+};
 
-        monnaieList.value.forEach(element => {
-            billetageList.push({
-                montant: 0,
-                valueAct: element.valeur,
-                monnaie: element.id,
-                qteBillet: 0,
-                ouv_fer: 0
-            })
-        });
+function handleBilletageInput(event: Event, billetage: Billetage) {
+  const newValue = Number((event.target as HTMLInputElement).value); 
+  billetage.qteBillet = newValue || 0; 
+  updateMontant(billetage); 
+};
 
-        // for (let index = 0; index < monnaieList.value.length; index++) {
-        //     billetageList.push({
-        //         montant: 0,
-        //         qteBillet: 0,
-        //         valueAct: monnaieList.value[index].valeur,
-        //         monnai: monnaieList.value[index].id
-        //     })
 
-        //     //    // console.log(monnaieList.value[index].id);
-        //     //     console.log(billetageList);
-        // }
-
-        // console.log(billetageList,'tttttttttttttttttttttttttttttttttttttttttttt')
-    })
-}
+const updateMontant = (billetage: Billetage) => {
+  billetage.montant = billetage.qteBillet * billetage.valueAct || 0; 
+  calculateTotal(); 
+};
 
 const calculateTotal = () => {
-    montantTotal.value = billetageList.reduce((total, billetage) => total + billetage.montant, 0);
-    return montantTotal;
+  montantTotal.value = billetageList.reduce((total, billetage) => {
+    return total + (billetage.montant || 0); 
+  }, 0);
 };
-watch(billetageList, () => {
+
+// Watch billetageList deeply for changes and recalculate automatically
+watch(
+  billetageList,
+  () => {
     calculateTotal();
-});
+  },
+  { deep: true }
+);
+
 
 onMounted(() => {
     getTresorerie(),

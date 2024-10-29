@@ -5,12 +5,7 @@
     >
   </div>
   <div class="px-lg-4 py-lg- p-md-3 p-3 text-start">
-      <button v-if="onListe" class="btn btn-secondary mb-3" @click="onListe = false">
-        Calendrier
-      </button>
-      <button v-if="!onListe" class="btn btn-primary mb-3" @click="onListe = false">
-        Calendrier
-      </button>
+     
     </div>
     <div v-if="!onListe" class="mb-5">
       <FullCalendar class='demo-app-calendar' :options='calendarOptions'>
@@ -93,7 +88,7 @@ function handleEventClick(clickInfo: any) {
 
 //  ----------------------------------------------- END CALENDAR LIBRARY ---------------------------------------------
 
-const onListe = ref(true);
+const onListe = ref(false);
 
 const formatDate = (date: Date): string => {
   const year = date.getFullYear();

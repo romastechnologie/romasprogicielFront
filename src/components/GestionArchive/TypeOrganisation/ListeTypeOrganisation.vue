@@ -60,7 +60,11 @@
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Libelle
                   
                 </th>
-                
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type  Organsiation
+                  
+                </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -81,7 +85,9 @@
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ typeOrganisation.libelle}}
                 </td>
-               
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ typeOrganisation.typeOrganisation?.libelle}}
+                </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ format_date(typeOrganisation.createdAt)  }}
                 </td>

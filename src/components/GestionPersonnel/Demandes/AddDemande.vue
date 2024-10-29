@@ -1,9 +1,9 @@
 <template>
-    <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-            <Form ref="demandeForm" @submit="addDemande" :validation-schema="demandeSchema">
-              <div class="row">
-                <div  class="col-md-6 mb-3">
+      <Form ref="demandeForm" @submit="addDemande" :validation-schema="demandeSchema">
+        <div class="row">
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Date de la demande <span class="text-danger">*</span>
@@ -12,32 +12,42 @@
               <ErrorMessage name="dateDemande" class="text-danger" />
             </div>
           </div>
-            <div class="col-md-6 mb-3">
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Catégorie de la demande <span class="text-danger">*</span>
               </label>
               <Field name="categorieDemande" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="categorieOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" @change="categorieDemandeChange($event)" placeholder="Sélectionner la catégorie" label="label"
-                  track-by="label" />
+                  :multiple="false" :searchable="true" @change="categorieDemandeChange($event)"
+                  placeholder="Sélectionner la catégorie" label="label" track-by="label" />
               </Field>
               <ErrorMessage name="categorieDemande" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mt-3">
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
                 Personnel <span class="text-danger">*</span>
               </label>
               <Field name="personnel" v-model="personnels" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le personnel "
-                label="label" track-by="label" />
+                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner le personnel " label="label"
+                  track-by="label" />
               </Field>
               <span class="text-danger" v-if="showMErr">Le personnel est obligatoire</span>
             </div>
           </div>
+          <div v-show="fieldHide8" class="col-md-6 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-1">
+                Montant total du Prêt
+              </label>
+              <Field type="number" name="montantPret" class="form-control shadow-none fs-md-15 text-black" readonly="true"/>
+              <ErrorMessage name="montantPret" class="text-danger" />
+            </div>
+          </div>
+         
           <div v-show="fieldHide6" class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -51,79 +61,77 @@
               <ErrorMessage name="typeConge" class="text-danger" />
             </div>
           </div>
-          
-          <div  class="col-md-6 mb-3">
+
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Motif de la demande <span class="text-danger">*</span>
               </label>
-              <Field name="motifDemande" cols="20"
-                rows="3" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
-                                <textarea
-                                  v-model="field.value"
-                                  class="form-control shadow-none rounded-0 text-black"
-                                ></textarea>
+              <Field name="motifDemande" cols="20" rows="3" as="textarea" placeholder="Description" v-slot="{ field}"
+                class="form-control shadow-none rounded-0 text-black">
+                <textarea v-model="field.value" class="form-control shadow-none rounded-0 text-black"></textarea>
               </Field>
               <ErrorMessage name="motifDemande" class="text-danger" />
             </div>
           </div>
+          
           <div v-show="fieldHide7" class="col-md-12 mb-md-25">
-                                      <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
-                                        <div class="row">
-                                          <div class="border border-primary mb-10">
-                                            <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                                              style="background-color: #0a59a4">
-                                              <div class="col-md-7">
-                                                <h3 class="fs-4 text-white">
-                                                  Echeances
-                                                </h3>
-                                              </div>
-                                              <div class="col-md-5">
-                                                <div class="d-flex float-end">
-                                                  <button
-                                                    class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                                                    type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
-                                                    @click="addRowEcheance()">
-                                                    <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
-                                                    Ajouter une echeance
-                                                  </button>
-                                                  <router-link to="/liste-mouvements"></router-link>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div>
-                                              <div class="row d-flex align-items-center justify-content-between mt-10">
-                                                <!--<div class="col-md-3">
+            <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
+              <div class="row">
+                <div class="border border-primary mb-10">
+                  <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                    style="background-color: #0a59a4">
+                    <div class="col-md-7">
+                      <h3 class="fs-4 text-white">
+                        Echeances
+                      </h3>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="d-flex float-end">
+                        <button
+                          class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
+                          type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
+                          @click="addRowEcheance()">
+                          <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
+                          Ajouter une echeance
+                        </button>
+                        <router-link to="/liste-mouvements"></router-link>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="row d-flex align-items-center justify-content-between mt-10">
+                      <!--<div class="col-md-3">
                                                   <label class="d-block text-black fw-semibold">
                                                    Titre
                                                     <span class="text-danger">*</span>
                                                   </label>
                                                 </div>-->
-                                                <div class="col-md-3">
-                                                  <label class="d-block text-black fw-semibold">
-                                                   Date Echéance
-                                                    <span class="text-danger">*</span>
-                                                  </label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                  <label class="d-block text-black fw-semibold mb-10">
-                                                    Montant<span class="text-danger">*</span>
-                                                  </label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                  <label class="d-block text-black fw-semibold mb-10">
-                                                    Reste à payer <span class="text-danger">*</span>
-                                                  </label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                  <label class="d-block text-black fw-semibold mb-10">
-                                                    Actions <span class="text-danger">*</span>
-                                                  </label>
-                                                </div>
-                                              </div>
-                                              <hr class="mt-0" />
-                                              <div class="row" v-for="(echeance, index) in echeances" :key="index">
-                                                <!--<div class="col-md-3 mb-2">
+                      <div class="col-md-4">
+                        <label class="d-block text-black fw-semibold">
+                          Date Echéance
+                          <span class="text-danger">*</span>
+                        </label>
+                      </div>
+                        <div class="col-md-4">
+                        <label class="d-block text-black fw-semibold mb-10">
+                          Montant<span class="text-danger">*</span>
+                        </label>
+                      </div>
+                       <!--<div class="col-md-3">
+                        <label class="d-block text-black fw-semibold mb-10">
+                          Reste à payer <span class="text-danger">*</span>
+                        </label>
+                      </div>-->
+                      <div class="col-md-4">
+                        <label class="d-block text-black fw-semibold mb-10">
+                          Actions <span class="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+                    <hr class="mt-0" />
+                    <div class="row" v-for="(echeance, index) in echeances" :key="index">
+                      <!--<div class="col-md-3 mb-2">
                                                   <div class="form-group ">
                                                     <input v-model="echeance.titre" name="titre" type="text" class="form-control shadow-none fs-md-15 text-black"
                                                       placeholder="Saisir le titre" />
@@ -132,46 +140,46 @@
                                                     </div>
                                                   </div>
                                                 </div>-->
-                                                <div class="col-md-3 mb-2">
-                                                  <div class="form-group ">
-                                                    <input v-model="echeance.dateEcheance" name="dateEcheance" type="date"
-                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="saisir la dateEcheance" />
-                                                    <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.dateEcheance)">
-                                                      La date Echeance est obligatoire.
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="col-md-3 mb-2">
-                                                  <div class="form-group">
-                                                    <input v-model="echeance.montant" name="montant" type="number"
-                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="entrer le montant" />
-                                                  </div>
-                                                  <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.montant)">
-                                                    Le montant est obligatoire.
-                                                  </div>
-                                                </div>
-                                                <div class="col-md-3 mb-2">
-                                                  <div class="form-group">
-                                                    <input v-model="echeance.resteAPaye" name="resteAPaye" type="number"
-                                                      class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                                                  </div>
-                                                  <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.resteAPaye)">
-                                                    La date de fin est obligatoire.
-                                                  </div>
-                                                </div>
-                                                <div class="col-md-3 mb-2">
-                                                    <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
-                                                    @click="removeRowEcheance(index)">
-                                                   <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                                                    </button>
-                                             </div> 
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-           <!-- <div  v-show="fieldHide5" class="col-md-6 mb-3">
+                      <div class="col-md-4 mb-2">
+                        <div class="form-group ">
+                          <input v-model="echeance.dateEcheance" name="dateEcheance" type="date"
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="saisir la dateEcheance" />
+                          <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.dateEcheance)">
+                            La date Echeance est obligatoire.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-2">
+                        <div class="form-group">
+                          <input v-model="echeance.montant" name="montant" type="number"
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="entrer le montant" />
+                        </div>
+                        <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.montant)">
+                          Le montant est obligatoire.
+                        </div>
+                      </div>
+                        <!-- <div class="col-md-3 mb-2">
+                        <div class="form-group">
+                          <input v-model="echeance.resteAPaye" name="resteAPaye" type="number"
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                        </div>
+                        <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.resteAPaye)">
+                          La date de fin est obligatoire.
+                        </div>
+                      </div>-->
+                      <div class="col-md-4 mb-2">
+                        <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                          @click="removeRowEcheance(index)">
+                          <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div  v-show="fieldHide5" class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Motif de la permission <span class="text-danger">*</span>
@@ -186,53 +194,53 @@
               <ErrorMessage name="motifPermission" class="text-danger" />
             </div>
           </div>-->
-        
-          <div class="row">
-          <div  v-show="fieldHide2" class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Date de début <span class="text-danger">*</span>
-              </label>
-              <Field name="dateDebut" type="date" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="dateDebut" class="text-danger" />
-            </div>
-          </div>
-          <div  v-show="fieldHide3" class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Date de fin <span class="text-danger">*</span>
-              </label>
-              <Field name="dateFin" type="date" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="dateFin" class="text-danger" />
-            </div>
-          </div>
 
-          <div  v-show="fieldHide4" class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Date de Reprise  <span class="text-danger">*</span>
-              </label>
-              <Field name="dateReprise" type="date" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="dateReprise" class="text-danger" />
+          <div class="row">
+            <div v-show="fieldHide2" class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Date de début <span class="text-danger">*</span>
+                </label>
+                <Field name="dateDebut" type="date" class="form-control shadow-none fs-md-15 text-black" />
+                <ErrorMessage name="dateDebut" class="text-danger" />
+              </div>
+            </div>
+            <div v-show="fieldHide3" class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Date de fin <span class="text-danger">*</span>
+                </label>
+                <Field name="dateFin" type="date" class="form-control shadow-none fs-md-15 text-black" />
+                <ErrorMessage name="dateFin" class="text-danger" />
+              </div>
+            </div>
+
+            <div v-show="fieldHide4" class="col-md-4 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Date de Reprise <span class="text-danger">*</span>
+                </label>
+                <Field name="dateReprise" type="date" class="form-control shadow-none fs-md-15 text-black" />
+                <ErrorMessage name="dateReprise" class="text-danger" />
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Joindre le fichier <span class="text-danger">*</span>
-              </label>
-              <Field name="demandeFile" type="file" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="demandeFile" class="text-danger" />
-            </div>
-          </div>
-       
-           <!--  <div class="modal-footer">
+          <div>
+                    <div class="col-md-6">
+                      <label for="fileInput">Sélectionnez un fichier (.pdf, .doc, .docx) :</label>
+                      <input id="fileInput" type="file" @change="onFileChange" accept=".pdf,.doc,.docx" class="form-control" />
+                    </div>
+                  </div>
+
+                  <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+                
+
+          <!--  <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
               <button type="submit" class="btn btn-primary"> Déposer </button>
             </div>-->
- 
-         <!-- <div class="col-md-4 mt-3">
+
+          <!-- <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Type Demande <span class="text-danger">*</span>
@@ -261,23 +269,22 @@
           </div>-->
 
 
-          
+
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
-                  Ajouter un demande
+                Ajouter une demande
               </button>
-              <router-link to="/demandes/liste-demande" 
-              class=" btn btn-danger"><i
+              <router-link to="/demandes/liste-demande" class=" btn btn-danger"><i
                   class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                  <span class="position-relative"></span>Annuler</router-link>
+                <span class="position-relative"></span>Annuler</router-link>
             </div>
           </div>
         </div>
       </Form>
     </div>
   </div>
-  </template>
+</template>
   
   <script lang="ts">
   
@@ -384,6 +391,7 @@ const showE = ref(false)
     const pretSchema = Yup.object().shape({
       categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
+      montantPret: Yup.string().required('Le montant total est obligatoire'),
       demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
       /*dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
@@ -396,7 +404,27 @@ const showE = ref(false)
       demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
-  
+    const file = ref(null);
+    const errorMessage = ref('');
+    const maxFileSize = 5 * 1024 * 1024; // 5 Mo
+
+    const onFileChange = (event) => {
+      const selectedFile = event.target.files[0];
+      const allowedExtensions = /(\.pdf|\.doc|\.docx)$/i;
+
+      if (!allowedExtensions.test(selectedFile.name)) {
+        errorMessage.value = 'Seuls les fichiers .pdf, .doc, et .docx sont autorisés.';
+        return;
+      }
+
+      if (selectedFile.size > maxFileSize) {
+        errorMessage.value = 'Le fichier ne doit pas dépasser 5 Mo.';
+        return;
+      }
+
+      file.value = selectedFile;
+      errorMessage.value = '';
+    };
       onMounted(() => {
         getAllTypeConges()
         getAllCategorieDemandes()
@@ -488,7 +516,7 @@ switch (value) {
     fieldHide5.value = true;
     fieldHide6.value = true;
     fieldHide7.value = false;
-    fieldHide8.value = true;
+    fieldHide8.value = false;
     fieldHide9.value = true;
     fieldHide10.value = true;
     fieldHide11.value = true;
@@ -508,7 +536,7 @@ switch (value) {
     fieldHide5.value = true;
     fieldHide6.value = false;
     fieldHide7.value = false;
-    fieldHide8.value = true;
+    fieldHide8.value = false;
     fieldHide9.value = true;
     fieldHide10.value = true;
     fieldHide11.value = true;
@@ -526,7 +554,7 @@ switch (value) {
     fieldHide5.value = false;
     fieldHide6.value = false;
     fieldHide7.value = true;
-    fieldHide8.value = false;
+    fieldHide8.value = true;
     fieldHide9.value = false;
     fieldHide10.value = false;
     fieldHide11.value = false;
@@ -627,9 +655,18 @@ const addDemande = async (values: any, { resetForm }) => {
             console.log("data   ",data)
              if (data.code == 201) {
               success(data.message);
-               //resetForm();
+              //  resetForm();
              console.log('flefelef')
-            //router.push({ name: "ListeDemandePage" });
+             if(categories.value == 1){
+              router.push({ name: "ListeDemandePermissionPage" });
+             }else if(categories.value == 2){
+              router.push({ name: "ListeDemandeCongePage" });
+             }else if(categories.value == 3){
+              router.push({ name: "ListeDemandeAttestationPage" });
+             }else{
+              router.push({ name: "ListeDemandeAutrePage" });
+             }
+            // router.push({ name: "ListeDemandePage" });
            }
            }).catch(({ response }) => {
             console.log("response   ",response)
@@ -699,9 +736,18 @@ const addDemande = async (values: any, { resetForm }) => {
       fieldHide13,defaultSchema,isDisable,
         removeRowEcheance,
       addRowEcheance,
-      valideteRowEcheance,echeances,
+      valideteRowEcheance,
+      echeances,
+      onFileChange,
+      errorMessage,
       //categorieOptions,
       typeCongeOptions,typeConge,personnel};
     },
   });
   </script>
+
+<style scoped>
+.error {
+  color: red;
+}
+</style>
