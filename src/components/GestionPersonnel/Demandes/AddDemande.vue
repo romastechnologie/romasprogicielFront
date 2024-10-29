@@ -25,7 +25,7 @@
               <ErrorMessage name="categorieDemande" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mt-3">
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
                 Personnel <span class="text-danger">*</span>
@@ -38,6 +38,16 @@
               <span class="text-danger" v-if="showMErr">Le personnel est obligatoire</span>
             </div>
           </div>
+          <div v-show="fieldHide8" class="col-md-6 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-1">
+                Montant total du Prêt
+              </label>
+              <Field type="number" name="montantPret" class="form-control shadow-none fs-md-15 text-black" readonly="true"/>
+              <ErrorMessage name="montantPret" class="text-danger" />
+            </div>
+          </div>
+         
           <div v-show="fieldHide6" class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -64,6 +74,7 @@
               <ErrorMessage name="motifDemande" class="text-danger" />
             </div>
           </div>
+          
           <div v-show="fieldHide7" class="col-md-12 mb-md-25">
             <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
               <div class="row">
@@ -96,23 +107,23 @@
                                                     <span class="text-danger">*</span>
                                                   </label>
                                                 </div>-->
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <label class="d-block text-black fw-semibold">
                           Date Echéance
                           <span class="text-danger">*</span>
                         </label>
                       </div>
-                      <div class="col-md-3">
+                        <div class="col-md-4">
                         <label class="d-block text-black fw-semibold mb-10">
                           Montant<span class="text-danger">*</span>
                         </label>
                       </div>
-                      <div class="col-md-3">
+                       <!--<div class="col-md-3">
                         <label class="d-block text-black fw-semibold mb-10">
                           Reste à payer <span class="text-danger">*</span>
                         </label>
-                      </div>
-                      <div class="col-md-3">
+                      </div>-->
+                      <div class="col-md-4">
                         <label class="d-block text-black fw-semibold mb-10">
                           Actions <span class="text-danger">*</span>
                         </label>
@@ -129,7 +140,7 @@
                                                     </div>
                                                   </div>
                                                 </div>-->
-                      <div class="col-md-3 mb-2">
+                      <div class="col-md-4 mb-2">
                         <div class="form-group ">
                           <input v-model="echeance.dateEcheance" name="dateEcheance" type="date"
                             class="form-control shadow-none fs-md-15 text-black" placeholder="saisir la dateEcheance" />
@@ -138,7 +149,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-3 mb-2">
+                      <div class="col-md-4 mb-2">
                         <div class="form-group">
                           <input v-model="echeance.montant" name="montant" type="number"
                             class="form-control shadow-none fs-md-15 text-black" placeholder="entrer le montant" />
@@ -147,7 +158,7 @@
                           Le montant est obligatoire.
                         </div>
                       </div>
-                      <div class="col-md-3 mb-2">
+                        <!-- <div class="col-md-3 mb-2">
                         <div class="form-group">
                           <input v-model="echeance.resteAPaye" name="resteAPaye" type="number"
                             class="form-control shadow-none fs-md-15 text-black" placeholder="" />
@@ -155,8 +166,8 @@
                         <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.resteAPaye)">
                           La date de fin est obligatoire.
                         </div>
-                      </div>
-                      <div class="col-md-3 mb-2">
+                      </div>-->
+                      <div class="col-md-4 mb-2">
                         <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
                           @click="removeRowEcheance(index)">
                           <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
@@ -380,6 +391,7 @@ const showE = ref(false)
     const pretSchema = Yup.object().shape({
       categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
+      montantPret: Yup.string().required('Le montant total est obligatoire'),
       demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
       /*dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
@@ -504,7 +516,7 @@ switch (value) {
     fieldHide5.value = true;
     fieldHide6.value = true;
     fieldHide7.value = false;
-    fieldHide8.value = true;
+    fieldHide8.value = false;
     fieldHide9.value = true;
     fieldHide10.value = true;
     fieldHide11.value = true;
@@ -524,7 +536,7 @@ switch (value) {
     fieldHide5.value = true;
     fieldHide6.value = false;
     fieldHide7.value = false;
-    fieldHide8.value = true;
+    fieldHide8.value = false;
     fieldHide9.value = true;
     fieldHide10.value = true;
     fieldHide11.value = true;
@@ -542,7 +554,7 @@ switch (value) {
     fieldHide5.value = false;
     fieldHide6.value = false;
     fieldHide7.value = true;
-    fieldHide8.value = false;
+    fieldHide8.value = true;
     fieldHide9.value = false;
     fieldHide10.value = false;
     fieldHide11.value = false;
@@ -645,6 +657,15 @@ const addDemande = async (values: any, { resetForm }) => {
               success(data.message);
               //  resetForm();
              console.log('flefelef')
+             if(categories.value == 1){
+              router.push({ name: "ListeDemandePermissionPage" });
+             }else if(categories.value == 2){
+              router.push({ name: "ListeDemandeCongePage" });
+             }else if(categories.value == 3){
+              router.push({ name: "ListeDemandeAttestationPage" });
+             }else{
+              router.push({ name: "ListeDemandeAutrePage" });
+             }
             // router.push({ name: "ListeDemandePage" });
            }
            }).catch(({ response }) => {
