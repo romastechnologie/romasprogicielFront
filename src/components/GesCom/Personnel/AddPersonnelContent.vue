@@ -60,6 +60,7 @@
                                           <ErrorMessage name="situationMatrimoniale" class="text-danger" />
                                         </div>
                                       </div>
+
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
@@ -322,6 +323,7 @@
                                   </div>
                                 </div>
                                 <div v-if="currentStep === 3"  class="tab-pane fade show active" id="info-conjoint" role="tabpanel" aria-labelledby="info-conjoint-tab">
+                                  <div v-if="showSpouseFields">
                                   <div class="sidebar-body">
                                     <div class="row g-2">
                                       <div class="col-md-4 mb-3">
@@ -427,20 +429,25 @@
                                           <ErrorMessage name="religionCon" class="text-danger" />              
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
-                                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                          <label class="d-block text-black mb-10">
-                                            Nombre d'enfants<span class="text-danger">*</span>
-                                          </label>
-                                          <Field name="nombreEnfant" type="text" class="form-control shadow-none fs-md-15 text-black"
-                                            placeholder="Entrer le nombre d'enfants" />
-                                          <ErrorMessage name="nombreEnfant" class="text-danger" />
                                         </div>
                                       </div>
+                                    
                                     </div>
                                     <div class="col-md-12 mb-md-25">
                                       <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                                         <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                          <label class="d-block text-black mb-10">
+                                            Nombre d'enfants<span class="text-danger">*</span>
+                                          </label>
+                                          <Field name="nombreEnfant" v-model="nmbreEnfant"
+                                          type="text"
+                                          class="form-control shadow-none fs-md-15 text-black"
+                                            placeholder="Entrer le nombre d'enfants" />
+                                          <ErrorMessage name="nombreEnfant" class="text-danger" />
+                                        </div>
+                                      </div>
                                           <div class="border border-primary mb-10">
                                             <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
                                               style="background-color: #0a59a4">
@@ -451,13 +458,13 @@
                                               </div>
                                               <div class="col-md-5">
                                                 <div class="d-flex float-end">
-                                                  <button
+                                                <!--  <button
                                                     class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
                                                     type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
                                                     @click="addRowEnfant()">
                                                     <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
                                                     Ajouter un enfant
-                                                  </button>
+                                                  </button>-->
                                                   <router-link to="/liste-mouvements"></router-link>
                                                 </div>
                                               </div>
@@ -476,20 +483,20 @@
                                                     <span class="text-danger">*</span>
                                                   </label>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                   <label class="d-block text-black fw-semibold mb-10">
                                                     Date Naissance<span class="text-danger">*</span>
                                                   </label>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                   <label class="d-block text-black fw-semibold mb-10">
                                                     Sexe <span class="text-danger">*</span>
                                                   </label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                  <label class="d-block text-black fw-semibold mb-10">
+                                                <!--  <label class="d-block text-black fw-semibold mb-10">
                                                     Actions <span class="text-danger">*</span>
-                                                  </label>
+                                                  </label>-->
                                                 </div>
                                               </div>
                                               <hr class="mt-0" />
@@ -512,7 +519,7 @@
                                                     </div>
                                                   </div>
                                                 </div>
-                                                <div class="col-md-2 mb-2">
+                                                <div class="col-md-3 mb-2">
                                                   <div class="form-group">
                                                     <input v-model="enfant.dateNaissance" type="date"
                                                       class="form-control shadow-none fs-md-15 text-black" placeholder="" />
@@ -521,17 +528,17 @@
                                                     La date est obligatoire.
                                                   </div>
                                                 </div>
-                                                <div class="col-md-2 mb-2">
+                                                <div class="col-md-3 mb-2">
                                                   <div class="form-group ">
                                                     <Multiselect :searchable="true" :options="['Masculin', 'Féminin']" v-model="enfant.sexe"
                                                       placeholder="Sélectionner le sexe" />
                                                   </div>
                                                 </div>
                                                 <div class="col-md-2 mb-2">
-                                                    <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                                                 <!--   <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
                                                     @click="removeRowEnfant(index)">
                                                    <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                                                    </button>
+                                                    </button>-->
                                              </div> 
                                               </div>
                                             </div>
@@ -539,7 +546,7 @@
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  
                                 </div>
                                 <div v-if="currentStep === 4"  class="tab-pane fade show active" id="info-sante-personnel" role="tabpanel" aria-labelledby="info-sante-personnel-tab">
                                   <div class="sidebar-body">
@@ -931,8 +938,8 @@ export default defineComponent({
     const swift = ref();
     const religionCon = ref();
     const ethnieCon = ref();
-    const nmbreEnfant = ref(0);
-    const situation = ref();
+    const nmbreEnfant = ref();
+   const situation = ref();
     const photo = ref<File>(null)
     const departementOptions = ref([]);
     const communeOptions = ref([]);
@@ -983,6 +990,19 @@ export default defineComponent({
       { deep: true }
     );
 
+
+    watch(nmbreEnfant, (newVal) => {
+  const count = parseInt(newVal) || 0;
+
+  enfants.length = count; 
+  for (let i = 0; i < count; i++) {
+    if (!enfants[i]) {
+      enfants[i] = { nom: "", prenom: "", dateNaissance: "", sexe: "" };
+    }
+  }
+});
+
+   
     const valideteRowEnfant = (e) => {
       if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
         console.log('erg')
@@ -1403,6 +1423,11 @@ let activeclass = ref<string>('Informations générales du personnel')
          countries: countriesRef
     };
   },
+  computed: {
+  showSpouseFields() {
+    return this.situation?.toString() !== 'Célibataire' && this.situation !== 'Divorcée';
+  }
+}
 });
 </script>
 <style scoped>

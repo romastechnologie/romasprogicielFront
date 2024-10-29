@@ -24,11 +24,11 @@
                   <span class="invalid-feedback"></span>
                 </div>
               </div>
-              <div class="col-md-4 mb-3">
+              <!-- <div class="col-md-4 mb-3">
                 <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
                 <input v-model="contrat.refContrat" class="form-control" type="text" />
                 <span class="invalid-feedback"></span>
-              </div>
+              </div> -->
               <div class="col-md-4  mb-3">
                 <label for="dateDebut" class="form-label">Date d'embauche<span class="text-danger">*</span></label>
                 <input v-model="contrat.dateDebut" class="form-control" type="Date" />
@@ -489,7 +489,6 @@ export default defineComponent({
 
   setup: () => {
     const contratSchema = Yup.object().shape({
-      refContrat: Yup.string().required("La référence est obligatoire."),
       salaireDeBase: Yup.string().required("Le salaire est obligatoire."),
       nobreheuresTravail: Yup.number().typeError("veuillez entrer des nombres").required("Les heures sont obligatoires."),
       dateDebut: Yup.date().typeError("veuillez entrer une date valide").required("La date de début est obligatoire."),
