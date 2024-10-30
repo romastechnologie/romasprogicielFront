@@ -17,12 +17,12 @@
               <label class="d-block text-black mb-10">
                 Catégorie de la demande <span class="text-danger">*</span>
               </label>
-              <Field name="categorieDemande" type="text" v-slot="{ field }">
+              <Field name="categorie" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="categorieOptions" :preserve-search="true"
                   :multiple="false" :searchable="true" @change="categorieDemandeChange($event)"
                   placeholder="Sélectionner la catégorie" label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="categorieDemande" class="text-danger" />
+              <ErrorMessage name="categorie" class="text-danger" />
             </div>
           </div>
           <div class="col-md-6 mb-3">
@@ -43,7 +43,7 @@
               <label class="d-block text-black fw-semibold mb-1">
                 Montant total du Prêt
               </label>
-              <Field type="number" name="montantPret" class="form-control shadow-none fs-md-15 text-black" readonly="true"/>
+              <Field type="number" name="montantPret"  v-model="montantPret" class="form-control shadow-none fs-md-15 text-black" readonly="true"  @input="calculMontantTotal"/>
               <ErrorMessage name="montantPret" class="text-danger" />
             </div>
           </div>
@@ -83,7 +83,7 @@
                     style="background-color: #0a59a4">
                     <div class="col-md-7">
                       <h3 class="fs-4 text-white">
-                        Echeances
+                        Echéances
                       </h3>
                     </div>
                     <div class="col-md-5">
@@ -93,7 +93,7 @@
                           type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
                           @click="addRowEcheance()">
                           <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
-                          Ajouter une echeance
+                          Ajouter une échéance
                         </button>
                         <router-link to="/liste-mouvements"></router-link>
                       </div>
@@ -118,11 +118,7 @@
                           Montant<span class="text-danger">*</span>
                         </label>
                       </div>
-                       <!--<div class="col-md-3">
-                        <label class="d-block text-black fw-semibold mb-10">
-                          Reste à payer <span class="text-danger">*</span>
-                        </label>
-                      </div>-->
+                       
                       <div class="col-md-4">
                         <label class="d-block text-black fw-semibold mb-10">
                           Actions <span class="text-danger">*</span>
@@ -131,15 +127,6 @@
                     </div>
                     <hr class="mt-0" />
                     <div class="row" v-for="(echeance, index) in echeances" :key="index">
-                      <!--<div class="col-md-3 mb-2">
-                                                  <div class="form-group ">
-                                                    <input v-model="echeance.titre" name="titre" type="text" class="form-control shadow-none fs-md-15 text-black"
-                                                      placeholder="Saisir le titre" />
-                                                    <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.titre)">
-                                                      Le titre est obligatoire.
-                                                    </div>
-                                                  </div>
-                                                </div>-->
                       <div class="col-md-4 mb-2">
                         <div class="form-group ">
                           <input v-model="echeance.dateEcheance" name="dateEcheance" type="date"
@@ -151,24 +138,15 @@
                       </div>
                       <div class="col-md-4 mb-2">
                         <div class="form-group">
-                          <input v-model="echeance.montant" name="montant" type="number"
+                          <input v-model="echeance.montant" name="montant" type="number"  @input="calculMontantTotal"
                             class="form-control shadow-none fs-md-15 text-black" placeholder="entrer le montant" />
                         </div>
                         <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.montant)">
                           Le montant est obligatoire.
                         </div>
                       </div>
-                        <!-- <div class="col-md-3 mb-2">
-                        <div class="form-group">
-                          <input v-model="echeance.resteAPaye" name="resteAPaye" type="number"
-                            class="form-control shadow-none fs-md-15 text-black" placeholder="" />
-                        </div>
-                        <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.resteAPaye)">
-                          La date de fin est obligatoire.
-                        </div>
-                      </div>-->
                       <div class="col-md-4 mb-2">
-                        <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
+                        <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button" 
                           @click="removeRowEcheance(index)">
                           <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                         </button>
@@ -179,22 +157,6 @@
               </div>
             </div>
           </div>
-          <!-- <div  v-show="fieldHide5" class="col-md-6 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Motif de la permission <span class="text-danger">*</span>
-              </label>
-              <Field name="motifPermission" cols="20"
-                rows="3" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
-                   <textarea
-                    v-model="field.value"
-                    class="form-control shadow-none rounded-0 text-black">
-                  </textarea>
-              </Field>
-              <ErrorMessage name="motifPermission" class="text-danger" />
-            </div>
-          </div>-->
-
           <div class="row">
             <div v-show="fieldHide2" class="col-md-4 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -226,50 +188,13 @@
             </div>
           </div>
           <div>
-                    <div class="col-md-6">
+            <div class="col-md-6">
                       <label for="fileInput">Sélectionnez un fichier (.pdf, .doc, .docx) :</label>
                       <input id="fileInput" type="file" @change="onFileChange" accept=".pdf,.doc,.docx" class="form-control" />
                     </div>
                   </div>
 
                   <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-                
-
-          <!--  <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-              <button type="submit" class="btn btn-primary"> Déposer </button>
-            </div>-->
-
-          <!-- <div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Type Demande <span class="text-danger">*</span>
-              </label>
-              <Field name="types" v-model="types" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le type"
-                label="label" track-by="label" />
-              </Field>
-              <span class="text-danger" v-if="showMErr">Le type de demande est obligatoire</span>
-            </div>
-          </div>
-
-          <div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black  mb-10">
-                Catégorie Demande <span class="text-danger">*</span>
-              </label>
-              <Field name="categories" v-model="categories" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="categorieOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie"
-                label="label" track-by="label" />
-              </Field>
-              <span class="text-danger" v-if="showMErr">La catégorie de demande est obligatoire</span>
-            </div>
-          </div>-->
-
-
-
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -306,22 +231,21 @@
       const personnels = ref();
       const personnel = ref();
       
-      //const permissions = ref(null);
+     
       const typeOptions = ref([]);
       const categorieOptions = ref([]);
-      //const personnelOptions = ref([]);
+      
       const router = useRouter();
-      //const permissions= ref<Array<Permission>>([]);
+     
   
 //copie
   
 const demandes = ref([] as any[]);
-//const categorieOptions = ref([] as any[]);
+
 const typeCongeOptions = ref([] as any[]);
 const personnelOptions = ref([] as any[]);
 const closeDemandeModal = ref(null);
 const showE = ref(false)
-//const demandeSchema = ref(defaultSchema);
 
 //déclaration des champs
     const fieldHide1 = ref(true);
@@ -354,55 +278,62 @@ const showE = ref(false)
     },
   
     setup: () => {
-      /*const demandeSchema = Yup.object().shape({
-            refDemande: Yup.string().required("La référence est obligatoire."),
-            nomDemande: Yup.string().required("Le nom est obligatoire."),
-            coutAcquisition: Yup.number().typeError("veuillez entrer des nombres").required("Le cout d'aquisition est obligatoire."),
-           
 
-      });*/
+      const defaultSchema = Yup.object().shape({
+      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
+      
+    });
+
+      /*const defaultSchema = Yup.object().shape({
+      personnel:Yup.string().required('Le personnel est obligatoire'),
+      dateDemande: Yup.date().required('La date de demande est obligatoire'),
+      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
+      motifDemande:Yup.string().required('Le motif de demande est obligatoire'),
+      demandeFileName: Yup.string().required("Le fichier  est obligatoire."),
+    });*/
       const permissionSchema = Yup.object().shape({
-      categorieDemande: Yup.string().required('Le catégorie de demande est obligatoire'),
+      personnel:Yup.string().required('Le personnel est obligatoire'),
+      dateDemande: Yup.date().required('La date de demande est obligatoire'),
+      categorie: Yup.string().required('Le catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
-      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
+      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
     const congeSchema = Yup.object().shape({
-      categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
+      personnel:Yup.string().required('Le personnel est obligatoire'),
+      dateDemande: Yup.date().required('La date de demande est obligatoire'),
+      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       typeConge: Yup.string().required('Le type de congé est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
-      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
+      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
     const attestationSchema = Yup.object().shape({
-      categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
+      personnel:Yup.string().required('Le personnel est obligatoire'),
+      dateDemande: Yup.date().required('La date de demande est obligatoire'),
+      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
-      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
-      /*dateDebut: Yup.date().required('La date de début est obligatoire'),
-      dateFin: Yup.date().required('La date de fin est obligatoire'),
-      dateReprise: Yup.date().required('La date de reprise est obligatoire'),*/
+      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
     const pretSchema = Yup.object().shape({
-      categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
+      personnel:Yup.string().required('Le personnel est obligatoire'),
+      dateDemande: Yup.date().required('La date de demande est obligatoire'),
+      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
       montantPret: Yup.string().required('Le montant total est obligatoire'),
-      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
-      /*dateDebut: Yup.date().required('La date de début est obligatoire'),
-      dateFin: Yup.date().required('La date de fin est obligatoire'),
-      dateReprise: Yup.date().required('La date de reprise est obligatoire'),*/
+      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      dateEcheance: Yup.date().required('La date de demande est obligatoire'),
+      montant: Yup.string().required('Le montant par échéance est obligatoire'),
+
     });
 
-    const defaultSchema = Yup.object().shape({
-      categorieDemande: Yup.string().required('La catégorie de demande est obligatoire'),
-      motifDemande:Yup.string().required('Le motif de demande est obligatoire'),
-      demandeFile: Yup.string().required("Le fichier de la demande est obligatoire."),
-    });
+    
 
     const file = ref(null);
     const errorMessage = ref('');
@@ -429,13 +360,13 @@ const showE = ref(false)
         getAllTypeConges()
         getAllCategorieDemandes()
         getAllPersonnels()
+        demandeSchema.value = defaultSchema
   });
   
     
   const isDisable = ref(true);
     const echeances = reactive([{
-      //titre: "",
-      resteAPaye: "",
+      //resteAPaye: "",
       dateEcheance: "",
       montant: ""
     }]);
@@ -443,16 +374,16 @@ const showE = ref(false)
 
     const addRowEcheance = () => {
         echeances.push({
-          //titre: "",
           dateEcheance: "",
           montant: "",
-          resteAPaye: ""
+          //resteAPaye: ""
         });
       };
   
       const removeRowEcheance = (index) => {
         if (echeances.length > 1) echeances.splice(index, 1);
         //totals();
+        calculMontantTotal()
       };
   
       watch(
@@ -461,17 +392,16 @@ const showE = ref(false)
           isDisable.value =
           newValue.some(
             (echeance) =>
-            //valideteRowEcheance(echeance.titre) ||
             valideteRowEcheance(echeance.dateEcheance) ||
-            valideteRowEcheance(echeance.montant) ||
-            valideteRowEcheance(echeance.resteAPaye)
+            valideteRowEcheance(echeance.montant)
+           // valideteRowEcheance(echeance.resteAPaye)
           );
         },
         { deep: true }
       );
   
       const valideteRowEcheance = (e) => {
-        if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
+        if (e == "" ||  e == "0" || e == null || e < 0) {
           console.log('erg')
           return true;
         } else {
@@ -489,7 +419,24 @@ if (value == null || value == undefined || value == "") {
 }
 
 switch (value) {
-  case 1:
+  case 0:
+    // permission
+    demandeSchema.value = permissionSchema;
+    fieldHide1.value = true;
+    fieldHide2.value = true;
+    fieldHide3.value = true;
+    fieldHide4.value = true;
+    fieldHide5.value = false;
+    fieldHide6.value = false;
+    fieldHide7.value = false;
+    fieldHide8.value = false;
+    fieldHide9.value = false;
+    fieldHide10.value = false;
+    fieldHide11.value = false;
+    fieldHide12.value = false;
+    fieldHide13.value = false;
+    break;
+    case 1:
     // permission
     demandeSchema.value = permissionSchema;
     fieldHide1.value = true;
@@ -563,87 +510,21 @@ switch (value) {
     
     break;
 
- /* case 5:
-    // resiliation
-    //selectedSchema.value = permissionSchema;
-    fieldHide1.value = true;
-    fieldHide2.value = false;
-    fieldHide3.value = false;
-    fieldHide4.value = false;
-    fieldHide5.value = false;
-    fieldHide6.value = false;
-    fieldHide7.value = false;
-    fieldHide8.value = false;
-    fieldHide9.value = false;
-    fieldHide10.value = false;
-    fieldHide11.value = false;
-    fieldHide12.value = false;
-    fieldHide13.value = false;
-    
-    break;*/
-
-  /*case 7:
-    // changement
-    selectedSchema.value = changementCleSchema;
-    fieldHide1.value = true;
-    fieldHide2.value = true;
-    fieldHide3.value = false;
-    fieldHide4.value = false;
-    fieldHide5.value = false;
-    fieldHide6.value = false;
-    fieldHide7.value = false;
-    fieldHide8.value = false;
-    fieldHide9.value = false;
-    fieldHide10.value = false;
-    fieldHide11.value = false;
-    fieldHide12.value = false;
-    fieldHide13.value = false;
-   
-    break;*/
-
-  /*case 6:
-    // partage
-    selectedSchema.value = partageSchema;
-    fieldHide1.value = true;
-    fieldHide2.value = false;
-    fieldHide3.value = false;
-    fieldHide4.value = false;
-    fieldHide5.value = false;
-    fieldHide6.value = false;
-    fieldHide7.value = false;
-    fieldHide8.value = false;
-    fieldHide9.value = false;
-    fieldHide10.value = false;
-    fieldHide11.value = false;
-    fieldHide12.value = false;
-    fieldHide13.value = false;
-   
-    break;*/
-
-  /*case 8:
-    // reclamation
-    
-    fieldHide1.value = true;
-    fieldHide2.value = false;
-    fieldHide3.value = false;
-    fieldHide4.value = false;
-    fieldHide5.value = false;
-    fieldHide6.value = false;
-    fieldHide7.value = false;
-    fieldHide8.value = false;
-    fieldHide9.value = false;
-    fieldHide10.value = false;
-    fieldHide11.value = false;
-    fieldHide12.value = false;
-    fieldHide13.value = false;
-   
-    break;*/
-
   default:
     break;
 }
 
 }
+
+//Calcul
+const montantPret = ref(0);
+const calculMontantTotal = () => {
+      montantPret.value = echeances.reduce((acc, echeance) => acc + Number(echeance.montant || 0), 0);
+    };
+
+
+
+
 const addDemande = async (values: any, { resetForm }) => {
       values['typeConge'] = typeConge.value
       values['categories'] = categories.value
@@ -658,13 +539,13 @@ const addDemande = async (values: any, { resetForm }) => {
               //  resetForm();
              console.log('flefelef')
              if(categories.value == 1){
-              router.push({ name: "ListeDemandePermissionPage" });
+              router.push({ name: "ListeDemandePermission" });
              }else if(categories.value == 2){
-              router.push({ name: "ListeDemandeCongePage" });
+              router.push({ name: "ListeDemandeConge" });
              }else if(categories.value == 3){
-              router.push({ name: "ListeDemandeAttestationPage" });
+              router.push({ name: "ListeDemandeAttestation" });
              }else{
-              router.push({ name: "ListeDemandeAutrePage" });
+              router.push({ name: "ListeDemandeAutre" });
              }
             // router.push({ name: "ListeDemandePage" });
            }
@@ -692,7 +573,7 @@ const addDemande = async (values: any, { resetForm }) => {
 
       const getAllCategorieDemandes = async () => {
         try{
-        const response = await ApiService.get('/categorieDemandes');
+        const response = await ApiService.get('/all/categorieDemandes');
         const categoriesData = response.data.data.data;
 
         categorieOptions.value = categoriesData.map((categorie) => ({
@@ -705,7 +586,6 @@ const addDemande = async (values: any, { resetForm }) => {
         }
       } 
 
-  
       const getAllPersonnels = async () => {
         try{
         const response = await ApiService.get('/all/personnels');
@@ -739,8 +619,8 @@ const addDemande = async (values: any, { resetForm }) => {
       valideteRowEcheance,
       echeances,
       onFileChange,
-      errorMessage,
-      //categorieOptions,
+      errorMessage,montantPret,
+      calculMontantTotal,
       typeCongeOptions,typeConge,personnel};
     },
   });

@@ -55,11 +55,7 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Code
                 </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Libelle
-                  
-                </th>
+               
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Description
@@ -85,9 +81,6 @@
               <tr v-for="(emplacement, index) in emplacements" :key="index">
                 <td class="shadow-none lh-1 fw-medium text-black">
                   {{ emplacement.code }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.libelle }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ emplacement.description }}
