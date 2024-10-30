@@ -14,9 +14,9 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
-                    Type d'organisation <span class="text-danger">*</span>
+                    Type d'organisation {{typeOrganisation}} <span class="text-danger">*</span>
                   </label>
-                  <Field name="typeorganisation" type="text" v-slot="{ field }">
+                  <Field name="typeorganisation"  v-model="typeOrganisation" type="text" v-slot="{ field }">
                     <Multiselect v-model="field.value" v-bind="field" :options="typeOrganisationOptions"
                       :preserve-search="true" :multiple="false" :searchable="true" @select="modificationOrganisation"
                       placeholder="Sélectionner le type d'organisation" label="label" track-by="label" />
@@ -30,9 +30,9 @@
                     Organisation <span class="text-danger">*</span>
                   </label>
                   <label v-else class="d-block text-black mb-10">
-                    Organisation
+                    Organisation {{organisation}}
                   </label>
-                  <Field name="organisation" type="text" v-slot="{ field }">
+                  <Field name="organisation" v-model="organisation" type="text" v-slot="{ field }">
                     <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions"
                       :preserve-search="true" :multiple="false" :searchable="true" :disabled="etatOrganisation"
                       placeholder="Sélectionner l'organisation" label="label" track-by="label" />
@@ -145,15 +145,21 @@ export default {
       }
       btnTitle();
     });
+    // const organisation = ref()
+    // const typeOrganisation = ref()
 
     const getOrganisation = async (id: number) => {
       return ApiService.get("/organisations/" + id)
-        .then(({ data }) => {
-          organisationForm.value?.setFieldValue("id", data.data.id);
-          organisationForm.value?.setFieldValue("code", data.data.code);
-          organisationForm.value?.setFieldValue("nom", data.data.nom);
-          organisationForm.value?.setFieldValue("organisation", data.data.organisation);
-          organisationForm.value?.setFieldValue("typeOrganisation", data.data.typeOrganisation);
+        .then(async ({ data }) => {
+          
+          const donnees = data.data;
+          for(const key in donnees) {
+            organisationForm.value?.setFieldValue(key, (typeof donnees[key] === 'object' && donnees[key] !== null) ? donnees[key].id : donnees[key]
+            );
+          }
+          typeOrganisation.value = donnees?.typeOrganisation?.id;
+          await getAllOrganisations(typeOrganisation.value);
+          organisation.value = donnees?.organisation?.id;
           emit('openmodal', addOrganisationModalRef.value);
         })
         .catch(({ response }) => {
@@ -258,9 +264,7 @@ export default {
     };
 
     const modificationOrganisation = async (value) => {
-      console.log("La valeur de l'élément séléctionné est : ==> ", value);
       const lesTypes = lesTypesOrganisations.value;
-      console.log("PPPPPPPPPPPPP ==> ", lesTypes);
       const objetTrouv = (lesTypes).find(objet=>objet.id === value);
       if(objetTrouv.typeOrganisation && objetTrouv.typeOrganisation != undefined){
         const type = objetTrouv.typeOrganisation
