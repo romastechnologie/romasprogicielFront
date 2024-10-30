@@ -104,14 +104,60 @@
                   <ErrorMessage name="ordre" class="text-danger" />
                 </div>
               </div>
-
-             
-
-              <button class="btn btn-primary mt-3">
-                {{ btntext }}
-              </button>
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10" >
+                  Libellé <span class="text-danger">*</span>
+                </label>
+                <Field name="libelle" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libellé"/>
+                <ErrorMessage name="libelle" class="text-danger"/>
+              </div>
             </div>
-          </Form>
+
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10" >
+                  Préfixe <span class="text-danger">*</span>
+                </label>
+                <Field name="prefixe" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le Préfixe"/>
+                <ErrorMessage name="prefixe" class="text-danger"/>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10" >
+                  Ordre <span class="text-danger">*</span>
+                </label>
+                <Field name="ordre" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'ordre"/>
+                <ErrorMessage name="ordre" class="text-danger"/>
+              </div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Type Emplacement <span class="text-danger">*</span>
+                </label>
+                <Field name="typesemplacements" v-slot="{ field }">
+                  <Multiselect v-model="field.value" v-bind="field" :options="typeEmplacementOptions"
+                    :preserve-search="true" :multiple="false" :searchable="true"
+                    placeholder="Sélectionner le type Emplacement" label="label" track-by="label" />
+                </Field>
+                <ErrorMessage name="typesemplacements" class="text-danger" />
+              </div>
+            </div>
+
+            <button
+              class="btn btn-primary mt-3"
+            >
+            {{ btntext }}
+            </button>
+      </div>
+        </Form>
         </div>
       </div>
     </div>
@@ -130,8 +176,8 @@ import { TypeEmplacement } from "@/models/TypeEmplacement";
 import Multiselect from "@vueform/multiselect/src/Multiselect";
 
 export default defineComponent({
-  name: "AddTypeEmplacementModal",
-  components: {
+    name: "AddTypeEmplacementModal",
+    components: {
     Form,
     Field,
     ErrorMessage,
@@ -144,8 +190,7 @@ export default defineComponent({
       default: 0,
     },
   },
-
-  setup(props, { emit }) {
+  setup(props, { emit }){
     const typeEmplacementSchema = Yup.object().shape({
       libelle: Yup.string().required("Le libellé est obligatoire"),
       code: Yup.string().required("Le code est obligatoire"),
@@ -183,11 +228,11 @@ export default defineComponent({
 
     const btnTitle = async () => {
       if (isUPDATE.value) {
-        title.value = "Modifier le type d'Emplacement";
-        btntext.value = "Modifier";
-      } else {
-        title.value = "Ajouter un type d'Emplacement";
-        btntext.value = "Ajouter";
+         title.value = "Modifier le Type Emplacement";
+         btntext.value = "Modifier";
+      }else{
+         title.value = "Ajouter un Type Emplacement";
+         btntext.value = "Ajouter";
       }
     };
 
@@ -227,8 +272,10 @@ export default defineComponent({
       }
     };
 
+
     onMounted(() => {
       fetchTypeEmplacement();
+      getAllTypeEmplacements();
     });
 
     const getAllTypeEmplacements = async () => {
@@ -256,12 +303,12 @@ export default defineComponent({
               success(data.message);
               typeEmplacementForm.resetForm();
               hideModal(addTypeEmplacementModalRef.value);
-              isUPDATE.value = false;
+              isUPDATE.value=false;
               btnTitle();
               emit("close");
             }
-          })
-          .catch(({ response }) => {
+        })
+        .catch(({ response }) => {
             error(response.data.message);
           });
       } else {
@@ -274,10 +321,10 @@ export default defineComponent({
               hideModal(addTypeEmplacementModalRef.value);
               emit("close");
             }
-          })
-          .catch(({ response }) => {
+        })
+        .catch(({ response }) => {
             error(response.data.message);
-          });
+        });
       }
     };
 
@@ -292,14 +339,11 @@ export default defineComponent({
       btnTitle();
     };
 
-    return {
-      typeEmplacementSchema,
+    return { typeEmplacementSchema,
       addTypeEmplacementModalRef,
       addTypeEmplacement,
       typeEmplacementForm,
-      title,
-      btntext,
-      resetValue,
+      title,btntext,resetValue,
       typeEmplacementOptions,
       typeEmplacement,
       showMErr,
@@ -308,4 +352,4 @@ export default defineComponent({
     };
   },
 });
-</script>@/models/CategorieInfo
+</script>

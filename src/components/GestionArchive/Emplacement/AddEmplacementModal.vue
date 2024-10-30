@@ -261,8 +261,9 @@ export default {
       ) {
         const type = objetTrouv.typeemplacement;
         await getLesEmplacements(type.id);
-      } else {
-        etatEmplacement.value = true;
+      } else{
+        emplacementOptions.value = [];
+        emplacementEtat.value = true;
       }
     };
 
@@ -285,6 +286,9 @@ export default {
           }
 
           return emplacementOptions.value;
+        }else{
+          emplacementOptions.value = [];
+          emplacementEtat.value = true;
         }
       } catch (erreur) {
         //
