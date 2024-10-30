@@ -168,7 +168,7 @@ export default defineComponent({
 
     const fetchTypeEmplacement = async () => {
       try {
-        const response = await ApiService.get('/typeEmplacements');
+        const response = await ApiService.get('/all/typeEmplacements');
         const typeEmplacementsData = response.data.data.data;
         typeEmplacementsOptions.value = typeEmplacementsData.map((typeEmplacement) => ({
           value: typeEmplacement.id,
