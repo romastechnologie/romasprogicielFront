@@ -164,7 +164,7 @@
                                   {{ regle.dateFinConservation }}
                                 </td>
                                 <td class="text-center">
-                                  {{ regle.regleConservation?.SortFinal }}
+                                  {{ regle.regleConservation?.sortFinal }}
                                 </td>
                               </tr>
                             </tbody>
@@ -220,7 +220,7 @@ export default defineComponent({
       description: Yup.string().required("La description est obligatoire."),
       refDoc: Yup.string().required("La référence est obligatoire."),
       dateConservation: Yup.string().required("La date est obligatoire."),
-      fichier: Yup.string().required("Le fichier est obligatoire."),
+      fichier: Yup.mixed().required("Le fichier est obligatoire."),
       organisation: Yup.string().required("L'organisation est obligatoire."),
       tagDoc: Yup.string().required("Le tag est obligatoire."),
       emplacement: Yup.string().required("L'emplacement est obligatoire."),

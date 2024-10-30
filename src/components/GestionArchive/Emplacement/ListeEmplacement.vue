@@ -57,11 +57,6 @@
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Libelle
-                  
-                </th>
-                <th
-                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Description
                   
                 </th>
@@ -87,16 +82,13 @@
                   {{ emplacement.code }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.libelle }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ emplacement.description }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.typeEmplacement.libelle }}
+                  {{ emplacement.typeEmplacement?.libelle }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement?.libelle }}
+                  {{ emplacement.emplacement?.code }}
                 </td>
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"
@@ -200,6 +192,7 @@
         return ApiService.get(`/emplacements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
             emplacements.value = data.data.data;
+            console.log("EEEEEEERRRRRRRRR ===> ", data)
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
