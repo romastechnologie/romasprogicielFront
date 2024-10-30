@@ -7,19 +7,19 @@
                         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-          <Form ref="typeEmplacmentForm" @submit="addTypeEmplacement" :validation-schema="typeEmplacementSchema">
+          <Form ref="typeEmplacementForm" @submit="addTypeEmplacement" :validation-schema="typeEmplacementSchema">
             <div class="row">
-            <div class="col-md-6 mb-3">
+            <div class="col-md-6">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
-                  code <span class="text-danger">*</span>
+                  Code <span class="text-danger">*</span>
                 </label>
                 <Field name="code" type="text" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
                 <ErrorMessage name="code" class="text-danger"/>
               </div>
-            </div> 
-            <div class="col-md-6 mb-3">
+            </div>
+            <div class="col-md-6">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Libellé <span class="text-danger">*</span>
@@ -29,7 +29,8 @@
                 <ErrorMessage name="libelle" class="text-danger"/>
               </div>
             </div>
-            <div class="col-md-6 mb-3">
+
+            <div class="col-md-6">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Préfixe <span class="text-danger">*</span>
@@ -40,7 +41,7 @@
               </div>
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-6">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10" >
                   Ordre <span class="text-danger">*</span>
@@ -50,7 +51,7 @@
                 <ErrorMessage name="ordre" class="text-danger"/>
               </div>
             </div>
-            
+
             <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
@@ -64,8 +65,7 @@
                 <ErrorMessage name="typesemplacements" class="text-danger" />
               </div>
             </div>
-         
-            
+
             <button
               class="btn btn-primary mt-3"
             >
@@ -92,9 +92,9 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import ApiService from '@/services/ApiService';
 import * as Yup from 'yup';
 import { hideModal } from '@/utils/utils';
-import {TypeEmplacement} from '@/models/TypeEmplacement';
 import { error , success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
+import { TypeEmplacement } from '@/models/TypeEmplacement';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 
 
@@ -116,20 +116,23 @@ export default defineComponent({
     const typeEmplacementSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       libelle: Yup.string().required('Le libellé est obligatoire'),
-      ordre: Yup.string().required("L'ordre est obligatoire"),
-      prefixe: Yup.string().required('Le préfixe est obligatoire'),
+      prefixe: Yup.string().required('Le sort final est obligatoire'),
+      ordre: Yup.string().required('La durée conservation est obligatoire'),
+      typesemplacements: Yup.string().notRequired(),
+      
 
     });
 
     const typeEmplacementForm = ref<TypeEmplacement | null>(null);
     const addTypeEmplacementModalRef = ref<null | HTMLElement>(null);
     const router = useRouter();
-    const typeEmplacementsOptions = ref([]);
+    const typeEmplacementOptions = ref([]);
+    const typesemplacements = ref();
+    
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
-    const typeEmplacementOptions = ref();
-    const title = ref("Ajouter un Type d'Emplacement");
+    const title = ref("Ajouter un Type Emplacement");
     const btntext = ref('Ajouter');
 
     watch(() => props.item, (newValue) => {
@@ -165,12 +168,12 @@ export default defineComponent({
         error(response.data.message)
       });
     }
-
+    
     const fetchTypeEmplacement = async () => {
       try {
         const response = await ApiService.get('/all/typeEmplacements');
-        const typeEmplacementsData = response.data.data.data;
-        typeEmplacementsOptions.value = typeEmplacementsData.map((typeEmplacement) => ({
+        const typeEmplacementData = response.data.data.data;
+        typeEmplacementOptions.value = typeEmplacementData.map((typeEmplacement) => ({
           value: typeEmplacement.id,
           label: `${typeEmplacement.codeTypeEmplacement} - ${typeEmplacement.libelleTypeEmplacement}`,
         }));
@@ -178,9 +181,6 @@ export default defineComponent({
         //
       }
     };
-
-   
-
 
     const getAllTypeEmplacements = async () => {
     try {
@@ -196,12 +196,11 @@ export default defineComponent({
       //error(response.data.message)
     }
   }
-   
 
-   onMounted(() => {
-        fetchTypeEmplacement();
-        getAllTypeEmplacements();
 
+    onMounted(() => {
+      fetchTypeEmplacement();
+      getAllTypeEmplacements();
     });
 
     const addTypeEmplacement = async (values: any, typeEmplacementForm) => {
@@ -223,7 +222,7 @@ export default defineComponent({
         });
       }else{
         console.log('values',values)
-        ApiService.post("/typeEmplacements",values)
+        ApiService.post("/typeEmplacements/",values)
         .then(({ data }) => {
             if(data.code == 201) { 
               success(data.message);
@@ -252,9 +251,10 @@ export default defineComponent({
       addTypeEmplacement,
       typeEmplacementForm,
       title,btntext,resetValue,
-      typeEmplacementsOptions,
-      typeEmplacementOptions
+      typeEmplacementOptions,
+      typesemplacements,
+      
     };
   },
 });
-</script>@/models/CategorieInfo
+</script>
