@@ -30,9 +30,8 @@ import ListePermissionPage from "@/pages/Permission/ListePermissionPage.vue";
 import ListeCategoriePage from "@/pages/GestionPersonnel/Categorie/ListeCategoriePage.vue";
 import ListePostePage from "@/pages/GestionPersonnel/Poste/ListePostePage.vue";
 import ListeTypeCongePage from "@/pages/GestionPersonnel/TypeConge/ListeTypeCongePage.vue";
-import AddCongePage from "@/pages/GestionPersonnel/Conge/AddCongePage.vue";
-import EditCongePage from '@/pages/GestionPersonnel/Conge/EditCongePage.vue'
 import ListeCongePage from "@/pages/GestionPersonnel/Conge/ListeCongePage.vue";
+import CalendrierPage from "@/pages/GestionPersonnel/Conge/CalendrierPage.vue";
 import AddRolePage from "@/pages/Role/AddRolePage.vue";
 import ListeRolePage from "@/pages/Role/ListeRolePage.vue";
 import EditRolePage from "@/pages/Role/EditRolePage.vue";
@@ -326,7 +325,6 @@ import ListeDemandePermissionPage from '@/pages/GestionPersonnel/Demandes/ListeD
 import ListeDemandeCongePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeCongePage.vue';
 import ListeDemandeAttestationPage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAttestationPage.vue';
 import ViewDemandePage from '@/pages/GestionPersonnel/Demandes/ViewDemandePage.vue';
-import ListeCongeCalendrierPage from '@/pages/GestionPersonnel/Conge/ListeCongeCalendrierPage.vue';
 import ListeEquipePage from '@/pages/GesCom/Equipe/ListeEquipePage.vue';
 import EditEquipePage from '@/pages/GesCom/Equipe/EditEquipePage.vue';
 import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
@@ -1315,28 +1313,13 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+ 
   {
-    path: "/conges",
+    path: "/Conges",
     component: BodyView,
     children: [
       {
-        path: "ajouter-conge",
-        name: "AddCongePage",
-        component: AddCongePage,
-        meta: {
-          title: 'Programmer un congé',
-        }
-      },
-      {
-        path: "edit-conge/:id",
-        name: "EditCongePage",
-        component: EditCongePage,
-        meta: {
-          title: 'Modifier un conge',
-        }
-      },
-      {
-        path: "liste-conge",
+        path: "liste-conges",
         name: "ListeCongePage",
         component: ListeCongePage,
         meta: {
@@ -1345,10 +1328,10 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "calendrier",
-        name: "ListeCongeCalendrierPage",
-        component: ListeCongeCalendrierPage,
+        name: "CalendrierPage",
+        component: CalendrierPage,
         meta: {
-          title: 'Calendrier des congés',
+          title: 'Calendriers',
         }
       },
     ]

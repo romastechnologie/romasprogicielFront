@@ -452,12 +452,7 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
             {
-                path: "/conges/ajouter-conge",
-                title: "Programmer un congé",
-                type: "link"
-            },
-            {
-                path: "/conges/liste-conge",
+                path: "/conges/liste-conges",
                 title: "Liste des congés",
                 type: "link"
             },
