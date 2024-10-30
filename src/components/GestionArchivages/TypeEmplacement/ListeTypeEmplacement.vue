@@ -54,15 +54,14 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Libelle 
+                Code
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Code
-              </th>
-              
+                Libelle 
+              </th>      
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -91,12 +90,11 @@
           <tbody>
             <tr v-for="(typeEmplacement, index) in  TypesEmplacements" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{typeEmplacement.libelle }}
-              </td>
-              
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{typeEmplacement.code }}
               </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{typeEmplacement.libelle }}
+              </td>   
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{typeEmplacement.prefixe }}
               </td>
