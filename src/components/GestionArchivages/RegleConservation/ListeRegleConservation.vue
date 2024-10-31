@@ -240,8 +240,9 @@ export default defineComponent({
     };
 
     function getAllRegleConservations(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/regleConservations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/regleConservations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log("EEEEEEEEEEEEEEE ===> ",data)
           ReglesConservations.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
@@ -249,6 +250,7 @@ export default defineComponent({
           return data.data.data;
         })
         .catch(({ response }) => {
+          console.log("EEEEEEEEEEEEEEE ===> ",response)
           error(response.data.message)
       });
       

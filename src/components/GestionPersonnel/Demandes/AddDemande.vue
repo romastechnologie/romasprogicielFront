@@ -35,7 +35,7 @@
                   :multiple="false" :searchable="true" placeholder="Sélectionner le personnel " label="label"
                   track-by="label" />
               </Field>
-              <span class="text-danger" v-if="showMErr">Le personnel est obligatoire</span>
+              <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
           <div v-show="fieldHide8" class="col-md-6 mb-3">
@@ -190,9 +190,10 @@
           <div>
             <div class="col-md-6">
                       <label for="fileInput">Sélectionnez un fichier (.pdf, .doc, .docx) :</label>
-                      <input id="fileInput" type="file" @change="onFileChange" accept=".pdf,.doc,.docx" class="form-control" />
+                      <input name="demandeFileName" id="fileInput" type="file" @change="onFileChange" accept=".pdf,.doc,.docx" class="form-control" />
                     </div>
                   </div>
+                  <ErrorMessage name="demandeFileName" class="text-danger" />
 
                   <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
           <div class="col-md-12 mt-3">
@@ -244,24 +245,7 @@ const demandes = ref([] as any[]);
 
 const typeCongeOptions = ref([] as any[]);
 const personnelOptions = ref([] as any[]);
-const closeDemandeModal = ref(null);
-const showE = ref(false)
 
-//déclaration des champs
-    const fieldHide1 = ref(true);
-    const fieldHide2 = ref(false);
-    const fieldHide3 = ref(false);
-    const fieldHide4 = ref(false);
-    const fieldHide5 = ref(false);
-    const fieldHide6 = ref(false);
-    const fieldHide7 = ref(false);
-    const fieldHide8 = ref(false);
-    const fieldHide9 = ref(false);
-    const fieldHide10 = ref(false);
-    const fieldHide11 = ref(false);
-    const fieldHide12 = ref(false);
-    const fieldHide13 = ref(false);
-    const demandeSchema = ref();
   
 
 
@@ -279,18 +263,6 @@ const showE = ref(false)
   
     setup: () => {
 
-      const defaultSchema = Yup.object().shape({
-      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
-      
-    });
-
-      /*const defaultSchema = Yup.object().shape({
-      personnel:Yup.string().required('Le personnel est obligatoire'),
-      dateDemande: Yup.date().required('La date de demande est obligatoire'),
-      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
-      motifDemande:Yup.string().required('Le motif de demande est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier  est obligatoire."),
-    });*/
       const permissionSchema = Yup.object().shape({
       personnel:Yup.string().required('Le personnel est obligatoire'),
       dateDemande: Yup.date().required('La date de demande est obligatoire'),
@@ -332,9 +304,28 @@ const showE = ref(false)
       montant: Yup.string().required('Le montant par échéance est obligatoire'),
 
     });
+    const defaultSchema = Yup.object().shape({
+      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
+      
+    });
 
+//déclaration des champs
+const fieldHide1 = ref(true);
+    const fieldHide2 = ref(false);
+    const fieldHide3 = ref(false);
+    const fieldHide4 = ref(false);
+    const fieldHide5 = ref(false);
+    const fieldHide6 = ref(false);
+    const fieldHide7 = ref(false);
+    const fieldHide8 = ref(false);
+    const fieldHide9 = ref(false);
+    const fieldHide10 = ref(false);
+    const fieldHide11 = ref(false);
+    const fieldHide12 = ref(false);
+    const fieldHide13 = ref(false);
+    //const demandeSchema = ref();
     
-
+    const demandeSchema = ref(defaultSchema);
     const file = ref(null);
     const errorMessage = ref('');
     const maxFileSize = 5 * 1024 * 1024; // 5 Mo
@@ -360,7 +351,7 @@ const showE = ref(false)
         getAllTypeConges()
         getAllCategorieDemandes()
         getAllPersonnels()
-        demandeSchema.value = defaultSchema
+        //demandeSchema.value = defaultSchema
   });
   
     
@@ -389,19 +380,20 @@ const showE = ref(false)
       watch(
         echeances,
         (newValue) => {
+          console.log('je suis ici');
           isDisable.value =
           newValue.some(
             (echeance) =>
             valideteRowEcheance(echeance.dateEcheance) ||
             valideteRowEcheance(echeance.montant)
-           // valideteRowEcheance(echeance.resteAPaye)
+           
           );
         },
         { deep: true }
       );
   
       const valideteRowEcheance = (e) => {
-        if (e == "" ||  e == "0" || e == null || e < 0) {
+        if (e == "" ||  e == "0"  || e < 0) {
           console.log('erg')
           return true;
         } else {
@@ -419,23 +411,6 @@ if (value == null || value == undefined || value == "") {
 }
 
 switch (value) {
-  case 0:
-    // permission
-    demandeSchema.value = permissionSchema;
-    fieldHide1.value = true;
-    fieldHide2.value = true;
-    fieldHide3.value = true;
-    fieldHide4.value = true;
-    fieldHide5.value = false;
-    fieldHide6.value = false;
-    fieldHide7.value = false;
-    fieldHide8.value = false;
-    fieldHide9.value = false;
-    fieldHide10.value = false;
-    fieldHide11.value = false;
-    fieldHide12.value = false;
-    fieldHide13.value = false;
-    break;
     case 1:
     // permission
     demandeSchema.value = permissionSchema;
