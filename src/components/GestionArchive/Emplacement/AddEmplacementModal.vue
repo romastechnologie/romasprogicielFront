@@ -274,9 +274,9 @@ watch(typeEmplacementSelected, async (newTypeId) => {
   const selectedType = typeEmplacementOptions.value.find(type => type.value === newTypeId);
   if (selectedType) {
     emplacementForm.value?.setFieldValue("code", selectedType.prefix);
-    await fetchDernierCode(newTypeId); 
+    await fetchDernierCode(newTypeId); // Pass the selected type ID
   } else {
-    dernierCodeMessage.value = ''; 
+    dernierCodeMessage.value = ''; // Clear message if no type is selected
   }
 });
 
