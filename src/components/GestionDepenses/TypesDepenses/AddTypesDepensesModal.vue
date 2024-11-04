@@ -183,4 +183,4 @@ export default defineComponent({
     };
   },
 });
-</script>@/models/CategorieInfo
+</script>
