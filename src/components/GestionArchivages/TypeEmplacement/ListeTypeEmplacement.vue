@@ -60,8 +60,9 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Libelle 
-              </th>      
+                Type Emplacement
+              </th>
+              
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -93,8 +94,8 @@
                 {{typeEmplacement.code }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{typeEmplacement.libelle }}
-              </td>   
+                {{typeEmplacement.typeemplacement?.libelle }}
+              </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{typeEmplacement.prefixe }}
               </td>
@@ -149,7 +150,6 @@
     </div>
   </div>
   <AddTypeEmplacementModal
-
   @get-all-typeEmplacements="getAllTypeEmplacements"
   :item="selectedItem" 
   @close="recharger"
@@ -173,7 +173,7 @@ export default defineComponent({
   name: "ListeTypeEmplacement",
   components: {
     PaginationComponent,
-        AddTypeEmplacementModal
+    AddTypeEmplacementModal
 
   },
   setup(){
@@ -184,7 +184,7 @@ export default defineComponent({
     const idtypeEmplacement = ref(0);
       const loading = ref<boolean>(false);
       const router = useRouter(); 
-    const TypesEmplacements = ref<Array<TypeEmplacement>>([]);   
+    const TypesEmplacements = ref<Array<any>>([]);   
     const typeEmplacement = ref<TypeEmplacement>();
 
     // BEGIN PAGINATE
@@ -225,8 +225,9 @@ export default defineComponent({
     };
 
     function getAllTypeEmplacements(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`all/typeEmplacements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/all/typeEmplacements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log("YTYTYYYTYYTYTYTTY ===> ",data)
           TypesEmplacements.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
