@@ -16,7 +16,7 @@
                                 <div v-if="currentStep === 1"  class="tab-pane fade show active" id="info-personnel" role="tabpanel" aria-labelledby="info-personnel-tab">
                                   <div class="sidebar-body">
                                     <div class="row g-2">
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Nom <span class="text-danger">*</span>
@@ -26,7 +26,7 @@
                                           <ErrorMessage name="nom" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Prénom <span class="text-danger">*</span>
@@ -36,7 +36,7 @@
                                           <ErrorMessage name="prenom" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Sexe <span class="text-danger">*</span>
@@ -48,7 +48,7 @@
                                           <ErrorMessage name="sexe" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Situation matrimoniale <span class="text-danger">*</span>
@@ -61,7 +61,7 @@
                                         </div>
                                       </div>
 
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Photo<span class="text-danger">*</span>
@@ -71,7 +71,7 @@
                                           <ErrorMessage name="urlImage" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Civilite <span class="text-danger">*</span>
@@ -119,7 +119,7 @@
                                           <ErrorMessage name="nationalite" class="text-danger" />
                                         </div>
                                       </div>-->
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Pays de résidence <span class="text-danger">*</span>
@@ -132,13 +132,13 @@
                                               label="label"
                                               v-model = "field.value"
                                               v-bind = "field"
-                                              placeholder="Sélectionner le pays de résidence"
+                                              placeholder="Sélectionner le pays"
                                             />
                                           </Field>  
                                           <ErrorMessage name="nationalite" class="text-danger"/>
                                         </div>    
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Religion <span class="text-danger">*</span>
@@ -151,7 +151,7 @@
                                           <ErrorMessage name="religion" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Ethnie <span class="text-danger">*</span>
@@ -164,7 +164,7 @@
                                           <ErrorMessage name="ethnie" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Service <span class="text-danger">*</span>
@@ -213,7 +213,7 @@
                                           <ErrorMessage name="telephone2" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Email <span class="text-danger">*</span>
@@ -224,7 +224,7 @@
                                         </div>
                                       
                                       </div>
-                                      <div class="col-md-4">
+                                      <div class="col-md-6">
                                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black fw-semibold mb-10">
                                               Département <span class="text-danger">*</span>
@@ -244,7 +244,7 @@
                                           </div>
                                           <ErrorMessage name="departement" class="text-danger"/>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black fw-semibold mb-10">
                                               Communes <span class="text-danger">*</span>
@@ -265,7 +265,7 @@
                                           </div>
                                           <ErrorMessage name="commune" class="text-danger"/>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black fw-semibold mb-10">
                                               Arrondissement <span class="text-danger">*</span>
@@ -286,7 +286,7 @@
                                           </div>
                                           <ErrorMessage name="arrondissement" class="text-danger"/>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-12">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black fw-semibold mb-10">
                                               Quartier <span class="text-danger">*</span>
@@ -328,7 +328,7 @@
                                   <div v-if="showSpouseFields">
                                   <div class="sidebar-body">
                                     <div class="row g-2">
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Nom du Conjoint<span class="text-danger">*</span>
@@ -338,7 +338,7 @@
                                           <ErrorMessage name="nomCon" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Prénom du Conjoint<span class="text-danger">*</span>
@@ -348,7 +348,7 @@
                                           <ErrorMessage name="prenomCon" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Date de Naissance du conjoint
@@ -366,7 +366,7 @@
                                             placeholder="Entrer la nationalité du conjoint " />
                                         </div>
                                       </div>-->
-                                      <div class="col-md-4">
+                                      <div class="col-md-6">
                                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                         <label class="d-block text-black fw-semibold mb-10">
                                           Nationalité du Conjoint <span class="text-danger">*</span>
@@ -385,7 +385,7 @@
                                         <ErrorMessage name="nationaliteCon" class="text-danger"/>
                                       </div>
                                     </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Téléphone du Conjoint<span class="text-danger">*</span>
@@ -395,7 +395,7 @@
                                           <ErrorMessage name="telephoneCon" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Passport du Conjoint<span class="text-danger">*</span>
@@ -405,7 +405,7 @@
                                           <ErrorMessage name="passportCon" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Religion Du Conjoint<span class="text-danger">*</span>
@@ -418,7 +418,7 @@
                                           <ErrorMessage name="religionCon" class="text-danger" />              
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Ethnie Du Conjoint<span class="text-danger">*</span>
@@ -438,7 +438,7 @@
                                     <div class="col-md-12 mb-md-25">
                                       <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                                         <div class="row">
-                                            <div class="col-md-4 mb-3">
+                                            <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Nombre d'enfants<span class="text-danger">*</span>
@@ -689,7 +689,7 @@
                                 <div v-if="currentStep === 5" class="tab-pane fade show active" id="info-bancaire" role="tabpanel" aria-labelledby="info-bancaire-tab">
                                   <div class="sidebar-body">
                                     <div class="row g-2">
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-12 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Banque
@@ -704,7 +704,7 @@
                                               />
                                             </div>
                                             </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Numéro de compte bancaire
@@ -714,7 +714,7 @@
                                           <ErrorMessage name="numeroCompte" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Code Iban
@@ -724,7 +724,7 @@
                                           <ErrorMessage name="codeIban" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Code Swift
@@ -734,7 +734,7 @@
                                           <ErrorMessage name="codeSwift" class="text-danger" />
                                         </div>
                                       </div>
-                                          <div class="col-md-4 mt-3">
+                                          <div class="col-md-6 mt-3">
                                           <label for="releveIdentiteBancaire" class="form-label">Relevé d'identité bancaire<span class="text-danger">*</span></label>
                                           <Field name="releveIdentiteBancaire" class="form-control" type="file" placeholder="Joindre le RIB"/>
                                           <ErrorMessage name="releveIdentiteBancaire" class="text-danger" />
@@ -742,7 +742,7 @@
                                       
                                         <h1>Informations sur la personne à contacter</h1>
                                       <div class="row g-2">
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-6 mb-3">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black mb-10">
                                               Nom de la personne à contacter
@@ -752,7 +752,7 @@
                                             <ErrorMessage name="nomPersonneAContacter" class="text-danger" />
                                           </div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-6 mb-3">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black mb-10">
                                               Prénom personne à contacter
@@ -762,7 +762,7 @@
                                             <ErrorMessage name="prenomPersonneAContacter" class="text-danger" />
                                           </div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-6 mb-3">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black mb-10">
                                               Téléphone personne à contacter
@@ -772,7 +772,7 @@
                                             <ErrorMessage name="telephonePersonneAContacter" class="text-danger" />
                                           </div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-6 mb-3">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black  mb-10">
                                               Relation
@@ -1021,9 +1021,6 @@ export default defineComponent({
     const religionOptions = ref([]);
     const ethnieOptions = ref([]);
     const serviceOptions = ref([]);
-    
-
-
     const banqueOptions = ref([]);
 
     const addPersonnel = async (values, { resetForm }) => {
@@ -1103,18 +1100,36 @@ export default defineComponent({
       }
     }
 
+
     const fetchBanque = async () => {
-      try {
-        const response = await ApiService.get("/banques");
-        const banqueData = response.data.data;
-        banqueOptions.value = banqueData.map((banque) => ({
-          value: banque.id,
-          label: `${banque.denomination}`,
-        }));
-      } catch (error) {
-        //
-      }
-    };
+      ApiService.get("all/banques")
+      .then(({ data }) => {
+        const banqueData = data.data.data;
+        banqueOptions.value = banqueData.map((banque) => {
+          return {
+            value:   banque.id,
+            label: `${banque.denominationBanque}`,
+          }
+        });
+      })
+      .catch(({ response }) => {
+        error(response.data.message)
+      });
+    }
+
+
+    // const fetchBanque = async () => {
+    //   try {
+    //     const response = await ApiService.get("/all/banques");
+    //     const banqueData = response.data.data.data;
+    //     banqueOptions.value = banqueData.map((banque) => ({
+    //       value: banque.id,
+    //       label: `${banque.denominationBanque}`,
+    //     }));
+    //   } catch (error) {
+    //     //
+    //   }
+    // };
 
     const countriesRef = ref(countries);
     const selectedCommune = ref([]);
@@ -1221,6 +1236,60 @@ export default defineComponent({
     }
 
 
+    
+    const fetchCommunes = async () => {
+      ApiService.get("/communes")
+      .then(({ data }) => {
+        const donnees = data.data.data;
+        communeOptions.value = donnees.map((commune) => {
+          return {
+            value: commune.id,
+          label: `${commune.libelle}`,
+          }
+        });
+      })
+      .catch(({ response }) => {
+        error(response.data.message)
+      });
+    }
+
+
+    const fetchQuartiers = async () => {
+      ApiService.get("/quartiers")
+      .then(({ data }) => {
+        const donnees = data.data.data;
+        quartierOptions.value = donnees.map((quartier) => {
+          return {
+            value: quartier.id,
+          label: `${quartier.libelle}`,
+          }
+        });
+      })
+      .catch(({ response }) => {
+        error(response.data.message)
+      });
+    }
+
+    
+    const fetchArrondissement = async () => {
+      ApiService.get("/arrondissements")
+      .then(({ data }) => {
+        const donnees = data.data.data;
+        arrondissementOptions.value = donnees.map((arrondissement) => {
+          return {
+            value: arrondissement.id,
+          label: `${arrondissement.libelle}`,
+          }
+        });
+      })
+      .catch(({ response }) => {
+        error(response.data.message)
+      });
+    }
+
+
+
+
 
     const tabContainer = ref(null);
     const tabs  = [
@@ -1315,7 +1384,10 @@ export default defineComponent({
       await getAllEthnies();
       await getAllServices();
       await fetchBanque();
-     await  fetchDepartements();
+      await  fetchDepartements();
+      await fetchCommunes();
+      await fetchQuartiers();
+      await fetchArrondissement();
     })
 
     const { handleSubmit, validate } = useForm({

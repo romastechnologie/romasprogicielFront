@@ -187,12 +187,18 @@
               </div>
             </div>
           </div>
-         
-            <div class="col-md-6">
-                      <label for="fileInput">Sélectionnez un fichier (.pdf, .doc, .docx) :</label>
-                      <input name="demandeFileName" id="fileInput" type="file" @change="onFileChange" accept=".pdf,.doc,.docx" class="form-control" />
-                      <!--<ErrorMessage name="demandeFileName" class="text-danger" /> -->
-            </div>
+          <div class="col-md-4 mt-3">
+            <label for="fichier" class="form-label"
+              >Fichier<span class="text-danger">*</span></label
+            >
+            <Field
+              name="fichier"
+              @change="fichierChange"
+              class="form-control"
+              type="file"
+            />
+            <ErrorMessage name="fichier" class="text-danger" />
+          </div>
               
                   
           <div class="col-md-12 mt-3">
@@ -217,7 +223,7 @@
   import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
   import * as Yup from 'yup';
   import ApiService from '@/services/ApiService';
-  import { error, success } from '@/utils/utils';
+  import { error, success,onFileChange } from '@/utils/utils';
   import { useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
@@ -308,6 +314,16 @@ const personnelOptions = ref([] as any[]);
       
     });
 
+
+      const fichierChange = (e) => {
+        selectedFile.value = onFileChange(e, [
+          "image/jpeg",
+          "image/png",
+          "application/pdf",
+        ]);
+      };
+
+
 //déclaration des champs
 const fieldHide1 = ref(true);
     const fieldHide2 = ref(false);
@@ -326,26 +342,10 @@ const fieldHide1 = ref(true);
     
     const demandeSchema = ref(defaultSchema);
     const file = ref(null);
+    const selectedFile = ref<any>();
     const errorMessage = ref('');
     const maxFileSize = 5 * 1024 * 1024; // 5 Mo
 
-    const onFileChange = (event) => {
-      const selectedFile = event.target.files[0];
-      const allowedExtensions = /(\.pdf|\.doc|\.docx)$/i;
-
-      if (!allowedExtensions.test(selectedFile.name)) {
-        errorMessage.value = 'Seuls les fichiers .pdf, .doc, et .docx sont autorisés.';
-        return;
-      }
-
-      if (selectedFile.size > maxFileSize) {
-        errorMessage.value = 'Le fichier ne doit pas dépasser 5 Mo.';
-        return;
-      }
-
-      file.value = selectedFile;
-      errorMessage.value = '';
-    };
       onMounted(() => {
         getAllTypeConges()
         getAllCategorieDemandes()
@@ -594,7 +594,7 @@ const addDemande = async (values: any, { resetForm }) => {
       addRowEcheance,
       valideteRowEcheance,
       echeances,
-      onFileChange,
+      fichierChange,onFileChange,
       errorMessage,montantPret,
       calculMontantTotal,
       typeCongeOptions,typeConge,personnel};
