@@ -83,6 +83,7 @@
                                           <ErrorMessage name="civilite" class="text-danger" />
                                         </div>
                                       </div>
+                                      
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
@@ -92,6 +93,7 @@
                                         </div>
                                         <ErrorMessage name="dateNais" class="text-danger" />
                                       </div>
+
                                       <div class="col-md-4 mt-3">
                                         <label for="dateEmbauche" class="form-label"> Date d'embauche<span class="text-danger">*</span></label>
                                         <Field name="dateEmbauche" v-model="dateEmbauche" class="form-control" type="Date" />
@@ -1330,10 +1332,9 @@ export default defineComponent({
 let activeclass = ref<string>('Informations générales du personnel')
 
 
-    // Passer à l'étape suivante après validation
     const nextStep = async () => {
       const isValid = await validate();
-      if (!isValid) return; // Ne pas avancer si le formulaire est invalide
+      if (!isValid) return; 
 
       if (currentStep.value === 1) {
         useForm({ validationSchema: personnelConSchema });
@@ -1355,7 +1356,6 @@ let activeclass = ref<string>('Informations générales du personnel')
       showTab(currentStep.value);
     };
 
-    // Fonction pour afficher un onglet via Bootstrap Tab
     const showTab = (stepIndex) => {
       const tabElements = tabContainer.value.querySelectorAll('.nav-link');
       if (tabElements[stepIndex - 1]) {
@@ -1364,19 +1364,17 @@ let activeclass = ref<string>('Informations générales du personnel')
       }
     };
 
-    // Revenir à l'étape précédente
     const previousStep = () => {
   if (currentStep.value > 1) {
     currentStep.value--;
-    showTab(currentStep.value); // Afficher l'onglet correspondant à l'étape précédente
+    showTab(currentStep.value); 
   }
 };
 
-    // Soumettre le formulaire
     const handleSubmitForm = (values) => {
       if (currentStep.value === tabs.length) {
         alert('Formulaire soumis avec succès !');
-        console.log(values); // Envoyer les données à une API si nécessaire
+        console.log(values); 
       }
     };
 
