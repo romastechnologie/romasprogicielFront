@@ -740,7 +740,7 @@
                                       
                                         <h1>Informations sur la personne à contacter</h1>
                                       <div class="row g-2">
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-6 mb-3">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black mb-10">
                                               Nom de la personne à contacter
@@ -750,7 +750,7 @@
                                             <ErrorMessage name="nomPersonneAContacter" class="text-danger" />
                                           </div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-6 mb-3">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black mb-10">
                                               Prénom personne à contacter
@@ -760,7 +760,7 @@
                                             <ErrorMessage name="prenomPersonneAContacter" class="text-danger" />
                                           </div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-6 mb-3">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black mb-10">
                                               Téléphone personne à contacter
@@ -770,7 +770,7 @@
                                             <ErrorMessage name="telephonePersonneAContacter" class="text-danger" />
                                           </div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-6 mb-3">
                                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                             <label class="d-block text-black  mb-10">
                                               Relation
