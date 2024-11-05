@@ -187,15 +187,20 @@
               </div>
             </div>
           </div>
-          <div>
-            <div class="col-md-6">
-                      <label for="fileInput">Sélectionnez un fichier (.pdf, .doc, .docx) :</label>
-                      <input name="demandeFileName" id="fileInput" type="file" @change="onFileChange" accept=".pdf,.doc,.docx" class="form-control" />
-                    </div>
-                  </div>
-                  <ErrorMessage name="demandeFileName" class="text-danger" />
-
-                  <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+          <div class="col-md-4 mt-3">
+            <label for="fichier" class="form-label"
+              >Fichier<span class="text-danger">*</span></label
+            >
+            <Field
+              name="fichier"
+              @change="fichierChange"
+              class="form-control"
+              type="file"
+            />
+            <ErrorMessage name="fichier" class="text-danger" />
+          </div>
+              
+                  
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -218,7 +223,7 @@
   import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
   import * as Yup from 'yup';
   import ApiService from '@/services/ApiService';
-  import { error, success } from '@/utils/utils';
+  import { error, success,onFileChange } from '@/utils/utils';
   import { useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
@@ -271,7 +276,7 @@ const personnelOptions = ref([] as any[]);
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
     const congeSchema = Yup.object().shape({
@@ -283,7 +288,7 @@ const personnelOptions = ref([] as any[]);
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
     const attestationSchema = Yup.object().shape({
@@ -291,7 +296,7 @@ const personnelOptions = ref([] as any[]);
       dateDemande: Yup.date().required('La date de demande est obligatoire'),
       categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
     const pretSchema = Yup.object().shape({
       personnel:Yup.string().required('Le personnel est obligatoire'),
@@ -299,7 +304,7 @@ const personnelOptions = ref([] as any[]);
       categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
       montantPret: Yup.string().required('Le montant total est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
       dateEcheance: Yup.date().required('La date de demande est obligatoire'),
       montant: Yup.string().required('Le montant par échéance est obligatoire'),
 
@@ -308,6 +313,16 @@ const personnelOptions = ref([] as any[]);
       categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       
     });
+
+
+      const fichierChange = (e) => {
+        selectedFile.value = onFileChange(e, [
+          "image/jpeg",
+          "image/png",
+          "application/pdf",
+        ]);
+      };
+
 
 //déclaration des champs
 const fieldHide1 = ref(true);
@@ -327,26 +342,10 @@ const fieldHide1 = ref(true);
     
     const demandeSchema = ref(defaultSchema);
     const file = ref(null);
+    const selectedFile = ref<any>();
     const errorMessage = ref('');
     const maxFileSize = 5 * 1024 * 1024; // 5 Mo
 
-    const onFileChange = (event) => {
-      const selectedFile = event.target.files[0];
-      const allowedExtensions = /(\.pdf|\.doc|\.docx)$/i;
-
-      if (!allowedExtensions.test(selectedFile.name)) {
-        errorMessage.value = 'Seuls les fichiers .pdf, .doc, et .docx sont autorisés.';
-        return;
-      }
-
-      if (selectedFile.size > maxFileSize) {
-        errorMessage.value = 'Le fichier ne doit pas dépasser 5 Mo.';
-        return;
-      }
-
-      file.value = selectedFile;
-      errorMessage.value = '';
-    };
       onMounted(() => {
         getAllTypeConges()
         getAllCategorieDemandes()
@@ -497,41 +496,7 @@ const calculMontantTotal = () => {
       montantPret.value = echeances.reduce((acc, echeance) => acc + Number(echeance.montant || 0), 0);
     };
 
-
-
-
-const addDemande = async (values: any, { resetForm }) => {
-      values['typeConge'] = typeConge.value
-      values['categories'] = categories.value
-      values['personnel'] = personnels.value
-      console.log('Données envoyées', values)
-      if (showMErr.value === false) {
-        ApiService.post("/demandes", values)
-           .then(({ data }) => {
-            console.log("data   ",data)
-             if (data.code == 201) {
-              success(data.message);
-              //  resetForm();
-             console.log('flefelef')
-             if(categories.value == 1){
-              router.push({ name: "ListeDemandePermission" });
-             }else if(categories.value == 2){
-              router.push({ name: "ListeDemandeConge" });
-             }else if(categories.value == 3){
-              router.push({ name: "ListeDemandeAttestation" });
-             }else{
-              router.push({ name: "ListeDemandeAutre" });
-             }
-            // router.push({ name: "ListeDemandePage" });
-           }
-           }).catch(({ response }) => {
-            console.log("response   ",response)
-            error(response.message);
-          });
-       }
-    };
-
-      const getAllTypeConges = async () => {
+    const getAllTypeConges = async () => {
         try{
         const response = await ApiService.get('/typeConges');
         const typeCongesData = response.data.data.data;
@@ -576,6 +541,42 @@ const addDemande = async (values: any, { resetForm }) => {
         }
       } 
 
+
+
+
+const addDemande = async (values: any, { resetForm }) => {
+      values['typeConge'] = typeConge.value
+      values['categories'] = categories.value
+      values['personnel'] = personnels.value
+      console.log('Données envoyées', values)
+      if (showMErr.value === false) {
+        ApiService.post("/demandes", values)
+           .then(({ data }) => {
+            console.log("data   ",data)
+             if (data.code == 201) {
+              success(data.message);
+              //  resetForm();
+             console.log('flefelef',data.data.categorie)
+             if(data.data.categorie == 1){
+              router.push({ name: "ListeDemandePermission" });
+             }else if(data.data.categorie == 2){
+              router.push({ name: "ListeDemandeConge" });
+             }else if(data.data.categorie == 3){
+              console.log('je suis là')
+              router.push("/liste-demande-attestation");
+             }else{
+              router.push({ name: "ListeDemandeAutre" });
+             }
+            // router.push({ name: "ListeDemandePage" });
+           }
+           }).catch(({ response }) => {
+            console.log("response",response)
+            error(response);
+          });
+       }
+    };
+
+
       return { demandeSchema, addDemande, demandeForm,typeOptions,showMErr,categorieOptions,personnelOptions,types,categories,categorieDemandeChange,fieldHide1,
       fieldHide2,
       fieldHide3,
@@ -593,7 +594,7 @@ const addDemande = async (values: any, { resetForm }) => {
       addRowEcheance,
       valideteRowEcheance,
       echeances,
-      onFileChange,
+      fichierChange,onFileChange,
       errorMessage,montantPret,
       calculMontantTotal,
       typeCongeOptions,typeConge,personnel};

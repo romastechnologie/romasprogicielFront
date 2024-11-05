@@ -687,7 +687,7 @@
                                 <div v-if="currentStep === 5" class="tab-pane fade show active" id="info-bancaire" role="tabpanel" aria-labelledby="info-bancaire-tab">
                                   <div class="sidebar-body">
                                     <div class="row g-2">
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-12 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Banque
@@ -702,7 +702,7 @@
                                               />
                                             </div>
                                             </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Numéro de compte bancaire
@@ -712,7 +712,7 @@
                                           <ErrorMessage name="numeroCompte" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Code Iban
@@ -722,7 +722,7 @@
                                           <ErrorMessage name="codeIban" class="text-danger" />
                                         </div>
                                       </div>
-                                      <div class="col-md-4 mb-3">
+                                      <div class="col-md-6 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
                                             Code Swift
@@ -732,7 +732,7 @@
                                           <ErrorMessage name="codeSwift" class="text-danger" />
                                         </div>
                                       </div>
-                                          <div class="col-md-4 mt-3">
+                                          <div class="col-md-6 mt-3">
                                           <label for="releveIdentiteBancaire" class="form-label">Relevé d'identité bancaire<span class="text-danger">*</span></label>
                                           <Field name="releveIdentiteBancaire" class="form-control" type="file" placeholder="Joindre le RIB"/>
                                           <ErrorMessage name="releveIdentiteBancaire" class="text-danger" />
@@ -1019,9 +1019,6 @@ export default defineComponent({
     const religionOptions = ref([]);
     const ethnieOptions = ref([]);
     const serviceOptions = ref([]);
-    
-
-
     const banqueOptions = ref([]);
 
     const addPersonnel = async (values, { resetForm }) => {
@@ -1101,18 +1098,36 @@ export default defineComponent({
       }
     }
 
+
     const fetchBanque = async () => {
-      try {
-        const response = await ApiService.get("/banques");
-        const banqueData = response.data.data;
-        banqueOptions.value = banqueData.map((banque) => ({
-          value: banque.id,
-          label: `${banque.denomination}`,
-        }));
-      } catch (error) {
-        //
-      }
-    };
+      ApiService.get("all/banques")
+      .then(({ data }) => {
+        const banqueData = data.data.data;
+        banqueOptions.value = banqueData.map((banque) => {
+          return {
+            value:   banque.id,
+            label: `${banque.denominationBanque}`,
+          }
+        });
+      })
+      .catch(({ response }) => {
+        error(response.data.message)
+      });
+    }
+
+
+    // const fetchBanque = async () => {
+    //   try {
+    //     const response = await ApiService.get("/all/banques");
+    //     const banqueData = response.data.data.data;
+    //     banqueOptions.value = banqueData.map((banque) => ({
+    //       value: banque.id,
+    //       label: `${banque.denominationBanque}`,
+    //     }));
+    //   } catch (error) {
+    //     //
+    //   }
+    // };
 
     const countriesRef = ref(countries);
     const selectedCommune = ref([]);
