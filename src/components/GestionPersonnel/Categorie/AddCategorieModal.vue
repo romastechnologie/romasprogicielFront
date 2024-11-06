@@ -174,4 +174,4 @@ export default {
         };
     },
 };
-</script>@/models/Categorie
+</script>

@@ -181,7 +181,7 @@ export default defineComponent({
     };
 
     function getAllCategories(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/categorieDemandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/categorieDemandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           categories.value = data.data.data;
           totalPages.value = data.data.totalPages;
