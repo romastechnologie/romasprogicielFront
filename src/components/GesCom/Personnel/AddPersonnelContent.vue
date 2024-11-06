@@ -1,4 +1,5 @@
 <template>
+  <Form @submit="addPersonnel" >
   <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -83,7 +84,6 @@
                                           <ErrorMessage name="civilite" class="text-danger" />
                                         </div>
                                       </div>
-                                      
                                       <div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
@@ -93,7 +93,6 @@
                                         </div>
                                         <ErrorMessage name="dateNais" class="text-danger" />
                                       </div>
-
                                       <div class="col-md-4 mt-3">
                                         <label for="dateEmbauche" class="form-label"> Date d'embauche<span class="text-danger">*</span></label>
                                         <Field name="dateEmbauche" v-model="dateEmbauche" class="form-control" type="Date" />
@@ -806,7 +805,8 @@
         </div>
         </div>
     </div>
-  
+  </Form>
+
 </template>
 
 
@@ -1024,26 +1024,97 @@ export default defineComponent({
     const banqueOptions = ref([]);
 
     const addPersonnel = async (values, { resetForm }) => {
-      values.enfants = enfants.map(enfant => ({
-        nom: enfant.nom,
-        sexe: enfant.sexe,
-        prenom: enfant.prenom,
-        dateNaissance: enfant.dateNaissance,
-      }));
+  const router = useRouter();
+  
+  console.log(' valeurs :', values);
 
-      values["photo"] = laPhoto.value;
-      
-      axios.post("/personnels", values, { headers: { 'Content-Type': 'multipart/form-data','Accept': '*/*' } })
-        .then(({ data }) => {
-          if (data.code == 201) {
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListePersonnelPage" });
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-        });
+  const elemt = {
+    nom: nom.value, 
+    prenom: prenom.value,
+    sexe: sexe.value,
+    situation: situation.value,
+    civilite: civilite.value,
+    dateNaissance: dateNaissance.value,
+    numSecSocial: numSecSocial.value,
+    religion: religion.value,
+    ethnie: ethnie.value,
+    service: service.value,
+    boitePostale: boitePostale.value,
+    telephone1: telephone1.value,
+    telephone2: telephone2.value,
+    email: email.value,
+    selectedCommune:selectedCommune.value,
+    selectedArrondissement:selectedArrondissement.value,
+    selectedQuartier: selectedQuartier.value,
+    adresse: adresse.value,
+    nomCon: nomCon.value,
+    prenomCon: prenomCon.value,
+    dateNaissanceCon: dateNaissanceCon.value,
+    nationaliteCon: nationaliteCon.value,
+    telephoneCon: telephoneCon.value,
+    numPassportCon: numPassportCon.value,
+    religionCon: religion.value,
+    ethnieCon: ethnieCon.value,
+    nmbreEnfant: nmbreEnfant.value,
+    taille: taille.value,
+    poids: poids.value,
+    groupeSanguin: groupeSanguin.value,
+    visionGauche: visionGauche.value,
+    visionDroite: visionDroite.value,
+    audienceGauche: audienceGauche.value,
+    audienceDroite: audienceDroite.value,
+    mainGauche: mainGauche.value, 
+    mainDroite: mainDroite.value,
+    jambeGauche: jambeGauche.value,
+    jambeDroite: jambeDroite.value,
+    banque: banque.value,
+    dateEmbauche: dateEmbauche.value,
+    nationalite: nationalite.value,
+    rib: rib.value,
+    iban: iban.value,
+    swift: swift.value,
+    nomPersonneAContacter: nomPersonneAContacter.value, 
+    prenomPersonneAContacter: prenomPersonneAContacter.value,
+    telephonePersonneAContacter: telephonePersonneAContacter.value,
+    relation: relation.value, 
+    personnels: personnels.value,
+ 
+  };
+  console.log('Données élément:', elemt);
+
+  values.enfants = enfants.map(enfant => {
+    console.log('Enfant récupéré :', enfant); 
+    return {
+      nom: enfant.nom,
+      sexe: enfant.sexe,
+      prenom: enfant.prenom,
+      dateNaissance: enfant.dateNaissance,
     };
+  });
+  console.log('Enfants traités :', values.enfants); 
+
+  values["photo"] = laPhoto.value;
+  console.log('Photo :', values["photo"]); 
+
+  console.log('requête:', values);
+  for(const key in elemt){
+    values[key] = elemt[key]
+  }
+
+  axios.post("/personnels", values, { headers: { 'Content-Type': 'multipart/form-data', 'Accept': '*/*' } })
+    .then(({ data }) => {
+      console.log('Réponse de la requête :', data); 
+      if (data.code == 201) {
+        success(data.message);
+        resetForm();
+        router.push({ name: "ListePersonnelPage" });
+      }
+    }).catch(({ response }) => {
+      console.error('Erreur lors de l\'envoi des données :', response.data.message); 
+      error(response.data.message);
+    });
+};
+
 
     const getAllReligions = async () => {
       try {
@@ -1269,7 +1340,6 @@ export default defineComponent({
         error(response.data.message)
       });
     }
-
     
     const fetchArrondissement = async () => {
       ApiService.get("/arrondissements")
@@ -1286,11 +1356,6 @@ export default defineComponent({
         error(response.data.message)
       });
     }
-
-
-
-
-
     const tabContainer = ref(null);
     const tabs  = [
         {
@@ -1406,7 +1471,7 @@ let activeclass = ref<string>('Informations générales du personnel')
 
     const nextStep = async () => {
       const isValid = await validate();
-      if (!isValid) return; 
+      if (!isValid) return; // Ne pas avancer si le formulaire est invalide
 
       if (currentStep.value === 1) {
         useForm({ validationSchema: personnelConSchema });
@@ -1428,6 +1493,7 @@ let activeclass = ref<string>('Informations générales du personnel')
       showTab(currentStep.value);
     };
 
+    // Fonction pour afficher un onglet via Bootstrap Tab
     const showTab = (stepIndex) => {
       const tabElements = tabContainer.value.querySelectorAll('.nav-link');
       if (tabElements[stepIndex - 1]) {
@@ -1439,14 +1505,15 @@ let activeclass = ref<string>('Informations générales du personnel')
     const previousStep = () => {
   if (currentStep.value > 1) {
     currentStep.value--;
-    showTab(currentStep.value); 
+    showTab(currentStep.value); // Afficher l'onglet correspondant à l'étape précédente
   }
 };
 
+    // Soumettre le formulaire
     const handleSubmitForm = (values) => {
       if (currentStep.value === tabs.length) {
         alert('Formulaire soumis avec succès !');
-        console.log(values); 
+        console.log(values); // Envoyer les données à une API si nécessaire
       }
     };
 
@@ -1457,6 +1524,9 @@ let activeclass = ref<string>('Informations générales du personnel')
     };
 
     return {
+    
+      activateTab,
+      handleSubmitForm,
       addPersonnel,
       personnelForm,
       removeRowEnfant,
