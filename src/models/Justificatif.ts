@@ -1,10 +1,11 @@
 export  interface Justificatif {
     id: number;
-    date: Date;
     personnel: string;
     presence:string;
-    dateFinJustificatif: Date;
-    dateDebutJustificatif: Date;
+    dateFin: Date;
+    dateDebut: Date;
+    statut: string;
+    preuveFileName: string;
     createdAt:Date;
     setFieldValue: (field: string, value: any) => void;
   }

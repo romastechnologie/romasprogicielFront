@@ -48,12 +48,7 @@
           <table  class="table text-nowrap align-middle mb-0">
             <thead>
               <tr>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                 Date
-                </th>
+              
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                   Personnel
                 </th>
@@ -73,14 +68,9 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                 Preuve
+            Statut
                 </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-               Présence
-                </th>
+               
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
@@ -89,13 +79,13 @@
             </thead>
             <tbody>
               <tr  v-for ="(justificatif, index) in justificatifs" :key="index">
-                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif.date }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif?.personnel?.nom }} </td>
-                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(justificatif?.dateDebutJustificatif) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(justificatif.dateFinJustificatif) }} </td>  
-                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif.preuve }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif.presence }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(justificatif.createdAt) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif?.personnel?.nom +""+ justificatif?.personnel?.prenom }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif.dateDebut }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ justificatif.dateFin }} </td>
+                  <td class="shadow-none lh-1 fw-medium" :class="{ 'text-danger': !justificatif.statut }">
+                        {{ justificatif.statut || 'inactif' }}
+                </td>
+
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
@@ -186,6 +176,7 @@
       function getAllJustificatifs(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/justificatifs?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
+            console.log("data", data);
             justificatifs.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
