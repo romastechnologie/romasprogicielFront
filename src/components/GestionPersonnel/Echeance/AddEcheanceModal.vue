@@ -106,9 +106,9 @@ export default {
         const loading = ref<boolean>(false);
         const echeanceSchema = Yup.object().shape({
             dateEcheance: Yup.string().required('La date echeance est obligatoire'),
-            montant: Yup.string().required('Le montant est obligatoire'),
+            montant: Yup.string().required('Le montant est obligaoire'),
             resteAPaye: Yup.string().required('La reste a payer est obligatoire'),
-            demande: Yup.string().notRequired(),      
+            demande: Yup.string().notRequired(),     
         });
 
         const demandesnew = ref(props.id);
@@ -172,10 +172,10 @@ export default {
 
         const btnTitle = async () => {
             if (isupdate.value) {
-                title.value = "Modifier la demande";
+                title.value = "Modifier l'échéance";
                 btntext.value = "Modifier";
             } else {
-                title.value = "Ajouter une demande";
+                title.value = "Ajouter une écheance";
                 btntext.value = "Ajouter";
             }
         }
@@ -233,4 +233,4 @@ export default {
 };
 
 
-</script>@/models/CategoriesDepenses
+</script>

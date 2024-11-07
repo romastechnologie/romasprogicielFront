@@ -186,7 +186,16 @@ function sortCongeWithDateDebut(choosedDate: any) {
 }
 
 function sortCongeWithSearch(searchPresence: any) {
-
+  const searchText = searchPresence.value.toLowerCase();
+  
+  filterConge.value = conges.value.filter(conge => {
+    const nomMatch = conge.personnel && conge.personnel.nom.toLowerCase().includes(searchText);
+    const prenomMatch = conge.personnel && conge.personnel.prenom.toLowerCase().includes(searchText);
+    const startDateMatch = conge.dateDebut && conge.dateDebut.toLowerCase().includes(searchText);
+    const endDateMatch = conge.dateFin && conge.dateFin.toLowerCase().includes(searchText);
+    
+    return nomMatch || prenomMatch || startDateMatch || endDateMatch;
+  });
 }
 
 
