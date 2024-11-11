@@ -223,8 +223,8 @@
     }
 
     
-    const EditHoraire = async () => {
-       ApiService.put("/horaires", horaires)
+    const EditHoraire = async (values) => {
+       ApiService.put(`/horaires/${values.id}`, values)
         .then(({ data }) => {
           if (data.code == 201) {
             console.log(data.code,"datadatadatadata");

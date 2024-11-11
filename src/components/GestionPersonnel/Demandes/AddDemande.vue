@@ -35,7 +35,7 @@
                   :multiple="false" :searchable="true" placeholder="Sélectionner le personnel " label="label"
                   track-by="label" />
               </Field>
-              <span class="text-danger" v-if="showMErr">Le personnel est obligatoire</span>
+              <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
           <div v-show="fieldHide8" class="col-md-6 mb-3">
@@ -187,14 +187,20 @@
               </div>
             </div>
           </div>
-          <div>
-            <div class="col-md-6">
-                      <label for="fileInput">Sélectionnez un fichier (.pdf, .doc, .docx) :</label>
-                      <input id="fileInput" type="file" @change="onFileChange" accept=".pdf,.doc,.docx" class="form-control" />
-                    </div>
-                  </div>
-
-                  <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+          <div class="col-md-4 mt-3">
+            <label for="fichier" class="form-label"
+              >Fichier<span class="text-danger">*</span></label
+            >
+            <Field
+              name="fichier"
+              @change="fichierChange"
+              class="form-control"
+              type="file"
+            />
+            <ErrorMessage name="fichier" class="text-danger" />
+          </div>
+              
+                  
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -217,7 +223,7 @@
   import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
   import * as Yup from 'yup';
   import ApiService from '@/services/ApiService';
-  import { error, success } from '@/utils/utils';
+  import { error, success,onFileChange } from '@/utils/utils';
   import { useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
@@ -244,24 +250,7 @@ const demandes = ref([] as any[]);
 
 const typeCongeOptions = ref([] as any[]);
 const personnelOptions = ref([] as any[]);
-const closeDemandeModal = ref(null);
-const showE = ref(false)
 
-//déclaration des champs
-    const fieldHide1 = ref(true);
-    const fieldHide2 = ref(false);
-    const fieldHide3 = ref(false);
-    const fieldHide4 = ref(false);
-    const fieldHide5 = ref(false);
-    const fieldHide6 = ref(false);
-    const fieldHide7 = ref(false);
-    const fieldHide8 = ref(false);
-    const fieldHide9 = ref(false);
-    const fieldHide10 = ref(false);
-    const fieldHide11 = ref(false);
-    const fieldHide12 = ref(false);
-    const fieldHide13 = ref(false);
-    const demandeSchema = ref();
   
 
 
@@ -279,18 +268,6 @@ const showE = ref(false)
   
     setup: () => {
 
-      const defaultSchema = Yup.object().shape({
-      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
-      
-    });
-
-      /*const defaultSchema = Yup.object().shape({
-      personnel:Yup.string().required('Le personnel est obligatoire'),
-      dateDemande: Yup.date().required('La date de demande est obligatoire'),
-      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
-      motifDemande:Yup.string().required('Le motif de demande est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier  est obligatoire."),
-    });*/
       const permissionSchema = Yup.object().shape({
       personnel:Yup.string().required('Le personnel est obligatoire'),
       dateDemande: Yup.date().required('La date de demande est obligatoire'),
@@ -299,7 +276,7 @@ const showE = ref(false)
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
     const congeSchema = Yup.object().shape({
@@ -311,7 +288,7 @@ const showE = ref(false)
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
     const attestationSchema = Yup.object().shape({
@@ -319,7 +296,7 @@ const showE = ref(false)
       dateDemande: Yup.date().required('La date de demande est obligatoire'),
       categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
     const pretSchema = Yup.object().shape({
       personnel:Yup.string().required('Le personnel est obligatoire'),
@@ -327,40 +304,53 @@ const showE = ref(false)
       categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
       montantPret: Yup.string().required('Le montant total est obligatoire'),
-      demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
       dateEcheance: Yup.date().required('La date de demande est obligatoire'),
       montant: Yup.string().required('Le montant par échéance est obligatoire'),
 
     });
+    const defaultSchema = Yup.object().shape({
+      categorie: Yup.string().required('La catégorie de demande est obligatoire'),
+      
+    });
 
+
+      const fichierChange = (e) => {
+        selectedFile.value = onFileChange(e, [
+          "image/jpeg",
+          "image/png",
+          "application/pdf",
+        ]);
+      };
+
+
+//déclaration des champs
+const fieldHide1 = ref(true);
+    const fieldHide2 = ref(false);
+    const fieldHide3 = ref(false);
+    const fieldHide4 = ref(false);
+    const fieldHide5 = ref(false);
+    const fieldHide6 = ref(false);
+    const fieldHide7 = ref(false);
+    const fieldHide8 = ref(false);
+    const fieldHide9 = ref(false);
+    const fieldHide10 = ref(false);
+    const fieldHide11 = ref(false);
+    const fieldHide12 = ref(false);
+    const fieldHide13 = ref(false);
+    //const demandeSchema = ref();
     
-
+    const demandeSchema = ref(defaultSchema);
     const file = ref(null);
+    const selectedFile = ref<any>();
     const errorMessage = ref('');
     const maxFileSize = 5 * 1024 * 1024; // 5 Mo
 
-    const onFileChange = (event) => {
-      const selectedFile = event.target.files[0];
-      const allowedExtensions = /(\.pdf|\.doc|\.docx)$/i;
-
-      if (!allowedExtensions.test(selectedFile.name)) {
-        errorMessage.value = 'Seuls les fichiers .pdf, .doc, et .docx sont autorisés.';
-        return;
-      }
-
-      if (selectedFile.size > maxFileSize) {
-        errorMessage.value = 'Le fichier ne doit pas dépasser 5 Mo.';
-        return;
-      }
-
-      file.value = selectedFile;
-      errorMessage.value = '';
-    };
       onMounted(() => {
         getAllTypeConges()
         getAllCategorieDemandes()
         getAllPersonnels()
-        demandeSchema.value = defaultSchema
+        //demandeSchema.value = defaultSchema
   });
   
     
@@ -389,19 +379,20 @@ const showE = ref(false)
       watch(
         echeances,
         (newValue) => {
+          console.log('je suis ici');
           isDisable.value =
           newValue.some(
             (echeance) =>
             valideteRowEcheance(echeance.dateEcheance) ||
             valideteRowEcheance(echeance.montant)
-           // valideteRowEcheance(echeance.resteAPaye)
+           
           );
         },
         { deep: true }
       );
   
       const valideteRowEcheance = (e) => {
-        if (e == "" ||  e == "0" || e == null || e < 0) {
+        if (e == "" ||  e == "0"  || e < 0) {
           console.log('erg')
           return true;
         } else {
@@ -419,23 +410,6 @@ if (value == null || value == undefined || value == "") {
 }
 
 switch (value) {
-  case 0:
-    // permission
-    demandeSchema.value = permissionSchema;
-    fieldHide1.value = true;
-    fieldHide2.value = true;
-    fieldHide3.value = true;
-    fieldHide4.value = true;
-    fieldHide5.value = false;
-    fieldHide6.value = false;
-    fieldHide7.value = false;
-    fieldHide8.value = false;
-    fieldHide9.value = false;
-    fieldHide10.value = false;
-    fieldHide11.value = false;
-    fieldHide12.value = false;
-    fieldHide13.value = false;
-    break;
     case 1:
     // permission
     demandeSchema.value = permissionSchema;
@@ -522,41 +496,7 @@ const calculMontantTotal = () => {
       montantPret.value = echeances.reduce((acc, echeance) => acc + Number(echeance.montant || 0), 0);
     };
 
-
-
-
-const addDemande = async (values: any, { resetForm }) => {
-      values['typeConge'] = typeConge.value
-      values['categories'] = categories.value
-      values['personnel'] = personnels.value
-      console.log('Données envoyées', values)
-      if (showMErr.value === false) {
-        ApiService.post("/demandes", values)
-           .then(({ data }) => {
-            console.log("data   ",data)
-             if (data.code == 201) {
-              success(data.message);
-              //  resetForm();
-             console.log('flefelef')
-             if(categories.value == 1){
-              router.push({ name: "ListeDemandePermission" });
-             }else if(categories.value == 2){
-              router.push({ name: "ListeDemandeConge" });
-             }else if(categories.value == 3){
-              router.push({ name: "ListeDemandeAttestation" });
-             }else{
-              router.push({ name: "ListeDemandeAutre" });
-             }
-            // router.push({ name: "ListeDemandePage" });
-           }
-           }).catch(({ response }) => {
-            console.log("response   ",response)
-            error(response.message);
-          });
-       }
-    };
-
-      const getAllTypeConges = async () => {
+    const getAllTypeConges = async () => {
         try{
         const response = await ApiService.get('/typeConges');
         const typeCongesData = response.data.data.data;
@@ -601,6 +541,42 @@ const addDemande = async (values: any, { resetForm }) => {
         }
       } 
 
+
+
+
+const addDemande = async (values: any, { resetForm }) => {
+      values['typeConge'] = typeConge.value
+      values['categories'] = categories.value
+      values['personnel'] = personnels.value
+      console.log('Données envoyées', values)
+      if (showMErr.value === false) {
+        ApiService.post("/demandes", values)
+           .then(({ data }) => {
+            console.log("data   ",data)
+             if (data.code == 201) {
+              success(data.message);
+              //  resetForm();
+             console.log('flefelef',data.data.categorie)
+             if(data.data.categorie == 1){
+              router.push({ name: "ListeDemandePermission" });
+             }else if(data.data.categorie == 2){
+              router.push({ name: "ListeDemandeConge" });
+             }else if(data.data.categorie == 3){
+              console.log('je suis là')
+              router.push("/liste-demande-attestation");
+             }else{
+              router.push({ name: "ListeDemandeAutre" });
+             }
+            // router.push({ name: "ListeDemandePage" });
+           }
+           }).catch(({ response }) => {
+            console.log("response",response)
+            error(response);
+          });
+       }
+    };
+
+
       return { demandeSchema, addDemande, demandeForm,typeOptions,showMErr,categorieOptions,personnelOptions,types,categories,categorieDemandeChange,fieldHide1,
       fieldHide2,
       fieldHide3,
@@ -618,7 +594,7 @@ const addDemande = async (values: any, { resetForm }) => {
       addRowEcheance,
       valideteRowEcheance,
       echeances,
-      onFileChange,
+      fichierChange,onFileChange,
       errorMessage,montantPret,
       calculMontantTotal,
       typeCongeOptions,typeConge,personnel};

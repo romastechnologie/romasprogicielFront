@@ -76,13 +76,13 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Nom utilisaeur
+               Main
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Tel
+                Telephone
               </th>
               <th
                 scope="col"
@@ -105,10 +105,10 @@
                 {{ personnel.civilite }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ personnel.nomUtilisateur }}
+                {{ personnel.email }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ personnel.tel }}
+                {{ personnel.telephone }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"

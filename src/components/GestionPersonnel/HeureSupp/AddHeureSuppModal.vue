@@ -106,6 +106,9 @@ export default defineComponent({
     const isUPDATE = ref(false);
     const title = ref("Ajouter une heureSupp");
     const btntext = ref('Ajouter');
+    const personnels = ref();
+      const personnel = ref();
+      
     const personnelOptions = ref();
 
     watch(() => props.item, (newValue) => {
@@ -162,8 +165,8 @@ export default defineComponent({
 
     const getAllPersonnels = async () => {
         try{
-        const response = await ApiService.get('/personnels');
-        const personnelsData = response.data;
+        const response = await ApiService.get('all/personnels');
+        const personnelsData = response.data.data.data;
         console.log('Data', personnelsData)
         personnelOptions.value = personnelsData.map((personnel) => ({
           value: personnel.id,
@@ -174,7 +177,6 @@ export default defineComponent({
           //error(response.data.message)
         }
       }
-
 
     const addHeureSupp = async (values: any, heureSuppForm) => {
       values = values as HeureSupp;
@@ -225,6 +227,7 @@ export default defineComponent({
       heureSuppForm,
       title,btntext,resetValue,
       heureSuppOptions,personnelOptions
+
     };
   },
 });

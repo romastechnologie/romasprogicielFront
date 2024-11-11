@@ -1,27 +1,24 @@
 <template>
- <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
   <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-        <Form @submit="updatePermission" :validation-schema="schemaPermission()">-->
-        <div class="row">
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Date de la demande <span class="text-danger">*</span>
-              </label>
-              <Field name="dateDemande" type="date" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="dateDemande" class="text-danger" />
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
+          <Form ref="permissionpForm" @submit="editPermissionP" :validation-schema="permissionpSchema" :initial-values="permissionpForm">
+          <div class="row">
+            <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Demandes <span class="text-danger">*</span>
               </label>
-              <Field name="demande" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="demandeOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner la demande" label="label"
-                  track-by="label" />
-              </Field>
+                <Field name="demande" v-slot="{ field }">
+                  <Multiselect
+                    :options="demandeOptions"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner la demande"
+                  />
+                </Field>
               <ErrorMessage name="demande" class="text-danger" />
             </div>
           </div>
@@ -33,9 +30,9 @@
                 Personnel <span class="text-danger">*</span>
               </label>
               <Field name="personnel" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
-                  track-by="label" />
+              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
+                label="label" track-by="label" />
               </Field>
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
@@ -45,8 +42,8 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Motif de la permission <span class="text-danger">*</span>
               </label>
-              <Field name="motif" type="text" class="form-control shadow-none fs-md-15 text-black" />
-              <ErrorMessage name="motif" class="text-danger" />
+              <Field name="motifPermission" type="text" class="form-control shadow-none fs-md-15 text-black" />
+              <ErrorMessage name="motifPermission" class="text-danger" />
             </div>
           </div>
           <div class="col-md-4 mb-3">
@@ -54,7 +51,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date de début <span class="text-danger">*</span>
               </label>
-              <Field name="dateDebut" type="date" class="form-control shadow-none fs-md-15 text-black" />
+              <Field name="dateDebut" type="date" class="form-control shadow-none fs-md-15 text-black"  />
               <ErrorMessage name="dateDebut" class="text-danger" />
             </div>
           </div>
@@ -73,141 +70,159 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date de Reprise <span class="text-danger">*</span>
               </label>
-              <Field name="dateReprise" type="date" class="form-control shadow-none fs-md-15 text-black" />
+              <Field name="dateReprise" type="date" class="form-control shadow-none fs-md-15 text-black"  />
               <ErrorMessage name="dateReprise" class="text-danger" />
             </div>
           </div>
-
-          <div class="col-md-12 mt-3">
-            <div class="d-flex align-items-center ">
-              <button class="btn btn-success me-3" type="submit">
-                Accorder
-              </button>
-              <router-link to="/permissionps/liste-permissionp" class=" btn btn-danger"><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+        
+           
+            
+        <div class="col-md-12 d-flex flex-column mt-3">
+          <div class="d-flex align-items-center ">
+            <button
+              class="btn btn-success me-3"
+              type="submit"
+            >
+                Modifier Permission
+            </button>
+            <router-link to="/permissionps/liste-permissionps" 
+                class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
-            </div>
           </div>
         </div>
-      </Form>
-    </div>
+      </div>
+    </Form>
   </div>
- 
-
-
-  <!-- Modal -->
-
-  <!-- Permission -->
-
-   
+</div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
+
+import { defineComponent, ref, onMounted } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import * as yup from 'yup';
-import { configure } from 'vee-validate'
-import { useRouter, useRoute } from 'vue-router';
-import Swal from 'sweetalert2';
-import axios from 'axios';
+import { error, success } from '@/utils/utils';
+import { useRoute, useRouter } from 'vue-router';
 import ApiService from '@/services/ApiService';
-import { onMounted, ref } from 'vue';
+import { PermissionP} from '@/models/PermissionP';
+import * as Yup from 'yup';
+import axios from 'axios';
+import Multiselect from '@vueform/multiselect'
 
-const router = useRouter()
-const route = useRoute()
+export default defineComponent({
+    name: "EditPermissionP",
+    components: {
+    Form,
+    Field,
+    ErrorMessage,
+    Multiselect
+  },
+  setup: () => {
+    const permissionpSchema = Yup.object().shape({
+      demande: Yup.string().required("Demande est obligatoire."),
+      personnel: Yup.string().required("Personnel est obligatoire."),
+      dateDebut: Yup.string().required("Date debut est obligatoire."),
+      dateFin: Yup.string().required("Date fin est obligatoire."),
+      dateReprise: Yup.string().required("Date reprise est obligatoire."),
+      motifPermission:Yup.string().required("Date debut est obligatoire."),
 
-configure({
-  validateOnBlur: true,
-  validateOnChange: true,
-  validateOnInput: true,
-  validateOnModelUpdate: false,
-});
-
-const permissions = ref([] as any[]);
-const personnelOptions = ref();
-const demandeOptions = ref();
-
-// ------------------------------------------------ SCHEMA -------------------------------------------------
-
-function schemaPermission() {
-  return yup.object().shape({
-    motif: yup.string().required("Le motif est obligatoire."),
-    dateDebut: yup.date().required("La date de début est obligatoire."),
-    dateFin: yup.date().required("La date de fin est obligatoire."),
-    dateReprise: yup.date().required("La date de reprise est obligatoire."),
-    demande: yup.string().required("La demande est obligatoire."),
-
-  })
-}
-
-// ------------------------------------------------ UPDATE -------------------------------------------------
-
-async function updatePermission(value: object) {
-
-  try {
-    const response = await ApiService.put(`/permissionps/${route.params.id}`, value);
-    Swal.fire({
-      timer: 1500,
-      position: "top-end",
-      text: "Permission mise à jour avec succès!",
-      icon: "success"
     });
-    router.push("/permissionps/liste-permissionp")
+
+
+    onMounted(async () => {
+    });
+
+    const dateDebut = ref();
+    const dateFin = ref();
+    const dateReprise = ref();
+    const motifPermission = ref();
+    const demandeOptions = ref([]);
+    const personnelOptions = ref([]);
+    const router = useRouter();
+
+    const permissionpForm = ref<PermissionP>();
+    const route = useRoute();
+
+
+    function getPermissionP(id:number) {
+      console.log("ID envoyé:", id); 
+      ApiService.get("/permissionps/"+id.toString())
+        .then(({ data }) => {
+          console.log("Données récupérées:", data); 
+          for (const key in data.data) {
+            permissionpForm.value?.setFieldValue(key, 
+            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
+          );
+          }
+      })
+      .catch(({ response }) => {
+        error(response.data.message);
+      });
+    }
+
+
+
+const editPermissionP = async (values, { resetForm }) => {
+  try {
+    const response = await ApiService.put(`/permissionps/${values.id}`, values);
+    
+    if (response.status === 200) {
+      success(response.data.message);
+      resetForm();
+      router.push({ name: "ListePermissionPPage" });
+    }
   } catch (error) {
-    console.error('Erreur lors de la mise à jour de la permission:', error);
-    throw error;
+    error(error.response?.data?.message || "Une erreur est survenue.");
   }
-}
+};
+    onMounted(() => {
+      if(route.params.id) {
+        getPermissionP(parseInt(route.params.id as string));
+      }
+    });
 
-// ---------------------------------------------------- GET -------------------------------------------------------
-const getAllPermissionP = async () => {
-  try {
-    const response = await ApiService.get('/permissionps');
-    permissions.value = response.data;
-    console.log(response);
-  } catch (error) {
-    console.error('Erreur lors de la recupération des justificatifs:', error);
-    throw error;
-  }
-}
-const getAllPersonnels = async () => {
-  try {
-    const response = await ApiService.get('/personnels');
-    const personnelsData = response.data;
-    console.log('Data', personnelsData)
-    personnelOptions.value = personnelsData.map((personnel) => ({
-      value: personnel.id,
-      label: personnel.nom + " " + personnel.prenom,
-    }));
-  }
-  catch (error) {
-    //error(response.data.message)
-  }
-}
+    const getAllPersonnels = async () => {
+        try{
+        const response = await ApiService.get('all/personnels');
+        const personnelsData = response.data.data.data;
+        console.log('Data', personnelsData)
+        personnelOptions.value = personnelsData.map((personnel) => ({
+          value: personnel.id,
+          label: personnel.nom + " " + personnel.prenom,
+        }));
+        }
+        catch(error){
+        }
+      }
 
+    const fetchDemande = async () => {
+      try {
+        const response = await axios.get('/demandepermission');
+        demandeOptions.value = response.data.data.map(demande => ({
+          value: demande.id,
+          label: demande.motifDemande,
+        }));
+      } catch (err) {
+        error("Erreur lors de la récupération des demandes.");
+      }
+    };
+   
+   
 
-const getAllDemandes = async () => {
-  try {
-    const response = await ApiService.get('/demandes');
-    const demandesData = response.data;
-    console.log('Data', demandesData)
-    demandeOptions.value = demandesData.map((demande) => ({
-      value: demande.id,
-      label: demande.personnel.nom + " " + demande.personnel.prenom,
-    }));
-  }
-  catch (error) {
-    //error(response.data.message)
-  }
-}
+    fetchDemande();
+    getAllPersonnels();
 
 
 
-onMounted(() => {
-  getAllPermissionP();
-  getAllDemandes();
-  getAllPersonnels();
-})
-
+    return { 
+    
+      permissionpSchema, editPermissionP, permissionpForm,
+        demandeOptions,
+    personnelOptions,
+    dateDebut,
+    dateReprise,
+    dateFin,
+    motifPermission,
+    };
+  },
+});
 </script>
-
-<style></style>

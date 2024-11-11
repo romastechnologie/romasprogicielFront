@@ -1,93 +1,140 @@
 <template>
-    <div class="p-5 ">
-      <h4 class="text-center"> Modifier le congé </h4>
-      <template v-for="conge in conges" :key="conge.id">
-        <div v-if="conge.id == $route.params.id" class="card p-2 col-lg-6 col-md-7 mx-auto">
-          <Form @submit="updateConge" :validation-schema="schemaConge()">
-            <p class="my-0"> Date de debut </p>
-            <Field type="date" name="dateDebut" id="dateDebut" class="form-control mb-1 " />
-            <ErrorMessage name="dateDebut" class="text-danger text-start mb-2" />
-            <p class="my-0"> Date de fin </p>
-            <Field type="date" name="dateFinPrevu" id="dateFinPrevu" class="form-control mb-1" />
-            <ErrorMessage name="dateFinPrevu" class="text-danger text-start mb-2" />
-            <p class="my-0"> Date de reprise </p>
-            <Field type="date" name="dateReprise" id="dateReprise" class="form-control mb-1" />
-            <ErrorMessage name="dateReprise" class="text-danger text-start mb-2" />
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary col-12" style="background-"> Modifier </button>
+  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+      <Form ref="congeForm" @submit="editConge" :validation-schema="congeSchema" :initial-values="congeForm">
+        <div class="row">
+          
+       
+
+            <div class="col-md-6">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date de début <span class="text-danger">*</span>
+              </label>
+              <Field name="dateDebut" type="date" class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date" />
+              <ErrorMessage name="dateDebut" class="text-danger" />
             </div>
-          </Form>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date de fin prévu <span class="text-danger">*</span>
+              </label>
+              <Field name="dateFinPrevu" type="date" class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date" />
+              <ErrorMessage name="dateFinPrevu" class="text-danger" />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date de reprise <span class="text-danger">*</span>
+              </label>
+              <Field name="dateReprise" type="date" class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date" />
+              <ErrorMessage name="dateReprise" class="text-danger" />
+            </div>
+          </div>
+            
+          
+          <div class="col-md-6">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date fin <span class="text-danger">*</span>
+              </label>
+              <Field name="dateFin" type="date" class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date" />
+              <ErrorMessage name="dateFin" class="text-danger" />
+            </div>
+          </div>
+
+        
+          <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center ">
+              <button class="btn btn-success me-3" type="submit">
+               Programmer maintenant
+              </button>
+              <router-link to="/conges/liste-conges" class=" btn btn-danger "><i
+                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler</router-link>
+            </div>
+          </div>
+
+
         </div>
-      </template>
+      </Form>
     </div>
-  </template>
-  
-  <script setup lang="ts">
-  import { Form, Field, ErrorMessage } from 'vee-validate';
-  import * as yup from 'yup';
-  import { configure } from 'vee-validate'
-  import { useRouter, useRoute } from 'vue-router';
-  import Swal from 'sweetalert2';
-  import axios from 'axios';
-  import { onMounted, ref } from 'vue';
+  </div>
+</template>
+<script lang="ts">
+
+import { defineComponent, ref, onMounted } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import { error, success } from '@/utils/utils';
+import { useRoute, useRouter } from 'vue-router';
 import ApiService from '@/services/ApiService';
-  
-  const router = useRouter()
-  const route = useRoute()
-  
-  configure({
-    validateOnBlur: true,
-    validateOnChange: true,
-    validateOnInput: true,
-    validateOnModelUpdate: false,
-  });
-  
-  const conges = ref([] as any[]);
-  
-  // ------------------------------------------------ SCHEMA -------------------------------------------------
-  
-  function schemaConge() {
-    return yup.object().shape({
-      dateDebut: yup.date().required("La date de début est obligatoire."),
-      dateFinPrevu: yup.date().required("La date de fin est obligatoire."),
-      dateReprise: yup.date().required("La date de reprise est obligatoire."),
-    })
-  }
-  
-  // ------------------------------------------------ UPDATE -------------------------------------------------
-  
-  async function updateConge(value: object) {
-  
-    try {
-      const response = await ApiService.put(`/personnelConges/${route.params.id}`, value);
-      Swal.fire({
-        timer: 1500,
-        position: "top-end",
-        text: "Congé mise à jour avec succès!",
-        icon: "success"
+import { Conge} from '@/models/Conge';
+import * as Yup from 'yup';
+import axios from 'axios';
+import Multiselect from '@vueform/multiselect'
+
+export default defineComponent({
+    name: "EditConge",
+    components: {
+    Form,
+    Field,
+    ErrorMessage,
+    Multiselect
+  },
+  setup: () => {
+    const congeSchema = Yup.object().shape({
+      dateDebut: Yup.string().required("Date Début est obligatoire."),
+      dateReprise: Yup.string().required("Date Reprise est obligatoire."),
+      dateFinPrevu: Yup.string().required("Date Fin Prévu est obligatoire."),
+      dateFin: Yup.string().required("Date Fin est obligatoire."),
+    });
+
+    const congeForm = ref<Conge>();
+    const router = useRouter();
+    const route = useRoute();
+
+  function getConge(id:number) {
+      ApiService.get("/conge/"+id.toString())
+        .then(({ data }) => {
+          for (const key in data.data) {
+            congeForm.value?.setFieldValue(key, 
+            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
+          );
+          }
+      })
+      .catch(({ response }) => {
+        error(response.data.message);
       });
-      router.push("/conges/liste-conge")
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour du congé:', error);
-      throw error;
     }
-  }
-  
-  const getAllPersonnelConges = async () => {
-    try {
-      const response = await ApiService.get('/personnelConges');
-      conges.value = response.data;
-      
-    } catch (error) {
-      console.error('Erreur lors de la recupération des congés:', error);
-      throw error;
+
+const editConge = async (values, { resetForm }) => {
+  try {
+    const response = await ApiService.put(`/conges/${values.id}`, values);
+    
+    if (response.status === 200) {
+      success(response.data.message);
+      resetForm();
+      router.push({ name: "ListeCongePage" });
     }
+  } catch (error) {
+    error(error.response?.data?.message || "Une erreur est survenue.");
   }
-  
-  onMounted(() => {
-    getAllPersonnelConges();
-  })
-  
-  </script>
-  
-  <style></style>
+};
+
+
+    onMounted(() => {
+      if(route.params.id) {
+        getConge(parseInt(route.params.id as string));
+      }
+    });
+
+    return { 
+      congeSchema, editConge, congeForm
+    };
+  },
+});
+</script>
