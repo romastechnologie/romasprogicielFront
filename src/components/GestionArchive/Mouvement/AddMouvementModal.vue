@@ -36,8 +36,8 @@
                     <label class="d-block text-black mb-10">
                       Type Emplacement <span class="text-danger">*</span>
                     </label>
-                    <Field name="typeEmplacementSource" type="text" v-slot="{ field }">
-                      <Multiselect v-model="field.value" v-bind="field" :preserve-search="true" :multiple="false"
+                    <Field name="typeEmplacementSource" v-model="type1" type="text" v-slot="{ field }">
+                      <Multiselect v-model="field.value" v-bind="field" :options="typeEmplacementOptions" :preserve-search="true" :multiple="false"
                         :searchable="true" placeholder="Sélectionner un type emplacement source" label="label"
                         track-by="label" />
                     </Field>
@@ -49,11 +49,11 @@
                     <label class="d-block text-black mb-10">
                       Emplacement <span class="text-danger">*</span>
                     </label>
-                    <Field name="emplacementSource" type="text" v-slot="{ field }">
-                      <Multiselect v-model="field.value" v-bind="field" :preserve-search="true" :multiple="false"
+                    <Field name="emplacementInitial" type="text" v-slot="{ field }">
+                      <Multiselect v-model="field.value" v-bind="field" :options="emplacementOptions1" :preserve-search="true" :multiple="false"
                         :searchable="true" placeholder="Sélectionner un emplacement" label="label" track-by="label" />
                     </Field>
-                    <ErrorMessage name="emplacementSource" class="text-danger" />
+                    <ErrorMessage name="emplacementInitial" class="text-danger" />
                   </div>
                 </div>
               </div>
@@ -71,8 +71,8 @@
                         <label class="d-block text-black mb-10">
                           Type Document <span class="text-danger">*</span>
                         </label>
-                        <Field name="typeDocument" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" :options="typeDocument"
+                        <Field name="typeDocument" v-model="type3" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :options="typeDocumentOptions"
                             :preserve-search="true" :multiple="false" :searchable="true"
                             placeholder="Sélectionner un type document" label="label" track-by="label" />
                         </Field>
@@ -84,18 +84,8 @@
                         <label class="d-block text-black mb-10">
                           Document <span class="text-danger">*</span>
                         </label>
-                        <Field name="document" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
-                            :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
-                              const results = await getDocumentByKey(query);
-                              if (results && results.length > 0) {
-                                return results;
-                              } else if (query.length >= 3) {
-                                return [{ value: '', label: 'Aucun enregistrement trouvé' }];
-                              } else {
-                                return [];
-                              }
-                            }" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un document" />
+                        <Field name="document" v-model="document1" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un document" />
 
                         </Field>
                         <ErrorMessage name="document" class="text-danger" />
@@ -105,25 +95,25 @@
                 </fieldset>
               </div>
               <div class="col-md-6 mb-3" v-show="!etatAffiche">
-                <fieldset class="border rounded-3 p-1" disabled>
+                <fieldset class="border rounded-3 p-1" >
                   <legend class="float-none w-auto px-3">
                     {{ bloc2Title }}
                   </legend>
                   <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" v-show="typeMouv == 'Déplacement'">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
                           Type Emplacement <span class="text-danger">*</span>
                         </label>
-                        <Field name="typeEmplacement" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" :preserve-search="true" :multiple="false"
+                        <Field name="typeEmplacementDestinataire" v-model="type2" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :options="typeEmplacementOptions" :preserve-search="true" :multiple="false"
                             :searchable="true" placeholder="Sélectionner un type emplacement" label="label"
                             track-by="label" />
                         </Field>
-                        <ErrorMessage name="typeEmplacement" class="text-danger" />
+                        <ErrorMessage name="typeEmplacementDestinataire" class="text-danger" />
                       </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12" v-show="typeMouv == 'Sortie' || typeMouv == 'Destruction'">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
                           Personnel <span class="text-danger">*</span>
@@ -144,24 +134,24 @@
                         <ErrorMessage name="personnel" class="text-danger" />
                       </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12"  v-show="typeMouv == 'Déplacement'">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
                           Emplacement Destination <span class="text-danger">*</span>
                         </label>
-                        <Field name="emplacementDestination" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" :preserve-search="true" :multiple="false"
+                        <Field name="emplacementDestinataire" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" :options="emplacementOptions2" v-bind="field" :preserve-search="true" :multiple="false"
                             :searchable="true" placeholder="Sélectionner un emplacement" label="label"
                             track-by="label" />
                         </Field>
-                        <ErrorMessage name="emplacementDestination" class="text-danger" />
+                        <ErrorMessage name="emplacementDestinataire" class="text-danger" />
                       </div>
                     </div>
                   </div>
                 </fieldset>
               </div>
-              <div class="col-md-6 mb-3" v-show="etatAffiche">
-                <fieldset class="border rounded-3 p-1" disabled>
+              <div class="col-md-6 mb-3" v-show="etatAffiche && leDocu && leDocu.nom">
+                <fieldset class="border rounded-3 p-1">
                   <legend class="float-none w-auto px-3">
                     Informations
                   </legend>
@@ -171,26 +161,26 @@
                         <thead>
                           <tr>
                             <th class="shadow-none lh-1 fw-medium text-black">
-                              Titre :
+                              Nom :
                             </th>
                             <td class="shadow-none lh-1 fw-medium text-black">
-                              Info
+                              {{ leDocu?.nom }}
                             </td>
                           </tr>
                           <tr>
                             <th class="shadow-none lh-1 fw-medium text-black">
-                              Titre :
+                              Description :
                             </th>
                             <td class="shadow-none lh-1 fw-medium text-black">
-                              Info
+                              {{ leDocu?.description }}
                             </td>
                           </tr>
                           <tr>
                             <th class="shadow-none lh-1 fw-medium text-black">
-                              Titre :
+                              Date :
                             </th>
                             <td class="shadow-none lh-1 fw-medium text-black">
-                              Info
+                              {{ format_Date(leDocu?.createdAt) }}
                             </td>
                           </tr>
                         </thead>
@@ -212,11 +202,11 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
-import { error, hideModal, success } from '@/utils/utils';
+import { error, hideModal, success,format_Date } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import axios from 'axios';
@@ -241,9 +231,12 @@ export default {
   setup: (props: any, { emit }: { emit: Function }) => {
 
     const loading = ref<boolean>(false);
+    const document1 = ref()
     const mouvementSchema = Yup.object().shape({
-      code: Yup.string().required('Le code est obligatoire'),
-      libelle: Yup.string().required('Le libelle est obligatoire'),
+      emplacementDestinataire: Yup.string().required('Le type emplacement destinataire est obligatoire'),
+      typeEmplacementSource:Yup.string().required('Le type emplacement source est obligatoire'),
+      document:Yup.string().required('Le document est obligatoire'),
+      typeMouvement: Yup.string().required('Le libelle est obligatoire'),
     });
 
 
@@ -272,7 +265,11 @@ export default {
     const isupdate = ref(false);
     const router = useRouter();
     const bloc2Title = ref("Document")
-    const etatDocument = ref("Libre")
+    const etatDocument = ref("Libre");
+    const typeEmplacementOptions = ref<Array<any>>([]);
+    const typeDocumentOptions = ref<Array<any>>([]);
+    const type1 = ref()
+    const type2 = ref()
 
     watch(() => props.id, (newValue) => {
       if (newValue != 0) {
@@ -280,7 +277,21 @@ export default {
         isupdate.value = true;
       }
       btnTitle();
+    });    
+
+    const leDocu = ref()
+
+    const lesDocuments = ref([])
+    
+    watch(document1, (newValue, oldValue) => {
+      console.log("888888888888888888888 ==> ", lesDocuments)
+      if (newValue != oldValue) {
+        leDocu.value = lesDocuments.value.find(objet => objet.id === newValue);
+        console.log("ZZZZZZZEEEEEEE ===> ",leDocu.value )
+      }
     });
+
+
 
     const getMouvement = async (id: number) => {
       return ApiService.get("/mouvements/" + id)
@@ -295,9 +306,107 @@ export default {
         });
     }
 
+    const getTypeEmplacement = async () => {
+      try {
+        const response = await ApiService.get("/all/typeEmplacements");
+        const typeEmplacementData = response.data.data.data;
+        typeEmplacementOptions.value = typeEmplacementData.map(
+          (typeEmplacement) => ({
+            value: typeEmplacement.id,
+            label: `${typeEmplacement.code} - ${typeEmplacement.libelle}`,
+          })
+        );
+      } catch (error) {
+        //
+        console.log("Erreur ===> ",error)
+      }
+    }
+
+    const getTypeDocument = async () => {
+      try {
+        const response = await ApiService.get("/tous/typedocuments");
+        const typeDocumentData = response.data.data;
+        typeDocumentOptions.value = typeDocumentData.map(
+          (typeDoc) => ({
+            value: typeDoc.id,
+            label: `${typeDoc.code} - ${typeDoc.libelle}`,
+          })
+        );
+      } catch (error) {
+        //
+        console.log("Erreur ===> ",error)
+      }
+    }
+
+     const documentByTypeOptions = ref([]);
+
+    const getDocumentByType = async (type:any)=>{
+      try{
+        const response = await axios.get(`documents/typeEmplacement/${type}/donnes`);
+        const documentData = response.data.data;
+        lesDocuments.value = documentData;
+        documentByTypeOptions.value = documentData.map(
+          (document) => ({
+            value: document.id,
+            label: `${document.code} - ${document.nom}`,
+          }))
+      } catch (error) {
+        //
+        console.log("Erreur ===> ",error)
+      }
+      
+    }
+
+    const emplacementOptions1 = ref([])
+    const getEmplacement1 = async (type: any) => {
+      console.log("HKFGHJLKJHG ===> ",type)
+      if (type && type != "") {
+        try {
+          const response = await ApiService.get(
+            `/emplacement/by/${type}/typeemplacement`
+          );
+          console.log("TYYYTYTYTYTYTYU ===> ",response);
+          const emplacementData = response.data.data;
+          emplacementOptions1.value = emplacementData.map(
+            (emplacement) => ({
+              value: emplacement.id,
+              label: `${emplacement.code}`,
+            })
+          );
+        } catch (error) {
+          //
+          console.log("Erreur ===> ", error);
+        }
+      }else{
+        emplacementOptions1.value = [];
+      }
+    };
+
+    const emplacementOptions2 = ref([])
+    const getEmplacement2 = async (type: any) => {
+      if (type && type != "") {
+        try {
+          const response = await ApiService.get(
+            `/emplacement/by/${type}/typeemplacement`
+          );
+          const emplacementData = response.data.data;
+          emplacementOptions2.value = emplacementData.map(
+            (emplacement) => ({
+              value: emplacement.id,
+              label: `${emplacement.code}`,
+            })
+          );
+        } catch (error) {
+          //
+          console.log("Erreur ===> ", error);
+        }
+      }else{
+        emplacementOptions2.value = [];
+      }
+    };
+
     const getDocumentByKey = async (valeur: any) => {
       try {
-        console.log("ERRRRRRRIIIII ===> ", valeur);
           const etat = etatDocument.value;
           const retourr = await axios.get(`get/documents/${valeur}/${etat}`);
           console.log("EEEEEEEE ===> ", retourr);
@@ -311,14 +420,34 @@ export default {
         }
     }
 
-    const getPersonnelByKey = async (valeur: any) => {
+    
+
+
+    const getEmplacementByTypeEmplacementSource = async (valeur: any) => {
       try {
-          const retourr = await axios.get(`get/personnel/${valeur}`);
+          const etat = etatDocument.value;
+          const retourr = await axios.get(`empacement/documents/${valeur}/${etat}`);
+          console.log("EEEEEEEE ===> ", retourr);
           const data = retourr.data.data.data;
           return data.map((da) => ({
           value: da.id,
           label: da.nom,
         }));
+        } catch (error) {
+          console.log("ERREREUR  ===> ", error)
+        }
+    }
+    
+
+    const getPersonnelByKey = async (valeur: any) => {
+      try {
+          const retourr = await axios.get(`/get/personnels/${valeur}`);
+          console.log("EEEEEEEE ===> ", retourr);
+          const data = retourr.data.data;
+          return data.map((da) => ({
+            value: da.id,
+            label: da.nom + " "+ da.prenom,
+          }));
         } catch (error) {
           console.log("ERREREUR  ===> ", error)
         }
@@ -332,6 +461,26 @@ export default {
         btntext.value = "Ajouter";
       }
     }
+    const type3 = ref();
+
+    watch(type1, (newValue, oldValue) => {
+      console.log("TYYUYTYTYTRYTJCJG1 ====> ", newValue)
+      if (newValue != oldValue && newValue) {
+       getEmplacement1(newValue)
+      }
+    });
+    watch(type2, (newValue, oldValue) => {
+      console.log("TYYUYTYTYTRYTJCJG2 ====> ", newValue)
+      if (newValue != oldValue && newValue) {
+       getEmplacement2(newValue)
+      }
+    });
+    watch(type3, (newValue, oldValue) => {
+      console.log("TYYUYTYTYTRYTJCJG2 ====> ", newValue)
+      if (newValue != oldValue && newValue) {
+        getDocumentByType(newValue)
+      }
+    });
     const btnTitle2 = async () => {
       if (typeMouv.value == "Retour") {
         title.value = "Ajouter un retour";
@@ -358,11 +507,11 @@ export default {
         etatAffiche.value = false;
         etatDocument.value = "Libre";
       } else {
-
       }
     }
 
     const addMouvement = async (values: any, { resetForm }: { resetForm: () => void }) => {
+      console.log("valuesvaluesvaluesvalues ==> ",values)
       loading.value = false;
       if (isupdate.value) {
         await axios.put(`/mouvements/${values.id}`, values)
@@ -380,7 +529,7 @@ export default {
             error(response.data.message);
           });
       } else {
-        await axios.post("/mouvements", values)
+        await axios.post("/mouvement/document", values)
           .then(({ data }) => {
             if (data.code == 201) {
               success(data.message)
@@ -410,9 +559,13 @@ export default {
       });
       btnTitle()
     };
+    onMounted(async () => {
+      await getTypeDocument();
+      await getTypeEmplacement()
+    });
     return {
-      mouvements, title, btntext, resetValue,getPersonnelByKey, mouvementSchema, bloc2Title, getDocumentByKey,
-      addMouvement, typeMouvement, typeMouv, mouvementForm, addMouvementModalRef, mouvementnew, etatAffiche,
+      mouvements, title,type1,type2,document1,leDocu,lesDocuments, btntext,getEmplacement1,type3, emplacementOptions1,getDocumentByType,typeDocumentOptions, getEmplacement2,emplacementOptions2, resetValue,getPersonnelByKey, mouvementSchema, bloc2Title, getDocumentByKey,documentByTypeOptions,
+      addMouvement, typeMouvement,format_Date, typeMouv, mouvementForm, addMouvementModalRef, mouvementnew, etatAffiche,typeEmplacementOptions
       //refreshMouvements
     };
   },

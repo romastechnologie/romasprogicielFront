@@ -53,17 +53,17 @@
               <tr>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Code
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type Sortie
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Libelle
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Document
                   
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >DATE DE CREATION
+                >DATE DE Mouvement
                   
                 </th>
                 <th
@@ -75,10 +75,10 @@
             <tbody>
               <tr v-for="(mouvement, index) in mouvements" :key="index">
                 <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ mouvement.code }}
+                  {{ mouvement.typeMouvement }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ mouvement.libelle }}
+                  {{ mouvement.document?.nom }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ format_date(mouvement.createdAt)  }}
@@ -180,7 +180,7 @@
       };
   
       function getAllMouvements(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/mouvements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`/all/mouvement/document?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
             mouvements.value = data.data.data;
             totalPages.value = data.data.totalPages;

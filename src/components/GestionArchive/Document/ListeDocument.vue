@@ -37,9 +37,6 @@
           <thead>
             <tr>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Image
-              </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Référence
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
@@ -55,9 +52,6 @@
                 Tag
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Format
-              </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Organisation
               </th>
 
@@ -67,16 +61,12 @@
           </thead>
           <tbody>
             <tr v-for="(document, index) in documents" :key="index">
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                <img :src="getUrlApiForFiles(document.fichier,'Documents')" alt="Image" width="100" height="100">
-              </td>
               <td class="shadow-none lh-1 fw-medium ">{{ document?.refDoc }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ document?.nom }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ document?.description }} </td>
               <td class="shadow-none lh-1 fw-medium">{{ format_date(document.dateFinConservation) }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ document?.tag }} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ document?.format }} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation?.nom }} </td>
 
               <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                 <div class="dropdown">

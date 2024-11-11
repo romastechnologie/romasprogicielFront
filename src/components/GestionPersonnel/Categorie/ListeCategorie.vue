@@ -14,13 +14,6 @@
           <!-- <i class="fa fa-plus-circle"></i> -->
           Ajouter une catégorie de demande
         </a>
-        <!-- <button
-          class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
-          type="button"
-        >
-          Exporter
-          <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
-        </button> -->
       </div>
       <div class="d-flex align-items-center">
         <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">

@@ -39,9 +39,6 @@
                 Durée
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Présence
-              </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Statut Justifié
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0">Actions
@@ -50,7 +47,7 @@
           </thead>
           <tbody>
             <tr v-for="presence in filterPresence" :key="presence.id">
-              <td> {{ presence.create_at ? presence.create_at.toString().slice(0, 10) : "" }} </td>
+              <td> {{ presence.date ? format_Date(presence.date) : "" }} </td>
               <td> {{ presence.personnel ? presence.personnel.nom + " " + presence.personnel.prenom : "null" }} </td>
               <td> {{ presence.heureArrivee }} </td>
               <td> {{ presence.heureDepart }} </td>
@@ -65,6 +62,9 @@
                   class="badge badge-danger">Non</span></td>
               <td v-else-if="presence.statutJustifie === 'En congé'" class="text-center"> <span
                   class="badge badge-primary">En congé</span>
+              </td>
+              <td v-else class="text-center"> <span
+                  class="badge badge-primary">Aucun motif</span>
               </td>
               <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
@@ -101,8 +101,9 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { onBeforeMount, onMounted, ref, defineComponent, defineProps } from 'vue'
-import { format_date, suppression, error, success, } from "@/utils/utils";
+import { format_date,format_Date, suppression, error, success, } from "@/utils/utils";
 import Swal from 'sweetalert2';
+import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import ApiService from '@/services/ApiService';
 import { useRouter } from "vue-router";
 
@@ -127,9 +128,7 @@ function rechercher() {
   getAllPresences(page.value, limit.value, searchTerm.value );
 }
 
-
 // END PAGINATE
-
 
 const router = useRouter()
 

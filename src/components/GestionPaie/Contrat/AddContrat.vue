@@ -24,11 +24,6 @@
                   <span class="invalid-feedback"></span>
                 </div>
               </div>
-              <!-- <div class="col-md-4 mb-3">
-                <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
-                <input v-model="contrat.refContrat" class="form-control" type="text" />
-                <span class="invalid-feedback"></span>
-              </div> -->
               <div class="col-md-4  mb-3">
                 <label for="dateDebut" class="form-label">Date d'embauche<span class="text-danger">*</span></label>
                 <input v-model="contrat.dateDebut" class="form-control" type="Date" />
@@ -57,7 +52,7 @@
                     Catégorie de contrat <span class="text-danger">*</span>
                   </label>
                     <Multiselect :searchable="true" :options="['Contrat à durée déterminée (CDD)', 'Contrat à durée indéterminée (CDI)']"
-                    v-model="contrat.periodePaie" placeholder="Sélectionner la catégorie de contrat" />
+                    v-model="contrat.categorieContrat" placeholder="Sélectionner la catégorie de contrat" />
                   <span class="invalid-feedback"></span>
                 </div>
               </div>
@@ -294,7 +289,7 @@
                 <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
                   style="background-color: #0a59a4">
                   <div class="col-md-3">
-                    <h3 class="fs-4 text-white">Prime</h3>
+                    <h3 class="fs-4 text-white">Prime XX</h3>
                   </div>
                   <!-- <div class="col-md-4">
                           <h3 class="fs-4 text-white">Montant total : {{ montantTotal }}</h3>
@@ -493,6 +488,7 @@ export default defineComponent({
       nobreheuresTravail: Yup.number().typeError("veuillez entrer des nombres").required("Les heures sont obligatoires."),
       dateDebut: Yup.date().typeError("veuillez entrer une date valide").required("La date de début est obligatoire."),
       dateFin: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
+      categorieContrat:Yup.string().required("Le type est obligatoire."),
       dateFinPeriodeEssai: Yup.date().typeError("veuillez entrer une date valide").required("La période est obligatoire."),
       periodePaie: Yup.string().required("La période est obligatoire."),
       renouvelable: Yup.string().notRequired(),
@@ -522,6 +518,7 @@ export default defineComponent({
       dateDebut:null,
       dateFin: null,
       dateFinPeriodeEssai: null,
+      categorieContrat: '',
       periodePaie: '',
       renouvelable: '',
       typeContrat: '',
@@ -539,6 +536,7 @@ export default defineComponent({
         dureePeriodeEssai: { required },
         salaireDeBase: { required },
         nobreheuresTravail: { required },
+        categorieContrat: {required},
         dateFin: { required },
         dateFinPeriodeEssai: { required },
         periodePaie: { required },
@@ -1016,30 +1014,34 @@ export default defineComponent({
       }
     };
 
-    const addContrat = async (values, { resetForm }) => {
-      values['typeContrat'] = types.value;
-      values.contratprime = primes.map(prime => ({
+    const addContrat = async (values) => {
+      console.log("PRIMMME ===> ",primes)
+      console.log("retenues ===> ",retenues)
+      console.log("fonctions ===> ",fonctions)
+      console.log("horaireContrats ===> ",horaireContrats)
+      //values['typeContrat'] = types.value;
+      values["contratPrime"] = primes.map(prime => ({
         typeprime: parseInt(prime.typePrime.split('|')[0]),
         valeur: prime.valeur,
         valeurUnitaire: prime.valeurUnitaire,
         montant: prime.montant,
         quantite: prime.quantite,
       }));
-      values.contratretenue = retenues.map(retenue => ({
+      values["contratretenue"] = retenues.map(retenue => ({
         typesretenue: parseInt(retenue.typeRetenue.split('|')[0]),
         valeur: retenue.valeur,
         valeurUnitaire: retenue.valeurUnitaire,
         montant: retenue.montant,
         quantite: retenue.quantite,
       }));
-      values.fonctions = fonctions.map(fonction => ({
+      values["fonctions"] = fonctions.map(fonction => ({
         estActif: fonction.estActif,
         fonction: fonction.fonction,
         organisation: fonction.organisation,
         dateDebut: fonction.dateDebut,
         dateFin: fonction.dateFin,
       }));
-      values.horaireContrats = horaireContrats.map(horaireContrat => ({
+      values["horaireContrats"] = horaireContrats.map(horaireContrat => ({
         heureArrive: horaireContrat.heureArrive,
         heureDepart: horaireContrat.heureDepart,
         heureFinPause: horaireContrat.heureFinPause,
