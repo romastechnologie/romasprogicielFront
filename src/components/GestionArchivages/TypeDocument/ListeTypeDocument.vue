@@ -161,12 +161,12 @@ export default defineComponent({
     const getAllTypeDocuments = async(page = 1, limi = 10, searchTerm = '') => {
       try {
         const data = await axios.get(`/all/typedocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`);
+        console.log("TTTTTYYYYYYYy ===> ", data);
         TypesDocuments.value = data.data.data.data;
-        totalPages.value = data.data.totalPages;
-        limit.value = data.data.limit;
-        totalElements.value = data.data.totalElements;
-        console.log("TGTGTGTTTGTGTG ==> ", TypesDocuments.value)
-        return data.data.data;
+        totalPages.value = data.data.data.totalPages;
+        limit.value = data.data.data.limit;
+        totalElements.value = data.data.data.totalElements;
+        return data.data.data.data;
       } catch (response) {
         error(response.data.message)
       }
