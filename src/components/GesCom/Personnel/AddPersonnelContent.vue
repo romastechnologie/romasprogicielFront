@@ -43,8 +43,9 @@
                                   type="text"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le nom"
+
                                 />
-                                <ErrorMessage name="nom" class="text-danger" />
+                                <span class="text-danger" v-show="!nom">Entrez le nom</span>
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -59,10 +60,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le prenom"
                                 />
-                                <ErrorMessage
-                                  name="prenom"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!prenom">Entrez le prénom</span>
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -84,8 +82,7 @@
                                     placeholder="Sélectionner le sexe"
                                   />
                                 </Field>
-                                <ErrorMessage name="sexe" class="text-danger" />
-                              </div>
+                                <span class="text-danger" v-show="!sexe">Entrez le sexe</span>                              </div>
                             </div>
                             <div class="col-md-6 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -103,7 +100,7 @@
                                     :searchable="true"
                                     :options="[
                                       'Célibataire',
-                                      'Mariée',
+                                      'Marié(e)',
                                       'Divorcée',
                                       'Veuve',
                                       'Concubinage',
@@ -114,10 +111,7 @@
                                     placeholder="Sélectionner la situation"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="situationMatrimoniale"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!situation">Entrez la situation</span>
                               </div>
                             </div>
 
@@ -135,10 +129,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Choisissez une image"
                                 />
-                                <ErrorMessage
-                                  name="photo"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!photo">Entrez la photo</span>
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -160,10 +151,7 @@
                                     placeholder="Sélectionner la civilité"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="civilite"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!civilite">Entrez civilité</span>
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -178,10 +166,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                 />
                               </div>
-                              <ErrorMessage
-                                name="birthdate"
-                                class="text-danger"
-                              />
+                              <span class="text-danger" v-show="!birthdate">Entrez date anniversaire</span>
                             </div>
                             <div class="col-md-4 mt-3">
                               <label for="dateEmbauche" class="form-label">
@@ -195,10 +180,7 @@
                                 class="form-control"
                                 type="Date"
                               />
-                              <ErrorMessage
-                                name="dateEmbauche"
-                                class="text-danger"
-                              />
+                              <span class="text-danger" v-show="!dateEmbauche">Entrez la date embauche</span>
                             </div>
                             <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -212,10 +194,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le numéro"
                                 />
-                                <ErrorMessage
-                                  name="numeroSecuriteSociale"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!numeroSecuriteSociale">Entrez numéro sécurité sociale</span>
                               </div>
                             </div>
                             <!--<div class="col-md-4 mb-3">
@@ -249,10 +228,7 @@
                                     placeholder="Sélectionner le pays"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="nationalite"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!nationalite">Entrez pays</span>
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -278,10 +254,8 @@
                                     track-by="label"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="religion"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!religion">Entrez religion</span>
+
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -307,10 +281,8 @@
                                     track-by="label"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="ethnie"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!ethnie">Entrez ethnie</span>
+
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -336,10 +308,8 @@
                                     track-by="label"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="service"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!service">Entrez service</span>
+
                               </div>
                             </div>
                           </div>
@@ -367,10 +337,8 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer votre adresse postale"
                                 />
-                                <ErrorMessage
-                                  name="boitePostale"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!boitePostale">Entrez Boite Postale</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -385,10 +353,8 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le téléphone"
                                 />
-                                <ErrorMessage
-                                  name="telephone"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!telephone">Entrez telephone</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -403,10 +369,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le téléphone"
                                 />
-                                <ErrorMessage
-                                  name="telephone2"
-                                  class="text-danger"
-                                />
+
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -421,10 +384,8 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer l'email"
                                 />
-                                <ErrorMessage
-                                  name="email"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!email">Entrez mail</span>
+
                               </div>
                             </div>
                             <div class="col-md-6">
@@ -451,10 +412,8 @@
                                   />
                                 </Field>
                               </div>
-                              <ErrorMessage
-                                name="departement"
-                                class="text-danger"
-                              />
+                              <span class="text-danger" v-show="!departement">Entrez departement</span>
+
                             </div>
                             <div class="col-md-6">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -481,10 +440,8 @@
                                   />
                                 </Field>
                               </div>
-                              <ErrorMessage
-                                name="commune"
-                                class="text-danger"
-                              />
+                              <span class="text-danger" v-show="!commune">Entrez commune</span>
+                              >
                             </div>
                             <div class="col-md-6">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -512,10 +469,8 @@
                                   />
                                 </Field>
                               </div>
-                              <ErrorMessage
-                                name="arrondissement"
-                                class="text-danger"
-                              />
+                              <span class="text-danger" v-show="!arrondissement">Entrez arrondissement</span>
+
                             </div>
                             <div class="col-md-12">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -541,10 +496,8 @@
                                   />
                                 </Field>
                               </div>
-                              <ErrorMessage
-                                name="quartier"
-                                class="text-danger"
-                              />
+                              <span class="text-danger" v-show="!quartier">Entrez quartier</span>
+
                             </div>
                           </div>
                           <div class="col-md-12 mt-3">
@@ -569,10 +522,8 @@
                                   class="form-control shadow-none rounded-0 text-black"
                                 ></textarea>
                               </Field>
-                              <ErrorMessage
-                                name="adresse"
-                                class="text-danger"
-                              />
+                              <span class="text-danger" v-show="!adresse">Entrez adresse</span>
+
                             </div>
                           </div>
                         </div>
@@ -601,10 +552,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le nom du conjoint "
                                   />
-                                  <ErrorMessage
-                                    name="nomCon"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!nomCon">Entrez nom conjoint</span>
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -621,10 +569,8 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le prenom du conjoint "
                                   />
-                                  <ErrorMessage
-                                    name="prenomCon"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!prenomCon">Entrez prenom</span>
+
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -639,6 +585,8 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer la date de naissance du conjoint "
                                   />
+                                  <span class="text-danger" v-show="!dateNaissanceCon">Entrez date naissance</span>
+
                                 </div>
                               </div>
                               <!-- <div class="col-md-4 mb-3">
@@ -673,11 +621,9 @@
                                       placeholder="Sélectionner le pays de résidence"
                                     />
                                   </Field>
-                                  <ErrorMessage
-                                    name="nationaliteCon"
-                                    class="text-danger"
-                                  />
-                                </div>
+                                  <span class="text-danger" v-show="!nationaliteCon">Entrez nationalité</span>
+
+                                  </div>
                               </div>
                               <div class="col-md-6 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -694,10 +640,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone du conjoint "
                                   />
-                                  <ErrorMessage
-                                    name="telephoneCon"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!telephoneCon">Entrez téléphone</span>
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -715,10 +658,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer la nationalité du conjoint "
                                   />
-                                  <ErrorMessage
-                                    name="passportCon"
-                                    class="text-danger"
-                                  />
+                                 
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -747,10 +687,8 @@
                                       track-by="label"
                                     />
                                   </Field>
-                                  <ErrorMessage
-                                    name="religionCon"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!religionCon">Entrez religion</span>
+
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -778,10 +716,8 @@
                                       track-by="label"
                                     />
                                   </Field>
-                                  <ErrorMessage
-                                    name="religionCon"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!ethnieCon">Entrez ethnie</span>
+
                                 </div>
                               </div>
                             </div>
@@ -809,10 +745,8 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le nombre d'enfants"
                                   />
-                                  <ErrorMessage
-                                    name="nombreEnfant"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!nombreEnfant">Entrez nombre enfant</span>
+
                                 </div>
                               </div>
                               <div class="border border-primary mb-10">
@@ -898,7 +832,8 @@
                                           class="invalid-feedback"
                                           v-if="valideteRowEnfant(enfant.nom)"
                                         >
-                                          Le nom est obligatoire.
+                                        <span class="text-danger" v-show="!enfant.nom">Entrez nom enfant</span>
+
                                         </div>
                                       </div>
                                     </div>
@@ -916,7 +851,8 @@
                                             valideteRowEnfant(enfant.prenom)
                                           "
                                         >
-                                          Le prénom est obligatoire.
+                                        <span class="text-danger" v-show="!enfant.prenom">Entrez prénom</span>
+
                                         </div>
                                       </div>
                                     </div>
@@ -937,7 +873,8 @@
                                           )
                                         "
                                       >
-                                        La date est obligatoire.
+                                      <span class="text-danger" v-show="!enfant.dateNaissance">Entrez date naissance</span>
+
                                       </div>
                                     </div>
                                     <div class="col-md-3 mb-2">
@@ -984,10 +921,8 @@
                                   v-model="taille"
                                   placeholder="Taille(cm) "
                                 />
-                                <ErrorMessage
-                                  name="taille"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!taille">Entrez taille</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1002,10 +937,8 @@
                                   v-model="poids"
                                   placeholder="Poids(kg) "
                                 />
-                                <ErrorMessage
-                                  name="poids"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!poids">Entrez poids</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1037,10 +970,8 @@
                                     placeholder="Sélectionner le Groupe Sanguin"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="groupeSanguin"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!groupeSanguin">Entrez groupe sanguin</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1072,10 +1003,8 @@
                                     placeholder="Sélectionner la vision Gauche"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="visionGauche"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!visionGauche">Entrez vision gauche</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1107,10 +1036,8 @@
                                     placeholder="Sélectionner la vision Droite"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="visionDroite"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!visionDroite">Entrez vision droite</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1137,10 +1064,8 @@
                                     placeholder="Sélectionner l'audience Gauche"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="audienceGauche"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!audienceGauche">Entrez audience gauche</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1167,10 +1092,8 @@
                                     placeholder="Sélectionner l'audience Droite"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="audienceDroite"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!audienceDroite">Entrez audience droite</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1196,10 +1119,8 @@
                                     placeholder="Sélectionner la main Gauche"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="mainGauche"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!mainGauche">Entrez main gauche</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1225,10 +1146,8 @@
                                     placeholder="Sélectionner la main Droite"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="mainDroite"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!mainDroite">Entrez main droite</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1255,10 +1174,8 @@
                                     placeholder="Sélectionner la jambe Droite"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="jambeGauche"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!jambeGauche">Entrez jambe gauche</span>
+
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1285,10 +1202,7 @@
                                     placeholder="Sélectionner la jambe Droite"
                                   />
                                 </Field>
-                                <ErrorMessage
-                                  name="jambeDroite"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!jambeDroite">Entrez jambe droite</span>
                               </div>
                             </div>
                           </div>
@@ -1318,6 +1232,8 @@
                                     placeholder="Sélectionner la banque"
                                   />
                                 </Field>
+                                <span class="text-danger" v-show="!banque">Entrez banque</span>
+
                               </div>
 
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -1331,10 +1247,8 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le numéro de compte"
                                 />
-                                <ErrorMessage
-                                  name="numeroCompte"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!numeroCompte">Entrez numéro compte</span>
+
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -1349,10 +1263,8 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le code"
                                 />
-                                <ErrorMessage
-                                  name="codeIban"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!codeIban">Entrez code iban</span>
+
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -1367,10 +1279,8 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le code"
                                 />
-                                <ErrorMessage
-                                  name="codeSwift"
-                                  class="text-danger"
-                                />
+                                <span class="text-danger" v-show="!swift">Entrez swift</span>
+
                               </div>
                             </div>
                             <div class="col-md-6 mt-3">
@@ -1390,10 +1300,8 @@
                                 type="file"
                                 placeholder="Joindre le RIB"
                               />
-                              <ErrorMessage
-                                name="releveIdentiteBancaire"
-                                class="text-danger"
-                              />
+                              <span class="text-danger" v-show="!releveIdentiteBancaire">Entrez RIB</span>
+
                             </div>
 
                             <h1>Informations sur la personne à contacter</h1>
@@ -1410,10 +1318,8 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le nom"
                                   />
-                                  <ErrorMessage
-                                    name="nomPersonneAContacter"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!nomPersonneAContacter">Entrez nom</span>
+
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -1428,10 +1334,8 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le prenom"
                                   />
-                                  <ErrorMessage
-                                    name="prenomPersonneAContacter"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!prenomPersonneAContacter">Entrez prenom</span>
+
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -1446,10 +1350,8 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone"
                                   />
-                                  <ErrorMessage
-                                    name="telephonePersonneAContacter"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!telephonePersonneAContacter">Entrez téléphone</span>
+
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -1464,10 +1366,8 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Indiquer la relation"
                                   />
-                                  <ErrorMessage
-                                    name="relation"
-                                    class="text-danger"
-                                  />
+                                  <span class="text-danger" v-show="!relation">Entrez relation</span>
+
                                 </div>
                               </div>
                             </div>
@@ -2191,24 +2091,139 @@ export default defineComponent({
 
     let activeclass = ref<string>("Informations générales du personnel");
 
+    
+
     const nextStep = async () => {
       const isValid = await validate();
       if (!isValid) return; // Ne pas avancer si le formulaire est invalide
 
       if (currentStep.value === 1) {
         //useForm({ validationSchema: personnelConSchema });
+        let element1 = {
+          nom:nom.value,
+          prenom:prenom.value,
+          sexe:sexe.value,
+          situation:situation.value,
+          photo:photo.value,
+          civilite:civilite.value,
+          birthdate:birthdate.value,
+          dateEmbauche:dateEmbauche.value,
+          numeroSecuriteSociale:numeroSecuriteSociale.value,
+          religion:religion.value,
+          ethnie:ethnie.value,
+          service:service.value,
+    
+        }
+        for(const key in element1){
+          if(!element1[key]){
+            error(`Saisir l'élément suivant ${key}`);
+            return false;
+          }
+        }
       }
 
       if (currentStep.value === 2) {
         //useForm({ validationSchema: personnelConSchema });
+        let element2 = {
+          boitePostale:boitePostale.value,
+          telephone:telephone.value,
+          email:email.value,
+          departement:departement.value,
+          commune:commune.value,
+          arrondissement:arrondissement.value,
+          quartier:quartier.value,
+          adresse:adresse.value
+        }
+        for(const key in element2){
+          if(!element2[key]){
+            error(`Saisir l'élément suivant ${key}`);
+            return false;
+          }
+        }
       }
 
       if (currentStep.value === 3) {
-        //useForm({ validationSchema: personnelSanteSchema });
-      }
+       
+        let element3 = {
+       nomCon: nomCon.value,
+        prenomCon:prenomCon.value,
+        dateNaissanceCon:dateNaissanceCon.value,
+        nationaliteCon:nationaliteCon.value,
+         telephoneCon:telephoneCon.value,
+        religionCon:religionCon.value,
+         ethnieCon:ethnieCon.value,
+        }
+        if(situation.value == "Marié(e)" || situation.value == "Concubinage" || situation.value == "Union libre"|| situation.value == "Veuve"){
+          for(const key in element3){
+            if(!element3[key]){
+              error(`Saisir l'élément suivant ${key}`);
+              return false;
+            }
+          }
+        }
 
+        if (nombreEnfant.value === null || nombreEnfant.value === undefined) {
+        error("Saisir le nombre d'enfants");
+        return false;
+    } else if (nombreEnfant.value > 0) {
+        for (let i = 0; i < nombreEnfant.value; i++) {
+            const enfant = {
+                nom: enfants[i]?.nom, 
+                prenom: enfants[i]?.prenom,
+                dateNaissance: enfants[i]?.dateNaissance,
+            };
+
+            for (const key in enfant) {
+                if (!enfant[key]) {
+                    error(`Saisir l'élément suivant ${key} pour l'enfant ${i + 1}`);
+                    return false;
+                }
+            }
+        }
+    }
+    }
       if (currentStep.value === 4) {
         //useForm({ validationSchema: personnelPersonneConSchema });
+        let element4 = {
+          taille:taille.value,
+          poids:poids.value,
+          groupeSanguin:groupeSanguin.value,
+          visionGauche:visionGauche.value,
+          visionDroite:visionDroite.value,
+          audienceGauche:audienceGauche.value,
+          audienceDroite:audienceDroite.value,
+          mainGauche:mainGauche.value,
+          mainDroite:mainDroite.value,
+          jambeGauche:jambeGauche.value,
+          jambeDroite:jambeDroite.value,
+        }
+        for(const key in element4){
+          if(!element4[key]){
+            error(`Saisir l'élément suivant ${key}`);
+            return false;
+          }
+        }
+      }
+
+      if (currentStep.value === 5) {
+        //useForm({ validationSchema: personnelPersonneConSchema });
+        let element5= {
+          banque:banque.value,
+          numeroCompte:numeroCompte.value,
+          codeIban:codeIban.value,
+          swift:swift.value,
+          releveIdentiteBancaire:releveIdentiteBancaire.value,
+          nomPersonneAContacter:nomPersonneAContacter.value,
+          prenomPersonneAContacter:nomPersonneAContacter.value,
+          telephonePersonneAContacter:telephonePersonneAContacter.value,
+          relation:relation.value,
+        }
+        for(const key in element5){
+          if(!element5[key]){
+            error(`Saisir l'élément suivant ${key}`);
+            return false;
+          }
+        }
       }
 
       currentStep.value++;
