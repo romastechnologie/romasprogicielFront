@@ -162,11 +162,16 @@
                                 <Field
                                   name="birthdate"
                                   v-model="birthdate"
+                                  :max="maxDate"
+                                  @input="checkAge"
                                   type="date"
                                   class="form-control shadow-none fs-md-15 text-black"
                                 />
                               </div>
                               <span class="text-danger" v-show="!birthdate">Entrez date anniversaire</span>
+                              <p v-if="ageError" class="text-danger fs-md-12">
+                                        L'âge minimal est de 18 ans.
+                              </p>                          
                             </div>
                             <div class="col-md-4 mt-3">
                               <label for="dateEmbauche" class="form-label">
@@ -179,6 +184,7 @@
                                 v-model="dateEmbauche"
                                 class="form-control"
                                 type="Date"
+                                :max="maxDate1"
                               />
                               <span class="text-danger" v-show="!dateEmbauche">Entrez la date embauche</span>
                             </div>
@@ -441,7 +447,7 @@
                                 </Field>
                               </div>
                               <span class="text-danger" v-show="!commune">Entrez commune</span>
-                              >
+                            
                             </div>
                             <div class="col-md-6">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -582,6 +588,7 @@
                                     name="dateNaissanceCon"
                                     v-model="dateNaissanceCon"
                                     type="date"
+                                    :max="maxDate"
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer la date de naissance du conjoint "
                                   />
@@ -861,6 +868,7 @@
                                         <input
                                           v-model="enfant.dateNaissance"
                                           type="date"
+                                          :max="maxDate1"
                                           class="form-control shadow-none fs-md-15 text-black"
                                           placeholder=""
                                         />
@@ -1217,8 +1225,9 @@
                       >
                         <div class="sidebar-body">
                           <div class="row g-2">
-                            <div class="col-md-12 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                      
+                            <div class="col-md-4 mb-3">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Banque
                                 </label>
@@ -1233,9 +1242,10 @@
                                   />
                                 </Field>
                                 <span class="text-danger" v-show="!banque">Entrez banque</span>
-
                               </div>
+                            </div>
 
+                            <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Numéro de compte bancaire
@@ -1248,10 +1258,10 @@
                                   placeholder="Entrer le numéro de compte"
                                 />
                                 <span class="text-danger" v-show="!numeroCompte">Entrez numéro compte</span>
-
                               </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+
+                            <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Code Iban
@@ -1283,7 +1293,7 @@
 
                               </div>
                             </div>
-                            <div class="col-md-6 mt-3">
+                            <div class="col-md-6 mb-3">
                               <label
                                 for="releveIdentiteBancaire"
                                 class="form-label"
@@ -1571,7 +1581,8 @@ export default defineComponent({
     const communeOptions = ref([]);
     const arrondissementOptions = ref([]);
     const quartierOptions = ref([]);
-
+    const ageError = ref(false);
+    const today = new Date();
     const isDisable = ref(true);
     const enfants = reactive([
       {
@@ -1744,6 +1755,25 @@ export default defineComponent({
           console.log("Erreur lors de l'envoi des données :", response);
           error(response);
         });
+    };
+
+    const checkAge = () => {
+      if (!birthdate.value) return;
+
+      const birthDate = new Date(birthdate.value);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDifference = today.getMonth() - birthDate.getMonth();
+      const dayDifference = today.getDate() - birthDate.getDate();
+
+      if (
+        monthDifference < 0 ||
+        (monthDifference === 0 && dayDifference < 0)
+      ) {
+        age--;
+      }
+
+      ageError.value = age < 18;
     };
 
     const getAllReligions = async () => {
@@ -1980,6 +2010,16 @@ export default defineComponent({
           error(response.data.message);
         });
     };
+
+    const maxDate = new Date(
+      today.getFullYear() - 18,
+      today.getMonth(),
+      today.getDate()
+    ).toISOString().split("T")[0];
+
+    const maxDate1 = today.toISOString().split("T")[0];
+
+
     const tabContainer = ref(null);
     const tabs = [
       {
@@ -2099,6 +2139,8 @@ export default defineComponent({
 
       if (currentStep.value === 1) {
         //useForm({ validationSchema: personnelConSchema });
+        checkAge();
+        if (ageError.value) return; 
         let element1 = {
           nom:nom.value,
           prenom:prenom.value,
@@ -2348,6 +2390,9 @@ export default defineComponent({
       selectedArrondissement,
       selectedQuartier,
       countries: countriesRef,
+      ageError,
+      maxDate,
+      maxDate1
     };
   },
   computed: {
