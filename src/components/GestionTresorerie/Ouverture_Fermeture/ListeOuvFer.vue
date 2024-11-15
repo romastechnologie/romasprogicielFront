@@ -91,8 +91,8 @@ import Swal from "sweetalert2";
    
 
     onMounted(() => {
-        getouvFer(),
-        getTresorerie()
+        getouvFer()
+    //    getTresorerie()
     })
 
     const caisses = computed(() => {
@@ -100,13 +100,13 @@ import Swal from "sweetalert2";
     })
 
 
-    const getTresorerie = () => {
+  /*  const getTresorerie = () => {
         ApiService.get('/tresoreries')
             .then(res => {
                 tresorerieList.value = res.data
                 console.log(res)
             })
-    }
+    }*/
     
     const getouvFer = async () => {
         await axios.get<Ouv_Fer[]>('/ouv_fers').then(res => {

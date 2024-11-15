@@ -5,7 +5,6 @@
             <div class="d-sm-flex align-items-center">
                 <router-link class="btn btn-primary" to="/transferts/ajouter-transfert">
                     <i class="fa fa-plus-circle"></i>
-                    <!-- <i class="fa fa-plus-circle"></i> -->
                     Faire un transfert
                 </router-link>     
             </div>
@@ -18,12 +17,11 @@
                         <i class="flaticon-search-interface-symbol"></i>
                     </button>
                 </form>
-                 <button
-          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
-          type="button"
-        >
-          <i class="flaticon-dots"></i>
-        </button> 
+                <button
+                    class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
+                    type="button">
+                    <i class="flaticon-dots"></i>
+                </button> 
             </div>
         </div>
         <div class="card-body p-15 p-sm-20 p-md-25">
@@ -42,28 +40,22 @@
                     <tbody>
                         <tr v-for="transfert in transfertList" :key="transfert.id">
                             <th>{{ transfert.id }}</th>
-                            <th>{{ transfert.tresorerie?.nom }}</th>
-                            <th>{{ transfert.tresorerie2?.nom }}</th>
-                            <th>{{ transfert.montant }}</th>
-                            <th>{{ format_date(transfert.created_at) }}</th>
+                            <td>{{ transfert.source }}</td>
+                            <td>{{ transfert.destination }}</td>
+                            <td>{{ transfert.montant }}</td>
+                            <td>{{ format_date(transfert.dateDeTransfert) }}</td>
                             <td class="shadow-none lh-1 fw-medium text-black pe-0">
                                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">Actions</button>
-                                <ul class="dropdown-menu dropdown-block"
-                                    style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
-                                    data-popper-placement="bottom-start">
+                                <ul class="dropdown-menu dropdown-block">
                                     <li class="dropdown-item d-flex align-items-center">
-                                        <router-link type="button" :to="`/transferts/edit-transfert/${transfert.id}`">
-                                            <i class="fa fa-pencil lh-2 me-8 position-relative top-1">
-                                                Modifier
-                                            </i>
+                                        <router-link :to="`/transferts/edit-transfert/${transfert.id}`">
+                                            <i class="fa fa-pencil lh-2 me-8 position-relative top-1"> Modifier</i>
                                         </router-link>
                                     </li>
                                     <li class="dropdown-item d-flex align-items-center">
-                                        <a type="button" @click="deleteTransfert(transfert.id)">
-                                            <i class="fa fa-trash-o lh-2 me-8 position-relative top-1">
-                                                Supprimer
-                                            </i>
+                                        <a @click="deleteTransfert(transfert.id)">
+                                            <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"> Supprimer</i>
                                         </a>
                                     </li>
                                 </ul>
@@ -77,30 +69,34 @@
 </template>
 
 <script setup lang="ts">
-
-import { Transfert } from "@/models/Transfert";
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import { format_date } from "@/utils/utils";
+import { Transfert } from "@/models/Transfert";
 
-const transfertList = ref<Transfert[]>([])
-
+const transfertList = ref<Transfert[]>([]);
+const searchTerm = ref("");
 
 onMounted(() => {
-    getTransfert()
-})
+    getTransfert();
+});
+
 const getTransfert = async () => {
-    await axios.get<Transfert[]>('/all/transferts').then(res => {
-        transfertList.value = res.data
-        console.log(transfertList.value)
-    })
-}
-const deleteTransfert = async (id: any) => {
+    try {
+        const res = await axios.get<Transfert[]>('/all/transferts');
+        transfertList.value = res.data;
+        console.log(transfertList.value);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des transferts:", error);
+    }
+};
+
+const deleteTransfert = async (id: number) => {
     Swal.fire({
         title: 'Etes-vous sûr?',
-        text: "Vous voulez vraiment supprimer cet transfert !",
+        text: "Vous voulez vraiment supprimer ce transfert !",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -109,7 +105,8 @@ const deleteTransfert = async (id: any) => {
         confirmButtonText: 'Oui!'
     }).then(async (result) => {
         if (result.isConfirmed) {
-            await ApiService.delete('/transferts/' + id + '').then(() => {
+            try {
+                await ApiService.delete(`/transferts/${id}`);
                 Swal.fire({
                     icon: 'success',
                     title: 'Transfert supprimé avec succès!',
@@ -117,7 +114,7 @@ const deleteTransfert = async (id: any) => {
                     timer: 1000
                 });
                 getTransfert();
-            }).catch(error => {
+            } catch (error) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Erreur de suppression!',
@@ -125,9 +122,13 @@ const deleteTransfert = async (id: any) => {
                     timer: 1000
                 });
                 console.error('Erreur détectée pendant la suppression:', error);
-            });
-
+            }
         }
-    })
-}
+    });
+};
+
+const rechercher = () => {
+    // Logique de recherche en fonction de `searchTerm`
+    // Filtrer transfertList pour afficher les résultats correspondant au terme recherché
+};
 </script>
