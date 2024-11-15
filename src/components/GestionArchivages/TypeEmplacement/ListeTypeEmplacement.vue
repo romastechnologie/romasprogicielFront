@@ -75,13 +75,6 @@
               >
                 Ordre
               </th>
-
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Type Emplacement
-              </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
@@ -102,15 +95,11 @@
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{typeEmplacement.ordre }}
               </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{typeEmplacement?.typesemplacements }}
-              </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                   <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                    
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"

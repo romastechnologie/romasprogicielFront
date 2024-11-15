@@ -49,6 +49,20 @@
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
+                    Code <span class="text-danger">*</span>
+                  </label>
+                  <Field
+                    name="code"
+                    type="text"
+                    class="form-control shadow-none fs-md-15 text-black"
+                    placeholder="Entrer le code "
+                  />
+                  <ErrorMessage name="code" class="text-danger" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
                     Libellé <span class="text-danger">*</span>
                   </label>
                   <Field
@@ -61,20 +75,7 @@
                 </div>
               </div>
 
-              <div class="col-md-6">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Code <span class="text-danger">*</span>
-                  </label>
-                  <Field
-                    name="code"
-                    type="text"
-                    class="form-control shadow-none fs-md-15 text-black"
-                    placeholder="Entrer le code "
-                  />
-                  <ErrorMessage name="code" class="text-danger" />
-                </div>
-              </div>
+             
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
@@ -104,53 +105,6 @@
                   <ErrorMessage name="ordre" class="text-danger" />
                 </div>
               </div>
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
-                  Libellé <span class="text-danger">*</span>
-                </label>
-                <Field name="libelle" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libellé"/>
-                <ErrorMessage name="libelle" class="text-danger"/>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
-                  Préfixe <span class="text-danger">*</span>
-                </label>
-                <Field name="prefixe" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le Préfixe"/>
-                <ErrorMessage name="prefixe" class="text-danger"/>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10" >
-                  Ordre <span class="text-danger">*</span>
-                </label>
-                <Field name="ordre" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'ordre"/>
-                <ErrorMessage name="ordre" class="text-danger"/>
-              </div>
-            </div>
-
-            <div class="col-md-12 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                  Type Emplacement <span class="text-danger">*</span>
-                </label>
-                <Field name="typesemplacements" v-slot="{ field }">
-                  <Multiselect v-model="field.value" v-bind="field" :options="typeEmplacementOptions"
-                    :preserve-search="true" :multiple="false" :searchable="true"
-                    placeholder="Sélectionner le type Emplacement" label="label" track-by="label" />
-                </Field>
-                <ErrorMessage name="typesemplacements" class="text-danger" />
-              </div>
-            </div>
-
             <button
               class="btn btn-primary mt-3"
             >

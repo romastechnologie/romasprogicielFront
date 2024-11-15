@@ -825,14 +825,6 @@ const routes: Array<RouteRecordRaw> = [
     path: "/typeContrats",
     component: BodyView,
     children: [
-      // {
-      //   path: "ajouter-permission",
-      //   name: "AddPermissionPage",
-      //   component: AddPermissionPage,
-      //   meta: {
-      //     title: 'Ajouter une permission',
-      //   }
-      // },
       {
         path: "liste-typeContrat",
         name: "ListeTypeContratPage",

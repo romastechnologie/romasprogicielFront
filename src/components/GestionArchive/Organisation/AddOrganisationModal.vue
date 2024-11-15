@@ -271,6 +271,8 @@ export default {
         await getAllOrganisations(type.id);
       }else{
         etatOrganisation.value = true;
+        organisationOptions.value = [];
+        organisation.value = "";
       }
     }
 

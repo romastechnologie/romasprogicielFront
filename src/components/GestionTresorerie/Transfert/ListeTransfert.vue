@@ -7,8 +7,7 @@
                     <i class="fa fa-plus-circle"></i>
                     <!-- <i class="fa fa-plus-circle"></i> -->
                     Faire un transfert
-                </router-link>
-                
+                </router-link>     
             </div>
             <div class="d-flex align-items-center">
                 <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
@@ -73,7 +72,6 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </template>
@@ -81,7 +79,6 @@
 <script setup lang="ts">
 
 import { Transfert } from "@/models/Transfert";
-
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -94,15 +91,12 @@ const transfertList = ref<Transfert[]>([])
 onMounted(() => {
     getTransfert()
 })
-
-
 const getTransfert = async () => {
-    await axios.get<Transfert[]>('all/transferts/').then(res => {
+    await axios.get<Transfert[]>('/all/transferts').then(res => {
         transfertList.value = res.data
         console.log(transfertList.value)
     })
 }
-
 const deleteTransfert = async (id: any) => {
     Swal.fire({
         title: 'Etes-vous sûr?',
@@ -136,7 +130,4 @@ const deleteTransfert = async (id: any) => {
         }
     })
 }
-
-
-
 </script>

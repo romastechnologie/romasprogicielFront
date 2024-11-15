@@ -27,7 +27,7 @@
           >
             <div class="row">
               <div class="col-md-12 mb-3">
-                <div v-if="dernierCodeMessage">
+                <div v-if="dernierCodeMessage != 'RAS'">
                   <p>Dernier code est : {{ dernierCodeMessage }}</p>
                 </div>
 
@@ -35,7 +35,12 @@
                   <label class="d-block text-black mb-10">
                     Type d'emplacement <span class="text-danger">*</span>
                   </label>
-                  <Field name="typeEmplacement" type="text" v-slot="{ field }">
+                  <Field
+                    name="typeEmplacement"
+                    v-model="typeEmplacement"
+                    type="text"
+                    v-slot="{ field }"
+                  >
                     <Multiselect
                       v-model="typeEmplacementSelected"
                       v-bind="field"
@@ -69,8 +74,8 @@
                     class="form-control shadow-none fs-md-15 text-black"
                     placeholder="Entrer le code"
                   />
-                  <ErrorMessage name="code" class="text-danger" />
                 </div>
+                <ErrorMessage name="code" class="text-danger" />
               </div>
 
               <div class="col-md-12 mb-3">
@@ -98,8 +103,18 @@
 
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black mb-10"> Emplacement </label>
-                  <Field name="emplacement" type="text" v-slot="{ field }">
+                  <label class="d-block text-black mb-10">
+                    Emplacement
+                    <span v-if="emplacementEtat == false" class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <Field
+                    name="emplacement"
+                    v-model="emplacement"
+                    type="text"
+                    v-slot="{ field }"
+                  >
                     <Multiselect
                       v-model="field.value"
                       v-bind="field"
@@ -157,10 +172,15 @@ export default {
 
   setup: (props: any, { emit }: { emit: Function }) => {
     const loading = ref<boolean>(false);
+    const prefix = ref("");
+    const emplacementEtat = ref(true);
     const emplacementSchema = Yup.object().shape({
       code: Yup.string().required("Le code est obligatoire"),
       description: Yup.string().notRequired(),
-      emplacement: Yup.string().notRequired(),
+      emplacement:
+        emplacementEtat.value === true
+          ? Yup.string().notRequired()
+          : Yup.string().required("L'emplacement est obligatoire"),
       typeEmplacement: Yup.string().required(
         "Le type d'emplacement est obligatoire."
       ),
@@ -169,7 +189,7 @@ export default {
     const emplacementnew = ref(props.id);
     const emplacementForm = ref<Emplacement | null>(null);
     const addEmplacementModalRef = ref<null | HTMLElement>(null);
-    let emplacements = ref<Array<Emplacement>>([]);
+    const emplacements = ref<Array<Emplacement>>([]);
     const title = ref("Ajouter un emplacement");
     const btntext = ref("Ajouter");
     const isupdate = ref(false);
@@ -179,10 +199,12 @@ export default {
     const typeEmplacementSelected = ref(null);
     const dernierCodeMessage = ref("");
     const lesTypesEmplacement = ref([]);
-    const emplacementEtat = ref(true);
+    const emplacement = ref();
+    const typeEmplacement = ref();
 
-    onMounted(() => {
-      getAllTypeEmplacements();
+    onMounted(async () => {
+      await resetValue()
+      await getAllTypeEmplacements();
       //getAllEmplacements();
     });
 
@@ -200,8 +222,33 @@ export default {
     const getEmplacement = async (id: number) => {
       return ApiService.get("/emplacements/" + id)
         .then(({ data }) => {
+          console.log("YYYYYYPOPOPOPOPO ===> ", data);
+          //chaine.replace(/monde/g, "Typescript");
+
+          if (data.data.emplacement && data.data.emplacement != null) {
+            emplacementOptions.value = [
+              {
+                value: data.data.emplacement?.id,
+                label: data.data.emplacement?.code,
+              },
+            ];
+            emplacementEtat.value = false;
+          } else {
+            emplacementEtat.value = true;
+          }
+          console.log("TYYTRYTDCGJVBKJHVKUHJ ===> ", data.data);
+          emplacement.value = data.data?.emplacement?.id;
           emplacementForm.value?.setFieldValue("id", data.data.id);
-          emplacementForm.value?.setFieldValue("code", data.data.code);
+          emplacementForm.value?.setFieldValue(
+            "code",
+            data.data.code.split("-")[1]
+          );
+          emplacementForm.value?.setFieldValue(
+            "description",
+            data.data.description
+          );
+          prefix.value = data.data.code.split("-")[0];
+          typeEmplacement.value = data.data?.typeEmplacement?.id;
           emit("openmodal", addEmplacementModalRef.value);
         })
         .catch(({ response }) => {
@@ -250,18 +297,15 @@ export default {
     };
     const etatEmplacement = ref(true);
     const modificationEmplacement = async (value) => {
-      console.log("RERERRERER ", value);
       const lesTypes = lesTypesEmplacement.value;
-      console.log("lesTypes ==> ", lesTypes);
       const objetTrouv = lesTypes.find((objet) => objet.id === value);
-      console.log("objetTrouv ==>", objetTrouv);
       if (
         objetTrouv.typeemplacement &&
         objetTrouv.typeemplacement != undefined
       ) {
         const type = objetTrouv.typeemplacement;
         await getLesEmplacements(type.id);
-      } else{
+      } else {
         emplacementOptions.value = [];
         emplacementEtat.value = true;
       }
@@ -277,7 +321,7 @@ export default {
           const emplacementsData = response.data.data;
           emplacementOptions.value = emplacementsData.map((empla) => ({
             value: empla.id,
-            label: "[ " +empla.typeEmplacement?.libelle+ " ] " + empla.code,
+            label: "[ " + empla.typeEmplacement?.libelle + " ] " + empla.code,
           }));
           if (emplacementsData.length > 0) {
             emplacementEtat.value = false;
@@ -286,7 +330,7 @@ export default {
           }
 
           return emplacementOptions.value;
-        }else{
+        } else {
           emplacementOptions.value = [];
           emplacementEtat.value = true;
         }
@@ -312,7 +356,8 @@ export default {
               isupdate.value = false;
               btnTitle();
               emit("refreshEmplacements");
-              router.push("/emplacements/liste-emplacement");
+              hideModal(addEmplacementModalRef.value);
+              //router.push("/emplacements/liste-emplacement");
             }
           })
           .catch(({ response }) => {
@@ -345,21 +390,20 @@ export default {
       btnTitle();
     };
 
-    const fetchDernierCode = async () => {
+    const fetchDernierCode = async (value: any) => {
       try {
-        const response = await ApiService.get("/derniercode");
+        const response = await ApiService.get("/derniercode/" + value);
         console.log("Response from derniercode API:", response); // Log response for debugging
         if (response.data.code === 200 && response.data.data) {
           dernierCodeMessage.value = response.data.data.code; // Correctly access the nested code
         } else {
-          dernierCodeMessage.value = "Code inexistant pour cet emplacement.";
+          dernierCodeMessage.value = "RAS";
         }
       } catch (error) {
         console.error("Error fetching dernier code:", error);
-        dernierCodeMessage.value = "Impossible de récupérer le dernier code.";
+        dernierCodeMessage.value = "RAS";
       }
     };
-    const prefix = ref("");
 
     watch(typeEmplacementSelected, async (newTypeId) => {
       const selectedType = typeEmplacementOptions.value.find(
@@ -368,7 +412,7 @@ export default {
       if (selectedType) {
         //emplacementForm.value?.setFieldValue("code", selectedType.prefix);
         prefix.value = selectedType.prefix;
-        await fetchDernierCode();
+        await fetchDernierCode(newTypeId);
       } else {
         dernierCodeMessage.value = "";
       }
@@ -378,6 +422,7 @@ export default {
       prefix,
       emplacements,
       title,
+      emplacement,
       btntext,
       resetValue,
       emplacementSchema,
@@ -391,6 +436,7 @@ export default {
       dernierCodeMessage,
       modificationEmplacement,
       emplacementEtat,
+      typeEmplacement,
     };
   },
 };
