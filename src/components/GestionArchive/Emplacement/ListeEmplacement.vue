@@ -28,6 +28,7 @@
               type="text"
               v-model="searchTerm"
               @keyup="rechercher"
+              
               class="form-control shadow-none text-black"
               placeholder="Rechercher un emplacement"
             />
@@ -102,7 +103,7 @@
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                        @click="suppression(emplacement.id,emplacements,'emplacements',`le emplacement ${emplacement.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                        @click="suppression(emplacement.id,emplacements,'emplacements',`le emplacement ${emplacement.code}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                          Supprimer
                     </a>
                   </li>
@@ -150,7 +151,6 @@
   
       const emplacements = ref<Array<Emplacement>>([]);
       const idemplacement = ref(0);
-      // const emplacement = ref<Emplacement>();
       const loading = ref<boolean>(false);
       const router = useRouter();
   
@@ -203,7 +203,7 @@
         });
       }
       
-      function moddifier(Editemplacement:Emplacement) {
+      function moddifier(Editemplacement:any) {
         idemplacement.value = Editemplacement.id;
       }
   

@@ -27,13 +27,15 @@
           >
             <div class="row">
               <div class="col-md-12 mb-3">
-                <div v-if="dernierCodeMessage != 'RAS'">
+                <div
+                  v-if="dernierCodeMessage != 'RAS' || dernierCodeMessage != ''"
+                >
                   <p>Dernier code est : {{ dernierCodeMessage }}</p>
                 </div>
-
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
-                    Type d'emplacement <span class="text-danger">*</span>
+                    Type d'emplacement {{ typeEmplacement }}
+                    <span class="text-danger">*</span>
                   </label>
                   <Field
                     name="typeEmplacement"
@@ -42,7 +44,7 @@
                     v-slot="{ field }"
                   >
                     <Multiselect
-                      v-model="typeEmplacementSelected"
+                      v-model="field.value"
                       v-bind="field"
                       :options="typeEmplacementOptions"
                       :preserve-search="true"
@@ -142,9 +144,9 @@
     </div>
   </div>
 </template> 
-  <script lang="ts">
-import { ref, watch, onMounted } from "vue";
-import { Form, Field, ErrorMessage } from "vee-validate";
+<script lang="ts">
+import { ref, watch, onMounted,onBeforeMount } from "vue";
+import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 import * as Yup from "yup";
 import ApiService from "@/services/ApiService";
 import { error, hideModal, success } from "@/utils/utils";
@@ -185,11 +187,11 @@ export default {
         "Le type d'emplacement est obligatoire."
       ),
     });
-
-    const emplacementnew = ref(props.id);
-    const emplacementForm = ref<Emplacement | null>(null);
+    
+    const { resetForm } = useForm();
+    const emplacementForm = ref<any | null>(null);
     const addEmplacementModalRef = ref<null | HTMLElement>(null);
-    const emplacements = ref<Array<Emplacement>>([]);
+    const emplacements = ref<Array<any>>([]);
     const title = ref("Ajouter un emplacement");
     const btntext = ref("Ajouter");
     const isupdate = ref(false);
@@ -202,16 +204,11 @@ export default {
     const emplacement = ref();
     const typeEmplacement = ref();
 
-    onMounted(async () => {
-      await resetValue()
-      await getAllTypeEmplacements();
-      //getAllEmplacements();
-    });
-
     watch(
       () => props.id,
       (newValue) => {
-        if (newValue != 0) {
+        console.log("newValuenewValuenewValue ===> ",newValue)
+        if (newValue !== 0) {
           getEmplacement(newValue);
           isupdate.value = true;
         }
@@ -219,12 +216,22 @@ export default {
       }
     );
 
+    const isLoaded = ref(false);
+    onBeforeMount(() => {
+      
+    });
+
+    onMounted(async () => {
+      
+      if (!isLoaded.value) {
+        isLoaded.value = true;
+        await getAllTypeEmplacements();
+      }
+    });
+
     const getEmplacement = async (id: number) => {
       return ApiService.get("/emplacements/" + id)
-        .then(({ data }) => {
-          console.log("YYYYYYPOPOPOPOPO ===> ", data);
-          //chaine.replace(/monde/g, "Typescript");
-
+        .then(async ({ data }) => {
           if (data.data.emplacement && data.data.emplacement != null) {
             emplacementOptions.value = [
               {
@@ -232,11 +239,14 @@ export default {
                 label: data.data.emplacement?.code,
               },
             ];
+
+            await modificationEmplacement(data.data?.typeEmplacement?.id);
             emplacementEtat.value = false;
+            emplacement.value = data.data.emplacement?.id;
           } else {
+            emplacementOptions.value = [];
             emplacementEtat.value = true;
           }
-          console.log("TYYTRYTDCGJVBKJHVKUHJ ===> ", data.data);
           emplacement.value = data.data?.emplacement?.id;
           emplacementForm.value?.setFieldValue("id", data.data.id);
           emplacementForm.value?.setFieldValue(
@@ -247,8 +257,14 @@ export default {
             "description",
             data.data.description
           );
+
           prefix.value = data.data.code.split("-")[0];
           typeEmplacement.value = data.data?.typeEmplacement?.id;
+
+          console.log("TYTUUIIIIIIOOOOOO ===> ");
+          // if(data.data?.emplacement){
+          //   emplacement
+          // }
           emit("openmodal", addEmplacementModalRef.value);
         })
         .catch(({ response }) => {
@@ -270,30 +286,18 @@ export default {
       try {
         const response = await ApiService.get("/all/typeEmplacements");
         const typeEmplacementsData = response.data.data.data;
-        console.log("Data", typeEmplacementsData);
         lesTypesEmplacement.value = typeEmplacementsData;
         typeEmplacementOptions.value = typeEmplacementsData.map(
           (typeEmplacement) => ({
             value: typeEmplacement.id,
             label: typeEmplacement.libelle,
-            prefix: typeEmplacement.prefixe,
+            //prefix: typeEmplacement.prefixe,
           })
         );
+        console.log("LEs type ==> ", typeEmplacementOptions.value);
       } catch (error) {
         // Handle error
       }
-    };
-
-    const getAllEmplacements = async () => {
-      try {
-        const response = await ApiService.get("/emplacements");
-        const emplacementsData = response.data.data.data;
-        console.log("Data", emplacementsData);
-        emplacementOptions.value = emplacementsData.map((emplacement) => ({
-          value: emplacement.id,
-          label: emplacement.description,
-        }));
-      } catch (error) {}
     };
     const etatEmplacement = ref(true);
     const modificationEmplacement = async (value) => {
@@ -380,22 +384,19 @@ export default {
     };
 
     const resetValue = () => {
-      const formFields = document.querySelectorAll<
-        HTMLInputElement | HTMLTextAreaElement
-      >("input, textarea");
-      isupdate.value = false;
-      formFields.forEach((field) => {
-        field.value = "";
-      });
+      emplacementForm.value?.setFieldValue("code", ""); // Vider le champ "code"
+      emplacementForm.value?.setFieldValue("description", ""); // Vider le champ "description"
+      emplacementForm.value?.setFieldValue("typeEmplacement", ""); // Vider le champ "typeEmplacement"
+      emplacementForm.value?.setFieldValue("emplacement", "")
       btnTitle();
     };
 
     const fetchDernierCode = async (value: any) => {
       try {
         const response = await ApiService.get("/derniercode/" + value);
-        console.log("Response from derniercode API:", response); // Log response for debugging
+        console.log("Response from derniercode API:", response);
         if (response.data.code === 200 && response.data.data) {
-          dernierCodeMessage.value = response.data.data.code; // Correctly access the nested code
+          dernierCodeMessage.value = response.data.data.code;
         } else {
           dernierCodeMessage.value = "RAS";
         }
@@ -429,7 +430,6 @@ export default {
       addEmplacement,
       emplacementForm,
       addEmplacementModalRef,
-      emplacementnew,
       typeEmplacementOptions,
       emplacementOptions,
       typeEmplacementSelected,
