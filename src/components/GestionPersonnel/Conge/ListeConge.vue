@@ -198,7 +198,6 @@ function sortCongeWithSearch(searchPresence: any) {
   });
 }
 
-
 function deleteConge(id: number) {
 
   Swal.fire({

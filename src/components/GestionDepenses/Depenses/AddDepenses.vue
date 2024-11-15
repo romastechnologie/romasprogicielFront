@@ -236,8 +236,8 @@ export default defineComponent({
 
     const getAllPersonnels = async () => {
       try {
-        const response = await ApiService.get('/personnels');
-        const personnelsData = response.data;
+        const response = await ApiService.get('/all/personnels');
+        const personnelsData = response.data.data;
         console.log('Data', personnelsData)
         personnelOptions.value = personnelsData.map((personnel) => ({
           value: personnel.id,
@@ -279,7 +279,7 @@ export default defineComponent({
     const getAllCategoriesDepenses = async () => {
       try {
         const response = await ApiService.get('/all/categoriesDepenses');
-        const categoriesDepensesData = response.data.data.data;
+        const categoriesDepensesData = response.data.data;
         categoriesDepensesOptions.value = categoriesDepensesData.map((categoriesDepenses) => ({
           value: categoriesDepenses.id,
           label: categoriesDepenses.libelle,
