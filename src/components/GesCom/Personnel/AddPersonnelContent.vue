@@ -355,7 +355,7 @@
                                 <Field
                                   name="telephone"
                                   v-model="telephone"
-                                  type="text"
+                                  type="number"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le téléphone"
                                 />
@@ -371,7 +371,7 @@
                                 <Field
                                   name="telephone2"
                                   v-model="telephone2"
-                                  type="text"
+                                  type="number"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le téléphone"
                                 />
@@ -386,7 +386,7 @@
                                 <Field
                                   name="email"
                                   v-model="email"
-                                  type="text"
+                                  type="email"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer l'email"
                                 />
@@ -923,8 +923,8 @@
                                   Taille<span class="text-danger">*</span>
                                 </label>
                                 <Field
-                                  name="taille"
-                                  type="text"
+                                  name="taille en (cm)"
+                                  type="number"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   v-model="taille"
                                   placeholder="Taille(cm) "
@@ -939,8 +939,8 @@
                                   Poids<span class="text-danger">*</span>
                                 </label>
                                 <Field
-                                  name="poids"
-                                  type="text"
+                                  name="poids en (cm)"
+                                  type="number"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   v-model="poids"
                                   placeholder="Poids(kg) "
@@ -2163,26 +2163,32 @@ export default defineComponent({
           }
         }
       }
-
       if (currentStep.value === 2) {
-        //useForm({ validationSchema: personnelConSchema });
-        let element2 = {
-          boitePostale:boitePostale.value,
-          telephone:telephone.value,
-          email:email.value,
-          departement:departement.value,
-          commune:commune.value,
-          arrondissement:arrondissement.value,
-          quartier:quartier.value,
-          adresse:adresse.value
-        }
-        for(const key in element2){
-          if(!element2[key]){
-            error(`Saisir l'élément suivant ${key}`);
-            return false;
-          }
-        }
-      }
+  let element2 = {
+    boitePostale: boitePostale.value,
+    telephone: telephone.value,
+    email: email.value,
+    departement: departement.value,
+    commune: commune.value,
+    arrondissement: arrondissement.value,
+    quartier: quartier.value,
+    adresse: adresse.value,
+  };
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  for (const key in element2) {
+    if (!element2[key]) {
+      error(`Saisir l'élément suivant ${key}`);
+      return false;
+    }
+
+    if (key === "email" && !emailRegex.test(element2[key])) {
+      error("Veuillez entrer une adresse email valide");
+      return false;
+    }
+  }
+}
 
       if (currentStep.value === 3) {
        
