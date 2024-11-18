@@ -128,7 +128,7 @@ export default {
             if (newValue != 0) {
                 getCategoriesDepenses(newValue);
                 isupdate.value = true;
-                getAllCategoriesDepenses();
+                getAllCategoriesDepense();
             }
             btnTitle();
         });
@@ -150,13 +150,11 @@ export default {
                 });
         }
 
-        const getAllCategoriesDepenses = async () => {
-            console.log('Data')
-
+        const getAllCategoriesDepense = async () => {
             try {
-                const response = await ApiService.get('/all/categorieDepense');
+                const response = await ApiService.get('all/categorieDepenses');
                 const categoriesDepensesData = response.data.data.data;
-                console.log('response',response)
+                console.log('Data')
                 console.log('categoriesDepensesData',categoriesDepensesData)
 
                 categoriesDepensesOptions.value = categoriesDepensesData.map((categoriesDepenses) => ({
@@ -223,7 +221,7 @@ export default {
         };
 
         onMounted(async () => {
-               await getAllCategoriesDepenses();
+               await getAllCategoriesDepense();
         });
 
         return {

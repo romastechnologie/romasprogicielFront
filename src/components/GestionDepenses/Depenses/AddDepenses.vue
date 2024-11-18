@@ -160,11 +160,11 @@ export default defineComponent({
     const depensesSchema = Yup.object().shape({
       libelle: Yup.string().required("Le libellé est obligatoire."),
       description: Yup.string().required("La description est obligatoire."),
-      entretien: Yup.object().nullable().required("L'entretien est obligatoire."),
-      planificationReparation: Yup.object().nullable().required("La planification Réparation est obligatoire."),
-      typesDepenses: Yup.object().nullable().required("Le type de dépense est obligatoire."),
-      categoriesDepenses: Yup.object().nullable(),
-      personnel: Yup.object().nullable(),
+      entretien: Yup.string().required("L'entretien est obligatoire."),
+      planificationReparation: Yup.string().required("La planification Réparation est obligatoire."),
+      typesDepenses: Yup.string().required("Le type de dépense est obligatoire."),
+      categoriesDepenses: Yup.string().notRequired(),
+      personnel: Yup.string().required("Le personnel est obligatoire"),
       motif: Yup.string().required("Le motif est obligatoire."),
       montant: Yup.number().required("Le montant est obligatoire."),
       date: Yup.date().required('La date est obligatoire'),
@@ -224,6 +224,7 @@ export default defineComponent({
     const getAllPersonnels = async () => {
       try {
         const response = await ApiService.get('/all/personnels');
+        console.log("RESPONSE ONE PERSO EQUAL THIS ONE ==> ",response)
         const personnelsData = response.data.data.data;
         personnelOptions.value = personnelsData.map((personnel) => ({
           value: personnel.id,
@@ -262,7 +263,8 @@ export default defineComponent({
 
     const getAllCategoriesDepenses = async () => {
       try {
-        const response = await ApiService.get('/all/categoriesDepenses');
+        const response = await ApiService.get('all/categoriesDepenses');
+        console.log("RESPONSE ONE EQUAL THIS ONE ==> ",response)
         const categoriesDepensesData = response.data.data.data;
         categoriesDepensesOptions.value = categoriesDepensesData.map((categoriesDepenses) => ({
           value: categoriesDepenses.id,
