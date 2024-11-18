@@ -194,9 +194,9 @@
       // END PAGINATE
   
       function getAllPlanificationReparations(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/all/planificationReparations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`all/planificationReparations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            planificationReparations.value = data.data.data;
+            planificationReparations.value = data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;

@@ -231,6 +231,7 @@ import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/L
 import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue';
 import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue';
 import ListeFormatPage from "@/pages/GestionArchive/Format/ListeFormatPage.vue";
+import ListeMouvementPage from "@/pages/GestionArchive/Mouvement/ListeMouvementPage.vue";
 import ListeTagPage from "@/pages/GestionArchive/Tag/ListeTagPage.vue";
 import ListeEmplacementPage from "@/pages/GestionArchive/Emplacement/ListeEmplacementPage.vue";
 import ListeOrganisationPage from "@/pages/GestionArchive/Organisation/ListeOrganisationPage.vue";
@@ -284,6 +285,7 @@ import ViewDemandePage from '@/pages/GestionPersonnel/Demandes/ViewDemandePage.v
 import ListeCongeCalendrierPage from '@/pages/GestionPersonnel/Conge/ListeCongeCalendrierPage.vue';
 import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
+import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
@@ -765,14 +767,6 @@ const routes = [
         path: "/typeContrats",
         component: BodyView,
         children: [
-            // {
-            //   path: "ajouter-permission",
-            //   name: "AddPermissionPage",
-            //   component: AddPermissionPage,
-            //   meta: {
-            //     title: 'Ajouter une permission',
-            //   }
-            // },
             {
                 path: "liste-typeContrat",
                 name: "ListeTypeContratPage",
@@ -801,6 +795,28 @@ const routes = [
                 component: ListeFormatPage,
                 meta: {
                     title: 'Liste des formats',
+                }
+            },
+            {
+                path: "liste-mouvement",
+                name: "ListeMouvementPage",
+                component: ListeMouvementPage,
+                meta: {
+                    title: 'Liste des mouvements',
+                }
+            }
+        ]
+    },
+    {
+        path: "/mouvements",
+        component: BodyView,
+        children: [
+            {
+                path: "liste-mouvement",
+                name: "ListeMouvementPage",
+                component: ListeMouvementPage,
+                meta: {
+                    title: 'Liste des mouvements',
                 }
             }
         ]
@@ -2300,6 +2316,14 @@ const routes = [
                 component: AddInventairePage,
                 meta: {
                     title: 'Ajouter un inventaire',
+                }
+            },
+            {
+                path: "miseajour-inventaire/:id",
+                name: "MiseAJourInventaire",
+                component: MiseAJourInventairePage,
+                meta: {
+                    title: 'Mise à jour des inventaires',
                 }
             },
             {
