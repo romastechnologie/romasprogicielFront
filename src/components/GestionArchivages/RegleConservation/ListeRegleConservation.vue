@@ -141,7 +141,7 @@
                     <li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(regleConservation.id,ReglesConservations,'regleConservations',`la règle ${regleConservation.libelle}`)"
+                        href="javascript:void(0);" @click="suppression(regleConservation.id,ReglesConservations,'suppr/regleConservations',`la règle ${regleConservation.libelle}`)"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 

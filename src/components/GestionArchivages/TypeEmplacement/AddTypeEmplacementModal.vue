@@ -194,8 +194,10 @@ export default defineComponent({
       return ApiService.get("/typeEmplacements/" + id)
         .then(({ data }) => {
           // map data in form
+          console.log("RRRRRRRRRRRRRR ===> ",data)
           const donnees = data.data;
           for (const key in donnees) {
+            console.log("typeEmplacementForm.value == ",typeEmplacementForm.value)
             typeEmplacementForm.value?.setFieldValue(
               key,
               typeof donnees[key] === "object" && donnees[key] !== null
@@ -203,18 +205,21 @@ export default defineComponent({
                 : donnees[key]
             );
           }
-          typeEmplacement.value = donnees.typeEmplacement.id;
+          //typeEmplacement.value = donnees.typeEmplacement?.id;
+          console.log("typeEmplacement.value ",typeEmplacement.value)
           emit("openmodal", addTypeEmplacementModalRef.value);
         })
         .catch(({ response }) => {
-          error(response.data.message);
+          console.log("response == ",response)
+          error(response);
         });
     };
 
     const fetchTypeEmplacement = async () => {
       try {
         const response = await ApiService.get("/all/typeEmplacements");
-        const typeEmplacementData = response.data.data.data;
+        console.log("TYTTTTTTTt )) ===> ",response);
+        const typeEmplacementData = response.data.data;
         typeEmplacementOptions.value = typeEmplacementData.map(
           (typeEmplacement) => ({
             value: typeEmplacement.id,
