@@ -1,126 +1,207 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-        <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing ">
-                <Form @submit="updateTransfert" :validation-schema="schema" class="card">
-                    <template v-for="transfert in transfertList" :key="transfert.id">
-                        <div class="card-body" v-if="transfert.id == $route.params.id">
-                            <div class="mb-3">
-                                <label for="source">Source</label>
-                                <Field type="text" id="source" name="source" class="form-control" as="select">
-                                    <option v-for="tresorerie in tresorerieList" :key="tresorerie.id"
-                                        :value="tresorerie.id" :disabled="tresorerie.status == 'fermé' ">{{ tresorerie.nom }}</option>
-                                </Field>
-                                <ErrorMessage name="source" class="text-danger" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="destination">Destination</label>
-                                <Field type="text" id="destination" name="destination" class="form-control"
-                                     as="select">
-                                    <option v-for="tresorerie in tresorerieList" :key="tresorerie.id"
-                                        :value="tresorerie.id" :disabled="tresorerie.status == 'fermé' ">{{ tresorerie.nom }}</option>
-                                </Field>
-                                <ErrorMessage name="destination" class="text-danger" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="montant">montant</label>
-                                <Field type="number" id="montant" name="montant" class="form-control"
-                                    :value="transfert.montant" />
-                                <ErrorMessage name="montant" class="text-danger" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="dateDeTransfert">Date de transfert</label>
-                                <Field type="date" id="dateDeTransfert" name="dateDeTransfert" class="form-control"
-                                    :value="transfert.created_at" />
-                                <ErrorMessage name="dateDeTransfert" class="text-danger" />
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Envoyer</button>
-                                <router-link to="/transferts/liste-transfert" type="submit" class="btn btn-danger mx-1">
-                                    Annuler
-                                </router-link>
-                            </div>
-                        </div>
-                    </template>
-                </Form>
+    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+            <Form ref="transfertForm" @submit="editTransfert" :validation-schema="transfertSchema" :initial-values="transfertForm">
+            <div class="row">
+             
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Source <span class="text-danger">*</span>
+                </label>
+                <Field name="tresorerie" v-slot="{ field }">
+                  <Multiselect
+                    :options="tresorerieOptions"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner la source"
+                  />
+                </Field>
+                <ErrorMessage name="tresorerie" class="text-danger" />
+              </div>
             </div>
+
+            <div class="col-md-6">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Destination <span class="text-danger">*</span>
+                </label>
+                <Field name="tresorerie2" v-slot="{ field }">
+                  <Multiselect
+                    :options="tresorerieOptions2"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner la destination"
+                  />
+                </Field>
+                <ErrorMessage name="tresorerie2" class="text-danger" />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Montant <span class="text-danger">*</span>
+                  </label>
+                  <Field name="montant" type="number" 
+                  class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le montant"/>
+                  <ErrorMessage name="montant" class="text-danger"/>
+                </div>
+              </div>
+  
+            <div class="col-md-6">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Date de transfert <span class="text-danger">*</span>
+                  </label>
+                  <Field name="dateDeTransfert" type="Date" 
+                  class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date"/>
+                  <ErrorMessage name="dateDeTransfert" class="text-danger"/>
+                </div>
+              </div>
+              
+             
+              
+          <div class="col-md-12 d-flex flex-column mt-3">
+            <div class="d-flex align-items-center ">
+              <button
+                class="btn btn-success me-3"
+                type="submit"
+              >
+                  Modifier transfert
+              </button>
+              <router-link to="/transferts/liste-transferts" 
+                  class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                  <span class="position-relative"></span>Annuler</router-link>
+            </div>
+          </div>
         </div>
+      </Form>
+    </div>
+  </div>
+  </template>
+  
+  <script lang="ts">
+  
+  import { defineComponent, ref, onMounted } from 'vue';
+  import { Form, Field, ErrorMessage } from 'vee-validate';
+  import { error, success } from '@/utils/utils';
+  import { useRoute, useRouter } from 'vue-router';
+  import ApiService from '@/services/ApiService';
+  import { Transfert} from '@/models/Transfert';
+  import * as Yup from 'yup';
+  import axios from 'axios';
+  import Multiselect from '@vueform/multiselect'
+  
+  export default defineComponent({
+      name: "EditTransfert",
+      components: {
+      Form,
+      Field,
+      ErrorMessage,
+      Multiselect
+    },
+    setup: () => {
+      const transfertSchema = Yup.object().shape({
+        montant: Yup.string().required("Le montant est obligatoire."),
+        dateDeTransfert: Yup.string().required("Date de transfert est obligatoire."),
+        tresorerie: Yup.string().required("Source est obligatoire."),
+        tresorerie2: Yup.string().required("Destination est obligatoire."),
 
-</template>
+      });
+  
+      const transfertForm = ref<Transfert>();
+      const router = useRouter();
+      const route = useRoute();
+      const tresorerieOptions = ref([]);
+      const tresorerieOptions2 = ref([]);
+      const dateDeTransfert = ref();
+      const montant = ref();
+      const fetchTresorerie = async () => {
+      try {
+        const response = await axios.get('all/tresoreries');
+        tresorerieOptions.value = response.data.data.data.map(tresorerie => ({
+          value: tresorerie.id,
+          label: tresorerie.nom ,
+        }));
+      } catch (err) {
+        error("Erreur lors de la récupération des tresoreries.");
+      }
+    };
 
-<script setup lang="ts">
-import { Transfert } from "@/models/Transfert";
-import { Form, Field, ErrorMessage } from "vee-validate";
-import * as Yup from "yup";
-
-const transfertList = ref<Transfert[]>([])
-
-
-
-import { useRouter, useRoute } from "vue-router";
-import { onMounted, ref } from "vue";
-import axios from "axios";
-import { Tresorerie } from "@/models/Tresorerie";
-import ApiService from "@/services/ApiService";
-
-const router = useRouter()
-const route = useRoute()
-const transfert = ref<Transfert>({})
-const tresorerieList = ref<Tresorerie[]>([])
-
-const schema = Yup.object().shape({
-    source: Yup.string().required('La source est obligatoire').label('Source'),
-    destination: Yup.string().required('La destination est obligatoire').label('Destination'),
-    montant: Yup.string().required('Le montant est obligatoire').label('Montant'),
-    dateDeTransfert: Yup.string().required('La date de transfert est obligatoire').label('Date de transfert'),
-
-})
-
-const updateTransfert = async (value: object) => {
-    await ApiService.put(`/transferts/${route.params.id}`, value)
-        .then(res => {
-            
-            console.log(res.data)
-            router.push('/transferts/liste-transfert')
-        })
-
-}
-
-const getTransfert = async () => {
-    await ApiService.get('/transferts').then(res => {
-        transfertList.value = res.data
-        console.log(transfertList.value)
+    
+    const fetchTresorerie2 = async () => {
+      try {
+        const response = await axios.get('all/tresoreries');
+        tresorerieOptions2.value = response.data.data.data.map(tresorerie2 => ({
+          value: tresorerie2.id,
+          label: tresorerie2.nom ,
+        }));
+      } catch (err) {
+        error("Erreur lors de la récupération des tresoreries.");
+      }
+    };
+  
+     function getTransfert(id: number) {
+  ApiService.get("/transferts/" + id.toString())
+    .then(({ data }) => {
+      console.log("données récupérées :", data);
+      for (const key in data.data) {
+        if (key === "dateDeTransfert") {
+          const date = new Date(data.data[key]);
+          transfertForm.value?.setFieldValue(
+            key,
+            date.toISOString().split("T")[0] 
+          );
+        } else {
+          transfertForm.value?.setFieldValue(
+            key,
+            typeof data.data[key] === "object" && data.data[key] !== null
+              ? data.data[key].id
+              : data.data[key]
+          );
+        }
+      }
     })
+    .catch(({ response }) => {
+      error(response.data.message);
+    });
 }
 
-const getTresorerie = () => {
-    ApiService.get('/tresoreries')
-        .then(res => {
-            tresorerieList.value = res.data
-            console.log(res)
-        })
-}
-
-onMounted(() => {
-    getTransfert(),
-        getTresorerie()
-})
-
-
-</script>
-
-<style scoped>
-.overview {
-    margin: auto;
-
-
-}
-
-.text-title {
-    text-align: center;
-}
-
-.overflow {
-    padding: 10px 400px;
-
-}
-</style>
+  const editTransfert = async (values, { resetForm }) => {
+    try {
+      const response = await ApiService.put(`/transferts/${values.id}`, values);
+      
+      if (response.status === 200) {
+        success(response.data.message);
+        resetForm();
+        router.push({ name: "ListeTransfertPage" });
+      }
+    } catch (error) {
+      error(error.response?.data?.message || "Une erreur est survenue.");
+    }
+  };
+  
+  
+      onMounted(() => {
+        if(route.params.id) {
+          getTransfert(parseInt(route.params.id as string));
+        }
+        fetchTresorerie();
+        fetchTresorerie2();
+      });
+  
+      return { 
+        transfertSchema, editTransfert, transfertForm,
+        tresorerieOptions,
+        tresorerieOptions2,
+      };
+    },
+  });
+  </script>
