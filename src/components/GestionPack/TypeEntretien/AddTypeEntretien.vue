@@ -339,7 +339,7 @@
       const getAllTypeBien = async () => {
         try {
           const response = await ApiService.get('/all/typeBiens');
-          const typesData = response.data.data;
+          const typesData = response.data.data.data;
   
           typeOptions.value = typesData.map((type) => ({
             value: type.id,
@@ -350,14 +350,11 @@
           //error(response.data.message)
         }
       }
-  
       onMounted(() => {
         fetchTypeEntretien();
         fetchFonction();
         getAllTypeBien();
-  
       });
-  
       const addTypeEntretien = async (values: any, typeEntretienForm) => {
         values = values as TypeEntretien;
         values.fonctions = fonctions.map(fonction => ({
@@ -435,8 +432,9 @@
         fonctions,
         types,
         showMErr,
-        typeOptions
+        typeOptions,
+        isDisable
       };
     },
   });
-  </script>@/models/TypeEntretien
+  </script>

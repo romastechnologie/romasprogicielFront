@@ -67,7 +67,7 @@
               <td class="shadow-none lh-1 fw-medium ">{{ document?.nom }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ document?.description }} </td>
               <td class="shadow-none lh-1 fw-medium">{{ format_date(document.dateFinConservation) }} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ document?.tag }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ document?.tagDoc.libelle }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation?.nom }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ document?.emplacement?.code }} </td>
               <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
@@ -78,7 +78,7 @@
                   <ul class="dropdown-menu">
 
                     <li class="dropdown-item d-flex align-items-center">
-                      <router-link :to="{ name: 'EditDocumentPage', params: { id: document.id } }">
+                      <router-link :to="`edit-document/${document.id}`">
                         <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                         Modifier
                       </router-link>
