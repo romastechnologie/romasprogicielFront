@@ -193,7 +193,7 @@ export default defineComponent({
       values.personnel = values.personnel ? values.personnel.value : null;
       
       console.log('Données envoyées', values);
-      if (!showMErr.value) {
+      if (!entretien.value || !planificationReparation.value){
         try {
           const { data } = await ApiService.post("/depenses/", values);
           if (data.code == 201) {

@@ -215,8 +215,6 @@
       const typeEntretienSchema = Yup.object().shape({
         libelle: Yup.string().required('Le libellé est obligatoire'),
         description: Yup.string().required('La description est obligatoire'),
-        typeBien: Yup.string().required('Le type de bien est obligatoire'),
-  
       });
   
       const typeEntretienForm = ref<TypeEntretien | null>(null);
@@ -374,6 +372,8 @@
                 isUPDATE.value = false;
                 //btnTitle();
                 emit('close');
+                router.push({ name: 'ListeTypeEntretien' });
+
               }
             })
             .catch(({ response }) => {
@@ -386,8 +386,9 @@
               if (data.code == 201) {
                 success(data.message);
                 typeEntretienForm.resetForm();
-                //hide(addTypeEntretienRef.value);
+                // hide(addTypeEntretienRef.value);
                 emit('close');
+                 router.push({ name: 'ListeTypeEntretien' });
               }
             })
             .catch(({ response }) => {

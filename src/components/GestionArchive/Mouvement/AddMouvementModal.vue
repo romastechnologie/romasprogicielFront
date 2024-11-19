@@ -233,10 +233,15 @@ export default {
     const loading = ref<boolean>(false);
     const document1 = ref()
     const mouvementSchema = Yup.object().shape({
-      emplacementDestinataire: Yup.string().required('Le type emplacement destinataire est obligatoire'),
-      typeEmplacementSource:Yup.string().required('Le type emplacement source est obligatoire'),
-      document:Yup.string().required('Le document est obligatoire'),
-      typeMouvement: Yup.string().required('Le libelle est obligatoire'),
+      emplacementInitial: Yup.string().notRequired(),
+      emplacementDestinataire: Yup.string().notRequired(),
+      typeEmplacementSource:Yup.string().notRequired(),
+      typeEmplacementDestinataire: Yup.string().notRequired(),
+      document: Yup.string().required('Le document est obligatoire'),
+      typeMouvement: Yup.string().required('Le type de mouvement est obligatoire'),
+      typeDocument: Yup.string().required('Le type de document est obligatoire'),
+      personnel: Yup.string().notRequired(),
+
     });
 
 
@@ -284,10 +289,8 @@ export default {
     const lesDocuments = ref([])
     
     watch(document1, (newValue, oldValue) => {
-      console.log("888888888888888888888 ==> ", lesDocuments)
       if (newValue != oldValue) {
         leDocu.value = lesDocuments.value.find(objet => objet.id === newValue);
-        console.log("ZZZZZZZEEEEEEE ===> ",leDocu.value )
       }
     });
 
@@ -359,13 +362,11 @@ export default {
 
     const emplacementOptions1 = ref([])
     const getEmplacement1 = async (type: any) => {
-      console.log("HKFGHJLKJHG ===> ",type)
       if (type && type != "") {
         try {
           const response = await ApiService.get(
             `/emplacement/by/${type}/typeemplacement`
           );
-          console.log("TYYYTYTYTYTYTYU ===> ",response);
           const emplacementData = response.data.data;
           emplacementOptions1.value = emplacementData.map(
             (emplacement) => ({
@@ -442,7 +443,6 @@ export default {
     const getPersonnelByKey = async (valeur: any) => {
       try {
           const retourr = await axios.get(`/get/personnels/${valeur}`);
-          console.log("EEEEEEEE ===> ", retourr);
           const data = retourr.data.data;
           return data.map((da) => ({
             value: da.id,
@@ -464,19 +464,16 @@ export default {
     const type3 = ref();
 
     watch(type1, (newValue, oldValue) => {
-      console.log("TYYUYTYTYTRYTJCJG1 ====> ", newValue)
       if (newValue != oldValue && newValue) {
        getEmplacement1(newValue)
       }
     });
     watch(type2, (newValue, oldValue) => {
-      console.log("TYYUYTYTYTRYTJCJG2 ====> ", newValue)
       if (newValue != oldValue && newValue) {
        getEmplacement2(newValue)
       }
     });
     watch(type3, (newValue, oldValue) => {
-      console.log("TYYUYTYTYTRYTJCJG2 ====> ", newValue)
       if (newValue != oldValue && newValue) {
         getDocumentByType(newValue)
       }
