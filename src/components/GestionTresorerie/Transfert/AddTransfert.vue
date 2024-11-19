@@ -41,9 +41,6 @@
                         <ErrorMessage name="destination" class="text-danger" />
                     </div>
                 </div>
-       
-
-
                 <div class="mb-3">
                     <label for="montant">Montant</label>
                     <Field type="number" id="montant" name="montant" class="form-control" v-model="transfert.montant" />
@@ -150,7 +147,7 @@ configure({
 
 
 const addTransfert = async () => {
-    await ApiService.post('all/transferts/', transfert.value).then(res => {
+    await ApiService.post('/transferts', transfert.value).then(res => {
 
         Swal.fire({
             position: "top-end",
@@ -174,7 +171,7 @@ const addTransfert = async () => {
 }
 
 const getTresorerie = async () => {
-    await ApiService.get('/tresoreries')
+    await ApiService.get('/transferts')
         .then(res => {
             tresorerieList.value = res.data
             console.log(res)

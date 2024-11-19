@@ -54,7 +54,9 @@
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Organisation
               </th>
-
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                Emplacement
+              </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0">
                 Actions</th>
             </tr>
@@ -67,7 +69,7 @@
               <td class="shadow-none lh-1 fw-medium">{{ format_date(document.dateFinConservation) }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ document?.tag }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation?.nom }} </td>
-
+              <td class="shadow-none lh-1 fw-medium ">{{ document?.emplacement?.code }} </td>
               <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                 <div class="dropdown">
                   <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
