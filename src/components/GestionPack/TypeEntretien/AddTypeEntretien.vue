@@ -215,8 +215,6 @@
       const typeEntretienSchema = Yup.object().shape({
         libelle: Yup.string().required('Le libellé est obligatoire'),
         description: Yup.string().required('La description est obligatoire'),
-        typeBien: Yup.string().required('Le type de bien est obligatoire'),
-  
       });
   
       const typeEntretienForm = ref<TypeEntretien | null>(null);
@@ -339,7 +337,7 @@
       const getAllTypeBien = async () => {
         try {
           const response = await ApiService.get('/all/typeBiens');
-          const typesData = response.data.data;
+          const typesData = response.data.data.data;
   
           typeOptions.value = typesData.map((type) => ({
             value: type.id,
@@ -350,14 +348,11 @@
           //error(response.data.message)
         }
       }
-  
       onMounted(() => {
         fetchTypeEntretien();
         fetchFonction();
         getAllTypeBien();
-  
       });
-  
       const addTypeEntretien = async (values: any, typeEntretienForm) => {
         values = values as TypeEntretien;
         values.fonctions = fonctions.map(fonction => ({
@@ -377,6 +372,8 @@
                 isUPDATE.value = false;
                 //btnTitle();
                 emit('close');
+                router.push({ name: 'ListeTypeEntretien' });
+
               }
             })
             .catch(({ response }) => {
@@ -389,8 +386,9 @@
               if (data.code == 201) {
                 success(data.message);
                 typeEntretienForm.resetForm();
-                //hide(addTypeEntretienRef.value);
+                // hide(addTypeEntretienRef.value);
                 emit('close');
+                 router.push({ name: 'ListeTypeEntretien' });
               }
             })
             .catch(({ response }) => {
@@ -435,8 +433,9 @@
         fonctions,
         types,
         showMErr,
-        typeOptions
+        typeOptions,
+        isDisable
       };
     },
   });
-  </script>@/models/TypeEntretien
+  </script>

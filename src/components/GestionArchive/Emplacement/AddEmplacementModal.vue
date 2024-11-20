@@ -291,7 +291,7 @@ export default {
           (typeEmplacement) => ({
             value: typeEmplacement.id,
             label: typeEmplacement.libelle,
-            //prefix: typeEmplacement.prefixe,
+            prefix: typeEmplacement.prefixe,
           })
         );
         console.log("LEs type ==> ", typeEmplacementOptions.value);
@@ -301,13 +301,16 @@ export default {
     };
     const etatEmplacement = ref(true);
     const modificationEmplacement = async (value) => {
+      //console.log("TYUytyt le code ===> ",value)
       const lesTypes = lesTypesEmplacement.value;
       const objetTrouv = lesTypes.find((objet) => objet.id === value);
+      //console.log("objetTrouv ===> ",objetTrouv)
       if (
         objetTrouv.typeemplacement &&
         objetTrouv.typeemplacement != undefined
       ) {
         const type = objetTrouv.typeemplacement;
+        //prefix.value = objetTrouv.prefixe;
         await getLesEmplacements(type.id);
       } else {
         emplacementOptions.value = [];
@@ -332,7 +335,6 @@ export default {
           } else {
             emplacementEtat.value = true;
           }
-
           return emplacementOptions.value;
         } else {
           emplacementOptions.value = [];
@@ -348,6 +350,13 @@ export default {
 
       { resetForm }: { resetForm: () => void }
     ) => {
+      console.log("GHJHGHGHGFHGFHF VALUE ==> ", values)
+      console.log("emplacementEtat.value  ==> ", emplacementEtat.value)
+      console.log("values.emplacement ==> ", values.emplacement)
+      if(emplacementEtat.value === false && !values.emplacement){
+        error("Veuillez selectionner un emplacement.");
+        return;
+      }
       values.code = prefix.value + "-" + values.code;
       loading.value = false;
       if (isupdate.value) {
@@ -406,16 +415,15 @@ export default {
       }
     };
 
-    watch(typeEmplacementSelected, async (newTypeId) => {
+    watch(typeEmplacement, async (newTypeId) => {
       const selectedType = typeEmplacementOptions.value.find(
         (type) => type.value === newTypeId
       );
       if (selectedType) {
-        //emplacementForm.value?.setFieldValue("code", selectedType.prefix);
         prefix.value = selectedType.prefix;
         await fetchDernierCode(newTypeId);
       } else {
-        dernierCodeMessage.value = "";
+        dernierCodeMessage.value = "RAS";
       }
     });
 

@@ -636,7 +636,7 @@ export const menu = [
     },
     {
         headTitle1: "Gestion des Archives",
-        headTitle2: "Document, Format, Tag, Emplacement,Organisation,TypeOrganisation,CategorieDocument,TypeDocument,TypeEmplacement,RegleConservation",
+        headTitle2: "Document, Format,Mouvement, Tag, Emplacement,Organisation,TypeOrganisation,CategorieDocument,TypeDocument,TypeEmplacement,RegleConservation",
         type: "headtitle"
     },
     {
@@ -666,6 +666,16 @@ export const menu = [
         icon1: "fill-learning",
         type: "link",
         path: "/formats/liste-format",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Mouvement",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/mouvements/liste-mouvement",
         badgeType: "light-primary",
         active: false,
         isPinned: false
@@ -1017,6 +1027,11 @@ export const menu = [
             {
                 path: "/inventaires/liste-inventaires",
                 title: "Liste des inventaires",
+                type: "link"
+            },
+            {
+                path: "/inventaires/miseajour-inventaire",
+                title: "Mise à jour des inventaires",
                 type: "link"
             },
             {

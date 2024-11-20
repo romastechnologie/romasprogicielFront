@@ -385,18 +385,6 @@ export default defineComponent({
 
     const addDocument = async (values, { resetForm }) => {
       values["regles"] = lesRegles.value;
-      console.log("YUJHHJGVYVG ===> ", values)
-      // let formData = new FormData();
-      // for (let i in values) {
-      //   if (i != "urlImage" && values[i] !== undefined)
-      //     formData.append(i, values[i]);
-      // }
-      // formData.append("folderName", "abonnes");
-
-      // if (selectedFile.value) {
-      //   formData.append("urlImage", selectedFile.value);
-      // }
-
       axios
         .post("/documents", values, {
           headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
@@ -416,9 +404,7 @@ export default defineComponent({
     const getAllTypeDocument = async () => {
       console.log("Je suis dedans ");
       try {
-        console.log("Je suis dedans OPOPOPOPOPO ");
         const response = await axios.get("all/typedocuments");
-        console.log("EEEEEEEEEEE ===> ", response);
         const typesData = response.data.data.data;
 
         typeOptions.value = typesData.map((type) => ({
@@ -468,7 +454,7 @@ export default defineComponent({
     };
     const getEmplacements = async () => {
       try {
-        const response = await axios.get("/emplacements");
+        const response = await axios.get("/tous/emplacements/sans/fils");
         const emplacementDatas = response.data.data.data;
         console.log("RESPONSE EMPLACEMENT ===> ", response);
         emplacementOptions.value = emplacementDatas.map((empl) => ({
@@ -490,7 +476,6 @@ export default defineComponent({
           value: cate.id,
           label: cate.libelle,
         }));
-        console.log("HJKLJHJGFHJKLJHGGHJKKHJ ====> ", categoriesOptions.value);
         return categoriesOptions.value;
       } catch (error) {
         //error(response.data.message)

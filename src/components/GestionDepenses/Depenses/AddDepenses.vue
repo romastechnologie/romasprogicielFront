@@ -140,17 +140,13 @@
 </template>
 
 <script lang="ts">
-
 import { defineComponent, onMounted, ref } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
-import axios from 'axios';
 import ApiService from '@/services/ApiService';
-import { Depense } from '@/models/Depense';
 import { error, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
-import VueMultiselect from 'vue-multiselect'
 
 export default defineComponent({
   name: "AddDepenses",
@@ -159,95 +155,86 @@ export default defineComponent({
     Field,
     ErrorMessage,
     Multiselect,
-    VueMultiselect
   },
-  setup: () => {
+  setup() {
     const depensesSchema = Yup.object().shape({
-      libelle: Yup.string().required("Le libelle est obligatoire."),
+      libelle: Yup.string().required("Le libellé est obligatoire."),
       description: Yup.string().required("La description est obligatoire."),
       entretien: Yup.string().required("L'entretien est obligatoire."),
-      planificationReparation: Yup.string().required("La planification Reparation est obligatoire."),
-      typesDepenses: Yup.string().required("Le type de depense est obligatoire."),
-      categoriesDepenses: Yup.string().required("La categorie depense est obligatoire."),
-      personnel: Yup.string().required("Le personnel est obligatoire."),
+      planificationReparation: Yup.string().required("La planification Réparation est obligatoire."),
+      typesDepenses: Yup.string().required("Le type de dépense est obligatoire."),
+      categoriesDepenses: Yup.string().required("La categorie dépense est obligatoire"),
+      personnel: Yup.string().notRequired(),
       motif: Yup.string().required("Le motif est obligatoire."),
       montant: Yup.number().required("Le montant est obligatoire."),
       date: Yup.date().required('La date est obligatoire'),
       beneficiaire: Yup.string().required("Le bénéficiaire est obligatoire"),
     });
 
-    onMounted(() => {
-      getAllEntretien();
-      getAllPlanificationReparation();
-      getAllTypesDepenses();
-      getAllCategoriesDepenses();
-      getAllPersonnels();
-    });
-
     const depensesForm = ref(null);
     const showMErr = ref(false);
-    const entretien = ref();
-    const planificationReparation = ref();
-    const typesDepenses = ref();
-    const categoriesDepenses = ref();
-    const personnelOptions = ref();
+    const entretien = ref(null);
+    const planificationReparation = ref(null);
+    const typesDepenses = ref(null);
+    const categoriesDepenses = ref(null);
+    const personnelOptions = ref([]);
     const entretienOptions = ref([]);
     const planificationReparationOptions = ref([]);
     const typesDepensesOptions = ref([]);
     const categoriesDepensesOptions = ref([]);
     const router = useRouter();
-    //const permissions= ref<Array<Permission>>([]);
 
     const addDepenses = async (values: any, { resetForm }) => {
-      values['entretien'] = entretien.value.value
-      values['planificationReparation'] = planificationReparation.value.value
-      values['typesDepenses'] = typesDepenses.value.value
-      values['categoriesDepenses'] = categoriesDepenses.value.value
-     
-      console.log('Données envoyées', values)
-      if (showMErr.value === false) {
-        ApiService.post("/depenses/", values)
-          .then(({ data }) => {
-            if (data.code == 201) {
-              success(data.message);
-              //resetForm();
-              router.push({ name: "ListeDepenses" });
-            }
-          }).catch(({ response }) => {
-            error(response.data.message);
-          });
+      // Vérification et attribution des valeurs sélectionnées
+      values.entretien = entretien.value ? entretien.value.value : null;
+      values.planificationReparation = planificationReparation.value ? planificationReparation.value.value : null;
+      values.typesDepenses = typesDepenses.value ? typesDepenses.value.value : null;
+      values.categoriesDepenses = categoriesDepenses.value ? categoriesDepenses.value.value : null;
+      values.personnel = values.personnel ? values.personnel.value : null;
+      
+      console.log('Données envoyées', values);
+      if (!entretien.value || !planificationReparation.value){
+        try {
+          const { data } = await ApiService.post("/depenses/", values);
+          if (data.code == 201) {
+            success(data.message);
+            resetForm();
+            router.push({ name: "ListeDepenses" });
+          }
+        } catch (error) {
+          error(error.response.data.message);
+        }
       }
     };
 
+    // Fonctions pour récupérer les options des listes
     const getAllEntretien = async () => {
       try {
         const response = await ApiService.get('/all/entretiens');
         const entretienData = response.data.data.data;
-        console.log('Data', entretienData)
         entretienOptions.value = entretienData.map((entretien) => ({
           value: entretien.id,
           label: entretien.libelle,
         }));
+      } catch (err) {
+        console.error(err);
       }
-      catch (error) {
-        //error(response.data.message)
-      }
-    }
+    };
 
     const getAllPersonnels = async () => {
       try {
         const response = await ApiService.get('/all/personnels');
-        const personnelsData = response.data.data;
-        console.log('Data', personnelsData)
+        console.log("RESPONSE ONE PERSO EQUAL THIS ONE ==> ",response)
+        const personnelsData = response.data.data.data;
         personnelOptions.value = personnelsData.map((personnel) => ({
           value: personnel.id,
-          label: personnel.nom + " " + personnel.prenom,
+          label: `${personnel.nom} ${personnel.prenom}`,
         }));
+      } catch (err) {
+        console.error(err);
       }
-      catch (error) {
-        //error(response.data.message)
-      }
-    }
+    };
+
     const getAllPlanificationReparation = async () => {
       try {
         const response = await ApiService.get('/all/planificationReparations');
@@ -256,11 +243,10 @@ export default defineComponent({
           value: planificationReparation.id,
           label: planificationReparation.libelle,
         }));
+      } catch (err) {
+        console.error(err);
       }
-      catch (error) {
-        //error(response.data.message)
-      }
-    } 
+    };
 
     const getAllTypesDepenses = async () => {
       try {
@@ -270,29 +256,48 @@ export default defineComponent({
           value: typesDepenses.id,
           label: typesDepenses.libelle,
         }));
+      } catch (err) {
+        console.error(err);
       }
-      catch (error) {
-        //error(response.data.message)
-      }
-    } 
+    };
 
     const getAllCategoriesDepenses = async () => {
       try {
-        const response = await ApiService.get('/all/categoriesDepenses');
-        const categoriesDepensesData = response.data.data;
+        const response = await ApiService.get('all/categoriesDepenses');
+        console.log("RESPONSE ONE EQUAL THIS ONE ==> ",response)
+        const categoriesDepensesData = response.data.data.data;
         categoriesDepensesOptions.value = categoriesDepensesData.map((categoriesDepenses) => ({
           value: categoriesDepenses.id,
           label: categoriesDepenses.libelle,
         }));
+      } catch (err) {
+        console.error(err);
       }
-      catch (error) {
-        //error(response.data.message)
-      }
-    } 
-    
-   
+    };
 
-    return { depensesSchema, addDepenses, depensesForm, entretienOptions, planificationReparationOptions, typesDepensesOptions, categoriesDepensesOptions, showMErr, entretien, planificationReparation, typesDepenses, categoriesDepenses, personnelOptions };
+    onMounted(() => {
+      getAllEntretien();
+      getAllPlanificationReparation();
+      getAllTypesDepenses();
+      getAllCategoriesDepenses();
+      getAllPersonnels();
+    });
+
+    return {
+      depensesSchema,
+      addDepenses,
+      depensesForm,
+      entretienOptions,
+      planificationReparationOptions,
+      typesDepensesOptions,
+      categoriesDepensesOptions,
+      personnelOptions,
+      showMErr,
+      entretien,
+      planificationReparation,
+      typesDepenses,
+      categoriesDepenses,
+    };
   },
 });
 </script>

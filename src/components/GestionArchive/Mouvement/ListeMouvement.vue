@@ -89,9 +89,9 @@
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                   <li class="dropdown-item d-flex align-items-center">
-                    <a  href="javascript:void(0);" @click="moddifier(mouvement)">
+                    <router-link  href="javascript:void(0);" @click="moddifier(mouvement)">
                     <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
-                    </a>
+                    </router-link>
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"

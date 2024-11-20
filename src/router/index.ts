@@ -937,14 +937,14 @@ const routes: Array<RouteRecordRaw> = [
            title: 'Ajouter un document',
         }
        },
-       {
-        path: "editer-document",
-          name: "EditDocumentPage",
-          component: EditDocumentPage,
-          meta: {
-            title: 'Modifier un document',
-         }
-        },
+      //  {
+      //   path: "editer-document/:id",
+      //     name: "EditDocumentPage",
+      //     component: EditDocumentPage,
+      //     meta: {
+      //       title: 'Modifier un document',
+      //    }
+      //   },
       {
         path: "liste-document",
         name: "ListeDocumentPage",
