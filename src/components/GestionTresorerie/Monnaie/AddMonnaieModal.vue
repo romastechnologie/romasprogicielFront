@@ -134,7 +134,7 @@
               isupdate.value=false;
               btnTitle();
               emit("refreshMonnaies");
-              router.push('/monnaies/liste-monnaies');
+              router.push('/monnaies/liste-monnaie');
             }
           }).catch(({ response }) => {
             error(response.data.message);
