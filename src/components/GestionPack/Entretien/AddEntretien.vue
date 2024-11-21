@@ -44,12 +44,12 @@
                 <label class="d-block text-black mb-10">
                  Type d'entretien<span class="text-danger">*</span>
                 </label>
-                <Field name="personnel" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                   :multiple="false" :searchable="true" placeholder="Sélectionner le type"
+                <Field name="typeentretien" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="typeEntretienOptions" :preserve-search="true"
+                   :multiple="false" :searchable="true" placeholder="Sélectionner le type entretien"
                   label="label" track-by="label" />
                 </Field>
-                <ErrorMessage name="personnel" class="text-danger" />
+                <ErrorMessage name="typeentretien" class="text-danger" />
               </div>
             </div>
             
@@ -103,20 +103,20 @@
             libelle: Yup.string().required("Le libelle est obligatoire."),
             dateRealisation: Yup.string().required("La date de réalisation est obligatoire."),
             description: Yup.string().required("La description est obligatoire."),
-            personnel: Yup.string().required("Le type d'entretien est obligatoire."),
+            typeentretien: Yup.string().required("Le type d'entretien est obligatoire."),
             biens: Yup.string().required("Le bien est obligatoire."),
       });
   
       onMounted(() => {
-        getAllPersonnels();
+        getAllTypeEntretiens();
         getAllBiens();
       });
   
       const entretienForm =  ref(null);
       const showMErr = ref(false);
-      const personnels = ref();
+      const typeentretien = ref();
       const biens = ref();
-      const personnelOptions = ref();
+      const typeEntretienOptions = ref();
       const bienOptions = ref([]);
       
       //const permissions = ref(null);
@@ -127,7 +127,7 @@
   
   
       const addEntretien = async (values: any, { resetForm }) => {
-      values['personnels'] = personnels.value.value
+      values['typeentretien'] = typeentretien.value.value
       values['biens'] = biens.value.value
       console.log('Données envoyées', values)
       if (showMErr.value === false) {
@@ -145,14 +145,14 @@
        }
     };
   
-    const getAllPersonnels = async () => {
+    const getAllTypeEntretiens = async () => {
           try{
-          const response = await ApiService.get('/typeBienTypeEntretienAssos');
-          const personnelsData = response.data.data.data;
-          console.log('Data', personnelsData)
-          personnelOptions.value = personnelsData.map((personnel) => ({
-            value: personnel.id,
-            label: personnel.nom + " " + personnel.prenom,
+          const response = await ApiService.get('/all/typeEntretiens');
+          const typeEntretiensData = response.data.data.data;
+          console.log('Data', typeEntretiensData)
+          typeEntretienOptions.value = typeEntretiensData.map((typeEntretien) => ({
+            value: typeEntretien.id,
+            label: typeEntretien.libelle,
           }));
           }
           catch(error){
@@ -175,7 +175,7 @@
     
      
   
-      return { entretienSchema, addEntretien, entretienForm,bienOptions,showMErr,categorieOptions,personnels,biens,personnelOptions};
+      return { entretienSchema, addEntretien, entretienForm,bienOptions,showMErr,categorieOptions,typeentretien,biens,typeEntretienOptions};
     },
   });
   </script>

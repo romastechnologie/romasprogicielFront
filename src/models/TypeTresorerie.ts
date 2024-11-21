@@ -9,7 +9,7 @@ export interface TypeTresorerie {
     code?: string;
     libelle?: number;
     parentId?: number
-    created_at?: Date;
+    created_At?: Date;
     typeTresorerie?: TypeTresorerie,
     setFieldValue?: (field: string, value: any) => void;
 }
