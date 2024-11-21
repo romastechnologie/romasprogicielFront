@@ -101,16 +101,21 @@
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
+       
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Bénéficiaire<span class="text-danger">*</span>
+              <label class="d-block text-black mb-10">
+                Bénéficiaire <span class="text-danger">*</span>
               </label>
-              <Field name="beneficiaire" type="text" class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer le nom du bénéficiaire" />
+              <Field name="beneficiaire" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="financeOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner le bénéficiaire" label="label"
+                  track-by="label" />
+              </Field>
               <ErrorMessage name="beneficiaire" class="text-danger" />
             </div>
           </div>
+
           <div class="col-md-4-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
@@ -168,7 +173,7 @@ export default defineComponent({
       motif: Yup.string().required("Le motif est obligatoire."),
       montant: Yup.number().required("Le montant est obligatoire."),
       date: Yup.date().required('La date est obligatoire'),
-      beneficiaire: Yup.string().required("Le bénéficiaire est obligatoire"),
+      beneficiaire: Yup.string().notRequired(),
     });
 
     const depensesForm = ref(null);
@@ -179,33 +184,75 @@ export default defineComponent({
     const categoriesDepenses = ref(null);
     const personnelOptions = ref([]);
     const entretienOptions = ref([]);
+    const financeOptions = ref([]);
     const planificationReparationOptions = ref([]);
     const typesDepensesOptions = ref([]);
     const categoriesDepensesOptions = ref([]);
     const router = useRouter();
 
-    const addDepenses = async (values: any, { resetForm }) => {
-      // Vérification et attribution des valeurs sélectionnées
-      values.entretien = entretien.value ? entretien.value.value : null;
-      values.planificationReparation = planificationReparation.value ? planificationReparation.value.value : null;
-      values.typesDepenses = typesDepenses.value ? typesDepenses.value.value : null;
-      values.categoriesDepenses = categoriesDepenses.value ? categoriesDepenses.value.value : null;
-      values.personnel = values.personnel ? values.personnel.value : null;
-      
-      console.log('Données envoyées', values);
-      if (!entretien.value || !planificationReparation.value){
-        try {
-          const { data } = await ApiService.post("/depenses/", values);
-          if (data.code == 201) {
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeDepenses" });
-          }
-        } catch (error) {
-          error(error.response.data.message);
-        }
-      }
-    };
+    
+    const addDepenses = async (values: any, { resetForm }: any) => {
+  // Initialisation des valeurs
+  const depenseData: Record<string, any> = {};
+
+  // Attribution des valeurs une par une
+  if (entretien.value && entretien.value.value) {
+    depenseData.entretien = entretien.value.value;
+  } else {
+    depenseData.entretien = null;
+  }
+
+  if (planificationReparation.value && planificationReparation.value.value) {
+    depenseData.planificationReparation = planificationReparation.value.value;
+  } else {
+    depenseData.planificationReparation = null;
+  }
+
+  if (typesDepenses.value && typesDepenses.value.value) {
+    depenseData.typesDepenses = typesDepenses.value.value;
+  } else {
+    depenseData.typesDepenses = null;
+  }
+
+  if (categoriesDepenses.value && categoriesDepenses.value.value) {
+    depenseData.categoriesDepenses = categoriesDepenses.value.value;
+  } else {
+    depenseData.categoriesDepenses = null;
+  }
+
+  if (values.personnel && values.personnel.value) {
+    depenseData.personnel = values.personnel.value;
+  } else {
+    depenseData.personnel = null;
+  }
+
+  // Ajout des autres champs directement depuis "values"
+  Object.keys(values).forEach((key) => {
+    if (!["entretien", "planificationReparation", "typesDepenses", "categoriesDepenses", "personnel"].includes(key)) {
+      depenseData[key] = values[key];
+    }
+  });
+
+  console.log("Données préparées pour l'envoi :", depenseData);
+
+  // Vérification des champs obligatoires
+ 
+  try {
+    // Envoi des données via l'API
+    const response = await ApiService.post("/depenses/", depenseData);
+
+    if (response.data.code === 201) {
+      success(response.data.message);
+      resetForm(); // Réinitialisation du formulaire
+      router.push({ name: "ListeDepenses" }); // Redirection vers la liste des dépenses
+    }
+  } catch (err: any) {
+    const errorMessage = err.response?.data?.message || "Une erreur est survenue.";
+    console.error("Erreur lors de l'ajout de la dépense :", errorMessage);
+    error(errorMessage);
+  }
+};
+
 
     // Fonctions pour récupérer les options des listes
     const getAllEntretien = async () => {
@@ -220,6 +267,22 @@ export default defineComponent({
         console.error(err);
       }
     };
+
+
+
+    const getAllFinances = async () => {
+      try {
+        const response = await ApiService.get('/all/finances');
+        const financeData = response.data.data.data;
+        financeOptions.value = financeData.map((finance) => ({
+          value: finance.id,
+          label: finance.montant,
+        }));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
 
     const getAllPersonnels = async () => {
       try {
@@ -281,6 +344,8 @@ export default defineComponent({
       getAllTypesDepenses();
       getAllCategoriesDepenses();
       getAllPersonnels();
+      getAllFinances();
+
     });
 
     return {
@@ -288,6 +353,7 @@ export default defineComponent({
       addDepenses,
       depensesForm,
       entretienOptions,
+      financeOptions,
       planificationReparationOptions,
       typesDepensesOptions,
       categoriesDepensesOptions,
