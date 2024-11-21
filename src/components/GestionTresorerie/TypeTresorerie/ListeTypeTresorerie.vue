@@ -52,6 +52,9 @@
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                                 Date de création
                             </th>
+                            <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                                Catégorie
+                            </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
@@ -69,6 +72,10 @@
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                                 {{ format_date(typeTresorerie.createdAt) }}
                             </td>
+                            <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                                {{ typeTresorerie.typeTresorerieParent?.libelle  }}
+                </td>
+                            
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"
                 >
@@ -169,7 +176,6 @@
       function getAllTypeTresoreries(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/typeTresoreries?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            console.log("donnée", data)
             typeTresoreries.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
