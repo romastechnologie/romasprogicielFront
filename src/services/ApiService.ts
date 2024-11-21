@@ -24,11 +24,7 @@ class ApiService {
     //  rejectUnauthorized: false, 
     // });
     // ApiService.vueInstance.axios.defaults.httpsAgent = httpsAgent;
-<<<<<<< HEAD
     ApiService.vueInstance.axios.defaults.baseURL ='http://localhost:3009/api';
-=======
-    ApiService.vueInstance.axios.defaults.baseURL ='http://localhost:3008/api';
->>>>>>> aa85b0138b112b58c4c1e7be23b38ff854d27b77
     // ApiService.vueInstance.axios.defaults.baseURL ='https://back.romastechnologie.com/api';
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] ="application/json";
     ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] ="application/json";
