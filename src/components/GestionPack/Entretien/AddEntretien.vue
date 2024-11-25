@@ -5,8 +5,8 @@
               <div class="row">
               <div class="col-md-4">
                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
-                    <Field name="refEntretien" class="form-control" type="text"/>
-                    <ErrorMessage name="refEntretien" class="text-danger" />
+                    <Field name="reference" class="form-control" type="text"/>
+                    <ErrorMessage name="reference" class="text-danger" />
             </div>
             <div class="col-md-4">
                     <label for="libelle" class="form-label">Libelle<span class="text-danger">*</span></label>
@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-4">
                     <label for="dateRealisation" class="form-label">Date de réalisation<span class="text-danger">*</span></label>
-                    <Field name="dateRealisation" class="form-control" type="number"/>
+                    <Field name="dateRealisation" class="form-control" type="date"/>
                     <ErrorMessage name="dateRealisation" class="text-danger" />
             </div>
   
@@ -30,7 +30,7 @@
                 <label class="d-block text-black mb-10">
                   Bien <span class="text-danger">*</span>
                 </label>
-                <Field name="biens" v-model="biens" type="text" v-slot="{ field }">
+                <Field name="bien" v-model="biens" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="bienOptions" :preserve-search="true"
                    :multiple="false" :searchable="true" placeholder="Sélectionner le bien"
                   label="label" track-by="label" />
@@ -98,12 +98,12 @@
   
     setup: () => {
       const entretienSchema = Yup.object().shape({
-        refEntretien: Yup.string().required("La référence est obligatoire."),
-            libelle: Yup.string().required("Le libelle est obligatoire."),
+        reference: Yup.string().required("La référence est obligatoire."),
+            libelle: Yup.string().required("Le libelle est obligatoire."),   
             dateRealisation: Yup.string().required("La date de réalisation est obligatoire."),
             description: Yup.string().required("La description est obligatoire."),
             typeentretien: Yup.string().required("Le type d'entretien est obligatoire."),
-            biens: Yup.string().required("Le bien est obligatoire."),
+            bien: Yup.string().required("Le bien est obligatoire."),
       });
   
       onMounted(() => {
@@ -124,26 +124,21 @@
       const router = useRouter();
       //const permissions= ref<Array<Permission>>([]);
   
-  
-      const addEntretien = async (values: any, { resetForm }) => {
-      values['typeentretien'] = typeentretien.value.value
-      values['biens'] = biens.value.value
-      console.log('Données envoyées', values)
-      if (showMErr.value === false) {
-        ApiService.post("/entretiens", values)
-           .then(({ data }) => {
-             if (data.code == 201) {
+
+    const addEntretien = async (values, {resetForm}) => {
+        ApiService.post("/entretiens",values)
+          .then(({ data }) => {
+            if(data.code == 201) { 
               success(data.message);
-               //resetForm();
-             console.log('flefelef')
-              router.push({ name: "ListeEntretien" });
-           }
-           }).catch(({ response }) => {
+              resetForm();
+              router.push({ name: "ListeEntretienPage" });
+            }
+          }).catch(({ response }) => {
             error(response.data.message);
           });
-       }
-    };
+      };
   
+
     const getAllTypeEntretiens = async () => {
           try{
           const response = await ApiService.get('/all/typeEntretiens');

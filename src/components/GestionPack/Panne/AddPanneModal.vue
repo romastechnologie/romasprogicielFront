@@ -46,7 +46,6 @@
                                             :preserve-search="true" :multiple="false" :searchable="true"
                                             placeholder="Sélectionner le bien" label="label" track-by="label" />
                                     </Field>
-                                    
                                 </div>
                             </div> 
 

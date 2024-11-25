@@ -41,33 +41,41 @@
                   <ErrorMessage name="distancePacourue" class="text-danger" />
           </div>
           <div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Personnel <span class="text-danger">*</span>
-              </label>
-              <Field name="personnel" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
-                label="label" track-by="label" />
-              </Field>
+              <label>
+                  Personnel <span class="text-danger">*</span>
+                </label>
+                <Field name="personnel" v-slot="{ field }">
+                  <Multiselect
+                    :options="personnelOptions"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner le personnel"
+                  />
+                </Field>
               <ErrorMessage name="personnel" class="text-danger" />
-            </div>
-          </div>
-          <div class="col-md-6 mb-4">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Bien <span class="text-danger">*</span>
-              </label>
-              <Field name="biens" v-model="biens" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="bienOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le bien"
-                label="label" track-by="label" />
-              </Field>
-              <span class="text-danger" v-if="showMErr">Le bien est obligatoire</span>
-            </div>
           </div>
 
-          
+          <div class="col-md-4 mt-3">
+              <label>
+                  Bien <span class="text-danger">*</span>
+                </label>
+                <Field name="bien" v-slot="{ field }">
+                  <Multiselect
+                    :options="bienOptions"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner le bien"
+                  />
+                </Field>
+              <ErrorMessage name="bien" class="text-danger" />
+          </div>
+    
         <div class="col-md-12 mt-3">
           <div class="d-flex align-items-center ">
             <button class="btn btn-success me-3" type="submit">
@@ -121,7 +129,7 @@ export default defineComponent({
           pointDepart: Yup.string().required("Le point de départ est obligatoire."),
           distancePacourue: Yup.number().required("La distance est obligatoire."),
           personnel: Yup.string().required("Le personnel est obligatoire."),
-          biens: Yup.string().required("Le personnel est obligatoire."),
+          bien: Yup.string().required("Le bien est obligatoire."),
     });
 
     onMounted(() => {
@@ -136,6 +144,7 @@ export default defineComponent({
     const personnelOptions = ref();
     const bienOptions = ref([]);
     
+    
     //const permissions = ref(null);
     const typeOptions = ref([]);
     const categorieOptions = ref([]);
@@ -143,54 +152,44 @@ export default defineComponent({
     //const permissions= ref<Array<Permission>>([]);
 
 
-    const addCourse = async (values: any, { resetForm }) => {
-    values['personnels'] = personnels.value.value
-    values['biens'] = biens.value.value
-    console.log('Données envoyées', values)
-    if (showMErr.value === false) {
+
+  const addCourse = async (values, { resetForm }) => {
       ApiService.post("/sorties", values)
-         .then(({ data }) => {
-           if (data.code == 201) {
+        .then(({ data }) => {
+          if (data.code == 201) {
             success(data.message);
-             //resetForm();
-           console.log('flefelef')
-            router.push({ name: "ListeCourse" });
-         }
-         }).catch(({ response }) => {
+            resetForm();
+            router.push({ name: "ListeCoursePage" });
+          }
+        }).catch(({ response }) => {
           error(response.data.message);
         });
-     }
-  };
-
-  const getAllPersonnels = async () => {
-        try{
-        const response = await ApiService.get('/personnels');
-        const personnelsData = response.data;
-        console.log('Data', personnelsData)
-        personnelOptions.value = personnelsData.map((personnel) => ({
+    };
+    
+      const getAllPersonnels  = async () => {
+      try {
+        const response = await axios.get('all/personnels');
+        personnelOptions.value = response.data.data.data.map(personnel => ({
           value: personnel.id,
           label: personnel.nom + " " + personnel.prenom,
         }));
-        }
-        catch(error){
-          //error(response.data.message)
-        }
+      } catch (err) {
+        error("Erreur lors de la récupération des personnels.");
       }
-      const getAllBiens= async () => {
-        try{
-        const response = await ApiService.get('/all/biens');
-        const biensData = response.data.data;
-        bienOptions.value = biensData.map((bien) => ({
+    };
+
+    const getAllBiens  = async () => {
+      try {
+        const response = await axios.get('/all/biens');
+        bienOptions.value = response.data.data.data.map(bien => ({
           value: bien.id,
           label: bien.nomBien,
         }));
-        }
-        catch(error){
-          //error(response.data.message)
-        }
-      } 
-  
-   
+
+      } catch (err) {
+        error("Erreur lors de la récupération des biens.");
+      }
+    };
 
     return { courseSchema, addCourse, courseForm,bienOptions,showMErr,categorieOptions,personnels,biens,personnelOptions};
   },

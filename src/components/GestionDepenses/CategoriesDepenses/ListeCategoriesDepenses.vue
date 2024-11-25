@@ -43,8 +43,11 @@
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Description
               </th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Catégorie parent
+              </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0">Actions
               </th>
+              
             </tr>
           </thead>
           <tbody>
@@ -57,6 +60,10 @@
               </td>
               <td class="shadow-none lh-1 fw-medium text-black">
                 {{ categorieDepenses.description }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black">
+                {{ categorieDepenses.categoriesDepense?.libelle}}  
+
               </td>
               <td class="shadow-none lh-1 fw-medium text-black pe-0">
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
@@ -153,18 +160,21 @@ export default defineComponent({
       getAllCategoriesDepenses();
     };
 
+  
+
     function getAllCategoriesDepenses(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`all/categoriesDepenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-        .then(({ data }) => {
-          categoriesDepenses.value = data.data.data;
-          totalPages.value = data.data.totalPages;
-          limit.value = data.data.limit;
-          totalElements.value = data.data.totalElements;
-        })
-        .catch(({ response }) => {
-          error(response.data.message)
+        return ApiService.get(`/all/categoriesDepenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+          .then(({ data }) => {
+            categoriesDepenses.value = data.data.data;
+            totalPages.value = data.data.totalPages;
+            limit.value = data.data.limit;
+            totalElements.value = data.data.totalElements;
+            return data.data;
+          })
+          .catch(({ response }) => {
+            error(response.data.message)
         });
-    }
+      }
     
     function moddifier(EditCategoriesDepenses: CategoriesDepenses) {
       idCategoriesDepenses.value = EditCategoriesDepenses.id;
@@ -205,3 +215,4 @@ export default defineComponent({
  
 });
 </script>
+

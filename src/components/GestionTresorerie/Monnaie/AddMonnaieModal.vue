@@ -11,25 +11,27 @@
                     <Form ref="monnaieForm" @submit="addMonnaie" :validation-schema="monnaieSchema">
                       <div class="row">
                         <div class="col-md-12 mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                              <label class="d-block text-black fw-semibold mb-10">
-                                Libelle <span class="text-danger">*</span>
-                              </label>
-                              <Field name="libelle" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
-                              <ErrorMessage name="libelle" class="text-danger"/>
-                            </div>
-                          </div>
-                          <div class="col-md-12 mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                              <label class="d-block text-black fw-semibold mb-10">
-                                Valeur <span class="text-danger">*</span>
-                              </label>
-                              <Field name="valeur" type="number" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Valeur"/>
-                              <ErrorMessage name="valeur" class="text-danger"/>
-                            </div>
-                          </div>
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black fw-semibold mb-10">
+                              Libelle <span class="text-danger">*</span>
+                            </label>
+                            <Field name="libelle" type="text" 
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
+                            <ErrorMessage name="libelle" class="text-danger"/>
+                          </div>     
+                        </div>
+
+
+                        <div class="col-md-12 mb-3">
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black fw-semibold mb-10">
+                              Valeur<span class="text-danger">*</span>
+                            </label>
+                            <Field name="valeur" type="number" 
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la valeur "/>
+                            <ErrorMessage name="valeur" class="text-danger"/>
+                          </div>     
+                        </div>
                         
                         <button
                           class="btn btn-primary"
@@ -76,7 +78,7 @@
       const monnaieSchema = Yup.object().shape({
         //description: Yup.string().required('La religion est obligatoire'),
         libelle: Yup.string().required('Le libelle est obligatoire'),
-        valeur: Yup.number().required('La valeur est obligatoire'),
+        valeur: Yup.string().required('La valeur est obligatoire'),
 
       });
   
@@ -103,7 +105,7 @@
         .then(({ data }) => {
           monnaieForm.value?.setFieldValue("id",data.data.id);
           monnaieForm.value?.setFieldValue("libelle",data.data.libelle);
-          monnaieForm.value?.setFieldValue("valeur", data.data.valeur);
+         monnaieForm.value?.setFieldValue("valeur", data.data.valeur);
           emit('openmodal', addMonnaieModalRef.value);
         })
         .catch(({ response }) => {
@@ -113,7 +115,7 @@
   
       const btnTitle = async () => {
         if (isupdate.value) {
-           title.value = "Modifier la monnaie";
+           title.value = "Modifier le monnaie";
            btntext.value = "Modifier";
         }else{
            title.value = "Ajouter une monnaie";
@@ -134,7 +136,7 @@
               isupdate.value=false;
               btnTitle();
               emit("refreshMonnaies");
-              router.push('/monnaies/liste-monnaies');
+             // router.push('/monnaies/liste-monnaies');
             }
           }).catch(({ response }) => {
             error(response.data.message);
@@ -146,7 +148,7 @@
               success(data.message)
               resetForm();
               hideModal(addMonnaieModalRef.value);
-              emit("refreshMonnaies");
+              emit("refreshMonnaiees");
   
             }
           }).catch(({ response }) => {

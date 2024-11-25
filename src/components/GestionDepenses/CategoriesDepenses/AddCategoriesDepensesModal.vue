@@ -152,7 +152,7 @@ export default {
 
         const getAllCategoriesDepense = async () => {
             try {
-                const response = await ApiService.get('all/categorieDepenses');
+                const response = await ApiService.get('all/categoriesDepenses');
                 const categoriesDepensesData = response.data.data.data;
                 console.log('Data')
                 console.log('categoriesDepensesData',categoriesDepensesData)
