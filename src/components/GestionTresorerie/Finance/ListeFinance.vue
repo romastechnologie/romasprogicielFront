@@ -146,8 +146,9 @@
       // END PAGINATE
   
       function getAllFinances(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/finances?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`/all/finance/?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
+            console.log("données", data)
             finances.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;

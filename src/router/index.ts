@@ -773,7 +773,7 @@ const routes: Array<RouteRecordRaw> = [
        }
       },
       {
-        path: "editer-planificationReparation",
+        path: "editer-planificationReparation/:id",
         name: "EditPlanificationReparationPage",
         component: EditPlanificationReparationPage,
        meta: {
@@ -803,7 +803,7 @@ const routes: Array<RouteRecordRaw> = [
        }
       },
       {
-        path: "editer-entretien",
+        path: "editer-entretien/:id",
         name: "EditEntretienPage",
         component: EditEntretienPage,
        meta: {

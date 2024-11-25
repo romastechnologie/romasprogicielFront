@@ -263,9 +263,10 @@ export default defineComponent({
       }
     ];
 
-    const addfournisseur= async (values, {resetForm}) => {
+    const addFournisseur= async (values, {resetForm}) => {
       ApiService.post("/fournisseurs",values)
         .then(({ data }) => {
+          console.log("donnée")
           if(data.code == 201) { 
             success(data.message);
             resetForm();
@@ -277,7 +278,7 @@ export default defineComponent({
     };
 
     return { fournisseurSchema,
-       addfournisseur,
+       addFournisseur,
         fournisseurForm,statut,
         showAdditionalFields,
         handleObjetInput,
