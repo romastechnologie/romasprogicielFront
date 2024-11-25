@@ -8,7 +8,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date de dépense <span class="text-danger">*</span>
               </label>
-              <Field name="date" type="date" :value="getCurrentDate"
+              <Field name="date" type="Date" :value="getCurrentDate"
                 class="form-control shadow-none fs-md-15 text-black" />
             </div>
             <ErrorMessage name="date" class="text-danger" />
@@ -67,7 +67,7 @@
               <label class="d-block text-black mb-10">
                 Types Depenses <span class="text-danger">*</span>
               </label>
-              <Field name="typesDepenses" v-model="typesDepenses" type="text" v-slot="{ field }">
+              <Field name="typedepense" v-model="typesDepenses" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="typesDepensesOptions"
                   :preserve-search="true" :multiple="false" :searchable="true"
                   placeholder="Sélectionner le type de depense" label="label" track-by="label" />
@@ -101,21 +101,13 @@
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
-       
-          <div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Bénéficiaire <span class="text-danger">*</span>
-              </label>
-              <Field name="beneficiaire" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="financeOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le bénéficiaire" label="label"
-                  track-by="label" />
-              </Field>
-              <ErrorMessage name="beneficiaire" class="text-danger" />
-            </div>
-          </div>
 
+          <div class="col-md-4 mt-3">
+            <label for="beneficiaire" class="form-label"> Bénéficiaire<span class="text-danger">*</span></label>
+            <Field name="beneficiaire" class="form-control" type="text" placeholder="Entrer le bénéficiaire" />
+            <ErrorMessage name="beneficiaire" class="text-danger" />
+          </div>
+       
           <div class="col-md-4-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
@@ -167,13 +159,13 @@ export default defineComponent({
       description: Yup.string().required("La description est obligatoire."),
       entretien: Yup.string().required("L'entretien est obligatoire."),
       planificationReparation: Yup.string().required("La planification Réparation est obligatoire."),
-      typesDepenses: Yup.string().required("Le type de dépense est obligatoire."),
+      typedepense: Yup.string().required("Le type de dépense est obligatoire."),
       categoriesDepenses: Yup.string().required("La categorie dépense est obligatoire"),
-      personnel: Yup.string().notRequired(),
+      personnel: Yup.string().required("Le personnel est obligatoire"),
       motif: Yup.string().required("Le motif est obligatoire."),
       montant: Yup.number().required("Le montant est obligatoire."),
       date: Yup.date().required('La date est obligatoire'),
-      beneficiaire: Yup.string().notRequired(),
+      beneficiaire: Yup.string().required("Le bénéficiaire est obligatoire"),
     });
 
     const depensesForm = ref(null);
@@ -184,7 +176,6 @@ export default defineComponent({
     const categoriesDepenses = ref(null);
     const personnelOptions = ref([]);
     const entretienOptions = ref([]);
-    const financeOptions = ref([]);
     const planificationReparationOptions = ref([]);
     const typesDepensesOptions = ref([]);
     const categoriesDepensesOptions = ref([]);
@@ -270,19 +261,7 @@ export default defineComponent({
 
 
 
-    const getAllFinances = async () => {
-      try {
-        const response = await ApiService.get('/all/finances');
-        const financeData = response.data.data.data;
-        financeOptions.value = financeData.map((finance) => ({
-          value: finance.id,
-          label: finance.montant,
-        }));
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
+    
 
     const getAllPersonnels = async () => {
       try {
@@ -344,7 +323,7 @@ export default defineComponent({
       getAllTypesDepenses();
       getAllCategoriesDepenses();
       getAllPersonnels();
-      getAllFinances();
+     
 
     });
 
@@ -353,7 +332,6 @@ export default defineComponent({
       addDepenses,
       depensesForm,
       entretienOptions,
-      financeOptions,
       planificationReparationOptions,
       typesDepensesOptions,
       categoriesDepensesOptions,
