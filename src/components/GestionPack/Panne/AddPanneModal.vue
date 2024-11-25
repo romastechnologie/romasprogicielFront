@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <Form ref="panneForm" @submit="addPanne" :validation-schema="panneSchema">
                         <div class="row">
-        
+
                             <div class="col-md-12 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                     <label class="d-block text-black fw-semibold mb-10">
@@ -27,28 +27,28 @@
                                     <label class="d-block text-black fw-semibold mb-10">
                                         Description <span class="text-danger">*</span>
                                     </label>
-                                    <Field name="description" cols="20" rows="2" as="textarea"
-                                        placeholder="Description" v-slot="{ field }"
-                                        class="form-control shadow-none rounded-0 text-black">
+                                    <Field name="description" cols="20" rows="2" as="textarea" placeholder="Description"
+                                        v-slot="{ field }" class="form-control shadow-none rounded-0 text-black">
                                         <textarea v-model="field.value"
                                             class="form-control shadow-none rounded-0 text-black"></textarea>
                                     </Field>
                                     <ErrorMessage name="description" class="text-danger" />
                                 </div>
                             </div>
-                            <div class="col-md-12 mb-4">
+
+                             <div class="col-md-12 mb-4">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                     <label class="d-block text-black mb-10">
                                         Bien <span class="text-danger">*</span>
                                     </label>
-                                    <Field name="biens" v-model="biens" type="text" v-slot="{ field }">
+                                    <Field name="bien" v-model="biens" type="text" v-slot="{ field }">
                                         <Multiselect v-model="field.value" v-bind="field" :options="bienOptions"
                                             :preserve-search="true" :multiple="false" :searchable="true"
                                             placeholder="Sélectionner le bien" label="label" track-by="label" />
                                     </Field>
                                     
                                 </div>
-                            </div>
+                            </div> 
 
                             <button class="btn btn-primary" type="submit">
                                 {{ btntext }}
@@ -66,13 +66,14 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from 'vue';
+import { ref,onMounted, watch } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
 import { error, hideModal, success } from '@/utils/utils';
 import { Panne } from '@/models/Panne';
 import { useRouter } from 'vue-router';
+
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 
 export default {
@@ -99,7 +100,7 @@ export default {
             //code: Yup.string().required('Le code est obligatoire'),
             libelle: Yup.string().required('Le libelle est obligatoire'),
             description: Yup.string().required('La description est obligatoire'),
-            biens: Yup.string().required('Le bien est obligatoire'),
+            bien: Yup.string().notRequired(),
 
         });
 
@@ -115,7 +116,11 @@ export default {
         const biens = ref();
         const bien = ref();
         const bienOptions = ref([]);
+       
 
+        onMounted(() => {
+        getAllBiens();
+      });
 
 
         watch(() => props.id, (newValue) => {
@@ -154,6 +159,7 @@ export default {
             }
         }
 
+   
 
         const btnTitle = async () => {
             if (isupdate.value) {
@@ -216,4 +222,4 @@ export default {
         };
     },
 };
-</script>@/models/Panne
+</script>@/models/Panne 
