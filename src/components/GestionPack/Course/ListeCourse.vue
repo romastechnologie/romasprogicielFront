@@ -112,18 +112,18 @@
                 <td class="shadow-none lh-1 fw-medium ">{{ course.pointDepart}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course.destination}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course.distanceParcourue }} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{ course.personnel }} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{ course.bien }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ course.personnel?.nom+" "+course.personnel?.prenom ?? "Non assigné" }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ course.bien?.nomBien }} </td>
                 <td class="shadow-none lh-1 fw-medium">{{ format_date(course.createdAt) }} </td>
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                   <div class="dropdown">
                     <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
 
                       <ul class="dropdown-menu">
-                        <li class="dropdown-item d-flex align-items-center">
+                     <li class="dropdown-item d-flex align-items-center">
                           <router-link
                             
-                            :to="{ name: 'EditCourse',params: { id: course.id } }"
+                            :to="{ name: 'EditCoursePage',params: { id: course.id } }"
                           >
                             <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                             Modifier
@@ -203,7 +203,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllCourses(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/sorties?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/all/sortie?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           courses.value = data.data.data;
           totalPages.value = data.data.totalPages;

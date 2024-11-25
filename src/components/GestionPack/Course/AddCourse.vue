@@ -154,7 +154,7 @@ export default defineComponent({
 
 
   const addCourse = async (values, { resetForm }) => {
-      ApiService.post("/sorties", values)
+      ApiService.post("/sortie", values)
         .then(({ data }) => {
           if (data.code == 201) {
             success(data.message);
