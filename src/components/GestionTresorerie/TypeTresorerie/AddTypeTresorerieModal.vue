@@ -189,7 +189,7 @@
               isupdate.value=false;
               btnTitle();
               emit("refreshTypeTresoreries");
-              router.push('/typeTresoreries/liste-typeTresoreries');
+             // router.push('/typeTresoreries/liste-typeTresoreries');
             }
           }).catch(({ response }) => {
             error(response.data.message);

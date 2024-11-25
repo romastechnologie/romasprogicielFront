@@ -76,7 +76,7 @@
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
-                >Personnel</th>
+                >Bien</th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -97,13 +97,13 @@
             </thead>
             <tbody>
               <tr  v-for ="(planificationReparation, index) in planificationReparations" :key="index">
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.refPlanificationReparation }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.dateReparationPrevue }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.reference }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(planificationReparation?.dateReparationPrevue) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.libelle }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.dateReparationReel }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{format_date(planificationReparation?.dateReparationReel) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.description }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.lieuReparation }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.personnel?.nom }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.bien?.nomBien }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.panne?.libelle }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ format_date(planificationReparation.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
@@ -111,15 +111,13 @@
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
   
                         <ul class="dropdown-menu">
-                          <!--<li class="dropdown-item d-flex align-items-center">
-                            <router-link
-                              
-                              :to="{ name: 'EditPlanificationReparation',params: { id: planificationReparation.id } }"
-                            >
-                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
-                              Modifier
-                            </router-link>
-                          </li>-->
+                          <li >
+                        <router-link :to="{ name: 'EditPlanificationReparationPage', params: {  id: planificationReparation.id  } }" 
+                            class="dropdown-item d-flex align-items-center"><i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>Modifier</router-link>
+                      </li>
+                    
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
                              
@@ -153,7 +151,6 @@
   import ApiService from "@/services/ApiService";
   import { PlanificationReparation } from "@/models/PlanificationReparation";
   import { format_date, suppression, error, } from "@/utils/utils";
-  
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   
@@ -192,11 +189,13 @@
   
   
       // END PAGINATE
-  
+
+
+      
       function getAllPlanificationReparations(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`all/planificationReparations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`/all/planificationReparations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            planificationReparations.value = data.data;
+            planificationReparations.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -205,8 +204,12 @@
           .catch(({ response }) => {
             error(response.data.message)
         });
+        
       }
   
+      function moddifier(EditplanificationReparations:PlanificationReparation) {
+        planificationReparation.value = EditplanificationReparations;
+      }
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
   
   const checkPermission = (name) => {
@@ -216,6 +219,7 @@
       return {planificationReparations,
         getAllPlanificationReparations,
         checkPermission,
+        moddifier ,
         format_date,
         suppression,
         planificationReparation,
