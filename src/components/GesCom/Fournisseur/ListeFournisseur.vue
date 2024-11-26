@@ -142,7 +142,7 @@
                 {{ fournisseur.adresseFournisseur }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.emailFournisseur }}
+                {{ fournisseur.sexe }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.denomination }}
@@ -166,7 +166,7 @@
                 {{ fournisseur.sigle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.sexe }}
+                {{  format_date(fournisseur.dateCreation) }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -216,7 +216,7 @@ import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
 import { Fournisseur } from "@/models/Fournisseur";
 import ApiService from "@/services/ApiService";
-import { suppression, error } from "@/utils/utils";
+import { format_date,suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
@@ -318,6 +318,7 @@ export default defineComponent({
 
     return { fournisseurs,
       checkPermission,
+      format_date,
      getAllFournisseurs,
      deleteFournisseur,
      moddifier ,

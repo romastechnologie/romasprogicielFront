@@ -743,7 +743,7 @@ const routes: Array<RouteRecordRaw> = [
        }
       },
       {
-        path: "editer-course",
+        path: "editer-course/:id",
         name: "EditCoursePage",
         component: EditCoursePage,
        meta: {

@@ -39,13 +39,13 @@
                             <div class="col-md-12 mb-4">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                     <label class="d-block text-black mb-10">
-                                        Bien <span class="text-danger">*</span>
+                                        Bien <span class="text-danger"></span>
                                     </label>
-                                    <Field name="biens" v-model="biens" type="text" v-slot="{ field }">
-                                        <Multiselect v-model="field.value" v-bind="field" :options="bienOptions"
-                                            :preserve-search="true" :multiple="false" :searchable="true"
-                                            placeholder="Sélectionner le bien" label="label" track-by="label" />
-                                    </Field>
+                                 <Field name="bien" v-model="biens" type="text" v-slot="{ field }">
+                                    <Multiselect v-model="field.value" v-bind="field" :options="bienOptions" :preserve-search="true"
+                                     :multiple="false" :searchable="true" placeholder="Sélectionner le bien "
+                                      label="label" track-by="label" />
+                                  </Field>
                                     
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted} from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
@@ -99,7 +99,7 @@ export default {
             //code: Yup.string().required('Le code est obligatoire'),
             libelle: Yup.string().required('Le libelle est obligatoire'),
             description: Yup.string().required('La description est obligatoire'),
-            biens: Yup.string().required('Le bien est obligatoire'),
+            bien: Yup.string().required('Le bien est obligatoire'),
 
         });
 
@@ -113,10 +113,13 @@ export default {
         const isupdate = ref(false);
         const router = useRouter();
         const biens = ref();
-        const bien = ref();
         const bienOptions = ref([]);
+      
 
-
+        onMounted(() => {
+        getAllBiens();
+      });
+  
 
         watch(() => props.id, (newValue) => {
             if (newValue != 0) {
@@ -128,32 +131,53 @@ export default {
         });
 
         const getPanne = async (id: number) => {
-            return ApiService.get("/pannes/" + id)
-                .then(({ data }) => {
-                    panneForm.value?.setFieldValue("id", data.data.id);
-                    panneForm.value?.setFieldValue("code", data.data.code);
-                    panneForm.value?.setFieldValue("libelle", data.data.libelle);
-                    emit('openmodal', addPanneModalRef.value);
-                })
-                .catch(({ response }) => {
-                    error(response.data.message)
-                });
-        }
+  return ApiService.get("/pannes/" + id)
+    .then(({ data }) => {
+      console.log("Données récupérées: ", data);
+      const donnees = data.data;
 
-        const getAllBiens = async () => {
-            try {
-                const response = await ApiService.get('/all/biens');
-                const biensData = response.data.data.data;
-                bienOptions.value = biensData.map((bien) => ({
-                    value: bien.id,
-                    label: bien.nomBien,
-                }));
-            }
-            catch (error) {
-                //error(response.data.message)
-            }
-        }
+      // Mapper les données dans le formulaire
+      for (const key in donnees) {
+        panneForm.value?.setFieldValue(
+          key,
+          typeof donnees[key] === "object" && donnees[key] !== null
+            ? donnees[key].id 
+            : donnees[key]  
+        );
+      }
 
+      if (donnees.bien) {
+        panneForm.value?.setFieldValue(
+          "bien",
+          donnees.bien.id
+        );
+      }
+
+      emit("openmodal", addPanneModalRef.value);
+    })
+    .catch(({ response }) => {
+      console.error("Erreur lors de la récupération: ", response);
+      error(response.data.message);
+    });
+};
+        
+
+
+        const getAllBiens= async () => {
+          try{
+          const response = await ApiService.get('/all/biens');
+          const biensData = response.data.data.data;
+          console.log("bien", biensData);
+          bienOptions.value = biensData.map((bien) => ({
+            value: bien.id,
+            label: bien.nomBien,
+          }));
+          }
+          catch(error){
+            //error(response.data.message)
+          }
+        } 
+    
 
         const btnTitle = async () => {
             if (isupdate.value) {
@@ -211,7 +235,7 @@ export default {
 
         return {
             pannes, title, btntext, resetValue, panneSchema,
-            addPanne, panneForm, addPanneModalRef, pannenew, bienOptions, biens,bien
+            addPanne, panneForm, addPanneModalRef, pannenew, bienOptions, biens
             //refreshPannes
         };
     },
