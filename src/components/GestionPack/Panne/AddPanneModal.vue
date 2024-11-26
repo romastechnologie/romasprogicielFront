@@ -36,7 +36,7 @@
                                 </div>
                             </div>
 
-                             <div class="col-md-12 mb-4">
+                            <!-- <div class="col-md-12 mb-4">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                     <label class="d-block text-black mb-10">
                                         Bien <span class="text-danger">*</span>
@@ -47,7 +47,21 @@
                                             placeholder="Sélectionner le bien" label="label" track-by="label" />
                                     </Field>
                                 </div>
-                            </div> 
+                            </div>  -->
+
+
+                            <div class="col-md-12 mt-4">
+                                <label>
+                                    Bien <span class="text-danger">*</span>
+                                </label>
+                                <Field name="bien" v-slot="{ field }">
+                                    <Multiselect :options="bienOptions" :searchable="true" track-by="value"
+                                        label="label" v-model="field.value" v-bind="field"
+                                        placeholder="Sélectionner le bien" />
+                                </Field>
+                                <ErrorMessage name="bien" class="text-danger" />
+                            </div>
+
 
                             <button class="btn btn-primary" type="submit">
                                 {{ btntext }}
@@ -72,6 +86,7 @@ import ApiService from '@/services/ApiService';
 import { error, hideModal, success } from '@/utils/utils';
 import { Panne } from '@/models/Panne';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 
@@ -99,7 +114,7 @@ export default {
             //code: Yup.string().required('Le code est obligatoire'),
             libelle: Yup.string().required('Le libelle est obligatoire'),
             description: Yup.string().required('La description est obligatoire'),
-            bien: Yup.string().notRequired(),
+            bien: Yup.string().required("Le bien est obligatoire"),
 
         });
 
@@ -144,19 +159,20 @@ export default {
                 });
         }
 
-        const getAllBiens = async () => {
-            try {
-                const response = await ApiService.get('/all/biens');
-                const biensData = response.data.data.data;
-                bienOptions.value = biensData.map((bien) => ({
-                    value: bien.id,
-                    label: bien.nomBien,
-                }));
-            }
-            catch (error) {
-                //error(response.data.message)
-            }
-        }
+
+        const getAllBiens  = async () => {
+      try {
+        const response = await axios.get('/all/biens');
+        bienOptions.value = response.data.data.data.map(bien => ({
+          value: bien.id,
+          label: bien.nomBien,
+        }));
+
+      } catch (err) {
+        error("Erreur lors de la récupération des biens.");
+      }
+    };
+
 
    
 
