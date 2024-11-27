@@ -147,7 +147,7 @@
                       Sexe <span class="text-danger">*</span>
                     </label>
                     <Field  name="sexe"  type="text"  v-slot="{ field }">
-                      <VueMultiselect
+                      <Multiselect
                       v-model = "field.value"
                       v-bind = "field"
                       :options="['Masculin', 'Féminin']"
@@ -215,7 +215,7 @@
                       <tr v-for="(rle, index) in userData?.userRoles" :key="index">
                           <td><a class="text-inherit" href="#">{{ rle?.role?.nom }}</a></td>
                           <td><a>{{ rle?.role?.description }}</a></td>
-                          <td>{{ rle?.dateAffectation }}</td>
+                          <td>{{ format_date(rle?.dateAffectation) }}</td>
                           <td >
                             <!-- <a class="icon" href="javascript:void(0)"></a>
                             <a class="btn btn-primary btn-sm" href="javascript:void(0)"><i class="fa fa-pencil"></i>
@@ -239,7 +239,7 @@ import * as Yup from 'yup';
 import Multiselect from '@vueform/multiselect'
 import axios from 'axios';
 import ApiService from '@/services/ApiService';
-import { error, success } from '@/utils/utils';
+import { error, success,format_date } from '@/utils/utils';
 import { useRouter, useRoute } from 'vue-router';
 import VueMultiselect from 'vue-multiselect'
 import { User, UserData } from "@/models/users";
@@ -454,6 +454,7 @@ setup: () => {
       userPassForm,
       passSchema,
       passId,
+      format_date,
       //validPhone,
       // validate,
       // onInput,

@@ -115,7 +115,7 @@
   
       const btnTitle = async () => {
         if (isupdate.value) {
-           title.value = "Modifier le monnaie";
+           title.value = "Modifier la monnaie";
            btntext.value = "Modifier";
         }else{
            title.value = "Ajouter une monnaie";
