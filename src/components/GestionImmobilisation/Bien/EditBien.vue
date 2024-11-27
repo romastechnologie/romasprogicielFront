@@ -241,7 +241,7 @@
     const getAllTypeBien = async () => {
         try{
         const response = await ApiService.get('/all/types');
-        const typesData = response.data.data;
+        const typesData = response.data.data.data;
 
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
@@ -255,7 +255,7 @@
       const getAllCategorieBien = async () => {
         try{
         const response = await ApiService.get('/all/categories');
-        const categoriesData = response.data.data;
+        const categoriesData = response.data.data.data;
 
         categorieOptions.value = categoriesData.map((categorie) => ({
           value: categorie.id,
@@ -270,7 +270,7 @@
       const getAllOrganisation = async () => {
         try{
         const response = await ApiService.get('/all/organisations');
-        const organisationsData = response.data.data;
+        const organisationsData = response.data.data.data;
 
         organisationOptions.value = organisationsData.map((organisation) => ({
           value: organisation.id,

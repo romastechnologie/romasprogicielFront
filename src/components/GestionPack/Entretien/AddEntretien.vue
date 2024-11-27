@@ -52,8 +52,7 @@
                 <ErrorMessage name="typeentretien" class="text-danger" />
               </div>
             </div>
-            
-            
+    
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
