@@ -165,9 +165,7 @@ export default defineComponent({
           error(response.data.message);
         });
     };
-
-  
- 
+    
       const getAllPersonnels  = async () => {
       try {
         const response = await axios.get('all/personnels');
@@ -187,14 +185,11 @@ export default defineComponent({
           value: bien.id,
           label: bien.nomBien,
         }));
+
       } catch (err) {
         error("Erreur lors de la récupération des biens.");
       }
     };
-
-   
-  
-   
 
     return { courseSchema, addCourse, courseForm,bienOptions,showMErr,categorieOptions,personnels,biens,personnelOptions};
   },

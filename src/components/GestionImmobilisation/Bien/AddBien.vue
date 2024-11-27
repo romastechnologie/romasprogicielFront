@@ -181,7 +181,7 @@
             dureeVie: Yup.number().required("La durée de vie est obligatoire."),
             dateMiseEnService: Yup.date().required("La date de mise en service est obligatoire."),
             numeroEnregistrement: Yup.number().required("Le numero d'enregistrement est obligatoire."),
-            nbreKmParUnLitre: Yup.number().required("Le nombre de kilomètres par un Litre est obligatoire."),
+            nbreKmParUnLitre: Yup.number(),
             codeBar: Yup.string().notRequired(),
             localisation: Yup.string().notRequired(),
             longitude: Yup.number().notRequired(),
@@ -235,7 +235,7 @@
       const getAllTypeBien = async () => {
         try{
         const response = await ApiService.get('/all/typeBiens');
-        const typesData = response.data.data;
+        const typesData = response.data.data.data;
 
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
@@ -250,7 +250,7 @@
       const getAllCategorieBien = async () => {
         try{
         const response = await ApiService.get('/all/categorieBiens');
-        const categoriesData = response.data.data;
+        const categoriesData = response.data.data.data;
 
         categorieOptions.value = categoriesData.map((categorie) => ({
           value: categorie.id,

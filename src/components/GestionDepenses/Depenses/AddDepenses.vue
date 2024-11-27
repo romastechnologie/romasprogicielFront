@@ -5,10 +5,10 @@
         <div class="row">
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label for="date" class="d-block text-black fw-semibold mb-10">
                 Date de dépense <span class="text-danger">*</span>
               </label>
-              <Field name="date" type="date" :value="getCurrentDate"
+              <Field name="date" type="Date" :value="getCurrentDate"
                 class="form-control shadow-none fs-md-15 text-black" />
             </div>
             <ErrorMessage name="date" class="text-danger" />
@@ -67,7 +67,7 @@
               <label class="d-block text-black mb-10">
                 Types Depenses <span class="text-danger">*</span>
               </label>
-              <Field name="typesDepenses" v-model="typesDepenses" type="text" v-slot="{ field }">
+              <Field name="typedepense" v-model="typesDepenses" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="typesDepensesOptions"
                   :preserve-search="true" :multiple="false" :searchable="true"
                   placeholder="Sélectionner le type de depense" label="label" track-by="label" />
@@ -101,21 +101,13 @@
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
-       
-          <div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Bénéficiaire <span class="text-danger">*</span>
-              </label>
-              <Field name="beneficiaire" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="financeOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le bénéficiaire" label="label"
-                  track-by="label" />
-              </Field>
-              <ErrorMessage name="beneficiaire" class="text-danger" />
-            </div>
-          </div>
 
+          <div class="col-md-4 mt-3">
+            <label for="beneficiaire" class="form-label"> Bénéficiaire<span class="text-danger">*</span></label>
+            <Field name="beneficiaire" class="form-control" type="text" placeholder="Entrer le bénéficiaire" />
+            <ErrorMessage name="beneficiaire" class="text-danger" />
+          </div>
+       
           <div class="col-md-4-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
@@ -167,13 +159,13 @@ export default defineComponent({
       description: Yup.string().required("La description est obligatoire."),
       entretien: Yup.string().required("L'entretien est obligatoire."),
       planificationReparation: Yup.string().required("La planification Réparation est obligatoire."),
-      typesDepenses: Yup.string().required("Le type de dépense est obligatoire."),
+      typedepense: Yup.string().required("Le type de dépense est obligatoire."),
       categoriesDepenses: Yup.string().required("La categorie dépense est obligatoire"),
-      personnel: Yup.string().notRequired(),
+      personnel: Yup.string().required("Le personnel est obligatoire"),
       motif: Yup.string().required("Le motif est obligatoire."),
       montant: Yup.number().required("Le montant est obligatoire."),
       date: Yup.date().required('La date est obligatoire'),
-      beneficiaire: Yup.string().notRequired(),
+      beneficiaire: Yup.string().required("Le bénéficiaire est obligatoire"),
     });
 
     const depensesForm = ref(null);
@@ -184,7 +176,6 @@ export default defineComponent({
     const categoriesDepenses = ref(null);
     const personnelOptions = ref([]);
     const entretienOptions = ref([]);
-    const financeOptions = ref([]);
     const planificationReparationOptions = ref([]);
     const typesDepensesOptions = ref([]);
     const categoriesDepensesOptions = ref([]);
@@ -192,68 +183,65 @@ export default defineComponent({
 
     
     const addDepenses = async (values: any, { resetForm }: any) => {
-  // Initialisation des valeurs
-  const depenseData: Record<string, any> = {};
+  // // Initialisation des valeurs
+  // const depenseData: Record<string, any> = {};
 
-  // Attribution des valeurs une par une
-  if (entretien.value && entretien.value.value) {
-    depenseData.entretien = entretien.value.value;
-  } else {
-    depenseData.entretien = null;
-  }
+  // // Attribution des valeurs une par une
+  // if (entretien.value && entretien.value.value) {
+  //   depenseData.entretien = entretien.value.value;
+  // } else {
+  //   depenseData.entretien = null;
+  // }
 
-  if (planificationReparation.value && planificationReparation.value.value) {
-    depenseData.planificationReparation = planificationReparation.value.value;
-  } else {
-    depenseData.planificationReparation = null;
-  }
+  // if (planificationReparation.value && planificationReparation.value.value) {
+  //   depenseData.planificationReparation = planificationReparation.value.value;
+  // } else {
+  //   depenseData.planificationReparation = null;
+  // }
 
-  if (typesDepenses.value && typesDepenses.value.value) {
-    depenseData.typesDepenses = typesDepenses.value.value;
-  } else {
-    depenseData.typesDepenses = null;
-  }
+  // if (typesDepenses.value && typesDepenses.value.value) {
+  //   depenseData.typesDepenses = typesDepenses.value.value;
+  // } else {
+  //   depenseData.typesDepenses = null;
+  // }
 
-  if (categoriesDepenses.value && categoriesDepenses.value.value) {
-    depenseData.categoriesDepenses = categoriesDepenses.value.value;
-  } else {
-    depenseData.categoriesDepenses = null;
-  }
+  // if (categoriesDepenses.value && categoriesDepenses.value.value) {
+  //   depenseData.categoriesDepenses = categoriesDepenses.value.value;
+  // } else {
+  //   depenseData.categoriesDepenses = null;
+  // }
 
-  if (values.personnel && values.personnel.value) {
-    depenseData.personnel = values.personnel.value;
-  } else {
-    depenseData.personnel = null;
-  }
+  // if (values.personnel && values.personnel.value) {
+  //   depenseData.personnel = values.personnel.value;
+  // } else {
+  //   depenseData.personnel = null;
+  // }
 
-  // Ajout des autres champs directement depuis "values"
-  Object.keys(values).forEach((key) => {
-    if (!["entretien", "planificationReparation", "typesDepenses", "categoriesDepenses", "personnel"].includes(key)) {
-      depenseData[key] = values[key];
-    }
-  });
+  // // Ajout des autres champs directement depuis "values"
+  // Object.keys(values).forEach((key) => {
+  //   if (!["entretien", "planificationReparation", "typesDepenses", "categoriesDepenses", "personnel"].includes(key)) {
+  //     depenseData[key] = values[key];
+  //   }
+  // });
 
-  console.log("Données préparées pour l'envoi :", depenseData);
+  console.log("Données préparées pour l'envoi :", values);
 
   // Vérification des champs obligatoires
  
   try {
-    // Envoi des données via l'API
-    const response = await ApiService.post("/depenses/", depenseData);
-
+    const response = await ApiService.post("/depenses", values);
     if (response.data.code === 201) {
       success(response.data.message);
-      resetForm(); // Réinitialisation du formulaire
-      router.push({ name: "ListeDepenses" }); // Redirection vers la liste des dépenses
+      resetForm(); 
+      router.push({ name: "ListeDepenses" }); 
     }
   } catch (err: any) {
+    console.log("RESPONSE ERREUR  ====> ",err);
     const errorMessage = err.response?.data?.message || "Une erreur est survenue.";
     console.error("Erreur lors de l'ajout de la dépense :", errorMessage);
     error(errorMessage);
   }
 };
-
-
     // Fonctions pour récupérer les options des listes
     const getAllEntretien = async () => {
       try {
@@ -270,19 +258,7 @@ export default defineComponent({
 
 
 
-    const getAllFinances = async () => {
-      try {
-        const response = await ApiService.get('/all/finances');
-        const financeData = response.data.data.data;
-        financeOptions.value = financeData.map((finance) => ({
-          value: finance.id,
-          label: finance.montant,
-        }));
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
+    
 
     const getAllPersonnels = async () => {
       try {
@@ -344,7 +320,7 @@ export default defineComponent({
       getAllTypesDepenses();
       getAllCategoriesDepenses();
       getAllPersonnels();
-      getAllFinances();
+     
 
     });
 
@@ -353,7 +329,6 @@ export default defineComponent({
       addDepenses,
       depensesForm,
       entretienOptions,
-      financeOptions,
       planificationReparationOptions,
       typesDepensesOptions,
       categoriesDepensesOptions,

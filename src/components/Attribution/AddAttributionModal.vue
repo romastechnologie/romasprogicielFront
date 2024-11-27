@@ -51,6 +51,7 @@ import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
 import { error, hideModal, success } from '@/utils/utils';
 import { Attribution} from '@/models/Attribution';
+import router from '@/router';
 
 export default {
   name: "AddAttributionModal",
@@ -128,6 +129,7 @@ export default {
               isupdate.value = false;
               btnTitle();
               emit("getAllAttributions");
+              router.push({ name: "ListeAttributionPage" });
             }
           }).catch(({ response }) => {
             error(response.data.message)
@@ -144,6 +146,8 @@ export default {
                 (closeAttributionModal.value as HTMLButtonElement).click()
               }
               //emit("getAllServices");
+              router.push({ name: "ListeAttributionPage" });
+
             }
           }).catch(({ response }) => {
             error(response.data.message)

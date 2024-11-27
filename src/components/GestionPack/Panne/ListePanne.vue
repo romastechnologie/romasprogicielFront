@@ -190,6 +190,7 @@ export default defineComponent({
     function getAllPannes(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/pannes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log("Valeurs recupérées",data)
           pannes.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
