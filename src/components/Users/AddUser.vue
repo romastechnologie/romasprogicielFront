@@ -271,7 +271,7 @@ export default defineComponent({
               success(data.message);
               //resetForm();
               console.log('flefelef')
-              router.push({ name: "ListeUser" });
+           //   router.push({ name: "ListeUserP" });
             }
           }).catch(({ response }) => {
             error(response.data.message);
