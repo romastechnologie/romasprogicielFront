@@ -295,7 +295,7 @@ const getAllPersonnels = async () => {
 
 const getAllTresoreries = async () => {
     try {
-        const response = await ApiService.get('/tresoreries');
+        const response = await ApiService.get('all/tresoreries');
         const tresoreriesData = response.data.data.data;
         console.log('Data', tresoreriesData)
         tresorerieOptions.value = tresoreriesData.map((tresorerie) => ({

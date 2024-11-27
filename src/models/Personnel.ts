@@ -22,6 +22,8 @@ export  interface Personnel {
     fonction:string;
     dateDebut:Date;
     dateFin:Date;
+    personnel?:number; 
+    bien?:number
 
 
     setFieldValue: (field: string, value: any) => void;

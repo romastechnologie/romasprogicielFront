@@ -9,7 +9,7 @@ export  interface Fournisseur {
     rrcm: string;
     ifu: string;
     denomination: string;
-    dateCreation:string;
+    dateCreation:Date;
     adresseFournisseur: string;
     sexe: string;
     createdAt:Date;

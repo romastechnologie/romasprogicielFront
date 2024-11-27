@@ -84,7 +84,7 @@
                 {{ panne.description }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ format_date(panne.bien)  }}
+               {{ panne.bien?.nomBien }} 
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ format_date(panne.createdAt)  }}

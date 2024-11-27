@@ -5,10 +5,15 @@
         <div class="row">
 
           <div class="col-md-12 mb-3">
-            <button type="button" class="btn btn-info" @click="toggleForm">
-              {{ isWithDemande ? 'Congé sans demande' : 'Retourner sur Congé avec demande' }}
-            </button>
-          </div>
+  <button type="button" class="btn btn-primary d-flex align-items-center" @click="toggleForm">
+    <i 
+      class="me-2" 
+      :class="isWithDemande ? 'fa fa-arrow-right' : 'fa fa-arrow-left'"
+      aria-hidden="true"
+    ></i>
+    {{ isWithDemande ? 'Passer au Congé sans demande' : 'Retourner sur Congé avec demande' }}
+  </button>
+</div>
 
           <template v-if="isWithDemande">
             <div class="col-md-6">
