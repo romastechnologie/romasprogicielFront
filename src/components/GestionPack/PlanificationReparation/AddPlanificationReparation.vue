@@ -137,7 +137,7 @@
             description: Yup.string().required("La description est obligatoire."),
             //personnel: Yup.string().required("Le personnel est obligatoire."),
             panne: Yup.string().required("La panne est obligatoire."),
-            bien: Yup.string().required("La panne est obligatoire."),
+            bien: Yup.string().required("Le bien est obligatoire."),
 
             montantReelDepense:Yup.number().required("Le montant est obligatoire."),
             budgetAlloue:Yup.number().required("Le budget est obligatoire."),

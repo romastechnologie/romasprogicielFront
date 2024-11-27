@@ -5,8 +5,8 @@
               <div class="row">
               <div class="col-md-4">
                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
-                    <Field name="refCourse" class="form-control" type="text"/>
-                    <ErrorMessage name="refCourse" class="text-danger" />
+                    <Field name="reference" class="form-control" type="text"/>
+                    <ErrorMessage name="reference" class="text-danger" />
             </div>
             <div class="col-md-4">
                     <label for="compteurInitial" class="form-label">Compteur Initial<span class="text-danger">*</span></label>
@@ -14,9 +14,9 @@
                     <ErrorMessage name="compteurInitial" class="text-danger" />
             </div>
             <div class="col-md-4">
-                    <label for="compteurFinal" class="form-label">Compteur Final<span class="text-danger">*</span></label>
-                    <Field name="compteurFinal" class="form-control" type="number"/>
-                    <ErrorMessage name="compteurFinal" class="text-danger" />
+                    <label for="compteurfinalretour" class="form-label">Compteur Final<span class="text-danger">*</span></label>
+                    <Field name="compteurfinalretour" class="form-control" type="number"/>
+                    <ErrorMessage name="compteurfinalretour" class="text-danger" />
             </div>
   
             <div class="col-md-4 mt-3">
@@ -36,36 +36,45 @@
             </div>
   
             <div class="col-md-4 mt-3">
-                    <label for="distancePacourue" class="form-label">Distance parcourue<span class="text-danger">*</span></label>
-                    <Field name="distancePacourue" class="form-control" type="number"/>
-                    <ErrorMessage name="distancePacourue" class="text-danger" />
+                    <label for="distanceParcourue" class="form-label">Distance parcourue<span class="text-danger">*</span></label>
+                    <Field name="distanceParcourue" class="form-control" type="number"/>
+                    <ErrorMessage name="distanceParcourue" class="text-danger" />
             </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
+            <div class="col-md-4 mt-3">
+              <label>
                   Personnel <span class="text-danger">*</span>
                 </label>
-                <Field name="personnel" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                   :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
-                  label="label" track-by="label" />
+                <Field name="personnel" v-slot="{ field }">
+                  <Multiselect
+                    :options="personnelOptions"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner le personnel"
+                  />
                 </Field>
-                <ErrorMessage name="personnel" class="text-danger" />
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
+              <ErrorMessage name="personnel" class="text-danger" />
+          </div>
+
+          <div class="col-md-4 mt-3">
+              <label>
                   Bien <span class="text-danger">*</span>
                 </label>
-                <Field name="biens" v-model="biens" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="bienOptions" :preserve-search="true"
-                   :multiple="false" :searchable="true" placeholder="Sélectionner le bien"
-                  label="label" track-by="label" />
+                <Field name="bien" v-slot="{ field }">
+                  <Multiselect
+                    :options="bienOptions"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner le bien"
+                  />
                 </Field>
-                <span class="text-danger" v-if="showMErr">Le bien est obligatoire</span>
-              </div>
-            </div>
+              <ErrorMessage name="bien" class="text-danger" />
+          </div>
   
             
           <div class="col-md-12 mt-3">
@@ -114,15 +123,15 @@
   
     setup: () => {
       const courseSchema = Yup.object().shape({
-            refCourse: Yup.string().required("La référence est obligatoire."),
+            reference: Yup.string().required("La référence est obligatoire."),
             compteurInitial: Yup.string().required("Le compteur est obligatoire."),
-            compteurFinal: Yup.string().required("Le compteur est obligatoire."),
+            compteurfinalretour: Yup.string().required("Le compteur est obligatoire."),
             description: Yup.string().required("La description est obligatoire."),
             destination: Yup.string().required("La destination est obligatoire."),
             pointDepart: Yup.string().required("Le point de départ est obligatoire."),
-            distancePacourue: Yup.number().required("La distance est obligatoire."),
+            distanceParcourue: Yup.number().required("La distance est obligatoire."),
             personnel: Yup.string().required("Le personnel est obligatoire."),
-            biens: Yup.string().required("Le personnel est obligatoire."),
+            bien: Yup.string().required("Le bien est obligatoire."),
       });
   
       onMounted(() => {
@@ -177,33 +186,30 @@
 
 
   
-    const getAllPersonnels = async () => {
-          try{
-          const response = await ApiService.get('/personnels');
-          const personnelsData = response.data;
-          console.log('Data', personnelsData)
-          personnelOptions.value = personnelsData.map((personnel) => ({
-            value: personnel.id,
-            label: personnel.nom + " " + personnel.prenom,
-          }));
-          }
-          catch(error){
-            //error(response.data.message)
-          }
-        }
-        const getAllBiens= async () => {
-          try{
-          const response = await ApiService.get('/all/biens');
-          const biensData = response.data.data;
-          bienOptions.value = biensData.map((bien) => ({
-            value: bien.id,
-            label: bien.nomBien,
-          }));
-          }
-          catch(error){
-            //error(response.data.message)
-          }
-        } 
+    const getAllPersonnels  = async () => {
+      try {
+        const response = await axios.get('all/personnels');
+        personnelOptions.value = response.data.data.data.map(personnel => ({
+          value: personnel.id,
+          label: personnel.nom + " " + personnel.prenom,
+        }));
+      } catch (err) {
+        error("Erreur lors de la récupération des personnels.");
+      }
+    };
+
+    const getAllBiens  = async () => {
+      try {
+        const response = await axios.get('/all/biens');
+        bienOptions.value = response.data.data.data.map(bien => ({
+          value: bien.id,
+          label: bien.nomBien,
+        }));
+      } catch (err) {
+        error("Erreur lors de la récupération des biens.");
+      }
+    };
+
     
      
   

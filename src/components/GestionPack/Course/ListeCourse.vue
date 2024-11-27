@@ -105,14 +105,14 @@
           </thead>
           <tbody>
             <tr  v-for ="(course, index) in courses" :key="index">
-                <td class="shadow-none lh-1 fw-medium ">{{ course.refCourse }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ course.reference }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course?.compteurInitial }} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{ course?.compteurFinal }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ course?.compteurfinalretour}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course?.description }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course.pointDepart}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course.destination}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course.distanceParcourue }} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{ course.personnel?.nom+" "+course.personnel?.prenom ?? "Non assigné" }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ course.personnel?.nom }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course.bien?.nomBien }} </td>
                 <td class="shadow-none lh-1 fw-medium">{{ format_date(course.createdAt) }} </td>
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
@@ -203,19 +203,19 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllCourses(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/sortie?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-        .then(({ data }) => {
-          courses.value = data.data.data;
-          totalPages.value = data.data.totalPages;
-          limit.value = data.data.limit;
-          totalElements.value = data.data.totalElements;
-          return data.data;
-        })
-        .catch(({ response }) => {
-          error(response.data.message)
-      });
-    }
-
+        return ApiService.get(`/all/sortie?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+          .then(({ data }) => {
+            courses.value = data.data.data;
+            totalPages.value = data.data.totalPages;
+            limit.value = data.data.limit;
+            totalElements.value = data.data.totalElements;
+            return data.data;
+          })
+          .catch(({ response }) => {
+            error(response.data.message)
+        });
+        
+      }
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
 const checkPermission = (name) => {
