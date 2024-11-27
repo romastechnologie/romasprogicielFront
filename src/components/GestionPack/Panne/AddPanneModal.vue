@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <Form ref="panneForm" @submit="addPanne" :validation-schema="panneSchema">
                         <div class="row">
-
+        
                             <div class="col-md-12 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                     <label class="d-block text-black fw-semibold mb-10">
@@ -27,50 +27,28 @@
                                     <label class="d-block text-black fw-semibold mb-10">
                                         Description <span class="text-danger">*</span>
                                     </label>
-                                    <Field name="description" cols="20" rows="2" as="textarea" placeholder="Description"
-                                        v-slot="{ field }" class="form-control shadow-none rounded-0 text-black">
+                                    <Field name="description" cols="20" rows="2" as="textarea"
+                                        placeholder="Description" v-slot="{ field }"
+                                        class="form-control shadow-none rounded-0 text-black">
                                         <textarea v-model="field.value"
                                             class="form-control shadow-none rounded-0 text-black"></textarea>
                                     </Field>
                                     <ErrorMessage name="description" class="text-danger" />
                                 </div>
                             </div>
-
-                            <!-- <div class="col-md-12 mb-4">
+                            <div class="col-md-12 mb-4">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                     <label class="d-block text-black mb-10">
                                         Bien <span class="text-danger"></span>
                                     </label>
-<<<<<<< HEAD
-                                    <Field name="bien" v-model="biens" type="text" v-slot="{ field }">
-                                        <Multiselect v-model="field.value" v-bind="field" :options="bienOptions"
-                                            :preserve-search="true" :multiple="false" :searchable="true"
-                                            placeholder="Sélectionner le bien" label="label" track-by="label" />
-                                    </Field>
-=======
                                  <Field name="bien" v-model="biens" type="text" v-slot="{ field }">
                                     <Multiselect v-model="field.value" v-bind="field" :options="bienOptions" :preserve-search="true"
                                      :multiple="false" :searchable="true" placeholder="Sélectionner le bien "
                                       label="label" track-by="label" />
                                   </Field>
                                     
->>>>>>> 02b6d1aa83a77b3ec2c44e0c520aa00d0401f57e
                                 </div>
-                            </div>  -->
-
-
-                            <div class="col-md-12 mt-4">
-                                <label>
-                                    Bien <span class="text-danger">*</span>
-                                </label>
-                                <Field name="bien" v-slot="{ field }">
-                                    <Multiselect :options="bienOptions" :searchable="true" track-by="value"
-                                        label="label" v-model="field.value" v-bind="field"
-                                        placeholder="Sélectionner le bien" />
-                                </Field>
-                                <ErrorMessage name="bien" class="text-danger" />
                             </div>
-
 
                             <button class="btn btn-primary" type="submit">
                                 {{ btntext }}
@@ -88,19 +66,13 @@
 </template>
 
 <script lang="ts">
-<<<<<<< HEAD
-import { ref,onMounted, watch } from 'vue';
-=======
 import { ref, watch, onMounted} from 'vue';
->>>>>>> 02b6d1aa83a77b3ec2c44e0c520aa00d0401f57e
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
 import { error, hideModal, success } from '@/utils/utils';
 import { Panne } from '@/models/Panne';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
-
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 
 export default {
@@ -127,11 +99,7 @@ export default {
             //code: Yup.string().required('Le code est obligatoire'),
             libelle: Yup.string().required('Le libelle est obligatoire'),
             description: Yup.string().required('La description est obligatoire'),
-<<<<<<< HEAD
-            bien: Yup.string().required("Le bien est obligatoire"),
-=======
             bien: Yup.string().required('Le bien est obligatoire'),
->>>>>>> 02b6d1aa83a77b3ec2c44e0c520aa00d0401f57e
 
         });
 
@@ -146,20 +114,12 @@ export default {
         const router = useRouter();
         const biens = ref();
         const bienOptions = ref([]);
-<<<<<<< HEAD
-       
-=======
       
->>>>>>> 02b6d1aa83a77b3ec2c44e0c520aa00d0401f57e
 
         onMounted(() => {
         getAllBiens();
       });
-<<<<<<< HEAD
-
-=======
   
->>>>>>> 02b6d1aa83a77b3ec2c44e0c520aa00d0401f57e
 
         watch(() => props.id, (newValue) => {
             if (newValue != 0) {
@@ -176,24 +136,6 @@ export default {
       console.log("Données récupérées: ", data);
       const donnees = data.data;
 
-<<<<<<< HEAD
-
-        const getAllBiens  = async () => {
-      try {
-        const response = await axios.get('/all/biens');
-        bienOptions.value = response.data.data.data.map(bien => ({
-          value: bien.id,
-          label: bien.nomBien,
-        }));
-
-      } catch (err) {
-        error("Erreur lors de la récupération des biens.");
-      }
-    };
-
-
-   
-=======
       // Mapper les données dans le formulaire
       for (const key in donnees) {
         panneForm.value?.setFieldValue(
@@ -236,7 +178,6 @@ export default {
           }
         } 
     
->>>>>>> 02b6d1aa83a77b3ec2c44e0c520aa00d0401f57e
 
         const btnTitle = async () => {
             if (isupdate.value) {
@@ -299,4 +240,4 @@ export default {
         };
     },
 };
-</script>@/models/Panne 
+</script>@/models/Panne
