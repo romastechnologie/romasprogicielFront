@@ -23,19 +23,19 @@
                     <ErrorMessage name="dureeUtilisation" class="text-danger" />
             </div>
           
-            <div class="col-md-6 mb-4">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Bien <span class="text-danger">*</span>
-              </label>
-              <Field name="biens" v-model="biens" type="text" v-slot="{ field }">
-              <VueMultiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le bien"
-                label="label" track-by="label" />
-              </Field>
-              <span class="text-danger" v-if="showMErr">Le bien est obligatoire</span>
-            </div>
-          </div>
+            <div class="col-md-6">
+                                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                    <label class="d-block text-black mb-10">
+                                        Bien <span class="text-danger"></span>
+                                    </label>
+                                 <Field name="bien" v-model="biens" type="text" v-slot="{ field }">
+                                    <Multiselect v-model="field.value" v-bind="field" :options="bienOptions" :preserve-search="true"
+                                     :multiple="false" :searchable="true" placeholder="Sélectionner le bien "
+                                      label="label" track-by="label" />
+                                  </Field>
+                                    
+                                </div>
+                            </div>
           <div class="col-md-12">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -88,10 +88,12 @@ import VueMultiselect from 'vue-multiselect'
   
       const amortissementForm =  ref(null);
       //const permissions = ref(null);
-      const typeOptions = ref([]);
+      // const typeOptions = ref([]);
       const router = useRouter();
       const showMErr = ref(false);
       const biens = ref();
+      const bienOptions = ref([]);
+
 
       const addAmortissement = async (values: any, { resetForm }) => {
       values['bien'] = biens.value.value
@@ -113,21 +115,21 @@ import VueMultiselect from 'vue-multiselect'
 
       
   
-      const getAllBiens= async () => {
-        try{
-        const response = await ApiService.get('/all/biens');
-        const typesData = response.data.data;
-        typeOptions.value = typesData.map((type) => ({
-          value: type.id,
-          label: type.nomBien,
-        }));
-        }
-        catch(error){
-          //error(response.data.message)
-        }
-      } 
-  
-      return { amortissementSchema, addAmortissement, amortissementForm,typeOptions,showMErr,biens};
+    const getAllBiens= async () => {
+          try{
+          const response = await ApiService.get('/all/biens');
+          const biensData = response.data.data.data;
+          console.log("bien", biensData);
+          bienOptions.value = biensData.map((bien) => ({
+            value: bien.id,
+            label: bien.nomBien,
+          }));
+          }
+          catch(error){
+            //error(response.data.message)
+          }
+        } 
+      return { amortissementSchema,bienOptions, addAmortissement, amortissementForm,showMErr,biens};
     },
   });
   </script>
