@@ -1,154 +1,277 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
-        <div
-            class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
-            <div class="d-sm-flex align-items-center">
-    <router-link class="btn btn-primary me-2" to="/ouv_fers/ajouter-ouv_fer">
-        <i class="fa fa-plus-circle"></i>
-        Add ouverture
-    </router-link>
-    <router-link class="btn btn-primary" to="/ouv_fers/ajouter-fermeture">
-        <i class="fa fa-plus-circle"></i>
-        Add fermeture
-    </router-link>
-</div>
-
-            <div class="d-flex align-items-center">
-                <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
-                    <input type="text" v-model="searchTerm" @keyup="rechercher"
-                        class="form-control shadow-none text-black"
-                        placeholder="Rechercher une Ouverture ou fermeture" />
-                    <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
-                        <i class="flaticon-search-interface-symbol"></i>
-                    </button>
-                </form>
-                 <button
-          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
-          type="button"
-        >
-          <i class="flaticon-dots"></i>
-        </button> 
-            </div>
+      <div
+        class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
+      >
+        <div class="d-sm-flex align-items-center">
+          <router-link
+            class="btn btn-primary"
+            to="/ouv_fers/ajouter-ouv_fer"
+          >
+            <i class="fa fa-plus-circle"></i>
+            Ouverture de caisse
+          </router-link>
+      
         </div>
-        <div class="card-body p-15 p-sm-20 p-md-25">
-            <div class="table-responsive">
-                <table class="table text-nowrap align-middle mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">id</th>
+        <div class="d-flex align-items-center">
+         <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
+            <input
+              type="text"
+              v-model="searchTerm"
+              @keyup="rechercher"
+              class="form-control shadow-none text-black"
+              placeholder="Rechercher caisse"
+            />
+            <button
+              type="submit"
+              class="bg-transparent text-primary transition p-0 border-0"
+            >
+              <i class="flaticon-search-interface-symbol"></i>
+            </button>
+          </form>
+         
+        </div>
+      </div>
+      <div class="card-body p-15 p-sm-20 p-md-25">
+        <div class="table-responsive">
+          <table class="table text-nowrap align-middle mb-0">
+            <thead>
+              <tr>
+                          <th scope="col">id</th>
                             <th scope="col">Fond de roulement</th>
                             <th scope="col">Caisse</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="ouvFer in ouvFerList" :key="ouvFer.id">
-                            <th>{{ ouvFer.id }}</th>
-                            <th>{{ ouvFer.fondDeRoulement }}</th>
-                            <th>{{ ouvFer.tresorerie?.nom }} ({{ ouvFer.tresorerie.status }})</th>
-                            <td class="shadow-none lh-1 fw-medium text-black pe-0">
-                                <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">Actions</button>
-                                <ul class="dropdown-menu dropdown-block"
-                                    style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
-                                    data-popper-placement="bottom-start">
-                                    <li class="dropdown-item d-flex align-items-center">
-                                        <router-link type="button" :to="`/ouv_fers/edit-ouv_fer/${ouvFer.id}`">
-                                            <i class="fa fa-pencil lh-2 me-8 position-relative top-1">
-                                                Modifier
-                                            </i>
-                                        </router-link>
-                                    </li>
-                                    <li class="dropdown-item d-flex align-items-center">
-                                        <a type="button" @click="deleteouvFer(ouvFer.id)">
-                                            <i class="fa fa-trash-o lh-2 me-8 position-relative top-1">
-                                                Supprimer
-                                            </i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+                            <th scope="col">Statut</th>
+              
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
+                >ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(ouvFer, index) in ouvFers" :key="index">
+                             <th>{{ ouvFer.id }}</th>
+                             <th>{{ ouvFer.fondDeRoulement }}</th>
+                             <th>{{ ouvFer.tresorerie?.nom }} </th>
+                             <th>
+  <span
+    :class="[
+      'badge fs-15',
+      ouvFer.tresorerie?.status === 'Fermé' ? 'bg-danger' : 'bg-success'
+    ]"
+  >
+    {{ ouvFer.tresorerie?.status ? ouvFer.tresorerie.status : 'Ouvert' }}
+  </span>
+</th>
+                <td
+                  class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
+                >
+                <div class="dropdown">
+                    <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                        <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                    </span>
+                    <ul class="dropdown-menu">
+                    <!--  <li >
+                        <router-link :to="{ name: 'EditFinancePage', params: { id:finance.id } }" 
+                            class="dropdown-item d-flex align-items-center"><i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>Modifier</router-link>
+                      </li>-->
+                      <li v-if="ouvFer.tresorerie?.status !== 'Fermé'">
+        <a
+          href="javascript:void(0);"
+          class="dropdown-item d-flex align-items-center"
+          @click="updateStatut(ouvFer.id, 'Fermé')"
+        >
+          <i
+            class="flaticon-lock lh-1 me-8 position-relative top-1"
+          ></i>
+          Fermer
+        </a>
+      </li>
+                    
+                      <li >
+                        <a
+                          class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(ouvFer.id, ouvFers,'ouvFers',`OuvFer ${ouvFer.id}`)">
+                          <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
+                           Supprimer
+                        </a>
+                      </li>
+                    </ul>
+                </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <div
+          class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
+        >
+          <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
+        </div>
+      </div>
     </div>
-</template>
-
-<script setup lang="ts">
-
-import { Ouv_Fer } from "@/models/OuvFer";
-import { Tresorerie } from "@/models/Tresorerie";
-import { computed, onMounted, ref } from "vue";
-import axios from "axios";
-import ApiService from "@/services/ApiService";
-import Swal from "sweetalert2";
-
-    const ouvFerList = ref<Ouv_Fer[]>([])
-    const tresorerieList = ref<Tresorerie[]>([])
-   
-
-    onMounted(() => {
-        getouvFer()
-    //    getTresorerie()
-    })
-
-    const caisses = computed(() => {
-        return tresorerieList.value.filter(entity => entity.nom?.toLowerCase().includes('caisse'))
-    })
-
-
-  /*  const getTresorerie = () => {
-        ApiService.get('/tresoreries')
-            .then(res => {
-                tresorerieList.value = res.data
-                console.log(res)
-            })
-    }*/
-    
-    const getouvFer = async () => {
-        await axios.get<Ouv_Fer[]>('/ouv_fers').then(res => {
-            ouvFerList.value = res.data
-            console.log(ouvFerList.value)
-        })
-    }
-    
-    const deleteouvFer = async (id: any) => {
-    console.log("ID à supprimer:", id); 
-    Swal.fire({
-        title: 'Etes-vous sûr?',
-        text: "Vous voulez vraiment supprimer cette ouverture !",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#ddd',
-        cancelButtonText: 'Non',
-        confirmButtonText: 'Oui!'
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            await ApiService.delete('/ouv_fers/' + id + '')
-                .then(() => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Ouverture supprimée avec succès!',
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                    // Assurez-vous de rafraîchir la liste après la suppression
-                    getouvFer();
-                }).catch(error => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erreur de suppression!',
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                    console.error('Erreur détectée pendant la suppression:', error);
-                });
+  </template>
+  
+  <script lang="ts">
+  import { defineComponent, onMounted, ref} from "vue";
+  import Swal from "sweetalert2";
+  import { OuvFer } from "@/models/OuvFer";
+  import ApiService from "@/services/ApiService";
+  import { suppression, error } from "@/utils/utils";
+  import PaginationComponent from '@/components/Utilities/Pagination.vue';
+  import JwtService from "@/services/JwtService";
+  
+  export default defineComponent({
+    name: "ListeOuvFer",
+    components: {
+      PaginationComponent
+    },
+    setup(){
+      
+      onMounted(() => {
+        getAllOuvFers();
+      });
+  
+      const ouvFers = ref<Array<OuvFer>>([]);   
+      const ouvFer = ref<OuvFer>();
+  
+      // BEGIN PAGINATE
+      const searchTerm = ref('');
+      const page = ref(1);
+      const totalPages = ref(0);
+      const limit = ref(10);
+      const totalElements = ref(0);
+  
+      const handlePaginate = ({ page_, limit_ }) => {
+        try {
+          page.value = page_;
+          getAllOuvFers(page_, limit_);
+        } catch (error) {
+          //
         }
+      };
+  
+       function rechercher(){
+        getAllOuvFers(page.value, limit.value, searchTerm.value );
+      }
+      
+  
+      // END PAGINATE
+  
+      function getAllOuvFers(page = 1, limi = 10, searchTerm = '') {
+        return ApiService.get(`/all/ouv_fers/?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+          .then(({ data }) => {
+            console.log("données", data)
+            ouvFers.value = data.data.data;
+            totalPages.value = data.data.totalPages;
+            limit.value = data.data.limit;
+            totalElements.value = data.data.totalElements;
+            return data.data;
+          })
+          .catch(({ response }) => {
+            error(response.data.message)
+        });
+        
+      }
+      
+      function moddifier(EditouvFers:OuvFer) {
+        ouvFer.value = EditouvFers;
+      }
+  
+      const deleteOuvFer = (id: number) => {
+        ApiService.delete(`/ouvFers/${id}`)
+        .then(({ data }) => {
+          Swal.fire({
+            text: data.message,
+            toast: true,
+            icon: 'success',
+            title: 'General Title',
+            animation: false,
+            position: 'top-right',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            heightAuto: false
+          });
+        })
+        .catch(({ response }) => {
+          Swal.fire({
+            text: response.data.message,
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "Réssayer à nouveau!",
+            heightAuto: false,
+            customClass: {
+              confirmButton: "btn fw-semobold btn-light-danger",
+            },
+          });
+        });
+  
+        for(let i = 0; i < ouvFers.value.length; i++) {
+          if (ouvFers.value[i].id === id) {
+             ouvFers.value.splice(i, 1);
+          }
+        }
+      };
+  
+      function updateStatut(id: number, statut: string) {
+  ApiService.put(`/updatestatut/${id}`, { statut })
+    .then(({ data }) => {
+      Swal.fire({
+        text: data.message,
+        toast: true,
+        icon: 'success',
+        title: 'Statut mis à jour',
+        animation: false,
+        position: 'top-right',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        heightAuto: false,
+      });
+      // Met à jour le statut dans la liste
+      const index = ouvFers.value.findIndex((ouvFer) => ouvFer.id === id);
+      if (index !== -1) {
+        ouvFers.value[index].tresorerie.status = statut;
+      }
+    })
+    .catch(({ response }) => {
+      Swal.fire({
+        text: response.data.message,
+        icon: 'error',
+        buttonsStyling: false,
+        confirmButtonText: 'Réessayer',
+        heightAuto: false,
+        customClass: {
+          confirmButton: 'btn fw-semibold btn-light-danger',
+        },
+      });
     });
 }
 
-</script>
+      const privileges = ref<Array<string>>(JwtService.getPrivilege());
+  
+      const checkPermission = (name) => {
+        return privileges.value.includes(name);
+      }
+  
+      return { ouvFers,
+        checkPermission,
+       getAllOuvFers,
+       deleteOuvFer,
+       moddifier ,
+       suppression,
+       page, 
+      totalPages,
+      limit,
+      totalElements,
+      handlePaginate,
+      rechercher,
+      searchTerm,
+      updateStatut
+    };
+    },
+  });
+  </script>

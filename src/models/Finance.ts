@@ -6,12 +6,15 @@ export interface FinanceObject {
 
 export interface Finance {
     id?: number
-    fichier?: string
+    fichierfinance?: string
     montant?: number
     type?: string
     nomBeneficiaire?: string
     prenomBeneficiaire?: string
+    personnelId?:number
     utilisateurName?: string
-    tresorerieName?: number
+    tresorerieId?: number
     financeId?: number
+    setFieldValue: (field: string, value: any) => void;
 }
+

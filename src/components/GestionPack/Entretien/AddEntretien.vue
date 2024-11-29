@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-4">
                     <label for="dateRealisation" class="form-label">Date de réalisation<span class="text-danger">*</span></label>
-                    <Field name="dateRealisation" class="form-control" type="date"/>
+                    <Field name="dateRealisation" class="form-control"  type="datetime-local"/>
                     <ErrorMessage name="dateRealisation" class="text-danger" />
             </div>
   
@@ -100,7 +100,7 @@
       const entretienSchema = Yup.object().shape({
         reference: Yup.string().required("La référence est obligatoire."),
             libelle: Yup.string().required("Le libelle est obligatoire."),   
-            dateRealisation: Yup.string().required("La date de réalisation est obligatoire."),
+            dateRealisation: Yup.date().required("La date de réalisation est obligatoire."),
             description: Yup.string().required("La description est obligatoire."),
             typeentretien: Yup.string().required("Le type d'entretien est obligatoire."),
             bien: Yup.string().required("Le bien est obligatoire."),

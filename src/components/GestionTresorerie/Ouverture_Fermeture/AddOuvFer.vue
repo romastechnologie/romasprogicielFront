@@ -85,7 +85,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 mt-4">
+          
           <div class="col mb-3">
             <label for="fondDeRoulement">FondDeRoulement</label>
             <Field
@@ -99,20 +100,22 @@
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
 
-          <div class="col mb-3">
+          <div class="col mb-3" >
                                     <label for="tresorerieName">Tresorerie</label>
-                                    <Field type="number" id="tresorerieName" name="tresorerieName" class="form-control"
-                                        v-model="ouvFer.tresorerieName" as="select">
-                                        <option v-for="caisse in tresorerieList" :key="caisse.id" :value="caisse.id">{{
-                                            caisse.nom }} => {{ caisse.status || "ouverture" }}</option>
-                                    </Field>
+                                    <Field name="tresorerieName" v-model="tresoreries" type="text" v-slot="{ field }">
+                                    <Multiselect v-model="field.value" v-bind="field" :options="tresorerieOptions" :preserve-search="true"
+                                     :multiple="false" :searchable="true" placeholder="Sélectionner la tresorerie "
+                                      label="label" track-by="label" />
+                                  </Field>
                                     <ErrorMessage name="tresorerieName" class="text-danger" />
                                 </div>
 
-          <div class="mb-3">
+             <div class="mb-3 mt-1">
             <button type="submit" class="btn btn-primary top-end">
               Envoyer
             </button>
+            <router-link to="/ouv_fers/liste-ouv_fer/" type="button"
+            class="btn btn-danger mx-1">Annuler</router-link>
           </div>
         </div>
       </Form>
@@ -133,8 +136,8 @@ import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import router from "@/router";
 
-const ouvFer = ref<Ouv_Fer>({});
-const ouvFerList = ref<Ouv_Fer[]>([]);
+const ouvFer = ref<OuvFer>({});
+const ouvFerList = ref<OuvFer[]>([]);
 const tresorerieList = ref<Tresorerie[]>([]);
 const tresorerie = ref<Tresorerie>({});
 let show = ref(true);
@@ -151,6 +154,8 @@ const billetageList = reactive<Billetage[]>([]);
 const monnaieList = ref([] as any[]);
 let montantTotal = ref(0);
 
+const tresoreries = ref();
+const tresorerieOptions = ref([]);
 const schema = Yup.object().shape({
   fondDeRoulement: Yup.number().required(
     "Le fond de roulement est obligatoire"
@@ -202,19 +207,24 @@ const caisses = computed(() => {
   return tresorerieList.value.filter(entity => entity.nom?.toLowerCase().includes('caisse'));
 });
 
-const getTresorerie = async () => {
-  try {
-    console.log("Tentative de récupération des trésoreries...");
-    const response = await ApiService.get("all/tresoreries", );
-    tresorerieList.value =  response.data.data.data;
-    console.log("Données des trésoreries récupérées:", response);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des trésoreries:", error);
-  }
-};
+
+const getTresorerie= async () => {
+          try{
+          const response = await ApiService.get('/tresoreriecaisses');
+          const tresoreriesData = response.data.data.data;
+          console.log("tresorerie", tresoreriesData);
+          tresorerieOptions.value = tresoreriesData.map((tresorerie) => ({
+            value: tresorerie.id,
+            label: tresorerie.nom,
+          }));
+          }
+          catch(error){
+            //error(response.data.message)
+          }
+        } 
 
 const getouvFer = async () => {
-  await ApiService.get("/ouv_fers").then((res) => {
+  await ApiService.get("all/ouv_fers").then((res) => {
     ouvFerList.value = res.data;
     console.log(ouvFerList.value);
   });

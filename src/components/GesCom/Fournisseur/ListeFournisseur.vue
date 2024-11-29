@@ -64,6 +64,12 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
+                Dénomination
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
                 Adresse
               </th>
               <th
@@ -80,12 +86,7 @@
                 Sexe
               </th>
 
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Dénomination
-              </th>
+             
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -139,13 +140,16 @@
                 {{ fournisseur.prenomFournisseur }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ fournisseur.denomination }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.adresseFournisseur }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.sexe }}
+                {{ fournisseur.email }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.denomination }}
+                {{ fournisseur.sexe }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.telFournisseur1 }}
@@ -154,16 +158,13 @@
                 {{ fournisseur.telFournisseur2 }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.email }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.rccm }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.statut }}
+                {{ fournisseur.sigle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.sigle }}
+                {{ fournisseur.ifu }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{  format_date(fournisseur.dateCreation) }}

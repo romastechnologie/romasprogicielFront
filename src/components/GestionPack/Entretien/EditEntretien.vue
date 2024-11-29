@@ -112,6 +112,13 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
+    onMounted(() => {
+      getAllTypeEntretiens();
+      getAllBiens();
+      if(route.params.id) {
+        getEntretien(parseInt(route.params.id as string));
+      }
+    });
 
 
     function getEntretien(id:number) {
@@ -172,14 +179,7 @@ const editEntretien = async (values, { resetForm }) => {
 };
 
 
-    onMounted(() => {
-      getAllTypeEntretiens();
-      getAllBiens();
-      if(route.params.id) {
-        getEntretien(parseInt(route.params.id as string));
-      }
-    });
-
+  
     return { 
       entretienSchema, editEntretien, entretienForm, typeentretien,biens,typeEntretienOptions,bienOptions,showMErr
     };

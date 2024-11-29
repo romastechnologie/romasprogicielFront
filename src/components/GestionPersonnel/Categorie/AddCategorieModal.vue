@@ -51,6 +51,7 @@
 <script lang="ts">
 import { ref, watch } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
+import Swal from "sweetalert2";
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
 import { error, hideModal, success } from '@/utils/utils';

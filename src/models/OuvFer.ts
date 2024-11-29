@@ -1,19 +1,23 @@
 import { Tresorerie } from "./Tresorerie"
 
-export interface Ouv_FerObject {
+export interface OuvFerObject {
     code: number;
     message: string;
-    data: Ouv_Fer[];
+    data: OuvFer[];
 }
 
-export interface Ouv_Fer {
+export interface OuvFer {
     id?: string
     fondDeRoulement?: string
     ecart?: number
     solde?: number
     tresorerieName?: number
     ouvFerName?: number
-    tresorerie?: Tresorerie
+    tresorerie?: number
     ouvFerId?: number
+    setFieldValue: (field: string, value: any) => void;
+
     
 }
+
+

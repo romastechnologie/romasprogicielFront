@@ -38,12 +38,13 @@
             <thead>
               <tr>
                           <th scope="col">id</th>
-                            <th scope="col">Piece de caisse</th>
+                      <!--   <th scope="col">Piece de caisse</th>-->   
                             <th scope="col">montant</th>
                             <th scope="col">Type de finance</th>
                             <th scope="col">Nom du bénéficiaire</th>
                             <th scope="col">Prenom du bénéficiaire</th>
-                          
+                            <th scope="col">Personnel</th>
+
               
                 <th
                   scope="col"
@@ -54,12 +55,12 @@
             <tbody>
               <tr v-for="(finance, index) in finances" :key="index">
                              <th>{{ finance.id }}</th>
-                            <th > <a :href="`http://localhost:3008/api/uploads/${finance.fichier}`" target="_blank">{{ finance.fichier }}</a> </th>
                             <th>{{ finance.montant }}</th>
                             <th>{{ finance.type }}</th>
                             <th>{{ finance.nomBeneficiaire }}</th>
                             <th>{{ finance.prenomBeneficiaire }}</th>
-             
+                            <th>{{ finance.personnel?.nom }}</th>
+
                 <td
                   class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
                 >
@@ -69,12 +70,12 @@
                         <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
                     </span>
                     <ul class="dropdown-menu">
-                      <li >
+                    <!--  <li >
                         <router-link :to="{ name: 'EditFinancePage', params: { id:finance.id } }" 
                             class="dropdown-item d-flex align-items-center"><i
                             class="flaticon-pen lh-1 me-8 position-relative top-1"
                           ></i>Modifier</router-link>
-                      </li>
+                      </li>-->
                     
                       <li >
                         <a
@@ -103,6 +104,7 @@
   import { defineComponent, onMounted, ref} from "vue";
   import Swal from "sweetalert2";
   import { Finance } from "@/models/Finance";
+import { Tresorerie } from "@/models/Tresorerie";
   import ApiService from "@/services/ApiService";
   import { suppression, error } from "@/utils/utils";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';

@@ -10,10 +10,8 @@ export interface UserCompteObject {
 export interface UserCompte {
     id: number;
     numCompte: string;
-    utilisateurName: string;
-    tresorerieName: string;
-    utilisateur: User;
-    tresorerie: Tresorerie
+    utilisateurId: number;
+    tresorerieId: number 
     created_at?: Date;
     setFieldValue: (field: string, value: any) => void;
 }

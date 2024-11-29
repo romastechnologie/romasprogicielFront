@@ -4,10 +4,12 @@
             <Form class="row g-3" :validation-schema="schema" @submit="sendFinance">
                     <div class="col-md-6">
                         <div class="my-3">
-                            <label for="fichier">Fichier</label>
-                            <Field type="file" class="form-control" id="fichier" name="fichier"
-                                v-model="finance.fichier" />
-                            <ErrorMessage name="fichier" class="text-danger" />
+                            <label for="fichierfinance">Fichier</label>
+                            <Field type="file" class="form-control"
+                             @change="fichierfinanceChange"
+                            id="fichierfinance" name="fichierfinance"
+                                v-model="finance.fichierfinance" />
+                            <ErrorMessage name="fichierfinance" class="text-danger" />
                         </div>
                         <div class="mb-3">
                             <label for="montant">Montant</label>
@@ -146,8 +148,7 @@
 
 
 import { Finance } from "@/models/Finance";
-
-
+import { error, success,onFileChange  } from '@/utils/utils';
 import { onMounted, ref, reactive, watch, computed } from "vue";
 import axios from "axios";
 import { Form, Field, ErrorMessage, configure } from "vee-validate";
@@ -169,6 +170,8 @@ const monnaieList = ref([] as any[])
 const billetageList = reactive<Billetage[]>([])
 let montantTotal = ref(0)
 
+const personnelOptions = ref([]); // Initialisation avec une liste vide
+const tresorerieOptions = ref([]);
 
 
 const caisses = computed(() => {
@@ -187,13 +190,13 @@ interface Billetage {
 }
 
 const schema = Yup.object().shape({
-    fichier: Yup.string().required('La piece de la caisse est obligatoire'),
+    fichierfinance: Yup.mixed().required('Le fichier de la caisse est obligatoire'),
     montant: Yup.number().required('Le montant est obligatoire'),
     type: Yup.string().required('Le type est obligatoire'),
     nomBeneficiaire: Yup.string().required('Le nom du bnéficiaire est obligatoire'),
     prenomBeneficiaire: Yup.string().required('Le prénom du bénéficiaire est obligatoire'),
-
-    tresorerieName: Yup.string().required('La trésorerie est obligatoire'),
+    personnel: Yup.string().required('Le personnel est obligatoire'),
+    tresorerie: Yup.string().required('La trésorerie est obligatoire'),
 })
 
 configure({
@@ -201,71 +204,45 @@ configure({
     validateOnChange: true,
     validateOnInput: true,
 });
+const selectedFile = ref<any>();
+const fichierfinanceChange = (e) => {
+      selectedFile.value = onFileChange(e, [
+        "image/jpeg",
+        "image/png",
+        "application/pdf",
+      ]);
+    };
 
 
-async function sendFinance(value: Object) {
-    try {
-        value['type'] = finance.value.type
-        const type = value['type']
-        const formData = new FormData()
-        const fichier = (document.getElementById('fichier') as HTMLInputElement)
-        const montant = (document.getElementById('montant') as HTMLInputElement).value
-        //const type = (document.getElementById('type') as HTMLInputElement).value
-        const nomBeneficiaire = (document.getElementById('nomBeneficiaire') as HTMLInputElement).value
-        const prenomBeneficiaire = (document.getElementById('prenomBeneficiaire') as HTMLInputElement).value
-        const utilisateurName = (document.getElementById('utilisateurName') as HTMLInputElement).value
-        const tresorerieName = (document.getElementById('tresorerieName') as HTMLInputElement).value
-        const personnelOptions = ref();
-        const tresorerieOptions = ref();
+    const sendFinance = async (values, { resetForm }) => {
+  try {
+    const payload = {
+      ...values,
+      billetages: billetageList.map((billetage) => ({
+        montant: billetage.montant,
+        qteBillet: billetage.qteBillet,
+        valueAct: billetage.valueAct,
+        monnaie: billetage.monnaie,
+      })),
+    };
 
-        if (fichier.files) {
-            formData.append('fichier', fichier.files[0])
-            formData.append('type', type)
-            formData.append('montant', montant)
-            formData.append('nomBeneficiaire', nomBeneficiaire)
-            formData.append('prenomBeneficiaire', prenomBeneficiaire)
-            formData.append('utilisateurName', utilisateurName)
-            formData.append('tresorerieName', tresorerieName)
-        }
-        const res = await ApiService.post('/finances/', formData)
-        const financeId = res.data.id
-        console.log(res)
-        console.log(financeId)
-        if (res.data) {
-            try {
-                const billetageData = billetageList.map(billetage => ({
-                    ...billetage,
-                    finance: financeId
-                }));
-                await ApiService.post(`/billetages/`, billetageData)
-                router.push('/finances/liste-finance')
-                Swal.fire({
-                    timer: 2000,
-                    position: "top-end",
-                    toast: true,
-                    showConfirmButton: false,
-                    timerProgressBar: true,
-                    text: "Financement réussi avec succès",
-                    icon: "success"
-                })
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: "Erreur de la creation d'un financement",
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-                console.error('Erreur lors du billetage:', error)
-                throw error;
-            }
-        }
+    console.log("Payload envoyé :", payload); // Vérifiez ce qui est envoyé
 
-    } catch (error) {
+    const { data } = await axios.post("/finances", payload, {
+      headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
+    });
 
-        console.error('Erreur lors du financement:', error)
-        throw error;
+    if (data.code == 201) {
+      success(data.message);
+      resetForm();
+      router.push({ name: "ListeFinancePage" });
     }
-}
+  } catch ({ response }) {
+    error(response?.data?.message || "Une erreur s'est produite");
+  }
+};
+
+
 
 function getAllUsers() {
     return ApiService.get(`/users`)
@@ -308,13 +285,6 @@ const getAllTresoreries = async () => {
     }
 }
 
-const getTresorerie = () => {
-    ApiService.get('/tresoreries')
-    .then(res => {
-        tresorerieList.value = res.data
-        console.log(tresorerieList.value)
-    })
-}
 const getMonnaie = async () => {
   try {
     const res = await ApiService.get("/monnaies");
@@ -364,7 +334,6 @@ watch(
 
 
 onMounted(() => {
-    getTresorerie();
     getAllTresoreries();
     getMonnaie();
     calculateTotal();

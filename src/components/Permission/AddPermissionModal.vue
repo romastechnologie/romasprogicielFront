@@ -5,7 +5,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">{{ title }}</h4>
-                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button class="btn-close py-0" type="button"   @click="resetValue" 
+                        data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                       <Form ref="permissionForm" @submit="addPermission" :validation-schema="permissionSchema">
@@ -15,7 +16,7 @@
                               <label class="d-block text-black fw-semibold mb-10">
                                 Nom <span class="text-danger">*</span>
                               </label>
-                              <Field name="nom" type="text" 
+                              <Field name="nom" type="text"  :disabled="isupdate" 
                               class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
                               <ErrorMessage name="nom" class="text-danger"/>
                             </div>
@@ -102,6 +103,19 @@
           }
           btnTitle();
         });
+
+        watch(() => props.id, (newValue) => {
+  if (newValue !== 0) {
+    // Mode modification : Charger les données existantes
+    getPermission(newValue);
+    isupdate.value = true;
+  } else {
+    // Mode ajout : Réinitialiser le formulaire
+    resetValue();
+  }
+  btnTitle();
+});
+
     
         const getPermission = async (id: number) => {
           return ApiService.get("/permissions/"+id)
@@ -170,7 +184,7 @@
           btnTitle()
         };
     
-        return {permissions, title,btntext, resetValue, permissionSchema,
+        return {permissions, title,btntext, resetValue, permissionSchema,isupdate,
            addPermission, permissionForm,addPermissionModalRef,permissionnew,
            //refreshPermissions
            };
