@@ -136,8 +136,8 @@ import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import router from "@/router";
 
-const ouvFer = ref<OuvFer>({});
-const ouvFerList = ref<OuvFer[]>([]);
+const ouvFer = ref<Ouv_Fer>({});
+const ouvFerList = ref<Ouv_Fer[]>([]);
 const tresorerieList = ref<Tresorerie[]>([]);
 const tresorerie = ref<Tresorerie>({});
 let show = ref(true);

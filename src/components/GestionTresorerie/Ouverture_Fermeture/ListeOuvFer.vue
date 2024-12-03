@@ -231,9 +231,10 @@
         timerProgressBar: true,
         heightAuto: false,
       });
-      // Met à jour le statut dans la liste
+
+      // Update the status in the list
       const index = ouvFers.value.findIndex((ouvFer) => ouvFer.id === id);
-      if (index !== -1) {
+      if (index !== -1 && ouvFers.value[index].tresorerie) {
         ouvFers.value[index].tresorerie.status = statut;
       }
     })
@@ -250,6 +251,7 @@
       });
     });
 }
+
 
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
   
