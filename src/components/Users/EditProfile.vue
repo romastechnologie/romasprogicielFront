@@ -142,7 +142,7 @@
                       Sexe <span class="text-danger">*</span>
                     </label>
                     <Field  name="sexe"  type="text"  v-slot="{ field }">
-                      <VueMultiselect
+                      <Multiselect
                       v-model = "field.value"
                       v-bind = "field"
                       :options="['Masculin', 'Féminin']"
