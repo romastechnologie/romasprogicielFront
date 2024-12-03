@@ -18,5 +18,6 @@ export  interface Bien {
     categorieBien: string;
     createdAt:Date;
     organisation:string;
+    service:string;
     setFieldValue: (field: string, value: any) => void;
   }
