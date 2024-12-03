@@ -63,7 +63,7 @@
 
 
          <div class="col-md-4">
-                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre<span class="text-danger">*</span></label>
+                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre</label>
                     <Field name="nbreKmParUnLitre" class="form-control" type="number"/>
                     <ErrorMessage name="nbreKmParUnLitre" class="text-danger" />
             </div>
