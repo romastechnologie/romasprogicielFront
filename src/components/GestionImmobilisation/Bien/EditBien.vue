@@ -62,7 +62,7 @@
          </div>
 
          <div class="col-md-4">
-                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre<span class="text-danger">*</span></label>
+                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre</label>
                     <Field name="nbreKmParUnLitre" class="form-control" type="number"/>
                     <ErrorMessage name="nbreKmParUnLitre" class="text-danger" />
             </div>
@@ -175,7 +175,7 @@
             dureeVie: Yup.number().required("La durée de vie est obligatoire."),
             dateMiseEnService: Yup.date().required("La date de mise en service est obligatoire."),
             numeroEnregistrement: Yup.number().required("Le numero d'enregistrement est obligatoire."),
-            nbreKmParUnLitre: Yup.number().required("Le nombre de Kilomètres par un Litre est obligatoire."),
+            //nbreKmParUnLitre: Yup.number().required("Le nombre de Kilomètres par un Litre est obligatoire."),
             codeBar: Yup.string().notRequired(),
             localisation: Yup.string().notRequired(),
             longitude: Yup.number().notRequired(),
