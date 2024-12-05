@@ -21,7 +21,7 @@
   
             <div class="col-md-4 mt-3">
                     <label for="dateAcquisition" class="form-label"> Date d'Acquisition<span class="text-danger">*</span></label>
-                    <Field name="dateAcquisition"  class="form-control" type="Date"/>
+                    <Field name="dateAcquisition"  class="form-control" type="Date-time"/>
                     <ErrorMessage name="dateAcquisition" class="text-danger" />
             </div>
             <div class="col-md-4 mt-3">
@@ -32,7 +32,7 @@
 
             <div class="col-md-4 mt-3">
                     <label for="dateMiseEnService" class="form-label">Date Mise En Service<span class="text-danger">*</span></label>
-                    <Field name="dateMiseEnService" class="form-control" type="Date"/>
+                    <Field name="dateMiseEnService" class="form-control" type="Date-time"/>
                     <ErrorMessage name="dateMiseEnService" class="text-danger" />
             </div>
             <div class="col-md-4 mt-3">

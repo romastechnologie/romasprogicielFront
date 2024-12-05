@@ -10,7 +10,7 @@ export  interface Course {
     pointDepart: string;
     distanceParcourue: number; 
      bienId: number;
-    personelId: number;
+    personnelId: number;
   
     
     setFieldValue: (field: string, value: any) => void;

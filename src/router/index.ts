@@ -446,7 +446,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "editer-depenses",
+        path: "editer-depenses/:id",
         name: "EditDepenses",
         component: EditDepensesPage,
         meta: {

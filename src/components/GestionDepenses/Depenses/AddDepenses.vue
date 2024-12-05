@@ -109,16 +109,14 @@
           </div>
        
           <div class="col-md-4-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label class="d-block fw-semibold mb-10">
                 Motif<span class="text-danger">*</span>
               </label>
-              <Field name="motif" as="textarea" cols="15" rows="6" placeholder="Entrer le motif" v-slot="{ field }"
+              <Field name="motif" as="textarea" cols="4" rows="3" placeholder="Entrer le motif" v-slot="{ field }"
                 class="form-control shadow-none rounded-0 text-black">
                 <textarea class="form-control shadow-none rounded-0 text-black" v-model="field.value"></textarea>
               </Field>
               <ErrorMessage name="motif" class="text-danger" />
-            </div>
           </div>
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">

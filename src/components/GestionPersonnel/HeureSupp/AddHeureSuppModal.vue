@@ -33,7 +33,7 @@
               <Field name="personnel" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
-                label="label" track-by="label" />
+                label="label" track-by="value" />
               </Field>
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
@@ -44,7 +44,7 @@
                 <label class="d-block text-black fw-semibold mb-10" >
                  Duree<span class="text-danger">*</span>
                 </label>
-                <Field name="duree" type="text" 
+                <Field name="duree" type="number" 
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la duree"/>
                 <ErrorMessage name="duree" class="text-danger"/>
               </div>
@@ -199,6 +199,7 @@ export default defineComponent({
         console.log('values',values)
         ApiService.post("/heureSups",values)
         .then(({ data }) => {
+          console.log("donnée", data);
             if(data.code == 201) { 
               success(data.message);
               heureSuppForm.resetForm();

@@ -134,7 +134,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 IFU <span class="text-danger">*</span>
               </label>
-              <Field name="ifu" type="text" 
+              <Field name="ifu" type="number" 
               class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'ifu"/>
               <ErrorMessage name="ifu" class="text-danger"/>
             </div>

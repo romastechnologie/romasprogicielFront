@@ -5,7 +5,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">{{ title }}</h4>
-                        <button class="btn-close py-0" type="button"   @click="resetValue" 
+                        <button class="btn-close py-0" type="button" 
                         data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -104,16 +104,17 @@
           btnTitle();
         });
 
-        watch(() => props.id, (newValue) => {
+        watch(() => props.id, async (newValue) => {
   if (newValue !== 0) {
     // Mode modification : Charger les données existantes
-    getPermission(newValue);
-    isupdate.value = true;
+    await getPermission(newValue);
+    isupdate.value = true; // Activer le mode modification
   } else {
     // Mode ajout : Réinitialiser le formulaire
     resetValue();
+    isupdate.value = false; // Désactiver le mode modification
   }
-  btnTitle();
+  btnTitle(); // Met à jour le titre et le texte du bouton
 });
 
     
@@ -183,6 +184,7 @@
           });
           btnTitle()
         };
+        
     
         return {permissions, title,btntext, resetValue, permissionSchema,isupdate,
            addPermission, permissionForm,addPermissionModalRef,permissionnew,
