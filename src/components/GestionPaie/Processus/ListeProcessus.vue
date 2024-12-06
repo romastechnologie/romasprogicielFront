@@ -52,7 +52,25 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Référence du processus
+                  Date du processus
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Date début du processus
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Date fin du processus
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Période
                 </th>
                 <th
                   scope="col"
@@ -62,7 +80,11 @@
             </thead>
             <tbody>
               <tr  v-for ="(processus, index) in processuss" :key="index">
-                  <td class="shadow-none lh-1 fw-medium ">{{ processus.refProcessus }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(processus.dateProcessus)}} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(processus.dateDebutProcessus) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(processus.dateFinProcessus) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(processus.periodePaie) }} </td>
+
                   <td class="shadow-none lh-1 fw-medium ">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>

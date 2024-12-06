@@ -353,22 +353,21 @@ import { title } from '@/composables/createProject';
   
       onMounted(() => {
         fetchTypeEntretien();
-        fetchFonction();
+        // fetchFonction();
         getAllTypeBien();
-  
       });
   
       const editTypeEntretien = async (values: any, typeEntretienForm) => {
         values = values as TypeEntretien;
-        values.fonctions = fonctions.map(fonction => ({
-          //caburation: fonction.caburation,
-          typeEntretien: fonction.typeEntretien,
-          valeur: fonction.valeur,
-          uniteMesure: fonction.uniteMesure,
-          typeBien: fonction.typeBien
-        }));
+        // values.fonctions = fonctions.map(fonction => ({
+        //   caburation: fonction.caburation,
+        //   typeEntretien: fonction.typeEntretien,
+        //   valeur: fonction.valeur,
+        //   uniteMesure: fonction.uniteMesure,
+        //   typeBien: fonction.typeBien
+        // }));
         if (isUPDATE.value) {
-          ApiService.put("/typeEntretiens" + values.id, values)
+          ApiService.put("/typeEntretiens/" + values.id, values)
             .then(({ data }) => {
               if (data.code == 200) {
                 success(data.message);
@@ -408,18 +407,18 @@ import { title } from '@/composables/createProject';
         //btnTitle()
       };
   
-      const fetchFonction = async () => {
-        try {
-          const response = await ApiService.get("/fonctions");
-          const fonctionData = response.data.data.data;
-          fonctionOptions.value = fonctionData.map((fonction) => ({
-            value: fonction.id,
-            label: `${fonction.libelle}`,
-          }));
-        } catch (error) {
-          //
-        }
-      };
+      // const fetchFonction = async () => {
+      //   try {
+      //     const response = await ApiService.get("/fonctions");
+      //     const fonctionData = response.data.data.data;
+      //     fonctionOptions.value = fonctionData.map((fonction) => ({
+      //       value: fonction.id,
+      //       label: `${fonction.libelle}`,
+      //     }));
+      //   } catch (error) {
+      //     //
+      //   }
+      // };
   
       return {
         typeEntretienSchema,

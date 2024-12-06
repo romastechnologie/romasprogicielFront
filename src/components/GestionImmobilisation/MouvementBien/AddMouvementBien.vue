@@ -12,17 +12,17 @@
     </div>
             <Form ref="bienForm" @submit="addMouvementBien" :validation-schema="mouvementBienSchema">
               <div class="row" mt-3>
-                <div class="col-md-4 mt-3">
+              
+               <div class="col-md-6">
+                  <label for="refMouvement" class="form-label">Référence<span class="text-danger">*</span></label>
+                    <Field name="refMouvement" class="form-control" type="text"/>
+                    <ErrorMessage name="refMouvement" class="text-danger"/>
+            </div>
+  <div class="col-md-6">
                     <label for="dateMouvement" class="form-label">Date Mouvement<span class="text-danger">*</span></label>
                     <Field name="dateMouvement" class="form-control" type="date"/>
                     <ErrorMessage name="dateMouvement" class="text-danger"/>
                </div>
-                <div class="col-md-4 mt-3">
-                    <label for="refMouvement" class="form-label">Référence<span class="text-danger">*</span></label>
-                    <Field name="refMouvement" class="form-control" type="text"/>
-                    <ErrorMessage name="refMouvement" class="text-danger"/>
-            </div>
-
           <!--<div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
@@ -36,11 +36,8 @@
               <span class="text-danger" v-if="showMErr">Le nouvel emplacement est obligatoire</span>
             </div>
           </div>-->
-          <div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+          <div class="col-md-6">
                 Nouvel Emplacement<span class="text-danger">*</span>
-              </label>
               <Field  name="nouvelEmplacement" v-slot="{ field }" v-model="nouvelEmplacement">
                 <Multiselect 
                     v-model = "field.value"
@@ -52,11 +49,18 @@
                  />
               </Field>
               <ErrorMessage name="nouvelEmplacement" class="text-danger"/>
-            </div>
         </div>
             <div class="col-md-6">
                 <label for="infosComplementaire" class="form-label">Ancien Emplacement</label>
-                <Field name="" v-model="ancienEmplacement" class="form-control shadow-none rounded-0 text-black">
+                <Field name="ancienEmplacement" v-model="ancienEmplacement"  class="form-control shadow-none rounded-0 text-black">
+                  <Multiselect 
+                    :options="serviceOptions"
+                     v-model="ancienEmplacement"
+                    :disabled="true"
+                    placeholder="Selectionner un emplacement"
+                    label="label" 
+                    track-by="label"
+                 />
                 </Field>
             </div>
             <div class="col-md-6">
@@ -123,7 +127,9 @@
       const typMouv = ref("");
       const tpValue = ref(1);
       const service = ref("");
-      const bienId = ref()
+      const bienId = ref();
+      const ancienEmplacement = ref("");
+
 
       onMounted(() => {
         getAllBiens(),
@@ -144,7 +150,8 @@
           nombien.value = data.data.nomBien + "" +"" +"["+  "" +data.data.refBien + "]"
           tpValue.value = data.data.mouvements.length != 0 ? 2 : 1
           typMouv.value = tpValue.value == 1 ? "Affectation" : "Transfert"
-          service.value = data.data.mouvements?.emplacementDepart?.libelle
+          ancienEmplacement.value = data.data.service?.id || "Non défini";
+          
           console.log('cg', nombien)
           // for (const key in data.data) {
           //   bienForm.value?.setFieldValue(key, 
@@ -178,7 +185,7 @@
            //if(data.code == 201) { 
             success(data.message)
             resetForm();
-            router.push({ name: "ListeMouvementBien" });
+            router.push({ name: "ListeBien" });
           // }
         }).catch(({ response }) => {
           error(response.message);
@@ -218,7 +225,7 @@
       return { 
         mouvementBienSchema, addMouvementBien, bienForm, 
         typeOptions, biens,serviceOptions,emplacementDepart,
-        showMErr, nombien,  nouvelEmplacement, typMouv, tpValue,service
+        showMErr, nombien,  nouvelEmplacement, typMouv, tpValue,service,ancienEmplacement,
       };
     },
   });

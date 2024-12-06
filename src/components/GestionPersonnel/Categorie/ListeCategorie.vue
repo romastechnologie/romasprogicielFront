@@ -87,7 +87,7 @@
                 </li>
                 <li class="dropdown-item d-flex align-items-center">
                   <a href="javascript:void(0);"
-                      @click="suppression(categorie.id,categories,'categories',`le categorie ${categorie.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                      @click="suppression(categorie.id,categories,'categorieDemandes',`la categorie ${categorie.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                        Supprimer
                   </a>
                 </li>

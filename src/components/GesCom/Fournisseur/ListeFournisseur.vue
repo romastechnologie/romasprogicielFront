@@ -64,6 +64,12 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
+                Dénomination
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
                 Adresse
               </th>
               <th
@@ -80,12 +86,7 @@
                 Sexe
               </th>
 
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Dénomination
-              </th>
+             
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -139,13 +140,16 @@
                 {{ fournisseur.prenomFournisseur }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ fournisseur.denomination }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.adresseFournisseur }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.emailFournisseur }}
+                {{ fournisseur.email }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.denomination }}
+                {{ fournisseur.sexe }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.telFournisseur1 }}
@@ -154,19 +158,16 @@
                 {{ fournisseur.telFournisseur2 }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.email }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.rccm }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.statut }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ fournisseur.sigle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.sexe }}
+                {{ fournisseur.ifu }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{  format_date(fournisseur.dateCreation) }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -216,7 +217,7 @@ import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
 import { Fournisseur } from "@/models/Fournisseur";
 import ApiService from "@/services/ApiService";
-import { suppression, error } from "@/utils/utils";
+import { format_date,suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
@@ -318,6 +319,7 @@ export default defineComponent({
 
     return { fournisseurs,
       checkPermission,
+      format_date,
      getAllFournisseurs,
      deleteFournisseur,
      moddifier ,

@@ -63,7 +63,7 @@
 
 
          <div class="col-md-4">
-                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre<span class="text-danger">*</span></label>
+                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre</label>
                     <Field name="nbreKmParUnLitre" class="form-control" type="number"/>
                     <ErrorMessage name="nbreKmParUnLitre" class="text-danger" />
             </div>
@@ -120,8 +120,8 @@
               <label class="d-block text-black  mb-10">
                 Organisation <span class="text-danger">*</span>
               </label>
-              <Field name="organisation" v-model="organisations" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions" :preserve-search="true"
+              <Field name="service" v-model="services" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation "
                 label="label" track-by="label" />
               </Field>
@@ -181,33 +181,33 @@
             dureeVie: Yup.number().required("La durée de vie est obligatoire."),
             dateMiseEnService: Yup.date().required("La date de mise en service est obligatoire."),
             numeroEnregistrement: Yup.number().required("Le numero d'enregistrement est obligatoire."),
-            nbreKmParUnLitre: Yup.number().required("Le nombre de kilomètres par un Litre est obligatoire."),
+            nbreKmParUnLitre: Yup.number(),
             codeBar: Yup.string().notRequired(),
             localisation: Yup.string().notRequired(),
             longitude: Yup.number().notRequired(),
             latitude: Yup.number().notRequired(),
             modeAmortissement: Yup.string().required("Le mode d'amortissement est obligatoire."),
             valeurNetteComptable: Yup.number().required("La valeur nette comptable est obligatoire."),
-            organisation: Yup.string().required("L'organisation est obligatoire."),
+            service: Yup.string().required("L'organisation est obligatoire."),
 
       });
   
       onMounted(() => {
         getAllTypeBien()
         getAllCategorieBien()
-        getAllOrganisation()
+        getAllService()
   });
   
       const bienForm =  ref(null);
       const showMErr = ref(false);
       const types = ref();
       const categories = ref();
-      const organisations = ref();
+      const services = ref();
       
       //const permissions = ref(null);
       const typeOptions = ref([]);
       const categorieOptions = ref([]);
-      const organisationOptions = ref([]);
+      const serviceOptions = ref([]);
       const router = useRouter();
       //const permissions= ref<Array<Permission>>([]);
   
@@ -215,7 +215,7 @@
       const addBien = async (values: any, { resetForm }) => {
       values['types'] = types.value.value
       values['categories'] = categories.value.value
-      values['organisation'] = organisations.value.value
+      values['service'] = services.value.value
       console.log('Données envoyées', values)
       if (showMErr.value === false) {
         ApiService.post("/biens", values)
@@ -235,7 +235,7 @@
       const getAllTypeBien = async () => {
         try{
         const response = await ApiService.get('/all/typeBiens');
-        const typesData = response.data.data;
+        const typesData = response.data.data.data;
 
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
@@ -250,7 +250,7 @@
       const getAllCategorieBien = async () => {
         try{
         const response = await ApiService.get('/all/categorieBiens');
-        const categoriesData = response.data.data;
+        const categoriesData = response.data.data.data;
 
         categorieOptions.value = categoriesData.map((categorie) => ({
           value: categorie.id,
@@ -262,21 +262,21 @@
         }
       } 
   
-      const getAllOrganisation = async () => {
+      const getAllService = async () => {
         try{
-        const response = await ApiService.get('/all/organisations');
-        const organisationsData = response.data.data.data;
-        console.log(organisationsData,"gggggggggg");
-        organisationOptions.value = organisationsData.map((organisation) => ({
-          value: organisation.id,
-          label: organisation.nom,
+        const response = await ApiService.get('/services');
+        const servicesData = response.data.data.data;
+        console.log(servicesData,"gggggggggg");
+        serviceOptions.value = servicesData.map((service) => ({
+          value: service.id,
+          label: service.libelle,
         }));
         }
         catch(error){
           //error(response.data.message)
         }
       } 
-      return { bienSchema, addBien, bienForm,typeOptions,showMErr,categorieOptions,organisationOptions,types,categories,organisations};
+      return { bienSchema, addBien, bienForm,typeOptions,showMErr,categorieOptions,serviceOptions,types,categories,services};
     },
   });
   </script>

@@ -15,7 +15,7 @@
                               <label class="d-block text-black fw-semibold mb-10">
                                 Rôle <span class="text-danger">*</span>
                               </label>
-                              <VueMultiselect
+                              <Multiselect
                                 v-model = "roles"
                                 :options="roleOptions"
                                 :close-on-select="false"
@@ -56,7 +56,8 @@ import ApiService from '@/services/ApiService';
 import { error, hideModal, success } from '@/utils/utils';
 import { useRoute } from 'vue-router';
 import { User } from '@/models/users';
-import VueMultiselect from 'vue-multiselect'
+
+import Multiselect from '@vueform/multiselect';
 import axios from 'axios';
 //import store from "./ListeUser.vue";
 
@@ -66,7 +67,7 @@ export default {
     Form,
     Field,
     ErrorMessage,
-    VueMultiselect,
+    Multiselect,
 
   },
   props: {

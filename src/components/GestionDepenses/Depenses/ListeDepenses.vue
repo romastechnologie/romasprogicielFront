@@ -7,13 +7,7 @@
           <i class="fa fa-plus-circle"></i>
           Ajouter une Dépense
         </router-link>
-        <!-- <button
-          class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
-          type="button"
-        >
-          Exporter
-          <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
-        </button> -->
+      
       </div>
       <div class="d-flex align-items-center">
         <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
@@ -39,63 +33,119 @@
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Description
               </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0">
-                Entretien</th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Planification Reparation
-              </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Types Dépenses
-              </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Categorie Depense
-              </th>
+             
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Montant
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Motif
               </th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                Observation
+              </th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+               Etat
+              </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0">
                 Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(depense, index) in depenses" :key="index">
-              <td class="shadow-none lh-1 fw-medium ">{{ depense.date }} </td>
+            <tr v-for="(depense, index) in depenses" :key="index">  
+              <td class="shadow-none lh-1 fw-medium ">{{ format_date(depense.date) }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.libelle }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense?.description }} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ depense.entretien }} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ depense.planificationReparation }} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ depense.typesDepenses }} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ depense.categoriesDepenses }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.montant }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.motif }} </td>
-              <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
-                <div class="dropdown">
-                  <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">Actions</button>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-item d-flex align-items-center">
-                      <router-link :to="{ name: 'EditDepenses', params: { id: depense.id } }">
-                        <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
-                        Modifier
-                      </router-link>
-                    </li>
-                    <li class="dropdown-item d-flex align-items-center">
-                      <a href="javascript:void(0);"
-                        @click="suppression(depense.id, depenses, 'depenses', 'une depense')">
-                        <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>
-                        Supprimer
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ depense.observation }} </td>
+              <td class="shadow-none lh-1 fw-medium">
+  <span :class="getEtatBadge(depense.estValide).badgeClass">
+    {{ getEtatBadge(depense.estValide).text }}
+  </span>
+</td>
+
+<td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
+  <div class="dropdown">
+    <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Actions
+    </button>
+    <ul class="dropdown-menu">
+      <!-- Bouton Valider : affiché seulement si la dépense n'est pas validée -->
+      <li v-if="!depense.estValide" class="dropdown-item d-flex align-items-center">
+        <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(depense.id)">
+          <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
+          Valider
+        </a>
+      </li>
+      <!-- Bouton Modifier : affiché seulement si la dépense n'est pas validée -->
+      <li v-if="!depense.estValide" class="dropdown-item d-flex align-items-center">
+        <router-link :to="{ name: 'EditDepenses', params: { id: depense.id } }">
+          <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+          Modifier
+        </router-link>
+      </li>
+      <!-- Bouton Supprimer : toujours affiché -->
+      <li class="dropdown-item d-flex align-items-center">
+        <a href="javascript:void(0);" @click="suppression(depense.id, depenses, 'depenses', 'une dépense')">
+          <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>
+          Supprimer
+        </a>
+      </li>
+    </ul>
+  </div>
+</td>
+
             </tr>
           </tbody>
         </table>
       </div>
+
+
+
+     <div class="modal fade" id="create-task" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Voulez-vous vraiment valider cette dépense ?</h6>
+        <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4">
+        <Form
+          ref="depensesForm"
+          @submit="addDepenses"
+          :validation-schema="depensesSchema"
+        >
+          <div class="row gy-2">
+            <div class="col-md-4-3">
+              <label class="d-block fw-semibold mb-10">
+                Observation<span class="text-danger"></span>
+              </label>
+              <Field
+                name="observation"
+                as="textarea"
+                placeholder="Entrer l'observation"
+                class="form-control shadow-none rounded-0 text-black"
+              />
+              <ErrorMessage name="observation" class="text-danger" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Valider</button>
+            <button
+              type="button"
+              class="btn btn-light"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              Annuler
+            </button>
+          </div>
+        </Form>
+      </div>
+    </div>
+  </div>
+</div>
+
       <div class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
         <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit"
           @paginate="handlePaginate" />
@@ -107,22 +157,36 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import ApiService from "@/services/ApiService";
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import { Depense } from "@/models/Depense";
-import { suppression, error, } from "@/utils/utils";
+import { format_date, showModal, hideModal, suppression, error,success  } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
+import { useRoute, useRouter } from 'vue-router';
+import * as Yup from 'yup';
+
 
 export default defineComponent({
   name: "ListeDepenses",
   components: {
-    PaginationComponent
+    PaginationComponent,
+    Form,
+        Field,
+        ErrorMessage
   },
   setup(){
     onMounted(() => {
       getAllDepenses();
     });
+
+    const depensesSchema = Yup.object().shape({
+      observation: Yup.string().required("L'observation est obligatoire"),
+    });
+    const depensesForm = ref(null);
     const depenses = ref<Array<Depense>>([]);
     const depense = ref<Depense>();
+      const router = useRouter();
+    const route = useRoute();
     // BEGIN PAGINATE
     const searchTerm = ref('');
     const page = ref(1);
@@ -137,6 +201,10 @@ export default defineComponent({
       } catch (error) {
         //
       }
+    };
+    const depenseii = ref();
+    const openModal = (id: number) => {
+      depenseii.value = id;
     };
     function rechercher() {
       getAllDepenses(page.value, limit.value, searchTerm.value);
@@ -155,6 +223,56 @@ export default defineComponent({
           error(response.data.message)
         });
     }
+
+
+    const getEtatBadge = (estValide: boolean) => {
+  if (estValide) {
+    return {
+      text: "Validé",
+      badgeClass: "badge bg-success text-white", // Classe pour le badge vert
+    };
+  }
+  return {
+    text: "En attente",
+    badgeClass: "badge bg-danger text-white", // Classe pour le badge rouge
+  };
+};
+function triggerButtonClick(buttonId: string) {
+  const button = document.getElementById(buttonId) as HTMLButtonElement;
+  if (button) {
+    button.click(); // Simule un clic
+  } else {
+    console.error(`Button with ID "${buttonId}" not found.`);
+  }
+}
+
+// Déclenchement automatique après un certain temps
+/**setTimeout(() => {
+  
+}, 2000);*/ // 2 secondes
+// Utilisation
+    const addDepenses = async (values, { resetForm }) => {
+  values["id"] = depenseii.value;
+  values["estValide"] = true;
+
+  ApiService.put("/depenses/" + values.id, values)
+    .then(({ data }) => {
+      console.log('depense', data);
+      if (data.code === 200) {
+        success(data.message);
+        resetForm();
+        getAllDepenses();
+        triggerButtonClick("close-modal");
+        
+      }
+    })
+    .catch(({ response }) => {
+      error(response.data.message);
+    });
+};
+
+
+
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
     const checkPermission = (name) => {
@@ -162,8 +280,11 @@ export default defineComponent({
     }
     return {
       depense,
+      openModal,
+      depensesForm,
       checkPermission,
       suppression,
+      format_date,
       depenses,
       page,
       totalPages,
@@ -171,7 +292,11 @@ export default defineComponent({
       totalElements,
       handlePaginate,
       searchTerm,
-      rechercher
+      rechercher,
+      addDepenses,
+      depensesSchema,
+      getEtatBadge
+      
     };
   },
 });

@@ -446,7 +446,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "editer-depenses",
+        path: "editer-depenses/:id",
         name: "EditDepenses",
         component: EditDepensesPage,
         meta: {
@@ -743,7 +743,7 @@ const routes: Array<RouteRecordRaw> = [
        }
       },
       {
-        path: "editer-course",
+        path: "editer-course/:id",
         name: "EditCoursePage",
         component: EditCoursePage,
        meta: {
@@ -773,7 +773,7 @@ const routes: Array<RouteRecordRaw> = [
        }
       },
       {
-        path: "editer-planificationReparation",
+        path: "editer-planificationReparation/:id",
         name: "EditPlanificationReparationPage",
         component: EditPlanificationReparationPage,
        meta: {
@@ -803,7 +803,7 @@ const routes: Array<RouteRecordRaw> = [
        }
       },
       {
-        path: "editer-entretien",
+        path: "editer-entretien/:id",
         name: "EditEntretienPage",
         component: EditEntretienPage,
        meta: {

@@ -4,169 +4,160 @@
           <Form ref="fournisseurForm" @submit="editFournisseur" :validation-schema="fournisseurSchema" :initial-values="fournisseurForm">
           <div class="row">
             <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                 Statut<span class="text-danger">*</span>
-                </label>
-                <Field  name="statut"  v-slot="{ field }">
-                  <Multiselect
-                    :options="statut"
-                    :searchable="true"
-                    track-by="label"
-                    label="label"
-                    v-model = "field.value"
-                    v-bind = "field"
-                    placeholder="Sélectionner le statut"
-                  />
-                </Field>  
-              </div>
-              <ErrorMessage name="estPublie" class="text-danger"/>
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+               Statut<span class="text-danger">*</span>
+              </label>
+              <Field name="statut" v-slot="{ field }">
+  <Multiselect
+    v-bind="field"
+    v-model="defaultStatut"
+    :options="statutOptions"
+    track-by="value"
+    label="label"
+    placeholder="Sélectionner le statut"
+    @select="handleStatutChange"
+  />
+</Field> 
             </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Nom <span class="text-danger">*</span>
-                </label>
-                <Field name="nomFournisseur" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
-                <ErrorMessage name="nomFournisseur" class="text-danger"/>
-              </div>
+            <ErrorMessage name="statut" class="text-danger"/>
+          </div>
+          <div class="col-md-4" v-if="showAdditionalFields">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Nom du fournisseur<span class="text-danger">*</span>
+              </label>
+              <Field name="nomFournisseur" type="text" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
+              <ErrorMessage name="nomFournisseur" class="text-danger"/>
             </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Prénom <span class="text-danger">*</span>
-                </label>
-                <Field name="prenomFournisseur" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom"/>
-                <ErrorMessage name="prenomFournisseur" class="text-danger"/>
-              </div>
-            </div> 
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Adresse <span class="text-danger">*</span>
-                </label>
-                <Field name="adresseFournisseur" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'adresse"/>
-                <ErrorMessage name="adresseFournisseur" class="text-danger"/>
-              </div>
+          </div>
+          <div class="col-md-4" v-if="showAdditionalFields">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Prénom du fournisseur<span class="text-danger">*</span>
+              </label>
+              <Field name="prenomFournisseur" type="text" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom"/>
+              <ErrorMessage name="prenomFournisseur" class="text-danger"/>
             </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Email <span class="text-danger">*</span>
-                </label>
-                <Field name="email" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'email"/>
-                <ErrorMessage name="email" class="text-danger"/>
-              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Adresse 
+              </label>
+              <Field name="adresseFournisseur" type="text" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'adresse"/>
+              <ErrorMessage name="adresseFournisseur" class="text-danger"/>
             </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Téléphone 1 <span class="text-danger">*</span>
-                </label>
-                <Field name="telFournisseur1" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
-                <ErrorMessage name="telFournisseur1" class="text-danger"/>
-              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Email
+              </label>
+              <Field name="email" type="text" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'email"/>
+              <ErrorMessage name="email" class="text-danger"/>
             </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Téléphone 2 
-                </label>
-                <Field name="telFournisseur2" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
-                <ErrorMessage name="telFournisseur2" class="text-danger"/>
-              </div>
+          </div>
+          <div class="col-md-4" v-if="showAdditionalFields">
+          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+            <label class="d-block text-black fw-semibold mb-10">
+              Sexe <span class="text-danger">*</span>
+            </label>
+            <Field  name="sexe"  type="text"  v-slot="{ field }">
+              <Multiselect
+                :searchable = "true"
+                :options = "['Masculin', 'Féminin']"
+                v-model = "field.value"
+                v-bind = "field"
+                placeholder="Sélectionner le sexe"
+              />
+            </Field>
+              <ErrorMessage name="sexe" class="text-danger"/>
+          </div>
+        </div>
+          <div class="col-md-4">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Téléphone 1 <span class="text-danger">*</span>
+              </label>
+              <Field name="telFournisseur1" type="text" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+              <ErrorMessage name="telFournisseur1" class="text-danger"/>
             </div>
-            <!-- <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Raison sociale <span class="text-danger">*</span>
-                </label>
-                <Field name="raisonSociale" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la raison sociale"/>
-                <ErrorMessage name="raisonSociale" class="text-danger"/>
-              </div>
-            </div> -->
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Régistre de commerce <span class="text-danger">*</span>
-                </label>
-                <Field name="rccm" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le régistre de commerce"/>
-                <ErrorMessage name="rccm" class="text-danger"/>
-              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Téléphone 2 
+              </label>
+              <Field name="telFournisseur2" type="text" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/>
+              <ErrorMessage name="telFournisseur2" class="text-danger"/>
             </div>
-            <div class="col-md-4">
+          </div>
+          <div class="col-md-4" v-if="!showAdditionalFields">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Sigle <span class="text-danger">*</span>
+              </label>
+              <Field name="sigle" type="text" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le sigle"/>
+              <ErrorMessage name="sigle" class="text-danger"/>
+            </div>
+          </div>
+          <div class="col-md-4" v-if="!showAdditionalFields">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Dénomination <span class="text-danger">*</span>
+              </label>
+              <Field name="denomination" type="text" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la denomination"/>
+              <ErrorMessage name="denomination" class="text-danger"/>
+            </div>
+          </div>
+         
+         <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                IFU <span class="text-danger">*</span>
+              </label>
+              <Field name="ifu" type="number" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'ifu"/>
+              <ErrorMessage name="ifu" class="text-danger"/>
+            </div>
+          </div>
+          
+          <div class="col-md-4" v-if="!showAdditionalFields">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Régistre de commerce <span class="text-danger">*</span>
+              </label>
+              <Field name="rccm" type="text" 
+              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le régistre de commerce"/>
+              <ErrorMessage name="rccm" class="text-danger"/>
+            </div>
+          </div>
+          <div class="col-md-4" v-if="!showAdditionalFields">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
-                  IFU <span class="text-danger">*</span>
+                  Date de création 
                 </label>
-                <Field name="ifu" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'ifu"/>
-                <ErrorMessage name="ifu" class="text-danger"/>
+                <Field name="dateCreation" type="date" 
+                class="form-control shadow-none fs-md-15 text-black"/>
               </div>
+            <ErrorMessage name="dateCreation" class="text-danger"/>
             </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Sigle <span class="text-danger">*</span>
-                </label>
-                <Field name="sigle" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le sigle"/>
-                <ErrorMessage name="sigle" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Dénomination <span class="text-danger">*</span>
-                </label>
-                <Field name="denomination" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la denomination"/>
-                <ErrorMessage name="denomination" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                  Sexe <span class="text-danger">*</span>
-                </label>
-                <Field  name="sexe"  type="text"  v-slot="{ field }">
-                <Multiselect
-                  :searchable = "true"
-                  :options = "['Masculin', 'Féminin']"
-                  v-model = "field.value"
-                  v-bind = "field"
-                  placeholder="Sélectionner le sexe"
-                />
-              </Field>
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la denomination"/>
-                <ErrorMessage name="sexe" class="text-danger"/>
-              </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Date de création <span class="text-danger">*</span>
-                  </label>
-                  <Field name="dateCreation" type="date" 
-                  class="form-control shadow-none fs-md-15 text-black"/>
-                </div>
-              <ErrorMessage name="dateCreation" class="text-danger"/>
-              </div>
             <div class="col-md-12">
               <div class="d-flex align-items-center ">
                 <button
                   class="btn btn-success me-3"
                   type="submit"
                 >
-                    Ajouter un fournisseur
+                    Modifier un fournisseur
                 </button>
                 <router-link to="/fournisseurs/liste-fournisseurs" 
                     class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
@@ -201,41 +192,77 @@ export default defineComponent({
   },
   setup: () => {
     const fournisseurSchema = Yup.object().shape({
-      nomFournisseur: Yup.string().required('Le nom du fournisseur est obligatoire'),
-      prenomFournisseur: Yup.string().required('Le prénom du fournisseur est obligatoire'),
-      adresseFournisseur: Yup.string().required('L\' adresse du fournisseur est obligatoire'),
-      email: Yup.string().email("Veuillez entrer un mail valide").required('L\'email est obligatoire'),
-      telFournisseur1: Yup.number().typeError('Veuillez entrer des chiffres').required('Le telephone 1 est obligatoire'),
-      telFournisseur2: Yup.number().typeError('Veuillez entrer des chiffres').notRequired(),
-      //dateNais: Yup.date().required('La date est obligatoire'),
-      // raisonSociale: Yup.string().required('La raison sociale est obligatoire'),
-      ifu: Yup.number().typeError('Veuillez entrer des chiffres').required('L\'ifu est obligatoire'),
-      sigle: Yup.string().notRequired(),
-      denomination: Yup.string().required('La dénomination est obligatoire'),
-      dateCreation: Yup.date().required('La date de création'),
-      statut: Yup.string().required('Le statut est obligatoire'),
-      rccm: Yup.string().required('Le rccm est obligatoire'),
+      statut: Yup.number().required("Le statut est obligatoire"),
+      nomFournisseur: Yup.string().when("statut", {
+        is: 1, // Personne Physique
+        then: (schema) => schema.required("Le nom du fournisseur est obligatoire"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+      prenomFournisseur: Yup.string().when("statut", {
+        is: 1,
+        then: (schema) => schema.required("Le prénom du fournisseur est obligatoire"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+      sexe: Yup.string().when("statut", {
+        is: 1,
+        then: (schema) => schema.required("Le sexe est obligatoire"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+      adresseFournisseur: Yup.string().notRequired(),
+      email: Yup.string().email("Veuillez entrer un email valide").notRequired(),
+      telFournisseur1: Yup.number()
+        .typeError("Veuillez entrer des chiffres")
+        .required("Le téléphone 1 est obligatoire"),
+      telFournisseur2: Yup.number().typeError("Veuillez entrer des chiffres").notRequired(),
+      ifu: Yup.number()
+        .typeError("Veuillez entrer des chiffres")
+        .required("L'IFU est obligatoire"),
+      sigle: Yup.string().when("statut", {
+        is: 2, // Personne Morale
+        then: (schema) => schema.required("Le sigle est obligatoire"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+      denomination: Yup.string().when("statut", {
+        is: 2,
+        then: (schema) =>
+          schema.required("La dénomination est obligatoire"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+      rccm: Yup.string().when("statut", {
+        is: 2,
+        then: (schema) =>
+          schema.required("Le registre de commerce est obligatoire"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+      dateCreation: Yup.date().when("statut", {
+        is: 2,
+        then: (schema) =>
+          schema.required("La date de création est obligatoire"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
     });
+
+    const handleStatutChange = (selectedValue: number) => {
+      defaultStatut.value = selectedValue;
+      showAdditionalFields.value = selectedValue === 1; // Met à jour dynamiquement
+    };
 
     const fournisseurForm = ref<Fournisseur>();
     const router = useRouter();
     const route = useRoute();
+    const defaultStatut = ref(1); // Personne Physique par défaut
+    const showAdditionalFields = ref(true);
 
-    const statut = 
-      [
-      {
-          value: "1" ,
-          label: "Personne physique"
-      },
-      {
-          value: "2" ,
-          label: "Personne Morale"
-      }
+    const statutOptions = [
+      { value: 1, label: "Personne Physique" },
+      { value: 2, label: "Personne Morale" },
     ];
+
 
     function getFournisseur(id:number) {
       ApiService.get("/fournisseurs/"+id.toString())
         .then(({ data }) => {
+          console.log("donnée",data);
           for (const key in data.data) {
             fournisseurForm.value?.setFieldValue(key, 
             (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
@@ -247,19 +274,23 @@ export default defineComponent({
       });
     }
 
-    const editFournisseur = async (values, {resetForm}) => {
-      const data = fournisseurForm.value;
-      ApiService.put("/fournisseurs/" + data?.id, data)
-        .then(({ data }) => {
-          if (data.code == 200) {
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeFournisseurPage" });
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-        });
-    };
+
+
+    const editFournisseur = async (values, { resetForm }) => {
+  try {
+    const response = await ApiService.put(`/fournisseurs/${values.id}`, values);
+    
+    if (response.status === 200) {
+      success(response.data.message);
+      resetForm();
+      router.push({ name: "ListeFournisseurPage" });
+    }
+  } catch (error) {
+    error(error.response?.data?.message || "Une erreur est survenue.");
+  }
+};
+
+
 
     onMounted(() => {
       if(route.params.id) {
@@ -268,7 +299,11 @@ export default defineComponent({
     });
 
     return { 
-      fournisseurSchema, editFournisseur, fournisseurForm, statut,
+      fournisseurSchema, editFournisseur, fournisseurForm,
+      statutOptions,
+      defaultStatut,
+      showAdditionalFields,
+      handleStatutChange,
 
     };
   },

@@ -3,6 +3,6 @@ export  interface Panne {
     description: string;
     libelle: string;
     createdAt:Date;
-    biens:string;
+    bien:number;
     setFieldValue: (field: string, value: any) => void;
   }

@@ -123,7 +123,7 @@ export default defineComponent({
       dateDebut: Yup.string().required("Date debut est obligatoire."),
       dateFin: Yup.string().required("Date fin est obligatoire."),
       dateReprise: Yup.string().required("Date reprise est obligatoire."),
-      motifPermission:Yup.string().required("Date debut est obligatoire."),
+      motifPermission:Yup.string().required("motif est obligatoire."),
 
     });
 

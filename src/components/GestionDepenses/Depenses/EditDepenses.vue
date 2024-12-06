@@ -8,7 +8,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date de depense <span class="text-danger">*</span>
               </label>
-              <Field name="date" type="date" :value="getCurrentDate"
+              <Field name="date" type="date" 
                 class="form-control shadow-none fs-md-15 text-black" />
             </div>
             <ErrorMessage name="date" class="text-danger" />
@@ -147,7 +147,7 @@
   import ApiService from '@/services/ApiService';
   import { Depense } from '@/models/Depense';
   import { error, success } from '@/utils/utils';
-  import { useRouter } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
   
@@ -177,11 +177,15 @@
     });
   
       onMounted(() => {
+        getAllPersonnels();
         getAllEntretien();
         getAllPlanificationReparation();
         getAllTypesDepenses();
         getAllCategoriesDepenses();
-        getAllPersonnels();
+        if(route.params.id) {
+        getDepenses(parseInt(route.params.id as string));
+      }
+      
       });
       const depensesForm = ref(null);
       const showMErr = ref(false);
@@ -196,10 +200,13 @@
       const categoriesDepensesOptions = ref([]);
       const router = useRouter();
       //const permissions= ref<Array<Permission>>([]);
+    const route = useRoute();
+
 
       function getDepenses(id: number) {
         ApiService.get("/depenses/" + id.toString())
           .then(({ data }) => {
+            console.log('depense',data);
             for (const key in data.data) {
               depensesForm.value?.setFieldValue(key,
                 (typeof data.data[key] === 'object' && data.data[key] !== null) ? data.data[key].id : data.data[key]
@@ -213,10 +220,11 @@
       const editDepenses = async (values, { resetForm }) => {
         ApiService.put("/depenses/" + values.id, values)
           .then(({ data }) => {
+            console.log('depense', data);
             if (data.code == 200) {
               success(data.message);
               resetForm();
-              router.push({ name: "ListeDepensesPage" });
+              router.push({ name: "ListeDepenses" });
             }
           }).catch(({ response }) => {
             error(response.data.message);
@@ -238,8 +246,8 @@
       }
       const getAllPersonnels = async () => {
         try {
-          const response = await ApiService.get('/personnels');
-          const personnelsData = response.data;
+          const response = await ApiService.get('all/personnels');
+          const personnelsData = response.data.data.data;
           console.log('Data', personnelsData)
           personnelOptions.value = personnelsData.map((personnel) => ({
             value: personnel.id,

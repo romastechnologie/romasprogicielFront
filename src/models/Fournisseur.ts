@@ -6,10 +6,10 @@ export  interface Fournisseur {
     telFournisseur2: string;
     email: string;
     sigle: string;
-    rrcm: string;
+    rccm: string;
     ifu: string;
     denomination: string;
-    dateCreation:string;
+    dateCreation:Date;
     adresseFournisseur: string;
     sexe: string;
     createdAt:Date;

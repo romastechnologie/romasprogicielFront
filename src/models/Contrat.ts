@@ -3,15 +3,24 @@ export  interface Contrat {
     refContrat: string;
     dateDebut: Date;
     dateFin: Date;
-    salaireDeBase: number;
     heuresTravaillees: Date;
-    renouvelable: number;
     periodeEssai:Date;
     dateFinPeriodeEssai:Date,
     status:string;
     periodeDePaie:Date;
-    typeContrat:string;
+    typeContrat:number;
     employe:string;
     createdAt:Date;
+    datePriseFonction: Date;
+    salaire: number;
+    dureeContrat: number;
+    conditionLicenciement: string;
+    nbJourConge: number;
+    salaireBase: number;
+    nobreheuresTravail: Date;
+    renouvelable: string;
+    dureePeriodeEssai: string;
+    dateFinperiodeEssai: Date;
+    personnelId: number,
     setFieldValue: (field: string, value: any) => void;
   }

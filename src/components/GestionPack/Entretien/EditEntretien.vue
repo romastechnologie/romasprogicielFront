@@ -1,12 +1,12 @@
 <template>
-    <div class="card mb-25 border-0 rounded-0 bg-white edit-user-card">
-    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-            <Form ref="entretienForm" @submit="editEntretien" :validation-schema="entretienSchema">
-              <div class="row">
-                <div class="col-md-4">
+  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+  <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+          <Form ref="entretienForm" @submit="editEntretien" :validation-schema="entretienSchema" :initial-values="entretienForm">
+          <div class="row">
+            <div class="col-md-4">
                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
-                    <Field name="refEntretien" class="form-control" type="text"/>
-                    <ErrorMessage name="refEntretien" class="text-danger" />
+                    <Field name="reference" class="form-control" type="text"/>
+                    <ErrorMessage name="reference" class="text-danger" />
             </div>
             <div class="col-md-4">
                     <label for="libelle" class="form-label">Libelle<span class="text-danger">*</span></label>
@@ -14,7 +14,7 @@
                     <ErrorMessage name="libelle" class="text-danger" />
             </div>
             <div class="col-md-4">
-                    <label for="dateRealisation" class="form-label">Date de réalisaton<span class="text-danger">*</span></label>
+                    <label for="dateRealisation" class="form-label">Date de réalisation<span class="text-danger">*</span></label>
                     <Field name="dateRealisation" class="form-control" type="date"/>
                     <ErrorMessage name="dateRealisation" class="text-danger" />
             </div>
@@ -30,7 +30,7 @@
                 <label class="d-block text-black mb-10">
                   Bien <span class="text-danger">*</span>
                 </label>
-                <Field name="biens" v-model="biens" type="text" v-slot="{ field }">
+                <Field name="bien" v-model="biens" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="bienOptions" :preserve-search="true"
                    :multiple="false" :searchable="true" placeholder="Sélectionner le bien"
                   label="label" track-by="label" />
@@ -42,96 +42,86 @@
             <div class="col-md-4 mt-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black mb-10">
-                Type d'entretien<span class="text-danger">*</span>
+                 Type d'entretien<span class="text-danger">*</span>
                 </label>
-                <Field name="personnel" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                   :multiple="false" :searchable="true" placeholder="Sélectionner le type"
+                <Field name="typeentretien" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="typeEntretienOptions" :preserve-search="true"
+                   :multiple="false" :searchable="true" placeholder="Sélectionner le type entretien"
                   label="label" track-by="label" />
                 </Field>
-                <ErrorMessage name="personnel" class="text-danger" />
+                <ErrorMessage name="typeentretien" class="text-danger" />
               </div>
             </div>
             
-  
             
-          <div class="col-md-12 mt-3">
-            <div class="d-flex align-items-center ">
-              <button class="btn btn-success me-3" type="submit">
-                  Modifier un entretien
-              </button>
-              <router-link to="/entretiens/liste-entretiens" 
-              class=" btn btn-danger"><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                  <span class="position-relative"></span>Annuler</router-link>
-            </div>
+        <div class="col-md-12 d-flex flex-column mt-3">
+          <div class="d-flex align-items-center ">
+            <button
+              class="btn btn-success me-3"
+              type="submit"
+            >
+                Modifier entretien
+            </button>
+            <router-link to="/entretiens/liste-entretiens" 
+                class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler</router-link>
           </div>
         </div>
-      </Form>
-    </div>
+      </div>
+    </Form>
   </div>
-  </template>
-  
-  <script lang="ts">
-  
-  import { defineComponent, onMounted, ref} from 'vue';
-  import { Form, Field, ErrorMessage } from 'vee-validate';
-  import * as Yup from 'yup';
-  import axios from 'axios';
-  import ApiService from '@/services/ApiService';
-  import { Entretien } from '@/models/Entretien';
-  import { error, success } from '@/utils/utils';
-  import { useRouter, useRoute } from 'vue-router';
-  import Multiselect from '@vueform/multiselect/src/Multiselect';
-  import VueMultiselect from 'vue-multiselect'
-  
-  
-  
-  
-  export default defineComponent({
-      name: "EditEntretien",
-      components: {
-      Form,
-      Field,
-      ErrorMessage,
-      Multiselect,
-      VueMultiselect
-    },
-  
-    setup: () => {
-      const entretienSchema = Yup.object().shape({
-          refEntretien: Yup.string().required("La référence est obligatoire."),
-            libelle: Yup.string().required("Le libelle est obligatoire."),
+</div>
+</template>
+
+<script lang="ts">
+
+import { defineComponent, ref, onMounted } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import { error, success } from '@/utils/utils';
+import { useRoute, useRouter } from 'vue-router';
+import ApiService from '@/services/ApiService';
+import { Entretien} from '@/models/Entretien';
+import * as Yup from 'yup';
+import axios from 'axios';
+import Multiselect from '@vueform/multiselect'
+
+export default defineComponent({
+    name: "EditEntetien",
+    components: {
+    Form,
+    Field,
+    ErrorMessage,
+    Multiselect
+  },
+  setup: () => {
+    const entretienSchema = Yup.object().shape({
+      reference: Yup.string().required("La référence est obligatoire."),
+            libelle: Yup.string().required("Le libelle est obligatoire."),   
             dateRealisation: Yup.string().required("La date de réalisation est obligatoire."),
             description: Yup.string().required("La description est obligatoire."),
-            personnel: Yup.string().required("Le type d'entretien est obligatoire."),
-            biens: Yup.string().required("Le bien est obligatoire."),
-      });
-  
-      onMounted(() => {
-        getAllPersonnels();
-        getAllBiens();
-        if(route.params.id) {
+            typeentretien: Yup.string().required("Le type d'entretien est obligatoire."),
+            bien: Yup.string().required("Le bien est obligatoire."),
+    });
+
+    const entretienForm = ref<Entretien>();
+      const showMErr = ref(false);
+      const typeentretien = ref();
+      const biens = ref();
+      const typeEntretienOptions = ref();
+      const bienOptions = ref([]);
+    const router = useRouter();
+    const route = useRoute();
+
+    onMounted(() => {
+      getAllTypeEntretiens();
+      getAllBiens();
+      if(route.params.id) {
         getEntretien(parseInt(route.params.id as string));
       }
-      });
-  
-      const entretienForm =  ref(null);
-      const showMErr = ref(false);
-      const personnels = ref();
-      const biens = ref();
-      const route = useRoute();
-      const personnelOptions = ref();
-      const bienOptions = ref([]);
-      
-      //const permissions = ref(null);
-      const typeOptions = ref([]);
-      const categorieOptions = ref([]);
-      const router = useRouter();
-      //const permissions= ref<Array<Permission>>([]);
-  
-  
-      function getEntretien(id:number) {
+    });
+
+
+    function getEntretien(id:number) {
       ApiService.get("/entretiens/"+id.toString())
         .then(({ data }) => {
           for (const key in data.data) {
@@ -141,33 +131,18 @@
           }
       })
       .catch(({ response }) => {
-        error(response.message);
+        error(response.data.message);
       });
     }
-
-    const editEntretien = async (values, {resetForm}) => {
-      ApiService.put("/entretiens/"+values.id,values)
-        .then(({ data }) => {
-          if(data.code == 200) { 
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeEntretienPage" });
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-      });
-    };
-
-
-  
-    const getAllPersonnels = async () => {
+    
+    const getAllTypeEntretiens = async () => {
           try{
-          const response = await ApiService.get('/typeBienTypeEntretienAssos');
-          const personnelsData = response.data.data.data;
-          console.log('Data', personnelsData)
-          personnelOptions.value = personnelsData.map((personnel) => ({
-            value: personnel.id,
-            label: personnel.nom + " " + personnel.prenom,
+          const response = await ApiService.get('/all/typeEntretiens');
+          const typeEntretiensData = response.data.data.data;
+          console.log('Data', typeEntretiensData)
+          typeEntretienOptions.value = typeEntretiensData.map((typeEntretien) => ({
+            value: typeEntretien.id,
+            label: typeEntretien.libelle,
           }));
           }
           catch(error){
@@ -187,10 +162,27 @@
             //error(response.data.message)
           }
         } 
+
+
+const editEntretien = async (values, { resetForm }) => {
+  try {
+    const response = await ApiService.put(`/entretiens/${values.id}`, values);
     
-     
+    if (response.status === 200) {
+      success(response.data.message);
+      resetForm();
+      router.push({ name: "ListeEntretienPage" });
+    }
+  } catch (error) {
+    error(error.response?.data?.message || "Une erreur est survenue.");
+  }
+};
+
+
   
-      return { entretienSchema, editEntretien, entretienForm,bienOptions,showMErr,categorieOptions,personnels,biens,personnelOptions};
-    },
-  });
-  </script>
+    return { 
+      entretienSchema, editEntretien, entretienForm, typeentretien,biens,typeEntretienOptions,bienOptions,showMErr
+    };
+  },
+});
+</script>

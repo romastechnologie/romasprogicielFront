@@ -21,7 +21,7 @@
   
             <div class="col-md-4 mt-3">
                     <label for="dateAcquisition" class="form-label"> Date d'Acquisition<span class="text-danger">*</span></label>
-                    <Field name="dateAcquisition"  class="form-control" type="Date"/>
+                    <Field name="dateAcquisition"  class="form-control" type="Date-time"/>
                     <ErrorMessage name="dateAcquisition" class="text-danger" />
             </div>
             <div class="col-md-4 mt-3">
@@ -32,7 +32,7 @@
 
             <div class="col-md-4 mt-3">
                     <label for="dateMiseEnService" class="form-label">Date Mise En Service<span class="text-danger">*</span></label>
-                    <Field name="dateMiseEnService" class="form-control" type="Date"/>
+                    <Field name="dateMiseEnService" class="form-control" type="Date-time"/>
                     <ErrorMessage name="dateMiseEnService" class="text-danger" />
             </div>
             <div class="col-md-4 mt-3">
@@ -62,7 +62,7 @@
          </div>
 
          <div class="col-md-4">
-                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre<span class="text-danger">*</span></label>
+                    <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre</label>
                     <Field name="nbreKmParUnLitre" class="form-control" type="number"/>
                     <ErrorMessage name="nbreKmParUnLitre" class="text-danger" />
             </div>
@@ -90,12 +90,12 @@
               <label class="d-block text-black  mb-10">
                 Type Bien <span class="text-danger">*</span>
               </label>
-              <Field name="types" v-model="types" type="text" v-slot="{ field }">
+              <Field name="typeBien" v-model="types" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le type"
                 label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="types" class="text-danger"/>
+              <ErrorMessage name="typeBien" class="text-danger"/>
             </div>
           </div>
           
@@ -104,12 +104,12 @@
               <label class="d-block text-black mb-10">
                 Catégorie Bien <span class="text-danger">*</span>
               </label>
-              <Field name="categories" v-model="categories" type="text" v-slot="{ field }">
+              <Field name="categorieBien" v-model="categories" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="categorieOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie"
                 label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="categories" class="text-danger"/>
+              <ErrorMessage name="categorieBien" class="text-danger"/>
             </div>
           </div>
 
@@ -118,12 +118,12 @@
               <label class="d-block text-black mb-10">
                 Organisation <span class="text-danger">*</span>
               </label>
-              <Field name="organisation" v-model="organisations" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="organisationOptions" :preserve-search="true"
+              <Field name="service" v-model="services" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation"
                 label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="organisation" class="text-danger"/>
+              <ErrorMessage name="service" class="text-danger"/>
             </div>
           </div>
           <div class="col-md-12 mt-3">
@@ -175,37 +175,23 @@
             dureeVie: Yup.number().required("La durée de vie est obligatoire."),
             dateMiseEnService: Yup.date().required("La date de mise en service est obligatoire."),
             numeroEnregistrement: Yup.number().required("Le numero d'enregistrement est obligatoire."),
-            nbreKmParUnLitre: Yup.number().required("Le nombre de Kilomètres par un Litre est obligatoire."),
+            //nbreKmParUnLitre: Yup.number().required("Le nombre de Kilomètres par un Litre est obligatoire."),
             codeBar: Yup.string().notRequired(),
             localisation: Yup.string().notRequired(),
             longitude: Yup.number().notRequired(),
             latitude: Yup.number().notRequired(),
             modeAmortissement: Yup.string().required("Le mode d'amortissement est obligatoire."),
             valeurNetteComptable: Yup.number().required("La valeur nette comptable est obligatoire."),
-            types: Yup.string().required("Le type est obligatoire."),
-            categories: Yup.string().required("La catégorie est obligatoire."),
-            organisation: Yup.string().required("L'organisation est obligatoire."),
+            typeBien: Yup.string().required("Le type est obligatoire."),
+            categorieBien: Yup.string().required("La catégorie est obligatoire."),
+            service: Yup.string().required("L'organisation est obligatoire."),
 
     });
-
-    const typeOptions = ref([]);
-    const categorieOptions = ref([]);
-    const organisationOptions = ref([]);
-
-    const router = useRouter();
-    const bienForm = ref<Bien>();
-    const route = useRoute();
-    const showMErr = ref(false);
-    const types = ref();
-    const categories = ref();
-    const organisations = ref();
-
-   
 
     onMounted(() => {
         getAllTypeBien();
         getAllCategorieBien();
-        getAllOrganisation();
+        getAllService();
       if(route.params.id) {
         getBien(parseInt(route.params.id as string));
       }
@@ -226,22 +212,22 @@
       });
     }
 
-    const editBien = async (values, {resetForm}) => {
-      ApiService.put("/biens/"+values.id,values)
-        .then(({ data }) => {
-          if(data.code == 200) { 
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeBienPage" });
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-      });
-    };
+    const typeOptions = ref([]);
+    const categorieOptions = ref([]);
+    const serviceOptions = ref([]);
+
+    const router = useRouter();
+    const bienForm = ref<Bien>();
+    const route = useRoute();
+    const showMErr = ref(false);
+    const types = ref();
+    const categories = ref();
+    const services = ref();
+
     const getAllTypeBien = async () => {
         try{
-        const response = await ApiService.get('/all/types');
-        const typesData = response.data.data;
+        const response = await ApiService.get('/all/typeBiens');
+        const typesData = response.data.data.data;
 
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
@@ -254,8 +240,8 @@
       } 
       const getAllCategorieBien = async () => {
         try{
-        const response = await ApiService.get('/all/categories');
-        const categoriesData = response.data.data;
+        const response = await ApiService.get('/all/categorieBiens');
+        const categoriesData = response.data.data.data;
 
         categorieOptions.value = categoriesData.map((categorie) => ({
           value: categorie.id,
@@ -266,15 +252,16 @@
           //error(response.data.message)
         }
       } 
+  
 
-      const getAllOrganisation = async () => {
+      const getAllService = async () => {
         try{
-        const response = await ApiService.get('/all/organisations');
-        const organisationsData = response.data.data;
+        const response = await ApiService.get('/services');
+        const servicesData = response.data.data.data;
 
-        organisationOptions.value = organisationsData.map((organisation) => ({
-          value: organisation.id,
-          label: organisation.nom,
+        serviceOptions.value = servicesData.map((service) => ({
+          value: service.id,
+          label: service.libelle,
         }));
         }
         catch(error){
@@ -282,16 +269,33 @@
         }
       } 
    
+    const editBien = async (values, {resetForm}) => {
+      ApiService.put("/biens/"+values.id,values)
+        .then(({ data }) => {
+          console.log('valeur',data);
+          if(data.code == 200) { 
+            success(data.message);
+            resetForm();
+            router.push({ name: "ListeBien" });
+
+          }
+        }).catch(({ response }) => {
+          error(response.data.message);
+      });
+    };
+  
+  
+   
       return {bienForm,
          bienSchema,
           editBien,
           typeOptions,
           categorieOptions,
-          organisationOptions,
+          serviceOptions,
           showMErr,
           types,
           categories,
-          organisations
+          services
           
         };
     },

@@ -686,7 +686,7 @@ const routes = [
                 }
             },
             {
-                path: "editer-course",
+                path: "editer-course/:id",
                 name: "EditCoursePage",
                 component: EditCoursePage,
                 meta: {
@@ -716,7 +716,7 @@ const routes = [
                 }
             },
             {
-                path: "editer-planificationReparation",
+                path: "editer-planificationReparation/:id",
                 name: "EditPlanificationReparationPage",
                 component: EditPlanificationReparationPage,
                 meta: {
@@ -746,7 +746,7 @@ const routes = [
                 }
             },
             {
-                path: "editer-entretien",
+                path: "editer-entretien/:id",
                 name: "EditEntretienPage",
                 component: EditEntretienPage,
                 meta: {
@@ -875,14 +875,14 @@ const routes = [
                     title: 'Ajouter un document',
                 }
             },
-            {
-                path: "editer-document",
-                name: "EditDocumentPage",
-                component: EditDocumentPage,
-                meta: {
-                    title: 'Modifier un document',
-                }
-            },
+            //  {
+            //   path: "editer-document/:id",
+            //     name: "EditDocumentPage",
+            //     component: EditDocumentPage,
+            //     meta: {
+            //       title: 'Modifier un document',
+            //    }
+            //   },
             {
                 path: "liste-document",
                 name: "ListeDocumentPage",

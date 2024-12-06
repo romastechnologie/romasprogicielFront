@@ -1519,7 +1519,7 @@ export const menu = [
         children: [
             {
                 path: "/typesdepenses/liste-typesdepenses",
-                title: "Ajouter un type depense",
+                title: "Liste des types depenses",
                 type: "link"
             }
         ]

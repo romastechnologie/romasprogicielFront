@@ -1,110 +1,132 @@
 <template>
-  
-    <div v-if="onListe" class="card rounded rounded-4 px-2 pt-4 py-1">
-      <div class="px-lg-4 py-lg- p-md-3 p-3 text-start">
-    <router-link to="/conges/ajouter-conge">
-      <button class="btn btn-primary mb-3">
-        <i class="fa fa-plus-circle mx-2"></i>
-        Programmer un congé
-      </button>
-    </router-link>
-    <div class="d-flex justify-content-around">
-      
-    </div>
-    <div v-if="!onListe" class="mb-5">
-      <FullCalendar class='demo-app-calendar' :options='calendarOptions'>
-        <template v-slot:eventContent='arg'>
-          <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
-        </template>
-      </FullCalendar>
-    </div>
-   
-    <div v-if="onListe" class="col-12 mb-2 d-flex justify-content-around align-items-center flex-wrap">
-      <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
-        <i class="fa fa-search mx-2"></i>
-        <input type="search" class="form-control" @input="sortCongeWithSearch($event.target)"
-          placeholder="Rechercher par intitulé">
+  <div v-if="onListe" class="card rounded rounded-4 px-2 pt-4 py-1">
+    <div class="px-lg-4 py-lg-3 p-md-3 p-3 text-start">
+      <router-link to="/conges/ajouter-conge">
+        <button class="btn btn-primary mb-3">
+          <i class="fa fa-plus-circle mx-2"></i>
+          Programmer un congé
+        </button>
+      </router-link>
+      <div class="d-flex justify-content-around"></div>
+      <div class="col-12 mb-2 d-flex justify-content-around align-items-center flex-wrap">
+        <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center mb-2">
+          <i class="fa fa-search mx-2"></i>
+          <input
+            type="search"
+            class="form-control"
+            @input="sortCongeWithSearch($event.target)"
+            placeholder="Rechercher par intitulé"
+          />
+        </div>
+        <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center">
+          <span class="mx-2"> Date </span>
+          <input
+            type="date"
+            class="form-control"
+            @input="sortCongeWithDateDebut($event.target)"
+          />
+        </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-10 d-flex align-items-center">
-        <span class="mx-2"> Date </span>
-        <input type="date" class="form-control" @input="sortCongeWithDateDebut($event.target)" />
-      </div>
-    </div>
       <table class="table m-0">
         <thead>
           <tr>
-            <th scope="col"> Personnel </th>
-            <th scope="col"> Date de debut </th>
-            <th scope="col"> Date de fin prévue </th>
-            <th scope="col"> Date de fin </th>
-            <th scope="col"> Date de reprise </th>
-            <th scope="col"> Statut </th>
-            <th scope="col"> Actions </th>
+            <th scope="col">Personnel</th>
+            <th scope="col">Date de début</th>
+            <th scope="col">Date de fin prévue</th>
+            <th scope="col">Date de fin</th>
+            <th scope="col">Date de reprise</th>
+            <th scope="col">Statut</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="conge in filterConge" :key="conge.personnel">
-            <td> {{ conge.personnel ? conge.personnel.nom + " " + conge.personnel.prenom :
-              "null"
-              }} </td>
-            <td> {{ conge.dateDebut.toString().slice(0, 10) }} </td>
-            <td> {{ conge.dateFinPrevu.toString().slice(0, 10) }} </td>
-            <td> {{ conge.dateFin.toString().slice(0, 10) }} </td>
-            <td> {{ conge.dateReprise.toString().slice(0, 10) }} </td>
-            <td v-if="conge.statut === 'Confirmé'" class="text-center"> <span
-                class="badge badge-success">Confirmé</span>
+          <tr v-for="conge in filterConge" :key="conge.id">
+            <td>
+              {{ conge.personnel
+                ? conge.personnel.nom + " " + conge.personnel.prenom
+                : "null" }}
             </td>
-            <td v-else-if="conge.statut === 'Annulé'" class="text-center"> <span
-                class="badge badge-danger">Annulé</span>
+            <td>{{ conge.dateDebut.toString().slice(0, 10) }}</td>
+            <td>{{ conge.dateFinPrevu.toString().slice(0, 10) }}</td>
+            <td>{{ conge.dateFin.toString().slice(0, 10) }}</td>
+            <td>{{ conge.dateReprise.toString().slice(0, 10) }}</td>
+            <td>
+              <span
+                v-if="conge.statut === 'Confirmé'"
+                class="badge badge-success text-center"
+              >
+                Confirmé
+              </span>
+              <span
+                v-else-if="conge.statut === 'Annulé'"
+                class="badge badge-danger text-center"
+              >
+                Annulé
+              </span>
+              <span
+                v-else-if="conge.statut === 'Interrompu'"
+                class="badge badge-primary text-center"
+              >
+                Interrompu
+              </span>
             </td>
-            <td v-else-if="conge.statut === 'Interrompu'" class="text-center"> <span
-                class="badge badge-primary">Interrompu</span>
-            </td>
-        
-            <td class="shadow-none lh-1 fw-medium text-black pe-0  text-end">
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false" v-if="conge.statut != 'Annulé'">Actions</button>
-              <ul class="dropdown-menu dropdown-block"
-                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);"
-                data-popper-placement="bottom-start">
-                <li class="dropdown-item d-flex align-items-center"
-                  v-if="conge.statut != 'Annulé' && conge.statut != 'Interrompu' && conge.statut != 'Terminé'">
-                  <a @click="pauseConge(conge.id)" type="button">
-                    <i class="fa fa-pause lh-2 me-8 p-1 position-relative top-1"></i>
-                    Interrompre
-                  </a>
-                </li>
-                <li class="dropdown-item d-flex align-items-center"
-                  v-if="conge.statut != 'Interrompu' && conge.statut != 'Annulé' && conge.statut != 'Terminé'">
-                  <a @click="cancelConge(conge.id)">
-                    <i class="fa fa-check lh-2 me-8 p-1 position-relative top-1"></i>
-                    Accepté
-                  </a>
-                </li>
-                <li class="dropdown-item d-flex align-items-center"
-                  v-if="conge.statut != 'Interrompu' && conge.statut != 'Annulé' && conge.statut != 'Terminé'">
-                  <router-link :to="`/conges/edit-conge/${conge.id}`" class="text-decoration-none p-1">
-                    <i class="fa fa-pencil lh-2 me-8 p-1 position-relative top-1"></i> Modifier
-                  </router-link>
-                </li>
-                <li class="dropdown-item d-flex align-items-center">
-                  <a @click="deleteConge(conge.id)">
-                    <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
-                    Supprimé
-                  </a>
-                </li>
-              </ul>
+            <!-- Colonne Actions -->
+            <td>
+              <div class="dropdown">
+                <button
+                  class="btn dropdown-toggle btn-primary"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Actions
+                </button>
+                <ul class="dropdown-menu">
+                  <li
+                    class="dropdown-item"
+                    v-if="conge.statut !== 'Annulé' && conge.statut !== 'Interrompu'"
+                  >
+                    <a @click="pauseConge(conge.id)">
+                      <i class="fa fa-pause me-2"></i> Interrompre
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    v-if="conge.statut !== 'Annulé' && conge.statut !== 'Terminé'"
+                  >
+                    <a @click="cancelConge(conge.id)">
+                      <i class="fa fa-times me-2"></i> Annuler
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    v-if="conge.statut !== 'Annulé' && conge.statut !== 'Terminé'"
+                  >
+                    <router-link
+                      :to="`/conges/edit-conge/${conge.id}`"
+                      class="text-decoration-none"
+                    >
+                      <i class="fa fa-pencil me-2"></i> Modifier
+                    </router-link>
+                  </li>
+                  <li class="dropdown-item">
+                    <a @click="deleteConge(conge.id)">
+                      <i class="fa fa-trash me-2"></i> Supprimé
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <div v-if="filterConge.length == 0" class="fs-5 d-flex justify-content-center">
+      <div v-if="filterConge.length === 0" class="fs-5 d-flex justify-content-center">
         La liste est vide
       </div>
     </div>
   </div>
 </template>
+
  
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'

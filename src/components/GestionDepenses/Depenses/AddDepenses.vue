@@ -5,10 +5,10 @@
         <div class="row">
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label for="date" class="d-block text-black fw-semibold mb-10">
                 Date de dépense <span class="text-danger">*</span>
               </label>
-              <Field name="date" type="date" :value="getCurrentDate"
+              <Field name="date" type="Date" :value="getCurrentDate"
                 class="form-control shadow-none fs-md-15 text-black" />
             </div>
             <ErrorMessage name="date" class="text-danger" />
@@ -67,7 +67,7 @@
               <label class="d-block text-black mb-10">
                 Types Depenses <span class="text-danger">*</span>
               </label>
-              <Field name="typesDepenses" v-model="typesDepenses" type="text" v-slot="{ field }">
+              <Field name="typedepense" v-model="typesDepenses" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="typesDepensesOptions"
                   :preserve-search="true" :multiple="false" :searchable="true"
                   placeholder="Sélectionner le type de depense" label="label" track-by="label" />
@@ -101,27 +101,22 @@
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
+
           <div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Bénéficiaire<span class="text-danger">*</span>
-              </label>
-              <Field name="beneficiaire" type="text" class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer le nom du bénéficiaire" />
-              <ErrorMessage name="beneficiaire" class="text-danger" />
-            </div>
+            <label for="beneficiaire" class="form-label"> Bénéficiaire<span class="text-danger">*</span></label>
+            <Field name="beneficiaire" class="form-control" type="text" placeholder="Entrer le bénéficiaire" />
+            <ErrorMessage name="beneficiaire" class="text-danger" />
           </div>
+       
           <div class="col-md-4-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label class="d-block fw-semibold mb-10">
                 Motif<span class="text-danger">*</span>
               </label>
-              <Field name="motif" as="textarea" cols="15" rows="6" placeholder="Entrer le motif" v-slot="{ field }"
+              <Field name="motif" as="textarea" cols="4" rows="3" placeholder="Entrer le motif" v-slot="{ field }"
                 class="form-control shadow-none rounded-0 text-black">
                 <textarea class="form-control shadow-none rounded-0 text-black" v-model="field.value"></textarea>
               </Field>
               <ErrorMessage name="motif" class="text-danger" />
-            </div>
           </div>
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
@@ -162,8 +157,8 @@ export default defineComponent({
       description: Yup.string().required("La description est obligatoire."),
       entretien: Yup.string().required("L'entretien est obligatoire."),
       planificationReparation: Yup.string().required("La planification Réparation est obligatoire."),
-      typesDepenses: Yup.string().required("Le type de dépense est obligatoire."),
-      categoriesDepenses: Yup.string().notRequired(),
+      typedepense: Yup.string().required("Le type de dépense est obligatoire."),
+      categoriesDepenses: Yup.string().required("La categorie dépense est obligatoire"),
       personnel: Yup.string().required("Le personnel est obligatoire"),
       motif: Yup.string().required("Le motif est obligatoire."),
       montant: Yup.number().required("Le montant est obligatoire."),
@@ -184,29 +179,67 @@ export default defineComponent({
     const categoriesDepensesOptions = ref([]);
     const router = useRouter();
 
-    const addDepenses = async (values: any, { resetForm }) => {
-      // Vérification et attribution des valeurs sélectionnées
-      values.entretien = entretien.value ? entretien.value.value : null;
-      values.planificationReparation = planificationReparation.value ? planificationReparation.value.value : null;
-      values.typesDepenses = typesDepenses.value ? typesDepenses.value.value : null;
-      values.categoriesDepenses = categoriesDepenses.value ? categoriesDepenses.value.value : null;
-      values.personnel = values.personnel ? values.personnel.value : null;
-      
-      console.log('Données envoyées', values);
-      if (!showMErr.value) {
-        try {
-          const { data } = await ApiService.post("/depenses/", values);
-          if (data.code == 201) {
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeDepenses" });
-          }
-        } catch (error) {
-          error(error.response.data.message);
-        }
-      }
-    };
+    
+    const addDepenses = async (values: any, { resetForm }: any) => {
+  // // Initialisation des valeurs
+  // const depenseData: Record<string, any> = {};
 
+  // // Attribution des valeurs une par une
+  // if (entretien.value && entretien.value.value) {
+  //   depenseData.entretien = entretien.value.value;
+  // } else {
+  //   depenseData.entretien = null;
+  // }
+
+  // if (planificationReparation.value && planificationReparation.value.value) {
+  //   depenseData.planificationReparation = planificationReparation.value.value;
+  // } else {
+  //   depenseData.planificationReparation = null;
+  // }
+
+  // if (typesDepenses.value && typesDepenses.value.value) {
+  //   depenseData.typesDepenses = typesDepenses.value.value;
+  // } else {
+  //   depenseData.typesDepenses = null;
+  // }
+
+  // if (categoriesDepenses.value && categoriesDepenses.value.value) {
+  //   depenseData.categoriesDepenses = categoriesDepenses.value.value;
+  // } else {
+  //   depenseData.categoriesDepenses = null;
+  // }
+
+  // if (values.personnel && values.personnel.value) {
+  //   depenseData.personnel = values.personnel.value;
+  // } else {
+  //   depenseData.personnel = null;
+  // }
+
+  // // Ajout des autres champs directement depuis "values"
+  // Object.keys(values).forEach((key) => {
+  //   if (!["entretien", "planificationReparation", "typesDepenses", "categoriesDepenses", "personnel"].includes(key)) {
+  //     depenseData[key] = values[key];
+  //   }
+  // });
+
+  console.log("Données préparées pour l'envoi :", values);
+
+  // Vérification des champs obligatoires
+ 
+  try {
+    const response = await ApiService.post("/depenses", values);
+    if (response.data.code === 201) {
+      success(response.data.message);
+      resetForm(); 
+      router.push({ name: "ListeDepenses" }); 
+    }
+  } catch (err: any) {
+    console.log("RESPONSE ERREUR  ====> ",err);
+    const errorMessage = err.response?.data?.message || "Une erreur est survenue.";
+    console.error("Erreur lors de l'ajout de la dépense :", errorMessage);
+    error(errorMessage);
+  }
+};
     // Fonctions pour récupérer les options des listes
     const getAllEntretien = async () => {
       try {
@@ -220,6 +253,10 @@ export default defineComponent({
         console.error(err);
       }
     };
+
+
+
+    
 
     const getAllPersonnels = async () => {
       try {
@@ -281,6 +318,8 @@ export default defineComponent({
       getAllTypesDepenses();
       getAllCategoriesDepenses();
       getAllPersonnels();
+     
+
     });
 
     return {

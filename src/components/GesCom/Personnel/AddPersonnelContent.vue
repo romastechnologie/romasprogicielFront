@@ -45,7 +45,7 @@
                                   placeholder="Entrer le nom"
 
                                 />
-                                <span class="text-danger" v-show="!nom">Entrez le nom</span>
+                                <span class="text-danger" v-show="!nom">Entrer le nom</span>
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -60,7 +60,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le prenom"
                                 />
-                                <span class="text-danger" v-show="!prenom">Entrez le prénom</span>
+                                <span class="text-danger" v-show="!prenom">Entrer le prénom</span>
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -82,7 +82,7 @@
                                     placeholder="Sélectionner le sexe"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!sexe">Entrez le sexe</span>                              </div>
+                                <span class="text-danger" v-show="!sexe">Selectionner  le sexe</span>                              </div>
                             </div>
                             <div class="col-md-6 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -111,7 +111,7 @@
                                     placeholder="Sélectionner la situation"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!situation">Entrez la situation</span>
+                                <span class="text-danger" v-show="!situation">Selectionner la situation</span>
                               </div>
                             </div>
 
@@ -129,7 +129,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Choisissez une image"
                                 />
-                                <span class="text-danger" v-show="!photo">Entrez la photo</span>
+                                <span class="text-danger" v-show="!photo">Selectionner un fichier</span>
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -151,7 +151,7 @@
                                     placeholder="Sélectionner la civilité"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!civilite">Entrez civilité</span>
+                                <span class="text-danger" v-show="!civilite">Selectionner la civilité</span>
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -168,7 +168,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                 />
                               </div>
-                              <span class="text-danger" v-show="!birthdate">Entrez date anniversaire</span>
+                              <span class="text-danger" v-show="!birthdate">Selectionner votre date anniversaire</span>
                               <p v-if="ageError" class="text-danger fs-md-12">
                                         L'âge minimal est de 18 ans.
                               </p>                          
@@ -186,7 +186,7 @@
                                 type="Date"
                                 :max="maxDate1"
                               />
-                              <span class="text-danger" v-show="!dateEmbauche">Entrez la date embauche</span>
+                              <span class="text-danger" v-show="!dateEmbauche">Selectionner la date embauche</span>
                             </div>
                             <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -200,7 +200,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le numéro"
                                 />
-                                <span class="text-danger" v-show="!numeroSecuriteSociale">Entrez numéro sécurité sociale</span>
+                                <span class="text-danger" v-show="!numeroSecuriteSociale">Entrer numéro sécurité sociale</span>
                               </div>
                             </div>
                             <!--<div class="col-md-4 mb-3">
@@ -234,7 +234,7 @@
                                     placeholder="Sélectionner le pays"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!nationalite">Entrez pays</span>
+                                <span class="text-danger" v-show="!nationalite">Selectionner pays</span>
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -260,7 +260,7 @@
                                     track-by="label"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!religion">Entrez religion</span>
+                                <span class="text-danger" v-show="!religion">Selectionner religion</span>
 
                               </div>
                             </div>
@@ -287,7 +287,7 @@
                                     track-by="label"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!ethnie">Entrez ethnie</span>
+                                <span class="text-danger" v-show="!ethnie">Selectionner ethnie</span>
 
                               </div>
                             </div>
@@ -314,7 +314,7 @@
                                     track-by="label"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!service">Entrez service</span>
+                                <span class="text-danger" v-show="!service">Selectionner le service</span>
 
                               </div>
                             </div>
@@ -343,7 +343,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer votre adresse postale"
                                 />
-                                <span class="text-danger" v-show="!boitePostale">Entrez Boite Postale</span>
+                                <span class="text-danger" v-show="!boitePostale">Entrer Boite Postale</span>
 
                               </div>
                             </div>
@@ -355,11 +355,11 @@
                                 <Field
                                   name="telephone"
                                   v-model="telephone"
-                                  type="text"
+                                  type="number"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le téléphone"
                                 />
-                                <span class="text-danger" v-show="!telephone">Entrez telephone</span>
+                                <span class="text-danger" v-show="!telephone">Entrer numéro de telephone</span>
 
                               </div>
                             </div>
@@ -371,7 +371,7 @@
                                 <Field
                                   name="telephone2"
                                   v-model="telephone2"
-                                  type="text"
+                                  type="number"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le téléphone"
                                 />
@@ -386,11 +386,11 @@
                                 <Field
                                   name="email"
                                   v-model="email"
-                                  type="text"
+                                  type="email"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer l'email"
                                 />
-                                <span class="text-danger" v-show="!email">Entrez mail</span>
+                                <span class="text-danger" v-show="!email">Entrer votre mail</span>
 
                               </div>
                             </div>
@@ -418,7 +418,7 @@
                                   />
                                 </Field>
                               </div>
-                              <span class="text-danger" v-show="!departement">Entrez departement</span>
+                              <span class="text-danger" v-show="!departement">Selectionner departement</span>
 
                             </div>
                             <div class="col-md-6">
@@ -446,7 +446,7 @@
                                   />
                                 </Field>
                               </div>
-                              <span class="text-danger" v-show="!commune">Entrez commune</span>
+                              <span class="text-danger" v-show="!commune">Selectionner la commune</span>
                             
                             </div>
                             <div class="col-md-6">
@@ -475,7 +475,7 @@
                                   />
                                 </Field>
                               </div>
-                              <span class="text-danger" v-show="!arrondissement">Entrez arrondissement</span>
+                              <span class="text-danger" v-show="!arrondissement">Selectionner arrondissement</span>
 
                             </div>
                             <div class="col-md-12">
@@ -502,7 +502,7 @@
                                   />
                                 </Field>
                               </div>
-                              <span class="text-danger" v-show="!quartier">Entrez quartier</span>
+                              <span class="text-danger" v-show="!quartier">Selectionner le quartier</span>
 
                             </div>
                           </div>
@@ -528,7 +528,7 @@
                                   class="form-control shadow-none rounded-0 text-black"
                                 ></textarea>
                               </Field>
-                              <span class="text-danger" v-show="!adresse">Entrez adresse</span>
+                              <span class="text-danger" v-show="!adresse">Entrer adresse</span>
 
                             </div>
                           </div>
@@ -558,7 +558,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le nom du conjoint "
                                   />
-                                  <span class="text-danger" v-show="!nomCon">Entrez nom conjoint</span>
+                                  <span class="text-danger" v-show="!nomCon">Entrer nom conjoint</span>
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -575,7 +575,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le prenom du conjoint "
                                   />
-                                  <span class="text-danger" v-show="!prenomCon">Entrez prenom</span>
+                                  <span class="text-danger" v-show="!prenomCon">Entrer prenom</span>
 
                                 </div>
                               </div>
@@ -592,7 +592,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer la date de naissance du conjoint "
                                   />
-                                  <span class="text-danger" v-show="!dateNaissanceCon">Entrez date naissance</span>
+                                  <span class="text-danger" v-show="!dateNaissanceCon">Selectionner date naissance</span>
 
                                 </div>
                               </div>
@@ -628,7 +628,7 @@
                                       placeholder="Sélectionner le pays de résidence"
                                     />
                                   </Field>
-                                  <span class="text-danger" v-show="!nationaliteCon">Entrez nationalité</span>
+                                  <span class="text-danger" v-show="!nationaliteCon">Selectionner nationalité</span>
 
                                   </div>
                               </div>
@@ -647,7 +647,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone du conjoint "
                                   />
-                                  <span class="text-danger" v-show="!telephoneCon">Entrez téléphone</span>
+                                  <span class="text-danger" v-show="!telephoneCon">Entrer téléphone du conjoint</span>
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -694,7 +694,7 @@
                                       track-by="label"
                                     />
                                   </Field>
-                                  <span class="text-danger" v-show="!religionCon">Entrez religion</span>
+                                  <span class="text-danger" v-show="!religionCon">Entrer religion</span>
 
                                 </div>
                               </div>
@@ -723,7 +723,7 @@
                                       track-by="label"
                                     />
                                   </Field>
-                                  <span class="text-danger" v-show="!ethnieCon">Entrez ethnie</span>
+                                  <span class="text-danger" v-show="!ethnieCon">Selectionner ethnie du conjoint</span>
 
                                 </div>
                               </div>
@@ -752,7 +752,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le nombre d'enfants"
                                   />
-                                  <span class="text-danger" v-show="!nombreEnfant">Entrez nombre enfant</span>
+                                  <span class="text-danger" v-show="!nombreEnfant">Entrer nombre enfant</span>
 
                                 </div>
                               </div>
@@ -839,7 +839,7 @@
                                           class="invalid-feedback"
                                           v-if="valideteRowEnfant(enfant.nom)"
                                         >
-                                        <span class="text-danger" v-show="!enfant.nom">Entrez nom enfant</span>
+                                        <span class="text-danger" v-show="!enfant.nom">Entrer nom enfant</span>
 
                                         </div>
                                       </div>
@@ -858,7 +858,7 @@
                                             valideteRowEnfant(enfant.prenom)
                                           "
                                         >
-                                        <span class="text-danger" v-show="!enfant.prenom">Entrez prénom</span>
+                                        <span class="text-danger" v-show="!enfant.prenom">Entrer prénom</span>
 
                                         </div>
                                       </div>
@@ -881,7 +881,7 @@
                                           )
                                         "
                                       >
-                                      <span class="text-danger" v-show="!enfant.dateNaissance">Entrez date naissance</span>
+                                      <span class="text-danger" v-show="!enfant.dateNaissance">Entrer date naissance</span>
 
                                       </div>
                                     </div>
@@ -923,13 +923,13 @@
                                   Taille<span class="text-danger">*</span>
                                 </label>
                                 <Field
-                                  name="taille"
-                                  type="text"
+                                  name="taille en (cm)"
+                                  type="number"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   v-model="taille"
                                   placeholder="Taille(cm) "
                                 />
-                                <span class="text-danger" v-show="!taille">Entrez taille</span>
+                                <span class="text-danger" v-show="!taille">Entrer la taille</span>
 
                               </div>
                             </div>
@@ -939,13 +939,13 @@
                                   Poids<span class="text-danger">*</span>
                                 </label>
                                 <Field
-                                  name="poids"
-                                  type="text"
+                                  name="poids en (cm)"
+                                  type="number"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   v-model="poids"
                                   placeholder="Poids(kg) "
                                 />
-                                <span class="text-danger" v-show="!poids">Entrez poids</span>
+                                <span class="text-danger" v-show="!poids">Entrer le poids</span>
 
                               </div>
                             </div>
@@ -978,7 +978,7 @@
                                     placeholder="Sélectionner le Groupe Sanguin"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!groupeSanguin">Entrez groupe sanguin</span>
+                                <span class="text-danger" v-show="!groupeSanguin">Selectionner le groupe sanguin</span>
 
                               </div>
                             </div>
@@ -1011,7 +1011,7 @@
                                     placeholder="Sélectionner la vision Gauche"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!visionGauche">Entrez vision gauche</span>
+                                <span class="text-danger" v-show="!visionGauche">Slectionner vision gauche</span>
 
                               </div>
                             </div>
@@ -1044,7 +1044,7 @@
                                     placeholder="Sélectionner la vision Droite"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!visionDroite">Entrez vision droite</span>
+                                <span class="text-danger" v-show="!visionDroite">Selectionner la vision droite</span>
 
                               </div>
                             </div>
@@ -1072,7 +1072,7 @@
                                     placeholder="Sélectionner l'audience Gauche"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!audienceGauche">Entrez audience gauche</span>
+                                <span class="text-danger" v-show="!audienceGauche">Selectionner audience gauche</span>
 
                               </div>
                             </div>
@@ -1100,7 +1100,7 @@
                                     placeholder="Sélectionner l'audience Droite"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!audienceDroite">Entrez audience droite</span>
+                                <span class="text-danger" v-show="!audienceDroite">Selectionner audience droite</span>
 
                               </div>
                             </div>
@@ -1127,7 +1127,7 @@
                                     placeholder="Sélectionner la main Gauche"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!mainGauche">Entrez main gauche</span>
+                                <span class="text-danger" v-show="!mainGauche">Selectionner la main gauche</span>
 
                               </div>
                             </div>
@@ -1154,7 +1154,7 @@
                                     placeholder="Sélectionner la main Droite"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!mainDroite">Entrez main droite</span>
+                                <span class="text-danger" v-show="!mainDroite">Selectionner la main droite</span>
 
                               </div>
                             </div>
@@ -1182,7 +1182,7 @@
                                     placeholder="Sélectionner la jambe Droite"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!jambeGauche">Entrez jambe gauche</span>
+                                <span class="text-danger" v-show="!jambeGauche">Selectionner la jambe gauche</span>
 
                               </div>
                             </div>
@@ -1210,7 +1210,7 @@
                                     placeholder="Sélectionner la jambe Droite"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!jambeDroite">Entrez jambe droite</span>
+                                <span class="text-danger" v-show="!jambeDroite">Selectionner la jambe droite</span>
                               </div>
                             </div>
                           </div>
@@ -1241,7 +1241,7 @@
                                     placeholder="Sélectionner la banque"
                                   />
                                 </Field>
-                                <span class="text-danger" v-show="!banque">Entrez banque</span>
+                                <span class="text-danger" v-show="!banque">Selectionner la banque</span>
                               </div>
                             </div>
 
@@ -1257,7 +1257,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le numéro de compte"
                                 />
-                                <span class="text-danger" v-show="!numeroCompte">Entrez numéro compte</span>
+                                <span class="text-danger" v-show="!numeroCompte">Entrer numéro compte</span>
                               </div>
                             </div>
 
@@ -1273,7 +1273,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le code"
                                 />
-                                <span class="text-danger" v-show="!codeIban">Entrez code iban</span>
+                                <span class="text-danger" v-show="!codeIban">Entrer code iban</span>
 
                               </div>
                             </div>
@@ -1289,7 +1289,7 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le code"
                                 />
-                                <span class="text-danger" v-show="!swift">Entrez swift</span>
+                                <span class="text-danger" v-show="!swift">Entrer code swift</span>
 
                               </div>
                             </div>
@@ -1310,7 +1310,7 @@
                                 type="file"
                                 placeholder="Joindre le RIB"
                               />
-                              <span class="text-danger" v-show="!releveIdentiteBancaire">Entrez RIB</span>
+                              <span class="text-danger" v-show="!releveIdentiteBancaire">Entrer RIB</span>
 
                             </div>
 
@@ -1328,7 +1328,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le nom"
                                   />
-                                  <span class="text-danger" v-show="!nomPersonneAContacter">Entrez nom</span>
+                                  <span class="text-danger" v-show="!nomPersonneAContacter">Entrer nom</span>
 
                                 </div>
                               </div>
@@ -1344,7 +1344,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le prenom"
                                   />
-                                  <span class="text-danger" v-show="!prenomPersonneAContacter">Entrez prenom</span>
+                                  <span class="text-danger" v-show="!prenomPersonneAContacter">Entrer prenom</span>
 
                                 </div>
                               </div>
@@ -1360,7 +1360,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone"
                                   />
-                                  <span class="text-danger" v-show="!telephonePersonneAContacter">Entrez téléphone</span>
+                                  <span class="text-danger" v-show="!telephonePersonneAContacter">Entrer téléphone</span>
 
                                 </div>
                               </div>
@@ -1376,7 +1376,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Indiquer la relation"
                                   />
-                                  <span class="text-danger" v-show="!relation">Entrez relation</span>
+                                  <span class="text-danger" v-show="!relation">Entrer relation</span>
 
                                 </div>
                               </div>
@@ -2163,26 +2163,32 @@ export default defineComponent({
           }
         }
       }
-
       if (currentStep.value === 2) {
-        //useForm({ validationSchema: personnelConSchema });
-        let element2 = {
-          boitePostale:boitePostale.value,
-          telephone:telephone.value,
-          email:email.value,
-          departement:departement.value,
-          commune:commune.value,
-          arrondissement:arrondissement.value,
-          quartier:quartier.value,
-          adresse:adresse.value
-        }
-        for(const key in element2){
-          if(!element2[key]){
-            error(`Saisir l'élément suivant ${key}`);
-            return false;
-          }
-        }
-      }
+  let element2 = {
+    boitePostale: boitePostale.value,
+    telephone: telephone.value,
+    email: email.value,
+    departement: departement.value,
+    commune: commune.value,
+    arrondissement: arrondissement.value,
+    quartier: quartier.value,
+    adresse: adresse.value,
+  };
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  for (const key in element2) {
+    if (!element2[key]) {
+      error(`Saisir l'élément suivant ${key}`);
+      return false;
+    }
+
+    if (key === "email" && !emailRegex.test(element2[key])) {
+      error("Veuillez entrer une adresse email valide");
+      return false;
+    }
+  }
+}
 
       if (currentStep.value === 3) {
        
