@@ -3,7 +3,8 @@ export  interface Amortissement {
     taux: number;
     valeurNetteComptable: number;
     dureeUtilisation:number;
-    bien:string;
+    bien: string;
     createdAt:Date;
     setFieldValue: (field: string, value: any) => void;
   }
+  
