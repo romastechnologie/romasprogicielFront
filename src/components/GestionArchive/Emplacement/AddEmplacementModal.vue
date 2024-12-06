@@ -66,9 +66,11 @@
                   >Code<span class="text-danger">*</span></label
                 >
                 <div class="input-group mb-3">
-                  <span class="input-group-text" id="basic-addon3">{{
-                    prefix
-                  }}</span>
+                  <span class="input-group-text" id="basic-addon3">
+                    {{
+                      prefix
+                    }}
+                  </span>
                   <Field
                     name="code"
                     type="text"
@@ -203,6 +205,7 @@ export default {
     const lesTypesEmplacement = ref([]);
     const emplacement = ref();
     const typeEmplacement = ref();
+    const etatEmplacement = ref(true);
 
     watch(
       () => props.id,
@@ -211,6 +214,9 @@ export default {
         if (newValue !== 0) {
           getEmplacement(newValue);
           isupdate.value = true;
+        }else{
+          emplacementOptions.value = [];
+          emplacementEtat.value = true;
         }
         btnTitle();
       }
@@ -299,18 +305,15 @@ export default {
         // Handle error
       }
     };
-    const etatEmplacement = ref(true);
+    
     const modificationEmplacement = async (value) => {
-      //console.log("TYUytyt le code ===> ",value)
       const lesTypes = lesTypesEmplacement.value;
       const objetTrouv = lesTypes.find((objet) => objet.id === value);
-      //console.log("objetTrouv ===> ",objetTrouv)
       if (
         objetTrouv.typeemplacement &&
         objetTrouv.typeemplacement != undefined
       ) {
         const type = objetTrouv.typeemplacement;
-        //prefix.value = objetTrouv.prefixe;
         await getLesEmplacements(type.id);
       } else {
         emplacementOptions.value = [];
