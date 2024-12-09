@@ -52,7 +52,7 @@
           </thead>
           <tbody>
             <tr v-for="(depense, index) in depenses" :key="index">  
-              <td class="shadow-none lh-1 fw-medium ">{{ format_date(depense.date) }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ format_date(depense.createdAt) }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.libelle }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense?.description }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.montant }} </td>

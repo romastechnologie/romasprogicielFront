@@ -9,17 +9,28 @@
               <label class="d-block text-black mb-10">
                 Contrat <span class="text-danger">*</span>
               </label>
-              <Field name="contrat" v-model="selectedContrat" >
+            <!-- <Field name="contrat" v-model="selectedContrat" >
               <Multiselect
                 :options="contratOptions"
                 :searchable="true"
-                track-by="label"
+                track-by="value"
                 label="label"
                 v-model="selectedContrat"
                 placeholder="Sélectionner le contrat"
                 @select="fetchPrimeRetenue(selectedContrat)"
               />
-            </Field>
+            </Field>-->
+            <Field name="contrat" v-slot="{ field }">
+                  <Multiselect
+                    :options="contratOptions"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner le contrat"
+                  />
+                </Field>
 
               <ErrorMessage name="contrat" class="text-danger" />
             </div>
@@ -395,12 +406,12 @@
       
       const getAllContrats = async () => {
       try {
-        const response = await ApiService.get('/contrats');
+        const response = await ApiService.get('/all/contrats');
         const contratsData = response.data.data.data;
-        console.log('Data', contratsData);
+        console.log('Contrat', contratsData);
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label: contrat.refContrat,
+          label: contrat.reference,
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
