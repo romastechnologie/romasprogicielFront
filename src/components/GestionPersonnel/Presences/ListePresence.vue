@@ -52,18 +52,16 @@
               <td> {{ presence.heureArrivee }} </td>
               <td> {{ presence.heureDepart }} </td>
               <td> {{ presence.duree }} </td>
-              <td v-if="presence.statut === 'present'" class="text-center"> <span
-                  class="badge badge-success">Présent</span> </td>
-              <td v-else-if="presence.statut === 'absent'" class="text-center"> <span
-                  class="badge badge-danger">Absent</span></td>
-              <td v-if="presence.statutJustifie === 'Oui'" class="text-center"> <span
-                  class="badge badge-success">Oui</span> </td>
-              <td v-else-if="presence.statutJustifie === 'Non'" class="text-center"> <span
-                  class="badge badge-danger">Non</span></td>
-              <td v-else-if="presence.statutJustifie === 'En congé'" class="text-center"> <span
+              <td  class="text-center"> 
+                <span v-if="presence.statut === 'present'" class="badge badge-success">Présent</span> 
+                <span v-else-if="presence.statut === 'absent'" class="badge badge-danger">Absent</span>
+                <span v-if="presence.statutJustifie === 'Oui'"
+                class="badge badge-success">Oui</span>
+                <span v-else-if="presence.statutJustifie === 'Non'"
+                class="badge badge-danger">Non</span>
+                <span v-else-if="presence.statutJustifie === 'En congé'" 
                   class="badge badge-primary">En congé</span>
-              </td>
-              <td v-else class="text-center"> <span
+                  <span v-else
                   class="badge badge-primary">Aucun motif</span>
               </td>
               <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
