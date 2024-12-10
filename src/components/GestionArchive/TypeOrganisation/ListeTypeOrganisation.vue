@@ -86,7 +86,7 @@
                   {{ typeOrganisation.libelle}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ typeOrganisation.typeOrganisation?.libelle}}
+                  {{ typeOrganisation.typeOrganisations?.libelle}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ format_date(typeOrganisation.createdAt)  }}
