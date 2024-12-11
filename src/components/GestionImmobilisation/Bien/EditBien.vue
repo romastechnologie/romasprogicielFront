@@ -21,7 +21,7 @@
   
             <div class="col-md-4 mt-3">
                     <label for="dateAcquisition" class="form-label"> Date d'Acquisition<span class="text-danger">*</span></label>
-                    <Field name="dateAcquisition"  class="form-control" type="Date-time"/>
+                    <Field name="dateAcquisition"  class="form-control" type="Date"/>
                     <ErrorMessage name="dateAcquisition" class="text-danger" />
             </div>
             <div class="col-md-4 mt-3">
@@ -32,7 +32,7 @@
 
             <div class="col-md-4 mt-3">
                     <label for="dateMiseEnService" class="form-label">Date Mise En Service<span class="text-danger">*</span></label>
-                    <Field name="dateMiseEnService" class="form-control" type="Date-time"/>
+                    <Field name="dateMiseEnService" class="form-control" type="Date"/>
                     <ErrorMessage name="dateMiseEnService" class="text-danger" />
             </div>
             <div class="col-md-4 mt-3">
@@ -198,19 +198,26 @@
     });
 
     
-    function getBien(id:number) {
-      ApiService.get("/biens/"+id.toString())
-        .then(({ data }) => {
-          for (const key in data.data) {
-            bienForm.value?.setFieldValue(key, 
-            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
-          );
-          }
-      })
-      .catch(({ response }) => {
-        error(response.message);
-      });
-    }
+    function getBien(id: number) {
+  ApiService.get("/biens/" + id.toString())
+    .then(({ data }) => {
+      for (const key in data.data) {
+        let value = data.data[key];
+
+        if (key === 'dateAcquisition' || key === 'dateMiseEnService') {
+          value = value ? value.split('T')[0] : '';
+        }
+
+        bienForm.value?.setFieldValue(
+          key,
+          typeof value === 'object' && value !== null ? value.id : value
+        );
+      }
+    })
+    .catch(({ response }) => {
+      error(response.message);
+    });
+}
 
     const typeOptions = ref([]);
     const categorieOptions = ref([]);
