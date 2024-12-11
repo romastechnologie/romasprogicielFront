@@ -81,13 +81,13 @@
                   {{ organisation.code }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ organisation.typeorganisation.libelle}}
+                  {{ organisation.typeorganisation?.libelle}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ organisation.nom}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ organisation.organisation?.nom}}
+                  {{ organisation.organisations?.nom}}
                 </td>
                 
                 <td
