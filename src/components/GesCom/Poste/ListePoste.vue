@@ -75,23 +75,24 @@
           </thead>
           <tbody>
             <tr v-for="(poste, index) in postes" :key="index">
-              <td class="shadow-none lh-1 fw-medium text-black">
+              <td class="shadow-none lh-1 fw-medium">
                 {{ poste.code }}
               </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+              <td class="shadow-none lh-1 fw-medium">
                 {{ poste.libelle }}
               </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+              <td class="shadow-none lh-1 fw-medium">
                 {{ format_date(poste.createdAt)  }}
               </td>
               <td
-                class="shadow-none lh-1 fw-medium text-black pe-0 text-end"
+                class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"
               >
+              <div class="dropdown">
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
               <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                 <li class="dropdown-item d-flex align-items-center">
                   <a  href="javascript:void(0);" @click="moddifier(poste)" data-bs-toggle="modal"
-          data-bs-target="#AddPosteModal">
+                       data-bs-target="#AddPosteModal">
                   <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                   </a>
                 </li>
@@ -102,7 +103,10 @@
                   </a>
                 </li>
               </ul>
-              </td>
+              
+            
+            </div>
+          </td>
 
               
             </tr>

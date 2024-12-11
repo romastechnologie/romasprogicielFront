@@ -71,7 +71,7 @@
               </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13  pt-0 text-end  pe-0"
                 >Actions</th>
               </tr>
             </thead>
@@ -90,7 +90,7 @@
                   {{ format_date(banque.createdAt)  }}
                 </td>
                 <td
-                  class="shadow-none lh-1 fw-medium text-black pe-0"
+                  class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"
                 >
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
