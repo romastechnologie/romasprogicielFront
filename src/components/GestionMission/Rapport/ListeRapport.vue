@@ -167,7 +167,7 @@
        // END PAGINATE
    
        function getAllRapport(page = 1, limi = 10, searchTerm = '') {
-         return ApiService.get(`rapportmissions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+         return ApiService.get(`all/rapportmissions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
          .then(({ data }) => {
           console.log(data); 
            rapports.value = data.data.data;

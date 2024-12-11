@@ -74,7 +74,7 @@
               </th> -->
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
               >ACTIONS</th>
             </tr>
           </thead>
@@ -93,7 +93,7 @@
                 {{ banque.societe.nom }}
               </td> -->
               <td
-                class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
+                class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"
               >
               <div class="dropdown">
                   <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

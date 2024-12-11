@@ -175,7 +175,7 @@
       // END PAGINATE
   
       function getAllMissions(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/all/missions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`all/missions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
             missions.value = data.data.data;
             totalPages.value = data.data.totalPages;

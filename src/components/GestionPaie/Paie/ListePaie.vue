@@ -102,7 +102,7 @@
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
                 >Actions</th>
               </tr>
             </thead>
@@ -117,7 +117,7 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.periode }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.modePaiement }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ format_date(paie.createdAt) }} </td>
-                  <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
+                  <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
 

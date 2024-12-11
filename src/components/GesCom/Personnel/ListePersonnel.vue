@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/personnelles/ajouter-personnel"
+          to="/personnels/ajouter-personnel"
         >
           <i class="fa fa-plus-circle"></i>
           Ajouter un personnel
