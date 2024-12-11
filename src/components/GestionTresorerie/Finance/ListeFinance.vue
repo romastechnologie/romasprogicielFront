@@ -59,7 +59,7 @@
                             <th>{{ finance.type }}</th>
                             <th>{{ finance.nomBeneficiaire }}</th>
                             <th>{{ finance.prenomBeneficiaire }}</th>
-                            <th>{{ finance.personnel?.nom }}</th>
+                            <th>{{ finance.personnel?.nom }}&nbsp;{{ finance.personnel?.prenom }}</th>
 
                 <td
                   class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
