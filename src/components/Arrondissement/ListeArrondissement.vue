@@ -84,7 +84,7 @@
                 {{ arrondissement.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ arrondissement.commune.libelle }}
+                {{ arrondissement.commune?.libelle }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
@@ -187,7 +187,7 @@ export default defineComponent({
     // END PAGINATE
 
     function  getAllArrondissements(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`arrondissements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/arrondissements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       .then(({ data }) => {
         arrondissements.value = data.data.data;
         totalPages.value = data.data.totalPages;

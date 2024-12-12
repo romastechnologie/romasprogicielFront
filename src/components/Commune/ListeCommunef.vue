@@ -84,7 +84,7 @@
                 {{ commune.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ commune.departement.libelle }}
+                {{ commune.departement?.libelle }}
               </td>
               <!--<td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
@@ -189,7 +189,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllCommune(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`communes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/communes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       .then(({ data }) => {
         communes.value = data.data.data;
         totalPages.value = data.data.totalPages;
