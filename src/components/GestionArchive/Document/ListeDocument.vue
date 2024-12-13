@@ -79,7 +79,7 @@
 
                     <li class="dropdown-item d-flex align-items-center">
                         <router-link :to="{ name: 'ViewDocument', params: { id: document.id } }" class="dropdown-item d-flex align-items-center">
-                            <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
+                            <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i><p><strong>Détails</strong></p> 
                         </router-link>
                     </li>
 

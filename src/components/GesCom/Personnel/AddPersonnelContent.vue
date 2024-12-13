@@ -1815,13 +1815,13 @@ export default defineComponent({
 
     const getAllServices = async () => {
       try {
-        const response = await ApiService.get("/services");
+        const response = await ApiService.get("/all/organisations");
         const servicesData = response.data.data;
         console.log("465484635418416541 ===> ", servicesData);
 
         serviceOptions.value = servicesData.data.map((service) => ({
           value: service.id,
-          label: service.libelle,
+          label: service.nom,
         }));
       } catch (error) {
         //error(response.data.message)
@@ -1948,7 +1948,7 @@ export default defineComponent({
     }
 
     const fetchDepartements = async () => {
-      ApiService.get("/departements")
+      ApiService.get("/all/departements")
         .then(({ data }) => {
           const donnees = data.data.data;
           departementOptions.value = donnees.map((departement) => {
