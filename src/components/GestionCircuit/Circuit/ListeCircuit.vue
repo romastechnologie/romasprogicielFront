@@ -172,8 +172,10 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllCircuits(page = 1, limi = 10, searchTerm = '') {
+      console.log('fonction exécutée');
       return ApiService.get(`all/circuits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log('fonction',data);
           circuits.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
