@@ -193,7 +193,7 @@ const schema = Yup.object().shape({
     fichierfinance: Yup.mixed().required('Le fichier de la caisse est obligatoire'),
     montant: Yup.number().required('Le montant est obligatoire'),
     type: Yup.string().required('Le type est obligatoire'),
-    nomBeneficiaire: Yup.string().required('Le nom du bnéficiaire est obligatoire'),
+    nomBeneficiaire: Yup.string().required('Le nom du bénéficiaire est obligatoire'),
     prenomBeneficiaire: Yup.string().required('Le prénom du bénéficiaire est obligatoire'),
     personnel: Yup.string().required('Le personnel est obligatoire'),
     tresorerie: Yup.string().required('La trésorerie est obligatoire'),
