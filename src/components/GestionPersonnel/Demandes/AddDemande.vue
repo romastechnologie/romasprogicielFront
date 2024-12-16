@@ -235,7 +235,7 @@ import router from '@/router';
       const types = ref();
       const typeConge = ref();
       const categories = ref();
-      const personnels = ref();
+      const personnels = ref();;
       const personnel = ref();
       const currentDate = ref(null);
       
@@ -560,7 +560,7 @@ const addDemande = async (values: any, { resetForm }) => {
       values['typeConge'] = typeConge.value
       values['categories'] = categories.value
       values['personnel'] = personnels.value
-      console.log('Données envoyées', values)
+      console.log('Données envoyées', personnels.value)
       if (showMErr.value === false) {
         ApiService.post("/demandes", values)
            .then(({ data }) => {
@@ -568,22 +568,23 @@ const addDemande = async (values: any, { resetForm }) => {
             if (data.code == 201) {
               success(data.message);
               resetForm();
-              router.push({ name: "ListeDemandePage" });
+              //router.push({ name: "ListeDemandePage" });
 
 
               //router.push({ name: "ListeBanquePage" });
               
               //  console.log('flefelef',data.data.categorie)
-              //  if(data.data.categorie == 1){
-              //   router.push({ name: "ListeDemandePermission" });
-              //  }else if(data.data.categorie == 2){
-              //   router.push({ name: "ListeDemandeConge" });
-              //  }else if(data.data.categorie == 3){
-              //   console.log('je suis là')
-              //   router.push("/liste-demande-attestation");
-              //  }else{
-              //   router.push({ name: "ListeDemandeAutre" });
-              //  }
+               if(data.data.categorie == 1){
+               router.push({ name: "ListeDemandePermissionPage" });
+              }else if(data.data.categorie == 2){
+                router.push({ name: "ListeDemandeCongePage" });
+               }else if(data.data.categorie == 3){
+                console.log('je suis là')
+                router.push({ name: "ListeDemandeAttestationPage" });
+
+                }else{
+               router.push({ name: "ListeDemandeAutre" });
+               }
             
             }
            }).catch(( response ) => {
@@ -594,7 +595,7 @@ const addDemande = async (values: any, { resetForm }) => {
     };
 
 
-      return { demandeSchema, addDemande, demandeForm,typeOptions,showMErr,categorieOptions,personnelOptions,types,categories,categorieDemandeChange,fieldHide1,
+      return { demandeSchema, addDemande, demandeForm,typeOptions,showMErr,categorieOptions,personnelOptions,types,categories,categorieDemandeChange,fieldHide1,personnels,
       fieldHide2,
       fieldHide3,
       fieldHide4,

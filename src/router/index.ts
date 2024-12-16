@@ -295,8 +295,8 @@ import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUse
 import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
 
 import ListeRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/ListeRoleEtapPage.vue";
-import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
-import EditRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/EditRoleEtapPage.vue";
+//import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
+//import EditRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/EditRoleEtapPage.vue";
 
 
 import ListeModelPage from "@/pages/GestionModel/Model/ListeModelPage.vue";
@@ -1992,7 +1992,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
     
 
-      {
+    /*  {
         path: "ajouter-roleetap",
         name: "AddRoleEtapPage",
         component: AddRoleEtapPage,
@@ -2007,7 +2007,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Modifier role etape',
         }
-      },
+      },*/
      
       {
         path: "liste-roleetaps",
