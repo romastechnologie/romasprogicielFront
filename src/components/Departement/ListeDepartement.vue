@@ -75,7 +75,7 @@
                   {{ departement.code }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ departement.libelle }}
+                  {{ departement?.libelle }}
                 </td>
                 <td
                   class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
@@ -178,7 +178,7 @@
       // END PAGINATE
   
       function getAllDepartement(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`departements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`all/departements?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           departements.value = data.data.data;
           totalPages.value = data.data.totalPages;

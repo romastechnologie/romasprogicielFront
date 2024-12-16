@@ -270,6 +270,9 @@ import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
+import ViewDocumentPage from "@/pages/GestionArchive/Document/ViewDocumentPage.vue";
+
+
 //gestion des zones
 import ListeQuartierPage from "@/pages/Quartier/ListeQuartierPage.vue";
 import ListeArrondissementPage from "@/pages/Arrondissement/ListeArrondissementPage.vue";
@@ -959,6 +962,14 @@ const routes: Array<RouteRecordRaw> = [
         component: EditDocumentPage,
         meta: {
           title: 'Editer des documents',
+        }
+      },
+      {
+        path: "view-document/:id",
+        name: "ViewDocument",
+        component: ViewDocumentPage,
+        meta: {
+          title: 'Détails d\'un document',
         }
       }
     ]

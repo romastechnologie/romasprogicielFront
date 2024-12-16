@@ -145,7 +145,7 @@ export default defineComponent({
 
     const fetchDepartement = async () => {
       try {
-        const response = await axios.get('/departements');
+        const response = await axios.get('all/departements');
         const departementsData = response.data.data.data;
         departementOptions.value = departementsData.map((departement) => ({
           value: departement.id,

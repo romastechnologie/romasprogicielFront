@@ -84,7 +84,7 @@
                 {{ quartier.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ quartier.arrondissement.libelle }}
+                {{ quartier.arrondissement?.libelle }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
@@ -186,7 +186,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllQuartier(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`quartiers?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/quartiers?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       .then(({ data }) => {
         quartiers.value = data.data.data;
         totalPages.value = data.data.totalPages;

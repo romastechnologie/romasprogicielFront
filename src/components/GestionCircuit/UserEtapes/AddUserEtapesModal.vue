@@ -107,10 +107,10 @@
   
       const btnTitle = async () => {
         if (isUPDATE.value) {
-           title.value = "Modifier le typeMoyenRoulant";
+           title.value = "Modifier une étape";
            btntext.value = "Modifier";
         }else{
-           title.value = "Ajouter un typeMoyenRoulant";
+           title.value = "Ajouter une étape";
            btntext.value = "Ajouter";
         }
       }

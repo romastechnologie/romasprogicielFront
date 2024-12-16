@@ -69,7 +69,7 @@
            
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0  pe-0"
               >ACTIONS</th>
             </tr>
           </thead>
@@ -85,13 +85,12 @@
                 {{ circuit.typeDuree }}
               </td>
               <td
-                class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
+                class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"
               >
               <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
+                <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Actions
+                  </button>
                   <ul class="dropdown-menu">
                     <li >
                       <router-link :to="{ name: 'EditCircuitPage', params: { id: circuit.id } }" 
@@ -173,8 +172,10 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllCircuits(page = 1, limi = 10, searchTerm = '') {
+      console.log('fonction exécutée');
       return ApiService.get(`all/circuits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
+          console.log('fonction',data);
           circuits.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;

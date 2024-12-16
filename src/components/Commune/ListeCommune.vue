@@ -1,5 +1,5 @@
 <template>
- <<div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+ <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
       <div
         class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
       >
@@ -84,7 +84,7 @@
                 {{ commune.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ commune.departement.libelle }}
+                {{ commune.departement?.libelle }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
@@ -186,7 +186,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllCommune(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`communes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/communes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       .then(({ data }) => {
         communes.value = data.data.data;
         totalPages.value = data.data.totalPages;
