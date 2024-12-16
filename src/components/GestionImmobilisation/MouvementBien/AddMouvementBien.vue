@@ -133,7 +133,7 @@
 
       onMounted(() => {
         getAllBiens(),
-        getAllServices();
+        getAllOrganisations();
         console.log('id', route.params.id)
         if(route.params.id) {
         getBien(parseInt(route.params.id as string));
@@ -207,14 +207,14 @@
         }
       } 
 
-      const getAllServices = async () => {
+      const getAllOrganisations = async () => {
         try{
-          const response = await ApiService.get('/services');
+          const response = await ApiService.get('/all/organisations');
           const servicesData = response.data.data.data;
           console.log(response,servicesData)
           serviceOptions.value = servicesData.map((service) => ({
             value: service.id,
-            label: service.libelle
+            label: service.nom
           }));
         }
         catch(error){

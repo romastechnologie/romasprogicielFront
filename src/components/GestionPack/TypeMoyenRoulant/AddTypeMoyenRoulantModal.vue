@@ -25,7 +25,7 @@
                   Description <span class="text-danger">*</span>
                 </label>
                 <Field name="description" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la valeur typeMoyenRoulant"/>
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la description"/>
                 <ErrorMessage name="description" class="text-danger"/>
               </div>
             </div>
@@ -88,7 +88,7 @@ export default defineComponent({
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
-    const title = ref("Ajouter un typeMoyenRoulant");
+    const title = ref("Ajouter un type de moyens roulants");
     const btntext = ref('Ajouter');
 
     watch(() => props.item, (newValue) => {
@@ -99,10 +99,10 @@ export default defineComponent({
 
     const btnTitle = async () => {
       if (isUPDATE.value) {
-         title.value = "Modifier le typeMoyenRoulant";
+         title.value = "Modifier le type de moyens roulants";
          btntext.value = "Modifier";
       }else{
-         title.value = "Ajouter un typeMoyenRoulant";
+         title.value = "Ajouter un type de moyens roulants";
          btntext.value = "Ajouter";
       }
     }
