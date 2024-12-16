@@ -50,6 +50,7 @@
               <ErrorMessage name="dateFin" class="text-danger" />
             </div>
           </div>
+          
          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
@@ -59,7 +60,28 @@
               <ErrorMessage name="preuveFileName" class="text-danger" />
             </div>
           </div>
-
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Justificatif <span class="text-danger">*</span>
+              </label>
+              <Field
+                name="description"
+                cols="20"
+                rows="3"
+                as="textarea"
+                placeholder="Description"
+                v-slot="{ field }"
+                class="form-control shadow-none rounded-0 text-black"
+              >
+                <textarea
+                  v-model="field.value"
+                  class="form-control shadow-none rounded-0 text-black"
+                ></textarea>
+              </Field>
+              <ErrorMessage name="description" class="text-danger" />
+            </div>
+          </div>
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -109,12 +131,10 @@
     personnel: Yup.string().required("Le personnel est obligatoire."),
     dateDebut: Yup.string().required("La date de début est obligatoire."),
     dateFin: Yup.string().required("La date de fin est obligatoire."),
-   preuveFileName: Yup.mixed().required("La preuve est obligatoire."), 
+    preuveFileName: Yup.mixed().required("La preuve est obligatoire."), 
+    description: Yup.string().required("La description est obligatoire."), 
   });
-  
 
-
-      
   
       onMounted(() => {
         getAllPersonnels()

@@ -3,10 +3,10 @@
     <h1 class="text-center mb-4">Détails du Document</h1>
 
     <div class="position-relative mb-3" style="height: 50px; background-color: #f8f9fa;">
-  <button class="btn btn-primary btn-sm" style="position: absolute; top: 10px; right: 10px;" @click="goBack">
-    Retour
-  </button>
-</div>
+      <button class="btn btn-primary btn-sm" style="position: absolute; top: 10px; right: 10px;" @click="goBack">
+        Retour
+      </button>
+    </div>
     <!-- Bloc des informations générales -->
     <div class="card my-4">
       <div class="card-body">
@@ -19,7 +19,8 @@
           <div class="col-md-6 mb-3">
             <strong>Catégorie :</strong>
             <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index" class="badge bg-info text-dark me-1">
+              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
+                class="badge bg-info text-dark me-1">
                 {{ val.regleType?.categoriedocument?.libelle || 'Non renseigné' }}
               </span>
             </p>
@@ -27,7 +28,8 @@
           <div class="col-md-6 mb-3">
             <strong>Type de document :</strong>
             <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index" class="badge bg-secondary text-light me-1">
+              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
+                class="badge bg-secondary text-light me-1">
                 {{ val.regleType?.typeDocument?.nom || 'Non renseigné' }}
               </span>
             </p>
@@ -40,7 +42,6 @@
             <strong>Nom :</strong>
             <p>{{ document?.nom || 'Non renseigné' }}</p>
           </div>
-
           <div class="col-md-6 mb-3">
             <strong>Tag Document :</strong>
             <p>{{ document?.tagDoc?.libelle || 'Non renseigné' }}</p>
@@ -49,7 +50,6 @@
             <strong>Description :</strong>
             <p>{{ document?.description || 'Non renseigné' }}</p>
           </div>
-        
         </div>
       </div>
     </div>
@@ -70,7 +70,7 @@
           <div class="col-md-6 mb-3">
             <strong>Fichier :</strong>
             <p v-if="document?.fichier">
-              <a :href="document.fichier" target="_blank" class="text-decoration-underline">
+              <a :href="getFileUrl(document.fichier)" target="_blank" class="text-decoration-underline">
                 Télécharger le fichier
               </a>
             </p>
@@ -80,27 +80,28 @@
       </div>
     </div>
 
-
     <div class="card my-4">
       <div class="card-body">
-        <h2 class="card-title text-center mb-4">Règle Conservation</h2>
+        <h2 class="card-title text-center mb-4">Règle de Conservation</h2>
         <div class="row">
           <div class="col-md-6 mb-3">
             <strong>Type :</strong>
             <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index" class="badge bg-secondary text-light me-1">
+              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
+                class="badge bg-secondary text-light me-1">
                 {{ val.regleType?.typeDocument?.nom || 'Non renseigné' }}
               </span>
-            </p> 
+            </p>
           </div>
           <div class="col-md-6 mb-3">
             <strong>Durée :</strong>
             <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index" class="badge bg-info text-dark me-1">
-                {{ val.regleType?.regleConservation?.dureeConservation + " " + val.regleType?.regleConservation?.typeDuree  || 'Non renseigné' }}
+              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
+                class="badge bg-info text-dark me-1">
+                {{ val.regleType?.regleConservation?.dureeConservation + " " +
+                val.regleType?.regleConservation?.typeDuree || 'Non renseigné' }}
               </span>
             </p>
-          
           </div>
 
           <div class="col-md-6 mb-3">
@@ -111,7 +112,8 @@
           <div class="col-md-6 mb-3">
             <strong>Sort Final :</strong>
             <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index" class="badge bg-info text-dark me-1">
+              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
+                class="badge bg-info text-dark me-1">
                 {{ val.regleType?.regleConservation?.sortFinal || 'Non renseigné' }}
               </span>
             </p>
@@ -119,7 +121,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -150,6 +151,12 @@ export default defineComponent({
       }
     }
 
+    function getFileUrl(fichier: string) {
+  const baseUrl = "http://localhost:3008/api"; // Remplace par l'URL de base de ton backend
+  return fichier.startsWith("http") ? fichier : `${baseUrl}${fichier}`;
+}
+
+
     function goBack() {
       router.push({ name: "ListeDocumentPage" }); // Redirige vers la liste des documents
     }
@@ -168,6 +175,7 @@ export default defineComponent({
       document,
       format_date,
       goBack,
+      getFileUrl
     };
   },
 });

@@ -8,7 +8,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date de la demande <span class="text-danger">*</span>
               </label>
-              <Field name="dateDemande" type="date" class="form-control shadow-none fs-md-15 text-black" />
+              <Field name="dateDemande" type="date" :value="getCurrentDate()" class="form-control shadow-none fs-md-15 text-black" />
               <ErrorMessage name="dateDemande" class="text-danger" />
             </div>
           </div>
@@ -224,9 +224,10 @@
   import * as Yup from 'yup';
   import ApiService from '@/services/ApiService';
   import { error, success,onFileChange } from '@/utils/utils';
-  import { useRouter } from 'vue-router';
+  // import { useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
+import router from '@/router';
 
 
   const demandeForm =  ref(null);
@@ -236,20 +237,21 @@
       const categories = ref();
       const personnels = ref();
       const personnel = ref();
+      const currentDate = ref(null);
       
      
       const typeOptions = ref([]);
       const categorieOptions = ref([]);
       
-      const router = useRouter();
+      // const router = useRouter();
      
   
-//copie
-  
-const demandes = ref([] as any[]);
+      //copie
+        
+      const demandes = ref([] as any[]);
 
-const typeCongeOptions = ref([] as any[]);
-const personnelOptions = ref([] as any[]);
+      const typeCongeOptions = ref([] as any[]);
+      const personnelOptions = ref([] as any[]);
 
   
 
@@ -314,6 +316,15 @@ const personnelOptions = ref([] as any[]);
       
     });
 
+    const getCurrentDate = () => {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const currentDate = `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
+      return currentDate;
+    };
+
 
       const fichierChange = (e) => {
         selectedFile.value = onFileChange(e, [
@@ -324,8 +335,8 @@ const personnelOptions = ref([] as any[]);
       };
 
 
-//déclaration des champs
-const fieldHide1 = ref(true);
+    //déclaration des champs
+    const fieldHide1 = ref(true);
     const fieldHide2 = ref(false);
     const fieldHide3 = ref(false);
     const fieldHide4 = ref(false);
@@ -346,12 +357,13 @@ const fieldHide1 = ref(true);
     const errorMessage = ref('');
     const maxFileSize = 5 * 1024 * 1024; // 5 Mo
 
-      onMounted(() => {
-        getAllTypeConges()
-        getAllCategorieDemandes()
-        getAllPersonnels()
-        //demandeSchema.value = defaultSchema
-  });
+    onMounted(() => {
+      getAllTypeConges()
+      getAllCategorieDemandes()
+      getAllPersonnels()
+      getCurrentDate();
+      //demandeSchema.value = defaultSchema
+    });
   
     
   const isDisable = ref(true);
@@ -403,112 +415,112 @@ const fieldHide1 = ref(true);
       const { remove, push, fields, update } = useFieldArray("echeances");
 
   
-const categorieDemandeChange = async (value) => {
+      const categorieDemandeChange = async (value) => {
 
-if (value == null || value == undefined || value == "") {
-  return;
-}
+      if (value == null || value == undefined || value == "") {
+        return;
+      }
 
-switch (value) {
-    case 1:
-    // permission
-    demandeSchema.value = permissionSchema;
-    fieldHide1.value = true;
-    fieldHide2.value = true;
-    fieldHide3.value = true;
-    fieldHide4.value = true;
-    fieldHide5.value = false;
-    fieldHide6.value = false;
-    fieldHide7.value = false;
-    fieldHide8.value = false;
-    fieldHide9.value = false;
-    fieldHide10.value = false;
-    fieldHide11.value = false;
-    fieldHide12.value = false;
-    fieldHide13.value = false;
-    break;
-    case 2:
-    // congés
-    demandeSchema.value = congeSchema;
-    fieldHide1.value = false;
-    fieldHide2.value = true;
-    fieldHide3.value = true;
-    fieldHide4.value = true;
-    fieldHide5.value = true;
-    fieldHide6.value = true;
-    fieldHide7.value = false;
-    fieldHide8.value = false;
-    fieldHide9.value = true;
-    fieldHide10.value = true;
-    fieldHide11.value = true;
-    fieldHide12.value = false;
-    fieldHide13.value = false;
-    
-    
-    break;
+      switch (value) {
+          case 1:
+          // permission
+          demandeSchema.value = permissionSchema;
+          fieldHide1.value = true;
+          fieldHide2.value = true;
+          fieldHide3.value = true;
+          fieldHide4.value = true;
+          fieldHide5.value = false;
+          fieldHide6.value = false;
+          fieldHide7.value = false;
+          fieldHide8.value = false;
+          fieldHide9.value = false;
+          fieldHide10.value = false;
+          fieldHide11.value = false;
+          fieldHide12.value = false;
+          fieldHide13.value = false;
+          break;
+          case 2:
+          // congés
+          demandeSchema.value = congeSchema;
+          fieldHide1.value = false;
+          fieldHide2.value = true;
+          fieldHide3.value = true;
+          fieldHide4.value = true;
+          fieldHide5.value = true;
+          fieldHide6.value = true;
+          fieldHide7.value = false;
+          fieldHide8.value = false;
+          fieldHide9.value = true;
+          fieldHide10.value = true;
+          fieldHide11.value = true;
+          fieldHide12.value = false;
+          fieldHide13.value = false;
+          
+          
+          break;
 
-  case 3:
-    // attestation
-    demandeSchema.value = attestationSchema;
-    fieldHide1.value = false;
-    fieldHide2.value = false;
-    fieldHide3.value = false;
-    fieldHide4.value = false;
-    fieldHide5.value = true;
-    fieldHide6.value = false;
-    fieldHide7.value = false;
-    fieldHide8.value = false;
-    fieldHide9.value = true;
-    fieldHide10.value = true;
-    fieldHide11.value = true;
-    fieldHide12.value = true;
-    fieldHide13.value = true;
-    break;
+        case 3:
+          // attestation
+          demandeSchema.value = attestationSchema;
+          fieldHide1.value = false;
+          fieldHide2.value = false;
+          fieldHide3.value = false;
+          fieldHide4.value = false;
+          fieldHide5.value = true;
+          fieldHide6.value = false;
+          fieldHide7.value = false;
+          fieldHide8.value = false;
+          fieldHide9.value = true;
+          fieldHide10.value = true;
+          fieldHide11.value = true;
+          fieldHide12.value = true;
+          fieldHide13.value = true;
+          break;
 
-  case 4:
-    // pret
-   demandeSchema.value = pretSchema;
-    fieldHide1.value = true;
-    fieldHide2.value = false;
-    fieldHide3.value = false;
-    fieldHide4.value = false;
-    fieldHide5.value = false;
-    fieldHide6.value = false;
-    fieldHide7.value = true;
-    fieldHide8.value = true;
-    fieldHide9.value = false;
-    fieldHide10.value = false;
-    fieldHide11.value = false;
-    fieldHide12.value = false;
-    fieldHide13.value = false;
-    
-    break;
+        case 4:
+          // pret
+        demandeSchema.value = pretSchema;
+          fieldHide1.value = true;
+          fieldHide2.value = false;
+          fieldHide3.value = false;
+          fieldHide4.value = false;
+          fieldHide5.value = false;
+          fieldHide6.value = false;
+          fieldHide7.value = true;
+          fieldHide8.value = true;
+          fieldHide9.value = false;
+          fieldHide10.value = false;
+          fieldHide11.value = false;
+          fieldHide12.value = false;
+          fieldHide13.value = false;
+          
+          break;
 
-  default:
-    break;
-}
+        default:
+          break;
+      }
 
-}
+      }
 
-//Calcul
-const montantPret = ref(0);
-const calculMontantTotal = () => {
-      montantPret.value = echeances.reduce((acc, echeance) => acc + Number(echeance.montant || 0), 0);
-    };
+      //Calcul
+      const montantPret = ref(0);
+      const calculMontantTotal = () => {
+        montantPret.value = echeances.reduce((acc, echeance) => acc + Number(echeance.montant || 0), 0);
+      };
 
-    const getAllTypeConges = async () => {
-        try{
-        const response = await ApiService.get('/typeConges');
-        const typeCongesData = response.data.data.data;
+      const getAllTypeConges = async () => {
+          try{
+          const response = await ApiService.get('/typeConges');
+          const typeCongesData = response.data.data.data;
 
-        typeCongeOptions.value = typeCongesData.map((typeConge) => ({
-          value: typeConge.id,
-          label: typeConge.libelle,
-        }));
-        }
-        catch(error){
-          //error(response.data.message)
-        }
+          typeCongeOptions.value = typeCongesData.map((typeConge) => ({
+            value: typeConge.id,
+            label: typeConge.libelle,
+          }));
+          }
+          catch(error){
+            //error(response.data.message)
+          }
       } 
 
       const getAllCategorieDemandes = async () => {
@@ -553,23 +565,28 @@ const addDemande = async (values: any, { resetForm }) => {
         ApiService.post("/demandes", values)
            .then(({ data }) => {
             console.log("data   ",data)
-             if (data.code == 201) {
+            if (data.code == 201) {
               success(data.message);
-              //  resetForm();
-             console.log('flefelef',data.data.categorie)
-             if(data.data.categorie == 1){
-              router.push({ name: "ListeDemandePermission" });
-             }else if(data.data.categorie == 2){
-              router.push({ name: "ListeDemandeConge" });
-             }else if(data.data.categorie == 3){
-              console.log('je suis là')
-              router.push("/liste-demande-attestation");
-             }else{
-              router.push({ name: "ListeDemandeAutre" });
-             }
-            // router.push({ name: "ListeDemandePage" });
-           }
-           }).catch(({ response }) => {
+              resetForm();
+              router.push({ name: "ListeDemandePage" });
+
+
+              //router.push({ name: "ListeBanquePage" });
+              
+              //  console.log('flefelef',data.data.categorie)
+              //  if(data.data.categorie == 1){
+              //   router.push({ name: "ListeDemandePermission" });
+              //  }else if(data.data.categorie == 2){
+              //   router.push({ name: "ListeDemandeConge" });
+              //  }else if(data.data.categorie == 3){
+              //   console.log('je suis là')
+              //   router.push("/liste-demande-attestation");
+              //  }else{
+              //   router.push({ name: "ListeDemandeAutre" });
+              //  }
+            
+            }
+           }).catch(( response ) => {
             console.log("response",response)
             error(response);
           });
@@ -590,14 +607,16 @@ const addDemande = async (values: any, { resetForm }) => {
       fieldHide11,
       fieldHide12,
       fieldHide13,defaultSchema,isDisable,
-        removeRowEcheance,
+      removeRowEcheance,
       addRowEcheance,
       valideteRowEcheance,
       echeances,
       fichierChange,onFileChange,
       errorMessage,montantPret,
       calculMontantTotal,
-      typeCongeOptions,typeConge,personnel};
+      typeCongeOptions,typeConge,personnel,
+      getCurrentDate,
+    };
     },
   });
   </script>

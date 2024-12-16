@@ -199,7 +199,7 @@
       onMounted(() => {
         getAllTypeBien()
         getAllCategorieBien()
-        getAllService()
+        getAllOrganisation()
   });
   
       const bienForm =  ref(null);
@@ -263,14 +263,14 @@
         }
       } 
   
-      const getAllService = async () => {
+      const getAllOrganisation = async () => {
         try{
-        const response = await ApiService.get('/services');
+        const response = await ApiService.get('/all/organisations');
         const servicesData = response.data.data.data;
         console.log(servicesData,"gggggggggg");
         serviceOptions.value = servicesData.map((service) => ({
           value: service.id,
-          label: service.libelle,
+          label: service.nom,
         }));
         }
         catch(error){
