@@ -79,6 +79,47 @@
         </div>
       </div>
     </div>
+
+
+    <div class="card my-4">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-4">Règle Conservation</h2>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <strong>Type :</strong>
+            <p>
+              <span v-for="(val, index) in document?.regleDocuments || []" :key="index" class="badge bg-secondary text-light me-1">
+                {{ val.regleType?.typeDocument?.nom || 'Non renseigné' }}
+              </span>
+            </p> 
+          </div>
+          <div class="col-md-6 mb-3">
+            <strong>Durée :</strong>
+            <p>
+              <span v-for="(val, index) in document?.regleDocuments || []" :key="index" class="badge bg-info text-dark me-1">
+                {{ val.regleType?.regleConservation?.dureeConservation + " " + val.regleType?.regleConservation?.typeDuree  || 'Non renseigné' }}
+              </span>
+            </p>
+          
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <strong>Date Fin Conservation :</strong>
+            <p>{{ format_date(document?.dateFinConservation) || 'Non renseigné' }}</p>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <strong>Sort Final :</strong>
+            <p>
+              <span v-for="(val, index) in document?.regleDocuments || []" :key="index" class="badge bg-info text-dark me-1">
+                {{ val.regleType?.regleConservation?.sortFinal || 'Non renseigné' }}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
