@@ -26,12 +26,25 @@
                 </tr>
                 <tr>
                   <td>Motif de permission :</td>
-                  <td>{{ demande?.motifPermisssion}}</td>
+                  <td>{{ demande?.motifDemande}}</td>
                 </tr>
               
+               
                 <tr>
-                  <td>Type Conge :</td>
-                  <td>{{ demande?.typeConge }}</td>
+                  <td>Date Début :</td>
+                  <td>{{ demande?.dateDebut }}</td>
+                </tr>
+                <tr>
+                  <td>Date Fin Prévue :</td>
+                  <td>{{ demande?.dateFinPrevu }}</td>
+                </tr>
+                <tr>
+                  <td>Date Fin :</td>
+                  <td>{{ demande?.dateFin }}</td>
+                </tr>
+                <tr>
+                  <td>Date Reprise :</td>
+                  <td>{{ demande?.dateReprise }}</td>
                 </tr>
               </tbody>
             </table>
@@ -56,7 +69,7 @@ export default defineComponent({
     const demande = ref<Demande | null>(null);
 
     function getDemande(id: string) {
-      return ApiService.get("/demandes", id)
+      return ApiService.get("/demandes",id)
         .then(({ data }) => {
           demande.value = data.data; 
         })

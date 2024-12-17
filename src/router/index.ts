@@ -271,6 +271,10 @@ import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
+import ViewDocumentPage from "@/pages/GestionArchive/Document/ViewDocumentPage.vue";
+import FilterDocumentPage from "@/pages/GestionArchive/Document/FilterDocumentPage.vue";
+
+
 //gestion des zones
 import ListeQuartierPage from "@/pages/Quartier/ListeQuartierPage.vue";
 import ListeArrondissementPage from "@/pages/Arrondissement/ListeArrondissementPage.vue";
@@ -293,8 +297,8 @@ import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUse
 import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
 
 import ListeRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/ListeRoleEtapPage.vue";
-import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
-import EditRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/EditRoleEtapPage.vue";
+//import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
+//import EditRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/EditRoleEtapPage.vue";
 
 
 import ListeModelPage from "@/pages/GestionModel/Model/ListeModelPage.vue";
@@ -960,6 +964,22 @@ const routes: Array<RouteRecordRaw> = [
         component: EditDocumentPage,
         meta: {
           title: 'Editer des documents',
+        }
+      },
+      {
+        path: "view-document/:id",
+        name: "ViewDocument",
+        component: ViewDocumentPage,
+        meta: {
+          title: 'Détails d\'un document',
+        }
+      },
+      {
+        path: "filter-document/:id",
+        name: "FilterDocument",
+        component: FilterDocumentPage,
+        meta: {
+          title: 'Filtrer d\'un document',
         }
       }
     ]
@@ -1991,7 +2011,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
     
 
-      {
+    /*  {
         path: "ajouter-roleetap",
         name: "AddRoleEtapPage",
         component: AddRoleEtapPage,
@@ -2006,7 +2026,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Modifier role etape',
         }
-      },
+      },*/
      
       {
         path: "liste-roleetaps",

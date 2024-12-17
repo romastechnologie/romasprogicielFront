@@ -114,6 +114,7 @@
     },
   
     setup: () => {
+<<<<<<< HEAD
       const justificatifSchema = Yup.object().shape({
   personnel: Yup.string().required("Le personnel est obligatoire."),
   justificatif: Yup.string().required("Le justificatif est obligatoire."),
@@ -127,9 +128,18 @@
   preuveFileName: Yup.mixed().required("La preuve est obligatoire."),
 });
 
+=======
+    const justificatifSchema = Yup.object().shape({ 
+   // date: Yup.string().required("La date est obligatoire."),
+    // presenceJustificatif: Yup.string().required("La presence est obligatoire."),
+    personnel: Yup.string().required("Le personnel est obligatoire."),
+    dateDebut: Yup.string().required("La date de début est obligatoire."),
+    dateFin: Yup.string().required("La date de fin est obligatoire."),
+    preuveFileName: Yup.mixed().required("La preuve est obligatoire."), 
+    description: Yup.string().required("La description est obligatoire."), 
+  });
+>>>>>>> 98feb6da77c2aedf1b62b1dbcf51e68097e16819
 
-
-      
   
       onMounted(() => {
         getAllPersonnels()
