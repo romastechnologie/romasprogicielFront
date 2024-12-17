@@ -13,7 +13,6 @@ const generateUuid = ()=> {
 const getDatePlusXDays = (x: number) => {
   const currentDate = new Date();
   const futureDate = new Date();
-
   futureDate.setDate(currentDate.getDate() + x);
   // Obtenez les composants de la date
   const year = futureDate.getFullYear();

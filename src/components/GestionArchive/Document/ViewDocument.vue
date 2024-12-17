@@ -70,7 +70,7 @@
           <div class="col-md-6 mb-3">
             <strong>Fichier :</strong>
             <p v-if="document?.fichier">
-              <a :href="getFileUrl(document.fichier)" target="_blank" class="text-decoration-underline">
+              <a :href="getUrlApiForFiles(document.fichier)" target="_blank" class="text-decoration-underline">
                 Télécharger le fichier
               </a>
             </p>
@@ -151,10 +151,13 @@ export default defineComponent({
       }
     }
 
-    function getFileUrl(fichier: string) {
-  const baseUrl = "http://localhost:3008/api"; // Remplace par l'URL de base de ton backend
-  return fichier.startsWith("http") ? fichier : `${baseUrl}${fichier}`;
-}
+     function getUrlApiForFiles (){
+      
+     }
+//     function getFileUrl(fichier: string) {
+//   const baseUrl = "http://localhost:3008/api"; // Remplace par l'URL de base de ton backend
+//   return fichier.startsWith("http") ? fichier : `${baseUrl}${fichier}`;
+// }
 
 
     function goBack() {
@@ -172,10 +175,12 @@ export default defineComponent({
     });
 
     return {
+
       document,
       format_date,
       goBack,
-      getFileUrl
+      getUrlApiForFiles
+      // getFileUrl
     };
   },
 });
