@@ -85,7 +85,7 @@
 
                         <ul class="dropdown-menu">
                           
-                          <!-- <li class="dropdown-item d-flex align-items-center">
+                          <li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
                               :to="{ name: 'ViewDemande',params: { id: demande.id } }"
@@ -93,7 +93,7 @@
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Détails
                             </router-link>
-                          </li>-->
+                          </li>
                           
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
@@ -171,6 +171,7 @@
       function getAllDemandes(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&cat=3&`)
           .then(({ data }) => {
+            console.log("augustin",data.data.data)
             demandes.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
