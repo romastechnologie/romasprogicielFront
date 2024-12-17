@@ -38,7 +38,7 @@
                         <div class="col-md-12 d-flex mt-3">
                             <div class="me-3 flex-grow-1">
                                 <label for="dateCreation">Date de création</label>
-                                <Field type="date" name="dateCreation" id="dateCreation" class="form-control" />
+                                <Field type="date" :value="getCurrentDate()" name="dateCreation" id="dateCreation" class="form-control" />
                                 <ErrorMessage name="dateCreation" class="text-danger" />
                             </div>
                            
@@ -107,6 +107,15 @@ const tresorerieschema = Yup.object().shape({
 
 });
 
+const getCurrentDate = () => {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const currentDate = `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
+      return currentDate;
+    };
+
 configure({
     validateOnBlur: true,
     validateOnChange: true,
@@ -115,6 +124,7 @@ configure({
 
 onMounted(() => {
     getTypeTresorerie();
+    getCurrentDate();
 });
 
 const getTypeTresorerie = async () => {

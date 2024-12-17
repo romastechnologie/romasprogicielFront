@@ -127,6 +127,17 @@ export default defineComponent({
    function handleFilterChange(filters) {
     console.log("Événement capté dans le parent !");
     console.log("Filtres reçus :", filters);
+    console.log("Filtres reçus :", filters);
+    // Exemple de logique de filtrage
+    this.filteredDocuments = this.documents.filter(doc => {
+      return (
+        (!filters.nom || doc.nom.includes(filters.nom)) &&
+        (!filters.description || doc.description.includes(filters.description)) &&
+        (!filters.dateFinConservation || doc.dateFinConservation === filters.dateFinConservation) &&
+        (!filters.refDoc || doc.reference.includes(filters.refDoc))
+      );
+    });
+    console.log("Documents après filtrage :", this.filteredDocuments);
     
   }
 
@@ -156,8 +167,11 @@ export default defineComponent({
 
     const applyFilters = (filters) => {
       // Intégration des filtres appliqués depuis DocumentFilters
-      const filterParams = Object.keys(filters).map((key) => `${key}=${filters[key]}`).join('&');
-      getAllDocuments(page.value, limit.value, searchTerm.value, filterParams);
+      const filterParams = filters && Object.keys(filters).length
+        ? Object.keys(filters)
+          .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(filters[key] ?? '')}`)
+          .join('&')
+        : '';
     };
 
     return {
