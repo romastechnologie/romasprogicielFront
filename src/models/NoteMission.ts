@@ -4,7 +4,7 @@ export  interface NoteMission {
     budget: number;
     contenue: string;
     reference: string;
-
+    mission: string;
 
     setFieldValue: (field: string, value: any) => void;
   }

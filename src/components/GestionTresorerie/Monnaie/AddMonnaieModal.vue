@@ -148,7 +148,7 @@
               success(data.message)
               resetForm();
               hideModal(addMonnaieModalRef.value);
-              emit("refreshMonnaiees");
+              emit("refreshMonnaies");
   
             }
           }).catch(({ response }) => {

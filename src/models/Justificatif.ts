@@ -6,6 +6,7 @@ export  interface Justificatif {
     dateDebut: Date;
     statut: string;
     preuveFileName: string;
+    justificatif:string;
     createdAt:Date;
     setFieldValue: (field: string, value: any) => void;
   }

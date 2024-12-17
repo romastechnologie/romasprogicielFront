@@ -4,7 +4,7 @@
             <Form ref="justificatifForm" @submit="addJustificatif" :validation-schema="justificatifSchema">
               <div class="row">    
           
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Personnel <span class="text-danger">*</span>
@@ -32,7 +32,7 @@
         
 
 
-          <div class="col-md-4 mb-3">
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Date de début <span class="text-danger">*</span>
@@ -41,7 +41,7 @@
               <ErrorMessage name="dateDebut" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-4 mb-3">
+          <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Date de fin <span class="text-danger">*</span>
@@ -50,7 +50,7 @@
               <ErrorMessage name="dateFin" class="text-danger" />
             </div>
           </div>
-         <div class="col-md-4 mb-3">
+         <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Preuve <span class="text-danger">*</span>
@@ -59,6 +59,17 @@
               <ErrorMessage name="preuveFileName" class="text-danger" />
             </div>
           </div>
+
+          <div class="col-md-12 mb-3">
+  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+    <label class="d-block text-black fw-semibold mb-10">
+      Justificatif <span class="text-danger">*</span>
+    </label>
+    <Field name="justificatif" as="textarea" class="form-control shadow-none fs-md-15 text-black" rows="5" placeholder="Écrire une justification ici..." />
+    <ErrorMessage name="justificatif" class="text-danger" />
+  </div>
+</div>
+
 
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
@@ -103,15 +114,19 @@
     },
   
     setup: () => {
-    const justificatifSchema = Yup.object().shape({ 
-   // date: Yup.string().required("La date est obligatoire."),
-    // presenceJustificatif: Yup.string().required("La presence est obligatoire."),
-    personnel: Yup.string().required("Le personnel est obligatoire."),
-    dateDebut: Yup.string().required("La date de début est obligatoire."),
-    dateFin: Yup.string().required("La date de fin est obligatoire."),
-   preuveFileName: Yup.mixed().required("La preuve est obligatoire."), 
-  });
-  
+      const justificatifSchema = Yup.object().shape({
+  personnel: Yup.string().required("Le personnel est obligatoire."),
+  justificatif: Yup.string().required("Le justificatif est obligatoire."),
+  dateDebut: Yup.date()
+    .required("La date de début est obligatoire.")
+    .typeError("La date de début doit être une date valide."),
+  dateFin: Yup.date()
+    .required("La date de fin est obligatoire.")
+    .typeError("La date de fin doit être une date valide.")
+    .min(Yup.ref("dateDebut"), "La date de fin ne peut pas être antérieure à la date de début."),
+  preuveFileName: Yup.mixed().required("La preuve est obligatoire."),
+});
+
 
 
       

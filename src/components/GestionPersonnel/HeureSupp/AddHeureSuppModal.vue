@@ -119,10 +119,10 @@ export default defineComponent({
 
     const btnTitle = async () => {
       if (isUPDATE.value) {
-         title.value = "Modifier le type de taxe";
+         title.value = "Modifier l'heure supplémentaire";
          btntext.value = "Modifier";
       }else{
-         title.value = "Ajouter un type de taxe";
+         title.value = "Ajouter une heure supplémentaire";
          btntext.value = "Ajouter"
       }
     }

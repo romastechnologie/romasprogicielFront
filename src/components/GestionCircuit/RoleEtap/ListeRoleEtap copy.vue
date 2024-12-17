@@ -6,21 +6,10 @@
         <div class="d-sm-flex align-items-center">
           <router-link
             class="btn btn-primary"
-            to="/finances/ajouter-finance"
+            to="/roleetaps/ajouter-roleetap"
           >
             <i class="fa fa-plus-circle"></i>
-            Declarer une dépense
-          </router-link>
-      
-        </div>
-
-        <div class="d-sm-flex align-items-center">
-          <router-link
-            class="btn btn-primary"
-            to="/finances/ajouter-finance2"
-          >
-            <i class="fa fa-plus-circle"></i>
-            Declarer une recette
+            Ajouter role etape
           </router-link>
       
         </div>
@@ -31,7 +20,7 @@
               v-model="searchTerm"
               @keyup="rechercher"
               class="form-control shadow-none text-black"
-              placeholder="Rechercher financement"
+              placeholder="Rechercher role etape"
             />
             <button
               type="submit"
@@ -48,46 +37,60 @@
           <table class="table text-nowrap align-middle mb-0">
             <thead>
               <tr>
-                          <th scope="col">id</th>
-                      <!--   <th scope="col">Piece de caisse</th>-->   
-                            <th scope="col">montant</th>
-                            <th scope="col">Type de finance</th>
-                            <th scope="col">Nom du bénéficiaire</th>
-                            <th scope="col">Prenom du bénéficiaire</th>
-                            <th scope="col">Personnel</th>    
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0  pe-0"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                 Libelle
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                 Code
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+               Ordre
+                </th>
+             
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
                 >ACTIONS</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(finance, index) in finances" :key="index">
-                             <th>{{ finance.id }}</th>
-                            <th>{{ finance.montant }}</th>
-                            <th>{{ finance.type }}</th>
-                            <th>{{ finance.nomBeneficiaire }}</th>
-                            <th>{{ finance.prenomBeneficiaire }}</th>
-                            <th>{{ finance.personnel?.nom }}&nbsp;{{ finance.personnel?.prenom }}</th>
-
+              <tr v-for="(roleetap, index) in roleetaps" :key="index">
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ roleetap.libelle}}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ roleetap.code }}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ roleetap.ordre }}
+                </td>
                 <td
-                  class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
+                  class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"
                 >
                 <div class="dropdown">
                   <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Actions
                   </button>
                     <ul class="dropdown-menu">
-                    <!--  <li >
-                        <router-link :to="{ name: 'EditFinancePage', params: { id:finance.id } }" 
+                      <li >
+                        <router-link :to="{ name: 'EditRoleEtapPage', params: { id:roleetap.id } }" 
                             class="dropdown-item d-flex align-items-center"><i
                             class="flaticon-pen lh-1 me-8 position-relative top-1"
                           ></i>Modifier</router-link>
-                      </li>-->
+                      </li>
                     
                       <li >
                         <a
-                          class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(finance.id,finances,'finances',`Finance ${finance.id}`)">
+                          class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(roleetap.id,roleetaps,'roleetaps',`Role Etap ${roleetap.id}`)">
                           <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                            Supprimer
                         </a>
@@ -111,26 +114,25 @@
   <script lang="ts">
   import { defineComponent, onMounted, ref} from "vue";
   import Swal from "sweetalert2";
-  import { Finance } from "@/models/Finance";
-import { Tresorerie } from "@/models/Tresorerie";
+  import { RoleEtap } from "@/models/RoleEtap";
   import ApiService from "@/services/ApiService";
   import { suppression, error } from "@/utils/utils";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   
   export default defineComponent({
-    name: "ListeFinance",
+    name: "ListeRoleEtap",
     components: {
       PaginationComponent
     },
     setup(){
       
       onMounted(() => {
-        getAllFinances();
+        getAllRoleEtaps();
       });
   
-      const finances = ref<Array<Finance>>([]);   
-      const finance = ref<Finance>();
+      const roleetaps = ref<Array<RoleEtap>>([]);   
+      const roleetap = ref<RoleEtap>();
   
       // BEGIN PAGINATE
       const searchTerm = ref('');
@@ -142,24 +144,23 @@ import { Tresorerie } from "@/models/Tresorerie";
       const handlePaginate = ({ page_, limit_ }) => {
         try {
           page.value = page_;
-          getAllFinances(page_, limit_);
+          getAllRoleEtaps(page_, limit_);
         } catch (error) {
           //
         }
       };
   
        function rechercher(){
-        getAllFinances(page.value, limit.value, searchTerm.value );
+        getAllRoleEtaps(page.value, limit.value, searchTerm.value );
       }
       
   
       // END PAGINATE
   
-      function getAllFinances(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/all/finance/?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      function getAllRoleEtaps(page = 1, limi = 10, searchTerm = '') {
+        return ApiService.get(`/all/roleetaps?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            console.log("données", data)
-            finances.value = data.data.data;
+            roleetaps.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
             totalElements.value = data.data.totalElements;
@@ -171,12 +172,12 @@ import { Tresorerie } from "@/models/Tresorerie";
         
       }
       
-      function moddifier(Editfinances:Finance) {
-        finance.value = Editfinances;
+      function moddifier(Editroleetaps:RoleEtap) {
+        roleetap.value = Editroleetaps;
       }
   
-      const deleteFinance = (id: number) => {
-        ApiService.delete(`/finances/${id}`)
+      const deleteRoleEtap = (id: number) => {
+        ApiService.delete(`/roleetaps/${id}`)
         .then(({ data }) => {
           Swal.fire({
             text: data.message,
@@ -204,9 +205,9 @@ import { Tresorerie } from "@/models/Tresorerie";
           });
         });
   
-        for(let i = 0; i < finances.value.length; i++) {
-          if (finances.value[i].id === id) {
-             finances.value.splice(i, 1);
+        for(let i = 0; i < roleetaps.value.length; i++) {
+          if (roleetaps.value[i].id === id) {
+             roleetaps.value.splice(i, 1);
           }
         }
       };
@@ -217,10 +218,10 @@ import { Tresorerie } from "@/models/Tresorerie";
         return privileges.value.includes(name);
       }
   
-      return { finances,
+      return { roleetaps,
         checkPermission,
-       getAllFinances,
-       deleteFinance,
+       getAllRoleEtaps,
+       deleteRoleEtap,
        moddifier ,
        suppression,
        page, 

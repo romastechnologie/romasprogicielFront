@@ -112,7 +112,7 @@
                 <td class="shadow-none lh-1 fw-medium ">{{ course.pointDepart}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course.destination}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course.distanceParcourue }} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{ course.personnel?.nom }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ course.personnel?.nom }}&nbsp;{{ course.personnel?.prenom }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ course.bien?.nomBien }} </td>
                 <td class="shadow-none lh-1 fw-medium">{{ format_date(course.createdAt) }} </td>
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
