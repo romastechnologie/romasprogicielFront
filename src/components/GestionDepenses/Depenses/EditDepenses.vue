@@ -18,11 +18,11 @@
             <Field name="libelle" class="form-control" type="text" placeholder="Entrer le libelle" />
             <ErrorMessage name="libelle" class="text-danger" />
           </div>
-          <div class="col-md-4 mt-3">
+        <!--<div class="col-md-4 mt-3">
             <label for="description" class="form-label"> Description<span class="text-danger">*</span></label>
             <Field name="description" class="form-control" type="text" placeholder="Entrer la description" />
             <ErrorMessage name="description" class="text-danger" />
-          </div>
+          </div>--> 
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
@@ -164,7 +164,7 @@
     setup: () => {
       const depensesSchema = Yup.object().shape({     
         libelle: Yup.string().required("Le libelle est obligatoire."),
-        description: Yup.string().required("La description est obligatoire."),
+      //  description: Yup.string().required("La description est obligatoire."),
         entretien: Yup.string().required("L'entretien est obligatoire."),
         planificationReparation: Yup.string().required("La planification Reparation est obligatoire."),
         typesDepenses: Yup.string().required("Le type de depense est obligatoire."),

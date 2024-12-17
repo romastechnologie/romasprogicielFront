@@ -29,6 +29,7 @@
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Personnel</th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Date Début</th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Date Fin</th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Justificatif</th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Statut</th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0  pe-0">Actions</th>
             </tr>
@@ -38,6 +39,7 @@
               <td class="shadow-none lh-1 fw-medium">{{ justificatif?.personnel?.nom + " " + justificatif?.personnel?.prenom }}</td>
               <td class="shadow-none lh-1 fw-medium">{{ justificatif.dateDebut }}</td>
               <td class="shadow-none lh-1 fw-medium">{{ justificatif.dateFin }}</td>
+              <td class="shadow-none lh-1 fw-medium">{{ justificatif.justificatif }}</td>
               <td class="shadow-none lh-1 fw-medium ">
                 <button
                   :class="{

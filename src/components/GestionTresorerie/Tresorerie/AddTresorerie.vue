@@ -38,7 +38,8 @@
                         <div class="col-md-12 d-flex mt-3">
                             <div class="me-3 flex-grow-1">
                                 <label for="dateCreation">Date de création</label>
-                                <Field type="date" :value="getCurrentDate()" name="dateCreation" id="dateCreation" class="form-control" />
+                                <Field type="date" name="dateCreation" id="dateCreation" :value="new Date().toISOString().slice(0, 10)" 
+                                class="form-control" />
                                 <ErrorMessage name="dateCreation" class="text-danger" />
                             </div>
                            

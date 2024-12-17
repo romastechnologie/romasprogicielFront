@@ -17,15 +17,15 @@
                                 disabled />
                             <ErrorMessage name="montant" class="text-danger" v-model="finance.montant" />
                         </div>
-                       <div class="mb-3">
-                            <label for="type">Mode de paiement</label>
+                      <div class="mb-3">
+                            <label for="type">Mode paiement</label>
                             <Field type="text" id="type" name="modepaiement" class="form-select" v-model="finance.modepaiement"
                                 v-slot="{ field }">
                                 <Multiselect v-model="field.value" v-bind="field" :options="['Espece', 'Momo', 'Chèque', 'Virement bancaire']"
                                     :close-on-select="true" :clear-on-select="false"
-                                    placeholder="Sélectionner le mode de paiement " />
+                                    placeholder="Sélectionner le mode de paiement" />
                             </Field>
-                            <ErrorMessage name="type" class="text-danger" />
+                            <ErrorMessage name="modepaiement" class="text-danger" />
                         </div>
                         <div class="mb-3">
                             <label for="nomBeneficiaire">Nom du Bénéficiaire</label>
@@ -53,20 +53,7 @@
                             </div>
                         </div>
 
-                        <div class=" mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                    Depense <span class="text-danger">*</span>
-                                </label>
-                                <Field name="depense" type="text" v-slot="{ field }">
-                                    <Multiselect v-model="field.value" v-bind="field" :options="depenseOptions"
-                                        :preserve-search="true" :multiple="false" :searchable="true"
-                                        placeholder="Sélectionner la dépense" label="label" track-by="label" />
-                                </Field>
-                                <ErrorMessage name="depense" class="text-danger" />
-                            </div>
-                        </div>
-
+                     
                         <div class=" mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
@@ -186,8 +173,6 @@ let montantTotal = ref(0)
 
 const personnelOptions = ref([]); // Initialisation avec une liste vide
 const tresorerieOptions = ref([]);
-const depenseOptions = ref([]);
-
 
 const caisses = computed(() => {
     return tresorerieList.value.filter(entity => entity.nom?.toLowerCase().includes('caisse'))
@@ -212,7 +197,7 @@ const schema = Yup.object().shape({
     prenomBeneficiaire: Yup.string().required('Le prénom du bénéficiaire est obligatoire'),
     personnel: Yup.string().required('Le personnel est obligatoire'),
     tresorerie: Yup.string().required('La trésorerie est obligatoire'),
-    depense: Yup.string().required('la depense est obligatoire'),
+    
 })
 
 configure({
@@ -234,7 +219,7 @@ const fichierfinanceChange = (e) => {
   try {
     const payload = {
       ...values,
-      type:"depenses",
+      type:"recettes",
       billetages: billetageList.map((billetage) => ({
         montant: billetage.montant,
         qteBillet: billetage.qteBillet,
@@ -243,7 +228,8 @@ const fichierfinanceChange = (e) => {
       })),
     };
 
-    console.log("Payload envoyé :", payload); 
+    console.log("Payload envoyé :", payload); // Vérifiez ce qui est envoyé
+
     const { data } = await axios.post("/finances", payload, {
       headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
     });
@@ -285,22 +271,6 @@ const getAllPersonnels = async () => {
         //error(response.data.message)
     }
 }
-
-const getAllDepenses = async () => {
-    try {
-        const response = await ApiService.get('all/depensevalides');
-        const depensesData = response.data.data.data;
-        console.log('Depense', depensesData)
-        depenseOptions.value = depensesData.map((depense) => ({
-            value: depense.id,
-            label: depense.libelle,
-        }));
-    }
-    catch (error) {
-        //error(response.data.message)
-    }
-}
-
 
 const getAllTresoreries = async () => {
     try {
@@ -371,7 +341,6 @@ onMounted(() => {
     calculateTotal();
     getAllUsers();
     getAllPersonnels();
-    getAllDepenses();
     
 })
 

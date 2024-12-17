@@ -52,7 +52,7 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Objet
+                Mission
               </th>
               <th
                 scope="col"
@@ -82,7 +82,7 @@
           <tbody>
             <tr v-for="(noteMission, index) in noteMissions" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ noteMission.objet }}
+                {{ noteMission?.mission?.description }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ noteMission.budget }}

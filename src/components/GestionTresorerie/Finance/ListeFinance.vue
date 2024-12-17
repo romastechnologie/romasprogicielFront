@@ -9,7 +9,18 @@
             to="/finances/ajouter-finance"
           >
             <i class="fa fa-plus-circle"></i>
-            Faire un financement
+            Declarer une dépense
+          </router-link>
+      
+        </div>
+
+        <div class="d-sm-flex align-items-center">
+          <router-link
+            class="btn btn-primary"
+            to="/finances/ajouter-finance2"
+          >
+            <i class="fa fa-plus-circle"></i>
+            Declarer une recette
           </router-link>
       
         </div>
@@ -43,9 +54,7 @@
                             <th scope="col">Type de finance</th>
                             <th scope="col">Nom du bénéficiaire</th>
                             <th scope="col">Prenom du bénéficiaire</th>
-                            <th scope="col">Personnel</th>
-
-              
+                            <th scope="col">Personnel</th>    
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0  pe-0"

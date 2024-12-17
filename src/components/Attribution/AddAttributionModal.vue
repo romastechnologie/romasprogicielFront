@@ -129,7 +129,7 @@ export default {
               isupdate.value = false;
               btnTitle();
               emit("getAllAttributions");
-              router.push({ name: "ListeAttributionPage" });
+            //  router.push({ name: "ListeAttributionPage" });
             }
           }).catch(({ response }) => {
             error(response.data.message)
@@ -145,8 +145,8 @@ export default {
               if (closeAttributionModal) {
                 (closeAttributionModal.value as HTMLButtonElement).click()
               }
-              //emit("getAllServices");
-              router.push({ name: "ListeAttributionPage" });
+              emit("getAllAttributions");
+            //  router.push({ name: "ListeAttributionPage" });
 
             }
           }).catch(({ response }) => {

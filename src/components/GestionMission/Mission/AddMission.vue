@@ -264,10 +264,33 @@
       const router = useRouter();
   
   
-  
+      const addMission = async (values, { resetForm }) => {
+  const formatDateWithTime = (date) => {
+    const currentTime = new Date();
+    const formattedTime = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
+    return `${date}T${formattedTime}`;
+  };
+  const payload = {
+    ...values,
+    dateDebut: formatDateWithTime(values.dateDebut),
+    dateFin: formatDateWithTime(values.dateFin),
+  };
+
+  try {
+    const { data } = await ApiService.post("/missions", payload);
+    if (data.code === 201) {
+      success(data.message);
+      resetForm();
+      router.push({ name: "ListeMissionPage" });
+    }
+  } catch ({ response }) {
+    error(response.data.message);
+  }
+};
+
   
      
-      const addMission = async (values, {resetForm}) => {
+     /* const addMission = async (values, {resetForm}) => {
         ApiService.post("/missions",values)
           .then(({ data }) => {
             if(data.code == 201) { 
@@ -278,7 +301,7 @@
           }).catch(({ response }) => {
             error(response.data.message);
           });
-      };
+      };*/
   
       return { missionSchema,
          addMission,

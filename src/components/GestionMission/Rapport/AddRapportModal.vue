@@ -84,7 +84,7 @@ export default defineComponent({
   },
   setup(props, { emit }){
     const rapportSchema = Yup.object().shape({
-      contenu: Yup.string().required("Le contenu est obligatoire"),
+      contenue: Yup.string().required("Le contenu est obligatoire"),
       mission: Yup.string().required('La mission est obligatoire'),
     });
 

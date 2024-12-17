@@ -71,6 +71,17 @@
             <ErrorMessage name="fileJustificatif" class="text-danger" />
           </div>
         </div>
+
+        <div class="col-md-12 mb-3">
+  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+    <label class="d-block text-black fw-semibold mb-10">
+      Justificatif <span class="text-danger">*</span>
+    </label>
+    <Field name="justificatif" as="textarea" class="form-control shadow-none fs-md-15 text-black" rows="5" placeholder="Écrire une justification ici..." />
+    <ErrorMessage name="justificatif" class="text-danger" />
+  </div>
+</div>
+
         <div class="col-md-12 mt-3">
           <div class="d-flex align-items-center ">
             <button class="btn btn-success me-3" type="submit">

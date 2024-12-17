@@ -45,7 +45,9 @@
             </div>
             <div class="col-6 my-3">
               <label for="dateCreation">Date de création</label>
-              <Field type="date" name="dateCreation" v-model="tresorerie.dateCreation" id="dateCreation" class="form-control" />
+              <Field type="date" name="dateCreation" v-model="tresorerie.dateCreation" id="dateCreation"
+              :value="new Date().toISOString().slice(0, 10)"
+              class="form-control" />
               <ErrorMessage name="dateCreation" class="text-danger" />
             </div>
           </div>

@@ -100,7 +100,7 @@
                         </router-link>
                       </li>
                       <li class="dropdown-item d-flex align-items-center">
-                        <router-link :to="`edit-document/${document.id}`">
+                        <router-link :to="{ name: 'EditDocumentPage', params: { id: document.id } }" >
                           <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                           Modifier
                         </router-link>

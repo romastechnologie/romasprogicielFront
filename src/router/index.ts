@@ -70,6 +70,7 @@ import AddTransfertPage from '@/pages/GestionTresorerie/Transfert/AddTransfertPa
 import ListeTransfertPage from '@/pages/GestionTresorerie/Transfert/ListeTransfertPage.vue'
 import EditTransfertPage from '@/pages/GestionTresorerie/Transfert/EditTransfertPage.vue'
 import AddFinancePage from '@/pages/GestionTresorerie/Finance/AddFinancePage.vue'
+import AddFinancePage2 from '@/pages/GestionTresorerie/Finance/AddFinancePage2.vue'
 import ListeFinancePage from '@/pages/GestionTresorerie/Finance/ListeFinancePage.vue'
 import EditFinancePage from '@/pages/GestionTresorerie/Finance/EditFinancePage.vue'
 import AddOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddOuvFerPage.vue'
@@ -941,14 +942,14 @@ const routes: Array<RouteRecordRaw> = [
            title: 'Ajouter un document',
         }
        },
-      //  {
-      //   path: "editer-document/:id",
-      //     name: "EditDocumentPage",
-      //     component: EditDocumentPage,
-      //     meta: {
-      //       title: 'Modifier un document',
-      //    }
-      //   },
+       {
+        path: "editer-document/:id",
+          name: "EditDocumentPage",
+          component: EditDocumentPage,
+          meta: {
+            title: 'Modifier un document',
+         }
+        },
       {
         path: "liste-document",
         name: "ListeDocumentPage",
@@ -957,14 +958,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des documents',
         }
       },
-      {
-        path: "edit-document",
-        name: "EditDocumentPage",
-        component: EditDocumentPage,
-        meta: {
-          title: 'Editer des documents',
-        }
-      },
+      // {
+      //   path: "edit-document",
+      //   name: "EditDocumentPage",
+      //   component: EditDocumentPage,
+      //   meta: {
+      //     title: 'Editer des documents',
+      //   }
+      // },
       {
         path: "view-document/:id",
         name: "ViewDocument",
@@ -1500,7 +1501,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "view-demande",
+        path: "view-demande/:id",
         name: "ViewDemandePage",
         component: ViewDemandePage,
         meta: {
@@ -1713,6 +1714,15 @@ const routes: Array<RouteRecordRaw> = [
         component: AddFinancePage,
         meta: {
           title: 'Faire un financement',
+        }
+      },
+
+      {
+        path: "ajouter-finance2",
+        name: "AddFinancePage2",
+        component: AddFinancePage2,
+        meta: {
+          title: 'Faire une recette',
         }
       },
       {
