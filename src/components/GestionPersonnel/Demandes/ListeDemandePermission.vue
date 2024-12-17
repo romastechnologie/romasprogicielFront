@@ -84,7 +84,7 @@
 
                         <ul class="dropdown-menu">
                           
-                           <!-- <li class="dropdown-item d-flex align-items-center">
+                            <li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
                               :to="{ name: 'ViewDemande',params: { id: demande.id } }"
@@ -92,7 +92,7 @@
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Détails
                             </router-link>
-                          </li>-->
+                          </li>
                           
                           <li  class="dropdown-item d-flex align-items-center">
                             <a

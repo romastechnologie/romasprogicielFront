@@ -50,7 +50,7 @@ import { error, format_date, showModal } from "@/utils/utils";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
-  name: "ViewDemande",
+  name: "ViewDemandePage",
   setup: () => {
     const route = useRoute();
     const demande = ref<Demande | null>(null);
