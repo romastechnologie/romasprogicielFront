@@ -1501,7 +1501,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "view-demande",
+        path: "view-demande/:id",
         name: "ViewDemandePage",
         component: ViewDemandePage,
         meta: {

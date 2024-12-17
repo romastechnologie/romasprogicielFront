@@ -88,7 +88,7 @@
                           <li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
-                              :to="{ name: 'ViewDemande',params: { id: demande.id } }"
+                              :to="{ name: 'ViewDemandePage',params: { id: demande.id } }"
                             >
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Détails
