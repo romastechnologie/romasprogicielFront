@@ -38,14 +38,30 @@
                         <div class="col-md-12 d-flex mt-3">
                             <div class="me-3 flex-grow-1">
                                 <label for="dateCreation">Date de création</label>
-                                <Field type="date" name="dateCreation" id="dateCreation" class="form-control" />
+                                <Field type="date" name="dateCreation" id="dateCreation" :value="new Date().toISOString().slice(0, 10)" 
+                                class="form-control" />
                                 <ErrorMessage name="dateCreation" class="text-danger" />
                             </div>
+                           
+
                             <div class="flex-grow-1">
-                                <label for="typeTresorerieId">Type de trésorerie</label>
-                                <Multiselect v-model="tresorerie.typeTresorerieId" :options="typeTresorerieOptions" :close-on-select="true" :clear-on-select="false" :multiple="false" :preserve-search="true" :searchable="true" placeholder="Sélectionner le type de trésorerie" label="label" track-by="label" />
-                                <ErrorMessage name="typeTresorerieId" class="text-danger" />
-                            </div>
+                                <label>
+                  Type de trésorerie <span class="text-danger">*</span>
+                </label>
+                <Field name="typeTresorerie" v-slot="{ field }">
+                  <Multiselect
+                    :options="typeTresorerieOptions"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner le type de trésorerie"
+                  />
+                </Field>
+              <ErrorMessage name="typeTresorerie" class="text-danger" />
+          </div>
+
                         </div>
 
                         <!-- Submit and Cancel buttons -->
@@ -68,6 +84,7 @@ import { Form, Field, ErrorMessage, configure } from "vee-validate";
 import * as Yup from "yup";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
+import { error, success } from '@/utils/utils';
 import { Tresorerie } from "@/models/Tresorerie";
 import ApiService from "@/services/ApiService";
 import Multiselect from "@vueform/multiselect";
@@ -87,7 +104,18 @@ const tresorerieschema = Yup.object().shape({
     nom: Yup.string().required("Le nom est obligatoire").label("Nom"),
     montant: Yup.number().required("Le montant est obligatoire").label("Montant"),
     dateCreation: Yup.string().required("La date de création est obligatoire").label("Date de création"),
+    typeTresorerie: Yup.string().required("Le type de tresorerie est obligatoire").label("Type trésorerie"),
+
 });
+
+const getCurrentDate = () => {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const currentDate = `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
+      return currentDate;
+    };
 
 configure({
     validateOnBlur: true,
@@ -97,6 +125,7 @@ configure({
 
 onMounted(() => {
     getTypeTresorerie();
+    getCurrentDate();
 });
 
 const getTypeTresorerie = async () => {
@@ -115,19 +144,19 @@ const getTypeTresorerie = async () => {
     console.error("Erreur lors de la récupération des types de trésoreries", error);
   }
 };
-const addTresorerie = async (values: any) => {
-    try {
-        await ApiService.post("/tresoreries/", values);
-        Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Trésorerie ajoutée",
-            showConfirmButton: false,
-            timer: 1500,
-        });
-        router.push("/tresoreries/liste-tresorerie");
-    } catch (error) {
-        console.error("Erreur lors de l'ajout de la trésorerie", error);
-    }
-};
+
+
+const addTresorerie  = async (values, {resetForm}) => {
+        ApiService.post("/tresoreries",values)
+          .then(({ data }) => {
+            if(data.code == 201) { 
+              success(data.message);
+              resetForm();
+              router.push({ name: "ListeTresoreriePage" });
+            }
+          }).catch(({ response }) => {
+            error(response.data.message);
+          });
+      };
+  
 </script>

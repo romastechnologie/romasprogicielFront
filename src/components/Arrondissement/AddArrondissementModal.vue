@@ -148,7 +148,7 @@ export default defineComponent({
 
     const fetchCommune = async () => {
       try {
-        const response = await axios.get('/communes');
+        const response = await axios.get('all/communes');
         const communesData = response.data.data.data;
         communeOptions.value = communesData.map((commune) => ({
           value: commune.id,

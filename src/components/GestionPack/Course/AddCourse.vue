@@ -4,9 +4,9 @@
           <Form ref="courseForm" @submit="addCourse" :validation-schema="courseSchema">
             <div class="row">
             <div class="col-md-4">
-                  <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
-                  <Field name="refCourse" class="form-control" type="text"/>
-                  <ErrorMessage name="refCourse" class="text-danger" />
+                  <label for="reference" class="form-label">Référence<span class="text-danger">*</span></label>
+                  <Field name="reference" class="form-control" type="text"/>
+                  <ErrorMessage name="reference" class="text-danger" />
           </div>
           <div class="col-md-4">
                   <label for="compteurInitial" class="form-label">Compteur Initial<span class="text-danger">*</span></label>
@@ -14,9 +14,9 @@
                   <ErrorMessage name="compteurInitial" class="text-danger" />
           </div>
           <div class="col-md-4">
-                  <label for="compteurFinal" class="form-label">Compteur Final<span class="text-danger">*</span></label>
-                  <Field name="compteurFinal" class="form-control" type="number"/>
-                  <ErrorMessage name="compteurFinal" class="text-danger" />
+                  <label for="compteurfinalretour" class="form-label">Compteur Final<span class="text-danger">*</span></label>
+                  <Field name="compteurfinalretour" class="form-control" type="number"/>
+                  <ErrorMessage name="compteurFinalretour" class="text-danger" />
           </div>
 
           <div class="col-md-4 mt-3">
@@ -36,9 +36,9 @@
           </div>
 
           <div class="col-md-4 mt-3">
-                  <label for="distancePacourue" class="form-label">Distance parcourue<span class="text-danger">*</span></label>
-                  <Field name="distancePacourue" class="form-control" type="number"/>
-                  <ErrorMessage name="distancePacourue" class="text-danger" />
+                  <label for="distanceParcourue" class="form-label">Distance parcourue<span class="text-danger">*</span></label>
+                  <Field name="distanceParcourue" class="form-control" type="number"/>
+                  <ErrorMessage name="distanceParcourue" class="text-danger" />
           </div>
           <div class="col-md-4 mt-3">
               <label>
@@ -121,13 +121,13 @@ export default defineComponent({
 
   setup: () => {
     const courseSchema = Yup.object().shape({
-          refCourse: Yup.string().required("La référence est obligatoire."),
+          reference: Yup.string().required("La référence est obligatoire."),
           compteurInitial: Yup.string().required("Le compteur est obligatoire."),
-          compteurFinal: Yup.string().required("Le compteur est obligatoire."),
+          compteurfinalretour: Yup.string().required("Le compteur est obligatoire."),
           description: Yup.string().required("La description est obligatoire."),
           destination: Yup.string().required("La destination est obligatoire."),
           pointDepart: Yup.string().required("Le point de départ est obligatoire."),
-          distancePacourue: Yup.number().required("La distance est obligatoire."),
+          distanceParcourue: Yup.number().required("La distance est obligatoire."),
           personnel: Yup.string().required("Le personnel est obligatoire."),
           bien: Yup.string().required("Le bien est obligatoire."),
     });

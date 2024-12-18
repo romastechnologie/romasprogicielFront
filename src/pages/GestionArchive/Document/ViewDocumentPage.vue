@@ -1,18 +1,18 @@
 <template>
-    <AddRoleEtap />
+    <ViewDocument/>
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
     
-    import AddRoleEtap from "@/components/GestionCircuit/RoleEtap/AddRoleEtapModal.vue";
-  
+import ViewDocument from "@/components/GestionArchive/Document/ViewDocument.vue";
+
     export default defineComponent({
-      name: "AddRoleEtapPage",
+      name: "ViewDocumentPage",
       components: {
         
-        AddRoleEtap,
+        ViewDocument,
       },
     });
   </script>

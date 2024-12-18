@@ -52,7 +52,7 @@
           </thead>
           <tbody>
             <tr v-for="(depense, index) in depenses" :key="index">  
-              <td class="shadow-none lh-1 fw-medium ">{{ format_date(depense.date) }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ format_date(depense.createdAt) }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.libelle }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense?.description }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.montant }} </td>
@@ -71,19 +71,19 @@
     </button>
     <ul class="dropdown-menu">
       <!-- Bouton Valider : affiché seulement si la dépense n'est pas validée -->
-      <li v-if="!depense.estValide" class="dropdown-item d-flex align-items-center">
+      <li v-if="!depense.estValide && depense.estValide !== false" class="dropdown-item d-flex align-items-center">
         <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(depense.id)">
           <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
-          Valider
+          Traiter
         </a>
       </li>
       <!-- Bouton Modifier : affiché seulement si la dépense n'est pas validée -->
-      <li v-if="!depense.estValide" class="dropdown-item d-flex align-items-center">
+      <!--<li v-if="!depense.estValide" class="dropdown-item d-flex align-items-center">
         <router-link :to="{ name: 'EditDepenses', params: { id: depense.id } }">
           <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
           Modifier
         </router-link>
-      </li>
+      </li>-->
       <!-- Bouton Supprimer : toujours affiché -->
       <li class="dropdown-item d-flex align-items-center">
         <a href="javascript:void(0);" @click="suppression(depense.id, depenses, 'depenses', 'une dépense')">
@@ -106,7 +106,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title">Voulez-vous vraiment valider cette dépense ?</h6>
+        <h6 class="modal-title">Voulez-vous traiter cette dépense ?</h6>
         <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body px-4">
@@ -133,11 +133,11 @@
             <button type="submit" class="btn btn-primary">Valider</button>
             <button
               type="button"
-              class="btn btn-light"
-              data-bs-dismiss="modal"
+              class="btn btn-danger"
+              @click="rejectDepenses"
               aria-label="Close"
             >
-              Annuler
+              Rejeter
             </button>
           </div>
         </Form>
@@ -224,19 +224,25 @@ export default defineComponent({
         });
     }
 
-
-    const getEtatBadge = (estValide: boolean) => {
-  if (estValide) {
+    const getEtatBadge = (estValide: boolean | null) => {
+  if (estValide === true) {
     return {
       text: "Validé",
-      badgeClass: "badge bg-success text-white", // Classe pour le badge vert
+      badgeClass: "badge bg-success text-white",
+    };
+  } else if (estValide === false) {
+    return {
+      text: "Rejeté",
+      badgeClass: "badge bg-danger text-white", // Classe rouge pour "Rejeté"
     };
   }
   return {
     text: "En attente",
-    badgeClass: "badge bg-danger text-white", // Classe pour le badge rouge
+    badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
   };
 };
+
+
 function triggerButtonClick(buttonId: string) {
   const button = document.getElementById(buttonId) as HTMLButtonElement;
   if (button) {
@@ -271,6 +277,27 @@ function triggerButtonClick(buttonId: string) {
     });
 };
 
+const rejectDepenses = async () => {
+  const values = {
+    id: depenseii.value,
+    estValide: false, // État pour rejeter
+    observation: depensesForm.value?.values?.observation || '', // Récupération de l'observation si remplie
+  };
+
+  ApiService.put("/depenses/" + values.id, values)
+    .then(({ data }) => {
+      if (data.code === 200) {
+        success(data.message);
+        depensesForm.value?.resetForm(); // Réinitialiser le formulaire
+        getAllDepenses(); // Rafraîchir les données
+        triggerButtonClick("close-modal"); // Fermer le modal
+      }
+    })
+    .catch(({ response }) => {
+      error(response.data.message);
+    });
+};
+
 
 
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
@@ -295,7 +322,8 @@ function triggerButtonClick(buttonId: string) {
       rechercher,
       addDepenses,
       depensesSchema,
-      getEtatBadge
+      getEtatBadge,
+      rejectDepenses
       
     };
   },

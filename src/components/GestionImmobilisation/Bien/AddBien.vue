@@ -91,7 +91,7 @@
               <label class="d-block text-black mb-10">
                 Type Bien <span class="text-danger">*</span>
               </label>
-              <Field name="types" v-model="types" type="text" v-slot="{ field }">
+              <Field name="typeBien" v-model="types" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="typeOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner le type"
                 label="label" track-by="label" />
@@ -105,7 +105,7 @@
               <label class="d-block text-black  mb-10">
                 Catégorie Bien <span class="text-danger">*</span>
               </label>
-              <Field name="categories" v-model="categories" type="text" v-slot="{ field }">
+              <Field name="categorieBien" v-model="categories" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="categorieOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie"
                 label="label" track-by="label" />
@@ -189,13 +189,17 @@
             modeAmortissement: Yup.string().required("Le mode d'amortissement est obligatoire."),
             valeurNetteComptable: Yup.number().required("La valeur nette comptable est obligatoire."),
             service: Yup.string().required("L'organisation est obligatoire."),
+            categorieBien: Yup.string().required("Categorie est obligatoire."),
+            typeBien: Yup.string().required("type Bien  est obligatoire."),
+
+
 
       });
   
       onMounted(() => {
         getAllTypeBien()
         getAllCategorieBien()
-        getAllService()
+        getAllOrganisation()
   });
   
       const bienForm =  ref(null);
@@ -212,10 +216,7 @@
       //const permissions= ref<Array<Permission>>([]);
   
 
-      const addBien = async (values: any, { resetForm }) => {
-      values['types'] = types.value.value
-      values['categories'] = categories.value.value
-      values['service'] = services.value.value
+      const addBien = async (values: any, { resetForm }) => {    
       console.log('Données envoyées', values)
       if (showMErr.value === false) {
         ApiService.post("/biens", values)
@@ -262,14 +263,14 @@
         }
       } 
   
-      const getAllService = async () => {
+      const getAllOrganisation = async () => {
         try{
-        const response = await ApiService.get('/services');
+        const response = await ApiService.get('/all/organisations');
         const servicesData = response.data.data.data;
         console.log(servicesData,"gggggggggg");
         serviceOptions.value = servicesData.map((service) => ({
           value: service.id,
-          label: service.libelle,
+          label: service.nom,
         }));
         }
         catch(error){

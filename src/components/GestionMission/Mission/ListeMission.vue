@@ -67,7 +67,7 @@
               
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0  pe-0"
                 >ACTIONS</th>
               </tr>
             </thead>
@@ -90,13 +90,12 @@
                 </td>
 
                 <td
-                  class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
+                  class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"
                 >
                 <div class="dropdown">
-                    <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Actions
-                        <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                    </span>
+                  <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Actions
+                  </button>
                     <ul class="dropdown-menu">
                       <li >
                         <router-link :to="{ name: 'EditMissionPage', params: { id:mission.id } }" 
@@ -175,7 +174,7 @@
       // END PAGINATE
   
       function getAllMissions(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/all/missions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`all/missions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
             missions.value = data.data.data;
             totalPages.value = data.data.totalPages;

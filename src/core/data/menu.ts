@@ -666,7 +666,12 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/finances/ajouter-finance",
-                title: "Faire un financement ",
+                title: "Declarer une depense ",
+                type: "link"
+            },
+            {
+                path: "/finances/ajouter-finance2",
+                title: "Declarer une recette ",
                 type: "link"
             },
             {
@@ -1760,11 +1765,7 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
 
-            {
-                path: "/roleetaps/ajouter-roleetap",
-                title: "Ajouter un role etape",
-                type: "link"
-            },
+
           
             {
                 path: "/roleetaps/liste-roleetaps",

@@ -8,7 +8,7 @@
               <label for="date" class="d-block text-black fw-semibold mb-10">
                 Date de dépense <span class="text-danger">*</span>
               </label>
-              <Field name="date" type="Date" :value="getCurrentDate"
+              <Field name="date" type="Date" :value="new Date().toISOString().slice(0, 10)"
                 class="form-control shadow-none fs-md-15 text-black" />
             </div>
             <ErrorMessage name="date" class="text-danger" />
@@ -19,11 +19,11 @@
             <ErrorMessage name="libelle" class="text-danger" />
           </div>
 
-          <div class="col-md-4 mt-3">
+        <!--<div class="col-md-4 mt-3">
             <label for="description" class="form-label"> Description<span class="text-danger">*</span></label>
             <Field name="description" class="form-control" type="text" placeholder="Entrer la description" />
             <ErrorMessage name="description" class="text-danger" />
-          </div>
+          </div>-->
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
@@ -154,7 +154,7 @@ export default defineComponent({
   setup() {
     const depensesSchema = Yup.object().shape({
       libelle: Yup.string().required("Le libellé est obligatoire."),
-      description: Yup.string().required("La description est obligatoire."),
+    //description: Yup.string().required("La description est obligatoire."),
       entretien: Yup.string().required("L'entretien est obligatoire."),
       planificationReparation: Yup.string().required("La planification Réparation est obligatoire."),
       typedepense: Yup.string().required("Le type de dépense est obligatoire."),
@@ -181,51 +181,8 @@ export default defineComponent({
 
     
     const addDepenses = async (values: any, { resetForm }: any) => {
-  // // Initialisation des valeurs
-  // const depenseData: Record<string, any> = {};
 
-  // // Attribution des valeurs une par une
-  // if (entretien.value && entretien.value.value) {
-  //   depenseData.entretien = entretien.value.value;
-  // } else {
-  //   depenseData.entretien = null;
-  // }
-
-  // if (planificationReparation.value && planificationReparation.value.value) {
-  //   depenseData.planificationReparation = planificationReparation.value.value;
-  // } else {
-  //   depenseData.planificationReparation = null;
-  // }
-
-  // if (typesDepenses.value && typesDepenses.value.value) {
-  //   depenseData.typesDepenses = typesDepenses.value.value;
-  // } else {
-  //   depenseData.typesDepenses = null;
-  // }
-
-  // if (categoriesDepenses.value && categoriesDepenses.value.value) {
-  //   depenseData.categoriesDepenses = categoriesDepenses.value.value;
-  // } else {
-  //   depenseData.categoriesDepenses = null;
-  // }
-
-  // if (values.personnel && values.personnel.value) {
-  //   depenseData.personnel = values.personnel.value;
-  // } else {
-  //   depenseData.personnel = null;
-  // }
-
-  // // Ajout des autres champs directement depuis "values"
-  // Object.keys(values).forEach((key) => {
-  //   if (!["entretien", "planificationReparation", "typesDepenses", "categoriesDepenses", "personnel"].includes(key)) {
-  //     depenseData[key] = values[key];
-  //   }
-  // });
-
-  console.log("Données préparées pour l'envoi :", values);
-
-  // Vérification des champs obligatoires
- 
+  console.log("Données préparées pour l'envoi :", values); 
   try {
     const response = await ApiService.post("/depenses", values);
     if (response.data.code === 201) {
@@ -253,10 +210,6 @@ export default defineComponent({
         console.error(err);
       }
     };
-
-
-
-    
 
     const getAllPersonnels = async () => {
       try {

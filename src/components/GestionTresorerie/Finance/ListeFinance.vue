@@ -9,7 +9,18 @@
             to="/finances/ajouter-finance"
           >
             <i class="fa fa-plus-circle"></i>
-            Faire un financement
+            Declarer une dépense
+          </router-link>
+      
+        </div>
+
+        <div class="d-sm-flex align-items-center">
+          <router-link
+            class="btn btn-primary"
+            to="/finances/ajouter-finance2"
+          >
+            <i class="fa fa-plus-circle"></i>
+            Declarer une recette
           </router-link>
       
         </div>
@@ -43,12 +54,10 @@
                             <th scope="col">Type de finance</th>
                             <th scope="col">Nom du bénéficiaire</th>
                             <th scope="col">Prenom du bénéficiaire</th>
-                            <th scope="col">Personnel</th>
-
-              
+                            <th scope="col">Personnel</th>    
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0  pe-0"
                 >ACTIONS</th>
               </tr>
             </thead>
@@ -59,16 +68,15 @@
                             <th>{{ finance.type }}</th>
                             <th>{{ finance.nomBeneficiaire }}</th>
                             <th>{{ finance.prenomBeneficiaire }}</th>
-                            <th>{{ finance.personnel?.nom }}</th>
+                            <th>{{ finance.personnel?.nom }}&nbsp;{{ finance.personnel?.prenom }}</th>
 
                 <td
                   class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
                 >
                 <div class="dropdown">
-                    <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Actions
-                        <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                    </span>
+                  <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Actions
+                  </button>
                     <ul class="dropdown-menu">
                     <!--  <li >
                         <router-link :to="{ name: 'EditFinancePage', params: { id:finance.id } }" 

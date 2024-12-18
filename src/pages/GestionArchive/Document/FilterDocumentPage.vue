@@ -1,18 +1,18 @@
 <template>
-    <AddRoleEtap />
+    <FilterDocument />
   </template>
   
   <script lang="ts">
     import { defineComponent } from "vue";
   
     
-    import AddRoleEtap from "@/components/GestionCircuit/RoleEtap/AddRoleEtapModal.vue";
+import FilterDocument from "@/components/GestionArchive/Document/FilterDocument.vue";
   
     export default defineComponent({
-      name: "AddRoleEtapPage",
+      name: "FilterDocumentPage",
       components: {
         
-        AddRoleEtap,
+        FilterDocument,
       },
     });
   </script>

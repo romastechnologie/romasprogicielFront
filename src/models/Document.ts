@@ -7,6 +7,7 @@ export  interface Document {
     description:string;
     dateFinConservation:Date;
     fichier:URL;
+    statut:string;
     organe:string;
     format:string;
     tag:string;

@@ -135,7 +135,7 @@ export default defineComponent({
 
     const fetchArrondissement = async () => {
       try {
-        const response = await axios.get('/arrondissements');
+        const response = await axios.get('all/arrondissements');
         const arrondissementsData = response.data.data.data;
         arrondissementOptions.value = arrondissementsData.map((arrondissement) => ({
           value: arrondissement.id,

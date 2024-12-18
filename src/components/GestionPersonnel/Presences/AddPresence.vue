@@ -259,7 +259,7 @@
                     Ajouter
                   </button>
                   <router-link
-                    to="/demandes-prix/liste-demande-prix"
+                    to="/presences/liste-presence"
                     class="btn btn-danger"
                     ><i
                       class="fa fa-trash-o lh-1 me-1 position-relative top-2"

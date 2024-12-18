@@ -44,7 +44,7 @@
                    scope="col"
                    class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                  >
-              Contenu
+              Contenue
                  </th>
             
                  <th
@@ -62,11 +62,11 @@
              <tbody>
                <tr v-for="(rapport, index) in rapports" :key="index">
                  <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                   {{ rapport.contenu }}
+                   {{ rapport.contenue }}
                  </td>
                 
                  <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                   {{ rapport.mission.description }}
+                   {{ rapport.mission?.description }}
                  </td>
                  <td
                    class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
@@ -167,7 +167,7 @@
        // END PAGINATE
    
        function getAllRapport(page = 1, limi = 10, searchTerm = '') {
-         return ApiService.get(`rapportmissions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+         return ApiService.get(`all/rapportmissions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
          .then(({ data }) => {
           console.log(data); 
            rapports.value = data.data.data;

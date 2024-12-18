@@ -43,18 +43,33 @@
               >
               Statut
               </th>
+
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-beginning pe-0"
+              >
+              Famille
+              </th>
+
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-beginning pe-0"
+              >
+              Champs Libre
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0  pe-0"
               >Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr  v-for ="(champsLibreFamille, index) in champsLibreFamilles" :key="index">
               <td class="shadow-none lh-1 fw-medium ">{{ champsLibreFamille.statut }} </td>
-
-                
-                <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
+              <td class="shadow-none lh-1 fw-medium ">{{ champsLibreFamille.famille?.libelleFamille }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ champsLibreFamille.champslibre?.libelleChamp }} </td>
+ 
+                <td class="shadow-none lh-1 fw-medium text-body-tertiary  pe-0">
                   <div class="dropdown">
                     <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
 

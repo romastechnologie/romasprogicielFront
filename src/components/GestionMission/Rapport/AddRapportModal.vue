@@ -13,13 +13,13 @@
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
-                               Contenu <span class="text-danger">*</span>
+                               Contenue <span class="text-danger">*</span>
                               </label>
-                              <Field name="contenu"  cols="20"
+                              <Field name="contenue"  cols="20"
                               rows="3" as="textarea" 
                               style="width: 100%; height: 150px;" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le contenu"/>
-                              <ErrorMessage name="contenu" class="text-danger"/>
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le Contenue"/>
+                              <ErrorMessage name="contenue" class="text-danger"/>
                             </div>     
                           </div>
 
@@ -84,7 +84,7 @@ export default defineComponent({
   },
   setup(props, { emit }){
     const rapportSchema = Yup.object().shape({
-      contenu: Yup.string().required("Le contenu est obligatoire"),
+      contenue: Yup.string().required("Le contenu est obligatoire"),
       mission: Yup.string().required('La mission est obligatoire'),
     });
 
@@ -151,7 +151,7 @@ export default defineComponent({
     const addRapport = async (values: any, rapportForm) => {
       values = values as Rapport;
       if(isUPDATE.value){
-        ApiService.put("/rapportMissions/"+values.id,values)
+        ApiService.put("rapportMissions/"+values.id,values)
         .then(({ data }) => {
             if(data.code == 200) { 
               success(data.message);

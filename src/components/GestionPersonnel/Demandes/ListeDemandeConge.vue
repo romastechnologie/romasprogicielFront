@@ -54,9 +54,7 @@
                 >
                   Date Demande
                 </th>
-                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                  Catégorie Demande
-                </th>
+               
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                   Type Congé
                 </th>
@@ -82,9 +80,9 @@
             <tbody>
               <tr  v-for ="(demande, index) in demandes" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date( demande.dateDemande) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ demande?.categorieId }} </td>
+                  
                   <td class="shadow-none lh-1 fw-medium ">{{ demande?.typeConge }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ demande?.personnelId }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ demande.motifDemande }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
@@ -92,15 +90,15 @@
 
                         <ul class="dropdown-menu">
                           
-                          <!-- <li class="dropdown-item d-flex align-items-center">
+                           <li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
-                              :to="{ name: 'ViewDemande',params: { id: demande.id } }"
+                              :to="{ name: 'ViewDemandePage',params: { id: demande.id } }"
                             >
                               <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                               Détails
                             </router-link>
-                          </li>-->
+                          </li>
                           
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
@@ -176,7 +174,7 @@
       // END PAGINATE
   
       function getAllDemandes(page = 1, limi = 10, searchTerm = '') {
-        return ApiService.get(`/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        return ApiService.get(`/all/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&cat=2&`)
           .then(({ data }) => {
             demandes.value = data.data.data;
             totalPages.value = data.data.totalPages;

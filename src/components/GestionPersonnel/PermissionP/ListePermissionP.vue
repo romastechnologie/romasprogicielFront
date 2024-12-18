@@ -90,7 +90,7 @@
                 {{ permissionp.demande.motifDemande}}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ permissionp.personnel.nom+""+permissionp.personnel.prenom }}
+                {{ permissionp.personnel.nom+" "+permissionp.personnel.prenom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ permissionp.dateDebut }}
@@ -189,8 +189,6 @@ export default defineComponent({
       getAllPermissionPs(page.value, limit.value, searchTerm.value );
     }
     
-
-
     function getAllPermissionPs(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/permissionps?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {

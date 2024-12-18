@@ -969,7 +969,7 @@ export default defineComponent({
       const getAllServices = async () => {
         try{
           console.log("nous sommes icic oo");
-          const response = await ApiService.get('/services');
+          const response = await ApiService.get('/organisations');
           console.log("mes services", response.data.data.data);
         const servicesData = response.data.data.data;
 

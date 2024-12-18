@@ -70,6 +70,7 @@ import AddTransfertPage from '@/pages/GestionTresorerie/Transfert/AddTransfertPa
 import ListeTransfertPage from '@/pages/GestionTresorerie/Transfert/ListeTransfertPage.vue'
 import EditTransfertPage from '@/pages/GestionTresorerie/Transfert/EditTransfertPage.vue'
 import AddFinancePage from '@/pages/GestionTresorerie/Finance/AddFinancePage.vue'
+import AddFinancePage2 from '@/pages/GestionTresorerie/Finance/AddFinancePage2.vue'
 import ListeFinancePage from '@/pages/GestionTresorerie/Finance/ListeFinancePage.vue'
 import EditFinancePage from '@/pages/GestionTresorerie/Finance/EditFinancePage.vue'
 import AddOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddOuvFerPage.vue'
@@ -261,6 +262,10 @@ import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
+import ViewDocumentPage from "@/pages/GestionArchive/Document/ViewDocumentPage.vue";
+import FilterDocumentPage from "@/pages/GestionArchive/Document/FilterDocumentPage.vue";
+
+
 //gestion des zones
 import ListeQuartierPage from "@/pages/Quartier/ListeQuartierPage.vue";
 import ListeArrondissementPage from "@/pages/Arrondissement/ListeArrondissementPage.vue";
@@ -283,8 +288,8 @@ import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUse
 import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
 
 import ListeRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/ListeRoleEtapPage.vue";
-import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
-import EditRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/EditRoleEtapPage.vue";
+//import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
+//import EditRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/EditRoleEtapPage.vue";
 
 
 import ListeModelPage from "@/pages/GestionModel/Model/ListeModelPage.vue";
@@ -928,14 +933,14 @@ const routes: Array<RouteRecordRaw> = [
            title: 'Ajouter un document',
         }
        },
-      //  {
-      //   path: "editer-document/:id",
-      //     name: "EditDocumentPage",
-      //     component: EditDocumentPage,
-      //     meta: {
-      //       title: 'Modifier un document',
-      //    }
-      //   },
+       {
+        path: "editer-document/:id",
+          name: "EditDocumentPage",
+          component: EditDocumentPage,
+          meta: {
+            title: 'Modifier un document',
+         }
+        },
       {
         path: "liste-document",
         name: "ListeDocumentPage",
@@ -944,12 +949,28 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des documents',
         }
       },
+      // {
+      //   path: "edit-document",
+      //   name: "EditDocumentPage",
+      //   component: EditDocumentPage,
+      //   meta: {
+      //     title: 'Editer des documents',
+      //   }
+      // },
       {
-        path: "edit-document",
-        name: "EditDocumentPage",
-        component: EditDocumentPage,
+        path: "view-document/:id",
+        name: "ViewDocument",
+        component: ViewDocumentPage,
         meta: {
-          title: 'Editer des documents',
+          title: 'Détails d\'un document',
+        }
+      },
+      {
+        path: "filter-document/:id",
+        name: "FilterDocument",
+        component: FilterDocumentPage,
+        meta: {
+          title: 'Filtrer d\'un document',
         }
       }
     ]
@@ -1471,7 +1492,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "view-demande",
+        path: "view-demande/:id",
         name: "ViewDemandePage",
         component: ViewDemandePage,
         meta: {
@@ -1684,6 +1705,15 @@ const routes: Array<RouteRecordRaw> = [
         component: AddFinancePage,
         meta: {
           title: 'Faire un financement',
+        }
+      },
+
+      {
+        path: "ajouter-finance2",
+        name: "AddFinancePage2",
+        component: AddFinancePage2,
+        meta: {
+          title: 'Faire une recette',
         }
       },
       {
@@ -1972,7 +2002,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
     
 
-      {
+    /*  {
         path: "ajouter-roleetap",
         name: "AddRoleEtapPage",
         component: AddRoleEtapPage,
@@ -1987,7 +2017,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Modifier role etape',
         }
-      },
+      },*/
      
       {
         path: "liste-roleetaps",

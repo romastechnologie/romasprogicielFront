@@ -359,7 +359,7 @@
                                             Passport du Conjoint<span class="text-danger">*</span>
                                           </label>
                                           <Field name="passportCon" v-model="numPassportCon" type="text" class="form-control shadow-none fs-md-15 text-black"
-                                            placeholder="Entrer la nationalité du conjoint " />
+                                            placeholder="Entrer le numéro du conjoint " />
                                           <ErrorMessage name="passportCon" class="text-danger" />
                                         </div>
                                       </div>
