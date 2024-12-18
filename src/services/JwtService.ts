@@ -6,6 +6,7 @@ const ID_PHONE_KEY = "user_phone" as string;
 const USER_NAME = "user_name" as string;
 const USER_LASTNAME = "user_lastname" as string;
 const USER_EMAIL = "user_email" as string;
+const USER_PERSONNEL = "user_personnel" as string;
 const USER_PRIVILEGE = "user_privilege" as string;
 const USER_ROLE = "user_role" as string;
 
@@ -64,6 +65,18 @@ export const setUserEmail = (email: string): void => {
 
 export const getUserEmail = (): string | null => {
   return window.localStorage.getItem(USER_EMAIL);
+};
+
+export const destroyUserPersonnel = (): void => {
+  window.localStorage.removeItem(USER_PERSONNEL);
+};
+
+export const setUserPersonnel = (personnel_id: string): void => {
+  window.localStorage.setItem(USER_PERSONNEL, personnel_id);
+}
+
+export const getUserPersonnel = (): string | null => {
+  return window.localStorage.getItem(USER_PERSONNEL);
 };
 
 export const destroyUserEmail = (): void => {
@@ -152,5 +165,5 @@ export const destroyUser = (): void => {
 export default {destroyUserPrivilege,getPrivilege, savePrivilege,
    getToken,saveUserName,saveUserLastName,setUserEmail, getUserEmail,destroyUserEmail,
    getUserName, getUserLastName, getUserPhone,saveUserPhone,destroyUserPhone,destroyUserName,
-    saveToken, destroyToken, saveUser ,destroyUser,getUser,
+    saveToken, destroyToken, saveUser ,destroyUser,getUser,setUserPersonnel,getUserPersonnel,destroyUserPersonnel,
     destroyUserRole,getRole, saveRole, getUserId };

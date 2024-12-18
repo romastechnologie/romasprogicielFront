@@ -79,10 +79,11 @@
                     </router-link>
                   </li>
                   <li class="dropdown-item d-flex align-items-center" v-if="presence.statut != 'Refusée'">
-                    <a @click="deletePresence(presence.id)">
-                      <i class="fa fa-trash lh-2 me-8 p-1 position-relative top-1"></i>
-                      Supprimé
-                    </a>
+                    <a
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(presence.id,filterPresence,'presences',`la présence n° ${presence.id}`)">
+                        <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
+                         Supprimer
+                      </a>
                   </li>
                 </ul>
               </td>
