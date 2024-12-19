@@ -66,7 +66,9 @@
                 >
                   Motif de demande
                 </th>
-                
+                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                  Statut
+                </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
@@ -82,10 +84,8 @@
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
 
-                        <ul class="dropdown-menu">
-                          
-                          
-                            <li class="dropdown-item d-flex align-items-center">
+                        <ul class="dropdown-menu">                        
+                          <li class="dropdown-item d-flex align-items-center">
                           <router-link
                             
                             :to="{ name: 'ViewDemandePage',params: { id: demande.id } }"
@@ -94,12 +94,175 @@
                             Détails
                           </router-link>
                         </li>
+                        <!-- <li class="dropdown-item d-flex align-items-center">
+                          <router-link
+                            
+                            :to="{ name: 'PermissionPPage',params: { id: demande.id } }"
+                          >
+                            <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                            Traiter
+                          </router-link>
+                        </li>-->
+                    <!-- <li  v-if="de.typeDemande.id == 4 " >
+                      <a v-if="de.status =='En attente' && checkPermission('CheckEtatAttestation')"
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);"
+                        @click="accept(de)"
+                      >
+                        <i
+                          class="flaticon-view lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Accepter 
+                      </a>
+                      <a
+                          v-else-if="de.status =='Acceptée' && checkPermission('MakeAttestation')"
+                          class="dropdown-item d-flex align-items-center"
+                          @click="produireAttestation(de)"
+                        >
+                          <i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>
+                          Générer une attestation
+                      </a>
+                    </li>
+                    <li  v-if="de.typeDemande.id == 1">
+                      <a v-if="de.status =='En attente'"
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);"
+                        @click="produireAttestation(de)"
+                      >
+                        <i
+                          class="flaticon-view lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Accordée
+                      </a>
+                      <router-link 
+                          v-else-if="de.status =='Accepté' && agenceId == de.abonnement.bureau?.id"
+                          :to="{ name: 'AddAbonnementPage', params: { id:de.id } }"
+                          class="dropdown-item d-flex align-items-center"
+                        >
+                          <i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>
+                          Produire Abonnement
+                      </router-link>
+                    </li>
+                    <li  v-if="de.typeDemande.id ==7">
+                      <router-link 
+                          v-if="de.status =='En attente' && agenceId == de.abonnement.bureau?.id"
+                          :to="{ name: 'AccepterChangementClePage', params: { id:de.id } }"
+                          class="dropdown-item d-flex align-items-center"
+                        >
+                          <i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>
+                          Acceptée
+                      </router-link>
+                      <a 
+                          v-else-if="de.status =='Acceptée' && agenceId == de.abonnement.bureau?.id"
+                          class="dropdown-item d-flex align-items-center"
+                          href="javascript:void(0);"
+                          @click="traiterChangementDeCle(de)"
+                        >
+                          <i class="flaticon-pen lh-1 me-8 position-relative top-1" ></i>
+                          Traitée
+                    </a>
+                    </li>
+                    <li v-else-if="de.typeDemande.id == 5">
+                      <router-link 
+                          v-if="de.status == 'En attente' && checkPermission('ManageResiliation') && agenceId == de.abonnement.bureau?.id"
+                          :to="{ name: 'TraitementResiliationPage', params: { id:de.id } }"
+                          class="dropdown-item d-flex align-items-center"
+                        >
+                          <i class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>
+                          Traiter
+                      </router-link>
+                    </li>
+                    <li v-else-if="de.typeDemande.id == 8">
+                      <router-link 
+                          v-if="de.status == 'En attente' && checkPermission('ManageReclamation') && agenceId == de.abonnement.bureau?.id"
+                          :to="{ name: 'TraitementReclamationPage', params: { id:de.id } }"
+                          class="dropdown-item d-flex align-items-center"
+                        >
+                          <i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>
+                          Traiter
+                      </router-link>
+                    </li>
+                    <li v-else-if="de.typeDemande.id == 2">
+                      <a v-if="(de.status =='En attente' && checkPermission('AcceptTransfert') && agenceId == de.abonnement.bureau?.id) || (de.status =='En attente' && role == 'Super Admin')"
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);"
+                        @click="accept(de)"
+                      >
+                        <i
+                          class="flaticon-view lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Acceptée
+                      </a>
+                      <router-link 
+                      :to="{ name: 'AddTransfertMpostBoxPage', params: { demande:de.id } }"
+                       v-else-if="(de.status =='Acceptée' && checkPermission('ValidTransfert') && agenceId == de.nouvelleAgence?.id) || (de.status =='Acceptée' && role == 'Super Admin')"
+                        class="dropdown-item d-flex align-items-center"
+                      >
+                        <i
+                          class="flaticon-view lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Valider
+                      </router-link>
+                    </li>
+                    <li  v-else-if="de.status !=='Acceptée'">
+                      <router-link 
+                          v-if="de.status == 'En attente' && checkPermission('CheckCession') && agenceId == de.abonnement.bureau?.id"
+                          :to="{ name: 'AcceptationCessionPage', params: { id:de.id } }"
+                          class="dropdown-item d-flex align-items-center"
+                        >
+                          <i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>
+                          Vérification
+                      </router-link>
+                      <router-link 
+                      v-if="de.status == 'Acceptée' && checkPermission('ValidCession') && agenceId == de.abonnement.bureau?.id"
+
+                          :to="{ name: 'AddCessionPage', params: { id:de.id } }"
+                          class="dropdown-item d-flex align-items-center"
+                        >
+                          <i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>
+                          Valider
+                        </router-link>
+                    </li>
+                    <li v-if="checkPermission('RejetDemande')">
+                      <a
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);"
+                        data-bs-toggle="modal"
+                        data-bs-target="#AddAnnulationMotifModal"
+                        @click="annuleId(de.id)"
+                      >
+                        <i
+                          class="flaticon-pen lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Rejetée
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="openNewWindow_(de)" type="button"
+                        class="dropdown-item d-flex align-items-center" >
+                        <i class="flaticon-send lh-1 me-8 position-relative top-1" ></i>
+                         Reçu de paiement
+                      </a>
+                    </li>-->
                           
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
                              
                               href="javascript:void(0);"
-                              @click="suppression(demande.id, demandes, 'demandes', 'une demande')"
+                              @click="suppression(demande.id, demandes, 'demandes', 'la demande')"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"

@@ -290,11 +290,11 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
-import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
-import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
-import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
+//import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
+//import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
+//import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
 import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUserEtapes.vue";
-import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
+//import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
 
 import ListeRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/ListeRoleEtapPage.vue";
 //import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
@@ -1951,7 +1951,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  {
+  /*{
     path: "/etapeValidations",
     component: BodyView,
     children: [
@@ -1988,7 +1988,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       }
     ]
-  },
+  },*/
   {
     path: "/userEtapes",
     component: BodyView,
