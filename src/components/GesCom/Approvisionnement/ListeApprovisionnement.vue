@@ -122,7 +122,7 @@
                         Modifier
                       </a>
                     </li> -->
-                    <li >
+                    <li>
                       <a
                         class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(approvisionnement.id,approvisionnements,'approvisionnements',`l' approvisionnement ${approvisionnement.reference}`)">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>

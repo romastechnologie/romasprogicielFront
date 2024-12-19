@@ -477,7 +477,7 @@
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Service <span class="text-danger">*</span>
+                ServiceC<span class="text-danger">*</span>
               </label>
               <Field name="services" v-model="services" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"

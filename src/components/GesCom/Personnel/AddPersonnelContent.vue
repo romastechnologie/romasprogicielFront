@@ -43,8 +43,10 @@
                                   type="text"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le nom"
-
                                 />
+                                <span class="text-danger" v-show="!nom"
+                                  >Entrer le nom</span
+                                >
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -164,8 +166,8 @@
                                 />
                               </div>
                               <p v-if="ageError" class="text-danger fs-md-12">
-                                        L'âge minimal est de 18 ans.
-                              </p>                          
+                                L'âge minimal est de 18 ans.
+                              </p>
                             </div>
                             <div class="col-md-4 mt-3">
                               <label for="dateEmbauche" class="form-label">
@@ -251,7 +253,6 @@
                                     track-by="label"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -277,13 +278,12 @@
                                     track-by="label"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
-                                  Service <span class="text-danger">*</span>
+                                  Service GG <span class="text-danger">*</span>
                                 </label>
                                 <Field
                                   name="service"
@@ -303,7 +303,6 @@
                                     track-by="label"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                           </div>
@@ -331,7 +330,6 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer votre adresse postale"
                                 />
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -346,7 +344,6 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le téléphone"
                                 />
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -361,7 +358,6 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le téléphone"
                                 />
-
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -376,7 +372,6 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer l'email"
                                 />
-
                               </div>
                             </div>
                             <div class="col-md-6">
@@ -403,7 +398,6 @@
                                   />
                                 </Field>
                               </div>
-
                             </div>
                             <div class="col-md-6">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -458,7 +452,6 @@
                                   />
                                 </Field>
                               </div>
-
                             </div>
                             <div class="col-md-12">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -484,7 +477,6 @@
                                   />
                                 </Field>
                               </div>
-
                             </div>
                           </div>
                           <div class="col-md-12 mt-3">
@@ -509,7 +501,6 @@
                                   class="form-control shadow-none rounded-0 text-black"
                                 ></textarea>
                               </Field>
-
                             </div>
                           </div>
                         </div>
@@ -554,7 +545,6 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le prenom du conjoint "
                                   />
-
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -570,7 +560,6 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer la date de naissance du conjoint "
                                   />
-
                                 </div>
                               </div>
                               <!-- <div class="col-md-4 mb-3">
@@ -640,7 +629,6 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le numéro du conjoint "
                                   />
-                                 
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -669,7 +657,6 @@
                                       track-by="label"
                                     />
                                   </Field>
-
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -697,7 +684,6 @@
                                       track-by="label"
                                     />
                                   </Field>
-
                                 </div>
                               </div>
                             </div>
@@ -725,7 +711,6 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le nombre d'enfants"
                                   />
-
                                 </div>
                               </div>
                               <div class="border border-primary mb-10">
@@ -811,7 +796,6 @@
                                           class="invalid-feedback"
                                           v-if="valideteRowEnfant(enfant.nom)"
                                         >
-
                                         </div>
                                       </div>
                                     </div>
@@ -829,7 +813,6 @@
                                             valideteRowEnfant(enfant.prenom)
                                           "
                                         >
-
                                         </div>
                                       </div>
                                     </div>
@@ -851,7 +834,6 @@
                                           )
                                         "
                                       >
-
                                       </div>
                                     </div>
                                     <div class="col-md-3 mb-2">
@@ -898,7 +880,6 @@
                                   v-model="taille"
                                   placeholder="Taille(cm) "
                                 />
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -913,7 +894,6 @@
                                   v-model="poids"
                                   placeholder="Poids(kg) "
                                 />
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -945,7 +925,6 @@
                                     placeholder="Sélectionner le Groupe Sanguin"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -977,7 +956,6 @@
                                     placeholder="Sélectionner la vision Gauche"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1009,7 +987,6 @@
                                     placeholder="Sélectionner la vision Droite"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1036,7 +1013,6 @@
                                     placeholder="Sélectionner l'audience Gauche"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1063,7 +1039,6 @@
                                     placeholder="Sélectionner l'audience Droite"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1089,7 +1064,6 @@
                                     placeholder="Sélectionner la main Gauche"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1115,7 +1089,6 @@
                                     placeholder="Sélectionner la main Droite"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1142,7 +1115,6 @@
                                     placeholder="Sélectionner la jambe Droite"
                                   />
                                 </Field>
-
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -1183,9 +1155,8 @@
                       >
                         <div class="sidebar-body">
                           <div class="row g-2">
-                      
                             <div class="col-md-4 mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Banque
                                 </label>
@@ -1229,7 +1200,6 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le code"
                                 />
-
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -1244,7 +1214,6 @@
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le code"
                                 />
-
                               </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -1264,7 +1233,6 @@
                                 type="file"
                                 placeholder="Joindre le RIB"
                               />
-
                             </div>
 
                             <h1>Informations sur la personne à contacter</h1>
@@ -1281,7 +1249,6 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le nom"
                                   />
-
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -1296,7 +1263,6 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le prenom"
                                   />
-
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -1311,7 +1277,6 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone"
                                   />
-
                                 </div>
                               </div>
                               <div class="col-md-6 mb-3">
@@ -1326,7 +1291,6 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Indiquer la relation"
                                   />
-
                                 </div>
                               </div>
                             </div>
@@ -1711,10 +1675,7 @@ export default defineComponent({
       const monthDifference = today.getMonth() - birthDate.getMonth();
       const dayDifference = today.getDate() - birthDate.getDate();
 
-      if (
-        monthDifference < 0 ||
-        (monthDifference === 0 && dayDifference < 0)
-      ) {
+      if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
         age--;
       }
 
@@ -1760,15 +1721,22 @@ export default defineComponent({
 
     const getAllServices = async () => {
       try {
-        const response = await ApiService.get("/all/organisations");
+        const response = await ApiService.get(
+          "/all/recupererToutesOrganisationSansFilsAvecParent"
+        );
+
+        console.log("rfrrf ===> ", response);
         const servicesData = response.data.data;
         console.log("465484635418416541 ===> ", servicesData);
 
-        serviceOptions.value = servicesData.data.map((service) => ({
+        serviceOptions.value = servicesData.map((service) => ({
           value: service.id,
           label: service.nom,
         }));
+
+        console.log("RYYYYY ==> ", serviceOptions);
       } catch (error) {
+        console.log("RYYYYY5252 ==> ", error);
         //error(response.data.message)
       }
     };
@@ -1960,10 +1928,11 @@ export default defineComponent({
       today.getFullYear() - 18,
       today.getMonth(),
       today.getDate()
-    ).toISOString().split("T")[0];
+    )
+      .toISOString()
+      .split("T")[0];
 
     const maxDate1 = today.toISOString().split("T")[0];
-
 
     const tabContainer = ref(null);
     const tabs = [
@@ -2076,8 +2045,6 @@ export default defineComponent({
 
     let activeclass = ref<string>("Informations générales du personnel");
 
-    
-
     const nextStep = async () => {
       const isValid = await validate();
       if (!isValid) return; // Ne pas avancer si le formulaire est invalide
@@ -2085,70 +2052,73 @@ export default defineComponent({
       if (currentStep.value === 1) {
         //useForm({ validationSchema: personnelConSchema });
         checkAge();
-        if (ageError.value) return; 
+        if (ageError.value) return;
         let element1 = {
-          nom:nom.value,
-          prenom:prenom.value,
-          sexe:sexe.value,
-          situation:situation.value,
-          photo:photo.value,
-          civilite:civilite.value,
-          birthdate:birthdate.value,
-          dateEmbauche:dateEmbauche.value,
-          numeroSecuriteSociale:numeroSecuriteSociale.value,
-          religion:religion.value,
-          ethnie:ethnie.value,
-          service:service.value,
-    
-        }
-        for(const key in element1){
-          if(!element1[key]){
+          nom: nom.value,
+          prenom: prenom.value,
+          sexe: sexe.value,
+          situation: situation.value,
+          photo: photo.value,
+          civilite: civilite.value,
+          birthdate: birthdate.value,
+          dateEmbauche: dateEmbauche.value,
+          numeroSecuriteSociale: numeroSecuriteSociale.value,
+          religion: religion.value,
+          ethnie: ethnie.value,
+          service: service.value,
+        };
+        for (const key in element1) {
+          if (!element1[key]) {
             error(`Saisir l'élément suivant ${key}`);
             return false;
           }
         }
       }
       if (currentStep.value === 2) {
-  let element2 = {
-    boitePostale: boitePostale.value,
-    telephone: telephone.value,
-    email: email.value,
-    departement: departement.value,
-    commune: commune.value,
-    arrondissement: arrondissement.value,
-    quartier: quartier.value,
-    adresse: adresse.value,
-  };
+        let element2 = {
+          boitePostale: boitePostale.value,
+          telephone: telephone.value,
+          email: email.value,
+          departement: departement.value,
+          commune: commune.value,
+          arrondissement: arrondissement.value,
+          quartier: quartier.value,
+          adresse: adresse.value,
+        };
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  for (const key in element2) {
-    if (!element2[key]) {
-      error(`Saisir l'élément suivant ${key}`);
-      return false;
-    }
+        for (const key in element2) {
+          if (!element2[key]) {
+            error(`Saisir l'élément suivant ${key}`);
+            return false;
+          }
 
-    if (key === "email" && !emailRegex.test(element2[key])) {
-      error("Veuillez entrer une adresse email valide");
-      return false;
-    }
-  }
-}
+          if (key === "email" && !emailRegex.test(element2[key])) {
+            error("Veuillez entrer une adresse email valide");
+            return false;
+          }
+        }
+      }
 
       if (currentStep.value === 3) {
-       
         let element3 = {
-       nomCon: nomCon.value,
-        prenomCon:prenomCon.value,
-        dateNaissanceCon:dateNaissanceCon.value,
-        nationaliteCon:nationaliteCon.value,
-         telephoneCon:telephoneCon.value,
-        religionCon:religionCon.value,
-         ethnieCon:ethnieCon.value,
-        }
-        if(situation.value == "Marié(e)" || situation.value == "Concubinage" || situation.value == "Union libre"|| situation.value == "Veuve"){
-          for(const key in element3){
-            if(!element3[key]){
+          nomCon: nomCon.value,
+          prenomCon: prenomCon.value,
+          dateNaissanceCon: dateNaissanceCon.value,
+          nationaliteCon: nationaliteCon.value,
+          telephoneCon: telephoneCon.value,
+          religionCon: religionCon.value,
+          ethnieCon: ethnieCon.value,
+        };
+        if (
+          situation.value == "Marié(e)" ||
+          situation.value == "Concubinage" ||
+          situation.value == "Union libre" ||
+          situation.value == "Veuve"
+        ) {
+          for (const key in element3) {
+            if (!element3[key]) {
               error(`Saisir l'élément suivant ${key}`);
               return false;
             }
@@ -2156,42 +2126,42 @@ export default defineComponent({
         }
 
         if (nombreEnfant.value === null || nombreEnfant.value === undefined) {
-        error("Saisir le nombre d'enfants");
-        return false;
-    } else if (nombreEnfant.value > 0) {
-        for (let i = 0; i < nombreEnfant.value; i++) {
+          error("Saisir le nombre d'enfants");
+          return false;
+        } else if (nombreEnfant.value > 0) {
+          for (let i = 0; i < nombreEnfant.value; i++) {
             const enfant = {
-                nom: enfants[i]?.nom, 
-                prenom: enfants[i]?.prenom,
-                dateNaissance: enfants[i]?.dateNaissance,
+              nom: enfants[i]?.nom,
+              prenom: enfants[i]?.prenom,
+              dateNaissance: enfants[i]?.dateNaissance,
             };
 
             for (const key in enfant) {
-                if (!enfant[key]) {
-                    error(`Saisir l'élément suivant ${key} pour l'enfant ${i + 1}`);
-                    return false;
-                }
+              if (!enfant[key]) {
+                error(`Saisir l'élément suivant ${key} pour l'enfant ${i + 1}`);
+                return false;
+              }
             }
+          }
         }
-    }
-    }
+      }
       if (currentStep.value === 4) {
         //useForm({ validationSchema: personnelPersonneConSchema });
         let element4 = {
-          taille:taille.value,
-          poids:poids.value,
-          groupeSanguin:groupeSanguin.value,
-          visionGauche:visionGauche.value,
-          visionDroite:visionDroite.value,
-          audienceGauche:audienceGauche.value,
-          audienceDroite:audienceDroite.value,
-          mainGauche:mainGauche.value,
-          mainDroite:mainDroite.value,
-          jambeGauche:jambeGauche.value,
-          jambeDroite:jambeDroite.value,
-        }
-        for(const key in element4){
-          if(!element4[key]){
+          taille: taille.value,
+          poids: poids.value,
+          groupeSanguin: groupeSanguin.value,
+          visionGauche: visionGauche.value,
+          visionDroite: visionDroite.value,
+          audienceGauche: audienceGauche.value,
+          audienceDroite: audienceDroite.value,
+          mainGauche: mainGauche.value,
+          mainDroite: mainDroite.value,
+          jambeGauche: jambeGauche.value,
+          jambeDroite: jambeDroite.value,
+        };
+        for (const key in element4) {
+          if (!element4[key]) {
             error(`Saisir l'élément suivant ${key}`);
             return false;
           }
@@ -2200,19 +2170,19 @@ export default defineComponent({
 
       if (currentStep.value === 5) {
         //useForm({ validationSchema: personnelPersonneConSchema });
-        let element5= {
-          banque:banque.value,
-          numeroCompte:numeroCompte.value,
-          codeIban:codeIban.value,
-          swift:swift.value,
-          releveIdentiteBancaire:releveIdentiteBancaire.value,
-          nomPersonneAContacter:nomPersonneAContacter.value,
-          prenomPersonneAContacter:nomPersonneAContacter.value,
-          telephonePersonneAContacter:telephonePersonneAContacter.value,
-          relation:relation.value,
-        }
-        for(const key in element5){
-          if(!element5[key]){
+        let element5 = {
+          banque: banque.value,
+          numeroCompte: numeroCompte.value,
+          codeIban: codeIban.value,
+          swift: swift.value,
+          releveIdentiteBancaire: releveIdentiteBancaire.value,
+          nomPersonneAContacter: nomPersonneAContacter.value,
+          prenomPersonneAContacter: nomPersonneAContacter.value,
+          telephonePersonneAContacter: telephonePersonneAContacter.value,
+          relation: relation.value,
+        };
+        for (const key in element5) {
+          if (!element5[key]) {
             error(`Saisir l'élément suivant ${key}`);
             return false;
           }
@@ -2343,7 +2313,7 @@ export default defineComponent({
       countries: countriesRef,
       ageError,
       maxDate,
-      maxDate1
+      maxDate1,
     };
   },
   computed: {

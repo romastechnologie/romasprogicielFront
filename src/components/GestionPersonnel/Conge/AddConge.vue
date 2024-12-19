@@ -3,17 +3,26 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
       <Form ref="congeForm" @submit="addConge" :validation-schema="congeSchema">
         <div class="row">
-
           <div class="col-md-12 mb-3">
-  <button type="button" class="btn btn-primary d-flex align-items-center" @click="toggleForm">
-    <i 
-      class="me-2" 
-      :class="isWithDemande ? 'fa fa-arrow-right' : 'fa fa-arrow-left'"
-      aria-hidden="true"
-    ></i>
-    {{ isWithDemande ? 'Passer au Congé sans demande' : 'Retourner sur Congé avec demande' }}
-  </button>
-</div>
+            <button
+              type="button"
+              class="btn btn-primary d-flex align-items-center"
+              @click="toggleForm"
+            >
+              <i
+                class="me-2"
+                :class="
+                  isWithDemande ? 'fa fa-arrow-right' : 'fa fa-arrow-left'
+                "
+                aria-hidden="true"
+              ></i>
+              {{
+                isWithDemande
+                  ? "Passer au Congé sans demande"
+                  : "Retourner sur Congé avec demande"
+              }}
+            </button>
+          </div>
 
           <template v-if="isWithDemande">
             <div class="col-md-6">
@@ -65,7 +74,13 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date de début <span class="text-danger">*</span>
               </label>
-              <Field name="dateDebut" type="date" class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date" v-model="dateDebut" />
+              <Field
+                name="dateDebut"
+                type="date"
+                class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer la date"
+                v-model="dateDebut"
+              />
               <ErrorMessage name="dateDebut" class="text-danger" />
             </div>
           </div>
@@ -75,7 +90,13 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date de fin prévu <span class="text-danger">*</span>
               </label>
-              <Field name="dateFinPrevu" type="date" class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date" v-model="dateFinPrevu" />
+              <Field
+                name="dateFinPrevu"
+                type="date"
+                class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer la date"
+                v-model="dateFinPrevu"
+              />
               <ErrorMessage name="dateFinPrevu" class="text-danger" />
             </div>
           </div>
@@ -85,7 +106,13 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date de reprise <span class="text-danger">*</span>
               </label>
-              <Field name="dateReprise" type="date" class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date" v-model="dateReprise" />
+              <Field
+                name="dateReprise"
+                type="date"
+                class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer la date"
+                v-model="dateReprise"
+              />
               <ErrorMessage name="dateReprise" class="text-danger" />
             </div>
           </div>
@@ -95,7 +122,13 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Date fin <span class="text-danger">*</span>
               </label>
-              <Field name="dateFin" type="date" class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date" v-model="dateFin" />
+              <Field
+                name="dateFin"
+                type="date"
+                class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer la date"
+                v-model="dateFin"
+              />
               <ErrorMessage name="dateFin" class="text-danger" />
             </div>
           </div>
@@ -105,12 +138,12 @@
               <button class="btn btn-success me-3" type="submit">
                 Programmer maintenant
               </button>
-              <router-link to="/conges/liste-conge" class="btn btn-danger"><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                <span class="position-relative"></span>Annuler</router-link>
+              <router-link to="/conges/liste-conge" class="btn btn-danger"
+                ><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler</router-link
+              >
             </div>
           </div>
-
         </div>
       </Form>
     </div>
@@ -118,14 +151,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
-import { Form, Field, ErrorMessage } from 'vee-validate';
-import * as Yup from 'yup';
-import ApiService from '@/services/ApiService';
-import { error, success } from '@/utils/utils';
-import Multiselect from '@vueform/multiselect/src/Multiselect';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { computed, defineComponent, onMounted, ref } from "vue";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as Yup from "yup";
+import ApiService from "@/services/ApiService";
+import { error, success } from "@/utils/utils";
+import Multiselect from "@vueform/multiselect/src/Multiselect";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "AddConge",
@@ -137,7 +170,7 @@ export default defineComponent({
   },
 
   setup() {
-    const isWithDemande = ref(true); 
+    const isWithDemande = ref(true);
     const toggleForm = () => {
       isWithDemande.value = !isWithDemande.value;
     };
@@ -157,10 +190,10 @@ export default defineComponent({
         dateFin: Yup.string().required("Date Fin est obligatoire."),
       });
     });
-    const dateDebut = ref('');
-    const dateFinPrevu = ref('');
-    const dateReprise = ref('');
-    const dateFin = ref('');
+    const dateDebut = ref("");
+    const dateFinPrevu = ref("");
+    const dateReprise = ref("");
+    const dateFin = ref("");
     const demandeOptions = ref([]);
     const personnelOptions = ref([]);
     const router = useRouter();
@@ -173,15 +206,16 @@ export default defineComponent({
             resetForm();
             router.push({ name: "ListeCongePage" });
           }
-        }).catch(({ response }) => {
+        })
+        .catch(({ response }) => {
           error(response.data.message);
         });
     };
 
     const fetchPersonnel = async () => {
       try {
-        const response = await axios.get('all/personnels');
-        personnelOptions.value = response.data.data.data.map(personnel => ({
+        const response = await axios.get("all/personnels");
+        personnelOptions.value = response.data.data.data.map((personnel) => ({
           value: personnel.id,
           label: personnel.nom + " " + personnel.prenom,
         }));
@@ -192,8 +226,8 @@ export default defineComponent({
 
     const fetchDemande = async () => {
       try {
-        const response = await axios.get('/demandeconge');
-        demandeOptions.value = response.data.data.map(demande => ({
+        const response = await axios.get("/demandeconge");
+        demandeOptions.value = response.data.data.map((demande) => ({
           value: demande.id,
           label: demande.motifDemande,
         }));
@@ -205,7 +239,7 @@ export default defineComponent({
     const getDemande = async (id) => {
       try {
         const { data } = await ApiService.get(`/demande/${id}`);
-  
+
         dateDebut.value = data.data.dateDebut;
         dateFinPrevu.value = data.data.dateFinPrevu;
         dateReprise.value = data.data.dateReprise;
@@ -228,16 +262,16 @@ export default defineComponent({
 
     return {
       isWithDemande,
-    toggleForm,
-    congeSchema,
-    addConge,
-    demandeOptions,
-    personnelOptions,
-    dateDebut,
-    dateFinPrevu,
-    dateReprise,
-    dateFin,
-    onDemandeSelected,
+      toggleForm,
+      congeSchema,
+      addConge,
+      demandeOptions,
+      personnelOptions,
+      dateDebut,
+      dateFinPrevu,
+      dateReprise,
+      dateFin,
+      onDemandeSelected,
     };
   },
 });

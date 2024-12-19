@@ -109,9 +109,10 @@
     import { ref, watch, onMounted } from 'vue'
     import { useMenuStore } from "@/store/menu"
     import { storeToRefs } from "pinia";
-    import { error, success } from '@/utils/utils';
+    import { cryptage, error, success } from '@/utils/utils';
     import { log } from '@/core/data/sociall-app';
     import axios from "axios";
+    import JwtService from '@/services/JwtService';
     interface bookmark {
         icon1: string,
         path: string,
@@ -160,24 +161,23 @@
         }
     }
     const commence = async()=>{
-       console.log('commence')
        try{
-        const {data} = await axios.get('/maPresence')
+        const {data} = await axios.post('/checkPresence',{donne: cryptage(JwtService.getUserPersonnel())})
         console.log('data',data)
         if(data.code == 201){
-           console.log('commence', 'Moi commence')
            success(data.message)
         }else{
            error(data.message) 
         }
-       }catch(error){
-        console.log('commence', 'Erreur lors de la récupération de ma présence', error)
+       }catch(er){
+        error(er.response.data.message);
+        //console.log('commence', 'Erreur lors de la récupération de ma présence', error)
        }
     }
     const depart = async()=>{
        console.log('Départ')
        try{
-        const {data} = await axios.get('/monDepart')
+        const {data} = await axios.post('/monDepart',{donne: cryptage(JwtService.getUserPersonnel())})
         console.log('data',data)
         if(data.code == 201){
            console.log('commence', 'Moi commence')
@@ -185,8 +185,8 @@
         }else{
             error(data.message)
         }
-       }catch(error){
-        console.log('commence', 'Erreur lors de la récupération de ma présence', error)
+       }catch(er){
+        error(er.response.data.message);
        }
     }
     onMounted(() => {

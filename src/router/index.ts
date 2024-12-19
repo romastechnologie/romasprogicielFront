@@ -84,10 +84,6 @@ import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
 import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
 import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
-
-//import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
-// import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
-//import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
 import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
 import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
 import ListeMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue";
@@ -98,7 +94,6 @@ import ListeCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/
 import ListeTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue";
 import TableauAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/TableauAmortissementPage.vue";
 
-//Gescom
 
 import ListeFamillePage from "@/pages/GesCom/Familles/ListeFamillePage.vue";
 import AddMediaPage from "@/pages/GesCom/Medias/AddMediaPage.vue";
@@ -122,9 +117,6 @@ import AddProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/AddProd
 import EditProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/EditProduitConditionnePage.vue";
 import ListeProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/ListeProduitConditionnePage.vue";
 import ListeMagasinPage from "@/pages/GesCom/Magasin/ListeMagasinPage.vue";
-// import AddTransfertPage from "@/pages/GesCom/Transfert/AddTransfertPage.vue";
-// import EditTransfertPage from "@/pages/GesCom/Transfert/EditTransfertPage.vue";
-// import ListeTransfertPage from "@/pages/GesCom/Transfert/ListeTransfertPage.vue";
 import AddInventairePage from "@/pages/GesCom/Inventaire/AddInventairePage.vue";
 import ListeInventairePage from "@/pages/GesCom/Inventaire/ListeInventairePage.vue";
 import ListeAdresseLivraisonPage from "@/pages/GesCom/AdresseLivraison/ListeAdresseLivraisonPage.vue";
@@ -150,7 +142,6 @@ import AddPersonnellePage from "@/pages/GesCom/Personnel/AddPersonnellePage.vue"
 import EditPersonnellePage from "@/pages/GesCom/Personnel/EditPersonnellePage.vue";
 import ListePersonnellePage from "@/pages/GesCom/Personnel/ListePersonnellePage.vue";
 import ViewPersonnellePage from "@/pages/GesCom/Personnel/ViewPersonnellePage.vue";
-// import ListeFonctionPage from "@/pages/GesCom/Fonction/ListeFonctionPage.vue";
 import AddPersonnelPostePage from "@/pages/GesCom/AddPersonnelPostePage/AddPersonnelPostePage.vue";
 import EditPersonnelPostePage from "@/pages/GesCom/PersonnelPoste/EditPersonnelPostePage.vue";
 import ListePersonnelPostePage from "@/pages/GesCom/PersonnelPoste/ListePersonnelPostePage.vue";
