@@ -114,7 +114,6 @@
     },
   
     setup: () => {
-
       const justificatifSchema = Yup.object().shape({
   personnel: Yup.string().required("Le personnel est obligatoire."),
   justificatif: Yup.string().required("Le justificatif est obligatoire."),
@@ -127,7 +126,6 @@
     .min(Yup.ref("dateDebut"), "La date de fin ne peut pas être antérieure à la date de début."),
   preuveFileName: Yup.mixed().required("La preuve est obligatoire."),
 });
-
 
 
   

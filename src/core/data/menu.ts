@@ -1715,16 +1715,16 @@ export const menu: MenuItem[] = [
             },
         ]
     },
-    {
-        title: "EtapeValidation",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
+    /*{
+      //  title: "EtapeValidation",
+       // icon: "stroke-user",
+       // icon1: "fill-user",
+        //type: "sub",
+        //badgeType: "light-primary",
+       // active: false,
+       // isPinned: false,
+       // children: [
+           /* {
                 path: "/etapeValidations/ajouter-etapeValidations",
                 title: "Ajouter une etape validation",
                 type: "link"
@@ -1735,7 +1735,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
         ]
-    },
+    },*/
     // {
     //     title: "UserEtapes",
     //     icon: "stroke-user",

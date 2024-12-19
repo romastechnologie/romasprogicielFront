@@ -52,6 +52,19 @@
                 <ErrorMessage name="typeentretien" class="text-danger" />
               </div>
             </div>
+            <div class="col-md-4 mt-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">
+                  Type depense <span class="text-danger">*</span>
+                </label>
+                <Field name="typedepense" v-model="typedepenses" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="typedepenseOptions" :preserve-search="true"
+                   :multiple="false" :searchable="true" placeholder="Sélectionner le type de depense"
+                  label="label" track-by="label" />
+                </Field>
+                <span class="text-danger" v-if="showMErr">Le type de depense est obligatoire</span>
+              </div>
+            </div>
     
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
@@ -103,18 +116,22 @@
             dateRealisation: Yup.date().required("La date de réalisation est obligatoire."),
             description: Yup.string().required("La description est obligatoire."),
             typeentretien: Yup.string().required("Le type d'entretien est obligatoire."),
+            typedepense: Yup.string().required("Le type de dépense est obligatoire."),
             bien: Yup.string().required("Le bien est obligatoire."),
       });
   
       onMounted(() => {
         getAllTypeEntretiens();
         getAllBiens();
+        getAllTypeDepenses();
       });
   
       const entretienForm =  ref(null);
       const showMErr = ref(false);
       const typeentretien = ref();
       const biens = ref();
+      const typedepenses=ref();
+      const typedepenseOptions = ref();
       const typeEntretienOptions = ref();
       const bienOptions = ref([]);
       
@@ -167,9 +184,22 @@
           }
         } 
     
+        const getAllTypeDepenses= async () => {
+          try{
+          const response = await ApiService.get('all/typesDepenses');
+          const typedepensesData = response.data.data.data;
+          typedepenseOptions.value = typedepensesData.map((typedepense) => ({
+            value: typedepense.id,
+            label: typedepense.libelle,
+          }));
+          }
+          catch(error){
+            //error(response.data.message)
+          }
+        } 
      
   
-      return { entretienSchema, addEntretien, entretienForm,bienOptions,showMErr,categorieOptions,typeentretien,biens,typeEntretienOptions};
+      return { entretienSchema, addEntretien, entretienForm,bienOptions,typedepenseOptions,showMErr,categorieOptions,typeentretien,typedepenses, biens,typeEntretienOptions};
     },
   });
   </script>

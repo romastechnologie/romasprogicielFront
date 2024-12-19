@@ -152,14 +152,15 @@ interface Billetage {
 }
 const billetageList = reactive<Billetage[]>([]);
 const monnaieList = ref([] as any[]);
-let montantTotal = ref(0);
+let montantTotal = ref<null | number>(null);
 
 const tresoreries = ref();
 const tresorerieOptions = ref([]);
 const schema = Yup.object().shape({
-  fondDeRoulement: Yup.number().required(
-    "Le fond de roulement est obligatoire"
-  ),
+  fondDeRoulement: Yup.number()
+    .nullable() 
+    .required("Le fond de roulement est obligatoire") 
+    .notOneOf([0], "Le fond de roulement ne peut pas être 0"), 
   tresorerieName: Yup.number().required("La trésorerie est obligatoire"),
 });
 
@@ -219,7 +220,6 @@ const getTresorerie= async () => {
           }));
           }
           catch(error){
-            //error(response.data.message)
           }
         } 
 
@@ -260,10 +260,12 @@ const updateMontant = (billetage: Billetage) => {
 };
 
 const calculateTotal = () => {
-  montantTotal.value = billetageList.reduce((total, billetage) => {
+  const total = billetageList.reduce((total, billetage) => {
     return total + (billetage.montant || 0);
   }, 0);
+  montantTotal.value = total || null; 
 };
+
 
 // Watch billetageList deeply for changes and recalculate automatically
 watch(

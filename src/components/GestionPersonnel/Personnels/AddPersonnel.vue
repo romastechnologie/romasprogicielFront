@@ -155,15 +155,6 @@
                     :multiple="false" :searchable="true" placeholder="Sélectionner le service" label="label"
                     track-by="label" />
                 </Field>
-                <!-- <p class="my-0"> Service </p>
-                <Field name="service" id="service" class="form-select mb-1"
-                   as="select">
-                  <option disabled selected> Choisir le service </option>
-                  <option :value=service.libelle v-for="service in services" :key="service.id">
-                    {{ service.libelle }}
-                  </option>
-                </Field> -->
-                <!-- <ErrorMessage name="service" class="text-danger text-start" /> -->
               </div>
               <div class="col mx-2">
                 <p class="my-0"> Fonction </p>
@@ -172,15 +163,6 @@
                     :close-on-select="true" :clear-on-select="false" :multiple="false" :searchable="true"
                     placeholder="Sélectionner le Poste" label="label" track-by="label" />
                 </Field>
-                <!-- <Field v-model="newPersonnel.personnelServiceFonction.service_fonction" name="serviceFonction"
-                  id="serviceFonction" class="form-select mb-1" as="select">
-                  <option disabled selected> Choisir la fonction </option>
-                  <option :value=service_fonction.id v-for="service_fonction in filterServiceFonction"
-                    :key="service_fonction.id">
-                    {{ service_fonction.fonction.libelle }}
-                  </option>
-                </Field> -->
-                <!-- <ErrorMessage name="serviceFonction" class="text-danger text-start" /> -->
               </div>
               <button ref="clickPersonnelForm" type="submit" class="d-none"> Envoyer </button>
             </div>

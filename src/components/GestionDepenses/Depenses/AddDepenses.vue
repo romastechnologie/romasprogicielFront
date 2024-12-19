@@ -34,14 +34,34 @@
               <ErrorMessage name="montant" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Types Depenses <span class="text-danger">*</span>
+              </label>
+              <Field name="typedepense" v-model="typesDepenses" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" 
+                :options="typesDepensesOptions"
+                  @change="typedepenseChange($event)"
+                :preserve-search="true" :multiple="false" :searchable="true"
+                  placeholder="Sélectionner le type de depense" label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le Type de Depense est obligatoire</span>
+            </div>
+          </div>
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Entretien <span class="text-danger">*</span>
               </label>
-              <Field name="entretien" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="entretienOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner l'entretien" label="label"
+              <Field name="entretien"  v-model="entretien" type="text" v-slot="{ field }">
+                <Multiselect 
+                v-model="selectedEntretien"
+                v-bind="field" :options="entretienOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" 
+                  noOptionsText="Sélectionner d'abord un type de dépense"
+                  placeholder="Sélectionner l'entretien" 
+                  label="label"
                   track-by="label" />
               </Field>
               <span class="text-danger" v-if="showMErr">L'Entretien est obligatoire</span>
@@ -62,19 +82,7 @@
               <span class="text-danger" v-if="showMErr">La Planification Reparation est obligatoire</span>
             </div>
           </div>
-          <div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Types Depenses <span class="text-danger">*</span>
-              </label>
-              <Field name="typedepense" v-model="typesDepenses" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="typesDepensesOptions"
-                  :preserve-search="true" :multiple="false" :searchable="true"
-                  placeholder="Sélectionner le type de depense" label="label" track-by="label" />
-              </Field>
-              <span class="text-danger" v-if="showMErr">Le Type de Depense est obligatoire</span>
-            </div>
-          </div>
+          
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -177,6 +185,10 @@ export default defineComponent({
     const planificationReparationOptions = ref([]);
     const typesDepensesOptions = ref([]);
     const categoriesDepensesOptions = ref([]);
+    const selectedEntretien = ref([]);
+    const selectedTypedepense = ref([]);
+
+
     const router = useRouter();
 
     
@@ -197,8 +209,39 @@ export default defineComponent({
     error(errorMessage);
   }
 };
+
+
+function typedepenseChange(value) {
+      console.log("g,rl;m", value);
+      if (value) {
+        entretienOptions.value = [];
+        selectedEntretien.value = [];
+        ApiService.get("/typedepenses/entretiens/" + value)
+          .then(({ data }) => {
+            const donnee = data.data;
+            console.log("donnee", donnee);
+            if (donnee.length > 0) {
+              entretienOptions.value = donnee.map((entretien: any) => {
+                return {
+                  label: entretien.libelle,
+                  value: entretien.id,
+                };
+              });
+            }
+          })
+          .catch(({ response }) => {
+            //error(response.data.message);
+          });
+      } else {
+        entretienOptions.value = [];
+        selectedEntretien.value = [];
+      }
+    }
+
+
+
     // Fonctions pour récupérer les options des listes
-    const getAllEntretien = async () => {
+   /*const getAllEntretien = async () => {
       try {
         const response = await ApiService.get('/all/entretiens');
         const entretienData = response.data.data.data;
@@ -209,7 +252,7 @@ export default defineComponent({
       } catch (err) {
         console.error(err);
       }
-    };
+    };*/
 
     const getAllPersonnels = async () => {
       try {
@@ -266,7 +309,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      getAllEntretien();
+   //   getAllEntretien();
       getAllPlanificationReparation();
       getAllTypesDepenses();
       getAllCategoriesDepenses();
@@ -289,6 +332,9 @@ export default defineComponent({
       planificationReparation,
       typesDepenses,
       categoriesDepenses,
+      typedepenseChange,
+      selectedEntretien
+
     };
   },
 });

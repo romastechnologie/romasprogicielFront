@@ -87,7 +87,7 @@
                     
                       <li >
                         <a
-                          class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(finance.id,finances,'finances',`Finance ${finance.id}`)">
+                          class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(finance.id,finances,'finances',`la finance ${finance.id}`)">
                           <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                            Supprimer
                         </a>

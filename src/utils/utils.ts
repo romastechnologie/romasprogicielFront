@@ -236,4 +236,3 @@ const suppression = (id: number, element: any, route: string, entite: string) =>
 export {
   getDatePlusXDays,generateUuid,calculerDuree, ajouterPeriode, onFileChange, removeModalBackdrop, suppression, separateur, hideModal, getAssetPath, format_Date, showModal, format_date, success, error, getUrlApiForFiles,
 };
-

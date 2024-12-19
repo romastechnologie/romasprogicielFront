@@ -49,7 +49,7 @@
                   }"
                   disabled
                 >
-                  {{ justificatif.statut || 'Inactif' }}
+                  {{ justificatif.statut || 'En attente' }}
                 </button>
               </td>
               <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">

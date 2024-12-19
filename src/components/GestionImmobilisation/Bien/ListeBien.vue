@@ -193,7 +193,7 @@
                             <a
                              
                               href="javascript:void(0);"
-                              @click="suppression(bien.id, biens, 'biens', 'un utilisateur')"
+                              @click="suppression(bien.id, biens, 'biens', '')"
                             >
                               <i
                                 class="fa fa-trash-o lh-1 me-8 position-relative top-1"
