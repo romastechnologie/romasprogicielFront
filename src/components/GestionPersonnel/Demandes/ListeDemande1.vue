@@ -362,3 +362,253 @@ th {
   border: 1px solid gray;
 }
 </style>
+
+
+
+Exemple Vue.js : Gestion des permissions
+Voici un exemple pour afficher les actions associées à une demande de permission :
+<template>
+  <div>
+    <h2>Actions possibles pour une demande de permission</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Étape</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="etape in etapesPermission" :key="etape.nom">
+          <td>{{ etape.nom }}</td>
+          <td>
+            <ul>
+              <li v-for="action in etape.actions" :key="action">{{ action }}</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      etapesPermission: [
+        {
+          nom: "Soumission",
+          actions: ["Créer une demande", "Modifier", "Supprimer"],
+        },
+        {
+          nom: "Validation",
+          actions: ["Valider", "Rejeter", "Demander des informations supplémentaires"],
+        },
+        {
+          nom: "Notification",
+          actions: ["Notifier l'utilisateur du statut"],
+        },
+        {
+          nom: "Exécution",
+          actions: ["Planifier", "Attribuer un accès temporaire"],
+        },
+        {
+          nom: "Clôture",
+          actions: ["Clôturer la demande", "Archiver"],
+        },
+      ],
+    };
+  },
+};
+</script>
+________________________________________
+Exemple Vue.js : Gestion des congés
+Voici un exemple pour afficher les étapes et actions associées à une demande de congés :
+<template>
+  <div>
+    <h2>Actions possibles pour une demande de congés</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Étape</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="etape in etapesConges" :key="etape.nom">
+          <td>{{ etape.nom }}</td>
+          <td>
+            <ul>
+              <li v-for="action in etape.actions" :key="action">{{ action }}</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      etapesConges: [
+        {
+          nom: "Soumission",
+          actions: ["Créer une demande", "Modifier", "Supprimer"],
+        },
+        {
+          nom: "Validation",
+          actions: ["Valider", "Rejeter", "Demander des informations supplémentaires"],
+        },
+        {
+          nom: "Notification",
+          actions: ["Notifier l'utilisateur du statut"],
+        },
+        {
+          nom: "Planification",
+          actions: ["Planifier les congés dans le calendrier"],
+        },
+        {
+          nom: "Suivi",
+          actions: ["Suivre les congés en cours"],
+        },
+        {
+          nom: "Clôture",
+          actions: ["Clôturer la demande", "Archiver"],
+        },
+      ],
+    };
+  },
+};
+</script>
+________________________________________
+
+Exemple Vue.js : Gestion des congés
+Voici un exemple pour afficher les étapes et actions associées à une demande de congés :
+<template>
+  <div>
+    <h2>Actions possibles pour une demande de congés</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Étape</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="etape in etapesConges" :key="etape.nom">
+          <td>{{ etape.nom }}</td>
+          <td>
+            <ul>
+              <li v-for="action in etape.actions" :key="action">{{ action }}</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      etapesConges: [
+        {
+          nom: "Soumission",
+          actions: ["Créer une demande", "Modifier", "Supprimer"],
+        },
+        {
+          nom: "Validation",
+          actions: ["Valider", "Rejeter", "Demander des informations supplémentaires"],
+        },
+        {
+          nom: "Notification",
+          actions: ["Notifier l'utilisateur du statut"],
+        },
+        {
+          nom: "Planification",
+          actions: ["Planifier les congés dans le calendrier"],
+        },
+        {
+          nom: "Suivi",
+          actions: ["Suivre les congés en cours"],
+        },
+        {
+          nom: "Clôture",
+          actions: ["Clôturer la demande", "Archiver"],
+        },
+      ],
+    };
+  },
+};
+</script>
+________________________________________
+
+________________________________________
+Exemple Vue.js pour afficher les actions d'une demande de prêt
+Voici un exemple de tableau dynamique des actions pour une demande de prêt :
+<template>
+  <div>
+    <h2>Actions possibles pour une demande de prêt</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Étape</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="etape in etapesPret" :key="etape.nom">
+          <td>{{ etape.nom }}</td>
+          <td>
+            <ul>
+              <li v-for="action in etape.actions" :key="action">{{ action }}</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      etapesPret: [
+        {
+          nom: "Soumission",
+          actions: ["Créer une demande", "Modifier", "Supprimer"],
+        },
+        {
+          nom: "Validation",
+          actions: ["Valider", "Rejeter", "Demander des informations supplémentaires"],
+        },
+        {
+          nom: "Analyse",
+          actions: ["Analyser la solvabilité", "Attribuer un gestionnaire"],
+        },
+        {
+          nom: "Approbation",
+          actions: ["Approuver", "Rejeter"],
+        },
+        {
+          nom: "Décaissement",
+          actions: ["Effectuer le décaissement", "Notifier le demandeur"],
+        },
+        {
+          nom: "Suivi",
+          actions: ["Suivre les remboursements", "Envoyer un rappel"],
+        },
+        {
+          nom: "Clôture",
+          actions: ["Clôturer la demande", "Archiver"],
+        },
+      ],
+    };
+  },
+};
+</script>
+________________________________________

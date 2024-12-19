@@ -193,10 +193,10 @@
   
     setup: () => {
       const missionSchema = Yup.object().shape({
-        description: Yup.string().required("Description est obligatoire."),
-        destination: Yup.string().required("Destination est obligatoire."),
-        dateDebut: Yup.string().required("Date debut est obligatoire."),
-        dateFin: Yup.string().required("Date fin est obligatoire."),
+        description: Yup.string().required("La description est obligatoire."),
+        destination: Yup.string().required("La destination est obligatoire."),
+        dateDebut: Yup.string().required("La date de debut est obligatoire."),
+        dateFin: Yup.string().required("La date de fin est obligatoire."),
 
       });
   
@@ -213,8 +213,8 @@
     const isDisable = ref(true);
     const missions = reactive([{
       titre: "",
-      datefin: "",
       description: "",
+      datefin: "",
       datedebut: ""
     }]);
 
@@ -310,6 +310,7 @@
          removeRowMission,
         addRowMission,
         valideteRowMission,
+        missions
         };
       
     },

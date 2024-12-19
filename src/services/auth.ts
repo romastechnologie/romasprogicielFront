@@ -42,6 +42,7 @@ export interface User {
   telephone: string
   sexe: string
   email: string
+  personnel:string
   createdAt: string
   updatedAt: string
   role: Role
@@ -77,7 +78,7 @@ export const useAuthStore = defineStore("auth", () => {
   const isAuthenticated = ref(!!JwtService.getToken());
 
 
-  function setAuth(authUser: Data) {
+  function setAuth(authUser: any) {
     isAuthenticated.value = true;
     user.value = authUser.user;
     errors.value = {};
@@ -130,12 +131,14 @@ export const useAuthStore = defineStore("auth", () => {
     errors.value = [];
     JwtService.destroyToken();
     JwtService.destroyUserPrivilege();
+    JwtService.destroyUserPersonnel();
   }
 
   function login(credentials: User) {
     return ApiService.post("auth/login", credentials)
       .then(({ data }) => {
         setAuth(data.data);
+        JwtService.setUserPersonnel((data.data.user?.personnel ? data.data.user?.personnel.id : "").toString());
       })
       .catch(({ response }) => {
         setError(response.data);

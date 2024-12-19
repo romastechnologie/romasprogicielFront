@@ -8,8 +8,19 @@
                         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <Form ref="roleetapForm" @submit="addRoleEtap" :validation-schema="roleetapSchema">
+                      <Form ref="roleEtapForm" @submit="addRoleEtap" :validation-schema="roleEtapSchema">
                         <div class="row">
+                         
+                              <div class="col-md-12 mb-3">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                              <label class="d-block text-black fw-semibold mb-10">
+                                Code <span class="text-danger">*</span>
+                              </label>
+                              <Field name="code" type="string" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
+                              <ErrorMessage name="code" class="text-danger"/>
+                            </div>
+                          </div>
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
@@ -21,28 +32,16 @@
                             </div>     
                           </div>
 
-
-                          <div class="col-md-12 mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                              <label class="d-block text-black fw-semibold mb-10">
-                                Code <span class="text-danger">*</span>
-                              </label>
-                              <Field name="code" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
-                              <ErrorMessage name="code" class="text-danger"/>
-                            </div>     
-                          </div>
-
-                          <div class="col-md-12 mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                              <label class="d-block text-black fw-semibold mb-10">
-                                Ordre <span class="text-danger">*</span>
-                              </label>
-                              <Field name="ordre" type="text" 
-                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'ordre"/>
-                              <ErrorMessage name="ordre" class="text-danger"/>
-                            </div>     
-                          </div>
+                        <div class="col-md-12 mb-3">
+                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                          <label class="d-block text-black fw-semibold mb-10">
+                            Ordre<span class="text-danger">*</span>
+                          </label>
+                          <Field name="ordre" type="number" 
+                          class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer ordre"/>
+                          <ErrorMessage name="ordre" class="text-danger"/>
+                        </div>
+                      </div>
                           
                           <button
                             class="btn btn-primary"
@@ -52,7 +51,10 @@
                         </div>
                       </Form>
                     </div>
-                 
+                    <!-- <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="button">Save changes</button>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -64,7 +66,7 @@
     import * as Yup from 'yup';
     import ApiService from '@/services/ApiService';
     import { error, hideModal, success } from '@/utils/utils';
-    import { RoleEtap} from '@/models/RoleEtap';
+    import { RoleEtap } from '@/models/RoleEtap';
     import { useRouter } from 'vue-router';
     
     export default {
@@ -86,19 +88,18 @@
       setup: (props:any, { emit }: { emit: Function }) => {
     
         const loading = ref<boolean>(false);
-        const roleetapSchema = Yup.object().shape({
-          //description: Yup.string().required('La religion est obligatoire'),
-          libelle: Yup.string().required('Le libelle est obligatoire'),
-          code: Yup.string().required('Le code est obligatoire'),
-
+        const roleEtapSchema = Yup.object().shape({
+        code: Yup.string().required("le code est obligatoire."),
+        libelle: Yup.string().required("le libellé est obligatoire."),
+        ordre: Yup.number().required("L'ordre est obligatoire."),
         });
     
     
-        const roleetapnew = ref(props.id);
-        const roleetapForm =  ref<RoleEtap | null>(null);
+        const roleEtapnew = ref(props.id);
+        const roleEtapForm =  ref<RoleEtap | null>(null);
         const addRoleEtapModalRef = ref<null | HTMLElement>(null);
-        let roleetaps= ref<Array<RoleEtap>>([]);
-        const title = ref('Ajouter un role etap');
+        let roleEtaps= ref<Array<RoleEtap>>([]);
+        const title = ref('Ajouter un roleEtap');
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
@@ -114,10 +115,10 @@
         const getRoleEtap = async (id: number) => {
           return ApiService.get("/roleetaps/"+id)
           .then(({ data }) => {
-            roleetapForm.value?.setFieldValue("id",data.data.id);
-            roleetapForm.value?.setFieldValue("libelle",data.data.libelle);
-            roleetapForm.value?.setFieldValue("code", data.data.code);
-            roleetapForm.value?.setFieldValue("ordre", data.data.ordre);
+            roleEtapForm.value?.setFieldValue("id",data.data.id);
+            roleEtapForm.value?.setFieldValue("code",data.data.code);
+            roleEtapForm.value?.setFieldValue("libelle",data.data.libelle);
+            roleEtapForm.value?.setFieldValue("ordre",data.data.ordre);
             emit('openmodal', addRoleEtapModalRef.value);
           })
           .catch(({ response }) => {
@@ -127,10 +128,10 @@
     
         const btnTitle = async () => {
           if (isupdate.value) {
-             title.value = "Modifier le roleetap";
+             title.value = "Modifier le roleEtap";
              btntext.value = "Modifier";
           }else{
-             title.value = "Ajouter un roleetap";
+             title.value = "Ajouter un roleEtap";
              btntext.value = "Ajouter";
           }
         }
@@ -148,7 +149,7 @@
                 isupdate.value=false;
                 btnTitle();
                 emit("refreshRoleEtaps");
-             //   router.push('/roleetaps/liste-roleetaps');
+                router.push({ name: "ListeRoleEtapPage" });
               }
             }).catch(({ response }) => {
               error(response.data.message);
@@ -160,6 +161,7 @@
                 success(data.message)
                 resetForm();
                 hideModal(addRoleEtapModalRef.value);
+                //router.push('/roleEtaps/liste-roleEtap');
                 emit("refreshRoleEtaps");
     
               }
@@ -178,9 +180,9 @@
           btnTitle()
         };
     
-        return {roleetaps, title,btntext, resetValue, roleetapSchema,
-           addRoleEtap, roleetapForm,addRoleEtapModalRef,roleetapnew,
-           //refreshReligions
+        return {roleEtaps, title,btntext, resetValue, roleEtapSchema,
+           addRoleEtap, roleEtapForm,addRoleEtapModalRef,roleEtapnew,
+           //refreshRoleEtaps
            };
       },
     };

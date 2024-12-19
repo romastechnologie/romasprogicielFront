@@ -204,7 +204,9 @@ export default {
       { resetForm }: { resetForm: () => void }
     ) => {
       values = values as TypeOrganisation;
+      values.typeOrganisation = values.typeOrganisation ? values.typeOrganisation : null;
       loading.value = false;
+      console.log("VALEUR ==> ", values)
       if (isupdate.value) {
         ApiService.put(`/typeOrganisations/${values.id}`, values)
           .then(({ data }) => {

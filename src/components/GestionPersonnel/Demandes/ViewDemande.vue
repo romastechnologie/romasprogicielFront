@@ -5,7 +5,7 @@
           <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
               <h4 class="position-relative text-black fw-bold mb-10">Détails des demandes</h4>
-              <router-link to="/demandes/liste-demandes" 
+              <router-link to="/demandes/liste-demande-permission" 
               class=" btn btn-primary transition border-0 lh-1 fw-medium">
               <i class="flaticon-left-arrow  lh-1 me-1 position-relative top-2"></i>
               <span class="position-relative"></span>Retour</router-link>
@@ -13,19 +13,19 @@
             <table class="table">
               <tbody>
                 <tr>
-                  <td>Date :</td>
+                  <td>Date de la demande:</td>
                   <td>{{ demande?.dateDemande }}</td>
                 </tr>
                 <tr>
-                  <td>Categorie Demande :</td>
-                  <td>{{ demande?.categorieId }}</td>
+                  <td>Nom :</td>
+                  <td>{{ demande?.personnel?.nom }} </td>
                 </tr>
                 <tr>
-                  <td>Personnel :</td>
-                  <td>{{ demande?.personnel }}</td>
+                  <td>Prénom :</td>
+                  <td>{{ demande?.personnel?.prenom }} </td>
                 </tr>
                 <tr>
-                  <td>Motif de permission :</td>
+                  <td>Motif de la permission :</td>
                   <td>{{ demande?.motifDemande}}</td>
                 </tr>
               
