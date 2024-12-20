@@ -263,7 +263,6 @@ import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage
 import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
 import ViewDocumentPage from "@/pages/GestionArchive/Document/ViewDocumentPage.vue";
-import FilterDocumentPage from "@/pages/GestionArchive/Document/FilterDocumentPage.vue";
 
 
 //gestion des zones
@@ -965,14 +964,6 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Détails d\'un document',
         }
       },
-      {
-        path: "filter-document/:id",
-        name: "FilterDocument",
-        component: FilterDocumentPage,
-        meta: {
-          title: 'Filtrer d\'un document',
-        }
-      }
     ]
   },
   {
