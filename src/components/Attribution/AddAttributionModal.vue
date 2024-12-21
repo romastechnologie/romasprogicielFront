@@ -94,10 +94,10 @@ export default {
 
     const btnTitle = async () => {
       if (isupdate.value) {
-        title.value = "Modifier le service";
+        title.value = "Modifier l'attribution";
         btntext.value = "Modifier";
       } else {
-        title.value = "Ajouter un service";
+        title.value = "Ajouter une attribution";
         btntext.value = "Ajouter";
       }
     }
