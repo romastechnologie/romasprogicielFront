@@ -1,3 +1,5 @@
+import { CategorieDocument } from "./CategorieDocument";
+import { TypeDocument } from "./TypeDocument";
 export  interface Document {
     id: number;
     libelle: string;
@@ -11,5 +13,7 @@ export  interface Document {
     organe:string;
     format:string;
     tag:string;
+    CategorieDocument:string;
+    TypeDocument:string;
     setFieldValue: (field: string, value: any) => void;
   }

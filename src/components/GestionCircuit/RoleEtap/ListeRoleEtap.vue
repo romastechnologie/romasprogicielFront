@@ -72,10 +72,10 @@
                   {{ roleEtap.code }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ roleEtap.libelle }}
+                  {{ roleetap.libelle }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ roleEtap.ordre }}
+                  {{ roleetap.ordre }}
                 </td>
                 
                 <td

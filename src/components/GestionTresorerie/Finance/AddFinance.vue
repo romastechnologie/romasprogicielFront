@@ -13,6 +13,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="montant">Montant</label>
+                 
                             <Field type="number" id="montant" name="montant" class="form-control" v-model="montantTotal"
                                 disabled />
                             <ErrorMessage name="montant" class="text-danger" v-model="finance.montant" />
@@ -27,45 +28,66 @@
                             </Field>
                             <ErrorMessage name="type" class="text-danger" />
                         </div>
-                        <div class="mb-3">
-                            <label for="nomBeneficiaire">Nom du Bénéficiaire</label>
-                            <Field type="text" id="nomBeneficiaire" name="nomBeneficiaire" class="form-control"
-                                v-model="finance.nomBeneficiaire" />
-                            <ErrorMessage name="nomBeneficiaire" class="text-danger" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="prenomBeneficiaire">Prénom du Bénéficiaire</label>
-                            <Field type="text" id="prenomBeneficiaire" name="prenomBeneficiaire" class="form-control"
-                                v-model="finance.prenomBeneficiaire" />
-                            <ErrorMessage name="prenomBeneficiaire" class="text-danger" />
-                        </div>
-                        <div class=" mb-3">
-                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                    Personnel <span class="text-danger">*</span>
-                                </label>
-                                <Field name="personnel" type="text" v-slot="{ field }">
-                                    <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions"
-                                        :preserve-search="true" :multiple="false" :searchable="true"
-                                        placeholder="Sélectionner le personnel" label="label" track-by="label" />
-                                </Field>
-                                <ErrorMessage name="personnel" class="text-danger" />
-                            </div>
-                        </div>
 
                         <div class=" mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                     Depense <span class="text-danger">*</span>
                                 </label>
-                                <Field name="depense" type="text" v-slot="{ field }">
-                                    <Multiselect v-model="field.value" v-bind="field" :options="depenseOptions"
-                                        :preserve-search="true" :multiple="false" :searchable="true"
-                                        placeholder="Sélectionner la dépense" label="label" track-by="label" />
-                                </Field>
+                                <Field name="depense" v-slot="{ field }">
+                  <Multiselect
+                    :options="depenseOptions"
+                    :searchable="true"
+                    track-by="value"
+                    label="label"
+                    v-model="field.value"
+                    v-bind="field"
+                    placeholder="Sélectionner la depense"
+                    @change="onDepenseSelected(field.value)"
+                  />
+                </Field>
+
                                 <ErrorMessage name="depense" class="text-danger" />
                             </div>
                         </div>
+
+
+                        <div class="mb-3" v-if="depenseSelected && beneficiaireselect && beneficiaireselect !== ''">
+                          <label for="montantDepense">Bénéficiaire</label>
+  <input
+    type="text"
+    id="beneficiaire"
+    class="form-control"
+    readonly
+    :value="beneficiaireselect" 
+  />
+</div>
+
+<div class="mb-3" v-if="depenseSelected && selectedPersonnel && selectedPersonnel.value">
+  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                    Personnel <span class="text-danger">*</span>
+                                </label>
+                                <Field name="personnel" v-model="personnelSelect" type="text" v-slot="{ field }">
+  <Multiselect
+    v-bind="field"
+    v-model="field.value"
+    :options="personnelOptions"
+    :preserve-search="true"
+    :disabled="true"
+    :multiple="false"
+    :searchable="true"
+    placeholder="Sélectionner le personnel"
+    label="label"
+    track-by="value"
+  />
+</Field>
+
+                                <ErrorMessage name="personnel" class="text-danger" />
+                            </div>
+                        </div>
+
+                      
 
                         <div class=" mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -143,6 +165,28 @@
   </div>
 </div>
 </div>
+<div class="mb-3" v-if="depenseSelected">
+  <label for="montantDepense">Montant Total de la Dépense</label>
+  <input
+    type="text"
+    id="montantDepense"
+    class="form-control"
+    readonly
+    :value="montantTotalDepense" 
+  />
+</div>
+
+<div class="mb-3" v-if="depenseSelected">
+  <label for="montantDepense">Reste a payer</label>
+  <input
+    type="text"
+    id="montantDepense"
+    class="form-control"
+    readonly
+  />
+</div>
+
+
 </div>
 
 
@@ -187,6 +231,11 @@ let montantTotal = ref(0)
 const personnelOptions = ref([]); // Initialisation avec une liste vide
 const tresorerieOptions = ref([]);
 const depenseOptions = ref([]);
+const selectedPersonnel = ref(null);
+const montantTotalDepense = ref(0);
+const beneficiaireselect = ref(null);
+const depenseSelected = ref(false);
+
 
 
 const caisses = computed(() => {
@@ -208,9 +257,6 @@ const schema = Yup.object().shape({
     fichierfinance: Yup.mixed().required('Le fichier de la caisse est obligatoire'),
     montant: Yup.number().required('Le montant est obligatoire'),
     modepaiement: Yup.string().required('Le mode de paiement est obligatoire'),
-    nomBeneficiaire: Yup.string().required('Le nom du bénéficiaire est obligatoire'),
-    prenomBeneficiaire: Yup.string().required('Le prénom du bénéficiaire est obligatoire'),
-    personnel: Yup.string().required('Le personnel est obligatoire'),
     tresorerie: Yup.string().required('La trésorerie est obligatoire'),
     depense: Yup.string().required('la depense est obligatoire'),
 })
@@ -229,6 +275,14 @@ const fichierfinanceChange = (e) => {
       ]);
     };
 
+    const onDepenseSelected = (selectedDepenseId) => {
+  if (selectedDepenseId) {
+    getDepense(selectedDepenseId);
+    depenseSelected.value = true;  // On met à jour l'état de sélection
+  } else {
+    depenseSelected.value = false;  // Si aucune dépense n'est sélectionnée
+  }
+};
 
     const sendFinance = async (values, { resetForm }) => {
   try {
@@ -242,6 +296,7 @@ const fichierfinanceChange = (e) => {
         monnaie: billetage.monnaie,
       })),
     };
+
 
     console.log("Payload envoyé :", payload); 
     const { data } = await axios.post("/finances", payload, {
@@ -259,7 +314,7 @@ const fichierfinanceChange = (e) => {
 };
 
 
-
+const personnelSelect = ref(0);
 function getAllUsers() {
     return ApiService.get(`/users`)
         .then(({ data }) => {
@@ -343,19 +398,46 @@ function handleBilletageInput(event: Event, billetage: Billetage) {
 
 
 const updateMontant = (billetage: Billetage) => {
-  // Recalculate the montant for the current billetage
-  billetage.montant = billetage.qteBillet * billetage.valueAct || 0; // Ensure default is 0
-  calculateTotal(); // Update the total
+  
+  billetage.montant = billetage.qteBillet * billetage.valueAct || 0; 
+  calculateTotal(); 
 };
 
-// Calculate total montant across all billetage entries
 const calculateTotal = () => {
   montantTotal.value = billetageList.reduce((total, billetage) => {
-    return total + (billetage.montant || 0); // Ensure montant is considered as 0 if undefined
+    return total + (billetage.montant || 0); 
   }, 0);
 };
 
-// Watch billetageList deeply for changes and recalculate automatically
+const getDepense = async (id) => {
+  try {
+    const { data } = await ApiService.get(`/depenses/${id}`);
+    console.log(data);
+    montantTotalDepense.value = data.data.montant;
+    beneficiaireselect.value = data.data.beneficiaire;
+    personnelSelect.value = data.data.personnel ? data.data.personnel.id : null;
+    if (data.data.personnel) {
+      selectedPersonnel.value = {
+        value: data.data.personnel.id,
+        label: `${data.data.personnel.nom} ${data.data.personnel.prenom}`,
+      };
+    } else {
+      selectedPersonnel.value = null; 
+    }
+
+  } catch (err) {
+    console.error(err);
+    error("Erreur lors de la récupération des détails de la dépense.");
+  }
+};
+
+
+
+
+
+
+
+
 watch(
   billetageList,
   () => {

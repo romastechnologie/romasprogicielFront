@@ -1,8 +1,4 @@
 <template>
-  <div>
-    <!-- Intégration du composant DocumentFilters -->
-    <FilterDocument @filter-change="handleFilterChange" />
-
     <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
       <div
         class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
@@ -22,6 +18,63 @@
           </form>
         </div>
       </div>
+
+      <div class="col-md-12">
+      <div class="row"> 
+          <div class="col-md-3 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+              Date de Fin  Conservation
+              </label>
+              <Field 
+                style="max-height: 42px;"
+                v-model="dateFinConservation"
+                name="dateFinConservation" 
+                type="date" 
+                aria-disabled="true"
+                class="form-control shadow-none fs-md-15 text-black" 
+               >
+              </Field>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-2">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Catégorie Document <span class="text-danger">*</span>
+              </label>
+              <Field v-model="categorie"   name="categorie" v-slot="{ field }">
+                <Multiselect
+                  :options="categorieOptions" 
+                  :searchable="true"
+                  v-bind="field"
+                  placeholder="Sélectionner la Catégorie Document"
+                />
+              </Field>
+              <ErrorMessage name="categorie" class="text-danger"/>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Type de Document <span class="text-danger">*</span>
+              </label>
+              <Field v-model="typeDoc" name="typeDoc" v-slot="{ field }">
+                <Multiselect
+                  :options="typeOptions" 
+                  :searchable="true"
+                  v-model="field.value"
+                  v-bind="field"
+                  placeholder="Sélectionner le type de document"
+                />
+              </Field>
+              <ErrorMessage name="typeDoc" class="text-danger"/>
+            </div>
+          </div>
+      </div>
+      </div>
+
       <div class="card-body p-15 p-sm-20 p-md-25">
         <div class="table-responsive">
           <table class="table text-nowrap align-middle mb-0">
@@ -40,6 +93,8 @@
                 </th>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Emplacement
                 </th>
+                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Categorie Document
+                </th>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                   Statut
                 </th>
@@ -56,6 +111,13 @@
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.tagDoc?.libelle }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation?.nom }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.emplacement?.code }} </td>
+                <td class="shadow-none lh-1 fw-medium ">
+              <span v-for="(val, index) in document?.regleDocuments" :key="index"
+                class="badge bg-info text-dark me-1">
+                {{ val.regleType?.categoriedocument?.libelle || 'Non renseigné' }}
+              </span>
+            </td>
+
                 <td>
                   <span :class="getStatusClass(document.statut)">
                     {{ document.statut }}
@@ -125,42 +187,57 @@
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref,watch } from "vue";
 import ApiService from "@/services/ApiService";
 import { Document } from "@/models/Document";
 import { format_date, suppression, error, getUrlApiForFiles } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import FilterDocument from "@/components/GestionArchive/Document/FilterDocument.vue";  // Import du composant
+import { Field } from "vee-validate";
+import Multiselect from "@vueform/multiselect/src/Multiselect";
+
 
 export default defineComponent({
   name: "ListeDocument",
   components: {
     PaginationComponent,
-    FilterDocument  // Déclaration du composant
+    Field,
+    Multiselect
+
   },
   setup() {
     onMounted(() => {
       getAllDocuments();
+      fetchCategorieDocuments();
+      fetchTypeDocuments();
     });
 
     const documents = ref<Array<any>>([]);
     const document = ref<Document>();
 
+    const categorieOptions = ref([]);
+    const typeOptions = ref([]);
+
     const searchTerm = ref('');
+    const dateFinConservation = ref('');
+    
     const page = ref(1);
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
 
-    const handlePaginate = ({ page_, limit_ }) => {
+    const categorie = ref('');
+    const typeDoc = ref('');
+
+
+    const handlePaginate = ({ page, limit }) => {
       try {
-        page.value = page_;
-        getAllDocuments(page_, limit_);
+        page.value = page;
+        getAllDocuments(page, limit);
       } catch (error) {
         //
       }
@@ -190,29 +267,59 @@ const getStatusClass = (statut) => {
   }
 };
 
-   function handleFilterChange(filters) {
-    console.log("Événement capté dans le parent !");
-    console.log("Filtres reçus :", filters);
-    console.log("Filtres reçus :", filters);
-    // Exemple de logique de filtrage
-    this.filteredDocuments = this.documents.filter(doc => {
-      return (
-        (!filters.nom || doc.nom.includes(filters.nom)) &&
-        (!filters.description || doc.description.includes(filters.description)) &&
-        (!filters.dateFinConservation || doc.dateFinConservation === filters.dateFinConservation) &&
-        (!filters.refDoc || doc.reference.includes(filters.refDoc))
-      );
-    });
-    console.log("Documents après filtrage :", this.filteredDocuments);
-    
-  }
 
-    function rechercher() {
-      getAllDocuments(page.value, limit.value, searchTerm.value);
+const fetchCategorieDocuments = async () => {
+      ApiService.get("all/categorieDocuments")
+      .then(({ data }) => {
+        const donnees = data.data.data;
+        categorieOptions.value = donnees.map((categorie) => {
+          return {
+            value: categorie.id,
+            label: categorie.libelle,
+          }
+        });
+      })
+      .catch(({ response }) => {
+        // error(response.data.message)
+      });
     }
 
-    function getAllDocuments(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/documents?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+
+    const fetchTypeDocuments = async () => {
+      ApiService.get("all/typedocuments")
+      .then(({ data }) => {
+        const donnees = data.data.data;
+        typeOptions.value = donnees.map((type) => {
+          return {
+            value: type.id,
+            label: type.nom,
+          }
+        });
+      })
+      .catch(({ response }) => {
+        // error(response.data.message)
+      });
+    }
+
+
+  watch(categorie, () => {
+      rechercher();
+    });
+
+    watch(typeDoc, () => {
+      rechercher();
+    });
+
+    watch(dateFinConservation, () => {
+      rechercher();
+    });
+
+    function rechercher() {
+      getAllDocuments(page.value, limit.value, categorie.value,typeDoc.value,searchTerm.value,dateFinConservation.value);
+    }
+
+    function getAllDocuments(page = 1, limi = 10, categorie = '' ,  typeDoc = '', dateFinConservation = '' ,searchTerm = '') {
+      return ApiService.get(`/documents?page=${page}&limit=${limi}&categorie=${categorie}&typeDoc=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&`)
         .then(({ data }) => {
           documents.value = data.data.data;
           totalPages.value = data.data.totalPages;
@@ -231,15 +338,6 @@ const getStatusClass = (statut) => {
       return privileges.value.includes(name);
     }
 
-    const applyFilters = (filters) => {
-      // Intégration des filtres appliqués depuis DocumentFilters
-      const filterParams = filters && Object.keys(filters).length
-        ? Object.keys(filters)
-          .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(filters[key] ?? '')}`)
-          .join('&')
-        : '';
-    };
-
     return {
       documents,
       checkPermission,
@@ -247,16 +345,19 @@ const getStatusClass = (statut) => {
       suppression,
       document,
       page,
+      categorie,
+      typeDoc,
+      categorieOptions,
+      typeOptions,
+      dateFinConservation,
       changerStatut,
       getStatusClass,
       totalPages,
       limit,
       totalElements,
       handlePaginate,
-      handleFilterChange,
       searchTerm,
       rechercher,
-      applyFilters,  // Fonction pour appliquer les filtres
     };
   },
 });

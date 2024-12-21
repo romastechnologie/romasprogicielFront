@@ -418,7 +418,6 @@
                                     label="label"
                                     v-model="selectedCommune"
                                     v-bind="field"
-                                    @change="communeChange($event)"
                                     noOptionsText="Sélectionner d'abord un département"
                                     placeholder="Sélectionner la commune"
                                   />
@@ -1449,7 +1448,6 @@ export default defineComponent({
     const prenomCon = ref();
     const dateNaissanceCon = ref();
     const nationaliteCon = ref();
-    const nationalite = ref();
     const numPassportCon = ref();
     const telephoneCon = ref();
     const taille = ref();
@@ -1769,8 +1767,9 @@ export default defineComponent({
     //     //
     //   }
     // };
-
+   
     const countriesRef = ref(countries);
+    const nationalite = ref('Bénin'); 
     const selectedCommune = ref([]);
     const selectedArrondissement = ref([]);
     const selectedQuartier = ref([]);
@@ -1975,43 +1974,49 @@ export default defineComponent({
     ];
 
     onMounted(async () => {
+    
       tabs.forEach((tab, index) => {
         const li = document.createElement("li");
         li.classList.add("nav-item");
-        li.innerHTML = `
-  <button 
+      li.innerHTML = `
+<button 
     class="nav-link ${currentStep.value === index + 1 ? "active" : ""}" 
     id="${tab.id}" 
     role="tab" 
     aria-controls="detail-product" 
     aria-selected="${currentStep.value === index + 1}"
-    @click="goToStep(${index + 1})"
-  >
+    disabled
+>
     <div class="nav-rounded">
-      <div class="product-icons">
-        <svg class="stroke-icon">
-          <use href="${
-            require("@/assets/svg/icon-sprite.svg") + "#" + tab.icon
-          }"></use>
-        </svg>
-      </div>
+        <div class="product-icons">
+            <svg class="stroke-icon">
+                <use href="${
+                    require("@/assets/svg/icon-sprite.svg") + "#" + tab.icon
+                }"></use>
+            </svg>
+        </div>
     </div>
     <div class="product-tab-content">
-      <h5>${tab.title}</h5>
-      <p>${tab.desc}</p>
+        <h5>${tab.title}</h5>
+        <p>${tab.desc}</p>
     </div>
-  </button>
+</button>
 `;
 
         tabContainer.value.appendChild(li);
         const tabElements = tabContainer.value.querySelectorAll(".nav-link");
-        tabElements.forEach((tab, index) => {
-          const bsTab = new Tab(tab);
-          tab.addEventListener("click", () => {
-            currentStep.value = index + 1;
-            bsTab.show();
-          });
-        });
+       tabElements.forEach((tab, index) => {
+    const bsTab = new Tab(tab);
+
+    tab.addEventListener("click", (event) => {
+        if (index + 1 > currentStep.value) {
+            event.preventDefault();
+            return;
+        }
+        currentStep.value = index + 1;
+        bsTab.show();
+    });
+});
         tabElements.forEach((tab, index) => {
           const bsTab = new Tab(tab);
           tab.addEventListener("click", () => {
