@@ -347,9 +347,9 @@ export default defineComponent({
       refDoc: Yup.string().required("La référence est obligatoire."),
       dateConservation: Yup.string().required("La date est obligatoire."),
       fichier: Yup.mixed().required("Le fichier est obligatoire."),
-      organisation: Yup.string().required("L'organisation est obligatoire."),
+      organisation: Yup.string().required("L'organisation est obligatoire"),
       tagDoc: Yup.string().required("Le tag est obligatoire."),
-      emplacement: Yup.string().required("L'emplacement est obligatoire."),
+      emplacement: Yup.string().required("L'emplacement est obligatoire"),
       categorie: Yup.string().required("Le tag est obligatoire."),
       typeDoc: Yup.string().required("Le type est obligatoire."),
     });
@@ -427,7 +427,7 @@ export default defineComponent({
 
     const getAllOrganisations = async () => {
       try {
-        const response = await axios.get("/all/organisations");
+        const response = await axios.get("all/organisations");
         const organisationsData = response.data.data.data;
         console.log("RESPONSE ORGANISATION ===> ", response);
         organisationOptions.value = organisationsData.map((organisations) => ({

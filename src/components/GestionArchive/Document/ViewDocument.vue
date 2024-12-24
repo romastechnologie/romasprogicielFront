@@ -175,7 +175,6 @@ export default defineComponent({
     });
 
     return {
-
       document,
       format_date,
       goBack,

@@ -1448,7 +1448,6 @@ export default defineComponent({
     const prenomCon = ref();
     const dateNaissanceCon = ref();
     const nationaliteCon = ref();
-    const nationalite = ref();
     const numPassportCon = ref();
     const telephoneCon = ref();
     const taille = ref();
@@ -1768,8 +1767,9 @@ export default defineComponent({
     //     //
     //   }
     // };
-
+   
     const countriesRef = ref(countries);
+    const nationalite = ref('Bénin'); 
     const selectedCommune = ref([]);
     const selectedArrondissement = ref([]);
     const selectedQuartier = ref([]);
@@ -1974,6 +1974,7 @@ export default defineComponent({
     ];
 
     onMounted(async () => {
+    
       tabs.forEach((tab, index) => {
         const li = document.createElement("li");
         li.classList.add("nav-item");
