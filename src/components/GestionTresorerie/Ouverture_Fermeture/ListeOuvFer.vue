@@ -216,39 +216,64 @@
       };
   
       function updateStatut(id: number, statut: string) {
-  ApiService.put(`/updatestatut/${id}`, { statut })
-    .then(({ data }) => {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: `Voulez-vous vraiment fermer cette caisse ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Oui, fermer',
+    cancelButtonText: 'Annuler',
+    reverseButtons: true,
+    heightAuto: false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si l'utilisateur confirme, effectuer la fermeture
+      ApiService.put(`/updatestatut/${id}`, { statut })
+        .then(({ data }) => {
+          Swal.fire({
+            text: data.message,
+            toast: true,
+            icon: 'success',
+            title: 'Statut mis à jour',
+            animation: false,
+            position: 'top-right',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            heightAuto: false,
+          });
+
+          // Mettre à jour le statut dans la liste
+          const index = ouvFers.value.findIndex((ouvFer) => ouvFer.id === id);
+          if (index !== -1 && ouvFers.value[index].tresorerie) {
+            ouvFers.value[index].tresorerie.status = statut;
+          }
+        })
+        .catch(({ response }) => {
+          Swal.fire({
+            text: response.data.message,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Réessayer',
+            heightAuto: false,
+            customClass: {
+              confirmButton: 'btn fw-semibold btn-light-danger',
+            },
+          });
+        });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
       Swal.fire({
-        text: data.message,
+        text: 'Fermeture annulée',
         toast: true,
-        icon: 'success',
-        title: 'Statut mis à jour',
-        animation: false,
+        icon: 'info',
         position: 'top-right',
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
         heightAuto: false,
       });
-
-      // Update the status in the list
-      const index = ouvFers.value.findIndex((ouvFer) => ouvFer.id === id);
-      if (index !== -1 && ouvFers.value[index].tresorerie) {
-        ouvFers.value[index].tresorerie.status = statut;
-      }
-    })
-    .catch(({ response }) => {
-      Swal.fire({
-        text: response.data.message,
-        icon: 'error',
-        buttonsStyling: false,
-        confirmButtonText: 'Réessayer',
-        heightAuto: false,
-        customClass: {
-          confirmButton: 'btn fw-semibold btn-light-danger',
-        },
-      });
-    });
+    }
+  });
 }
 
 

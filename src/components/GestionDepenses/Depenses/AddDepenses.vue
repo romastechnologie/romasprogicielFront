@@ -96,7 +96,7 @@
               <span class="text-danger" v-if="showMErr">La categorie depense est obligatoire</span>
             </div>
           </div>
-          <div class="col-md-4 mt-3">
+         <!-- <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Personnel <span class="text-danger">*</span>
@@ -111,11 +111,75 @@
           </div>
 
           <div class="col-md-4 mt-3">
-            <label for="beneficiaire" class="form-label"> Bénéficiaire<span class="text-danger">*</span></label>
+            <label for="beneficiaire" class="form-label"> Bénéficiaire<span class="text-danger"></span></label>
             <Field name="beneficiaire" class="form-control" type="text" placeholder="Entrer le bénéficiaire" />
             <ErrorMessage name="beneficiaire" class="text-danger" />
-          </div>
+          </div>-->
        
+
+          <div class="col-md-4 mt-3">
+            <label class="d-block text-black fw-semibold mb-10">
+              Type de destinataire <span class="text-danger">*</span>
+            </label>
+            <div class="d-flex">
+              <div class="form-check me-3">
+                <input
+                  type="radio"
+                  id="personnelRadio"
+                  value="personnel"
+                  v-model="selectedDestinataire"
+                  class="form-check-input"
+                />
+                <label class="form-check-label" for="personnelRadio">Personnel</label>
+              </div>
+              <div class="form-check">
+                <input
+                  type="radio"
+                  id="beneficiaireRadio"
+                  value="beneficiaire"
+                  v-model="selectedDestinataire"
+                  class="form-check-input"
+                />
+                <label class="form-check-label" for="beneficiaireRadio">Bénéficiaire</label>
+              </div>
+            </div>
+            <span class="text-danger" v-if="showMErr">Le type de destinataire est obligatoire</span>
+          </div>
+
+          <div class="col-md-4 mt-3" v-if="selectedDestinataire === 'personnel'">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Personnel <span class="text-danger">*</span>
+              </label>
+              <Field name="personnel" type="text" v-slot="{ field }">
+                <Multiselect
+                  v-model="field.value"
+                  v-bind="field"
+                  :options="personnelOptions"
+                  :preserve-search="true"
+                  :multiple="false"
+                  :searchable="true"
+                  placeholder="Sélectionner le personnel"
+                  label="label"
+                  track-by="label"
+                />
+              </Field>
+              <ErrorMessage name="personnel" class="text-danger" />
+            </div>
+          </div>
+
+          <div class="col-md-4 mt-3" v-if="selectedDestinataire === 'beneficiaire'">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Bénéficiaire <span class="text-danger">*</span>
+              </label>
+              <Field name="beneficiaire" class="form-control" type="text" placeholder="Entrer le bénéficiaire" />
+              <ErrorMessage name="beneficiaire" class="text-danger" />
+            </div>
+          </div>
+
+
+
           <div class="col-md-4-3">
               <label class="d-block fw-semibold mb-10">
                 Motif<span class="text-danger">*</span>
@@ -160,19 +224,22 @@ export default defineComponent({
     Multiselect,
   },
   setup() {
-    const depensesSchema = Yup.object().shape({
-      libelle: Yup.string().required("Le libellé est obligatoire."),
-    //description: Yup.string().required("La description est obligatoire."),
-      entretien: Yup.string().required("L'entretien est obligatoire."),
-      planificationReparation: Yup.string().required("La planification Réparation est obligatoire."),
-      typedepense: Yup.string().required("Le type de dépense est obligatoire."),
-      categoriesDepenses: Yup.string().required("La categorie dépense est obligatoire"),
-      personnel: Yup.string().required("Le personnel est obligatoire"),
-      motif: Yup.string().required("Le motif est obligatoire."),
-      montant: Yup.number().required("Le montant est obligatoire."),
-      date: Yup.date().required('La date est obligatoire'),
-      beneficiaire: Yup.string().required("Le bénéficiaire est obligatoire"),
-    });
+  const depensesSchema = Yup.object().shape({
+  libelle: Yup.string().required("Le libellé est obligatoire."),
+  entretien: Yup.string().required("L'entretien est obligatoire."),
+  planificationReparation: Yup.string().required("La planification Réparation est obligatoire."),
+  typedepense: Yup.string().required("Le type de dépense est obligatoire."),
+  categoriesDepenses: Yup.string().required("La catégorie dépense est obligatoire"),
+  motif: Yup.string().required("Le motif est obligatoire."),
+  montant: Yup.number().required("Le montant est obligatoire."),
+  date: Yup.date().required("La date est obligatoire"),
+  personnel: Yup.string().nullable(),
+  beneficiaire: Yup.string().nullable(),
+
+}).test("personnel-or-beneficiaire", "Renseignez au moins 'Personnel' ou 'Bénéficiaire'.", (values) => {
+  return !!(values.personnel || values.beneficiaire); 
+});
+
 
     const depensesForm = ref(null);
     const showMErr = ref(false);
@@ -187,6 +254,7 @@ export default defineComponent({
     const categoriesDepensesOptions = ref([]);
     const selectedEntretien = ref([]);
     const selectedTypedepense = ref([]);
+    const selectedDestinataire = ref(null);
 
 
     const router = useRouter();
@@ -333,7 +401,8 @@ function typedepenseChange(value) {
       typesDepenses,
       categoriesDepenses,
       typedepenseChange,
-      selectedEntretien
+      selectedEntretien,
+      selectedDestinataire,
 
     };
   },

@@ -578,6 +578,28 @@ export const menu: MenuItem[] = [
     },
 
     {
+        title: "Point de Tresorerie",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/pointtresoreries/ajouter-pointtresorerie",
+                title: "Ajouter un point tresorerie ",
+                type: "link"
+            },
+            {
+                path: "/pointtresoreries/liste-pointtresorerie",
+                title: "Liste des points tresoreries",
+                type: "link"
+            },
+        ]
+    },
+
+    {
         title: "Type de Tresorerie",
         icon: "stroke-animation",
         icon1: "fill-animation",
@@ -654,6 +676,16 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
+    {
+        title: "User Tresorerie",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/userTresoreries/liste-userTresorerie",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
 
     {
         title: "Finance",

@@ -168,8 +168,8 @@
 <div class="mb-3" v-if="depenseSelected">
   <label for="montantDepense">Montant Total de la Dépense</label>
   <input
-    type="text"
-    id="montantDepense"
+    type="number"
+    name="montantDepense"
     class="form-control"
     readonly
     :value="montantTotalDepense" 
@@ -179,9 +179,11 @@
 <div class="mb-3" v-if="depenseSelected">
   <label for="montantDepense">Reste a payer</label>
   <input
-    type="text"
-    id="montantDepense"
+  type="number"
+    id="resteAPayer"
+    name="resteAPayer"
     class="form-control"
+    :value="resteAPayer"
     readonly
   />
 </div>
@@ -237,10 +239,28 @@ const beneficiaireselect = ref(null);
 const depenseSelected = ref(false);
 
 
-
 const caisses = computed(() => {
     return tresorerieList.value.filter(entity => entity.nom?.toLowerCase().includes('caisse'))
 })
+
+const resteAPayer = ref(null); // Valeur par défaut à null
+
+// Méthode pour calculer le reste à payer
+const calculateResteAPayer = () => {
+  if (montantTotalDepense.value && montantTotal.value) {
+    resteAPayer.value = montantTotalDepense.value - montantTotal.value;
+  } else {
+    resteAPayer.value = null; // Si l'une des valeurs est absente, resteAPayer est null
+  }
+};
+
+// Watchers pour suivre les changements
+watch(
+  [montantTotalDepense, montantTotal],
+  () => {
+    calculateResteAPayer();
+  }
+);
 
 
 interface Billetage {
@@ -255,11 +275,16 @@ interface Billetage {
 
 const schema = Yup.object().shape({
     fichierfinance: Yup.mixed().required('Le fichier de la caisse est obligatoire'),
-    montant: Yup.number().required('Le montant est obligatoire'),
+    montant: Yup.number().min(1, 'Le montant ne peut pas être nul').required('Le montant est obligatoire'),
     modepaiement: Yup.string().required('Le mode de paiement est obligatoire'),
     tresorerie: Yup.string().required('La trésorerie est obligatoire'),
-    depense: Yup.string().required('la depense est obligatoire'),
-})
+    depense: Yup.string().required('La dépense est obligatoire'),
+    personnel: Yup.string(),
+    beneficiaire: Yup.string(),
+    montantDepense: Yup.number(),
+    resteAPayer: Yup.number()
+});
+
 
 configure({
     validateOnBlur: true,
@@ -285,6 +310,15 @@ const fichierfinanceChange = (e) => {
 };
 
     const sendFinance = async (values, { resetForm }) => {
+      if (montantTotal.value > montantTotalDepense.value) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erreur',
+      text: 'Le montant du financement ne doit pas être supérieur du financement.',
+    });
+    return; 
+  }
+
   try {
     const payload = {
       ...values,
@@ -295,6 +329,8 @@ const fichierfinanceChange = (e) => {
         valueAct: billetage.valueAct,
         monnaie: billetage.monnaie,
       })),
+      montantDepense: montantTotalDepense.value,  
+      resteAPayer: resteAPayer.value,
     };
 
 
@@ -430,14 +466,6 @@ const getDepense = async (id) => {
     error("Erreur lors de la récupération des détails de la dépense.");
   }
 };
-
-
-
-
-
-
-
-
 watch(
   billetageList,
   () => {
@@ -445,8 +473,6 @@ watch(
   },
   { deep: true }
 );
-
-
 onMounted(() => {
     getAllTresoreries();
     getMonnaie();
@@ -456,7 +482,6 @@ onMounted(() => {
     getAllDepenses();
     
 })
-
 </script>
 
 

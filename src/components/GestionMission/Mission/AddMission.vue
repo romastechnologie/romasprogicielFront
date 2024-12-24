@@ -30,20 +30,20 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Date debut  <span class="text-danger">*</span>
                   </label>
-                  <Field name="dateDebut" type="Date" 
-                  class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date début"/>
+                  <Field name="dateDebut" type="datetime-local"
+                  class="form-control"/>
                   <ErrorMessage name="dateDebut" class="text-danger"/>
                 </div>
               </div>
          
-              
+            
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Date fin  <span class="text-danger">*</span>
                   </label>
-                  <Field name="dateFin" type="Date" 
-                  class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date fin"/>
+                  <Field name="dateFin" type="datetime-local" 
+                  class="form-control"/>
                   <ErrorMessage name="dateFin" class="text-danger"/>
                 </div>
               </div>
@@ -264,7 +264,7 @@
       const router = useRouter();
   
   
-      const addMission = async (values, { resetForm }) => {
+     /* const addMission = async (values, { resetForm }) => {
   const formatDateWithTime = (date) => {
     const currentTime = new Date();
     const formattedTime = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
@@ -286,11 +286,11 @@
   } catch ({ response }) {
     error(response.data.message);
   }
-};
+};*/
 
   
      
-     /* const addMission = async (values, {resetForm}) => {
+     const addMission = async (values, {resetForm}) => {
         ApiService.post("/missions",values)
           .then(({ data }) => {
             if(data.code == 201) { 
@@ -301,7 +301,7 @@
           }).catch(({ response }) => {
             error(response.data.message);
           });
-      };*/
+      };
   
       return { missionSchema,
          addMission,

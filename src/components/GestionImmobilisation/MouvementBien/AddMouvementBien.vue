@@ -150,8 +150,7 @@
           nombien.value = data.data.nomBien + "" +"" +"["+  "" +data.data.refBien + "]"
           tpValue.value = data.data.mouvements.length != 0 ? 2 : 1
           typMouv.value = tpValue.value == 1 ? "Affectation" : "Transfert"
-          ancienEmplacement.value = data.data.service?.id || "Non défini";
-          
+          ancienEmplacement.value = data.data.organisation?.id || "Non défini";          
           console.log('cg', nombien)
           // for (const key in data.data) {
           //   bienForm.value?.setFieldValue(key, 
@@ -171,7 +170,7 @@
       const showMErr = ref(false);
       const biens = ref();
       const emplacementDepart = ref();
-      const  nouvelEmplacement =ref()
+      const  nouvelEmplacement =ref();
 
       const addMouvementBien = async (values,{ resetForm }) => {
         // values[' nouvelEmplacement'] =  nouvelEmplacement.value.value

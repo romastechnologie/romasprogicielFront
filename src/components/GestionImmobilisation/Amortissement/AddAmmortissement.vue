@@ -96,11 +96,11 @@ import VueMultiselect from 'vue-multiselect'
 
 
       const addAmortissement = async (values: any, { resetForm }) => {
-      values['bien'] = biens.value.value
       console.log('Données envoyées', values)
       if (showMErr.value === false) {
         ApiService.post("/amortissements", values)
            .then(({ data }) => {
+            console.log("donnée",data)
              if (data.code == 201) {
               success(data.message);
                //resetForm();

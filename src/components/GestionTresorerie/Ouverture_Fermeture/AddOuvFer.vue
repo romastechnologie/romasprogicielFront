@@ -103,9 +103,17 @@
           <div class="col mb-3" >
                                     <label for="tresorerieName">Tresorerie</label>
                                     <Field name="tresorerieName" v-model="tresoreries" type="text" v-slot="{ field }">
-                                    <Multiselect v-model="field.value" v-bind="field" :options="tresorerieOptions" :preserve-search="true"
-                                     :multiple="false" :searchable="true" placeholder="Sélectionner la tresorerie "
-                                      label="label" track-by="label" />
+                                      <Multiselect 
+  v-model="tresoreries" 
+  :options="tresorerieOptions" 
+  :preserve-search="true"
+  :multiple="false" 
+  :searchable="true" 
+  placeholder="Sélectionner la trésorerie"
+  label="label" 
+  track-by="value" 
+/>
+
                                   </Field>
                                     <ErrorMessage name="tresorerieName" class="text-danger" />
                                 </div>
@@ -161,7 +169,7 @@ const schema = Yup.object().shape({
     .nullable() 
     .required("Le fond de roulement est obligatoire") 
     .notOneOf([0], "Le fond de roulement ne peut pas être 0"), 
-  tresorerieName: Yup.number().required("La trésorerie est obligatoire"),
+  tresorerieName: Yup.string().required("La trésorerie est obligatoire"),
 });
 
 configure({
@@ -172,15 +180,18 @@ configure({
 
 
 async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
-
-  console.log("Tentative d'envoi des données : ", ouvFer.value); // Ajoutez ce log pour déboguer
   try {
-    ouvFer.value.fondDeRoulement = (
+    ouvFer.value.tresorerieId = tresoreries.value;
+
+    const fondDeRoulement = (
       document.getElementById("fondDeRoulement") as HTMLInputElement
     ).value;
+    ouvFer.value.fondDeRoulement = Number(fondDeRoulement); // Conversion en nombre
+
+    console.log("Données envoyées :", ouvFer.value);
+
     const res = await ApiService.post("/ouv_fers/", ouvFer.value);
     const ouvFerId = res.data.id;
-    console.log("Données envoyées avec succès:", res.data);
 
     if (res.data) {
       const billetageData = billetageList.map((billetage) => ({
@@ -203,6 +214,7 @@ async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
     console.error("Erreur lors de l'ouverture de caisse:", error);
   }
 }
+
 
 const caisses = computed(() => {
   return tresorerieList.value.filter(entity => entity.nom?.toLowerCase().includes('caisse'));
