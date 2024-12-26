@@ -1520,12 +1520,17 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/planificationReparations/ajouter-planificationReparation",
-                title: "Ajouter une planification de réparation",
+                title: "Planifier entretien",
+                type: "link"
+            },
+            {
+                path: "/planificationReparations/ajouter-planificationReparation2",
+                title: "Planifier reparation ",
                 type: "link"
             },
             {
                 path: "/planificationReparations/liste-planificationReparations",
-                title: "Liste des planifications de réparation",
+                title: "Liste ",
                 type: "link"
             }
         ]
