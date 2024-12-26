@@ -190,7 +190,7 @@
       });
   
       onMounted(() => {
-        getAllPannes();
+       // getAllPannes();
         getAllBiens();
       });
   
@@ -198,6 +198,7 @@
       const showMErr = ref(false);
       const personnels = ref();
       const pannes = ref();
+      const panne = ref();
       const personnelOptions = ref();
       const panneOptions = ref([]);
 
@@ -228,8 +229,8 @@
             if (donnee.length > 0) {
               panneOptions.value = donnee.map((panne: any) => {
                 return {
-                  label: panne.libelle,
                   value: panne.id,
+                  label: panne.libelle,
                 };
               });
             }
@@ -258,7 +259,7 @@
       };
   
   
-        const getAllPannes= async () => {
+      /*const getAllPannes= async () => {
           try{
           const response = await ApiService.get('/all/pannes');
           const pannesData = response.data.data.data;
@@ -271,7 +272,7 @@
           catch(error){
             //error(response.data.message)
           }
-        } 
+        } */
 
         const getAllBiens= async () => {
           try{
@@ -291,7 +292,7 @@
      
   
       return { planificationReparationSchema,  bienChange,
-        selectedPanne,
+        selectedPanne,panne,
         addPlanificationReparation, planificationReparationForm,panneOptions,biensOptions,showMErr,categorieOptions,personnels,pannes,biens,personnelOptions};
     },
   });

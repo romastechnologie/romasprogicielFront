@@ -139,7 +139,7 @@ export default {
       }
 
       if (donnees.personnel) {
-        usertresorerieeForm.value?.setFieldValue(
+        usertresorerieForm.value?.setFieldValue(
           "bien",
           donnees.personnel.id
         );
