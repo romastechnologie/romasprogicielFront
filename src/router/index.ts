@@ -240,6 +240,7 @@ import EditEntretienPage from '@/pages/GestionPack/Entretien/EditEntretienPage.v
 import AddPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage.vue';
 import AddPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage2.vue';
 import EditPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage.vue';
+import EditPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage2.vue';
 import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/ListePlanificationReparationPage.vue';
 
 
@@ -789,6 +790,14 @@ const routes: Array<RouteRecordRaw> = [
          title: 'Editer une planification de réparation',
       }
      },
+     {
+      path: "editer-planificationReparation2/:id",
+      name: "EditPlanificationReparationPage2",
+      component: EditPlanificationReparationPage2,
+     meta: {
+       title: 'Editer une planification de réparation',
+    }
+   },
       {
         path: "liste-planificationReparations",
         name: "ListePlanificationReparationPage",
