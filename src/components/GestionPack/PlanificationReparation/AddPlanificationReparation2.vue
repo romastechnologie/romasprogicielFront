@@ -86,11 +86,11 @@
                     <ErrorMessage name="dateReparationPrevue" class="text-danger" />
             </div>
             
-           <div class="col-md-6 mt-3">
+          <!--<div class="col-md-6 mt-3">
                     <label for="dateReparationReel" class="form-label">Date Réparation Réelle<span class="text-danger">*</span></label>
                     <Field name="dateReparationReel" class="form-control" type="date"/>
                     <ErrorMessage name="dateReparationReel" class="text-danger" />
-            </div>
+            </div>--> 
            <!-- <div class="col-md-4 mt-3">
                     <label for="lieuReparation" class="form-label"> Lieu de réparation<span class="text-danger">*</span></label>
                     <Field name="lieuReparation"  class="form-control" type="text"/>
@@ -177,20 +177,20 @@
       const planificationReparationSchema = Yup.object().shape({
             reference: Yup.string().required("La référence est obligatoire."),
             libelle: Yup.string().required("Le libelle est obligatoire."),
-            dateReparationReel: Yup.string().required("La date est obligatoire."),
+          //  dateReparationReel: Yup.string().required("La date est obligatoire."),
             dateReparationPrevue: Yup.string().required("La date est obligatoire."),
-            description: Yup.string().required("La description est obligatoire."),
+           // description: Yup.string().required("La description est obligatoire."),
             //personnel: Yup.string().required("Le personnel est obligatoire."),
             panne: Yup.string().required("La panne est obligatoire."),
             bien: Yup.string().required("Le bien est obligatoire."),
 
-            montantReelDepense:Yup.number().required("Le montant est obligatoire."),
+           // montantReelDepense:Yup.number().required("Le montant est obligatoire."),
             budgetAlloue:Yup.number().required("Le budget est obligatoire."),
-            lieuReparation:Yup.string().required("Le lieu est obligatoire."),
+          //  lieuReparation:Yup.string().required("Le lieu est obligatoire."),
       });
   
       onMounted(() => {
-        getAllPannes();
+       // getAllPannes();
         getAllBiens();
       });
   
@@ -198,6 +198,7 @@
       const showMErr = ref(false);
       const personnels = ref();
       const pannes = ref();
+      const panne = ref();
       const personnelOptions = ref();
       const panneOptions = ref([]);
 
@@ -228,8 +229,8 @@
             if (donnee.length > 0) {
               panneOptions.value = donnee.map((panne: any) => {
                 return {
-                  label: panne.libelle,
                   value: panne.id,
+                  label: panne.libelle,
                 };
               });
             }
@@ -258,7 +259,7 @@
       };
   
   
-        const getAllPannes= async () => {
+      /*const getAllPannes= async () => {
           try{
           const response = await ApiService.get('/all/pannes');
           const pannesData = response.data.data.data;
@@ -271,7 +272,7 @@
           catch(error){
             //error(response.data.message)
           }
-        } 
+        } */
 
         const getAllBiens= async () => {
           try{
@@ -291,7 +292,7 @@
      
   
       return { planificationReparationSchema,  bienChange,
-        selectedPanne,
+        selectedPanne,panne,
         addPlanificationReparation, planificationReparationForm,panneOptions,biensOptions,showMErr,categorieOptions,personnels,pannes,biens,personnelOptions};
     },
   });
