@@ -156,12 +156,9 @@ export default defineComponent({
 
     const biens = ref();
     const bienOptions = ref([]);
-    
-    //const permissions = ref(null);
     const typeOptions = ref([]);
     const categorieOptions = ref([]);
     const router = useRouter();
-    //const permissions= ref<Array<Permission>>([]);
     const planificationReparationForm  = ref<PlanificationReparation>();
     const route = useRoute();
  
@@ -179,9 +176,6 @@ export default defineComponent({
         error(response.data.message);
       });
     }
-
-
-
 const editPlanificationReparation = async (values, { resetForm }) => {
   try {
     const response = await ApiService.put(`/planificationReparations/${values.id}`, values);
@@ -206,7 +200,6 @@ const editPlanificationReparation = async (values, { resetForm }) => {
         }));
         }
         catch(error){
-          //error(response.data.message)
         }
       } 
 
@@ -221,7 +214,6 @@ const editPlanificationReparation = async (values, { resetForm }) => {
         }));
         }
         catch(error){
-          //error(response.data.message)
         }
       } 
   
