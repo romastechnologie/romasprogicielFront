@@ -10,6 +10,10 @@ export  interface PlanificationReparation {
     montantReelDepense : number,
     dateReparationReel : Date;
     bienId:number;
+    bien?: {
+      id: number;
+      nomBien: string;
+    };
     panneId:number; 
     createdAt:Date;
     setFieldValue: (field: string, value: any) => void;

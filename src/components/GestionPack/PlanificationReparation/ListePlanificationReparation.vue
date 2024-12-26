@@ -9,7 +9,7 @@
             to="/planificationReparations/ajouter-planificationReparation"
           >
           <i class="fa fa-plus-circle"></i>
-            Ajouter une planification de réparation
+            Ajouter 
           </router-link>
         </div>
         <div class="d-flex align-items-center">
@@ -104,19 +104,19 @@
   
                         <ul class="dropdown-menu">
 
-                          <li >
+                          <li v-if="!planificationReparation.estRepare && planificationReparation.estRepare !== false">
                         <router-link :to="{ name: 'EditPlanificationReparationPage2', params: {  id: planificationReparation.id  } }" 
                             class="dropdown-item d-flex align-items-center"><i
                             class="flaticon-pen lh-1 me-8 position-relative top-1"
                           ></i>Traiter</router-link>
                       </li>
 
-                          <li >
+                        <!-- <li v-if="!planificationReparation.estRepare && planificationReparation.estRepare !== false">
                         <router-link :to="{ name: 'EditPlanificationReparationPage', params: {  id: planificationReparation.id  } }" 
                             class="dropdown-item d-flex align-items-center"><i
                             class="flaticon-pen lh-1 me-8 position-relative top-1"
                           ></i>Modifier</router-link>
-                      </li>
+                      </li>--> 
                     
                           <li  class="dropdown-item d-flex align-items-center">
                             <a

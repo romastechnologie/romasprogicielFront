@@ -286,6 +286,8 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
+import AddCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/AddCircuitDemandePage.vue";
+import ListeCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/ListeCircuitDemandePage.vue";
 //import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
 //import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
 //import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
@@ -1994,6 +1996,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: "ajouter-circuitdemande",
+        name: "AddCircuitDemandePage",
+        component: AddCircuitDemandePage,
+        meta: {
+          title: 'Ajouter un circuit de demande',
+        }
+      },
+      {
         path: "modifier-circuit/:id",
         name: "EditCircuitPage",
         component: EditCircuitPage,
@@ -2007,6 +2017,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeCircuitPage,
         meta: {
           title: 'Liste des circuits',
+        }
+      },
+      {
+        path: "liste-circuits-demandes",
+        name: "ListeCircuitDemandePage",
+        component: ListeCircuitDemandePage,
+        meta: {
+          title: 'Liste des circuits de demande',
         }
       },
     ]

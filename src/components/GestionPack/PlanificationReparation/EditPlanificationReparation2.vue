@@ -4,7 +4,9 @@
             <Form ref="planificationReparationForm" @submit="editPlanificationReparation" :validation-schema="planificationReparationSchema" :initial-values="planificationReparationForm">
             <div class="row">
 
-              <h3 class="text-center mb-4">Voulez-vous traiter l'action sur le bien "{{ planificationReparationForm?.bien?.libelle }}" ?</h3>
+<h3 class="text-center mb-4">
+  Voulez-vous traiter l'action sur le bien <strong>{{ planificationReparationForm?.bien?.nomBien }}</strong> ?
+</h3>
 
           
           <div class="col-md-4 mt-3">
