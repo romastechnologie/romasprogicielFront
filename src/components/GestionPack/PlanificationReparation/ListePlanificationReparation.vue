@@ -11,13 +11,6 @@
           <i class="fa fa-plus-circle"></i>
             Ajouter une planification de réparation
           </router-link>
-          <!-- <button
-            class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
-            type="button"
-          >
-            Exporter
-            <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
-          </button> -->
         </div>
         <div class="d-flex align-items-center">
           <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
@@ -54,6 +47,17 @@
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                  Libelle
                 </th>
+              
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
+                >Bien</th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                 Type
+                </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -67,16 +71,6 @@
                   Description
                 </th>
                 
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
-                >Bien</th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                 Panne
-                </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -94,16 +88,29 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.reference }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(planificationReparation?.dateReparationPrevue) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.libelle }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{format_date(planificationReparation?.dateReparationReel) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.description }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.bien?.nomBien }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.bien?.nomBien }} </td>
                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.panne?.libelle || planificationReparation.typeentretien?.libelle }}</td>
-                <td class="shadow-none lh-1 fw-medium">{{ planificationReparation.estRepare }} </td>
+                 <td class="shadow-none lh-1 fw-medium ">{{format_date(planificationReparation?.dateReparationReel) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.description }} </td>
+                 <td class="shadow-none lh-1 fw-medium">
+  <span :class="getEtatBadge(planificationReparation.estRepare).badgeClass">
+    {{ getEtatBadge(planificationReparation.estRepare).text }}
+  </span>
+</td>
+
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
   
                         <ul class="dropdown-menu">
+
+                          <li >
+                        <router-link :to="{ name: 'EditPlanificationReparationPage2', params: {  id: planificationReparation.id  } }" 
+                            class="dropdown-item d-flex align-items-center"><i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>Traiter</router-link>
+                      </li>
+
                           <li >
                         <router-link :to="{ name: 'EditPlanificationReparationPage', params: {  id: planificationReparation.id  } }" 
                             class="dropdown-item d-flex align-items-center"><i
@@ -179,6 +186,26 @@
        function rechercher(){
         getAllPlanificationReparations(page.value, limit.value, searchTerm.value );
       }
+
+
+      const getEtatBadge = (estRepare: boolean | null) => {
+  if (estRepare === true) {
+    return {
+      text: "Réparé",
+      badgeClass: "badge bg-success text-white",
+    };
+  } else if (estRepare === false) {
+    return {
+      text: "Non réparé",
+      badgeClass: "badge bg-danger text-white",
+    };
+  }
+  return {
+    text: "En attente",
+    badgeClass: "badge bg-warning text-white",
+  };
+};
+
   
   
       // END PAGINATE
@@ -222,7 +249,9 @@
         totalElements,
         handlePaginate,
         searchTerm,
-        rechercher
+        rechercher,
+        getEtatBadge,
+
       };
     },
   });
