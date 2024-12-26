@@ -327,6 +327,7 @@ import EditEquipePage from '@/pages/GesCom/Equipe/EditEquipePage.vue';
 import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
 import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
+import AddArchivagePage from '@/pages/GestionPersonnel/Demandes/AddArchivagePage.vue';
 
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
@@ -1448,6 +1449,14 @@ const routes: Array<RouteRecordRaw> = [
         component: AddDemandePage,
         meta: {
           title: 'Ajouter une demande',
+        }
+      },
+      {
+        path: "ajouter-archivage/:id",
+        name: "AddArchivagePage",
+        component: AddArchivagePage,
+        meta: {
+          title: 'Archiver une demande',
         }
       },
       {

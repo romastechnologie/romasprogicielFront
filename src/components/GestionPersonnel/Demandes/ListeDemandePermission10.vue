@@ -241,9 +241,9 @@ import Swal from "sweetalert2";
       };
 
       
-    const openModal = (id: string) => {
+    /*const openModal = (id: string) => {
       demande.value = id;
-    };
+    };*/
     
   
        function rechercher(){
@@ -435,7 +435,7 @@ const rejectDemandes = async () => {
         addDemandes,
       demandesSchema,
       getEtatBadge,
-      openModal,
+      //openModal,
       rejectDemandes
       };
     },
