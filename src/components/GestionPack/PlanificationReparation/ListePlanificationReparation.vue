@@ -66,12 +66,6 @@
                 >
                   Description
                 </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                  Lieu
-                </th>
                 
                 <th
                   scope="col"
@@ -87,7 +81,7 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                 Date
+                 Etat
                 </th>
                 <th
                   scope="col"
@@ -102,10 +96,9 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.libelle }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{format_date(planificationReparation?.dateReparationReel) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.description }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.lieuReparation }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.bien?.nomBien }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.panne?.libelle }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(planificationReparation.createdAt) }} </td>
+                 <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.panne?.libelle || planificationReparation.typeentretien?.libelle }}</td>
+                <td class="shadow-none lh-1 fw-medium">{{ planificationReparation.estRepare }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>

@@ -146,7 +146,7 @@ export default {
       }
 
       if (donnees.tresorerie) {
-        usertresorerieeForm.value?.setFieldValue(
+        usertresorerieForm.value?.setFieldValue(
           "bien",
           donnees.tresorerie.id
         );

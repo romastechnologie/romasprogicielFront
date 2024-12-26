@@ -86,11 +86,11 @@
                     <ErrorMessage name="dateReparationPrevue" class="text-danger" />
             </div>
             
-           <div class="col-md-6 mt-3">
+          <!--<div class="col-md-6 mt-3">
                     <label for="dateReparationReel" class="form-label">Date Réparation Réelle<span class="text-danger">*</span></label>
                     <Field name="dateReparationReel" class="form-control" type="date"/>
                     <ErrorMessage name="dateReparationReel" class="text-danger" />
-            </div>
+            </div>--> 
            <!-- <div class="col-md-4 mt-3">
                     <label for="lieuReparation" class="form-label"> Lieu de réparation<span class="text-danger">*</span></label>
                     <Field name="lieuReparation"  class="form-control" type="text"/>
@@ -177,16 +177,16 @@
       const planificationReparationSchema = Yup.object().shape({
             reference: Yup.string().required("La référence est obligatoire."),
             libelle: Yup.string().required("Le libelle est obligatoire."),
-            dateReparationReel: Yup.string().required("La date est obligatoire."),
+          //  dateReparationReel: Yup.string().required("La date est obligatoire."),
             dateReparationPrevue: Yup.string().required("La date est obligatoire."),
-            description: Yup.string().required("La description est obligatoire."),
+           // description: Yup.string().required("La description est obligatoire."),
             //personnel: Yup.string().required("Le personnel est obligatoire."),
             panne: Yup.string().required("La panne est obligatoire."),
             bien: Yup.string().required("Le bien est obligatoire."),
 
-            montantReelDepense:Yup.number().required("Le montant est obligatoire."),
+           // montantReelDepense:Yup.number().required("Le montant est obligatoire."),
             budgetAlloue:Yup.number().required("Le budget est obligatoire."),
-            lieuReparation:Yup.string().required("Le lieu est obligatoire."),
+          //  lieuReparation:Yup.string().required("Le lieu est obligatoire."),
       });
   
       onMounted(() => {
