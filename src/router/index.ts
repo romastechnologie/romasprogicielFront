@@ -65,6 +65,9 @@ import DetailsPersonnelPage from '@/pages/GestionPersonnel/Personnels/DetailsPer
 import AddTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/AddTresoreriePage.vue'
 import ListeTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/ListeTresoreriePage.vue'
 import EditTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/EditTresoreriePage.vue'
+import AddPointtresoreriePage from '@/pages/GestionTresorerie/Pointtresorerie/AddPointtresoreriePage.vue'
+import ListePointtresoreriePage from '@/pages/GestionTresorerie/Pointtresorerie/ListePointtresoreriePage.vue'
+import EditPointtresoreriePage from '@/pages/GestionTresorerie/Pointtresorerie/EditPointtresoreriePage.vue'
 import ListeTypeTresoreriePage from '@/pages/GestionTresorerie/TypeTresorerie/ListeTypeTresoreriePage.vue'
 import AddTransfertPage from '@/pages/GestionTresorerie/Transfert/AddTransfertPage.vue'
 import ListeTransfertPage from '@/pages/GestionTresorerie/Transfert/ListeTransfertPage.vue'
@@ -79,6 +82,7 @@ import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/Liste
 import EditOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/EditOuvFerPage.vue'
 import ListeMonnaiePage from '@/pages/GestionTresorerie/Monnaie/ListeMonnaiePage.vue'
 import ListeUserComptePage from '@/pages/GestionTresorerie/UserCompte/ListeUserComptePage.vue'
+import ListeUserTresoreriePage from '@/pages/GestionTresorerie/UserTresorerie/ListeUserTresoreriePage.vue'
 import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
@@ -1619,6 +1623,39 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+
+  {
+    path: "/pointtresoreries",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-pointtresorerie",
+        name: "AddPointtresoreriePage",
+        component: AddPointtresoreriePage,
+        meta: {
+          title: 'Ajouter un point tresorerie',
+        }
+      },
+      {
+        path: "liste-pointtresorerie",
+        name: "ListePointtresoreriePage",
+        component: ListePointtresoreriePage,
+        meta: {
+          title: 'Liste des pointtresoreries',
+        },
+      },
+      {
+        path: "edit-pointtresorerie/:id",
+        name: "EditPointtresoreriePage",
+        component: EditPointtresoreriePage,
+        meta: {
+          title: 'Modifier un point tresorerie',
+        }
+      }
+    ]
+  },
+
+
   {
     path: "/typeTresoreries",
     component: BodyView,
@@ -1765,6 +1802,20 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+  {
+    path: "/userTresoreries",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-userTresorerie",
+        name: "ListeUserTresoreriePage",
+        component: ListeUserTresoreriePage,
+        meta: {
+          title: 'Liste des utilisateurs trésorerie',
+        }
+      },
+    ]
+  },
   {
     path: "/ventes",
     component: BodyView,

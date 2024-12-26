@@ -120,7 +120,7 @@
               <label class="d-block text-black  mb-10">
                 Organisation <span class="text-danger">*</span>
               </label>
-              <Field name="service" v-model="services" type="text" v-slot="{ field }">
+              <Field name="organisation" v-model="services" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation "
                 label="label" track-by="label" />
@@ -188,7 +188,7 @@
             latitude: Yup.number().notRequired(),
             modeAmortissement: Yup.string().required("Le mode d'amortissement est obligatoire."),
             valeurNetteComptable: Yup.number().required("La valeur nette comptable est obligatoire."),
-            service: Yup.string().required("L'organisation est obligatoire."),
+            organisation: Yup.string().required("L'organisation est obligatoire."),
             categorieBien: Yup.string().required("Categorie est obligatoire."),
             typeBien: Yup.string().required("type Bien  est obligatoire."),
 

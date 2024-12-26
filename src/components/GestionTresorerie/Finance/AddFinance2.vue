@@ -191,7 +191,7 @@ interface Billetage {
 
 const schema = Yup.object().shape({
     fichierfinance: Yup.mixed().required('Le fichier de la caisse est obligatoire'),
-    montant: Yup.number().required('Le montant est obligatoire'),
+    montant: Yup.number().min(1, 'Le montant ne peut pas être nul').required('Le montant est obligatoire'),
     modepaiement: Yup.string().required('Le mode de paiement est obligatoire'),
    // nomBeneficiaire: Yup.string().required('Le nom du bénéficiaire est obligatoire'),
    // prenomBeneficiaire: Yup.string().required('Le prénom du bénéficiaire est obligatoire'),

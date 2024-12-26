@@ -9,8 +9,8 @@ export interface Finance {
     fichierfinance?: string
     montant?: number
     type?: string
-    nomBeneficiaire?: string
-    prenomBeneficiaire?: string
+    beneficiaire?: string
+    resteAPayer:string
     personnelId?:number
     utilisateurName?: string
     tresorerieId?: number
