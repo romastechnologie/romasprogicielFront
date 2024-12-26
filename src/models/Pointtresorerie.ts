@@ -10,7 +10,12 @@ export interface PointtresorerieObject {
 export interface Pointtresorerie {
     id: number;
     personnelId: number;
-    tresorerieId: number 
+    dateDebut: Date;
+    dateFin: Date;
+    dateExecution: Date;
+    montant: number;
+    montantvisible: number;
+    tresorerieId: number ;
     created_at?: Date;
     setFieldValue: (field: string, value: any) => void;
 }

@@ -3,19 +3,19 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <Form ref="planificationReparationForm" @submit="addPlanificationReparation" :validation-schema="planificationReparationSchema">
               <div class="row">
-              <div class="col-md-4 mt-3">
+              <div class="col-md-6 mt-3">
                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
                     <Field name="reference" class="form-control" type="text"/>
                     <ErrorMessage name="reference" class="text-danger" />
             </div>
 
-            <div class="col-md-4 mt-3">
+            <div class="col-md-6 mt-3">
                     <label for="libelle" class="form-label">Libelle<span class="text-danger">*</span></label>
                     <Field name="libelle" class="form-control" type="text"/>
                     <ErrorMessage name="libelle" class="text-danger" />
             </div>
 
-            <div class="col-md-4 mt-3">
+            <!--<div class="col-md-4 mt-3">
                 <label class="d-block text-black mb-10">
                   Bien <span class="text-danger">*</span>
                 </label>
@@ -37,7 +37,7 @@
                   label="label" track-by="label" />
                 </Field>
                 <span class="text-danger" v-if="showMErr">La panne est obligatoire</span>
-            </div>
+            </div>-->
 
 
 
@@ -202,7 +202,7 @@
       const panneOptions = ref([]);
 
       const biens = ref();
-      const bienOptions = ref([]);
+      const biensOptions = ref([]);
       
       //const permissions = ref(null);
       const typeOptions = ref([]);
@@ -278,7 +278,7 @@
           const response = await ApiService.get('/all/biens');
           const biensData = response.data.data.data;
           console.log("bien", biensData);
-          bienOptions.value = biensData.map((bien) => ({
+          biensOptions.value = biensData.map((bien) => ({
             value: bien.id,
             label: bien.nomBien,
           }));
@@ -292,7 +292,7 @@
   
       return { planificationReparationSchema,  bienChange,
         selectedPanne,
-        addPlanificationReparation, planificationReparationForm,panneOptions,bienOptions,showMErr,categorieOptions,personnels,pannes,biens,personnelOptions};
+        addPlanificationReparation, planificationReparationForm,panneOptions,biensOptions,showMErr,categorieOptions,personnels,pannes,biens,personnelOptions};
     },
   });
   </script>
