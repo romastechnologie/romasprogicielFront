@@ -238,6 +238,7 @@ import ListeEntretienPage from '@/pages/GestionPack/Entretien/ListeEntretienPage
 import AddEntretienPage from '@/pages/GestionPack/Entretien/AddEntretienPage.vue';
 import EditEntretienPage from '@/pages/GestionPack/Entretien/EditEntretienPage.vue';
 import AddPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage.vue';
+import AddPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage2.vue';
 import EditPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage.vue';
 import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/ListePlanificationReparationPage.vue';
 
@@ -769,9 +770,17 @@ const routes: Array<RouteRecordRaw> = [
          name: "AddPlanificationReparationPage",
          component: AddPlanificationReparationPage,
         meta: {
-          title: 'Ajouter une planification de réparation',
+          title: 'planification entretien',
        }
       },
+      {
+        path: "ajouter-planificationReparation2",
+        name: "AddPlanificationReparationPage2",
+        component: AddPlanificationReparationPage2,
+       meta: {
+         title: 'planification bien ',
+      }
+     },
       {
         path: "editer-planificationReparation/:id",
         name: "EditPlanificationReparationPage",
