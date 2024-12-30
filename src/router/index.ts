@@ -240,6 +240,7 @@ import EditEntretienPage from '@/pages/GestionPack/Entretien/EditEntretienPage.v
 import AddPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage.vue';
 import AddPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage2.vue';
 import EditPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage.vue';
+import EditPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage2.vue';
 import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/ListePlanificationReparationPage.vue';
 
 
@@ -285,6 +286,8 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
+import AddCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/AddCircuitDemandePage.vue";
+import ListeCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/ListeCircuitDemandePage.vue";
 //import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
 //import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
 //import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
@@ -332,6 +335,7 @@ import EditEquipePage from '@/pages/GesCom/Equipe/EditEquipePage.vue';
 import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
 import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
+import AddArchivagePage from '@/pages/GestionPersonnel/Demandes/AddArchivagePage.vue';
 
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
@@ -788,6 +792,14 @@ const routes: Array<RouteRecordRaw> = [
          title: 'Editer une planification de réparation',
       }
      },
+     {
+      path: "editer-planificationReparation2/:id",
+      name: "EditPlanificationReparationPage2",
+      component: EditPlanificationReparationPage2,
+     meta: {
+       title: 'Editer une planification de réparation',
+    }
+   },
       {
         path: "liste-planificationReparations",
         name: "ListePlanificationReparationPage",
@@ -1464,6 +1476,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: "ajouter-archivage/:id",
+        name: "AddArchivagePage",
+        component: AddArchivagePage,
+        meta: {
+          title: 'Archiver une demande',
+        }
+      },
+      {
         path: "liste-demande-permission",
         name: "ListeDemandePermissionPage",
         component: ListeDemandePermissionPage,
@@ -1976,6 +1996,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: "ajouter-circuitdemande",
+        name: "AddCircuitDemandePage",
+        component: AddCircuitDemandePage,
+        meta: {
+          title: 'Ajouter un circuit de demande',
+        }
+      },
+      {
         path: "modifier-circuit/:id",
         name: "EditCircuitPage",
         component: EditCircuitPage,
@@ -1989,6 +2017,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeCircuitPage,
         meta: {
           title: 'Liste des circuits',
+        }
+      },
+      {
+        path: "liste-circuits-demandes",
+        name: "ListeCircuitDemandePage",
+        component: ListeCircuitDemandePage,
+        meta: {
+          title: 'Liste des circuits de demande',
         }
       },
     ]

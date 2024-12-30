@@ -3,19 +3,19 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <Form ref="planificationReparationForm" @submit="addPlanificationReparation" :validation-schema="planificationReparationSchema">
               <div class="row">
-              <div class="col-md-4 mt-3">
+              <div class="col-md-6 mt-3">
                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
                     <Field name="reference" class="form-control" type="text"/>
                     <ErrorMessage name="reference" class="text-danger" />
             </div>
 
-            <div class="col-md-4 mt-3">
+            <div class="col-md-6 mt-3">
                     <label for="libelle" class="form-label">Libelle<span class="text-danger">*</span></label>
                     <Field name="libelle" class="form-control" type="text"/>
                     <ErrorMessage name="libelle" class="text-danger" />
             </div>
 
-            <div class="col-md-4 mt-3">
+            <!--<div class="col-md-4 mt-3">
                 <label class="d-block text-black mb-10">
                   Bien <span class="text-danger">*</span>
                 </label>
@@ -37,7 +37,7 @@
                   label="label" track-by="label" />
                 </Field>
                 <span class="text-danger" v-if="showMErr">La panne est obligatoire</span>
-            </div>
+            </div>-->
 
 
 
@@ -86,11 +86,11 @@
                     <ErrorMessage name="dateReparationPrevue" class="text-danger" />
             </div>
             
-           <div class="col-md-6 mt-3">
+          <!--<div class="col-md-6 mt-3">
                     <label for="dateReparationReel" class="form-label">Date Réparation Réelle<span class="text-danger">*</span></label>
                     <Field name="dateReparationReel" class="form-control" type="date"/>
                     <ErrorMessage name="dateReparationReel" class="text-danger" />
-            </div>
+            </div>--> 
            <!-- <div class="col-md-4 mt-3">
                     <label for="lieuReparation" class="form-label"> Lieu de réparation<span class="text-danger">*</span></label>
                     <Field name="lieuReparation"  class="form-control" type="text"/>
@@ -177,20 +177,20 @@
       const planificationReparationSchema = Yup.object().shape({
             reference: Yup.string().required("La référence est obligatoire."),
             libelle: Yup.string().required("Le libelle est obligatoire."),
-            dateReparationReel: Yup.string().required("La date est obligatoire."),
+          //  dateReparationReel: Yup.string().required("La date est obligatoire."),
             dateReparationPrevue: Yup.string().required("La date est obligatoire."),
-            description: Yup.string().required("La description est obligatoire."),
+           // description: Yup.string().required("La description est obligatoire."),
             //personnel: Yup.string().required("Le personnel est obligatoire."),
             panne: Yup.string().required("La panne est obligatoire."),
             bien: Yup.string().required("Le bien est obligatoire."),
 
-            montantReelDepense:Yup.number().required("Le montant est obligatoire."),
+           // montantReelDepense:Yup.number().required("Le montant est obligatoire."),
             budgetAlloue:Yup.number().required("Le budget est obligatoire."),
-            lieuReparation:Yup.string().required("Le lieu est obligatoire."),
+          //  lieuReparation:Yup.string().required("Le lieu est obligatoire."),
       });
   
       onMounted(() => {
-        getAllPannes();
+       // getAllPannes();
         getAllBiens();
       });
   
@@ -198,11 +198,12 @@
       const showMErr = ref(false);
       const personnels = ref();
       const pannes = ref();
+      const panne = ref();
       const personnelOptions = ref();
       const panneOptions = ref([]);
 
       const biens = ref();
-      const bienOptions = ref([]);
+      const biensOptions = ref([]);
       
       //const permissions = ref(null);
       const typeOptions = ref([]);
@@ -228,8 +229,8 @@
             if (donnee.length > 0) {
               panneOptions.value = donnee.map((panne: any) => {
                 return {
-                  label: panne.libelle,
                   value: panne.id,
+                  label: panne.libelle,
                 };
               });
             }
@@ -258,7 +259,7 @@
       };
   
   
-        const getAllPannes= async () => {
+      /*const getAllPannes= async () => {
           try{
           const response = await ApiService.get('/all/pannes');
           const pannesData = response.data.data.data;
@@ -271,14 +272,14 @@
           catch(error){
             //error(response.data.message)
           }
-        } 
+        } */
 
         const getAllBiens= async () => {
           try{
           const response = await ApiService.get('/all/biens');
           const biensData = response.data.data.data;
           console.log("bien", biensData);
-          bienOptions.value = biensData.map((bien) => ({
+          biensOptions.value = biensData.map((bien) => ({
             value: bien.id,
             label: bien.nomBien,
           }));
@@ -291,8 +292,8 @@
      
   
       return { planificationReparationSchema,  bienChange,
-        selectedPanne,
-        addPlanificationReparation, planificationReparationForm,panneOptions,bienOptions,showMErr,categorieOptions,personnels,pannes,biens,personnelOptions};
+        selectedPanne,panne,
+        addPlanificationReparation, planificationReparationForm,panneOptions,biensOptions,showMErr,categorieOptions,personnels,pannes,biens,personnelOptions};
     },
   });
   </script>
