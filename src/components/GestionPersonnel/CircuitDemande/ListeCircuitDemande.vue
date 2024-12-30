@@ -4,20 +4,16 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <router-link
-         class="btn btn-primary"
-          to="/circuits/ajouter-circuitdemande"
+        <a 
+          class="btn btn-primary"
+          href="#"
+          data-bs-toggle="modal"
+          data-bs-target="#AddCircuitDemandeModal"
         >
         <i class="fa fa-plus-circle"></i>
-          Ajouter un  circuit de demande
-        </router-link>
-        <!-- <button
-          class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
-          type="button"
-        >
-          Exporter
-          <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
-        </button> -->
+          <!-- <i class="fa fa-plus-circle"></i> -->
+          Ajouter une catégorie de demande
+        </a>
       </div>
       <div class="d-flex align-items-center">
         <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
@@ -26,7 +22,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black"
-            placeholder="Rechercher une circuit"
+            placeholder="Rechercher une catégorie"
           />
           <button
             type="submit"
@@ -35,20 +31,14 @@
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
-        <!-- <button
-          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
-          type="button"
-        >
-          <i class="flaticon-dots"></i>
-        </button> -->
+        
       </div>
     </div>
     <div class="card-body p-15 p-sm-20 p-md-25">
       <div class="table-responsive">
-        <table  class="table text-nowrap align-middle mb-0">
+        <table class="table text-nowrap align-middle mb-0">
           <thead>
             <tr>
-              
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Catégorie Demande
               </th>
@@ -64,86 +54,81 @@
               >
                 Statut
               </th>
-              
-              
+           
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
               >Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr  v-for ="(circuitDemande, index) in circuitDemandes" :key="index">
-             
-                
-                <td class="shadow-none lh-1 fw-medium ">{{circuitDemande.categorie?.libelle}} </td>
+            <tr v-for="(circuitDemande, index) in circuitDemandes" :key="index">
+              <td class="shadow-none lh-1 fw-medium ">{{circuitDemande.categorie?.libelle}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ circuitDemande.circuit?.nom}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ circuitDemande.statut}} </td>
-                <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
-                  <div class="dropdown">
-                    <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-
-                      <ul class="dropdown-menu">
-                        
-                       <!-- <li class="dropdown-item d-flex align-items-center">
-                          <router-link
-                            
-                            :to="{ name: 'ViewCircuitDemande',params: { id: circuit.id } }"
-                          >
-                            <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
-                            Détails
-                          </router-link>
-                        </li>-->
-                        
-                        <li  class="dropdown-item d-flex align-items-center">
-                          <a
-                           
-                            href="javascript:void(0);"
-                            @click="suppression(circuitDemande.id, circuitDemandes, 'circuitDemandes', 'un circuit de demande')"
-                          >
-                            <i
-                              class="fa fa-trash-o lh-1 me-8 position-relative top-1"
-                            ></i>
-                            Supprimer
-                          </a>
-                        </li>
-                            </ul>
-                        </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+              <td
+                class="shadow-none lh-1 fw-medium text-black pe-0"
+              >
+              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+              <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                <li class="dropdown-item d-flex align-items-center">
+                  <a  href="javascript:void(0);" @click="moddifier(circuitDemande)">
+                  <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
+                  </a>
+                </li>
+                <li class="dropdown-item d-flex align-items-center">
+                  <a href="javascript:void(0);"
+                      @click="suppression(circuitDemande.id,circuitDemandes,'circuitDemandes',`le  circuit de demande ${circuitDemande.nom}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                       Supprimer
+                  </a>
+                </li>
+              </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div
-        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
-      >
-       <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
+        class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
+        <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
       </div>
     </div>
   </div>
+  <AddCircuitDemandeModal
+    @get-all-circuitDemandes="getAllCircuitDemandes"
+    :id="idcircuitDemande"
+    @openmodal="showModalEdite"
+    @close="recharger"
+    @refreshCircuitDemandes="refreshCircuitDemandes"
+  />
 </template>
-
 <script lang="ts">
-import { defineComponent, onMounted, ref} from "vue";
+import { defineComponent, onMounted, ref  } from "vue";
+import AddCircuitDemandeModal from "./AddCircuitDemandeModal.vue";
 import ApiService from "@/services/ApiService";
+import { format_date, showModal, suppression, error, } from "@/utils/utils";
+import { useRouter } from "vue-router";
 import { CircuitDemande } from "@/models/CircuitDemande";
-import { format_date, suppression, error, } from "@/utils/utils";
-
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
   name: "ListeCircuitDemande",
   components: {
+    AddCircuitDemandeModal,
     PaginationComponent
   },
-  setup(){
+  setup: () => {
+
     onMounted(() => {
       getAllCircuitDemandes();
     });
 
     const circuitDemandes = ref<Array<CircuitDemande>>([]);
-    const circuitDemande = ref<CircuitDemande>();
+    const idcircuitDemande = ref(0);
+    // const circuitDemande = ref<CircuitDemande>();
+    const loading = ref<boolean>(false);
+    const router = useRouter();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -152,7 +137,7 @@ export default defineComponent({
     const limit = ref(10);
     const totalElements = ref(0);
 
-    const handlePaginate = ({ page_, limit_ }) => {
+    const handlePaginate = ({ page_, limit_ }: { page_: number, limit_: number }) => {
       try {
         page.value = page_;
         getAllCircuitDemandes(page_, limit_);
@@ -165,13 +150,23 @@ export default defineComponent({
       getAllCircuitDemandes(page.value, limit.value, searchTerm.value );
     }
 
-
+    const recharger = () => {
+      getAllCircuitDemandes();
+    };
     // END PAGINATE
 
+    onMounted(() => {
+      loading.value=false;
+      getAllCircuitDemandes()
+    });
+
+    const refreshCircuitDemandes = () => {
+        getAllCircuitDemandes();
+    };
+
     function getAllCircuitDemandes(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/circuitDemandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/circuitDemandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          console.log(data,'data');
           circuitDemandes.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
@@ -182,26 +177,42 @@ export default defineComponent({
           error(response.data.message)
       });
     }
+    
+    function moddifier(EditcircuitDemande:CircuitDemande) {
+      idcircuitDemande.value = EditcircuitDemande.id;
+    }
+
+    function showModalEdite(model:any){
+      showModal(model);
+      idcircuitDemande.value=0;
+    }
 
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
-const checkPermission = (name) => {
-  return privileges.value.includes(name);
-}
+    const checkCircuitDemande = (name:string) => {
+      return privileges.value.includes(name);
+    }
 
-    return {circuitDemandes,
-      checkPermission,
+    return {suppression,
+      checkCircuitDemande,
+     circuitDemandes,
       format_date,
-      suppression,
-      circuitDemande,
+      getAllCircuitDemandes,
+      idcircuitDemande,
+      moddifier,
+      showModalEdite,
       page, 
       totalPages,
       limit,
       totalElements,
       handlePaginate,
       searchTerm,
-      rechercher
-    };
+      rechercher,
+      recharger,
+      refreshCircuitDemandes,
+     };
   },
+
+ 
 });
-</script> , corrige moi ce code pour que je puisse récupérer les valeurs des champs sur Ajouter CircuitDemande
+</script>

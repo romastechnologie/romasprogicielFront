@@ -286,7 +286,7 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
-import AddCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/AddCircuitDemandePage.vue";
+//import AddCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/AddCircuitDemandePage.vue";
 import ListeCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/ListeCircuitDemandePage.vue";
 //import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
 //import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
@@ -1995,14 +1995,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Ajouter un circuit',
         }
       },
-      {
+      /*{
         path: "ajouter-circuitdemande",
         name: "AddCircuitDemandePage",
         component: AddCircuitDemandePage,
         meta: {
           title: 'Ajouter un circuit de demande',
         }
-      },
+      },*/
       {
         path: "modifier-circuit/:id",
         name: "EditCircuitPage",
