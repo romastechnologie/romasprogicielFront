@@ -54,6 +54,9 @@ import EditPresencePage from '@/pages/GestionPersonnel/Presences/EditPresencePag
 import AddTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/AddTresoreriePage.vue';
 import ListeTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/ListeTresoreriePage.vue';
 import EditTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/EditTresoreriePage.vue';
+import AddPointtresoreriePage from '@/pages/GestionTresorerie/Pointtresorerie/AddPointtresoreriePage.vue';
+import ListePointtresoreriePage from '@/pages/GestionTresorerie/Pointtresorerie/ListePointtresoreriePage.vue';
+import EditPointtresoreriePage from '@/pages/GestionTresorerie/Pointtresorerie/EditPointtresoreriePage.vue';
 import ListeTypeTresoreriePage from '@/pages/GestionTresorerie/TypeTresorerie/ListeTypeTresoreriePage.vue';
 import AddTransfertPage from '@/pages/GestionTresorerie/Transfert/AddTransfertPage.vue';
 import ListeTransfertPage from '@/pages/GestionTresorerie/Transfert/ListeTransfertPage.vue';
@@ -68,14 +71,12 @@ import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/Liste
 import EditOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/EditOuvFerPage.vue';
 import ListeMonnaiePage from '@/pages/GestionTresorerie/Monnaie/ListeMonnaiePage.vue';
 import ListeUserComptePage from '@/pages/GestionTresorerie/UserCompte/ListeUserComptePage.vue';
+import ListeUserTresoreriePage from '@/pages/GestionTresorerie/UserTresorerie/ListeUserTresoreriePage.vue';
 import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
 import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
 import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
-//import AddFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue";
-// import EditFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue";
-//import ListeFournisseurPage from "@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue";
 import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
 import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
 import ListeMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue";
@@ -85,7 +86,6 @@ import ListeAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/
 import ListeCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/ListeCategorieBienPage.vue";
 import ListeTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue";
 import TableauAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/TableauAmortissementPage.vue";
-//Gescom
 import ListeFamillePage from "@/pages/GesCom/Familles/ListeFamillePage.vue";
 import AddMediaPage from "@/pages/GesCom/Medias/AddMediaPage.vue";
 import EditMediaPage from "@/pages/GesCom/Medias/EditMediaPage.vue";
@@ -108,9 +108,6 @@ import AddProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/AddProd
 import EditProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/EditProduitConditionnePage.vue";
 import ListeProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/ListeProduitConditionnePage.vue";
 import ListeMagasinPage from "@/pages/GesCom/Magasin/ListeMagasinPage.vue";
-// import AddTransfertPage from "@/pages/GesCom/Transfert/AddTransfertPage.vue";
-// import EditTransfertPage from "@/pages/GesCom/Transfert/EditTransfertPage.vue";
-// import ListeTransfertPage from "@/pages/GesCom/Transfert/ListeTransfertPage.vue";
 import AddInventairePage from "@/pages/GesCom/Inventaire/AddInventairePage.vue";
 import ListeInventairePage from "@/pages/GesCom/Inventaire/ListeInventairePage.vue";
 import ListeAdresseLivraisonPage from "@/pages/GesCom/AdresseLivraison/ListeAdresseLivraisonPage.vue";
@@ -218,7 +215,9 @@ import ListeEntretienPage from '@/pages/GestionPack/Entretien/ListeEntretienPage
 import AddEntretienPage from '@/pages/GestionPack/Entretien/AddEntretienPage.vue';
 import EditEntretienPage from '@/pages/GestionPack/Entretien/EditEntretienPage.vue';
 import AddPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage.vue';
+import AddPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage2.vue';
 import EditPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage.vue';
+import EditPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage2.vue';
 import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/ListePlanificationReparationPage.vue';
 // Gestion Depenses
 import AddDepensesPage from '@/components/GestionDepenses/Depenses/AddDepenses.vue';
@@ -241,7 +240,6 @@ import AddDocumentPage from "@/pages/GestionArchive/Document/AddDocumentPage.vue
 import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage.vue";
 import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue";
 import ViewDocumentPage from "@/pages/GestionArchive/Document/ViewDocumentPage.vue";
-import FilterDocumentPage from "@/pages/GestionArchive/Document/FilterDocumentPage.vue";
 //gestion des zones
 import ListeQuartierPage from "@/pages/Quartier/ListeQuartierPage.vue";
 import ListeArrondissementPage from "@/pages/Arrondissement/ListeArrondissementPage.vue";
@@ -255,11 +253,11 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
-import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
-import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
-import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
+//import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
+//import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
+//import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
 import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUserEtapes.vue";
-import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
+//import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
 import ListeRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/ListeRoleEtapPage.vue";
 //import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
 //import EditRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/EditRoleEtapPage.vue";
@@ -715,13 +713,29 @@ const routes = [
                 name: "AddPlanificationReparationPage",
                 component: AddPlanificationReparationPage,
                 meta: {
-                    title: 'Ajouter une planification de réparation',
+                    title: 'planification entretien',
+                }
+            },
+            {
+                path: "ajouter-planificationReparation2",
+                name: "AddPlanificationReparationPage2",
+                component: AddPlanificationReparationPage2,
+                meta: {
+                    title: 'planification bien ',
                 }
             },
             {
                 path: "editer-planificationReparation/:id",
                 name: "EditPlanificationReparationPage",
                 component: EditPlanificationReparationPage,
+                meta: {
+                    title: 'Editer une planification de réparation',
+                }
+            },
+            {
+                path: "editer-planificationReparation2/:id",
+                name: "EditPlanificationReparationPage2",
+                component: EditPlanificationReparationPage2,
                 meta: {
                     title: 'Editer une planification de réparation',
                 }
@@ -878,14 +892,14 @@ const routes = [
                     title: 'Ajouter un document',
                 }
             },
-            //  {
-            //   path: "editer-document/:id",
-            //     name: "EditDocumentPage",
-            //     component: EditDocumentPage,
-            //     meta: {
-            //       title: 'Modifier un document',
-            //    }
-            //   },
+            {
+                path: "editer-document/:id",
+                name: "EditDocumentPage",
+                component: EditDocumentPage,
+                meta: {
+                    title: 'Modifier un document',
+                }
+            },
             {
                 path: "liste-document",
                 name: "ListeDocumentPage",
@@ -894,14 +908,14 @@ const routes = [
                     title: 'Liste des documents',
                 }
             },
-            {
-                path: "edit-document",
-                name: "EditDocumentPage",
-                component: EditDocumentPage,
-                meta: {
-                    title: 'Editer des documents',
-                }
-            },
+            // {
+            //   path: "edit-document",
+            //   name: "EditDocumentPage",
+            //   component: EditDocumentPage,
+            //   meta: {
+            //     title: 'Editer des documents',
+            //   }
+            // },
             {
                 path: "view-document/:id",
                 name: "ViewDocument",
@@ -910,14 +924,6 @@ const routes = [
                     title: 'Détails d\'un document',
                 }
             },
-            {
-                path: "filter-document/:id",
-                name: "FilterDocument",
-                component: FilterDocumentPage,
-                meta: {
-                    title: 'Filtrer d\'un document',
-                }
-            }
         ]
     },
     {
@@ -1425,7 +1431,7 @@ const routes = [
                 }
             },
             {
-                path: "view-demande",
+                path: "view-demande/:id",
                 name: "ViewDemandePage",
                 component: ViewDemandePage,
                 meta: {
@@ -1499,16 +1505,14 @@ const routes = [
                 meta: {
                     title: 'Liste des personnels',
                 },
-                children: [
-                    {
-                        path: ':id',
-                        name: 'id',
-                        component: ViewPersonnellePage,
-                        meta: {
-                            title: 'Details du personnel',
-                        }
-                    }
-                ]
+            },
+            {
+                path: "view-personnel/:id",
+                name: "ViewPersonnellePage",
+                component: ViewPersonnellePage,
+                meta: {
+                    title: 'Détail du personnel',
+                }
             },
             {
                 path: "edit-personnel/:id",
@@ -1546,6 +1550,36 @@ const routes = [
                 component: EditTresoreriePage,
                 meta: {
                     title: 'Modifier une tresorerie',
+                }
+            }
+        ]
+    },
+    {
+        path: "/pointtresoreries",
+        component: BodyView,
+        children: [
+            {
+                path: "ajouter-pointtresorerie",
+                name: "AddPointtresoreriePage",
+                component: AddPointtresoreriePage,
+                meta: {
+                    title: 'Ajouter un point tresorerie',
+                }
+            },
+            {
+                path: "liste-pointtresorerie",
+                name: "ListePointtresoreriePage",
+                component: ListePointtresoreriePage,
+                meta: {
+                    title: 'Liste des pointtresoreries',
+                },
+            },
+            {
+                path: "edit-pointtresorerie/:id",
+                name: "EditPointtresoreriePage",
+                component: EditPointtresoreriePage,
+                meta: {
+                    title: 'Modifier un point tresorerie',
                 }
             }
         ]
@@ -1686,6 +1720,20 @@ const routes = [
                 component: ListeUserComptePage,
                 meta: {
                     title: 'Liste des compte de trésorerie',
+                }
+            },
+        ]
+    },
+    {
+        path: "/userTresoreries",
+        component: BodyView,
+        children: [
+            {
+                path: "liste-userTresorerie",
+                name: "ListeUserTresoreriePage",
+                component: ListeUserTresoreriePage,
+                meta: {
+                    title: 'Liste des utilisateurs trésorerie',
                 }
             },
         ]
@@ -1865,44 +1913,44 @@ const routes = [
             },
         ]
     },
-    {
-        path: "/etapeValidations",
-        component: BodyView,
-        children: [
-            {
-                path: "ajouter-etapeValidations",
-                name: "AddEtapeValidationPage",
-                component: AddEtapeValidationPage,
-                meta: {
-                    title: 'Ajouter une Etape Validation',
-                }
-            },
-            {
-                path: "modifier-etapeValidation/:id",
-                name: "EditEtapeValidationPage",
-                component: EditEtapeValidationPage,
-                meta: {
-                    title: 'Modifier une Etape Validation',
-                }
-            },
-            {
-                path: "liste-etapeValidations",
-                name: "ListeEtapeValidationPage",
-                component: ListeEtapeValidationPage,
-                meta: {
-                    title: 'Liste des etapes de Validations',
-                }
-            },
-            {
-                path: "view-etapeValidations/:id",
-                name: "ViewEtapeValidationPage",
-                component: ViewEtapeValidationPage,
-                meta: {
-                    title: 'Détails Etape Validation',
-                }
-            }
-        ]
-    },
+    /*{
+      path: "/etapeValidations",
+      component: BodyView,
+      children: [
+        {
+          path: "ajouter-etapeValidations",
+          name: "AddEtapeValidationPage",
+          component: AddEtapeValidationPage,
+          meta: {
+            title: 'Ajouter une Etape Validation',
+          }
+        },
+        {
+          path: "modifier-etapeValidation/:id",
+          name: "EditEtapeValidationPage",
+          component: EditEtapeValidationPage,
+          meta: {
+            title: 'Modifier une Etape Validation',
+          }
+        },
+        {
+          path: "liste-etapeValidations",
+          name: "ListeEtapeValidationPage",
+          component: ListeEtapeValidationPage,
+          meta: {
+            title: 'Liste des etapes de Validations',
+          }
+        },
+        {
+          path: "view-etapeValidations/:id",
+          name: "ViewEtapeValidationPage",
+          component: ViewEtapeValidationPage,
+          meta: {
+            title: 'Détails Etape Validation',
+          }
+        }
+      ]
+    },*/
     {
         path: "/userEtapes",
         component: BodyView,
@@ -2493,14 +2541,14 @@ const routes = [
                     title: 'Modifier un personnel',
                 }
             },
-            {
-                path: "view-personnel/:id",
-                name: "ViewPersonnel",
-                component: ViewPersonnellePage,
-                meta: {
-                    title: 'Détails du personnel',
-                }
-            },
+            /*{
+              path: "view-personnel/:id",
+              name: "ViewPersonnel",
+              component: ViewPersonnellePage,
+              meta: {
+                title: 'Détails du personnel',
+              }
+            },*/
             {
                 path: "liste-personnels",
                 name: "ListePersonnel",
