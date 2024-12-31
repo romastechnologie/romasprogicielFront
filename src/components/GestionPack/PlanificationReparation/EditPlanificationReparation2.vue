@@ -88,9 +88,9 @@ export default defineComponent({
     onMounted(() => {
       getAllPannes();
       getAllBiens();
-      if(route.params.id) {
+      /*if(route.params.id) {
         getPlanificationReparation(parseInt(route.params.id as string));
-      }
+      }*/
     });
 
     const showMErr = ref(false);
@@ -110,7 +110,7 @@ export default defineComponent({
     const planificationReparationForm  = ref<PlanificationReparation>();
     const route = useRoute();
  
-    function getPlanificationReparation(id: number) {
+    /*function getPlanificationReparation(id: number) {
   ApiService.get(`/planificationReparations/${id.toString()}`)
     .then(({ data }) => {
       console.log("donnée", data);
@@ -144,7 +144,7 @@ const editPlanificationReparation = async (values, { resetForm }) => {
   } catch (error) {
     error(error.response?.data?.message || "Une erreur est survenue.");
   }
-};
+};*/
 
       const getAllPannes= async () => {
         try{
@@ -178,7 +178,7 @@ const editPlanificationReparation = async (values, { resetForm }) => {
   
    
 
-    return { planificationReparationSchema, editPlanificationReparation, planificationReparationForm,panneOptions,bienOptions,showMErr,categorieOptions,personnels,pannes,biens,personnelOptions};
+    return { planificationReparationSchema, planificationReparationForm,panneOptions,bienOptions,showMErr,categorieOptions,personnels,pannes,biens,personnelOptions};
   },
 });
 </script>

@@ -1750,6 +1750,11 @@ export const menu: MenuItem[] = [
                 title: "Liste des circuits",
                 type: "link"
             },
+            {
+                path: "/circuits/liste-circuits-demandes",
+                title: "Liste des circuits de demandes",
+                type: "link"
+            },
         ]
     },
     /*{

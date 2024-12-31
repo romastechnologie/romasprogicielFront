@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { v4 as uuidv4 } from 'uuid';
-
+import CryptoJS from "crypto-js";
 
 const generateUuid = ()=> {
   return uuidv4(); // Générer un UUID v4
@@ -23,6 +23,24 @@ const getDatePlusXDays = (x: number) => {
   const formattedDate = `${year}-${month}-${day}`;
 
   return formattedDate;
+}
+
+
+const cleSecrete = "=_,rine5mw3l*:b87qzpn8lfiuc2~5xe;9268g+3z@jre)w.x6A%67hu^-?$BKmPM32s7[";
+export function cryptage(lemot = "") {
+  let motCrypter = "";
+  let i = 0;
+  do {
+    motCrypter = CryptoJS.AES.encrypt((lemot).toString(), cleSecrete).toString();
+    console.log(" Etape "+ i++, "  ===> ", motCrypter);
+  } while (motCrypter.includes('/')); // Vérifier s'il contient "/"
+
+  return motCrypter;
+}
+
+export function decryptage(lemot = "") {
+  const bytes = CryptoJS.AES.decrypt(lemot, cleSecrete);
+  return bytes.toString(CryptoJS.enc.Utf8);
 }
 
 const hideModal = (modalEl: HTMLElement | null): void => {
@@ -46,6 +64,7 @@ const ajouterPeriode = (dateStr, x, frequence) => {
   switch (frequence.toLowerCase()) {
     case "jour":
     case "jours":
+    case "jour(s)":
       date.setDate(date.getDate() + x);
       break;
     case "mois":
@@ -59,6 +78,7 @@ const ajouterPeriode = (dateStr, x, frequence) => {
       break;
     case "semaine":
     case "semaines":
+    case "week":
       date.setDate(date.getDate() + (x * 7));
       break;
     default:
@@ -105,6 +125,17 @@ const success = (message: string, temps: number = 5000) => {
     title: 'Succès',
     text: message,
     icon: "success",
+    toast: true,
+    timer: temps,
+    position: 'top-right',
+    showConfirmButton: false,
+  });
+}
+const warning = (message: string, temps: number = 5000) => {
+  Swal.fire({
+    title: 'Attention',
+    text: message,
+    icon: "warning",
     toast: true,
     timer: temps,
     position: 'top-right',
@@ -239,5 +270,5 @@ const suppression = (id: number, element: any, route: string, entite: string) =>
   });
 };
 export {
-  getDatePlusXDays,generateUuid,calculerDuree,getUrlApiForProductFiles, ajouterPeriode, onFileChange, removeModalBackdrop, suppression, separateur, hideModal, getAssetPath, format_Date, showModal, format_date, success, error, getUrlApiForFiles,
+  getDatePlusXDays,generateUuid,calculerDuree,warning, ajouterPeriode, onFileChange, removeModalBackdrop, suppression, separateur, hideModal, getAssetPath, format_Date, showModal, format_date, success, error, getUrlApiForFiles,
 };

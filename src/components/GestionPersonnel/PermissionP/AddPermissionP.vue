@@ -99,7 +99,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
 import { PermissionP } from '@/models/PermissionP';
-import { error, success,ajouterPeriode } from '@/utils/utils';
+import { error, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import axios from 'axios';

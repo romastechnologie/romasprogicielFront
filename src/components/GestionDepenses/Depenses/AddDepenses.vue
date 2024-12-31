@@ -260,7 +260,7 @@ export default defineComponent({
     const router = useRouter();
 
     
-    const addDepenses = async (values: any, { resetForm }: any) => {
+  const addDepenses = async (values: any, { resetForm }: any) => {
 
   console.log("Données préparées pour l'envoi :", values); 
   try {
