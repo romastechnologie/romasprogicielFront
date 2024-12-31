@@ -9,10 +9,10 @@
     import ViewPersonnel from "@/components/GesCom/Personnel/ViewPersonnel.vue";
 
     export default defineComponent({
-      name: "ViewPersonnelPage",
-      components: {
-        
+      name: "ViewPersonnellePage",
+      components: {        
         ViewPersonnel,
       },
     });
   </script>
+

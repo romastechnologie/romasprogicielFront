@@ -11,13 +11,6 @@
           <i class="fa fa-plus-circle"></i>
           Ajouter un personnel
         </router-link>
-        <!-- <button
-          class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
-          type="button"
-        >
-          Exporter
-          <i class="flaticon-file-1 position-relative ms-5 top-2 fs-15"></i>
-        </button> -->
       </div>
       <div class="d-flex align-items-center">
        <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
@@ -35,12 +28,6 @@
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
-        <!-- <button
-          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
-          type="button"
-        >
-          <i class="flaticon-dots"></i>
-        </button> -->
       </div>
     </div>
     <div class="card-body p-15 p-sm-20 p-md-25">
@@ -91,7 +78,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(personnel, index) in personnels" :key="index">
+            <tr v-for="(personnel, index) in personnels" :key="index">    
+       
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ personnel.nom }}
               </td>
@@ -116,15 +104,21 @@
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                   <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                     <li class="dropdown-item d-flex align-items-center">
-                      <!--<router-link :to="{ name: 'EditPersonnelPage', params: { id: personnel.id } }" 
+                     <router-link :to="{ name: 'EditPersonnellePage', params: { id: personnel.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>Modifier</router-link>-->
+                        ></i>Modifier</router-link>
                     </li>
                     <li class="dropdown-item d-flex align-items-center">
-                        <!--<router-link :to="{ name: 'ViewPersonnelPage', params: { id: personnel.id } }" class="dropdown-item d-flex align-items-center">
+        <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(personnel.id)">
+          <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
+         Affecter
+        </a>
+      </li>
+                    <li class="dropdown-item d-flex align-items-center">
+                        <router-link :to="{ name: 'ViewPersonnellePage', params: { id: personnel.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
-                        </router-link>-->
+                        </router-link>
                     </li>
                     <li class="dropdown-item d-flex align-items-center">
                       <a
@@ -139,6 +133,65 @@
           </tbody>
         </table>
       </div>
+
+      <div class="modal fade" id="create-task" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Voulez-vous affecter le service a ce personnel?</h6>
+        <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4">
+        <Form
+          ref="personnelsForm"
+          @submit="addPersonnels"
+          :validation-schema="personnelsSchema"
+        >
+          <div class="row gy-2">
+            <div class="col-md-4-3">
+              <label class="d-block text-black mb-10">
+                                  Service  <span class="text-danger">*</span>
+                                </label>
+                                <Field
+                                  name="service"
+                                  type="text"
+                                  v-slot="{ field }"
+                                >
+                                  <Multiselect
+                                    v-model="field.value"
+                                    v-bind="field"
+                                    :options="serviceOptions"
+                                    :preserve-search="true"
+                                    :multiple="false"
+                                    :searchable="true"
+                                    placeholder="Sélectionner le service"
+                                    label="label"
+                                    track-by="label"
+                                  />
+                                </Field>
+              <ErrorMessage name="service" class="text-danger" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Valider</button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              aria-label="Close"
+            >
+              Annuler
+            </button>
+          </div>
+        </Form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
       <div
         class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
       >
@@ -151,27 +204,38 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import { Personnel } from "@/models/Personnel";
 import ApiService from "@/services/ApiService";
-import { suppression, error } from "@/utils/utils";
+import { format_date, showModal, hideModal, suppression, error,success  } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
+import * as Yup from 'yup';
+import Multiselect from "@vueform/multiselect";
 
 export default defineComponent({
   name: "ListePersonnel",
   components: {
-    PaginationComponent
+    PaginationComponent,
+    Field,
+    Multiselect,
+
+
+
   },
   setup(){
     
     onMounted(() => {
       getAllPersonnels();
+      getAllServices();
     });
-
+    const personnelsSchema = Yup.object().shape({
+      service: Yup.string().required("service est obligatoire"),
+    });
+    const personnelsForm = ref(null);
+    const serviceOptions = ref([]);
     const personnels = ref<Array<Personnel>>([]);   
     const personnel = ref<Personnel>();
-
-    // BEGIN PAGINATE
     const searchTerm = ref('');
     const page = ref(1);
     const totalPages = ref(0);
@@ -187,11 +251,54 @@ export default defineComponent({
       }
     };
 
+    const addPersonnels = async (values, { resetForm }) => {
+  values["id"] = personnelii.value;
+  ApiService.put("/personnels/" + values.id, values)
+    .then(({ data }) => {
+      console.log('personnel', data);
+      if (data.code === 200) {
+        success(data.message);
+        resetForm();
+        getAllPersonnels();
+        triggerButtonClick("000close-modal");
+        
+      }
+    })
+    .catch(({ response }) => {
+      error(response.data.message);
+    });
+};
+
+
+const getAllServices = async () => {
+      try {
+        const response = await ApiService.get(
+          "/all/recupererToutesOrganisationSansFilsAvecParent"
+        );
+        console.log("rfrrf ===> ", response);
+        const servicesData = response.data.data;
+        console.log("465484635418416541 ===> ", servicesData);
+
+        serviceOptions.value = servicesData.map((service) => ({
+          value: service.id,
+          label: service.nom,
+        }));
+
+        console.log("RYYYYY ==> ", serviceOptions);
+      } catch (error) {
+        console.log("RYYYYY5252 ==> ", error);
+       
+      }
+    };
+    const personnelii = ref();
+    const openModal = (id: number) => {
+      personnelii.value = id;
+    };
+
      function rechercher(){
       getAllPersonnels(page.value, limit.value, searchTerm.value );
     }
 
-    // END PAGINATE
 
     function getAllPersonnels(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`all/personnels?page=${page}&limit=${limi}&mot=${searchTerm}&`)
@@ -248,15 +355,24 @@ export default defineComponent({
       }
     };
 
+    function triggerButtonClick(buttonId: string) {
+  const button = document.getElementById(buttonId) as HTMLButtonElement;
+  if (button) {
+    button.click(); // Simule un clic
+  } else {
+    console.error(`Button with ID "${buttonId}" not found.`);
+  }
+}
+
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
     const checkPermission = (name) => {
       return privileges.value.includes(name);
     }
-
     return { personnels,
       checkPermission,
      getAllPersonnels,
+     getAllServices,
      deletePersonnel,
      moddifier ,
      suppression,
@@ -266,7 +382,15 @@ export default defineComponent({
     totalElements,
     handlePaginate,
     rechercher,
-    searchTerm
+    searchTerm,
+    triggerButtonClick,
+    personnelsSchema,
+    personnelsForm,
+    addPersonnels,
+    openModal,
+    serviceOptions,
+
+
   };
   },
 });

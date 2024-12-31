@@ -114,33 +114,27 @@ export default defineComponent({
     onMounted(() => {
       getAllAttributions();
     });
-
     const Attributions = ref<Array<Attribution>>([]);
     const idattribution = ref(0);
     const attribution = ref<Attribution>();
-
-
     // BEGIN PAGINATE
     const searchTerm = ref('');
     const page = ref(1);
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
-
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
         getAllAttributions(page_, limit_);
       } catch (error) {
         //
-
       }
     };
     function rechercher() {
       getAllAttributions(page.value, limit.value, searchTerm.value);
     }
     // END PAGINATE
-
     function getAllAttributions(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`all/attributions?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       //return ApiService.get('/services')
@@ -154,27 +148,20 @@ export default defineComponent({
           error(response.data.message)
         });
     }
-
     // function moddifier(obj:Service) {
     //   idservice.value = obj.id;
     // }
-
     function moddifier(EditAttribution: Attribution) {
       idattribution.value = EditAttribution.id;
     }
-
     function showModalEdite(el) {
       showModal(el);
       idattribution.value = 0;
     }
-
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
-
     const checkPermission = (name) => {
       return privileges.value.includes(name);
     }
-
-
     return {
       suppression,
       checkPermission,
@@ -194,7 +181,5 @@ export default defineComponent({
       rechercher
     };
   },
-
-
 });
 </script>

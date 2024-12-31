@@ -10,9 +10,7 @@
           data-bs-toggle="modal"
           data-bs-target="#AddCircuitDemandeModal"
         >
-        <i class="fa fa-plus-circle"></i>
-          <!-- <i class="fa fa-plus-circle"></i> -->
-          Ajouter une catégorie de demande
+          <i class="fa fa-plus-circle"></i> Ajouter une catégorie de demande
         </a>
       </div>
       <div class="d-flex align-items-center">
@@ -31,7 +29,6 @@
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
-        
       </div>
     </div>
     <div class="card-body p-15 p-sm-20 p-md-25">
@@ -54,7 +51,6 @@
               >
                 Statut
               </th>
-           
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
@@ -64,25 +60,35 @@
           <tbody>
             <tr v-for="(circuitDemande, index) in circuitDemandes" :key="index">
               <td class="shadow-none lh-1 fw-medium ">{{circuitDemande.categorie?.libelle}} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{ circuitDemande.circuit?.nom}} </td>
-                <td class="shadow-none lh-1 fw-medium ">{{ circuitDemande.statut}} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ circuitDemande.circuit?.nom}} </td>
+              <td class="shadow-none lh-1 fw-medium">
+                <span
+                  :class="{
+                    'badge': true,
+                    'bg-success': circuitDemande.statut === true,
+                    'bg-danger': circuitDemande.statut === false
+                  }"
+                >
+                  {{ circuitDemande.statut === true ? 'Actif' : 'Inactif' }}
+                </span>
+              </td>
               <td
                 class="shadow-none lh-1 fw-medium text-black pe-0"
               >
-              <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-              <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                <li class="dropdown-item d-flex align-items-center">
-                  <a  href="javascript:void(0);" @click="moddifier(circuitDemande)">
-                  <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
-                  </a>
-                </li>
-                <li class="dropdown-item d-flex align-items-center">
-                  <a href="javascript:void(0);"
-                      @click="suppression(circuitDemande.id,circuitDemandes,'circuitDemandes',`le  circuit de demande ${circuitDemande.nom}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
-                       Supprimer
-                  </a>
-                </li>
-              </ul>
+                <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
+                  <li class="dropdown-item d-flex align-items-center">
+                    <a href="javascript:void(0);" @click="moddifier(circuitDemande)">
+                      <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
+                    </a>
+                  </li>
+                  <li class="dropdown-item d-flex align-items-center">
+                    <a href="javascript:void(0);"
+                        @click="suppression(circuitDemande.id,circuitDemandes,'circuitDemandes',`le circuit de demande ${circuitDemande.nom}`)">  
+                        <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i> Supprimer
+                    </a>
+                  </li>
+                </ul>
               </td>
             </tr>
           </tbody>
@@ -102,6 +108,7 @@
     @refreshCircuitDemandes="refreshCircuitDemandes"
   />
 </template>
+
 <script lang="ts">
 import { defineComponent, onMounted, ref  } from "vue";
 import AddCircuitDemandeModal from "./AddCircuitDemandeModal.vue";
