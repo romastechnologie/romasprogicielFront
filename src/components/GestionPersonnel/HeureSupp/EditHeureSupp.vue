@@ -46,7 +46,7 @@ import { onMounted, ref } from 'vue';
   function schemaHeureSup() {
     return yup.object().shape({
       date: yup.string().required("La date est obligatoire."),
-      duree: yup.string().required("La durrée est obligatoire."),
+      duree: yup.number().typeError('Veuillez entrer des chiffres').required("La durrée est obligatoire."),
     })
   }
   

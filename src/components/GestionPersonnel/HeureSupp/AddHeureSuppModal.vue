@@ -92,7 +92,7 @@ export default defineComponent({
     const heureSuppSchema = Yup.object().shape({
       date: Yup.string().required('La date est obligatoire'),
       personnel: Yup.string().required("Le personnel est obligatoire."),
-      duree: Yup.number().required("La duree est obligatoire."),
+      duree: Yup.number().typeError('Veuillez entrer des chiffres').required("La duree est obligatoire."),
 
 
     });
