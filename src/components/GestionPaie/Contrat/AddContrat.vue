@@ -556,7 +556,7 @@
               style="background-color: #0a59a4"
             >
               <div class="col-md-3">
-                <h3 class="fs-4 text-white">Prime XX</h3>
+                <h3 class="fs-4 text-white">Prime</h3>
               </div>
               <!-- <div class="col-md-4">
                           <h3 class="fs-4 text-white">Montant total : {{ montantTotal }}</h3>
