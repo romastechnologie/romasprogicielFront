@@ -27,7 +27,7 @@
                             </Field>
                             <ErrorMessage name="modepaiement" class="text-danger" />
                         </div>
-                        <div class="mb-3">
+                       <!--<div class="mb-3">
                             <label for="nomBeneficiaire">Nom du Bénéficiaire</label>
                             <Field type="text" id="nomBeneficiaire" name="nomBeneficiaire" class="form-control"
                                 v-model="finance.nomBeneficiaire" />
@@ -51,7 +51,7 @@
                                 </Field>
                                 <ErrorMessage name="personnel" class="text-danger" />
                             </div>
-                        </div>
+                        </div>--> 
 
                      
                         <div class=" mb-3">
@@ -191,11 +191,11 @@ interface Billetage {
 
 const schema = Yup.object().shape({
     fichierfinance: Yup.mixed().required('Le fichier de la caisse est obligatoire'),
-    montant: Yup.number().required('Le montant est obligatoire'),
+    montant: Yup.number().min(1, 'Le montant ne peut pas être nul').required('Le montant est obligatoire'),
     modepaiement: Yup.string().required('Le mode de paiement est obligatoire'),
-    nomBeneficiaire: Yup.string().required('Le nom du bénéficiaire est obligatoire'),
-    prenomBeneficiaire: Yup.string().required('Le prénom du bénéficiaire est obligatoire'),
-    personnel: Yup.string().required('Le personnel est obligatoire'),
+   // nomBeneficiaire: Yup.string().required('Le nom du bénéficiaire est obligatoire'),
+   // prenomBeneficiaire: Yup.string().required('Le prénom du bénéficiaire est obligatoire'),
+    //personnel: Yup.string().required('Le personnel est obligatoire'),
     tresorerie: Yup.string().required('La trésorerie est obligatoire'),
     
 })

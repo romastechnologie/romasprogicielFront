@@ -130,9 +130,9 @@
                       <div class="col-md-4 mb-2">
                         <div class="form-group ">
                           <input v-model="echeance.dateEcheance" name="dateEcheance" type="date"
-                            class="form-control shadow-none fs-md-15 text-black" placeholder="saisir la dateEcheance" />
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="saisir la date de l'échéance" />
                           <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.dateEcheance)">
-                            La date Echeance est obligatoire.
+                            La date échéance est obligatoire.
                           </div>
                         </div>
                       </div>
@@ -307,8 +307,8 @@ import router from '@/router';
       motifDemande: Yup.string().required('Le motif est obligatoire'),
       montantPret: Yup.string().required('Le montant total est obligatoire'),
       //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
-      dateEcheance: Yup.date().required('La date de demande est obligatoire'),
-      montant: Yup.string().required('Le montant par échéance est obligatoire'),
+      //dateEcheance: Yup.date().required('La date  est obligatoire'),
+      //montant: Yup.string().required('Le montant par échéance est obligatoire'),
 
     });
     const defaultSchema = Yup.object().shape({

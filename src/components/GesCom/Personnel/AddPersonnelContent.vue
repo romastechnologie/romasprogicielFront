@@ -413,12 +413,12 @@
                                 >
                                   <Multiselect
                                     :options="communeOptions"
+                                    @change="communeChange($event)"
                                     :searchable="true"
                                     track-by="label"
                                     label="label"
                                     v-model="selectedCommune"
                                     v-bind="field"
-                                    @change="communeChange($event)"
                                     noOptionsText="Sélectionner d'abord un département"
                                     placeholder="Sélectionner la commune"
                                   />
@@ -1449,7 +1449,6 @@ export default defineComponent({
     const prenomCon = ref();
     const dateNaissanceCon = ref();
     const nationaliteCon = ref();
-    const nationalite = ref();
     const numPassportCon = ref();
     const telephoneCon = ref();
     const taille = ref();
@@ -1769,12 +1768,14 @@ export default defineComponent({
     //     //
     //   }
     // };
-
+   
     const countriesRef = ref(countries);
+    const nationalite = ref('Bénin'); 
     const selectedCommune = ref([]);
     const selectedArrondissement = ref([]);
     const selectedQuartier = ref([]);
 
+   
     function departementChange(value) {
       console.log("g,rl;m", value);
       if (value) {
@@ -1876,7 +1877,7 @@ export default defineComponent({
         });
     };
 
-    const fetchCommunes = async () => {
+   /* const fetchCommunes = async () => {
       ApiService.get("/communes")
         .then(({ data }) => {
           const donnees = data.data.data;
@@ -1890,9 +1891,9 @@ export default defineComponent({
         .catch(({ response }) => {
           error(response.data.message);
         });
-    };
+    };*/
 
-    const fetchQuartiers = async () => {
+    /*const fetchQuartiers = async () => {
       ApiService.get("/quartiers")
         .then(({ data }) => {
           const donnees = data.data.data;
@@ -1906,9 +1907,9 @@ export default defineComponent({
         .catch(({ response }) => {
           error(response.data.message);
         });
-    };
+    };*/
 
-    const fetchArrondissement = async () => {
+    /*const fetchArrondissement = async () => {
       ApiService.get("/arrondissements")
         .then(({ data }) => {
           const donnees = data.data.data;
@@ -1922,7 +1923,8 @@ export default defineComponent({
         .catch(({ response }) => {
           error(response.data.message);
         });
-    };
+    };*/
+
 
     const maxDate = new Date(
       today.getFullYear() - 18,
@@ -1975,43 +1977,49 @@ export default defineComponent({
     ];
 
     onMounted(async () => {
+    
       tabs.forEach((tab, index) => {
         const li = document.createElement("li");
         li.classList.add("nav-item");
-        li.innerHTML = `
-  <button 
+      li.innerHTML = `
+<button 
     class="nav-link ${currentStep.value === index + 1 ? "active" : ""}" 
     id="${tab.id}" 
     role="tab" 
     aria-controls="detail-product" 
     aria-selected="${currentStep.value === index + 1}"
-    @click="goToStep(${index + 1})"
-  >
+    disabled
+>
     <div class="nav-rounded">
-      <div class="product-icons">
-        <svg class="stroke-icon">
-          <use href="${
-            require("@/assets/svg/icon-sprite.svg") + "#" + tab.icon
-          }"></use>
-        </svg>
-      </div>
+        <div class="product-icons">
+            <svg class="stroke-icon">
+                <use href="${
+                    require("@/assets/svg/icon-sprite.svg") + "#" + tab.icon
+                }"></use>
+            </svg>
+        </div>
     </div>
     <div class="product-tab-content">
-      <h5>${tab.title}</h5>
-      <p>${tab.desc}</p>
+        <h5>${tab.title}</h5>
+        <p>${tab.desc}</p>
     </div>
-  </button>
+</button>
 `;
 
         tabContainer.value.appendChild(li);
         const tabElements = tabContainer.value.querySelectorAll(".nav-link");
-        tabElements.forEach((tab, index) => {
-          const bsTab = new Tab(tab);
-          tab.addEventListener("click", () => {
-            currentStep.value = index + 1;
-            bsTab.show();
-          });
-        });
+       tabElements.forEach((tab, index) => {
+    const bsTab = new Tab(tab);
+
+    tab.addEventListener("click", (event) => {
+        if (index + 1 > currentStep.value) {
+            event.preventDefault();
+            return;
+        }
+        currentStep.value = index + 1;
+        bsTab.show();
+    });
+});
         tabElements.forEach((tab, index) => {
           const bsTab = new Tab(tab);
           tab.addEventListener("click", () => {
@@ -2026,10 +2034,10 @@ export default defineComponent({
       await getAllEthnies();
       await getAllServices();
       await fetchBanque();
-      await fetchDepartements();
-      await fetchCommunes();
-      await fetchQuartiers();
-      await fetchArrondissement();
+    await fetchDepartements();
+    //  await fetchCommunes();
+    //  await fetchQuartiers();
+     // await fetchArrondissement();
     });
 
     const { handleSubmit, validate } = useForm({
@@ -2169,25 +2177,34 @@ export default defineComponent({
       }
 
       if (currentStep.value === 5) {
-        //useForm({ validationSchema: personnelPersonneConSchema });
-        let element5 = {
-          banque: banque.value,
-          numeroCompte: numeroCompte.value,
-          codeIban: codeIban.value,
-          swift: swift.value,
-          releveIdentiteBancaire: releveIdentiteBancaire.value,
-          nomPersonneAContacter: nomPersonneAContacter.value,
-          prenomPersonneAContacter: nomPersonneAContacter.value,
-          telephonePersonneAContacter: telephonePersonneAContacter.value,
-          relation: relation.value,
-        };
-        for (const key in element5) {
-          if (!element5[key]) {
-            error(`Saisir l'élément suivant ${key}`);
-            return false;
-          }
-        }
+  // Vérifiez si une banque est sélectionnée
+  if (banque.value) {
+    let element5 = {
+      numeroCompte: numeroCompte.value,
+      codeIban: codeIban.value,
+      swift: swift.value,
+      releveIdentiteBancaire: releveIdentiteBancaire.value,
+      nomPersonneAContacter: nomPersonneAContacter.value,
+      prenomPersonneAContacter: prenomPersonneAContacter.value,
+      telephonePersonneAContacter: telephonePersonneAContacter.value,
+      relation: relation.value,
+    };
+
+    // Vérifiez que tous les champs sont remplis
+    for (const key in element5) {
+      if (!element5[key]) {
+        error(`Saisir l'élément suivant ${key}`);
+        return false;
       }
+    }
+  } else {
+    // Si aucune banque n'est sélectionnée, seul le champ "banque" est obligatoire
+    if (!banque.value) {
+      error("Veuillez sélectionner une banque");
+      return false;
+    }
+  }
+}
 
       currentStep.value++;
       showTab(currentStep.value);

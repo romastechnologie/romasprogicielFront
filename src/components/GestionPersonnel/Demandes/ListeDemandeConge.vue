@@ -79,9 +79,8 @@
             </thead>
             <tbody>
               <tr  v-for ="(demande, index) in demandes" :key="index">
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date( demande.dateDemande) }} </td>
-                  
-                  <td class="shadow-none lh-1 fw-medium ">{{ demande?.typeConge }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_date( demande.dateDemande) }} </td>  
+                  <td class="shadow-none lh-1 fw-medium ">{{ demande?.conge?.type }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ demande.motifDemande }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
@@ -99,6 +98,24 @@
                               Détails
                             </router-link>
                           </li>
+                          <li class="dropdown-item d-flex align-items-center">
+                          <router-link
+                            
+                            :to="{ name: 'ViewDemandePage',params: { id: demande.id } }"
+                          >
+                            <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                            Traiter
+                          </router-link>
+                        </li>
+                        <li class="dropdown-item d-flex align-items-center">
+                          <router-link
+                            
+                            :to="{ name: 'ViewDemandePage',params: { id: demande.id } }"
+                          >
+                            <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                            Archiver
+                          </router-link>
+                        </li>
                           
                           <li  class="dropdown-item d-flex align-items-center">
                             <a

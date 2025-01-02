@@ -102,7 +102,7 @@
 
 
 
-     <div class="modal fade" id="create-task" tabindex="-1" aria-hidden="true">
+  <div class="modal fade" id="create-task" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -164,8 +164,6 @@ import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 import { useRoute, useRouter } from 'vue-router';
 import * as Yup from 'yup';
-
-
 export default defineComponent({
   name: "ListeDepenses",
   components: {
@@ -178,7 +176,6 @@ export default defineComponent({
     onMounted(() => {
       getAllDepenses();
     });
-
     const depensesSchema = Yup.object().shape({
       observation: Yup.string().required("L'observation est obligatoire"),
     });
@@ -193,7 +190,6 @@ export default defineComponent({
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
-
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
@@ -223,7 +219,6 @@ export default defineComponent({
           error(response.data.message)
         });
     }
-
     const getEtatBadge = (estValide: boolean | null) => {
   if (estValide === true) {
     return {
@@ -241,8 +236,6 @@ export default defineComponent({
     badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
   };
 };
-
-
 function triggerButtonClick(buttonId: string) {
   const button = document.getElementById(buttonId) as HTMLButtonElement;
   if (button) {
@@ -251,16 +244,9 @@ function triggerButtonClick(buttonId: string) {
     console.error(`Button with ID "${buttonId}" not found.`);
   }
 }
-
-// Déclenchement automatique après un certain temps
-/**setTimeout(() => {
-  
-}, 2000);*/ // 2 secondes
-// Utilisation
     const addDepenses = async (values, { resetForm }) => {
   values["id"] = depenseii.value;
   values["estValide"] = true;
-
   ApiService.put("/depenses/" + values.id, values)
     .then(({ data }) => {
       console.log('depense', data);
@@ -268,22 +254,19 @@ function triggerButtonClick(buttonId: string) {
         success(data.message);
         resetForm();
         getAllDepenses();
-        triggerButtonClick("close-modal");
-        
+        triggerButtonClick("close-modal");       
       }
     })
     .catch(({ response }) => {
       error(response.data.message);
     });
 };
-
 const rejectDepenses = async () => {
   const values = {
     id: depenseii.value,
     estValide: false, // État pour rejeter
     observation: depensesForm.value?.values?.observation || '', // Récupération de l'observation si remplie
   };
-
   ApiService.put("/depenses/" + values.id, values)
     .then(({ data }) => {
       if (data.code === 200) {
@@ -297,8 +280,6 @@ const rejectDepenses = async () => {
       error(response.data.message);
     });
 };
-
-
 
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
@@ -323,8 +304,7 @@ const rejectDepenses = async () => {
       addDepenses,
       depensesSchema,
       getEtatBadge,
-      rejectDepenses
-      
+      rejectDepenses      
     };
   },
 });

@@ -65,6 +65,9 @@ import DetailsPersonnelPage from '@/pages/GestionPersonnel/Personnels/DetailsPer
 import AddTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/AddTresoreriePage.vue'
 import ListeTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/ListeTresoreriePage.vue'
 import EditTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/EditTresoreriePage.vue'
+import AddPointtresoreriePage from '@/pages/GestionTresorerie/Pointtresorerie/AddPointtresoreriePage.vue'
+import ListePointtresoreriePage from '@/pages/GestionTresorerie/Pointtresorerie/ListePointtresoreriePage.vue'
+import EditPointtresoreriePage from '@/pages/GestionTresorerie/Pointtresorerie/EditPointtresoreriePage.vue'
 import ListeTypeTresoreriePage from '@/pages/GestionTresorerie/TypeTresorerie/ListeTypeTresoreriePage.vue'
 import AddTransfertPage from '@/pages/GestionTresorerie/Transfert/AddTransfertPage.vue'
 import ListeTransfertPage from '@/pages/GestionTresorerie/Transfert/ListeTransfertPage.vue'
@@ -79,6 +82,7 @@ import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/Liste
 import EditOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/EditOuvFerPage.vue'
 import ListeMonnaiePage from '@/pages/GestionTresorerie/Monnaie/ListeMonnaiePage.vue'
 import ListeUserComptePage from '@/pages/GestionTresorerie/UserCompte/ListeUserComptePage.vue'
+import ListeUserTresoreriePage from '@/pages/GestionTresorerie/UserTresorerie/ListeUserTresoreriePage.vue'
 import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
@@ -234,7 +238,9 @@ import ListeEntretienPage from '@/pages/GestionPack/Entretien/ListeEntretienPage
 import AddEntretienPage from '@/pages/GestionPack/Entretien/AddEntretienPage.vue';
 import EditEntretienPage from '@/pages/GestionPack/Entretien/EditEntretienPage.vue';
 import AddPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage.vue';
+import AddPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage2.vue';
 import EditPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage.vue';
+import EditPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage2.vue';
 import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/ListePlanificationReparationPage.vue';
 
 
@@ -263,7 +269,6 @@ import ListeDocumentPage from "@/pages/GestionArchive/Document/ListeDocumentPage
 import EditDocumentPage from "@/pages/GestionArchive/Document/EditDocumentPage.vue"
 
 import ViewDocumentPage from "@/pages/GestionArchive/Document/ViewDocumentPage.vue";
-import FilterDocumentPage from "@/pages/GestionArchive/Document/FilterDocumentPage.vue";
 
 
 //gestion des zones
@@ -281,11 +286,13 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
-import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
-import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
-import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
+//import AddCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/AddCircuitDemandePage.vue";
+import ListeCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/ListeCircuitDemandePage.vue";
+//import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
+//import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
+//import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
 import ListeUserEtapesPage from "@/components/GestionCircuit/UserEtapes/ListeUserEtapes.vue";
-import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
+//import ViewEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/WiewEtapeValidation.vue";
 
 import ListeRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/ListeRoleEtapPage.vue";
 //import AddRoleEtapPage from "@/pages/GestionCircuit/RoleEtap/AddRoleEtapPage.vue";
@@ -328,6 +335,7 @@ import EditEquipePage from '@/pages/GesCom/Equipe/EditEquipePage.vue';
 import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
 import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
+import AddArchivagePage from '@/pages/GestionPersonnel/Demandes/AddArchivagePage.vue';
 
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
@@ -765,9 +773,17 @@ const routes: Array<RouteRecordRaw> = [
          name: "AddPlanificationReparationPage",
          component: AddPlanificationReparationPage,
         meta: {
-          title: 'Ajouter une planification de réparation',
+          title: 'planification entretien',
        }
       },
+      {
+        path: "ajouter-planificationReparation2",
+        name: "AddPlanificationReparationPage2",
+        component: AddPlanificationReparationPage2,
+       meta: {
+         title: 'planification bien ',
+      }
+     },
       {
         path: "editer-planificationReparation/:id",
         name: "EditPlanificationReparationPage",
@@ -776,6 +792,14 @@ const routes: Array<RouteRecordRaw> = [
          title: 'Editer une planification de réparation',
       }
      },
+     {
+      path: "editer-planificationReparation2/:id",
+      name: "EditPlanificationReparationPage2",
+      component: EditPlanificationReparationPage2,
+     meta: {
+       title: 'Editer une planification de réparation',
+    }
+   },
       {
         path: "liste-planificationReparations",
         name: "ListePlanificationReparationPage",
@@ -965,14 +989,6 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Détails d\'un document',
         }
       },
-      {
-        path: "filter-document/:id",
-        name: "FilterDocument",
-        component: FilterDocumentPage,
-        meta: {
-          title: 'Filtrer d\'un document',
-        }
-      }
     ]
   },
   {
@@ -1460,6 +1476,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: "ajouter-archivage/:id",
+        name: "AddArchivagePage",
+        component: AddArchivagePage,
+        meta: {
+          title: 'Archiver une demande',
+        }
+      },
+      {
         path: "liste-demande-permission",
         name: "ListeDemandePermissionPage",
         component: ListeDemandePermissionPage,
@@ -1566,16 +1590,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Liste des personnels',
         },
-        children: [
-          {
-            path: ':id',
-            name: 'id',
-            component: ViewPersonnellePage,
-            meta: {
-              title: 'Details du personnel',
-            }
-          }
-        ]
+      },
+
+      {
+        path: "view-personnel/:id",
+        name: "ViewPersonnellePage",
+        component: ViewPersonnellePage,
+        meta: {
+          title: 'Détail du personnel',
+        }
       },
       {
         path: "edit-personnel/:id",
@@ -1618,6 +1641,39 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
+
+  {
+    path: "/pointtresoreries",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-pointtresorerie",
+        name: "AddPointtresoreriePage",
+        component: AddPointtresoreriePage,
+        meta: {
+          title: 'Ajouter un point tresorerie',
+        }
+      },
+      {
+        path: "liste-pointtresorerie",
+        name: "ListePointtresoreriePage",
+        component: ListePointtresoreriePage,
+        meta: {
+          title: 'Liste des pointtresoreries',
+        },
+      },
+      {
+        path: "edit-pointtresorerie/:id",
+        name: "EditPointtresoreriePage",
+        component: EditPointtresoreriePage,
+        meta: {
+          title: 'Modifier un point tresorerie',
+        }
+      }
+    ]
+  },
+
 
   {
     path: "/typeTresoreries",
@@ -1765,6 +1821,20 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+  {
+    path: "/userTresoreries",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-userTresorerie",
+        name: "ListeUserTresoreriePage",
+        component: ListeUserTresoreriePage,
+        meta: {
+          title: 'Liste des utilisateurs trésorerie',
+        }
+      },
+    ]
+  },
   {
     path: "/ventes",
     component: BodyView,
@@ -1924,6 +1994,14 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Ajouter un circuit',
         }
       },
+      /*{
+        path: "ajouter-circuitdemande",
+        name: "AddCircuitDemandePage",
+        component: AddCircuitDemandePage,
+        meta: {
+          title: 'Ajouter un circuit de demande',
+        }
+      },*/
       {
         path: "modifier-circuit/:id",
         name: "EditCircuitPage",
@@ -1940,9 +2018,17 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des circuits',
         }
       },
+      {
+        path: "liste-circuits-demandes",
+        name: "ListeCircuitDemandePage",
+        component: ListeCircuitDemandePage,
+        meta: {
+          title: 'Liste des circuits de demande',
+        }
+      },
     ]
   },
-  {
+  /*{
     path: "/etapeValidations",
     component: BodyView,
     children: [
@@ -1979,7 +2065,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       }
     ]
-  },
+  },*/
   {
     path: "/userEtapes",
     component: BodyView,
@@ -2602,14 +2688,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       
-      {
+      /*{
         path: "view-personnel/:id",
         name: "ViewPersonnel",
         component: ViewPersonnellePage,
         meta: {
           title: 'Détails du personnel',
         }
-      },
+      },*/
       {
         path: "liste-personnels",
         name: "ListePersonnel",

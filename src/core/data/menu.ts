@@ -578,6 +578,28 @@ export const menu: MenuItem[] = [
     },
 
     {
+        title: "Point de Tresorerie",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/pointtresoreries/ajouter-pointtresorerie",
+                title: "Ajouter un point tresorerie ",
+                type: "link"
+            },
+            {
+                path: "/pointtresoreries/liste-pointtresorerie",
+                title: "Liste des points tresoreries",
+                type: "link"
+            },
+        ]
+    },
+
+    {
         title: "Type de Tresorerie",
         icon: "stroke-animation",
         icon1: "fill-animation",
@@ -654,6 +676,16 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
+    {
+        title: "User Tresorerie",
+        icon: "stroke-animation",
+        icon1: "fill-animation",
+        type: "link",
+        path: "/userTresoreries/liste-userTresorerie",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
 
     {
         title: "Finance",
@@ -1488,12 +1520,17 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/planificationReparations/ajouter-planificationReparation",
-                title: "Ajouter une planification de réparation",
+                title: "Declarer entretien",
+                type: "link"
+            },
+            {
+                path: "/planificationReparations/ajouter-planificationReparation2",
+                title: "Planifier panne ",
                 type: "link"
             },
             {
                 path: "/planificationReparations/liste-planificationReparations",
-                title: "Liste des planifications de réparation",
+                title: "Liste ",
                 type: "link"
             }
         ]
@@ -1713,18 +1750,23 @@ export const menu: MenuItem[] = [
                 title: "Liste des circuits",
                 type: "link"
             },
+            {
+                path: "/circuits/liste-circuits-demandes",
+                title: "Liste des circuits de demandes",
+                type: "link"
+            },
         ]
     },
-    {
-        title: "EtapeValidation",
-        icon: "stroke-user",
-        icon1: "fill-user",
-        type: "sub",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false,
-        children: [
-            {
+    /*{
+      //  title: "EtapeValidation",
+       // icon: "stroke-user",
+       // icon1: "fill-user",
+        //type: "sub",
+        //badgeType: "light-primary",
+       // active: false,
+       // isPinned: false,
+       // children: [
+           /* {
                 path: "/etapeValidations/ajouter-etapeValidations",
                 title: "Ajouter une etape validation",
                 type: "link"
@@ -1735,7 +1777,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
         ]
-    },
+    },*/
     // {
     //     title: "UserEtapes",
     //     icon: "stroke-user",

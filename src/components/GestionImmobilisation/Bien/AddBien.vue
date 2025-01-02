@@ -117,10 +117,25 @@
 
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Type entretien <span class="text-danger">*</span>
+              </label>
+              <Field name="typeentretien" v-model="typeentretiens" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="typeentretienOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le type entretien"
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le type entretien est obligatoire</span>
+            </div>
+          </div>
+
+
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
                 Organisation <span class="text-danger">*</span>
               </label>
-              <Field name="service" v-model="services" type="text" v-slot="{ field }">
+              <Field name="organisation" v-model="services" type="text" v-slot="{ field }">
               <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
                  :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation "
                 label="label" track-by="label" />
@@ -158,10 +173,6 @@
   import { useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
-
-
-  
-  
   export default defineComponent({
       name: "AddBien",
       components: {
@@ -178,7 +189,7 @@
             nomBien: Yup.string().required("Le nom est obligatoire."),
             coutAcquisition: Yup.number().typeError("veuillez entrer des nombres").required("Le cout d'aquisition est obligatoire."),
             dateAcquisition: Yup.date().typeError("veuillez entrer une date valide").required("La date d'acquisition est obligatoire."),
-            dureeVie: Yup.number().required("La durée de vie est obligatoire."),
+            dureeVie: Yup.number().integer("La durée de vie doit être un nombre entier").required("La durée de vie est obligatoire."),
             dateMiseEnService: Yup.date().required("La date de mise en service est obligatoire."),
             numeroEnregistrement: Yup.number().required("Le numero d'enregistrement est obligatoire."),
             nbreKmParUnLitre: Yup.number(),
@@ -188,9 +199,11 @@
             latitude: Yup.number().notRequired(),
             modeAmortissement: Yup.string().required("Le mode d'amortissement est obligatoire."),
             valeurNetteComptable: Yup.number().required("La valeur nette comptable est obligatoire."),
-            service: Yup.string().required("L'organisation est obligatoire."),
+            organisation: Yup.string().required("L'organisation est obligatoire."),
             categorieBien: Yup.string().required("Categorie est obligatoire."),
             typeBien: Yup.string().required("type Bien  est obligatoire."),
+            typeentretien: Yup.string().required("type entretien  est obligatoire."),
+
 
 
 
@@ -198,24 +211,23 @@
   
       onMounted(() => {
         getAllTypeBien()
+        getAllTypeentretien()
         getAllCategorieBien()
         getAllOrganisation()
   });
-  
       const bienForm =  ref(null);
       const showMErr = ref(false);
       const types = ref();
+      const typeentretiens = ref();
       const categories = ref();
       const services = ref();
-      
       //const permissions = ref(null);
       const typeOptions = ref([]);
+      const typeentretienOptions = ref([]);
       const categorieOptions = ref([]);
       const serviceOptions = ref([]);
       const router = useRouter();
       //const permissions= ref<Array<Permission>>([]);
-  
-
       const addBien = async (values: any, { resetForm }) => {    
       console.log('Données envoyées', values)
       if (showMErr.value === false) {
@@ -232,7 +244,6 @@
           });
        }
     };
-
       const getAllTypeBien = async () => {
         try{
         const response = await ApiService.get('/all/typeBiens');
@@ -247,7 +258,20 @@
           //error(response.data.message)
         }
       } 
+      const getAllTypeentretien = async () => {
+        try{
+        const response = await ApiService.get('/all/typeentretiens');
+        const typeentretiensData = response.data.data.data;
 
+        typeentretienOptions.value = typeentretiensData.map((typeentretien) => ({
+          value: typeentretien.id,
+          label: typeentretien.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
       const getAllCategorieBien = async () => {
         try{
         const response = await ApiService.get('/all/categorieBiens');
@@ -262,7 +286,7 @@
           //error(response.data.message)
         }
       } 
-  
+
       const getAllOrganisation = async () => {
         try{
         const response = await ApiService.get('/all/organisations');
@@ -277,7 +301,7 @@
           //error(response.data.message)
         }
       } 
-      return { bienSchema, addBien, bienForm,typeOptions,showMErr,categorieOptions,serviceOptions,types,categories,services};
+      return { bienSchema, addBien, bienForm,typeOptions,typeentretienOptions, showMErr,categorieOptions,serviceOptions,types,typeentretiens,categories,services};
     },
   });
   </script>

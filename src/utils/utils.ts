@@ -26,11 +26,12 @@ const getDatePlusXDays = (x: number) => {
 }
 
 
-const cleSecrete = "=_,riNe5Mw3L*:B87qzpN8LfiUc2~5xE;9268G+3z@JRe)W.x6A%67hu^-?$BKmPM32s7[";
+const cleSecrete = "=_,rine5mw3l*:b87qzpn8lfiuc2~5xe;9268g+3z@jre)w.x6A%67hu^-?$BKmPM32s7[";
 export function cryptage(lemot = "") {
   let motCrypter = "";
   let i = 0;
   do {
+    
     motCrypter = CryptoJS.AES.encrypt((lemot).toString(), cleSecrete).toString();
     console.log(" Etape "+ i++, "  ===> ", motCrypter);
   } while (motCrypter.includes('/')); // Vérifier s'il contient "/"
@@ -99,11 +100,12 @@ const showModal = (modalEl: HTMLElement | null): void => {
 
 const getUrlApiForFiles = (nomFichier: string | null, dossier = "") => {
   if (nomFichier) {
-    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/${dossier ? dossier + "/" : ""}${nomFichier}`;
+    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/personnels/${dossier ? dossier + "/" : ""}${nomFichier}`;
   } else {
     return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/Erreur404.pdf`;
   }
 }
+
 const onFileChange = (e, accept: any = []) => {
 
   const file = e.target.files[0];
@@ -164,13 +166,11 @@ const format_Date = (date: any) => {
     return format(new Date(date), 'dd-MM-yyyy', { locale: fr });
   }
 }
-
 const separateur = (montant: any) => {
   if (montant) {
     return montant.toLocaleString('fr-FR');
   }
 }
-
 const removeModalBackdrop = (): void => {
   if (document.querySelectorAll(".modal-backdrop.fade.show").length) {
     document.querySelectorAll(".modal-backdrop.fade.show").forEach((item) => {
@@ -179,6 +179,13 @@ const removeModalBackdrop = (): void => {
   }
 };
 
+const getUrlApiForProductFiles = (nomFichier: string | null = null) => {
+  if (nomFichier != null && nomFichier != "" && nomFichier) {
+    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/Personnels/${nomFichier}`;
+  } else {
+    return `${ApiService.vueInstance.axios.defaults.baseURL?.split("api")[0]}uploads/show1.png`;
+  }
+}
 
 const getAssetPath = (path: string): string => {
   return '' + path;
@@ -262,8 +269,6 @@ const suppression = (id: number, element: any, route: string, entite: string) =>
     }
   });
 };
-
 export {
   getDatePlusXDays,generateUuid,calculerDuree,warning, ajouterPeriode, onFileChange, removeModalBackdrop, suppression, separateur, hideModal, getAssetPath, format_Date, showModal, format_date, success, error, getUrlApiForFiles,
 };
-

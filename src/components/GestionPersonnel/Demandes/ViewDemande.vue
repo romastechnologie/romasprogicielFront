@@ -28,7 +28,10 @@
                   <td>Motif de la permission :</td>
                   <td>{{ demande?.motifDemande}}</td>
                 </tr>
-              
+                <tr>
+                  <td>Statut :</td>
+                  <td>{{ demande?.statut }}</td>
+                </tr>
                
                 <tr>
                   <td>Date Début :</td>
