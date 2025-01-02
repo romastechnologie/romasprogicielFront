@@ -152,20 +152,41 @@ export default {
         }
       } 
 
-
         const getCircuitDemande = async (id: number) => {
-            return ApiService.get("/circuitDemandes/" + id)
-                .then(({ data }) => {
-                    circuitDemandeForm.value?.setFieldValue("id", data.data.id);
-                    circuitDemandeForm.value?.setFieldValue("categorie", data.data.categorie);
-                    circuitDemandeForm.value?.setFieldValue("circuit", data.data.circuit);
-                    emit('openmodal', addCircuitDemandeModalRef.value);
-                })
-                .catch(({ response }) => {
-                    error(response.data.message)
-                });
-        }
+  return ApiService.get("/circuitDemandes/" + id)
+    .then(({ data }) => {
+      console.log("Données récupérées: ", data);
+      const donnees = data.data;
+      for (const key in donnees) {
+        circuitDemandeForm.value?.setFieldValue(
+          key,
+          typeof donnees[key] === "object" && donnees[key] !== null
+            ? donnees[key].id 
+            : donnees[key]  
+        );
+      }
 
+      if (donnees.categorie) {
+        circuitDemandeForm.value?.setFieldValue(
+          "bien",
+          donnees.categorie.id
+        );
+      }
+
+      if (donnees.circuit) {
+        circuitDemandeForm.value?.setFieldValue(
+          "bien",
+          donnees.circuit.id
+        );
+      }
+
+      emit("openmodal", addCircuitDemandeModalRef.value);
+    })
+    .catch(({ response }) => {
+      console.error("Erreur lors de la récupération: ", response);
+      error(response.data.message);
+    });
+};
         const btnTitle = async () => {
             if (isupdate.value) {
                 title.value = "Modifier le circuit de demande";
@@ -194,21 +215,41 @@ export default {
                     }).catch(({ response }) => {
                         error(response.message);
                     });
-            } else {
-                ApiService.post("/circuitDemandes", values)
-                    .then(({ data }) => {
-                        if (data.code == 201) {
-                            success(data.message)
-                            resetForm();
-                            hideModal(addCircuitDemandeModalRef.value);
-                            //router.push('/circuitDemandes/liste-circuitDemande');
-                            emit("refreshCircuitDemandes");
+            } else{
+    console.log("Début de la fonction pour envoyer les données");
+    console.log("Valeurs envoyées : ", values);
 
-                        }
-                    }).catch(({ response }) => {
-                        error(response.message);
-                    });
+    ApiService.post("/circuitDemandes", values)
+        .then(({ data }) => {
+            console.log("Réponse de l'API reçue : ", data);
+
+            if (data.code == 201) {
+                console.log("Code de succès détecté (201)");
+                success(data.message);
+
+                console.log("Réinitialisation du formulaire");
+                resetForm();
+
+                console.log("Fermeture de la modale");
+                hideModal(addCircuitDemandeModalRef.value);
+
+                console.log("Émission de l'événement pour rafraîchir les données");
+                emit("refreshCircuitDemandes");
+
+                // console.log("Redirection vers la liste des circuits de demande");
+                // router.push('/circuitDemandes/liste-circuitDemande');
+            } else {
+                console.log("Code différent de 201 détecté, message : ", data.message);
             }
+        })
+        .catch(({ response }) => {
+            console.log("Erreur lors de l'appel API : ", response);
+            error(response.message);
+        });
+
+    console.log("Fin de la fonction pour envoyer les données");
+};
+
         };
 
         const resetValue = () => {

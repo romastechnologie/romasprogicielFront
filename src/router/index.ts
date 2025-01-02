@@ -1590,16 +1590,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Liste des personnels',
         },
-        children: [
-          {
-            path: ':id',
-            name: 'id',
-            component: ViewPersonnellePage,
-            meta: {
-              title: 'Details du personnel',
-            }
-          }
-        ]
+      },
+
+      {
+        path: "view-personnel/:id",
+        name: "ViewPersonnellePage",
+        component: ViewPersonnellePage,
+        meta: {
+          title: 'Détail du personnel',
+        }
       },
       {
         path: "edit-personnel/:id",
@@ -2689,14 +2688,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       
-      {
+      /*{
         path: "view-personnel/:id",
         name: "ViewPersonnel",
         component: ViewPersonnellePage,
         meta: {
           title: 'Détails du personnel',
         }
-      },
+      },*/
       {
         path: "liste-personnels",
         name: "ListePersonnel",

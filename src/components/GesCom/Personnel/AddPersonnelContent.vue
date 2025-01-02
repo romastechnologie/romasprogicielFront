@@ -413,6 +413,7 @@
                                 >
                                   <Multiselect
                                     :options="communeOptions"
+                                    @change="communeChange($event)"
                                     :searchable="true"
                                     track-by="label"
                                     label="label"
@@ -1774,6 +1775,7 @@ export default defineComponent({
     const selectedArrondissement = ref([]);
     const selectedQuartier = ref([]);
 
+   
     function departementChange(value) {
       console.log("g,rl;m", value);
       if (value) {
@@ -1875,7 +1877,7 @@ export default defineComponent({
         });
     };
 
-    const fetchCommunes = async () => {
+   /* const fetchCommunes = async () => {
       ApiService.get("/communes")
         .then(({ data }) => {
           const donnees = data.data.data;
@@ -1889,9 +1891,9 @@ export default defineComponent({
         .catch(({ response }) => {
           error(response.data.message);
         });
-    };
+    };*/
 
-    const fetchQuartiers = async () => {
+    /*const fetchQuartiers = async () => {
       ApiService.get("/quartiers")
         .then(({ data }) => {
           const donnees = data.data.data;
@@ -1905,9 +1907,9 @@ export default defineComponent({
         .catch(({ response }) => {
           error(response.data.message);
         });
-    };
+    };*/
 
-    const fetchArrondissement = async () => {
+    /*const fetchArrondissement = async () => {
       ApiService.get("/arrondissements")
         .then(({ data }) => {
           const donnees = data.data.data;
@@ -1921,7 +1923,8 @@ export default defineComponent({
         .catch(({ response }) => {
           error(response.data.message);
         });
-    };
+    };*/
+
 
     const maxDate = new Date(
       today.getFullYear() - 18,
@@ -2031,10 +2034,10 @@ export default defineComponent({
       await getAllEthnies();
       await getAllServices();
       await fetchBanque();
-      await fetchDepartements();
-      await fetchCommunes();
-      await fetchQuartiers();
-      await fetchArrondissement();
+    await fetchDepartements();
+    //  await fetchCommunes();
+    //  await fetchQuartiers();
+     // await fetchArrondissement();
     });
 
     const { handleSubmit, validate } = useForm({
@@ -2174,25 +2177,34 @@ export default defineComponent({
       }
 
       if (currentStep.value === 5) {
-        //useForm({ validationSchema: personnelPersonneConSchema });
-        let element5 = {
-          banque: banque.value,
-          numeroCompte: numeroCompte.value,
-          codeIban: codeIban.value,
-          swift: swift.value,
-          releveIdentiteBancaire: releveIdentiteBancaire.value,
-          nomPersonneAContacter: nomPersonneAContacter.value,
-          prenomPersonneAContacter: nomPersonneAContacter.value,
-          telephonePersonneAContacter: telephonePersonneAContacter.value,
-          relation: relation.value,
-        };
-        for (const key in element5) {
-          if (!element5[key]) {
-            error(`Saisir l'élément suivant ${key}`);
-            return false;
-          }
-        }
+  // Vérifiez si une banque est sélectionnée
+  if (banque.value) {
+    let element5 = {
+      numeroCompte: numeroCompte.value,
+      codeIban: codeIban.value,
+      swift: swift.value,
+      releveIdentiteBancaire: releveIdentiteBancaire.value,
+      nomPersonneAContacter: nomPersonneAContacter.value,
+      prenomPersonneAContacter: prenomPersonneAContacter.value,
+      telephonePersonneAContacter: telephonePersonneAContacter.value,
+      relation: relation.value,
+    };
+
+    // Vérifiez que tous les champs sont remplis
+    for (const key in element5) {
+      if (!element5[key]) {
+        error(`Saisir l'élément suivant ${key}`);
+        return false;
       }
+    }
+  } else {
+    // Si aucune banque n'est sélectionnée, seul le champ "banque" est obligatoire
+    if (!banque.value) {
+      error("Veuillez sélectionner une banque");
+      return false;
+    }
+  }
+}
 
       currentStep.value++;
       showTab(currentStep.value);
