@@ -31,6 +31,7 @@ export function cryptage(lemot = "") {
   let motCrypter = "";
   let i = 0;
   do {
+    
     motCrypter = CryptoJS.AES.encrypt((lemot).toString(), cleSecrete).toString();
     console.log(" Etape "+ i++, "  ===> ", motCrypter);
   } while (motCrypter.includes('/')); // Vérifier s'il contient "/"
