@@ -86,15 +86,15 @@
             </thead>
             <tbody>
               <tr v-for="(contrat, index) in contrats" :key="index">
-                <td class="shadow-none lh-1 fw-medium ">{{ format_date(contrat?.datePriseFonction) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(contrat.dateFin) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ contrat.salaire }} </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ format_Date(contrat?.datePriseFonction) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_Date(contrat.dateFin) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ contrat.salaireBase }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ contrat?.personnel?.nom }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ contrat.nobreheuresTravail }} </td>
                  <!--<td class="shadow-none lh-1 fw-medium ">{{ contrat.typeContrat.libelle }} </td>-->
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(contrat.createdAt) }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ format_date(contrat.createdAat) }} </td>
                  
-             
+                
                 <td
                   class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
                 >
@@ -136,7 +136,7 @@ import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
 import { Contrat } from "@/models/Contrat";
 import ApiService from "@/services/ApiService";
-import { format_date, suppression, error } from "@/utils/utils";
+import { format_date, suppression, error,format_Date } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
@@ -240,7 +240,8 @@ export default defineComponent({
     totalElements,
     handlePaginate,
     rechercher,
-    searchTerm
+    searchTerm,
+    format_Date
   };
   },
 });

@@ -4,10 +4,7 @@
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
       <div class="d-sm-flex align-items-center">
-        <router-link
-          class="btn btn-primary"
-          to="/depenses/ajouter-depense"
-        >
+        <router-link class="btn btn-primary" to="/depenses/ajouter-depense">
           <i class="fa fa-plus-circle"></i>
           Ajouter une dépense
         </router-link>
@@ -20,7 +17,7 @@
         </button> -->
       </div>
       <div class="d-flex align-items-center">
-       <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
+        <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input
             type="text"
             v-model="searchTerm"
@@ -47,7 +44,7 @@
       <div class="table-responsive">
         <table class="table text-nowrap align-middle mb-0">
           <thead>
-            <tr>  
+            <tr>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -75,7 +72,9 @@
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
-              >ACTIONS</th>
+              >
+                ACTIONS
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -83,7 +82,7 @@
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ format_Date(depense.dateDepense) }}
               </td>
-               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ depense.typeMouvement }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
@@ -95,32 +94,66 @@
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
-              <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
+                <div class="dropdown">
+                  <span
+                    class="badge text-white bg-primary fs-15 dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Actions
+                    <i
+                      class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"
+                    ></i>
                   </span>
                   <ul class="dropdown-menu">
-                    <li >
-                      <router-link :to="{ name: 'EditDepensePage', params: { id: depense.id } }" 
-                          class="dropdown-item d-flex align-items-center"><i
+                    <li>
+                      <router-link
+                        :to="{
+                          name: 'EditDepensePage',
+                          params: { id: depense.id },
+                        }"
+                        class="dropdown-item d-flex align-items-center"
+                        ><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>Modifier</router-link>
+                        ></i
+                        >Modifier</router-link
+                      >
                     </li>
                     <li>
-                        <router-link :to="{ name: 'ViewDepensePage', params: { id: depense.id } }" class="dropdown-item d-flex align-items-center">
-                            <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
-                        </router-link>
+                      <router-link
+                        :to="{
+                          name: 'ViewDepensePage',
+                          params: { id: depense.id },
+                        }"
+                        class="dropdown-item d-flex align-items-center"
+                      >
+                        <i
+                          class="flaticon-eye lh-1 me-8 position-relative top-1"
+                        ></i
+                        >Détails
+                      </router-link>
                     </li>
-                    <li >
+                    <li>
                       <a
-                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(depense.id,depenses,'depenses',`l\'depense ${depense.id}`)">
-                        <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
-                         Supprimer
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);"
+                        @click="
+                          suppression(
+                            depense.id,
+                            depenses,
+                            'depenses',
+                            `l\'depense ${depense.id}`
+                          )
+                        "
+                      >
+                        <i
+                          class="fa fa-trash-o lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Supprimer
                       </a>
                     </li>
                   </ul>
-              </div>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -129,37 +162,42 @@
       <div
         class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
       >
-        <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit" @paginate="handlePaginate" />
+        <PaginationComponent
+          :page="page"
+          :totalPages="totalPages"
+          :totalElements="totalElements"
+          :limit="limit"
+          @paginate="handlePaginate"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref} from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import { Depense } from "@/models/Depense";
 import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
-import PaginationComponent from '@/components/Utilities/Pagination.vue';
+import PaginationComponent from "@/components/Utilities/Pagination.vue";
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListeDepense",
+  name: "ListeMouvement",
   components: {
-    PaginationComponent
+    PaginationComponent,
   },
-  setup(){
-    
+  setup() {
     onMounted(() => {
       getAllDepenses();
     });
 
-    const depenses = ref<Array<Depense>>([]);   
+    const depenses = ref<Array<Depense>>([]);
     const depense = ref<Depense>();
 
     // BEGIN PAGINATE
-    const searchTerm = ref('');
+    const searchTerm = ref("");
     const page = ref(1);
     const totalPages = ref(0);
     const limit = ref(10);
@@ -174,14 +212,16 @@ export default defineComponent({
       }
     };
 
-     function rechercher(){
-      getAllDepenses(page.value, limit.value, searchTerm.value );
+    function rechercher() {
+      getAllDepenses(page.value, limit.value, searchTerm.value);
     }
 
     // END PAGINATE
 
-    function getAllDepenses(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`all/depenses?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllDepenses(page = 1, limi = 10, searchTerm = "") {
+      return ApiService.get(
+        `all/depenses?page=${page}&limit=${limi}&mot=${searchTerm}&`
+      )
         .then(({ data }) => {
           depenses.value = data.data.data;
           totalPages.value = data.data.totalPages;
@@ -190,44 +230,44 @@ export default defineComponent({
           return data.data;
         })
         .catch(({ response }) => {
-          error(response.data.message)
-      });
+          error(response.data.message);
+        });
     }
-    
-    function moddifier(Editdepenses:Depense) {
+
+    function moddifier(Editdepenses: Depense) {
       depense.value = Editdepenses;
     }
 
     const deleteDepense = (id: number) => {
       ApiService.delete(`/depenses/${id}`)
-      .then(({ data }) => {
-        Swal.fire({
-          text: data.message,
-          toast: true,
-          icon: 'success',
-          title: 'General Title',
-          animation: false,
-          position: 'top-right',
-          showConfirmButton: false,
-          timer: 5000,
-          timerProgressBar: true,
-          heightAuto: false
+        .then(({ data }) => {
+          Swal.fire({
+            text: data.message,
+            toast: true,
+            icon: "success",
+            title: "General Title",
+            animation: false,
+            position: "top-right",
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            heightAuto: false,
+          });
+        })
+        .catch(({ response }) => {
+          Swal.fire({
+            text: response.data.message,
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "Réssayer à nouveau!",
+            heightAuto: false,
+            customClass: {
+              confirmButton: "btn fw-semobold btn-light-danger",
+            },
+          });
         });
-      })
-      .catch(({ response }) => {
-        Swal.fire({
-          text: response.data.message,
-          icon: "error",
-          buttonsStyling: false,
-          confirmButtonText: "Réssayer à nouveau!",
-          heightAuto: false,
-          customClass: {
-            confirmButton: "btn fw-semobold btn-light-danger",
-          },
-        });
-      });
 
-      for(let i = 0; i < depenses.value.length; i++) {
+      for (let i = 0; i < depenses.value.length; i++) {
         if (depenses.value[i].id === id) {
           depenses.value.splice(i, 1);
         }
@@ -238,22 +278,23 @@ export default defineComponent({
 
     const checkPermission = (name) => {
       return privileges.value.includes(name);
-    }
+    };
 
-    return { depenses,
+    return {
+      depenses,
       checkPermission,
-     getAllDepenses,
-     deleteDepense,
-     moddifier ,
-     suppression,
-     page, 
-    totalPages,
-    limit,
-    totalElements,
-    handlePaginate,
-    rechercher,
-    searchTerm
-  };
+      getAllDepenses,
+      deleteDepense,
+      moddifier,
+      suppression,
+      page,
+      totalPages,
+      limit,
+      totalElements,
+      handlePaginate,
+      rechercher,
+      searchTerm,
+    };
   },
 });
 </script>
