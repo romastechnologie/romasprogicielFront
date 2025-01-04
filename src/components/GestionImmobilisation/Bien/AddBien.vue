@@ -189,7 +189,7 @@
             nomBien: Yup.string().required("Le nom est obligatoire."),
             coutAcquisition: Yup.number().typeError("veuillez entrer des nombres").required("Le cout d'aquisition est obligatoire."),
             dateAcquisition: Yup.date().typeError("veuillez entrer une date valide").required("La date d'acquisition est obligatoire."),
-            dureeVie: Yup.number().integer("La durée de vie doit être un nombre entier").required("La durée de vie est obligatoire."),
+            dureeVie: Yup.number().typeError('Veuillez entrer des chiffres').required("La durée de vie est obligatoire."),
             dateMiseEnService: Yup.date().required("La date de mise en service est obligatoire."),
             numeroEnregistrement: Yup.number().required("Le numero d'enregistrement est obligatoire."),
             nbreKmParUnLitre: Yup.number(),

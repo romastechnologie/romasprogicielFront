@@ -122,7 +122,7 @@
                     </li>
                     <li class="dropdown-item d-flex align-items-center">
                       <a
-                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(personnel.id,personnels,'personnels',`l\'personnel ${personnel.id}`)">
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(personnel.id,personnels,'personnels',`le personnel ${personnel.id}`)">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                          Supprimer
                       </a>
@@ -138,7 +138,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title">Voulez-vous affecter le service a ce personnel?</h6>
+        <h6 class="modal-title">Voulez-vous affecter ce personnel à un au autre service ?</h6>
         <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body px-4">

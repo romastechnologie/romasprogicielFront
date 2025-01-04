@@ -87,7 +87,7 @@
                   {{ organisation.nom}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ organisation.organisations?.nom}}
+                  {{ organisation.organisation?.nom}}
                 </td>
                 
                 <td
