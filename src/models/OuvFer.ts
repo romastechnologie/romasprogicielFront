@@ -19,6 +19,7 @@ export interface OuvFer {
   tresorerieId?: number;
   tresorerie?: Tresorerie; // Include the nested object
   tresoreriestatus: string;
+  status:string;
   ouvFerId?: number;
   setFieldValue: (field: string, value: any) => void;
 }

@@ -1216,7 +1216,7 @@
                                 />
                               </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                           <!-- <div class="col-md-6 mb-3">
                               <label
                                 for="releveIdentiteBancaire"
                                 class="form-label"
@@ -1233,7 +1233,7 @@
                                 type="file"
                                 placeholder="Joindre le RIB"
                               />
-                            </div>
+                            </div>-->
 
                             <h1>Informations sur la personne à contacter</h1>
                             <div class="row g-2">

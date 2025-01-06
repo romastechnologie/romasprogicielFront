@@ -7,7 +7,7 @@
           <div class="d-flex align-items-start justify-content-between">
             <!-- Profile Image -->
             <div class="d-flex align-items-center">
-              <img :src="personnel?.imageUrl|| 'https://img.freepik.com/vecteurs-premium/portrait-homme-generique-avatar-masculin-par-defaut_20334121.jpg'" alt="Profile" class="img-thumbnail" style="width: 120px; height: 120px;">
+              <img v-if="personnel?.photoEmploye" :src="getUrlApiForFiles(personnel.photoEmploye, 'Personnels')" alt="Profile" class="img-thumbnail" style="width: 120px; height: 120px;"/>
               <div class="ms-3">
                 <!-- General Information -->
                 <div class="row">
@@ -280,7 +280,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import ApiService from "@/services/ApiService";
-import { error } from "@/utils/utils";
+import { error,getUrlApiForFiles } from "@/utils/utils";
 
 export default defineComponent({
   name: "ViewPersonnel",
@@ -310,7 +310,7 @@ export default defineComponent({
       }
     });
 
-    return { personnel, formatDate };
+    return { personnel, formatDate,getUrlApiForFiles };
   },
 });
 </script>
