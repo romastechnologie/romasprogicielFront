@@ -66,7 +66,6 @@ const ajouterPeriode = (dateStr, x, frequence) => {
       return null;
   }
 
-  // Retourner la nouvelle date formatée en ISO (aaaa-mm-jj)
   return date.toISOString().split('T')[0];
 }
 

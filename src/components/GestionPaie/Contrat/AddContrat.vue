@@ -56,13 +56,13 @@
           </div>
 
           <div class="col-md-4 mb-3">
-            <label for="salaireDeBase" class="form-label"
+            <label for="salaireBase" class="form-label"
               >Salaire de base<span class="text-danger">*</span></label
             >
             <input
-              v-model="contrat.salaireDeBase"
+              v-model="contrat.salaireBase"
               class="form-control"
-              type="text"
+              type="number"
             />
             <span class="invalid-feedback"></span>
           </div>
@@ -556,7 +556,7 @@
               style="background-color: #0a59a4"
             >
               <div class="col-md-3">
-                <h3 class="fs-4 text-white">Prime XX</h3>
+                <h3 class="fs-4 text-white">Prime</h3>
               </div>
               <!-- <div class="col-md-4">
                           <h3 class="fs-4 text-white">Montant total : {{ montantTotal }}</h3>
@@ -852,7 +852,7 @@ export default defineComponent({
 
   setup: () => {
     const contratSchema = Yup.object().shape({
-      salaireDeBase: Yup.string().required("Le salaire est obligatoire."),
+      salaireBase: Yup.string().required("Le salaire est obligatoire."),
       nobreheuresTravail: Yup.number()
         .typeError("veuillez entrer des nombres")
         .required("Les heures sont obligatoires."),
@@ -890,7 +890,7 @@ export default defineComponent({
     const contrat = ref({
       refContrat: "",
       poste: "",
-      salaireDeBase: "",
+      salaireBase: "",
       nobreheuresTravail: "",
       dateDebut: null,
       dateFin: null,
@@ -936,7 +936,7 @@ export default defineComponent({
         dureePeriodeEssai: { required },
         periodiciteDureeEssai: { required },
         periodiciteDureeContrat: { required },
-        salaireDeBase: { required },
+        salaireBase: { required },
         nobreheuresTravail: { required },
         categorieContrat: { required },
         dateFin: { required },

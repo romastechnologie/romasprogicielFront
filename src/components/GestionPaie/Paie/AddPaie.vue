@@ -411,7 +411,7 @@
         console.log('Contrat', contratsData);
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label: contrat.reference,
+          label: contrat.salaireBase + "-" + contrat?.personnel?.nom,
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
