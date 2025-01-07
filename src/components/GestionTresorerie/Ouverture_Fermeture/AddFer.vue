@@ -1,10 +1,21 @@
 <template>
-    <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-        <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing ">
-                <Form class="card" :validation-schema="schema" @submit="sendFer(ouvFer.tresorerieName, ouvFer.ouvFerName)">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
+  <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+      <Form
+        class="row g-3"
+        :validation-schema="schema"
+        @submit="sendOuvFer(ouvFer.tresorerieName, ouvFer.ouvFerName)"
+      >
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12 mb-md-25">
+              <div
+                class="tab-pane fade show active p-10"
+                id="home-tab-pane"
+                role="tabpanel"
+                tabindex="0"
+              >
+                <div class="row">
                   <div class="border border-primary mb-10">
                     <div
                       class="row d-flex align-items-center justify-content-between fw-bold py-2"
@@ -66,148 +77,150 @@
         </div>
     </Form>
 </template>
-            
                       <p>Montant Total: {{ montantTotal }}</p>
                     </div>
                   </div>
                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="col mb-3">
-                                    <label for="fondDeRoulement">FondDeRoulement</label>
-                                    <Field type="number" id="fondDeRoulement" name="fondDeRoulement"
-                                        class="form-control" v-model="montantTotal" />
-                                    <ErrorMessage name="fondDeRoulement" class="text-danger" />
-                                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mt-4">
+          
+          <div class="col mb-3">
+            <label for="fondDeRoulement">FondDeRoulement</label>
+            <Field
+              type="number"
+              id="fondDeRoulement"
+              name="fondDeRoulement"
+              class="form-control"
+              v-model="montantTotal"
+              disabled
+            />
+            <ErrorMessage name="fondDeRoulement" class="text-danger" />
+          </div>
 
-                                <div class="col mb-3">
+          <div class="col mb-3" >
                                     <label for="tresorerieName">Tresorerie</label>
-                                    <Field type="number" id="tresorerieName" name="tresorerieName" class="form-control"
-                                        v-model="ouvFer.tresorerieName" as="select">
-                                        <option v-for="caisse in tresorerieList" :key="caisse.id" :value="caisse.id">{{
-                                            caisse.nom }} => {{ caisse.status || "fermé" }}</option>
-                                    </Field>
+                                    <Field name="tresorerieName" v-model="tresoreries" type="text" v-slot="{ field }">
+                                      <Multiselect 
+  v-model="tresoreries" 
+  :options="tresorerieOptions" 
+  :preserve-search="true"
+  :multiple="false" 
+  :searchable="true" 
+  placeholder="Sélectionner la trésorerie"
+  label="label" 
+  track-by="value" 
+/>
+
+                                  </Field>
                                     <ErrorMessage name="tresorerieName" class="text-danger" />
                                 </div>
 
-                                <div class="col mb-3">
-                                    <label for="ouvFerName">OuvFer de caisse</label>
-                                    <Field type="number" id="ouvFerName" name="ouvFerName" class="form-control"
-                                        v-model="ouvFer.ouvFerName" as="select">
-                                        <option v-for="ouvFer in ouvFerList" :key="ouvFer.id" :value="ouvFer.id">{{
-                                            ouvFer.fondDeRoulement }} => {{ ouvFer.tresorerie?.nom }}({{ouvFer.tresorerie?.status}})</option>
-                                    </Field>
-                                    <ErrorMessage name="ouvFerName" class="text-danger" />
-                                </div>
-
-                                <div class="mb-3">
-                                    <button type="submit" 
-                                        class="btn btn-primary top-end">Save</button>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-
-                </Form>
-
-
-
-
-
-            </div>
+             <div class="mb-3 mt-1">
+            <button type="submit" class="btn btn-primary top-end">
+              Envoyer
+            </button>
+            <router-link to="/ouv_fers/liste-ouv_fer/" type="button"
+            class="btn btn-danger mx-1">Annuler</router-link>
+          </div>
         </div>
-
+      </Form>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-
-
 import { Ouv_Fer } from "@/models/OuvFer";
 import { Tresorerie } from "@/models/Tresorerie";
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import axios from "axios";
-import * as Yup from 'yup'
-import { configure, Form, Field, ErrorMessage } from "vee-validate"
-import { useRouter } from 'vue-router';
+import * as Yup from "yup";
+import { configure, Form, Field, ErrorMessage } from "vee-validate";
+import Multiselect from "@vueform/multiselect";
 import { Monnaie } from "@/models/Monnaie";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
+import router from "@/router";
+import { error } from "../../../utils/utils";
 
-
-const ouvFer = ref<Ouv_Fer>({})
-const ouvFerList = ref<Ouv_Fer[]>([])
-const tresorerieList = ref<Tresorerie[]>([])
-const tresorerie = ref<Tresorerie>({})
-    const router = useRouter();
-
+const ouvFer = ref<Ouv_Fer>({});
+const ouvFerList = ref<Ouv_Fer[]>([]);
+const tresorerieList = ref<Tresorerie[]>([]);
+const tresorerie = ref<Tresorerie>({});
+let show = ref(true);
 
 interface Billetage {
-    montant: number;
+  montant: number;
   libelle: string;
   qteBillet: number;
   valueAct: number;
   monnaie: number;
   ouv_fer?: number;
 }
-const billetageList = reactive<Billetage[]>([])
-const monnaieList = ref([] as any[])
-let montantTotal = ref(0)
+const billetageList = reactive<Billetage[]>([]);
+const monnaieList = ref([] as any[]);
+let montantTotal = ref<null | number>(null);
 
-
-
+const tresoreries = ref();
+const tresorerieOptions = ref([]);
 const schema = Yup.object().shape({
-    fondDeRoulement: Yup.number().required('Le fond de roulement est obligatoire'),
-    ouvFerName: Yup.number().required('L\' ouverture de caisse  est obligatoire'),
-
-    tresorerieName: Yup.number().required('La trésorerie est obligatoire'),
-
-})
+  fondDeRoulement: Yup.number()
+    .nullable() 
+    .required("Le fond de roulement est obligatoire") 
+    .notOneOf([0], "Le fond de roulement ne peut pas être 0"), 
+  tresorerieName: Yup.string().required("La trésorerie est obligatoire"),
+});
 
 configure({
-    validateOnBlur: true,
-    validateOnChange: true,
-    validateOnInput: true,
+  validateOnBlur: true,
+  validateOnChange: true,
+  validateOnInput: true,
 });
 
 
-async function sendFer(tresorerieName: any, ouvFerName: any) {
-    try {
-        ouvFer.value.fondDeRoulement = (document.getElementById('fondDeRoulement') as HTMLInputElement).value
-        const res = await axios.post(`/ouv_fers/`, ouvFer.value)
-        const ouvFerId = res.data.id;
 
-        if (res.data) {
-            try {
+async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
+  try {
+    ouvFer.value.tresorerieId = tresoreries.value;
 
-                const billetageData = billetageList.map(billetage => ({
-                    ...billetage,
-                    ouv_fer: ouvFerId
-                }));
+    const fondDeRoulement = (
+      document.getElementById("fondDeRoulement") as HTMLInputElement
+    ).value;
+    ouvFer.value.fondDeRoulement = Number(fondDeRoulement); // Conversion en nombre
 
-                await axios.post(`/billetages/`, billetageData)
-                router.push("/ouv_fers/liste-ouv_fer");
+    console.log("Données envoyées :", ouvFer.value);
 
-                Swal.fire({
-                    timer: 1000,
-                    position: "top-end",
-                    text: "billetage réussi avec succès",
-                    icon: "success"
-                }).then(() => {
-                    router.push("/ouv_fers/liste-ouv_fer");
-                });
-            } catch (error) {
-                console.error('Erreur lors du billetage:', error)
-                throw error;
-            }
-        }
+    const res = await ApiService.post("/fers/", ouvFer.value);
+    const ouvFerId = res.data.id;
 
-
-    } catch (error) {
-        console.error('Erreur lors de l\'ouverture de caisse:', error)
-        throw error;
+    
+    if (res.data) {
+      const billetageData = billetageList.map((billetage) => ({
+        ...billetage,
+        ouv_fer: ouvFerId,
+      }));
+      await ApiService.post("/billetages/", billetageData);
+      router.push("/ouv_fers/liste-ouv_fer");
+      Swal.fire({
+        timer: 2000,
+        position: "top-end",
+        toast: true,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        text: "Ouverture réussi avec succès",
+        icon: "success",
+      });
     }
+  } catch (err) {
+    console.error("Erreur lors de l'ouverture de caisse:", err);
+    if (err.code  && err.code === "ERR_BAD_REQUEST") {
+      const errorMessage = err.response?.data?.message || "Une erreur est survenue.";
+      error(errorMessage);
+    }
+
+  }
 }
 
 const caisses = computed(() => {
@@ -215,30 +228,26 @@ const caisses = computed(() => {
 });
 
 
-const getTresorerie = async () => {
-  try {
-    console.log("Tentative de récupération des trésoreries...");
-    const response = await axios.get("all/tresoreries");
-    tresorerieList.value =  response.data.data.data;
-    console.log("Données des trésoreries récupérées:", response);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des trésoreries:", error);
-  }
-};
+const getTresorerie= async () => {
+          try{
+          const response = await ApiService.get('/tresoreriecaisses');
+          const tresoreriesData = response.data.data.data;
+          console.log("tresorerie", tresoreriesData);
+          tresorerieOptions.value = tresoreriesData.map((tresorerie) => ({
+            value: tresorerie.id,
+            label: tresorerie.nom,
+          }));
+          }
+          catch(error){
+          }
+        } 
+
 const getouvFer = async () => {
-    await axios.get<Ouv_Fer[]>('/ouv_fers').then(res => {
-        ouvFerList.value = res.data
-        console.log(ouvFerList.value)
-    })
-}
-
-// const getBilletage = async () => {
-//     await axios.get<Billetage[]>('http://localhost:3000/api/billetage').then(res => {
-//         billetageList.value = res.data
-//         console.log(billetageList.value)
-//     })
-// }
-
+  await ApiService.get("all/ouv_fers").then((res) => {
+    ouvFerList.value = res.data;
+    console.log(ouvFerList.value);
+  });
+};
 
 const getMonnaie = async () => {
   try {
@@ -258,8 +267,6 @@ const getMonnaie = async () => {
   }
 };
 
-
-
 function handleBilletageInput(event: Event, billetage: Billetage) {
   const newValue = Number((event.target as HTMLInputElement).value);
   billetage.qteBillet = newValue || 0;
@@ -272,10 +279,12 @@ const updateMontant = (billetage: Billetage) => {
 };
 
 const calculateTotal = () => {
-  montantTotal.value = billetageList.reduce((total, billetage) => {
+  const total = billetageList.reduce((total, billetage) => {
     return total + (billetage.montant || 0);
   }, 0);
+  montantTotal.value = total || null; 
 };
+
 
 // Watch billetageList deeply for changes and recalculate automatically
 watch(
@@ -286,14 +295,9 @@ watch(
   { deep: true }
 );
 
-
 onMounted(() => {
-    getTresorerie(),
-        getMonnaie(),
-        calculateTotal(),
-        getouvFer()
-})
-
+  getTresorerie(), getMonnaie(), calculateTotal(), getouvFer();
+});
 </script>
 
 <style scoped>

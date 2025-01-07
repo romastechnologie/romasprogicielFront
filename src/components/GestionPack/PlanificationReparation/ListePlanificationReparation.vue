@@ -86,11 +86,11 @@
             <tbody>
               <tr  v-for ="(planificationReparation, index) in planificationReparations" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.reference }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(planificationReparation?.dateReparationPrevue) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.dateReparationPrevue?.split('T')[0]?.split('-').reverse().join('/') }}                  </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation?.libelle }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.bien?.nomBien }} </td>
                  <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.panne?.libelle || planificationReparation.typeentretien?.libelle }}</td>
-                 <td class="shadow-none lh-1 fw-medium ">{{format_date(planificationReparation?.dateReparationReel) }} </td>
+                 <td class="shadow-none lh-1 fw-medium ">{{planificationReparation?.dateReparationReel?.split('T')[0]?.split('-').reverse().join('/') }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ planificationReparation.description }} </td>
                  <td class="shadow-none lh-1 fw-medium">
   <span :class="getEtatBadge(planificationReparation.estRepare).badgeClass">

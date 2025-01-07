@@ -52,8 +52,7 @@
                       <!--   <th scope="col">Piece de caisse</th>-->   
                             <th scope="col">montant</th>
                             <th scope="col">Type de finance</th>
-                            <th scope="col">Bénéficiaire</th>
-                            <th scope="col">Personnel</th> 
+                            <th scope="col">Bénéficiaire</th> 
                             <th scope="col">Reste a payer</th>       
                 <th
                   scope="col"
@@ -66,8 +65,8 @@
                              <th>{{ finance.id }}</th>
                             <th>{{ finance.montant }}</th>
                             <th>{{ finance.type }}</th>
-                            <th>{{ finance.beneficiaire }}</th>
-                            <th>{{ finance.personnel?.nom }}&nbsp;{{ finance.personnel?.prenom }}</th>
+                            <th>{{ (finance.personnel?.nom + ' ' + finance.personnel?.prenom) || finance.beneficiaire }}
+                            </th>
                             <th>{{ finance.resteAPayer }}</th>
 
                 <td

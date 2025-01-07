@@ -143,6 +143,7 @@ import { Monnaie } from "@/models/Monnaie";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import router from "@/router";
+import { error } from "../../../utils/utils";
 
 const ouvFer = ref<Ouv_Fer>({});
 const ouvFerList = ref<Ouv_Fer[]>([]);
@@ -193,6 +194,7 @@ async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
     const res = await ApiService.post("/ouv_fers/", ouvFer.value);
     const ouvFerId = res.data.id;
 
+    
     if (res.data) {
       const billetageData = billetageList.map((billetage) => ({
         ...billetage,
@@ -210,8 +212,13 @@ async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
         icon: "success",
       });
     }
-  } catch (error) {
-    console.error("Erreur lors de l'ouverture de caisse:", error);
+  } catch (err) {
+    console.error("Erreur lors de l'ouverture de caisse:", err);
+    if (err.code  && err.code === "ERR_BAD_REQUEST") {
+      const errorMessage = err.response?.data?.message || "Une erreur est survenue.";
+      error(errorMessage);
+    }
+
   }
 }
 

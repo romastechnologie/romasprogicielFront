@@ -82,7 +82,7 @@
           <tbody>
             <tr v-for="(noteMission, index) in noteMissions" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ noteMission?.mission?.description }}
+                {{ noteMission?.mission?.destination }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ noteMission.budget }}
