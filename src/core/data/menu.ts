@@ -411,6 +411,7 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
+    /*
     {
         title: "Echeances",
         icon: "stroke-learning",
@@ -420,7 +421,7 @@ export const menu: MenuItem[] = [
         badgeType: "light-primary",
         active: false,
         isPinned: false
-    },
+    }, */
     {
         title: "Postes",
         icon: "stroke-learning",
