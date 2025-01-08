@@ -70,7 +70,7 @@
 
           <div class="col-md-4 mb-3">
                     <label for="salaireBrut" class="form-label">Salaire Brut<span class="text-danger">*</span></label>
-                    <Field name="salaireBrut" class="form-control" type="text" v-model="salaireDeBase" :readonly="true"/>
+                    <Field name="salaireBrut" class="form-control" type="number" v-model="salaireDeBase" :readonly="true"/>
                     <ErrorMessage name="salaireBrut" class="text-danger" />
             </div>
             <div class="col-md-4 mb-3">
@@ -372,14 +372,14 @@
     setup: () => {
       const paieSchema = Yup.object().shape({
             refPaie: Yup.string().required("La référence est obligatoire."),
-            salaireBrut: Yup.number().typeError("veuillez entrer des nombres").required("Le nom est obligatoire."),
+            salaireBrut: Yup.number().typeError("veuillez entrer des nombres").required("Le salaire Brut est obligatoire."),
             totalRetenues: Yup.number().typeError("veuillez entrer des nombres").required("Le cout d'aquisition est obligatoire."),
-            datePaie: Yup.date().typeError("veuillez entrer une date valide").required("La date de début est obligatoire."),
+            datePaie: Yup.date().typeError("veuillez entrer une date valide").required("La date de paie est obligatoire."),
             // dateFin: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
             // periodeEssai: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
             // periodePaie: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
             renouvelable: Yup.string().notRequired(),
-            modes: Yup.string().required("Le type est obligatoire."),
+            modes: Yup.string().required("Le mode de paiement est obligatoire."),
       });
   
       onMounted(() => {

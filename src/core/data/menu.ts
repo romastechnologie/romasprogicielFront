@@ -643,7 +643,12 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/ouv_fers/ajouter-ouv_fer",
-                title: "Faire une ouverture de caisse ",
+                title: "Ouverture de caisse ",
+                type: "link"
+            },
+            {
+                path: "/ouv_fers/ajouter-fermeture",
+                title: "Fermeture de caisse ",
                 type: "link"
             },
             {

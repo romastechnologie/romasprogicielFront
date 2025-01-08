@@ -11,6 +11,17 @@
             <i class="fa fa-plus-circle"></i>
             Ouverture de caisse
           </router-link>
+        </div>
+
+
+          <div class="d-sm-flex align-items-center">
+          <router-link
+            class="btn btn-primary"
+            to="/ouv_fers/ajouter-fermeture"
+          >
+            <i class="fa fa-plus-circle"></i>
+            Fermeture de caisse
+          </router-link>
       
         </div>
         <div class="d-flex align-items-center">
@@ -57,10 +68,10 @@
   <span
     :class="[
       'badge fs-15',
-      ouvFer.tresorerie?.status === 'Fermé' ? 'bg-danger' : 'bg-success'
+      ouvFer.status === 'Fermé' ? 'bg-danger' : 'bg-success'
     ]"
   >
-    {{ ouvFer.tresorerie?.status ? ouvFer.tresorerie.status : 'Ouvert' }}
+    {{ ouvFer.status ? ouvFer.status : 'Ouvert' }}
   </span>
 </th>
                 <td

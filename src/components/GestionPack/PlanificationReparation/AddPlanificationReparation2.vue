@@ -82,31 +82,12 @@
   
             <div class="col-md-6 mt-3">
                     <label for="dateReparationPrevue" class="form-label">Date Réparation Prévue<span class="text-danger">*</span></label>
-                    <Field name="dateReparationPrevue" class="form-control" type="date"/>
+                    <Field name="dateReparationPrevue" class="form-control" type="date"
+                     :min="new Date().toISOString().split('T')[0]"
+                    />
                     <ErrorMessage name="dateReparationPrevue" class="text-danger" />
             </div>
-            
-          <!--<div class="col-md-6 mt-3">
-                    <label for="dateReparationReel" class="form-label">Date Réparation Réelle<span class="text-danger">*</span></label>
-                    <Field name="dateReparationReel" class="form-control" type="date"/>
-                    <ErrorMessage name="dateReparationReel" class="text-danger" />
-            </div>--> 
-           <!-- <div class="col-md-4 mt-3">
-                    <label for="lieuReparation" class="form-label"> Lieu de réparation<span class="text-danger">*</span></label>
-                    <Field name="lieuReparation"  class="form-control" type="text"/>
-                    <ErrorMessage name="lieuReparation" class="text-danger" />
-            </div>
-  
-            <div class="col-md-4 mt-3">
-                    <label for="description" class="form-label"> Description<span class="text-danger">*</span></label>
-                    <Field name="description"  class="form-control" type="text"/>
-                    <ErrorMessage name="description" class="text-danger" />
-            </div>
-            <div class="col-md-4 mt-3">
-                    <label for="montantReelDepense" class="form-label"> Montant réel dépensé<span class="text-danger">*</span></label>
-                    <Field name="montantReelDepense"  class="form-control" type="number"/>
-                    <ErrorMessage name="montantReelDepense" class="text-danger" />
-            </div>-->
+       
 
             <div class="col-md-4 mt-3">
                     <label for="budgetAlloue" class="form-label"> Budget Alloué<span class="text-danger">*</span></label>
@@ -115,19 +96,7 @@
             </div>
            
         
-            <!--<div class="col-md-4 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">
-                 Personnel<span class="text-danger">*</span>
-                </label>
-                <Field name="personnel" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                   :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
-                  label="label" track-by="label" />
-                </Field>
-                <ErrorMessage name="personnel" class="text-danger" />
-              </div>
-            </div>-->
+       
           
             
           <div class="col-md-12 mt-3">
@@ -259,21 +228,6 @@
       };
   
   
-      /*const getAllPannes= async () => {
-          try{
-          const response = await ApiService.get('/all/pannes');
-          const pannesData = response.data.data.data;
-          console.log("panne", pannesData);
-          panneOptions.value = pannesData.map((panne) => ({
-            value: panne.id,
-            label: panne.libelle,
-          }));
-          }
-          catch(error){
-            //error(response.data.message)
-          }
-        } */
-
         const getAllBiens= async () => {
           try{
           const response = await ApiService.get('/all/biens');
