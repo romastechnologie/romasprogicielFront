@@ -86,7 +86,7 @@
                   {{ typeOrganisation.libelle}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ typeOrganisation.typeOrganisations?.libelle}}
+                  {{ typeOrganisation.typeOrganisation?.libelle}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ format_date(typeOrganisation.createdAt)  }}
@@ -149,7 +149,7 @@
         getAllTypeOrganisations();
       });
   
-      const typeOrganisations = ref<Array<TypeOrganisation>>([]);
+      const typeOrganisations = ref<Array<any>>([]);
       const idtypeOrganisation = ref(0);
       // const typeOrganisation = ref<TypeOrganisation>();
       const loading = ref<boolean>(false);

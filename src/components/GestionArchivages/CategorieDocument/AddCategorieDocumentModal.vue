@@ -29,7 +29,7 @@
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
-                    code <span class="text-danger">*</span>
+                    Code <span class="text-danger">*</span>
                   </label>
                   <Field
                     name="code"
@@ -109,7 +109,7 @@ export default defineComponent({
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
-    const title = ref("Ajouter une catégorie Document");
+    const title = ref("Ajouter une catégorie de document");
     const btntext = ref("Ajouter");
 
     watch(
@@ -123,10 +123,10 @@ export default defineComponent({
 
     const btnTitle = async () => {
       if (isUPDATE.value) {
-        title.value = "Modifier la categorie Document";
+        title.value = "Modifier la catégorie de document";
         btntext.value = "Modifier";
       } else {
-        title.value = "Ajouter une categorie Document";
+        title.value = "Ajouter une catégorie de document";
         btntext.value = "Ajouter";
       }
     };

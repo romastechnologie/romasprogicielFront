@@ -87,7 +87,7 @@ import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
 import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
-import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
+//import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
 import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
 import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
 import ListeMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue";
@@ -497,7 +497,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
-  {
+  /*{
     path: "/echeances",
     component: BodyView,
     children: [
@@ -510,7 +510,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
     ]
-  },
+  },*/
   {
     path: "/utilisateurs",
     component: BodyView,

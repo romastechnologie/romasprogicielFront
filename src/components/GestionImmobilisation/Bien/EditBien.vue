@@ -3,17 +3,17 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form ref="bienForm" @submit="editBien" :validation-schema="bienSchema" :initial-values="bienForm">
             <div class="row">
-              <div class="col-md-4 mt-3">
+              <div class="col-md-4">
                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
                     <Field name="refBien" class="form-control" type="text"/>
                     <ErrorMessage name="refBien" class="text-danger" />
             </div>
-            <div class="col-md-4 mt-3">
-                    <label for="nomBien" class="form-label">Nom du Bien <span class="text-danger">*</span></label>
+            <div class="col-md-4">
+                    <label for="nomBien" class="form-label">Nom du Bien<span class="text-danger">*</span></label>
                     <Field name="nomBien" class="form-control" type="text"/>
                     <ErrorMessage name="nomBien" class="text-danger" />
             </div>
-            <div class="col-md-4 mt-3">
+            <div class="col-md-4">
                     <label for="coutAcquisition" class="form-label">Cout Acquisition<span class="text-danger">*</span></label>
                     <Field name="coutAcquisition" class="form-control" type="number"/>
                     <ErrorMessage name="coutAcquisition" class="text-danger" />
@@ -45,7 +45,7 @@
                     <Field name="codeBar" class="form-control" type="text"/>
                     <ErrorMessage name="codeBar" class="text-danger" />
          </div>
-         <div class="col-md-4 mt-3 ">
+         <div class="col-md-4 mt-3">
                     <label for="localisation" class="form-label">Localisation</label>
                     <Field name="localisation"  class="form-control" type="text"/>
                     <ErrorMessage name="localisation" class="text-danger" />
@@ -61,6 +61,7 @@
                     <ErrorMessage name="latitude" class="text-danger" />
          </div>
 
+
          <div class="col-md-4">
                     <label for="nbreKmParUnLitre" class="form-label">Nombre de Kilomètres par un Litre</label>
                     <Field name="nbreKmParUnLitre" class="form-control" type="number"/>
@@ -68,7 +69,7 @@
             </div>
 
          <div class="col-md-4 mt-3">
-          <div class="form-group">
+            <div class="form-group">
               <label class="d-block text-black">
                 Mode Amortissement <span class="text-danger">*</span>
               </label>
@@ -78,16 +79,16 @@
               </Field>
               <ErrorMessage name="modeAmortissement" class="text-danger" />
             </div>
-         </div>
+          </div>
          <div class="col-md-4 mt-3">
                     <label for="valeurNetteComptable" class="form-label">Valeur Nette Comptable<span class="text-danger">*</span></label>
                     <Field name="valeurNetteComptable" class="form-control" type="number"/>
-                    <ErrorMessage name="valeurNetteComptable" class="text-danger" />
-                    
+                    <ErrorMessage name="valeurNetteComptable" class="text-danger" />         
           </div>
+
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black  mb-10">
+              <label class="d-block text-black mb-10">
                 Type Bien <span class="text-danger">*</span>
               </label>
               <Field name="typeBien" v-model="types" type="text" v-slot="{ field }">
@@ -95,13 +96,13 @@
                  :multiple="false" :searchable="true" placeholder="Sélectionner le type"
                 label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="typeBien" class="text-danger"/>
+              <span class="text-danger" v-if="showMErr">Le type de bien est obligatoire</span>
             </div>
           </div>
-          
+
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
+              <label class="d-block text-black  mb-10">
                 Catégorie Bien <span class="text-danger">*</span>
               </label>
               <Field name="categorieBien" v-model="categories" type="text" v-slot="{ field }">
@@ -109,23 +110,40 @@
                  :multiple="false" :searchable="true" placeholder="Sélectionner la catégorie"
                 label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="categorieBien" class="text-danger"/>
+              <span class="text-danger" v-if="showMErr">La catégorie de bien est obligatoire</span>
             </div>
           </div>
+
 
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Organisation <span class="text-danger">*</span>
+                Type entretien <span class="text-danger">*</span>
               </label>
-              <Field name="service" v-model="services" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation"
+              <Field name="typeentretien" v-model="typeentretiens" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="typeentretienOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le type entretien"
                 label="label" track-by="label" />
               </Field>
-              <ErrorMessage name="service" class="text-danger"/>
+              <span class="text-danger" v-if="showMErr">Le type entretien est obligatoire</span>
             </div>
           </div>
+
+
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black  mb-10">
+                Organisation <span class="text-danger">*</span>
+              </label>
+              <Field name="organisation" v-model="services" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner l'organisation "
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">L'Organisation est obligatoire</span>
+            </div>
+          </div>
+
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -190,8 +208,9 @@
 
     onMounted(() => {
         getAllTypeBien();
+        getAllTypeentretien();
         getAllCategorieBien();
-        getAllService();
+        getAllOrganisation();
       if(route.params.id) {
         getBien(parseInt(route.params.id as string));
       }
@@ -220,6 +239,9 @@
 }
 
     const typeOptions = ref([]);
+    const typeentretiens = ref();
+    const typeentretienOptions = ref([]);
+
     const categorieOptions = ref([]);
     const serviceOptions = ref([]);
 
@@ -259,9 +281,24 @@
           //error(response.data.message)
         }
       } 
+
+      const getAllTypeentretien = async () => {
+        try{
+        const response = await ApiService.get('/all/typeentretiens');
+        const typeentretiensData = response.data.data.data;
+
+        typeentretienOptions.value = typeentretiensData.map((typeentretien) => ({
+          value: typeentretien.id,
+          label: typeentretien.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      }
   
 
-      const getAllService = async () => {
+   /*   const getAllService = async () => {
         try{
         const response = await ApiService.get('/services');
         const servicesData = response.data.data.data;
@@ -274,7 +311,7 @@
         catch(error){
           //error(response.data.message)
         }
-      } 
+      } */
    
     const editBien = async (values, {resetForm}) => {
       ApiService.put("/biens/"+values.id,values)
@@ -290,6 +327,21 @@
           error(response.data.message);
       });
     };
+
+    const getAllOrganisation = async () => {
+        try{
+        const response = await ApiService.get('/all/organisations');
+        const servicesData = response.data.data.data;
+        console.log(servicesData,"gggggggggg");
+        serviceOptions.value = servicesData.map((service) => ({
+          value: service.id,
+          label: service.nom,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
   
   
    
@@ -298,9 +350,10 @@
           editBien,
           typeOptions,
           categorieOptions,
-          serviceOptions,
+          serviceOptions, typeentretienOptions,
           showMErr,
           types,
+          typeentretiens,
           categories,
           services
           

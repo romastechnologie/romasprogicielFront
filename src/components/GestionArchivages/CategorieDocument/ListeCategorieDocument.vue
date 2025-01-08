@@ -11,7 +11,7 @@
           data-bs-target="#AddCategorieDocumentModal"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter une Categorie Document
+          Ajouter une catégorie de document
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -54,14 +54,14 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Libelle 
+                Code 
               </th>
               
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-              Code
+              Libelle
               </th>
               <th
                 scope="col"
@@ -72,11 +72,11 @@
           <tbody>
             <tr v-for="(categorieDocument, index) in CategoriesDocuments" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ categorieDocument.libelle }}
+                {{ categorieDocument.code }}
               </td>
               
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ categorieDocument.code }}
+                {{ categorieDocument.libelle }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"

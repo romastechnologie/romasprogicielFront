@@ -380,7 +380,7 @@ export const menu = [
         active: false,
         isPinned: false
     },
-    {
+   /* {
         title: "Echeances",
         icon: "stroke-learning",
         icon1: "fill-learning",
@@ -389,7 +389,7 @@ export const menu = [
         badgeType: "light-primary",
         active: false,
         isPinned: false
-    },
+    },*/
     {
         title: "Postes",
         icon: "stroke-learning",
