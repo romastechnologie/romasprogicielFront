@@ -536,11 +536,11 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-            {
-                path: "/horaires/ajouter-horaire",
-                title: "Ajouter un horaire",
-                type: "link"
-            },
+            // {
+            //     path: "/horaires/ajouter-horaire",
+            //     title: "Ajouter un horaire",
+            //     type: "link"
+            // },
             {
                 path: "/horaires/liste-horaire",
                 title: "Liste des horaires",

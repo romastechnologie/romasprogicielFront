@@ -1724,14 +1724,14 @@ const routes: Array<RouteRecordRaw> = [
     path: "/horaires",
     component: BodyView,
     children: [
-      {
-        path: "ajouter-horaire",
-        name: "AddHoraire",
-        component: AddHorairePage,
-        meta: {
-          title: 'Ajouter un horaire',
-        }
-      },
+      // {
+      //   path: "ajouter-horaire",
+      //   name: "AddHoraire",
+      //   component: AddHorairePage,
+      //   meta: {
+      //     title: 'Ajouter un horaire',
+      //   }
+      // },
       {
         path: "liste-horaire",
         name: "ListeHoraire",

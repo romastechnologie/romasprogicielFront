@@ -372,7 +372,7 @@
     setup: () => {
       const paieSchema = Yup.object().shape({
             refPaie: Yup.string().required("La référence est obligatoire."),
-            salaireBrut: Yup.number().typeError("veuillez entrer des nombres").required("Le salaire Brut est obligatoire."),
+            salaireBrut: Yup.number().required("Le salaire Brut est obligatoire."),
             totalRetenues: Yup.number().typeError("veuillez entrer des nombres").required("Le cout d'aquisition est obligatoire."),
             datePaie: Yup.date().typeError("veuillez entrer une date valide").required("La date de paie est obligatoire."),
             // dateFin: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),

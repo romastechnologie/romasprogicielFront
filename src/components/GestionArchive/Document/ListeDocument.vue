@@ -107,7 +107,7 @@
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.refDoc }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.nom }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.description }} </td>
-                <td class="shadow-none lh-1 fw-medium">{{ format_date(document.dateFinConservation) }} </td>
+                <td class="shadow-none lh-1 fw-medium">{{ format_Date(document.dateFinConservation) }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.tagDoc?.libelle }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation?.nom }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.emplacement?.code }} </td>
@@ -194,7 +194,7 @@
 import { defineComponent, onMounted, ref,watch } from "vue";
 import ApiService from "@/services/ApiService";
 import { Document } from "@/models/Document";
-import { format_date, suppression, error } from "@/utils/utils";
+import { format_date,format_Date, suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 import { Field } from "vee-validate";
@@ -358,6 +358,7 @@ const fetchCategorieDocuments = async () => {
       handlePaginate,
       searchTerm,
       rechercher,
+      format_Date
     };
   },
 });
