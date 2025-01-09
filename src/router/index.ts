@@ -308,6 +308,8 @@ import ListeTypePage from "@/pages/GestionModel/Type/ListeTypePage.vue";
 import ListeMissionPage from "@/pages/GestionMission/Mission/ListeMissionPage.vue";
 import AddMissionPage from "@/pages/GestionMission/Mission/AddMissionPage.vue";
 import EditMissionPage from "@/pages/GestionMission/Mission/EditMissionPage.vue";
+import ViewMissionPage from "@/pages/GestionMission/Mission/ViewMissionPage.vue";
+
 
 import ListeRapportPage from "@/pages/GestionMission/Rapport/ListeRapportPage.vue";
 
@@ -2204,6 +2206,15 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeMissionPage,
         meta: {
           title: 'Liste des missions',
+        }
+      },
+
+      {
+        path: "view-mission/:id",
+        name: "ViewMission",
+        component: ViewMissionPage,
+        meta: {
+          title: 'Détails d\'une mission',
         }
       },
     ]
