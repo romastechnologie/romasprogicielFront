@@ -85,12 +85,12 @@
                                 <span class="text-danger">*</span>
                               </label>
                             </div>
-                            <div class="col-md-2">
+                            <!-- <div class="col-md-2">
                               <label class="d-block text-black fw-semibold">
                                 Heure reglementaire
                                 <span class="text-danger">*</span>
                               </label>
-                            </div>
+                            </div> -->
 
                             <div class="col-md-2">
                               <label class="d-block text-black fw-semibold">

@@ -134,7 +134,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 IFU <span class="text-danger">*</span>
               </label>
-              <Field name="ifu" type="number" 
+              <Field name="ifu" type="text" 
               class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'ifu"/>
               <ErrorMessage name="ifu" class="text-danger"/>
             </div>
@@ -181,12 +181,13 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
-import { Form, Field, ErrorMessage } from "vee-validate";
+import { Form, Field,ErrorMessage } from "vee-validate";
 import * as Yup from "yup";
 import Multiselect from "@vueform/multiselect";
 import { useRouter } from "vue-router";
 import ApiService from "@/services/ApiService";
 import { error, success } from "@/utils/utils";
+
 
 export default defineComponent({
   name: "AddFournisseur",
@@ -206,6 +207,8 @@ export default defineComponent({
       { value: 1, label: "Personne Physique" },
       { value: 2, label: "Personne Morale" },
     ];
+
+
 
     // Validation dynamique basée sur le statut
     const fournisseurSchema = Yup.object().shape({
@@ -227,11 +230,11 @@ export default defineComponent({
       }),
       adresseFournisseur: Yup.string().notRequired(),
       email: Yup.string().email("Veuillez entrer un email valide").notRequired(),
-      telFournisseur1: Yup.number()
+      telFournisseur1: Yup.string()
         .typeError("Veuillez entrer des chiffres")
         .required("Le téléphone 1 est obligatoire"),
-      telFournisseur2: Yup.number().typeError("Veuillez entrer des chiffres").notRequired(),
-      ifu: Yup.number()
+      telFournisseur2: Yup.string().typeError("Veuillez entrer des chiffres").notRequired(),
+      ifu: Yup.string()
         .typeError("Veuillez entrer des chiffres")
         .required("L'IFU est obligatoire"),
       sigle: Yup.string().when("statut", {
@@ -264,6 +267,8 @@ export default defineComponent({
       showAdditionalFields.value = selectedValue === 1; // Met à jour dynamiquement
     };
 
+ 
+
     const addFournisseur = async (values: any, { resetForm }: any) => {
       try {
         const { data } = await ApiService.post("/fournisseurs", values);
@@ -284,7 +289,7 @@ export default defineComponent({
       defaultStatut,
       showAdditionalFields,
       handleStatutChange,
-      addFournisseur,
+      addFournisseur
     };
   },
 });

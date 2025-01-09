@@ -596,12 +596,12 @@ export default defineComponent({
 
     const getAllContrats = async () => {
       try {
-        const response = await ApiService.get("/contrats");
+        const response = await ApiService.get("/all/contrats");
         const contratsData = response.data.data.data;
         console.log("Data", contratsData);
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label: contrat.refContrat,
+          label: contrat.salaireBase + "-" + contrat?.personnel?.nom,
         }));
       } catch (error) {
         console.error("Error fetching contrats:", error);

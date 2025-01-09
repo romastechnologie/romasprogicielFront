@@ -1,5 +1,4 @@
 <template>
-
   <div class="modal fade" id="AddMouvementModal" tabindex="-1" role="dialog" ref="addMouvementModalRef"
     aria-labelledby="tooltipmodal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -59,7 +58,6 @@
               </div>
             </fieldset>
             <div class="row">
-
               <div class="col-md-6 mb-3">
                 <fieldset class="border rounded-3 p-1">
                   <legend class="float-none w-auto px-3">
@@ -86,7 +84,6 @@
                         </label>
                         <Field name="document" v-model="document1" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un document" />
-
                         </Field>
                         <ErrorMessage name="document" class="text-danger" />
                       </div>
@@ -229,9 +226,8 @@ export default {
   emits: ["refreshMouvements", 'openmodal'],
 
   setup: (props: any, { emit }: { emit: Function }) => {
-
     const loading = ref<boolean>(false);
-    const document1 = ref()
+    const document1 = ref();
     const mouvementSchema = Yup.object().shape({
       emplacementInitial: Yup.string().notRequired(),
       emplacementDestinataire: Yup.string().notRequired(),
@@ -243,8 +239,6 @@ export default {
       personnel: Yup.string().notRequired(),
 
     });
-
-
     const etatAffiche = ref(false);
     const mouvementnew = ref(props.id);
     const typeMouvement = ref([
@@ -289,7 +283,7 @@ export default {
     const lesDocuments = ref([])
     
     watch(document1, (newValue, oldValue) => {
-      if (newValue != oldValue) {
+      if (newValue != oldValue && newValue) {
         leDocu.value = lesDocuments.value.find(objet => objet.id === newValue);
       }
     });
@@ -332,7 +326,7 @@ export default {
         typeDocumentOptions.value = typeDocumentData.map(
           (typeDoc) => ({
             value: typeDoc.id,
-            label: `${typeDoc.code} - ${typeDoc.libelle}`,
+            label: `${typeDoc.code} - ${typeDoc.nom}`,
           })
         );
       } catch (error) {
@@ -345,13 +339,13 @@ export default {
 
     const getDocumentByType = async (type:any)=>{
       try{
-        const response = await axios.get(`documents/typeEmplacement/${type}/donnes`);
+        const response = await axios.get(`documents/typeEmplacement/:type/donnes`);
         const documentData = response.data.data;
         lesDocuments.value = documentData;
         documentByTypeOptions.value = documentData.map(
           (document) => ({
             value: document.id,
-            label: `${document.code} - ${document.nom}`,
+            label: `${document.nom} - ${document.refDoc}`,
           }))
       } catch (error) {
         //
@@ -359,7 +353,6 @@ export default {
       }
       
     }
-
     const emplacementOptions1 = ref([])
     const getEmplacement1 = async (type: any) => {
       if (type && type != "") {
@@ -420,10 +413,6 @@ export default {
           console.log("ERREREUR  ===> ", error)
         }
     }
-
-    
-
-
     const getEmplacementByTypeEmplacementSource = async (valeur: any) => {
       try {
           const etat = etatDocument.value;
@@ -438,8 +427,6 @@ export default {
           console.log("ERREREUR  ===> ", error)
         }
     }
-    
-
     const getPersonnelByKey = async (valeur: any) => {
       try {
           const retourr = await axios.get(`/get/personnels/${valeur}`);
@@ -506,7 +493,6 @@ export default {
       } else {
       }
     }
-
     const addMouvement = async (values: any, { resetForm }: { resetForm: () => void }) => {
       console.log("valuesvaluesvaluesvalues ==> ",values)
       loading.value = false;
@@ -546,8 +532,6 @@ export default {
         await btnTitle2()
       }
     })
-
-
     const resetValue = () => {
       const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
       isupdate.value = false;

@@ -169,7 +169,6 @@ export const menu: MenuItem[] = [
         ]
     },
 
-
     {
         title: "Religons",
         icon: "stroke-task",
@@ -278,7 +277,6 @@ export const menu: MenuItem[] = [
             },
         ]
     },
-
 
 
     {
@@ -411,7 +409,8 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
-  /*  {
+    /*
+    {
         title: "Echeances",
         icon: "stroke-learning",
         icon1: "fill-learning",
@@ -420,7 +419,7 @@ export const menu: MenuItem[] = [
         badgeType: "light-primary",
         active: false,
         isPinned: false
-    },*/
+    }, */
     {
         title: "Postes",
         icon: "stroke-learning",
@@ -536,11 +535,11 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-            {
-                path: "/horaires/ajouter-horaire",
-                title: "Ajouter un horaire",
-                type: "link"
-            },
+            // {
+            //     path: "/horaires/ajouter-horaire",
+            //     title: "Ajouter un horaire",
+            //     type: "link"
+            // },
             {
                 path: "/horaires/liste-horaire",
                 title: "Liste des horaires",
@@ -1593,7 +1592,6 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
-
     {
         headTitle1: "Gestion des depenses",
         headTitle2: "Depenses,TypesDepenses, CategoriesDepenses",
@@ -1730,7 +1728,6 @@ export const menu: MenuItem[] = [
         ]
     },
 
-
     {
         headTitle1: "Gestion Circuit",
         headTitle2: "Circuit,Validation",
@@ -1812,7 +1809,6 @@ export const menu: MenuItem[] = [
         isPinned: false,
         children: [
 
-
           
             {
                 path: "/roleetaps/liste-roleetaps",
@@ -1822,7 +1818,6 @@ export const menu: MenuItem[] = [
         ]
     },
     
-
 
 
     {
@@ -1872,7 +1867,6 @@ export const menu: MenuItem[] = [
         ]
     },
     
-
 
 
 
@@ -1949,6 +1943,6 @@ export const menu: MenuItem[] = [
     },
     
 
-
 ]
+
 

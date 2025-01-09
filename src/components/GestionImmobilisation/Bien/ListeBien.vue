@@ -120,16 +120,16 @@
             <tbody>
               <tr  v-for ="(bien, index) in biens" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.refBien }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.nomBien }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.coutAcquisition }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien.nomBien }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien.coutAcquisition }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien?.dateAcquisition?.split('T')[0]?.split('-').reverse().join('-')  }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien.dateMiseEnService?.split('T')[0]?.split('-').reverse().join('-')  }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.dateMiseEnService?.split('T')[0]?.split('-').reverse().join('-')  }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.dureeVie }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.numeroEnregistrement }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.nbreKmParUnLitre }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.codeBar }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.valeurNetteComptable }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(bien.createdAt) }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ format_Date(bien.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
@@ -221,7 +221,7 @@
   import { defineComponent, onMounted, ref} from "vue";
   import ApiService from "@/services/ApiService";
   import { Bien } from "@/models/Bien";
-  import { format_date, suppression, error, } from "@/utils/utils";
+  import { format_date, suppression, error, format_Date} from "@/utils/utils";
   
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
@@ -283,6 +283,7 @@
   }
   
       return {biens,
+        format_Date,
         checkPermission,
         format_date,
         suppression,

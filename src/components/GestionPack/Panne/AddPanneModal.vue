@@ -202,7 +202,7 @@ export default {
                             isupdate.value = false;
                             btnTitle();
                             emit("refreshPannes");
-                            router.push('/pannes/liste-pannes');
+                            router.push('/pannes/liste-panne');
                         }
                     }).catch(({ response }) => {
                         error(response.message);

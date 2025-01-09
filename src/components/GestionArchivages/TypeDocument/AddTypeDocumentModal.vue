@@ -98,7 +98,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const typeDocumentSchema = Yup.object().shape({
-      nom: Yup.string().required("Le nom est obligatoire"),
+      nom: Yup.string().required("Le libellé est obligatoire"),
       code: Yup.string().required("Le code est obligatoire"),
     });
 
@@ -109,7 +109,7 @@ export default defineComponent({
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
-    const title = ref("Ajouter un type Document");
+    const title = ref("Ajouter un type de document");
     const btntext = ref("Ajouter");
 
     watch(
@@ -123,10 +123,10 @@ export default defineComponent({
 
     const btnTitle = async () => {
       if (isUPDATE.value) {
-        title.value = "Modifier le type de Document";
+        title.value = "Modifier le type de document";
         btntext.value = "Modifier";
       } else {
-        title.value = "Ajouter un type de Document";
+        title.value = "Ajouter un type de document";
         btntext.value = "Ajouter";
       }
     };

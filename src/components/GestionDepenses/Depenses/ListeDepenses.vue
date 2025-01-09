@@ -30,9 +30,9 @@
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Libellé
               </th>
-              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+             <!-- <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Description
-              </th>
+              </th>-->
              
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Montant
@@ -54,7 +54,7 @@
             <tr v-for="(depense, index) in depenses" :key="index">  
               <td class="shadow-none lh-1 fw-medium ">{{ format_date(depense.createdAt) }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.libelle }} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ depense?.description }} </td>
+          <!--   <td class="shadow-none lh-1 fw-medium ">{{ depense?.description }} </td>--> 
               <td class="shadow-none lh-1 fw-medium ">{{ depense.montant }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.motif }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.observation }} </td>

@@ -34,12 +34,11 @@
                             </div>
                         </div>
 
-                        <!-- Date de création and Type de trésorerie on the same line -->
                         <div class="col-md-12 d-flex mt-3">
                             <div class="me-3 flex-grow-1">
                                 <label for="dateCreation">Date de création</label>
-                                <Field type="date" name="dateCreation" id="dateCreation" :value="new Date().toISOString().slice(0, 10)" 
-                                class="form-control" />
+                                <Field  name="dateCreation" id="dateCreation" class="form-control"  type="datetime-local" :value="new Date().toISOString().slice(0, 16).replace('T', ' ')"  
+                                />
                                 <ErrorMessage name="dateCreation" class="text-danger" />
                             </div>
                            
