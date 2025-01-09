@@ -557,7 +557,7 @@ import router from '@/router';
 
 
 const addDemande = async (values: any, { resetForm }) => {
-      values['typeConge'] = typeConge.value
+      //values['typeConge'] = typeConge.value
       values['categories'] = categories.value
       values['personnel'] = personnels.value
       console.log('Données envoyées', values)
