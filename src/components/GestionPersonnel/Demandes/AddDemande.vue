@@ -206,7 +206,7 @@
               <button class="btn btn-success me-3" type="submit">
                 Ajouter une demande
               </button>
-              <router-link to="/demandes/liste-demande" class=" btn btn-danger"><i
+              <router-link to="/demandes/liste-demande-attestation" class=" btn btn-danger"><i
                   class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
             </div>
@@ -560,7 +560,7 @@ const addDemande = async (values: any, { resetForm }) => {
       values['typeConge'] = typeConge.value
       values['categories'] = categories.value
       values['personnel'] = personnels.value
-      console.log('Données envoyées', personnels.value)
+      console.log('Données envoyées', values)
       if (showMErr.value === false) {
         ApiService.post("/demandes", values)
            .then(({ data }) => {
@@ -573,7 +573,7 @@ const addDemande = async (values: any, { resetForm }) => {
 
               //router.push({ name: "ListeBanquePage" });
               
-              //  console.log('flefelef',data.data.categorie)
+              console.log('flefelef',data.data.categorie)
                if(data.data.categorie == 1){
                router.push({ name: "ListeDemandePermissionPage" });
               }else if(data.data.categorie == 2){
