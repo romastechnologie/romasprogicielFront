@@ -50,10 +50,15 @@
               >code
                 
               </th>
-              
+             <!--<th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Date
+              </th>--> 
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 "
               >Actions</th>
             </tr>
           </thead>

@@ -12,8 +12,6 @@
             Ouverture de caisse
           </router-link>
         </div>
-
-
           <div class="d-sm-flex align-items-center">
           <router-link
             class="btn btn-primary"
@@ -40,7 +38,6 @@
               <i class="flaticon-search-interface-symbol"></i>
             </button>
           </form>
-         
         </div>
       </div>
       <div class="card-body p-15 p-sm-20 p-md-25">
@@ -48,11 +45,10 @@
           <table class="table text-nowrap align-middle mb-0">
             <thead>
               <tr>
-                          <th scope="col">id</th>
-                            <th scope="col">Fond de roulement</th>
+               <!--        <th scope="col">id</th>-->
                             <th scope="col">Caisse</th>
+                            <th scope="col">Fond de roulement</th>
                             <th scope="col">Statut</th>
-              
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
@@ -61,9 +57,9 @@
             </thead>
             <tbody>
               <tr v-for="(ouvFer, index) in ouvFers" :key="index">
-                             <th>{{ ouvFer.id }}</th>
-                             <th>{{ ouvFer.fondDeRoulement }}</th>
+                      <!--<th>{{ ouvFer.id }}</th>-->
                              <th>{{ ouvFer.tresorerie?.nom }} </th>
+                             <th>{{ ouvFer.fondDeRoulement }}</th>
                              <th>
   <span
     :class="[
@@ -74,43 +70,36 @@
     {{ ouvFer.status ? ouvFer.status : 'Ouvert' }}
   </span>
 </th>
-                <td
-                  class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
-                >
-                <div class="dropdown">
-                  <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Actions
-                  </button>
-                    <ul class="dropdown-menu">
-                    <!--  <li >
-                        <router-link :to="{ name: 'EditFinancePage', params: { id:finance.id } }" 
-                            class="dropdown-item d-flex align-items-center"><i
-                            class="flaticon-pen lh-1 me-8 position-relative top-1"
-                          ></i>Modifier</router-link>
-                      </li>-->
-                      <li v-if="ouvFer.tresorerie?.status !== 'Fermé'">
-        <a
-          href="javascript:void(0);"
-          class="dropdown-item d-flex align-items-center"
-          @click="updateStatut(ouvFer.id, 'Fermé')"
-        >
-          <i
-            class="flaticon-lock lh-1 me-8 position-relative top-1"
-          ></i>
-          Fermer
+<td class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0">
+  <div class="dropdown">
+    <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Actions
+    </button>
+    <ul class="dropdown-menu">
+      <li v-if="ouvFer.status !== 'Fermé'">
+        <router-link :to="{ name: 'EditOuvFerPage', params: { id: ouvFer.id } }" 
+                      class="dropdown-item d-flex align-items-center">
+          <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>Fermer
+        </router-link>
+      </li>
+
+      <li v-if="ouvFer.tresorerie?.status !== 'Fermé'">
+        <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center"
+           @click="updateStatut(ouvFer.id, 'Fermé')">
+          <i class="flaticon-lock lh-1 me-8 position-relative top-1"></i>Fermer
         </a>
       </li>
-                    
-                      <li >
-                        <a
-                          class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(ouvFer.id, ouvFers,'ouvFers',`OuvFer ${ouvFer.id}`)">
-                          <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
-                           Supprimer
-                        </a>
-                      </li>
-                    </ul>
-                </div>
-                </td>
+
+      <li>
+        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" 
+           @click="suppression(ouvFer.id, ouvFers,'ouvFers', `OuvFer ${ouvFer.id}`)">
+          <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>Supprimer
+        </a>
+      </li>
+    </ul>
+  </div>
+</td>
+
               </tr>
             </tbody>
           </table>
@@ -132,44 +121,32 @@
   import { suppression, error } from "@/utils/utils";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
-  
   export default defineComponent({
     name: "ListeOuvFer",
     components: {
       PaginationComponent
     },
     setup(){
-      
       onMounted(() => {
         getAllOuvFers();
       });
-  
       const ouvFers = ref<Array<OuvFer>>([]);   
       const ouvFer = ref<OuvFer>();
-  
-      // BEGIN PAGINATE
-      const searchTerm = ref('');
+       const searchTerm = ref('');
       const page = ref(1);
       const totalPages = ref(0);
       const limit = ref(10);
       const totalElements = ref(0);
-  
       const handlePaginate = ({ page_, limit_ }) => {
         try {
           page.value = page_;
           getAllOuvFers(page_, limit_);
         } catch (error) {
-          //
         }
       };
-  
        function rechercher(){
         getAllOuvFers(page.value, limit.value, searchTerm.value );
       }
-      
-  
-      // END PAGINATE
-  
       function getAllOuvFers(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/ouv_fers/?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
@@ -184,12 +161,10 @@
             error(response.data.message)
         });
         
-      }
-      
+      } 
       function moddifier(EditouvFers:OuvFer) {
         ouvFer.value = EditouvFers;
       }
-  
       const deleteOuvFer = (id: number) => {
         ApiService.delete(`/ouvFers/${id}`)
         .then(({ data }) => {
@@ -218,14 +193,12 @@
             },
           });
         });
-  
         for(let i = 0; i < ouvFers.value.length; i++) {
           if (ouvFers.value[i].id === id) {
              ouvFers.value.splice(i, 1);
           }
         }
       };
-  
       function updateStatut(id: number, statut: string) {
   Swal.fire({
     title: 'Êtes-vous sûr ?',
@@ -254,7 +227,6 @@
             heightAuto: false,
           });
 
-          // Mettre à jour le statut dans la liste
           const index = ouvFers.value.findIndex((ouvFer) => ouvFer.id === id);
           if (index !== -1 && ouvFers.value[index].tresorerie) {
             ouvFers.value[index].tresorerie.status = statut;
@@ -286,14 +258,10 @@
     }
   });
 }
-
-
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
-  
       const checkPermission = (name) => {
         return privileges.value.includes(name);
       }
-  
       return { ouvFers,
         checkPermission,
        getAllOuvFers,

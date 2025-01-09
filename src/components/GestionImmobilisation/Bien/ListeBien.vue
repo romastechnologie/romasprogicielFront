@@ -120,10 +120,10 @@
             <tbody>
               <tr  v-for ="(bien, index) in biens" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.refBien }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.nomBien }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.coutAcquisition }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_Date(bien?.dateAcquisition) }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_Date(bien.dateMiseEnService) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien.nomBien }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien.coutAcquisition }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.dateAcquisition?.split('T')[0]?.split('-').reverse().join('-')  }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien?.dateMiseEnService?.split('T')[0]?.split('-').reverse().join('-')  }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.dureeVie }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.numeroEnregistrement }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.nbreKmParUnLitre }} </td>

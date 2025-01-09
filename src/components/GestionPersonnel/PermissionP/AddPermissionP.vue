@@ -9,18 +9,17 @@
               <label class="d-block text-black mb-10">
                 Demandes <span class="text-danger">*</span>
               </label>
-                <Field name="demande" v-slot="{ field }">
-                  <Multiselect
-                    :options="demandeOptions"
-                    :searchable="true"
-                    track-by="value"
-                    label="label"
-                    v-model="field.value"
-                    v-bind="field"
-                    placeholder="Sélectionner la demande"
-                    @change="onDemandeSelected(field.value)"
-                  />
-                </Field>
+              <Field name="demande" v-slot="{ field }">
+  <Multiselect
+  v-bind="field" 
+    v-model="field.value"
+    :options="demandeOptions"
+    label="label"
+     track-by="value"
+    placeholder="Sélectionner la demande"
+    @change="onDemandeSelected(field.value)" 
+  />
+</Field>
               <ErrorMessage name="demande" class="text-danger" />
             </div>
           </div>
@@ -31,10 +30,17 @@
               <label class="d-block text-black mb-10">
                 Personnel <span class="text-danger">*</span>
               </label>
-              <Field name="personnel" type="text" v-slot="{ field }">
-              <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner le personnel"
-                label="label" track-by="label" />
+              <Field name="personnel" v-model="personnel"  v-slot="{ field }">
+              <Multiselect  
+               v-model="field.value"            
+                v-bind="field" 
+                :options="personnelOptions" 
+                :preserve-search="true"
+                 :multiple="false"
+                  :searchable="true" 
+                  placeholder="Sélectionner le personnel"
+                label="label"
+                track-by="value" />
               </Field>
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
@@ -103,7 +109,6 @@ import { error, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import axios from 'axios';
-
 export default defineComponent({
   name: "AddPermissionP",
   components: {
@@ -120,12 +125,9 @@ export default defineComponent({
       dateFin: Yup.string().required("Date fin est obligatoire."),
       dateReprise: Yup.string().required("Date reprise est obligatoire."),
       motifPermission:Yup.string().required("Date debut est obligatoire."),
-
     });
-
     onMounted(async () => {
     });
-
     const permissionpForm = ref(null);
     const dateDebut = ref();
     const dateFin = ref();
@@ -133,6 +135,7 @@ export default defineComponent({
     const motifPermission = ref();
     const demandeOptions = ref([]);
     const personnelOptions = ref([]);
+    const personnel = ref(null);
     const router = useRouter();
 
     const addPermissionP = async (values, {resetForm}) => {
@@ -162,48 +165,62 @@ export default defineComponent({
         }
       }
 
-    const fetchDemande = async () => {
-      try {
-        const response = await axios.get('/demandepermission');
-        demandeOptions.value = response.data.data.map(demande => ({
-          value: demande.id,
-          label: demande.motifDemande,
-        }));
-      } catch (err) {
-        error("Erreur lors de la récupération des demandes.");
-      }
-    };
+      const fetchDemande = async () => {
+  try {
+    const response = await axios.get('/demandepermission');
+    if (response.data && response.data.data) {
+      demandeOptions.value = response.data.data.map((demande) => ({
+        value: demande.id,
+        label: demande.motifDemande,
+      }));
+    } else {
+      console.warn("No demandes found.");
+    }
+  } catch (err) {
+    console.error("Erreur lors de la récupération des demandes:", err);
+    error("Erreur lors de la récupération des demandes.");
+  }
+};
+const getDemande = async (id) => {
+  try {
+    console.log("Fetching demande details for ID:", id);
+    const { data } = await ApiService.get(`/demandes/${id}`);
+    if (data && data.data) {
+      dateDebut.value = data.data.dateDebut || null;
+      dateReprise.value = data.data.dateReprise || null;
+      dateFin.value = data.data.dateFin || null;
+      motifPermission.value = data.data.motifDemande || null;
 
-    const getDemande = async (id) => {
-      try {
-        const { data } = await ApiService.get(`/demande/${id}`);
-  
-        dateDebut.value = data.data.dateDebut;
-        dateReprise.value = data.data.dateReprise;
-        dateFin.value = data.data.dateFin;
-        motifPermission.value = data.data.motifPermission; 
-      } catch (err) {
-        error("Erreur lors de la récupération des détails de la demande.");
-      }
-    };
-
-    const onDemandeSelected = (selectedDemandeId) => {
-      if (selectedDemandeId) {
-        getDemande(selectedDemandeId);
+      if (data.data.personnel) {
+        personnel.value = data.data.personnel.id;
       } else {
-        console.error("demande ID  indefini.");
+        console.error("Personnel non trouvé pour la demande.");
+        personnel.value = null;
       }
-    };
-
+    } else {
+      console.error("No data found for demande ID:", id);
+    }
+  } catch (err) {
+    console.error("Erreur lors de la récupération des détails de la demande:", err);
+    error("Erreur lors de la récupération des détails de la demande.");
+  }
+};
+    const onDemandeSelected = (selectedDemandeId) => {
+  if (!selectedDemandeId) {
+    console.error("Erreur: demande ID non défini.");
+    return;
+  }
+  getDemande(selectedDemandeId);
+};
     onMounted(fetchDemande);
     getAllPersonnels();
-
     return { permissionpSchema,
        addPermissionP,
         permissionpForm,
         onDemandeSelected,
         demandeOptions,
     personnelOptions,
+    personnel,
     dateDebut,
     dateReprise,
     dateFin,

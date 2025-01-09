@@ -65,7 +65,7 @@
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
                 >Actions</th>
               </tr>
             </thead>
@@ -78,7 +78,7 @@
                   {{ departement?.libelle }}
                 </td>
                 <td
-                  class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0"
+                  class="shadow-none lh-1 fw-medium text-black pe-0"
                 >
                 <div class="dropdown">
                   <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
