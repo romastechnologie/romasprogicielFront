@@ -81,11 +81,11 @@
                 </td>
              
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ format_date(mission.dateDebut) }}
+                  {{ format_Date(mission.dateDebut) }}
                 </td>
 
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ format_date(mission.dateFin) }}
+                  {{ format_Date(mission.dateFin) }}
 
                 </td>
 
@@ -103,8 +103,15 @@
                             class="flaticon-pen lh-1 me-8 position-relative top-1"
                           ></i>Modifier</router-link>
                       </li>
-                    
-                      <li >
+
+                      <li class="dropdown-item d-flex align-items-center">
+                        <router-link :to="{ name: 'ViewMission', params: { id: mission.id } }"
+                          class="dropdown-item d-flex align-items-center">
+                          <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>
+                          <p><strong>Détails</strong></p>
+                        </router-link>
+                      </li>
+                      <li>
                         <a
                           class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(mission.id,missions,'missions',`Mission ${mission.id}`)">
                           <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
@@ -132,7 +139,7 @@
   import Swal from "sweetalert2";
   import { Mission } from "@/models/Mission";
   import ApiService from "@/services/ApiService";
-  import { format_date, suppression, error } from "@/utils/utils";
+  import { format_date, suppression,format_Date, error } from "@/utils/utils";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
 
@@ -247,7 +254,8 @@
       totalElements,
       handlePaginate,
       rechercher,
-      searchTerm
+      searchTerm,
+      format_Date
     };
     },
   });

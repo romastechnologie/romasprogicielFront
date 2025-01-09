@@ -20,7 +20,7 @@
                 @select="fetchPrimeRetenue(selectedContrat)"
               />
             </Field>-->
-            <Field name="contrat" v-slot="{ field }">
+            <Field name="contrat" v-slot="{ field }" v-model="newContrat">
                   <Multiselect
                     :options="contratOptions"
                     :searchable="true"
@@ -389,11 +389,13 @@
         getAllContrats();
       });
   
+      const lesContrats = ref([]);
       const paieForm =  ref(null);
       const showMErr = ref(false);
       const modes = ref();
       const modeOptions = ref([]);
       const contrat = ref();
+      const newContrat = ref();
       
       const contratOptions = ref([]);
       const router = useRouter();
@@ -409,6 +411,7 @@
         const response = await ApiService.get('/all/contrats');
         const contratsData = response.data.data.data;
         console.log('Contrat', contratsData);
+        lesContrats.value = contratsData;
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
           label: contrat.salaireBase + "-" + contrat?.personnel?.nom,
@@ -485,6 +488,13 @@
         // H
       }
     };
+
+   
+    watch(newContrat, (newValue, oldValue) => {
+      const cont = lesContrats.value.find((el) => el.id === newValue);
+      console.log ('valeurs recupérées',cont);
+      salaireDeBase.value = cont.salaire;
+    })
 
     const getAllTypeRetenue = async () => {
       try {
@@ -808,6 +818,7 @@ watch(
         salaireNet,
         totalRetenue,
         totalPrime,
+        newContrat
       };
     },
   });
