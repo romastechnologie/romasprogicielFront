@@ -325,6 +325,7 @@ import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFam
 import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
 import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
 import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
+import ListeDemandeAutrePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAutrePage.vue';
 import ListeDemandePermissionPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage.vue';
 import ListeDemandeCongePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeCongePage.vue';
 import ListeDemandeAttestationPage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAttestationPage.vue';
@@ -1510,7 +1511,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "liste-demande-autre",
         name: "ListeDemandeAutrePage",
-        component: ListeDemandePage,
+        component: ListeDemandeAutrePage,
         meta: {
           title: 'Liste des autres demandes',
         }

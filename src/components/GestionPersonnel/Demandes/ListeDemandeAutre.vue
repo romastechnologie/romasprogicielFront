@@ -65,7 +65,7 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Motif de la permission
+                  Motif de la demande
                 </th>
                 
                 <th

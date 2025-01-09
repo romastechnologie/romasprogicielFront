@@ -583,7 +583,7 @@ const addDemande = async (values: any, { resetForm }) => {
                 router.push({ name: "ListeDemandeAttestationPage" });
 
                 }else{
-               router.push({ name: "ListeDemandeAutre" });
+               router.push({ name: "ListeDemandeAutrePage" });
                }
             
             }

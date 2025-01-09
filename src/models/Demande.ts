@@ -6,6 +6,8 @@ export  interface Demande {
     personnel:string;
     personnelId: string;
     telephone: string;
+    conge:string;
+    type:string,
     updatedAt: string;
     deletedAt?: string;
     setFieldValue: (field: string, value: any) => void;
