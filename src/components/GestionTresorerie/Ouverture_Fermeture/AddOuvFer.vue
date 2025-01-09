@@ -100,7 +100,7 @@
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
 
-          <div class="col mb-3" >
+          <!--<div class="col mb-3" >
                                     <label for="tresorerieName">Tresorerie</label>
                                     <Field name="tresorerieName" v-model="tresoreries" type="text" v-slot="{ field }">
                                       <Multiselect 
@@ -116,7 +116,7 @@
 
                                   </Field>
                                     <ErrorMessage name="tresorerieName" class="text-danger" />
-                                </div>
+                                </div>-->
 
              <div class="mb-3 mt-1">
             <button type="submit" class="btn btn-primary top-end">
@@ -150,7 +150,6 @@ const ouvFerList = ref<Ouv_Fer[]>([]);
 const tresorerieList = ref<Tresorerie[]>([]);
 const tresorerie = ref<Tresorerie>({});
 let show = ref(true);
-
 interface Billetage {
   montant: number;
   libelle: string;
@@ -162,7 +161,6 @@ interface Billetage {
 const billetageList = reactive<Billetage[]>([]);
 const monnaieList = ref([] as any[]);
 let montantTotal = ref<null | number>(null);
-
 const tresoreries = ref();
 const tresorerieOptions = ref([]);
 const schema = Yup.object().shape({
@@ -241,14 +239,12 @@ const getTresorerie= async () => {
           catch(error){
           }
         } 
-
 const getouvFer = async () => {
   await ApiService.get("all/ouv_fers").then((res) => {
     ouvFerList.value = res.data;
     console.log(ouvFerList.value);
   });
 };
-
 const getMonnaie = async () => {
   try {
     const res = await ApiService.get("/monnaies");
@@ -266,27 +262,21 @@ const getMonnaie = async () => {
     console.error("Erreur lors de la récupération des monnaies:", error);
   }
 };
-
 function handleBilletageInput(event: Event, billetage: Billetage) {
   const newValue = Number((event.target as HTMLInputElement).value);
   billetage.qteBillet = newValue || 0;
   updateMontant(billetage);
 }
-
 const updateMontant = (billetage: Billetage) => {
   billetage.montant = billetage.qteBillet * billetage.valueAct || 0;
   calculateTotal();
 };
-
 const calculateTotal = () => {
   const total = billetageList.reduce((total, billetage) => {
     return total + (billetage.montant || 0);
   }, 0);
   montantTotal.value = total || null; 
 };
-
-
-// Watch billetageList deeply for changes and recalculate automatically
 watch(
   billetageList,
   () => {
@@ -294,7 +284,6 @@ watch(
   },
   { deep: true }
 );
-
 onMounted(() => {
   getTresorerie(), getMonnaie(), calculateTotal(), getouvFer();
 });

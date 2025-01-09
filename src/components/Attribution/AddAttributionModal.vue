@@ -126,10 +126,13 @@ export default {
               success(data.message);
               resetForm();
               hideModal(addAttributionsModalRef.value);
+              if (closeAttributionModal) {
+                (closeAttributionModal.value as HTMLButtonElement).click()
+              }
               isupdate.value = false;
               btnTitle();
               emit("getAllAttributions");
-            //  router.push({ name: "ListeAttributionPage" });
+              router.push('/attributions/liste-attribution');
             }
           }).catch(({ response }) => {
             error(response.data.message)

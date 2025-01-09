@@ -87,10 +87,10 @@
           <tbody>
             <tr v-for="(permissionp, index) in permissionps" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ permissionp.demande.motifDemande}}
+                {{ permissionp.demande?.motifDemande}}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ permissionp.personnel.nom+" "+permissionp.personnel.prenom }}
+                {{ permissionp.personnel?.nom+" "+permissionp.personnel?.prenom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ permissionp.dateDebut }}

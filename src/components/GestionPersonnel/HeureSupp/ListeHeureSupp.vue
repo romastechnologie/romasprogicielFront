@@ -109,7 +109,7 @@
                     <li >
                       <a
                         class="dropdown-item d-flex align-items-center"
-                        href="javascript:void(0);" @click="suppression(heureSupp.id,heureSupps,'heureSupps',`l'heure supplémentaire ${heureSupp.id}`)"
+                        href="javascript:void(0);" @click="suppression(heureSupp.id,heureSupps,'heureSups',`l'heure supplémentaire ${heureSupp.id}`)"
                       >
                         <i
                           class="fa fa-trash-o lh-1 me-8 position-relative top-1" 
@@ -151,23 +151,18 @@ export default defineComponent({
     PaginationComponent,
     AddHeureSuppModal
   },
-  setup(){
-    
+  setup(){  
     onMounted(() => {
       getAllHeureSupps();
     });
-
     const heureSupps = ref<Array<HeureSupp>>([]);   
     const heureSupp = ref<HeureSupp>();
-
-    // BEGIN PAGINATE
     const searchTerm = ref('');
     const page = ref(1);
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
     const selectedItem = ref(0);
-
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
@@ -176,17 +171,12 @@ export default defineComponent({
         //
       }
     };
-
      function rechercher(){
       getAllHeureSupps(page.value, limit.value, searchTerm.value );
     }
-
-    // END PAGINATE
-
     const recharger = () => {
       getAllHeureSupps();
     };
-
     function getAllHeureSupps(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/heureSups?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
@@ -241,13 +231,10 @@ export default defineComponent({
         }
       }
     };
-
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
-
     const checkPermission = (name) => {
       return privileges.value.includes(name);
     }
-
     return { heureSupps,
       checkPermission,
      getAllHeureSupps,
