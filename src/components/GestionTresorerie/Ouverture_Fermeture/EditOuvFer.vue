@@ -99,7 +99,7 @@
               id="fondDeRoulement"
               name="fondDeRoulement"
               class="form-control"
-              v-model="montantTotal"
+              v-model="fondDeRoulement"
               disabled
             />
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
@@ -108,11 +108,11 @@
 
           <div class="col-md-6 mt-4">
           <div class="col mb-3">
-            <label for="fondDeRoulement">Chiffreaffaire</label>
+            <label for="chiffreaffaire">Chiffreaffaire</label>
             <Field
               type="number"
-              id=""
-              name=""
+              id="chiffreaffaire"
+              name="chiffreaffaire"
               class="form-control"
               v-model="montantTotal"
               disabled
@@ -124,13 +124,13 @@
           
           <div class="col-md-6 mt-4">
           <div class="col mb-3">
-            <label for="fondDeRoulement">Ecart</label>
+            <label for="ecart">Ecart</label>
             <Field
               type="number"
-              id=""
-              name="t"
+              id="ecart"
+              name="ecart"
               class="form-control"
-              v-model="montantTotal"
+              v-model="montantEcart"
               disabled
             />
             <ErrorMessage name="" class="text-danger" />
@@ -168,6 +168,7 @@ const tresorerieList = ref<Tresorerie[]>([]);
 const tresorerie = ref<Tresorerie>({});
 const ouvferForm = ref(null);
 const nomtresorerie = ref(null);
+const fondDeRoulement = ref(null);
 let show = ref(true);
 interface Billetage {
   montant: number;
@@ -179,7 +180,10 @@ interface Billetage {
 }
 const billetageList = reactive<Billetage[]>([]);
 const monnaieList = ref([] as any[]);
-let montantTotal = ref<null | number>(null);
+
+  const montantTotal = ref<null | number>(null);
+const montantEcart = ref<null | number>(null);
+
 const tresoreries = ref();
 const tresorerieOptions = ref([]);
 const schema = Yup.object().shape({
@@ -187,6 +191,8 @@ const schema = Yup.object().shape({
     .nullable()
     .required("Le fond de roulement est obligatoire")
     .notOneOf([0], "Le fond de roulement ne peut pas être 0"),
+    chiffreaffaire: Yup.number().required(""),
+    ecart: Yup.number().required(""),
 //tresorerieName: Yup.string().required("La trésorerie est obligatoire"),
 });
 const router = useRouter();
@@ -200,21 +206,31 @@ configure({
 });
 async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
   try {
-    ouvFer.value.tresorerieId = tresorerie.value.id;  // Assurez-vous de lier l'ID de la trésorerie
-    ouvFer.value.ouvFerParent = ouvFerParentId.value;
+    ouvFer.value.tresorerieId = tresorerie.value.id;
+    ouvFer.value.ouvFerParentId = ouvFerParentId.value || null; // ID parent
+
     const fondDeRoulement = (
       document.getElementById("fondDeRoulement") as HTMLInputElement
     ).value;
     ouvFer.value.fondDeRoulement = Number(fondDeRoulement);
+
+    // Ajouter le montant de l'écart et du chiffre d'affaires
+    ouvFer.value.ecart = montantEcart.value;
+    ouvFer.value.chiffreaffaire = montantTotal.value;
+
     console.log("Données envoyées :", ouvFer.value);
+
     const res = await ApiService.post("/fers/", ouvFer.value);
     const ouvFerId = res.data.id;
+
     if (res.data) {
       const billetageData = billetageList.map((billetage) => ({
         ...billetage,
         ouv_fer: ouvFerId,
       }));
+
       await ApiService.post("/billetages/", billetageData);
+
       router.push("/ouv_fers/liste-ouv_fer");
       Swal.fire({
         timer: 2000,
@@ -222,19 +238,20 @@ async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
         toast: true,
         showConfirmButton: false,
         timerProgressBar: true,
-        text: "Ouverture réussi avec succès",
+        text: "Fermeture réussie avec succès",
         icon: "success",
       });
     }
   } catch (err) {
     console.error("Erreur lors de l'ouverture de caisse:", err);
+
     if (err.code && err.code === "ERR_BAD_REQUEST") {
       const errorMessage =
         err.response?.data?.message || "Une erreur est survenue.";
       error(errorMessage);
     }
   }
-}
+};
 
 const caisses = computed(() => {
   return tresorerieList.value.filter((entity) =>
@@ -264,10 +281,13 @@ function getouvfer(id: number) {
     .then(({ data }) => {
       console.log("donne ouvfer", data);
       nomtresorerie.value = data.tresorerie?.nom;
+      fondDeRoulement.value= data.fondDeRoulement;
       if (data.tresorerie) {
         ouvFer.value.tresorerieId = data.tresorerie.id; 
       }
       console.log('nomtresorerie', nomtresorerie.value);
+      console.log('fondDeRoulement', fondDeRoulement.value);
+
     })
     .catch(({ response }) => {
       error(response.data.message);
@@ -310,6 +330,23 @@ const calculateTotal = () => {
   }, 0);
   montantTotal.value = total || null;
 };
+
+const calculateEcart = () => {
+  if (montantTotal.value !== null && fondDeRoulement.value !== null) {
+    montantEcart.value = montantTotal.value - fondDeRoulement.value;
+  } else {
+    montantEcart.value = null; // Écart non calculable si l'un des champs est vide
+  }
+};
+
+watch(
+  [montantTotal, fondDeRoulement],
+  () => {
+    calculateEcart();
+  },
+  { immediate: true }
+);
+
 watch(
   billetageList,
   () => {
@@ -322,7 +359,7 @@ onMounted(() => {
   if(route.params.id) {
         getouvfer(parseInt(route.params.id as string));
       }
-  getTresorerie(), getMonnaie(), calculateTotal(), getouvFer();
+  getTresorerie(), getMonnaie(), calculateTotal(),calculateEcart(), getouvFer();
 });
 </script>
 

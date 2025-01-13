@@ -100,7 +100,7 @@
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
 
-          <!--<div class="col mb-3" >
+         <div class="col mb-3" >
                                     <label for="tresorerieName">Tresorerie</label>
                                     <Field name="tresorerieName" v-model="tresoreries" type="text" v-slot="{ field }">
                                       <Multiselect 
@@ -116,7 +116,7 @@
 
                                   </Field>
                                     <ErrorMessage name="tresorerieName" class="text-danger" />
-                                </div>-->
+                                </div>
 
              <div class="mb-3 mt-1">
             <button type="submit" class="btn btn-primary top-end">

@@ -96,9 +96,8 @@ import EditAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/E
 import ListeAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/ListeAmortissementPage.vue";
 import ListeCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/ListeCategorieBienPage.vue";
 import ListeTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue";
+import ListeMagasinPage from "@/pages/GestionImmobilisation/Magasin/ListeMagasinPage.vue";
 import TableauAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/TableauAmortissementPage.vue";
-
-
 import ListeFamillePage from "@/pages/GesCom/Familles/ListeFamillePage.vue";
 import AddMediaPage from "@/pages/GesCom/Medias/AddMediaPage.vue";
 import EditMediaPage from "@/pages/GesCom/Medias/EditMediaPage.vue";
@@ -120,7 +119,7 @@ import ListeConditionnementPage from "@/pages/GesCom/Conditionnement/ListeCondit
 import AddProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/AddProduitConditionnePage.vue";
 import EditProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/EditProduitConditionnePage.vue";
 import ListeProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/ListeProduitConditionnePage.vue";
-import ListeMagasinPage from "@/pages/GesCom/Magasin/ListeMagasinPage.vue";
+//import ListeMagasinPage from "@/pages/GesCom/Magasin/ListeMagasinPage.vue";
 import AddInventairePage from "@/pages/GesCom/Inventaire/AddInventairePage.vue";
 import ListeInventairePage from "@/pages/GesCom/Inventaire/ListeInventairePage.vue";
 import ListeAdresseLivraisonPage from "@/pages/GesCom/AdresseLivraison/ListeAdresseLivraisonPage.vue";
@@ -248,6 +247,7 @@ import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationR
 import AddDepensesPage from '@/components/GestionDepenses/Depenses/AddDepenses.vue';
 import EditDepensesPage from '@/components/GestionDepenses/Depenses/EditDepenses.vue';
 import ListeDepensesPage from '@/components/GestionDepenses/Depenses/ListeDepenses.vue';
+import ViewDepensesPage from '@/components/GestionDepenses/Depenses/ViewDepenses.vue';
 import ListeTypesDepensesPage from '@/components/GestionDepenses/TypesDepenses/ListeTypesDepenses.vue'
 import ListeCategoriesDepensesPage from '@/components/GestionDepenses/CategoriesDepenses/ListeCategoriesDepenses.vue'
 
@@ -467,6 +467,16 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Liste des depenses',
         }
+
+      },
+      {
+        path: "view-depenses/:id",
+        name: "ViewDepenses",
+        component: ViewDepensesPage,
+        meta: {
+          title: 'Details des depenses',
+        }
+        
       },
     ]
   },
@@ -1243,6 +1253,23 @@ const routes: Array<RouteRecordRaw> = [
               
             ]
             },
+
+            {
+              path: "/magasins",
+              component: BodyView,
+              children: [
+                
+                {
+                  path: "liste-magasins",
+                  name: "ListeMagasin",
+                  component: ListeMagasinPage,
+                  meta: {
+                    title: 'Liste des magasins',
+                  }
+                },
+                
+              ]
+              },
 
   {
     path: "/roles",

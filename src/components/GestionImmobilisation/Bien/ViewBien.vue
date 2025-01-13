@@ -26,7 +26,7 @@
                   </tr>
                   <tr>
                     <td>Date d'acquisition :</td>
-                    <td>{{ bien?.dateAcquisition}}</td>
+                    <td>{{ bien?.dateAcquisition?.split('T')[0]?.split('-').reverse().join('-') }}</td>
                   </tr>
                   <tr v-if="bien?.dureeVie">
                     <td>Durée de vie :</td>
@@ -34,7 +34,7 @@
                   </tr>
                   <tr>
                     <td>Date de mise en service :</td>
-                    <td>{{ bien?.dateMiseEnService }}</td>
+                    <td>{{ bien?.dateMiseEnService?.split('T')[0]?.split('-').reverse().join('-')  }}</td>
                   </tr>
                   <tr>
                     <td>Numéro d'enregistrement :</td>
@@ -66,11 +66,11 @@
                   </tr>
                   <tr>
                     <td>Catégorie du Bien :</td>
-                    <td>{{ bien?.categorieBien }}</td>
+                    <td>{{ bien?.categorieBien?.libelle }}</td>
                   </tr>
                   <tr>
                     <td>Type du Bien :</td>
-                    <td>{{ bien?.typeBien }}</td>
+                    <td>{{ bien?.typeBien?.libelle }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -87,6 +87,7 @@
   import { Bien } from "@/models/Bien";
   import { error, format_date, showModal } from "@/utils/utils";
   import { useRoute } from "vue-router";
+
   
   export default defineComponent({
     name: "ViewBien",
