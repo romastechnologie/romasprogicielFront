@@ -558,9 +558,10 @@ import router from '@/router';
 
 const addDemande = async (values: any, { resetForm }) => {
       //values['typeConge'] = typeConge.value
+      console.log('typeCongé',typeConge.value)
       values['categories'] = categories.value
       values['personnel'] = personnels.value
-      console.log('Données envoyées', values)
+      console.log('Données envoyées', values,typeConge.value)
       if (showMErr.value === false) {
         ApiService.post("/demandes", values)
            .then(({ data }) => {
