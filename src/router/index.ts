@@ -308,6 +308,8 @@ import ListeTypePage from "@/pages/GestionModel/Type/ListeTypePage.vue";
 import ListeMissionPage from "@/pages/GestionMission/Mission/ListeMissionPage.vue";
 import AddMissionPage from "@/pages/GestionMission/Mission/AddMissionPage.vue";
 import EditMissionPage from "@/pages/GestionMission/Mission/EditMissionPage.vue";
+import ViewMissionPage from "@/pages/GestionMission/Mission/ViewMissionPage.vue";
+
 
 import ListeRapportPage from "@/pages/GestionMission/Rapport/ListeRapportPage.vue";
 
@@ -325,6 +327,7 @@ import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFam
 import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
 import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
 import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
+import ListeDemandeAutrePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAutrePage.vue';
 import ListeDemandePermissionPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage.vue';
 import ListeDemandeCongePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeCongePage.vue';
 import ListeDemandeAttestationPage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAttestationPage.vue';
@@ -1537,7 +1540,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "liste-demande-autre",
         name: "ListeDemandeAutrePage",
-        component: ListeDemandePage,
+        component: ListeDemandeAutrePage,
         meta: {
           title: 'Liste des autres demandes',
         }
@@ -2230,6 +2233,15 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeMissionPage,
         meta: {
           title: 'Liste des missions',
+        }
+      },
+
+      {
+        path: "view-mission/:id",
+        name: "ViewMission",
+        component: ViewMissionPage,
+        meta: {
+          title: 'Détails d\'une mission',
         }
       },
     ]

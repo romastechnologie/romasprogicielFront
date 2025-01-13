@@ -114,7 +114,7 @@
                           <div class="input-group">
                       <input v-model="circuit.duree" class="form-control" type="number" for="inputGroupSelect01" >
                       <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
-                            La durée est obligatoire.
+                            La durée est obligatoire
                           </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
                         <option value="...">...</option>
@@ -123,7 +123,7 @@
                         <option value="Annees">Annees</option>
                       </select>
                           <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.typeDuree)">
-                            Le type de durée est obligatoire.
+                            Le type de durée est obligatoire
                           </div>
                         </div>
                       </div>
@@ -287,17 +287,17 @@ export default defineComponent({
       console.log("top icieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
       values["etapes"]=circuits;
       console.log("top ici",values);
-      // ApiService.post("/circuits",values)
-      //   .then(({ data }) => {
-      //     console.log("top ici",data)
-      //     if(data.code == 201) { 
-      //       success(data.message);
-      //       resetForm();
-      //       router.push({ name: "ListeCircuitPage" });
-      //     }
-      //   }).catch(({ response }) => {
-      //     error(response.data.message);
-      //   });
+      ApiService.post("/circuits",values)
+        .then(({ data }) => {
+          console.log("top ici",data)
+          if(data.code == 201) { 
+            success(data.message);
+            resetForm();
+            router.push({ name: "ListeCircuitPage" });
+          }
+        }).catch(({ response }) => {
+          error(response.data.message);
+        });
     };
 
     const getAllPersonnels = async () => {
