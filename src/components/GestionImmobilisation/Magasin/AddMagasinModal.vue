@@ -148,7 +148,7 @@ export default {
                             success(data.message)
                             resetForm();
                             hideModal(addMagasinModalRef.value);
-                            //router.push('/typeBiens/liste-typeBien');
+                            router.push('/magasins/liste-magasins');
                             emit("refreshMagasins");
 
                         }

@@ -619,7 +619,7 @@
                                   <label class="d-block text-black mb-10">
                                     Passport du Conjoint<span
                                       class="text-danger"
-                                      >*</span
+                                      ></span
                                     >
                                   </label>
                                   <Field
@@ -636,7 +636,7 @@
                                   <label class="d-block text-black mb-10">
                                     Religion Du Conjoint<span
                                       class="text-danger"
-                                      >*</span
+                                      ></span
                                     >
                                   </label>
                                   <Field
@@ -663,7 +663,7 @@
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
                                     Ethnie Du Conjoint<span class="text-danger"
-                                      >*</span
+                                      ></span
                                     >
                                   </label>
                                   <Field
@@ -1581,7 +1581,7 @@ export default defineComponent({
         situation: situation.value,
         civilite: civilite.value,
         birthdate: birthdate.value,
-        numeroSecuriteSocial: numeroSecuriteSociale.value,
+        numeroSecuriteSociale: numeroSecuriteSociale.value,
         religion: religion.value,
         ethnie: ethnie.value,
         service: service.value,
@@ -2068,9 +2068,9 @@ export default defineComponent({
           situation: situation.value,
           photo: photo.value,
           civilite: civilite.value,
-          birthdate: birthdate.value,
+        // birthdate: birthdate.value,
           dateEmbauche: dateEmbauche.value,
-          numeroSecuriteSociale: numeroSecuriteSociale.value,
+       //   numeroSecuriteSociale: numeroSecuriteSociale.value,
           religion: religion.value,
           ethnie: ethnie.value,
           service: service.value,
@@ -2116,8 +2116,8 @@ export default defineComponent({
           dateNaissanceCon: dateNaissanceCon.value,
           nationaliteCon: nationaliteCon.value,
           telephoneCon: telephoneCon.value,
-          religionCon: religionCon.value,
-          ethnieCon: ethnieCon.value,
+        //  religionCon: religionCon.value,
+          //ethnieCon: ethnieCon.value,
         };
         if (
           situation.value == "Marié(e)" ||
