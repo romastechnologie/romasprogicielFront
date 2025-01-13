@@ -109,18 +109,17 @@
             <tbody>
               <tr  v-for ="(paie, index) in paies" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.refPaie }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(paie?.datePaie) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_Date(paie?.datePaie) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.salaireBrut }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.salaireNet }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.totalRetenues }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.totalPrimes }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ paie.periode }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ paie.modePaiement }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_date(paie.createdAt) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_Date(paie.periode) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ paie.modepaiement?.libelle }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ format_Date(paie.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-
                         <ul class="dropdown-menu">
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
@@ -154,7 +153,7 @@
   import { defineComponent, onMounted, ref} from "vue";
   import ApiService from "@/services/ApiService";
   import { Paie } from "@/models/Paie";
-  import { format_date, suppression, error, } from "@/utils/utils";
+  import { format_date, suppression, error,format_Date } from "@/utils/utils";
   
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
@@ -226,7 +225,8 @@
         totalElements,
         handlePaginate,
         searchTerm,
-        rechercher
+        rechercher,
+        format_Date
       };
     },
   });
