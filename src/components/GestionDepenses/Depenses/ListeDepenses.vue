@@ -30,9 +30,9 @@
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Libellé
               </th>
-             <!-- <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Description
-              </th>-->
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+                Bénéficiaire
+              </th>
              
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Montant
@@ -41,10 +41,19 @@
                 Motif
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Observation
+                Types dépenses 
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-               Etat
+               Categories depenses 
+              </th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+              Entretien
+              </th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+              Planification
+              </th>
+              <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+             Etat
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0">
                 Actions</th>
@@ -54,10 +63,14 @@
             <tr v-for="(depense, index) in depenses" :key="index">  
               <td class="shadow-none lh-1 fw-medium ">{{ format_date(depense.createdAt) }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.libelle }} </td>
-          <!--   <td class="shadow-none lh-1 fw-medium ">{{ depense?.description }} </td>--> 
+              <td class="shadow-none lh-1 fw-medium ">{{ depense?.beneficiaire}} {{ depense?.personnel?.nom}}  {{ depense?.personnel?.prenom}} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.montant }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.motif }} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ depense.observation }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ depense.typedepense?.libelle }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ depense.categoriedepense?.libelle }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ depense.entretien?.libelle }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{ depense.planification?.libelle }} </td>
+
               <td class="shadow-none lh-1 fw-medium">
   <span :class="getEtatBadge(depense.estValide).badgeClass">
     {{ getEtatBadge(depense.estValide).text }}
@@ -77,13 +90,29 @@
           Traiter
         </a>
       </li>
+
+      <!--<li class="dropdown-item d-flex align-items-center">
+                            <router-link
+                              
+                              :to="{ name: 'ViewDepenses',params: { id: depense.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Détails
+                            </router-link>
+                          </li>-->
       <!-- Bouton Modifier : affiché seulement si la dépense n'est pas validée -->
-      <!--<li v-if="!depense.estValide" class="dropdown-item d-flex align-items-center">
+      <li class="dropdown-item d-flex align-items-center">
+        <router-link :to="{ name: 'ViewDepenses', params: { id: depense.id } }">
+          <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+          Details
+        </router-link>
+      </li>
+      <li v-if="!depense.estValide" class="dropdown-item d-flex align-items-center">
         <router-link :to="{ name: 'EditDepenses', params: { id: depense.id } }">
           <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
           Modifier
         </router-link>
-      </li>-->
+      </li>
       <!-- Bouton Supprimer : toujours affiché -->
       <li class="dropdown-item d-flex align-items-center">
         <a href="javascript:void(0);" @click="suppression(depense.id, depenses, 'depenses', 'une dépense')">
