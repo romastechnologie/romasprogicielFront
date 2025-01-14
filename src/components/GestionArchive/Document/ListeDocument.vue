@@ -86,7 +86,7 @@
                 </th>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Description
                 </th>
-                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Date fin
+                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Date Fin
                   conservation</th>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Tag</th>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Organisation
@@ -214,6 +214,7 @@ export default defineComponent({
       getAllDocuments();
       fetchCategorieDocuments();
       fetchTypeDocuments();
+      rechercher();
     });
 
     const documents = ref<Array<any>>([]);
@@ -314,9 +315,10 @@ const fetchCategorieDocuments = async () => {
       rechercher();
     });
 
-    function rechercher() {
-      getAllDocuments(page.value, limit.value, categorie.value,typeDoc.value,searchTerm.value,dateFinConservation.value);
-    }
+    const rechercher = () => {
+  getAllDocuments(page.value, limit.value);
+};
+
 
     function getAllDocuments(page = 1, limi = 10, categorie = '' ,  typeDoc = '', dateFinConservation = '' ,searchTerm = '') {
       return ApiService.get(`/documents?page=${page}&limit=${limi}&categorie=${categorie}&typeDoc=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&`)

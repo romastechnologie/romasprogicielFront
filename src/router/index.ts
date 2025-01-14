@@ -286,6 +286,8 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
+import ViewCircuitPage from "@/pages/GestionCircuit/Circuit/ViewCircuitPage.vue";
+
 //import AddCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/AddCircuitDemandePage.vue";
 import ListeCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/ListeCircuitDemandePage.vue";
 //import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
@@ -2027,6 +2029,16 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeCircuitDemandePage,
         meta: {
           title: 'Liste des circuits de demande',
+        }
+      },
+
+
+      {
+        path: "view-circuit/:id",
+        name: "ViewCircuit",
+        component: ViewCircuitPage,
+        meta: {
+          title: 'Détails d\'un circuit',
         }
       },
     ]

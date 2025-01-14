@@ -152,7 +152,7 @@
           
           <div class="col-md-4 mt-3">
             <label for="dateFinConservation" class="form-label"
-              >Date debut conservation<span class="text-danger">*</span></label
+              >Date Fin conservation<span class="text-danger">*</span></label
             >
             <Field
               name="dateFinConservation"
