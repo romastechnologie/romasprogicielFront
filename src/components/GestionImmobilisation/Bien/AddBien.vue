@@ -144,6 +144,21 @@
             </div>
           </div>
 
+
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black  mb-10">
+                Magasin <span class="text-danger">*</span>
+              </label>
+              <Field name="magasin" v-model="magasins" type="text" v-slot="{ field }">
+              <Multiselect v-model="field.value" v-bind="field" :options="magasinOptions" :preserve-search="true"
+                 :multiple="false" :searchable="true" placeholder="Sélectionner le magasin "
+                label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">Le magasin est obligatoire</span>
+            </div>
+          </div>
+
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -202,6 +217,7 @@
             organisation: Yup.string().required("L'organisation est obligatoire."),
             categorieBien: Yup.string().required("Categorie est obligatoire."),
             typeBien: Yup.string().required("type Bien  est obligatoire."),
+            magasin: Yup.string().required("magasin  est obligatoire."),
             typeentretien: Yup.string().required("type entretien  est obligatoire."),
 
 
@@ -214,6 +230,7 @@
         getAllTypeentretien()
         getAllCategorieBien()
         getAllOrganisation()
+        getAllMagasin()
   });
       const bienForm =  ref(null);
       const showMErr = ref(false);
@@ -221,11 +238,13 @@
       const typeentretiens = ref();
       const categories = ref();
       const services = ref();
+      const magasins = ref();
       //const permissions = ref(null);
       const typeOptions = ref([]);
       const typeentretienOptions = ref([]);
       const categorieOptions = ref([]);
       const serviceOptions = ref([]);
+      const magasinOptions = ref([]);
       const router = useRouter();
       //const permissions= ref<Array<Permission>>([]);
       const addBien = async (values: any, { resetForm }) => {    
@@ -301,7 +320,21 @@
           //error(response.data.message)
         }
       } 
-      return { bienSchema, addBien, bienForm,typeOptions,typeentretienOptions, showMErr,categorieOptions,serviceOptions,types,typeentretiens,categories,services};
+      const getAllMagasin = async () => {
+        try{
+        const response = await ApiService.get('/all/magasins');
+        const magasinsData = response.data.data.data;
+        console.log(magasinsData,"gggggggggg");
+        magasinOptions.value = magasinsData.map((magasin) => ({
+          value: magasin.id,
+          label: magasin.libelle,
+        }));
+        }
+        catch(error){
+          //error(response.data.message)
+        }
+      } 
+      return { bienSchema, addBien, bienForm,typeOptions,typeentretienOptions, showMErr,categorieOptions,serviceOptions,magasinOptions,types,typeentretiens,categories,services,magasins};
     },
   });
   </script>

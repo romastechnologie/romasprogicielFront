@@ -87,6 +87,7 @@ import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
 import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
+import RetourneBienPage from "@/pages/GestionImmobilisation//Bien/RetourneBienPage.vue";
 //import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
 import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
 import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
@@ -1116,6 +1117,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ViewBienPage,
         meta: {
           title: 'Détails du bien',
+        }
+      },
+      {
+        path: "retourne-bien/:id",
+        name: "RetourneBien",
+        component: RetourneBienPage,
+        meta: {
+          title: 'Retourne bien',
         }
       }
       // {
