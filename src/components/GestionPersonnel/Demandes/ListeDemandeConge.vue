@@ -70,6 +70,12 @@
                 >
                   Motif de la demande
                 </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Statut
+                </th>
                 
                 <th
                   scope="col"
@@ -83,6 +89,11 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.typeConge?.libelle }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ demande.motifDemande }} </td>
+                  <td class="shadow-none lh-1 fw-medium">
+  <span :class="getEtatBadge(demande.statut).badgeClass">
+    {{ getEtatBadge(demande.statut).text }}
+  </span>
+</td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
@@ -204,6 +215,24 @@
         });
       }
   
+
+      const getEtatBadge = (statut: boolean | null) => {
+  if (statut === true) {
+    return {
+      text: "Validé",
+      badgeClass: "badge bg-success text-white",
+    };
+  } else if (statut === false) {
+    return {
+      text: "Rejeté",
+      badgeClass: "badge bg-danger text-white", // Classe rouge pour "Rejeté"
+    };
+  }
+  return {
+    text: "En attente",
+    badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
+  };
+};
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
   
   const checkPermission = (name) => {
@@ -221,6 +250,7 @@
         totalElements,
         handlePaginate,
         searchTerm,
+        getEtatBadge,
         rechercher
       };
     },
