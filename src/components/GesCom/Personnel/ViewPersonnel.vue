@@ -24,10 +24,10 @@
                     <p><strong>Civilité:</strong> {{ personnel?.civilite || 'Non renseigné' }}</p>
                   </div>
                   <div class="col-md-6">
-                    <p><strong>Date de Naissance:</strong> {{ personnel?.birthdate || 'Non renseigné' }}</p>
+                    <p><strong>Date de Naissance:</strong> {{ personnel?.birthdate?.split('T')[0]?.split('-').reverse().join('-') || 'Non renseigné' }}</p>
                   </div>
                   <div class="col-md-6">
-                    <p><strong>Date d'Embauche:</strong> {{ personnel?.dateEmbauche || 'Non renseigné' }}</p>
+                    <p><strong>Date d'Embauche:</strong> {{ personnel?.dateEmbauche?.split('T')[0]?.split('-').reverse().join('-') || 'Non renseigné' }}</p>
                   </div>
                   <div class="col-md-6">
                     <p><strong>Numéro Sécu Sociale:</strong> {{ personnel?.numeroSecuriteSociale || 'Non renseigné' }}</p>
@@ -36,16 +36,16 @@
                     <p><strong>Nationalité:</strong> {{ personnel?.nationalite || 'Non renseigné' }}</p>
                   </div>
                   <div class="col-md-6">
-                    <p><strong>Religion:</strong> {{ personnel?.religion || 'Non renseigné' }}</p>
+                    <p><strong>Religion:</strong> {{ personnel?.religion?.libelle || 'Non renseigné' }}</p>
                   </div>
                   <div class="col-md-6">
-                    <p><strong>Ethnie:</strong> {{ personnel?.ethnie || 'Non renseigné' }}</p>
+                    <p><strong>Ethnie:</strong> {{ personnel?.ethnie?.libelle || 'Non renseigné' }}</p>
                   </div>
                 </div>
               </div>
             </div>
             <div class="align-self-start">
-              <button type="button" class="btn btn-primary">Consulter </button>
+ <!--<button type="button" class="btn btn-primary">Consulter </button>-->
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" id="bank-info-tab" data-bs-toggle="tab" href="#bank-info" role="tab" aria-controls="bank-info" aria-selected="false">
-              <strong>Informations bancaires</strong>
+              <strong>Autres informations</strong>
             </a>
           </li>
         </ul>
@@ -138,13 +138,13 @@
                 </tr>
                 <tr>
                   <th><strong>Département</strong></th>
-                  <td>{{ personnel?.departement || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.departement?.libelle || 'Non renseigné' }}</td>
                   <th><strong>Commune</strong></th>
-                  <td>{{ personnel?.commune || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.commune?.libelle || 'Non renseigné' }}</td>
                 </tr>
                   <tr>
                   <th><strong>Quartier</strong></th>
-                  <td>{{ personnel?.quartier || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.quartier?.libelle || 'Non renseigné' }}</td>
                   <th><strong>Adresse</strong></th>
                   <td>{{ personnel?.adresse || 'Non renseigné' }}</td>
                 </tr>
@@ -157,25 +157,25 @@
               <tbody>
                 <tr>
                   <th><strong>Nom conjoint</strong></th>
-                  <td> {{ personnel?.nomConjoint || 'Non renseigné' }}</td>
+                  <td> {{ personnel?.conjoints?.nomCon || 'Non renseigné' }}</td>
                   <th><strong>Prénom conjoint</strong></th>
-                  <td> {{ personnel?.prenomConjoint || 'Non renseigné' }}</td>
+                  <td> {{ personnel?.conjoints?.prenomCon || 'Non renseigné' }}</td>
                 </tr>
                 <tr>
                   <th><strong>Date de naissance du conjoint</strong></th>
-                  <td> {{ personnel?.birthdateConjoint ? formatDate(personnel.birthdateConjoint) : 'Non renseigné' }}</td>
+                  <td> {{ personnel?.conjoints?.birthdateCon ? formatDate(personnel.birthdateConjoint) : 'Non renseigné' }}</td>
                   <th><strong>Nationalité du conjoint</strong></th>
-                  <td>{{ personnel?.nationaliteConjoint || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.conjoints?.nationaliteCon || 'Non renseigné' }}</td>
                 </tr>
                 <tr>
                   <th><strong>Passeport conjoint</strong></th>
-                  <td> {{ personnel?.passeportConjoint || 'Non renseigné' }}</td>
+                  <td> {{ personnel?.conjoints?.numPassportCon || 'Non renseigné' }}</td>
                   <th><strong>Religion conjoint</strong></th>
-                  <td>{{ personnel?.religionConjoint || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.conjoints?.religionCon?.libelle || 'Non renseigné' }}</td>
                   </tr>
                   <tr>
                   <th><strong>Ethnie</strong></th>
-                  <td>{{ personnel?.ethnieConjoint || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.conjoints?.ethnieCon?.libelle || 'Non renseigné' }}</td>
                   <th><strong>Nombres d'enfants</strong></th>
                   <td>{{ personnel?.nombreEnfant || 'Non renseigné' }}</td>
                 </tr>
@@ -190,41 +190,40 @@
               <tbody>
                 <tr>
                   <th><strong>Taille</strong></th>
-                  <td>   {{ personnel?.taille || 'Non renseigné' }}</td>
+                  <td>   {{ personnel?.santeemploye?.taille || 'Non renseigné' }}</td>
                   <th><strong>Poids</strong></th>
-                  <td> {{ personnel?.poids || 'Non renseigné' }}</td>
+                  <td> {{ personnel?.santeemploye?.poids|| 'Non renseigné' }}</td>
                 </tr>
                 <tr>
                   <th><strong>Groupe sanguin</strong></th>
-                  <td> {{ personnel?.groupeSanguin || 'Non renseigné' }}</td>
+                  <td> {{ personnel?.santeemploye?.groupeSanguin || 'Non renseigné' }}</td>
                   <th><strong>Vision gauche</strong></th>
-                  <td> {{ personnel?.visionGauche || 'Non renseigné' }}</td>
+                  <td> {{ personnel?.santeemploye?.visionGauche || 'Non renseigné' }}</td>
                 </tr>
                 <tr>
                   <th><strong>Vision droite</strong></th>
-                  <td> {{ personnel?.visionDroite || 'Non renseigné' }}</td>
+                  <td> {{ personnel?.santeemploye?.visionDroite || 'Non renseigné' }}</td>
                   <th><strong>Audience gauche</strong></th>
-                  <td> {{ personnel?.auditionGauche || 'Non renseigné' }}</td>
+                  <td> {{ personnel?.santeemploye?.audienceGauche || 'Non renseigné' }}</td>
                 </tr>
                 
                 <tr>
                   <th><strong>Audience droite</strong></th>
-                  <td>{{ personnel?.auditionDroite || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.santeemploye?.audienceDroite || 'Non renseigné' }}</td>
                   <th><strong>Main gauche</strong></th>
-                  <td>{{ personnel?.mainGauche || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.santeemploye?.mainGauche || 'Non renseigné' }}</td>
                 </tr>
                 
                 <tr>
                   <th><strong>Main droite</strong></th>
-                  <td>{{ personnel?.mainDroite || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.santeemploye?.mainDroite || 'Non renseigné' }}</td>
                   <th><strong>Jambe gauche</strong></th>
-                  <td>  {{ personnel?.jambeGauche || 'Non renseigné' }}</td>
-                  <th><strong>Jambe droite</strong></th>
+                  <td>  {{ personnel?.santeemploye?.jambeGauche || 'Non renseigné' }}</td>
                 </tr>
                
                 <tr>
                   <th><strong>Jambe droite</strong></th>
-                  <td>{{ personnel?.jambeDroite || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.santeemploye?.jambeDroite || 'Non renseigné' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -237,7 +236,7 @@
               <tbody>
                 <tr>
                   <th><strong>Banque</strong></th>
-                  <td>   {{ personnel?.banque || 'Non renseigné' }}</td>
+                  <td>   {{ personnel?.banque?.denominationBanque || 'Non renseigné' }}</td>
                   <th><strong>Numéro de compte bancaire</strong></th>
                   <td> {{ personnel?.numeroCompte || 'Non renseigné' }}</td>
                 </tr>
@@ -249,14 +248,16 @@
                 </tr>
                 <tr>
                   <th><strong>Nom personne a contacter</strong></th>
-                  <td> {{ personnel?.nomContact || 'Non renseigné' }}</td>
-                  <th><strong>Telephone personne a contacter</strong></th>
-                  <td>   {{ personnel?.telephoneContact || 'Non renseigné' }}</td>
+                  <td> {{ personnel?.nomPersonneAContacter || 'Non renseigné' }}</td>
+                  <th><strong>Prenom personne a contacter</strong></th>
+                  <td> {{ personnel?.prenomPersonneAContacter || 'Non renseigné' }}</td>
                 </tr>
                 
                 <tr>
+                  <th><strong>Telephone personne a contacter</strong></th>
+                  <td>   {{ personnel?.telephonePersonneAContacter || 'Non renseigné' }}</td>
                   <th><strong>Relation</strong></th>
-                  <td>{{ personnel?.auditionDroite || 'Non renseigné' }}</td>
+                  <td>{{ personnel?.relation || 'Non renseigné' }}</td>
                 </tr>
                 
              

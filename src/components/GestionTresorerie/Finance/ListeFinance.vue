@@ -48,11 +48,12 @@
           <table class="table text-nowrap align-middle mb-0">
             <thead>
               <tr>
-                          <th scope="col">id</th>
                       <!--   <th scope="col">Piece de caisse</th>-->   
                             <th scope="col">montant</th>
                             <th scope="col">Type de finance</th>
                             <th scope="col">Bénéficiaire</th> 
+                            <th scope="col">Mode de paiement</th>
+                            <th scope="col">Tresorerie</th>
                             <th scope="col">Reste a payer</th>       
                 <th
                   scope="col"
@@ -62,11 +63,12 @@
             </thead>
             <tbody>
               <tr v-for="(finance, index) in finances" :key="index">
-                             <th>{{ finance.id }}</th>
                             <th>{{ finance.montant }}</th>
                             <th>{{ finance.type }}</th>
                             <th>{{ (finance.personnel?.nom + ' ' + finance.personnel?.prenom) || finance.beneficiaire }}
                             </th>
+                            <th>{{ finance.modepaiement }}</th> 
+                            <th>{{ finance.tresorerie?.nom }}</th>                                                   
                             <th>{{ finance.resteAPayer }}</th>
 
                 <td

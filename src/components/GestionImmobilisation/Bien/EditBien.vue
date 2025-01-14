@@ -202,6 +202,7 @@
             valeurNetteComptable: Yup.number().required("La valeur nette comptable est obligatoire."),
             typeBien: Yup.string().required("Le type est obligatoire."),
             categorieBien: Yup.string().required("La catégorie est obligatoire."),
+            typeentretien: Yup.string().required("Le type entretien est obligatoire."),
             service: Yup.string().required("L'organisation est obligatoire."),
 
     });

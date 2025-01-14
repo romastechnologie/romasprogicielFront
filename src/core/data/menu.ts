@@ -991,6 +991,23 @@ export const menu: MenuItem[] = [
         ]
     },
     {
+        title: "Magasin",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/magasins/liste-magasins",
+                title: "Liste des magasins",
+                type: "link"
+            },
+        ]
+    },
+    {
         title: "Categorie Bien",
         icon: "stroke-task",
         icon1: "fill-task",
