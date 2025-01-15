@@ -16,7 +16,7 @@
         <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
           <Form ref="departementForm" @submit="addDepartement" :validation-schema="departementSchema">
             <div class="row">
-              <div class="col-md-12 mt-3">
+            <div class="col-md-12 mt-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Code <span class="text-danger">*</span>

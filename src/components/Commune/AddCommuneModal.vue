@@ -15,7 +15,7 @@
         <div class="modal-body ps-0 pe-0 pb-0 pt-15 pt-md-25">
           <Form ref="communeForm" @submit="addCommune" :validation-schema="communeSchema">
             <div class="row">
-              <div class="col-md-12 mt-3">
+           <!-- <div class="col-md-12 mt-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Code <span class="text-danger">*</span>
@@ -24,7 +24,7 @@
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
                   <ErrorMessage name="code" class="text-danger"/>
                 </div>
-              </div>
+              </div>-->  
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
@@ -91,7 +91,7 @@ export default defineComponent({
   },
   setup(props, { emit }){
     const communeSchema = Yup.object().shape({
-      code: Yup.string().required("Le code est obligatoire"),
+     // code: Yup.string().required("Le code est obligatoire"),
       libelle: Yup.string().required('Le libellé est obligatoire'),
       departement: Yup.string().required('Le département est obligatoire'),
     });

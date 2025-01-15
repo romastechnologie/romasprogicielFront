@@ -76,7 +76,8 @@ import AddBienPage from "@/pages/GestionImmobilisation/Bien/AddBienPage.vue";
 import EditBienPage from "@/pages/GestionImmobilisation/Bien/EditBienPage.vue";
 import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue";
 import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
-import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
+import RetourneBienPage from "@/pages/GestionImmobilisation//Bien/RetourneBienPage.vue";
+//import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
 import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
 import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
 import ListeMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue";
@@ -85,6 +86,7 @@ import EditAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/E
 import ListeAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/ListeAmortissementPage.vue";
 import ListeCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/ListeCategorieBienPage.vue";
 import ListeTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue";
+import ListeMagasinPage from "@/pages/GestionImmobilisation/Magasin/ListeMagasinPage.vue";
 import TableauAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/TableauAmortissementPage.vue";
 import ListeFamillePage from "@/pages/GesCom/Familles/ListeFamillePage.vue";
 import AddMediaPage from "@/pages/GesCom/Medias/AddMediaPage.vue";
@@ -107,7 +109,7 @@ import ListeConditionnementPage from "@/pages/GesCom/Conditionnement/ListeCondit
 import AddProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/AddProduitConditionnePage.vue";
 import EditProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/EditProduitConditionnePage.vue";
 import ListeProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/ListeProduitConditionnePage.vue";
-import ListeMagasinPage from "@/pages/GesCom/Magasin/ListeMagasinPage.vue";
+//import ListeMagasinPage from "@/pages/GesCom/Magasin/ListeMagasinPage.vue";
 import AddInventairePage from "@/pages/GesCom/Inventaire/AddInventairePage.vue";
 import ListeInventairePage from "@/pages/GesCom/Inventaire/ListeInventairePage.vue";
 import ListeAdresseLivraisonPage from "@/pages/GesCom/AdresseLivraison/ListeAdresseLivraisonPage.vue";
@@ -223,6 +225,7 @@ import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationR
 import AddDepensesPage from '@/components/GestionDepenses/Depenses/AddDepenses.vue';
 import EditDepensesPage from '@/components/GestionDepenses/Depenses/EditDepenses.vue';
 import ListeDepensesPage from '@/components/GestionDepenses/Depenses/ListeDepenses.vue';
+import ViewDepensesPage from '@/components/GestionDepenses/Depenses/ViewDepenses.vue';
 import ListeTypesDepensesPage from '@/components/GestionDepenses/TypesDepenses/ListeTypesDepenses.vue';
 import ListeCategoriesDepensesPage from '@/components/GestionDepenses/CategoriesDepenses/ListeCategoriesDepenses.vue';
 // Gestion Archivages
@@ -253,6 +256,8 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
+//import AddCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/AddCircuitDemandePage.vue";
+import ListeCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/ListeCircuitDemandePage.vue";
 //import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
 //import EditEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/EditEtapeValidation.vue";
 //import ListeEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/ListeEtapeValidation.vue";
@@ -268,17 +273,19 @@ import ListeTypePage from "@/pages/GestionModel/Type/ListeTypePage.vue";
 import ListeMissionPage from "@/pages/GestionMission/Mission/ListeMissionPage.vue";
 import AddMissionPage from "@/pages/GestionMission/Mission/AddMissionPage.vue";
 import EditMissionPage from "@/pages/GestionMission/Mission/EditMissionPage.vue";
+import ViewMissionPage from "@/pages/GestionMission/Mission/ViewMissionPage.vue";
 import ListeRapportPage from "@/pages/GestionMission/Rapport/ListeRapportPage.vue";
 import AddNoteMissionPage from "@/components/GestionMission/NoteMission/AddNoteMission.vue";
 import EditNoteMissionPage from "@/components/GestionMission/NoteMission/EditNoteMission.vue";
+import ViewNoteMissionPage from "@/components/GestionMission/NoteMission/ViewNoteMission.vue";
 import ListeNoteMissionPage from "@/components/GestionMission/NoteMission/ListeNoteMission.vue";
 // Champs Libres Famille
 import AddChampsLibreFamillePage from '@/pages/ChampsLibre/AddChampsLibreFamillePage.vue';
 import EditChampsLibreFamillePage from '@/pages/ChampsLibre/EditChampsLibreFamillePage.vue';
 import ListeChampsLibreFamillePage from '@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue';
-import AddHorairePage from "@/pages/GestionPersonnel/Horaire/AddHorairePage.vue";
 import EditHorairePage from "@/pages/GestionPersonnel/Horaire/EditHorairePage.vue";
 import ListeHorairePage from "@/pages/GestionPersonnel/Horaire/ListeHorairePage.vue";
+import ListeDemandeAutrePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAutrePage.vue';
 import ListeDemandePermissionPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage.vue';
 import ListeDemandeCongePage from '@/pages/GestionPersonnel/Demandes/ListeDemandeCongePage.vue';
 import ListeDemandeAttestationPage from '@/pages/GestionPersonnel/Demandes/ListeDemandeAttestationPage.vue';
@@ -287,6 +294,7 @@ import ListeCongeCalendrierPage from '@/pages/GestionPersonnel/Conge/ListeCongeC
 import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
 import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
+import AddArchivagePage from '@/pages/GestionPersonnel/Demandes/AddArchivagePage.vue';
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
@@ -410,6 +418,14 @@ const routes = [
                     title: 'Liste des depenses',
                 }
             },
+            {
+                path: "view-depenses/:id",
+                name: "ViewDepenses",
+                component: ViewDepensesPage,
+                meta: {
+                    title: 'Details des depenses',
+                }
+            },
         ]
     },
     {
@@ -440,20 +456,20 @@ const routes = [
             },
         ]
     },
-    {
-        path: "/echeances",
-        component: BodyView,
-        children: [
-            {
-                path: "liste-echeances",
-                name: "ListeEchances",
-                component: ListeEcheancesPage,
-                meta: {
-                    title: 'Ajouter une echeance',
-                }
-            },
-        ]
-    },
+    /*{
+      path: "/echeances",
+      component: BodyView,
+      children: [
+        {
+          path: "liste-echeances",
+          name: "ListeEchances",
+          component: ListeEcheancesPage,
+          meta: {
+            title: 'Ajouter une echeance',
+          }
+        },
+      ]
+    },*/
     {
         path: "/utilisateurs",
         component: BodyView,
@@ -1035,6 +1051,14 @@ const routes = [
                 meta: {
                     title: 'Détails du bien',
                 }
+            },
+            {
+                path: "retourne-bien/:id",
+                name: "RetourneBien",
+                component: RetourneBienPage,
+                meta: {
+                    title: 'Retourne bien',
+                }
             }
             // {
             //   path: "view-utilisateur/:id",
@@ -1160,6 +1184,20 @@ const routes = [
                 component: ListeTypeBienPage,
                 meta: {
                     title: 'Liste des types de biens',
+                }
+            },
+        ]
+    },
+    {
+        path: "/magasins",
+        component: BodyView,
+        children: [
+            {
+                path: "liste-magasins",
+                name: "ListeMagasin",
+                component: ListeMagasinPage,
+                meta: {
+                    title: 'Liste des magasins',
                 }
             },
         ]
@@ -1399,6 +1437,14 @@ const routes = [
                 }
             },
             {
+                path: "ajouter-archivage/:id",
+                name: "AddArchivagePage",
+                component: AddArchivagePage,
+                meta: {
+                    title: 'Archiver une demande',
+                }
+            },
+            {
                 path: "liste-demande-permission",
                 name: "ListeDemandePermissionPage",
                 component: ListeDemandePermissionPage,
@@ -1425,7 +1471,7 @@ const routes = [
             {
                 path: "liste-demande-autre",
                 name: "ListeDemandeAutrePage",
-                component: ListeDemandePage,
+                component: ListeDemandeAutrePage,
                 meta: {
                     title: 'Liste des autres demandes',
                 }
@@ -1632,14 +1678,14 @@ const routes = [
         path: "/horaires",
         component: BodyView,
         children: [
-            {
-                path: "ajouter-horaire",
-                name: "AddHoraire",
-                component: AddHorairePage,
-                meta: {
-                    title: 'Ajouter un horaire',
-                }
-            },
+            // {
+            //   path: "ajouter-horaire",
+            //   name: "AddHoraire",
+            //   component: AddHorairePage,
+            //   meta: {
+            //     title: 'Ajouter un horaire',
+            //   }
+            // },
             {
                 path: "liste-horaire",
                 name: "ListeHoraire",
@@ -1895,6 +1941,14 @@ const routes = [
                     title: 'Ajouter un circuit',
                 }
             },
+            /*{
+              path: "ajouter-circuitdemande",
+              name: "AddCircuitDemandePage",
+              component: AddCircuitDemandePage,
+              meta: {
+                title: 'Ajouter un circuit de demande',
+              }
+            },*/
             {
                 path: "modifier-circuit/:id",
                 name: "EditCircuitPage",
@@ -1909,6 +1963,14 @@ const routes = [
                 component: ListeCircuitPage,
                 meta: {
                     title: 'Liste des circuits',
+                }
+            },
+            {
+                path: "liste-circuits-demandes",
+                name: "ListeCircuitDemandePage",
+                component: ListeCircuitDemandePage,
+                meta: {
+                    title: 'Liste des circuits de demande',
                 }
             },
         ]
@@ -2067,6 +2129,14 @@ const routes = [
                     title: 'Liste des missions',
                 }
             },
+            {
+                path: "view-mission/:id",
+                name: "ViewMission",
+                component: ViewMissionPage,
+                meta: {
+                    title: 'Détails d\'une mission',
+                }
+            },
         ]
     },
     {
@@ -2087,6 +2157,14 @@ const routes = [
                 component: EditNoteMissionPage,
                 meta: {
                     title: 'Modifier une Note Mission',
+                }
+            },
+            {
+                path: "view-noteMissions/:id",
+                name: "ViewNoteMissionPage",
+                component: ViewNoteMissionPage,
+                meta: {
+                    title: 'Détail de Note Mission',
                 }
             },
             {
