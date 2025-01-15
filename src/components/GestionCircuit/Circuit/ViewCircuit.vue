@@ -51,12 +51,13 @@
               </tr>
             </thead>
             <tbody>
-  <tr v-for="(etape, index) in circuit?.etapes || []" :key="index">
+  <tr v-for="(etape, index) in circuit?.etapevalidations" :key="index">
     <td>{{ etape?.nom || 'Non renseigné' }}</td>
-    <td>{{ etape?.ordre || 'Non renseigné' }}</td>
-    <td>{{ etape?.duree || 'Non renseigné' }}</td>
-    <td>{{ etape?.role || 'Non renseigné' }}</td>
-    <td>{{ etape?.personnels?.join(', ') || 'Aucun personnel' }}</td>
+    <td>{{ etape?.Ordre || 'Non renseigné' }}</td>
+    <td>{{ etape?.Duree || 'Non renseigné' }}</td>
+    <td>{{ etape?.roleetap?.libelle || 'Non renseigné' }}</td>
+    <td>{{ etape?.useretapes?.userId?.join(', ') || 'Aucun personnel' }}</td>
+
   </tr>
 </tbody>
 
@@ -89,6 +90,8 @@ export default defineComponent({
         const { data } = await ApiService.get(`/circuits/${id}`);
         if (data?.data) {
           circuit.value = data.data;
+    console.log('valeurs',circuit.value);
+
         } else {
           throw new Error("Données du circuit non trouvées.");
         }

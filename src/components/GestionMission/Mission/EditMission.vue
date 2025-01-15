@@ -8,7 +8,7 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Description <span class="text-danger">*</span>
                   </label>
-                  <Field name="description" type="string" v-model="description"
+                  <Field name="description" type="string"
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la description"/>
                   <ErrorMessage name="description" class="text-danger"/>
                 </div>
@@ -28,7 +28,7 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Date debut<span class="text-danger">*</span>
                   </label>
-                  <Field name="dateDebut" type="date" :value="dateDebut"
+                  <Field name="dateDebut" type="date" v-model="dateDebut"
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date debut"/>
                   <ErrorMessage name="dateDebut" class="text-danger"/>
                 </div>
@@ -38,7 +38,7 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Date fin<span class="text-danger">*</span>
                   </label>
-                  <Field name="dateFin" type="date" :value="dateFin"
+                  <Field name="dateFin" type="date" v-model="dateFin"
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date de fin"/>
                   <ErrorMessage name="dateFin" class="text-danger"/>
                 </div>
@@ -199,8 +199,8 @@
       const missionForm = ref<Mission>();
       const router = useRouter();
       const route = useRoute();
-       var dateFin = ref("");
-       var dateDebut = ref("");
+       const dateDebut = ref();
+       const dateFin = ref();
        const destination = ref();
        const description = ref();
 
@@ -232,20 +232,20 @@
         ApiService.get("/missions/"+id.toString())
           .then(({ data }) => {
             console.log('data',data);
-            // for (const key in data.data) {
-            //   let value = data.data[key];
-            //   missionForm.value?.setFieldValue(key, 
-            //   (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
-            // );
+          //   for (const key in data.data) {
+          //     let value = data.data[key];
+          //     missionForm.value?.setFieldValue(key, 
+          //     (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
+          //   );
            
-            // }
+          // }
 
             console.log("data.data['dateDebut']",data.data['dateDebut'].split('T')[0])
-              dateDebut.value = data.data['dateDebut'].split('T')[0];
-              dateFin.value = data.data['dateFin'].split('T')[0];
+             dateDebut.value = data.data['dateDebut'].split('T')[0];
+             dateFin.value = data.data['dateFin'].split('T')[0];
               description.value = data.data['description'];
               destination.value = data.data['destination'];
-        })
+         })
         .catch(({ response }) => {
           error(response.data.message);
         });
@@ -300,7 +300,7 @@
   
       return { 
         missionSchema, editMission, missionForm,missions,isDisable,
-        addRowMission,removeRowMission,valideteRowMission,dateFin,dateDebut,destination,description
+        addRowMission,removeRowMission,valideteRowMission,destination,description,dateDebut,dateFin
         
       };
     },

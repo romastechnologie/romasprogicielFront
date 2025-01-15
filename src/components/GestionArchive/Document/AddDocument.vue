@@ -349,7 +349,7 @@ export default defineComponent({
       fichier: Yup.mixed().required("Le fichier est obligatoire."),
       organisation: Yup.string().required("L'organisation est obligatoire"),
       tagDoc: Yup.string().required("Le tag est obligatoire."),
-      emplacement: Yup.string().required("L'emplacement est obligatoire"),
+      emplacement: Yup.string().notRequired(),
       categorie: Yup.string().required("Le tag est obligatoire."),
       typeDoc: Yup.string().required("Le type est obligatoire."),
     });

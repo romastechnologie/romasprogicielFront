@@ -44,6 +44,37 @@
         </div>
       </div>
     </div>
+
+     <!-- Section des moyens roulants liés -->
+     <div class="card my-4">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">MISSIONS ASSOCIEES</h2>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date Debut</th>
+                <th>Date Fin</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(tache, index) in mission?.taches" :key="index">
+                <td>{{ tache?.titre || 'Non renseigné' }}</td>
+                <td>{{ tache?.description || 'Non renseigné' }}</td>
+                <td>{{ tache?.dateDebut || 'Non renseigné' }}</td>
+                <td>{{ tache?.dateFin || 'Non renseigné' }}</td>
+
+              </tr>
+              <tr v-if="!(mission?.taches?.length)">
+                <td colspan="3">Aucune tache associée</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -70,6 +101,7 @@ export default defineComponent({
         const { data } = await ApiService.get(`/missions/${id}`);
         if (data?.data) {
           mission.value = data.data;
+          console.log('data1',mission.value);
         } else {
           throw new Error("Données de la mission non trouvées.");
         }

@@ -43,7 +43,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Catégorie Document <span class="text-danger">*</span>
               </label>
-              <Field v-model="categorie"   name="categorie" v-slot="{ field }">
+              <Field v-model="categorie"   name="categoriedocument" v-slot="{ field }">
                 <Multiselect
                   :options="categorieOptions" 
                   :searchable="true"
@@ -60,7 +60,7 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Type de Document <span class="text-danger">*</span>
               </label>
-              <Field v-model="typeDoc" name="typeDoc" v-slot="{ field }">
+              <Field v-model="typeDoc" name="typeDocument" v-slot="{ field }">
                 <Multiselect
                   :options="typeOptions" 
                   :searchable="true"
@@ -232,7 +232,7 @@ export default defineComponent({
     const totalElements = ref(0);
 
     const categorie = ref('');
-    const typeDoc = ref('');
+    const typeDoc= ref('');
 
 
     const handlePaginate = ({ page, limit }) => {
@@ -315,18 +315,19 @@ const fetchCategorieDocuments = async () => {
       rechercher();
     });
 
-    const rechercher = () => {
-  getAllDocuments(page.value, limit.value);
+     function rechercher()  {
+  getAllDocuments(page.value, limit.value, categorie.value,typeDoc.value,dateFinConservation.value);
 };
 
 
     function getAllDocuments(page = 1, limi = 10, categorie = '' ,  typeDoc = '', dateFinConservation = '' ,searchTerm = '') {
-      return ApiService.get(`/documents?page=${page}&limit=${limi}&categorie=${categorie}&typeDoc=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&`)
+      return ApiService.get(`/documents?page=${page}&limit=${limi}&categoriedocument=${categorie}&typeDocument=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&`)
         .then(({ data }) => {
           documents.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
+          console.log('dataNouveau',data.data);
           return data.data;
         })
         .catch(({ response }) => {
