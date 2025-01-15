@@ -24,33 +24,20 @@
                     <label for="dateMouvement" class="form-label">Date de realisation<span class="text-danger">*</span></label>
                     <Field name="dateMouvement" class="form-control" type="date"/>
                     <ErrorMessage name="dateMouvement" class="text-danger"/>
-               </div>
-          <!--<div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black  mb-10">
-                Nouvel Emplacement<span class="text-danger">*</span>
-              </label>
-              <Field name=" nouvelEmplacement" type="text" v-slot="{ field }">
-              <VueMultiselect v-model="field.value" v-bind="field" :options="serviceOptions" :preserve-search="true"
-                 :multiple="false" :searchable="true" placeholder="Sélectionner l'emplacement"
-                label="label" track-by="label" />
-              </Field>
-              <span class="text-danger" v-if="showMErr">Le nouvel emplacement est obligatoire</span>
-            </div>
-          </div>-->
+               </div>      
           <div class="col-md-6">
-                 Emplacement<span class="text-danger">*</span>
-              <Field  name="nouvelEmplacement" v-slot="{ field }" v-model="nouvelEmplacement">
+                 Magasin<span class="text-danger">*</span>
+              <Field  name="magasin" v-slot="{ field }" v-model="magasin">
                 <Multiselect 
                     v-model = "field.value"
                     v-bind = "field"
-                    :options="serviceOptions"
-                    placeholder="Selectionner un emplacement"
+                    :options="magasinOptions"
+                    placeholder="Selectionner un magasin"
                     label="label" 
                     track-by="label"
                  />
               </Field>
-              <ErrorMessage name="nouvelEmplacement" class="text-danger"/>
+              <ErrorMessage name="magasin" class="text-danger"/>
         </div>
             <div class="col-md-6">
                 <label for="infosComplementaire" class="form-label">Ancien Emplacement</label>
@@ -103,10 +90,7 @@
   import { error, success } from '@/utils/utils';
   import { useRoute, useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
-  import VueMultiselect from 'vue-multiselect'
-
-  
-  
+  import VueMultiselect from 'vue-multiselect';
   export default defineComponent({
       name: "AddMouvementBien",
       components: {
@@ -122,6 +106,7 @@
             //  refMouvement: Yup.string().required("La référence est obligatoire."),
             // dateMouvement: Yup.date().required("la date est obligatoire."),
             // infosComplementaire: Yup.string().notRequired(),
+            magasin: Yup.string().required("Le magasin est obligatoire"),
             nouvelEmplacement: Yup.string().required("Le nouvel emplacement est obligatoire"),
       });
       const route = useRoute();
@@ -129,6 +114,7 @@
       const typMouv = ref("");
       const tpValue = ref(1);
       const service = ref("");
+      const magasin = ref("");
       const bienId = ref();
       const ancienEmplacement = ref("");
 
@@ -136,6 +122,7 @@
       onMounted(() => {
         getAllBiens(),
         getAllOrganisations();
+        getAllMagasins();
         console.log('id', route.params.id)
         if(route.params.id) {
         getBien(parseInt(route.params.id as string));
@@ -168,6 +155,7 @@
       const bienForm =  ref(null);
       const typeOptions = ref([]);
       const serviceOptions = ref([]);
+      const magasinOptions = ref([]);
       const router = useRouter();
       const showMErr = ref(false);
       const biens = ref();
@@ -197,7 +185,6 @@
         try{
         const response = await ApiService.get('/all/biens');
         const typesData = response.data.data;
-
         typeOptions.value = typesData.map((bien) => ({
           value: bien.id,
           label: bien.nombien,
@@ -208,6 +195,19 @@
         }
       } 
 
+      const getAllMagasins = async () => {
+        try{
+          const response = await ApiService.get('/all/magasins');
+          const magasinsData = response.data.data.data;
+          console.log(response,magasinsData)
+          magasinOptions.value = magasinsData.map((magasin) => ({
+            value: magasin.id,
+            label: magasin.libelle
+          }));
+        }
+        catch(error){
+        }
+      } 
       const getAllOrganisations = async () => {
         try{
           const response = await ApiService.get('/all/organisations');
@@ -225,7 +225,7 @@
       
       return { 
         mouvementBienSchema, addMouvementBien, bienForm, 
-        typeOptions, biens,serviceOptions,emplacementDepart,
+        typeOptions, biens,serviceOptions,emplacementDepart,magasinOptions,magasin,
         showMErr, nombien,  nouvelEmplacement, typMouv, tpValue,service,ancienEmplacement,
       };
     },

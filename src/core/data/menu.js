@@ -380,7 +380,8 @@ export const menu = [
         active: false,
         isPinned: false
     },
-   /* {
+    /*
+    {
         title: "Echeances",
         icon: "stroke-learning",
         icon1: "fill-learning",
@@ -389,7 +390,7 @@ export const menu = [
         badgeType: "light-primary",
         active: false,
         isPinned: false
-    },*/
+    }, */
     {
         title: "Postes",
         icon: "stroke-learning",
@@ -503,11 +504,11 @@ export const menu = [
         active: false,
         isPinned: false,
         children: [
-            {
-                path: "/horaires/ajouter-horaire",
-                title: "Ajouter un horaire",
-                type: "link"
-            },
+            // {
+            //     path: "/horaires/ajouter-horaire",
+            //     title: "Ajouter un horaire",
+            //     type: "link"
+            // },
             {
                 path: "/horaires/liste-horaire",
                 title: "Liste des horaires",
@@ -604,7 +605,12 @@ export const menu = [
         children: [
             {
                 path: "/ouv_fers/ajouter-ouv_fer",
-                title: "Faire une ouverture de caisse ",
+                title: "Ouverture de caisse ",
+                type: "link"
+            },
+            {
+                path: "/ouv_fers/ajouter-fermeture",
+                title: "Fermeture de caisse ",
                 type: "link"
             },
             {
@@ -928,6 +934,22 @@ export const menu = [
             {
                 path: "/typeBiens/liste-typeBiens",
                 title: "Liste des types de biens",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Magasin",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/magasins/liste-magasins",
+                title: "Liste des magasins",
                 type: "link"
             },
         ]
@@ -1672,6 +1694,11 @@ export const menu = [
             {
                 path: "/circuits/liste-circuits",
                 title: "Liste des circuits",
+                type: "link"
+            },
+            {
+                path: "/circuits/liste-circuits-demandes",
+                title: "Liste des circuits de demandes",
                 type: "link"
             },
         ]
