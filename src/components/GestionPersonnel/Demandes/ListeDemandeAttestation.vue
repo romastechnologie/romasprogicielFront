@@ -84,7 +84,7 @@
               <tr  v-for ="(demande, index) in demandes" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{demande.dateDemande}} </td>                
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
-                  <td class="shadow-none lh-1 fw-medium">{{ demande.motifDemande }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
                   <td class="shadow-none lh-1 fw-medium">
                       <span :class="getEtatBadge(demande.statut).badgeClass">
                         {{ getEtatBadge(demande.statut).text }}

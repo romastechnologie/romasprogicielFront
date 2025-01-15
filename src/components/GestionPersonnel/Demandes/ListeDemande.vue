@@ -82,7 +82,7 @@
                 <td class="shadow-none lh-1 fw-medium ">{{ format_date( demande?.dateDemande)}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{demande?.categorie?.libelle}} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom}} </td>
-                <td class="shadow-none lh-1 fw-medium">{{ demande?.motifDemande }} </td>
+                <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                   <div class="dropdown">
                     <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>

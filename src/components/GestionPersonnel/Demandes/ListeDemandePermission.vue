@@ -3,7 +3,7 @@
     <div
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
       <div class="d-sm-flex align-items-center">
-        <router-link class="btn btn-primary" to="/Demandes/ajouter-demandes">
+        <router-link class="btn btn-primary" to="/demandes/ajouter-demande">
           <i class="fa fa-plus-circle"></i>
           Ajouter une demande
         </router-link>
@@ -12,7 +12,7 @@
       <div class="d-flex align-items-center">
         <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input type="text" v-model="searchTerm" @keyup="rechercher"
-            class="form-control shadow-none text-black" placeholder="Rechercher une demande" />
+            class="form-control shadow-none text-black" placeholder="Rechercher une demande bagg" />
           <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
             <i class="flaticon-search-interface-symbol"></i>
           </button>
@@ -58,13 +58,12 @@
             <tr v-for="(demande, index) in demandes" :key="index">  
               <td class="shadow-none lh-1 fw-medium ">{{ demande.dateDemande }} </td>              
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
-                  <td class="shadow-none lh-1 fw-medium">{{ demande.motifDemande }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
                  
-              <td class="shadow-none lh-1 fw-medium">
-  <span :class="getEtatBadge(demande.statut).badgeClass">
-    {{ getEtatBadge(demande.statut).text }}
-  </span>
-</td>
+                  <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ demande.statut }}
+ <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
+                <span v-else class="badge text-outline-success">{{ demande.statut }}</span> -->
+              </td>
 
 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
   <div class="dropdown">
@@ -72,8 +71,51 @@
       Actions
     </button>
     <ul class="dropdown-menu">
+      <li>
+                        <router-link :to="{ name: 'ViewDemandePage', params: { id: demande.id } }" class="dropdown-item d-flex align-items-center">
+                            <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
+                        </router-link>
+                    </li>
+                    
+                    <li >
+                      <a v-if="(demande.statut =='En attente')"
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);"
+                        @click="accept(demande)"
+                      >
+                        <i
+                          class="flaticon-view lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Acceptée
+                      </a>
+                      <router-link 
+                      :to="{ name: 'ListeDemandePage', params: { demande:demande.id } }"
+                       v-else-if="(demande.statut =='Acceptée' )"
+                        class="dropdown-item d-flex align-items-center"
+                      >
+                        <i
+                          class="flaticon-view lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Valider
+                      </router-link>
+                    </li>
+                    
+                    <li >
+                      <a
+                        class="dropdown-item d-flex align-items-center"
+                        href="javascript:void(0);"
+                        data-bs-toggle="modal"
+                        data-bs-target="#AddAnnulationMotifModal"
+                        @click="annuleId(demande.id)"
+                      >
+                        <i
+                          class="flaticon-pen lh-1 me-8 position-relative top-1"
+                        ></i>
+                        Rejetée
+                      </a>
+                    </li>
       <!-- Bouton Valider : affiché seulement si la demande n'est pas validée -->
-      <li v-if="!demande.statut && demande.statut !== false" class="dropdown-item d-flex align-items-center">
+      <!-- <li v-if="!demande.statut && demande.statut !== false" class="dropdown-item d-flex align-items-center">
         <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(demande.id)">
           <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
           Traiter
@@ -96,7 +138,7 @@
                             <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                             Archiver
                           </router-link>
-                        </li>
+                        </li>-->
       <!-- Bouton Supprimer : toujours affiché -->
       <li class="dropdown-item d-flex align-items-center">
         <a href="javascript:void(0);" @click="suppression(demande.id, demandes, 'demandes', 'une demande')">
@@ -175,12 +217,14 @@ import { Demande } from "@/models/Demande";
 import { format_date, showModal, hideModal, suppression, error,success  } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
+import Swal from "sweetalert2";
+
 import { useRoute, useRouter } from 'vue-router';
 import * as Yup from 'yup';
 
 
 export default defineComponent({
-  name: "ListeDemandes",
+  name: "ListeDemandePermission",
   components: {
     PaginationComponent,
     Form,
@@ -197,6 +241,7 @@ export default defineComponent({
     });
     const demandesForm = ref(null);
     const demandes = ref<Array<Demande>>([]);
+    const selectedItem = ref(0);
     const demande = ref<Demande>();
       const router = useRouter();
     const route = useRoute();
@@ -227,6 +272,7 @@ export default defineComponent({
       return ApiService.get(`/all/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           demandes.value = data.data.data;
+          console.log(data.data.data,"dona")
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -237,7 +283,11 @@ export default defineComponent({
         });
     }
 
-    const getEtatBadge = (statut: boolean | null) => {
+    const annuleId = (id: number) => {
+      selectedItem.value = id;
+    };
+
+    /*const getEtatBadge = (statut: boolean | null) => {
   if (statut === true) {
     return {
       text: "Validé",
@@ -253,7 +303,24 @@ export default defineComponent({
     text: "En attente",
     badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
   };
-};
+};*/
+
+
+const accept = async (demande:any)=>{
+      const valeur = ref(demande);
+      const result = await Swal.fire({
+            text: "Etes-vous sur de vouloir accepter cette demande ?",
+            icon: "warning",
+            buttonsStyling: true,
+            showCancelButton: true,
+            confirmButtonText: "Accepter",
+            cancelButtonText: `Annuler`,
+            heightAuto: false,
+            customClass: {
+              confirmButton: "btn btn-danger",
+            },
+          });
+           }
 
 
 function triggerButtonClick(buttonId: string) {
@@ -327,15 +394,18 @@ const rejectDemandes = async () => {
       format_date,
       demandes,
       page,
+      accept,
       totalPages,
       limit,
+      annuleId,
+      selectedItem,
       totalElements,
       handlePaginate,
       searchTerm,
       rechercher,
       addDemandes,
       demandesSchema,
-      getEtatBadge,
+      //getEtatBadge,
       rejectDemandes
       
     };
