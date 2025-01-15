@@ -319,6 +319,7 @@ import ListeRapportPage from "@/pages/GestionMission/Rapport/ListeRapportPage.vu
 
 import AddNoteMissionPage from "@/components/GestionMission/NoteMission/AddNoteMission.vue";
 import EditNoteMissionPage from "@/components/GestionMission/NoteMission/EditNoteMission.vue";
+import ViewNoteMissionPage from "@/components/GestionMission/NoteMission/ViewNoteMission.vue";
 import ListeNoteMissionPage from "@/components/GestionMission/NoteMission/ListeNoteMission.vue";
 
 
@@ -2294,6 +2295,14 @@ const routes: Array<RouteRecordRaw> = [
         component: EditNoteMissionPage,
         meta: {
           title: 'Modifier une Note Mission',
+        }
+      },
+      {
+        path: "view-noteMissions/:id",
+        name: "ViewNoteMissionPage",
+        component: ViewNoteMissionPage,
+        meta: {
+          title: 'Détail de Note Mission',
         }
       },
       {

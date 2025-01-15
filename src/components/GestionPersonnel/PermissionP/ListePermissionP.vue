@@ -76,8 +76,6 @@
               >
            Motif
               </th>
-           
-           
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
@@ -145,7 +143,6 @@
     </div>
   </div>
 </template>
-
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
@@ -154,28 +151,23 @@ import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-
 export default defineComponent({
   name: "ListePermissionP",
   components: {
     PaginationComponent
   },
   setup(){
-    
     onMounted(() => {
       getAllPermissionPs();
     });
-
     const permissionps = ref<Array<PermissionP>>([]);   
     const permissionp = ref<PermissionP>();
-
     // BEGIN PAGINATE
     const searchTerm = ref('');
     const page = ref(1);
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
-
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
@@ -184,11 +176,9 @@ export default defineComponent({
         //
       }
     };
-
      function rechercher(){
       getAllPermissionPs(page.value, limit.value, searchTerm.value );
     }
-    
     function getAllPermissionPs(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/permissionps?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
@@ -201,13 +191,10 @@ export default defineComponent({
         .catch(({ response }) => {
           error(response.data.message)
       });
-      
     }
-    
     function moddifier(Editpermissionps:PermissionP) {
       permissionp.value = Editpermissionps;
     }
-
     const deletePermissionP = (id: number) => {
       ApiService.delete(`/permissionps/${id}`)
       .then(({ data }) => {
@@ -236,20 +223,16 @@ export default defineComponent({
           },
         });
       });
-
       for(let i = 0; i < permissionps.value.length; i++) {
         if (permissionps.value[i].id === id) {
            permissionps.value.splice(i, 1);
         }
       }
     };
-
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
-
     const checkPermission = (name) => {
       return privileges.value.includes(name);
     }
-
     return { permissionps,
       checkPermission,
      getAllPermissionPs,

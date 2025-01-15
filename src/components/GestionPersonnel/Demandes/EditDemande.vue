@@ -30,7 +30,7 @@
                     <div class="d-flex justify-content-between">
                         <button type="submit" class="btn btn-primary" style="background-">
                             Modifier </button>
-                        <router-link to="/demandes/liste-demande">
+                        <router-link to="/demandes/liste-demande-attestation">
                             <button type="submit" class="btn btn-danger">
                                 Annuler </button>
                         </router-link>

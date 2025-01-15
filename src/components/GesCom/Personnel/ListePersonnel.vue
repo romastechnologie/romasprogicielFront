@@ -120,13 +120,13 @@
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
                         </router-link>
                     </li>
-                    <li class="dropdown-item d-flex align-items-center">
+                  <!--<li class="dropdown-item d-flex align-items-center">
                       <a
                         class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(personnel.id,personnels,'personnels',`le personnel ${personnel.id}`)">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                          Supprimer
                       </a>
-                    </li>
+                    </li>--> 
                   </ul>
               </td>
             </tr>
@@ -178,6 +178,7 @@
               type="button"
               class="btn btn-danger"
               aria-label="Close"
+              
             >
               Annuler
             </button>
@@ -187,10 +188,6 @@
     </div>
   </div>
 </div>
-
-
-
-
 
       <div
         class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
@@ -217,11 +214,10 @@ export default defineComponent({
   name: "ListePersonnel",
   components: {
     PaginationComponent,
+    Form, 
+    ErrorMessage,
     Field,
     Multiselect,
-
-
-
   },
   setup(){
     
@@ -250,25 +246,27 @@ export default defineComponent({
         //
       }
     };
+    const ajout = async () => {
+  console.log("message")
+};
 
-    const addPersonnels = async (values, { resetForm }) => {
+  const addPersonnels = async (values, { resetForm }) => {
   values["id"] = personnelii.value;
+  console.log("values", values);
   ApiService.put("/personnels/" + values.id, values)
     .then(({ data }) => {
       console.log('personnel', data);
       if (data.code === 200) {
         success(data.message);
         resetForm();
-        getAllPersonnels();
-        triggerButtonClick("000close-modal");
-        
+       getAllPersonnels();
+       triggerButtonClick("000close-modal");   
       }
     })
     .catch(({ response }) => {
       error(response.data.message);
     });
 };
-
 
 const getAllServices = async () => {
       try {
@@ -294,12 +292,9 @@ const getAllServices = async () => {
     const openModal = (id: number) => {
       personnelii.value = id;
     };
-
      function rechercher(){
       getAllPersonnels(page.value, limit.value, searchTerm.value );
     }
-
-
     function getAllPersonnels(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`all/personnels?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
@@ -314,11 +309,9 @@ const getAllServices = async () => {
           error(response.data.message)
       });
     }
-    
     function moddifier(Editpersonnels:Personnel) {
       personnel.value = Editpersonnels;
     }
-
     const deletePersonnel = (id: number) => {
       ApiService.delete(`/personnels/${id}`)
       .then(({ data }) => {
@@ -358,7 +351,7 @@ const getAllServices = async () => {
     function triggerButtonClick(buttonId: string) {
   const button = document.getElementById(buttonId) as HTMLButtonElement;
   if (button) {
-    button.click(); // Simule un clic
+    button.click(); 
   } else {
     console.error(`Button with ID "${buttonId}" not found.`);
   }
@@ -387,6 +380,7 @@ const getAllServices = async () => {
     personnelsSchema,
     personnelsForm,
     addPersonnels,
+    ajout,
     openModal,
     serviceOptions,
 

@@ -108,6 +108,13 @@
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>
                     </li>
+
+                    <li >
+                      <router-link :to="{ name: 'ViewNoteMissionPage', params: { id: noteMission.id } }" 
+                          class="dropdown-item d-flex align-items-center"><i
+                          class="flaticon-pen lh-1 me-8 position-relative top-1"
+                        ></i>Détail</router-link>
+                    </li>
                     <!-- <li>
                         <router-link :to="{ name: 'ViewMediaPage', params: { id: media.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails

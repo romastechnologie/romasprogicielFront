@@ -333,33 +333,36 @@
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Téléphone 1<span class="text-danger">*</span>
-                                </label>
-                                <Field
-                                  name="telephone"
-                                  v-model="telephone"
-                                  type="number"
-                                  class="form-control shadow-none fs-md-15 text-black"
-                                  placeholder="Entrer le téléphone"
-                                />
-                              </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Téléphone 2
-                                </label>
-                                <Field
-                                  name="telephone2"
-                                  v-model="telephone2"
-                                  type="number"
-                                  class="form-control shadow-none fs-md-15 text-black"
-                                  placeholder="Entrer le téléphone"
-                                />
-                              </div>
-                            </div>
+  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+    <label class="d-block text-black mb-10">
+      Téléphone 1<span class="text-danger">*</span>
+    </label>
+    <input
+      v-model="telephone"
+      type="text"
+      class="form-control shadow-none fs-md-15 text-black"
+      placeholder="Entrer le téléphone"
+      maxlength="10"
+      @input="telephone = '01' + telephone.slice(2)"
+    />
+  </div>
+</div>
+<div class="col-md-4 mb-3">
+  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+    <label class="d-block text-black mb-10">
+      Téléphone 2
+    </label>
+    <input
+      v-model="telephone2"
+      type="text"
+      class="form-control shadow-none fs-md-15 text-black"
+      placeholder="Entrer le téléphone"
+      maxlength="10"
+      @input="telephone2 = '01' + telephone2.slice(2)"
+    />
+  </div>
+</div>
+
                             <div class="col-md-6 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
@@ -611,6 +614,8 @@
                                     type="string"
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone du conjoint "
+                                      maxlength="10"
+                                    @input="telephoneCon = '01' + telephoneCon.slice(2)"
                                   />
                                 </div>
                               </div>
@@ -1276,6 +1281,9 @@
                                     v-model="telephonePersonneAContacter"
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone"
+                                    maxlength="10"
+                                    @input="telephonePersonneAContacter = '01' + telephonePersonneAContacter.slice(2)"
+                                 
                                   />
                                 </div>
                               </div>

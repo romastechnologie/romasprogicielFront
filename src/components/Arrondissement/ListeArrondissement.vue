@@ -51,12 +51,12 @@
         <table class="table text-nowrap align-middle mb-0">
           <thead>
             <tr>
-              <th
+           <!-- <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
               Code
-              </th>
+              </th>-->  
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -77,9 +77,9 @@
           </thead>
           <tbody>
             <tr v-for="(arrondissement, index) in arrondissements" :key="index">
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+            <!-- <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ arrondissement.code }}
-              </td>
+              </td>--> 
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ arrondissement.libelle }}
               </td>
