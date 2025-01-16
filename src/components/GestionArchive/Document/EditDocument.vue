@@ -1,12 +1,8 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-      <Form
-        ref="documentForm"
-        @submit="addDocument"
-        :validation-schema="documentSchema"
-      >
-        <div class="row">
+  <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+          <Form ref="documentForm" @submit="editDocument" :validation-schema="documentSchema" :initial-values="documentForm">
+            <div class="row">
           <div class="col-md-3">
             <div class="form-group">
               <label class="d-block text-black fw-semibold mb-10"> Date </label>
@@ -307,7 +303,7 @@
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center">
               <button class="btn btn-success me-3" type="submit">
-                Créer un document
+                Modifier un document
               </button>
               <router-link to="/documents/liste-document" class="btn btn-danger"
                 ><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
@@ -316,30 +312,31 @@
             </div>
           </div>
         </div>
-      </Form>
-    </div>
+    </Form>
   </div>
+</div>
 </template>
+
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
-import { Form, Field, ErrorMessage } from "vee-validate";
-import * as Yup from "yup";
-import ApiService from "@/services/ApiService";
-import { Document } from "@/models/Document";
-import { error, success, ajouterPeriode, onFileChange } from "@/utils/utils";
-import { useRouter } from "vue-router";
-import Multiselect from "@vueform/multiselect/src/Multiselect";
-import axios from "axios";
+
+import { defineComponent, ref, onMounted, watch } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import { error, success,onFileChange, ajouterPeriode, } from '@/utils/utils';
+import { useRoute, useRouter } from 'vue-router';
+import ApiService from '@/services/ApiService';
+import { Document} from '@/models/Document';
+import * as Yup from 'yup';
+import axios from 'axios';
+import Multiselect from '@vueform/multiselect'
 
 export default defineComponent({
-  name: "EditDocument",
-  components: {
+    name: "EditDocument",
+    components: {
     Form,
     Field,
     ErrorMessage,
-    Multiselect,
+    Multiselect
   },
-
   setup: () => {
     const documentSchema = Yup.object().shape({
       nom: Yup.string().required("Le nom est obligatoire."),
@@ -354,7 +351,9 @@ export default defineComponent({
       typeDoc: Yup.string().required("Le type est obligatoire."),
     });
 
-    const documentForm = ref(null);
+    const documentForm = ref<Document>();
+    const router = useRouter();
+    const route = useRoute();
     const tagOptions = ref();
     const formatOptions = ref();
     const organisationOptions = ref();
@@ -372,7 +371,6 @@ export default defineComponent({
     //const showMErr = ref(false);
     //const permissions = ref(null);
     const typeOptions = ref([]);
-    const router = useRouter();
     // const permissions= ref<Array<Permission>>([]);
 
     const fichierChange = (e) => {
@@ -383,25 +381,39 @@ export default defineComponent({
       ]);
     };
 
-    const addDocument = async (values, { resetForm }) => {
-      values["regles"] = lesRegles.value;
-      axios
-        .post("/documents", values, {
-          headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
-        })
-        .then(({ data }) => {
-          if (data.code == 201) {
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeDocumentPage" });
-          }
-        })
-        .catch(({ response }) => {
-          error(response.data.message);
-        });
-    };
 
-    const getAllTypeDocument = async () => {
+
+    function getDocument(id:number) {
+      ApiService.get("/documents/"+id.toString())
+        .then(({ data }) => {
+          console.log("données documents",data);
+          for (const key in data.data) {
+            documentForm.value?.setFieldValue(key, 
+            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
+          );
+          }
+      })
+      .catch(({ response }) => {
+        error(response.data.message);
+      });
+    }
+
+const editDocument = async (values, { resetForm }) => {
+  try {
+    const response = await ApiService.put(`/documents/${values.id}`, values);
+    
+    if (response.status === 200) {
+      success(response.data.message);
+      resetForm();
+      router.push({ name: "ListeDocumentPage" });
+    }
+  } catch (error) {
+    error(error.response?.data?.message || "Une erreur est survenue.");
+  }
+};
+
+
+const getAllTypeDocument = async () => {
       console.log("Je suis dedans ");
       try {
         const response = await axios.get("all/typedocuments");
@@ -541,6 +553,7 @@ export default defineComponent({
       dateConservation.value = newVal;
       await getAllRegleByTypeOrCategorie();
     });
+
     onMounted(async () => {
       await getAllTypeDocument();
       await getAllTags();
@@ -549,7 +562,14 @@ export default defineComponent({
       await getCurrentDate();
       await getEmplacements();
     });
-    return {
+
+    onMounted(() => {
+      if(route.params.id) {
+        getDocument(parseInt(route.params.id as string));
+      }
+    });
+
+    return { 
       documentSchema,
       emplacementOptions,
       emplacement,
@@ -561,15 +581,16 @@ export default defineComponent({
       categoriesOptions,
       organisations,
       getAllRegleByTypeOrCategorie,
+      getAllFormats,
       typeDoc,
       formats,
       reglesConservations,
-      addDocument,
       documentForm,
       typeOptions,
       formatOptions,
       organisationOptions,
       tagOptions,
+     editDocument,
     };
   },
 });

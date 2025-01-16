@@ -126,7 +126,7 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ bien?.dateMiseEnService?.split('T')[0]?.split('-').reverse().join('-')  }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.dureeVie }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.numeroEnregistrement }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ bien.nbreKmParUnLitre }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ bien.nbreKmParUnLitre !== 0 ? bien.nbreKmParUnLitre : '' }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.codeBar }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ bien.valeurNetteComptable }} </td>
                   <td class="shadow-none lh-1 fw-medium">{{ format_Date(bien.createdAt) }} </td>

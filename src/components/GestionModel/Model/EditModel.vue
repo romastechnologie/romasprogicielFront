@@ -80,7 +80,6 @@ export default defineComponent({
     const route = useRoute();
 
 
-
     function getModel(id:number) {
       ApiService.get("/models/"+id.toString())
         .then(({ data }) => {
