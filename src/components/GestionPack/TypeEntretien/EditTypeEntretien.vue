@@ -87,7 +87,6 @@
                                           Unité mesure <span class="text-danger">*</span>
                                         </label>
                                       </div>
-                                      
                                       <div class="col-md-3">
                                         <label class="d-block text-black fw-semibold mb-10">
                                           Action
@@ -95,7 +94,7 @@
                                       </div>
                                     </div>
                                     <hr class="mt-0" />
-                                    <div class="row" v-for="(fonction, index) in fonctions" :key="index">
+                                    <div class="row" v-for="(fonction, index) in AffectationATypeEntretien" :key="index">
                                     <!-- <div class="col-md-2 mb-2">
                                         <div class="">
                                           <Multiselect :options="fonctionOptions" :searchable="true" track-by="label"
@@ -235,10 +234,10 @@ import { title } from '@/composables/createProject';
       const { remove, push, fields, update } = useFieldArray("fonctions");
   
       const fonctionOptions = ref([]);
-      const fonctions = reactive([
+      const AffectationATypeEntretien = reactive([
         {
           //caburation: "",
-          typeEntretien: "",
+          // typeEntretien: "",
           valeur: "",
           uniteMesure: "",
           typeBien: ""
@@ -246,9 +245,9 @@ import { title } from '@/composables/createProject';
       ]);
   
       const addRowFonction = () => {
-        fonctions.push({
+        AffectationATypeEntretien.push({
          // caburation: "",
-          typeEntretien: "",
+          // typeEntretien: "",
           valeur: "",
           uniteMesure: "",
           typeBien: ""
@@ -256,7 +255,7 @@ import { title } from '@/composables/createProject';
       };
   
       const removeRowFonction = (index) => {
-        if (fonctions.length > 1) fonctions.splice(index, 1);
+        if (AffectationATypeEntretien.length > 1) AffectationATypeEntretien.splice(index, 1);
         //totals();
       };
   
@@ -270,11 +269,11 @@ import { title } from '@/composables/createProject';
       };
   
   
-      watch(fonctions, (newValue, oldValue) => {
+      watch(AffectationATypeEntretien, (newValue, oldValue) => {
         Object.keys(newValue).forEach(function (key) {
           if (
            // newValue[key].caburation == "" ||
-            newValue[key].typeEntretien == "" ||
+            // newValue[key].typeEntretien == "" ||
             newValue[key].valeur == "" ||
             newValue[key].typeBien == "" ||
             newValue[key].uniteMesure == ""
@@ -431,10 +430,11 @@ import { title } from '@/composables/createProject';
         addRowFonction,
         valideteRowFonction,
         fonctionOptions,
-        fonctions,
+        AffectationATypeEntretien,
         types,
         showMErr,
-        typeOptions
+        typeOptions,
+        isDisable
       };
     },
   });
