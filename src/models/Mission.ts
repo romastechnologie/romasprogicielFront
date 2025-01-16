@@ -1,4 +1,5 @@
 export  interface Mission {
+    fields: any;
     id: number;
     description: string;
     destination: string;

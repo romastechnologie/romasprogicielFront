@@ -228,6 +228,7 @@ import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.
 import AddTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/AddTypeEntretienPage.vue";
 import EditTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/EditTypeEntretienPage.vue";
 import ListeTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/ListeTypeEntretienPage.vue";
+import ViewTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/ViewTypeEntretienPage.vue";
 import ListePackingPage from '@/pages/GestionPack/Packing/ListePackingPage.vue';
 import ListeTypeMoyenRoulantPage from '@/pages/GestionPack/TypeMoyenRoulant/ListeTypeMoyenRoulantPage.vue';
 import ListeCoursePage from '@/pages/GestionPack/Course/ListeCoursePage.vue';
@@ -287,6 +288,8 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
+import ViewCircuitPage from "@/pages/GestionCircuit/Circuit/ViewCircuitPage.vue";
+
 //import AddCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/AddCircuitDemandePage.vue";
 import ListeCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/ListeCircuitDemandePage.vue";
 //import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
@@ -405,10 +408,18 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "liste-typeEntretien",
-        name: "ListeTypeEntretien",
+        name: "ListeTypeEntretienPage",
         component: ListeTypeEntretienPage,
         meta: {
           title: "Liste des types d'entretien",
+        }
+      },
+      {
+        path: "view-typeEntretien/:id",
+        name: "ViewTypeEntretien",
+        component: ViewTypeEntretienPage,
+        meta: {
+          title: 'Détails d\'un type entretien',
         }
       },
     ]
@@ -2064,6 +2075,16 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeCircuitDemandePage,
         meta: {
           title: 'Liste des circuits de demande',
+        }
+      },
+
+
+      {
+        path: "view-circuit/:id",
+        name: "ViewCircuit",
+        component: ViewCircuitPage,
+        meta: {
+          title: 'Détails d\'un circuit',
         }
       },
     ]
