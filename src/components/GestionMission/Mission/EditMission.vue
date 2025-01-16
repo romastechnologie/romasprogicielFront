@@ -239,19 +239,6 @@
           //   );
            
           // }
-
-
-    //       data.data.etapevalidations.forEach(donne => {
-    //   etapevalidations.push({
-    //   nom: donne.nom,
-    //   role: donne.roleetap?.id,
-    //   ordre: donne.Ordre,
-    //   duree: donne.Duree,
-    //   typeDuree: donne.typeDuree,
-    //   personnel: []
-    // })
-    // })
-
             console.log("data.data['dateDebut']",data.data['dateDebut'].split('T')[0])
              dateDebut.value = data.data['dateDebut'].split('T')[0];
              dateFin.value = data.data['dateFin'].split('T')[0];

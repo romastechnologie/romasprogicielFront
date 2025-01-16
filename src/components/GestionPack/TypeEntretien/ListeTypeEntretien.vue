@@ -181,7 +181,6 @@ export default defineComponent({
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
-          console.log('Valeurs', data.data);
           return data.data;
         })
         .catch(({ response }) => {
