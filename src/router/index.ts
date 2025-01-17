@@ -76,6 +76,7 @@ import AddFinancePage from '@/pages/GestionTresorerie/Finance/AddFinancePage.vue
 import AddFinancePage2 from '@/pages/GestionTresorerie/Finance/AddFinancePage2.vue'
 import ListeFinancePage from '@/pages/GestionTresorerie/Finance/ListeFinancePage.vue'
 import EditFinancePage from '@/pages/GestionTresorerie/Finance/EditFinancePage.vue'
+import PointFinancePage from '@/pages/GestionTresorerie/Finance/PointFinancePage.vue'
 import AddOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddOuvFerPage.vue'
 import AddFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddFerPage.vue'
 import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/ListeOuvFerPage.vue'
@@ -344,6 +345,7 @@ import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
 import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
 import AddArchivagePage from '@/pages/GestionPersonnel/Demandes/AddArchivagePage.vue';
+import ListeDemandePretPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePretPage.vue';
 
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
@@ -1543,6 +1545,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: "liste-demande-pret",
+        name: "ListeDemandePretPage",
+        component: ListeDemandePretPage,
+        meta: {
+          title: 'Liste des demandes de pret',
+        }
+      },
+      {
         path: "liste-demande-conge",
         name: "ListeDemandeCongePage",
         component: ListeDemandeCongePage,
@@ -1837,6 +1847,14 @@ const routes: Array<RouteRecordRaw> = [
         component: EditFinancePage,
         meta: {
           title: 'Modifier un financement',
+        }
+      },
+      {
+        path: "point-finance",
+        name: "PointFinancePage",
+        component: PointFinancePage,
+        meta: {
+          title: 'Point de financement',
         }
       }
     ]

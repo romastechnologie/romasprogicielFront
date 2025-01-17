@@ -5,7 +5,7 @@
           <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
               <h4 class="position-relative text-black fw-bold mb-10">Détails des demandes</h4>
-              <router-link to="/demandes/liste-demande-permission" 
+              <router-link to="/demandes/ajouter-demande" 
               class=" btn btn-primary transition border-0 lh-1 fw-medium">
               <i class="flaticon-left-arrow  lh-1 me-1 position-relative top-2"></i>
               <span class="position-relative"></span>Retour</router-link>
@@ -25,7 +25,7 @@
                   <td>{{ demande?.personnel?.prenom }} </td>
                 </tr>
                 <tr>
-                  <td>Motif de la permission :</td>
+                  <td>Motif de la demande :</td>
                   <td>{{ demande?.motifDemande}}</td>
                 </tr>
                 <tr>
@@ -33,21 +33,25 @@
                   <td>{{ demande?.statut }}</td>
                 </tr>
                
-                <tr>
+                <tr v-if="demande?.dateDebut">
                   <td>Date Début :</td>
                   <td>{{ demande?.dateDebut }}</td>
                 </tr>
-                <tr>
+                <tr v-if="demande?.dateFinPrevu">
                   <td>Date Fin Prévue :</td>
                   <td>{{ demande?.dateFinPrevu }}</td>
                 </tr>
-                <tr>
+                <tr v-if="demande?.dateFin">
                   <td>Date Fin :</td>
                   <td>{{ demande?.dateFin }}</td>
                 </tr>
-                <tr>
+                <tr v-if="demande?.dateReprise">
                   <td>Date Reprise :</td>
                   <td>{{ demande?.dateReprise }}</td>
+                </tr>
+                <tr v-if="demande?.montantPret">
+                  <td>Montant Total du Prêt :</td>
+                  <td>{{ demande?.montantPret }}</td>
                 </tr>
               </tbody>
             </table>

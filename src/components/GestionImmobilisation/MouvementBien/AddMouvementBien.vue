@@ -19,9 +19,9 @@
                     <ErrorMessage name="refMouvement" class="text-danger"/>
             </div>
   <div class="col-md-6">
-                    <label for="dateMouvement" class="form-label">Date Mouvement<span class="text-danger">*</span></label>
-                    <Field name="dateMouvement" class="form-control" type="date"/>
-                    <ErrorMessage name="dateMouvement" class="text-danger"/>
+                    <label for="dateMiseEnService" class="form-label">Date Mouvement<span class="text-danger">*</span></label>
+                    <Field name="dateMiseEnService" class="form-control" type="date"/>
+                    <ErrorMessage name="dateMiseEnService" class="text-danger"/>
                </div>
           <!--<div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -92,7 +92,6 @@
   </template>
   
   <script lang="ts">
-  
   import { defineComponent, onMounted, ref} from 'vue';
   import { Form, Field, ErrorMessage } from 'vee-validate';
   import * as Yup from 'yup';
@@ -102,9 +101,6 @@
   import { useRoute, useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
-
-  
-  
   export default defineComponent({
       name: "AddMouvementBien",
       components: {
@@ -114,12 +110,12 @@
       Multiselect,
       VueMultiselect
     },
-  
     setup: () => {
       const mouvementBienSchema = Yup.object().shape({
-            //  refMouvement: Yup.string().required("La référence est obligatoire."),
-            // dateMouvement: Yup.date().required("la date est obligatoire."),
-            // infosComplementaire: Yup.string().notRequired(),
+            refMouvement: Yup.string().required("La référence est obligatoire."),
+            dateMiseEnService: Yup.date().required("la date est obligatoire."),
+             infosComplementaire: Yup.string().notRequired(),
+             ancienEmplacement:Yup.string().notRequired(),
             nouvelEmplacement: Yup.string().required("Le nouvel emplacement est obligatoire"),
       });
       const route = useRoute();
@@ -129,8 +125,6 @@
       const service = ref("");
       const bienId = ref();
       const ancienEmplacement = ref("");
-
-
       onMounted(() => {
         getAllBiens(),
         getAllOrganisations();
@@ -139,10 +133,8 @@
         getBien(parseInt(route.params.id as string));
       }
       });
-
       function getBien(id:number) {
         console.log('cgggg')
-
       ApiService.get("/biens/"+id.toString())
         .then(({ data }) => {
           console.log('then', data.data);
@@ -162,7 +154,6 @@
         error(response.message);
       });  
     }
-  
       const bienForm =  ref(null);
       const typeOptions = ref([]);
       const serviceOptions = ref([]);
@@ -171,11 +162,10 @@
       const biens = ref();
       const emplacementDepart = ref();
       const  nouvelEmplacement =ref();
-
       const addMouvementBien = async (values,{ resetForm }) => {
         // values[' nouvelEmplacement'] =  nouvelEmplacement.value.value
-      values["typeMouvement"]=tpValue.value;
-      values["bien"]=bienId.value;
+  //  values["typeMouvement"]=tpValue.value;
+   // values["bien"]=bienId.value;
       console.log('Données envoyées', values)
       console.log('dataapi')
         ApiService.post("/mouvementBiens",values)
@@ -190,12 +180,10 @@
           error(response.message);
         });
       }
-  
       const getAllBiens = async () => {
         try{
         const response = await ApiService.get('/all/biens');
         const typesData = response.data.data;
-
         typeOptions.value = typesData.map((bien) => ({
           value: bien.id,
           label: bien.nombien,
@@ -205,7 +193,6 @@
           //error(response.data.message)
         }
       } 
-
       const getAllOrganisations = async () => {
         try{
           const response = await ApiService.get('/all/organisations');

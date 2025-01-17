@@ -1578,21 +1578,7 @@ export default defineComponent({
     const serviceOptions = ref([]);
     const banqueOptions = ref([]);
 
-    function getPersonnel(id:number) {
-      ApiService.get("/personnels/"+id.toString())
-        .then(({ data }) => {
-          for (const key in data.data) {
-            personnelForm.value?.setFieldValue(key, 
-            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
-          );
-          }
-      })
-      .catch(({ response }) => {
-        error(response.data.message);
-      });
-    }
-
-
+  
 
     const addPersonnel = async (values, { resetForm }) => {
       console.log(" valeurs :", values);
@@ -1900,6 +1886,51 @@ export default defineComponent({
           error(response.data.message);
         });
     };
+    function getPersonnel(id: number) {
+  console.log(`Requête pour récupérer les données du personnel avec ID: ${id}`);
+  
+  ApiService.get(`/personnels/${id.toString()}`)
+    .then(({ data }) => {
+      // Vérifiez et affichez les données reçues
+      console.log('Données reçues depuis l\'API:', data);
+
+      // Assurez-vous que les données sont disponibles
+      if (!data) {
+        console.error('Erreur : Données manquantes ou structure inattendue dans la réponse.');
+        return;
+      }
+
+      const personnelData = data; // Pas de `data.data`, on utilise directement `data`
+
+      // Assignez les valeurs aux champs
+      console.log('Attribution des valeurs aux champs...');
+      nom.value = personnelData.nom || "";
+      console.log('Nom:', nom.value);
+
+      prenom.value = personnelData.prenom || "";
+      console.log('Prénom:', prenom.value);
+
+      sexe.value = personnelData.sexe || "";
+      console.log('Sexe:', sexe.value);
+
+      photo.value = personnelData.photoEmploye || "";
+      console.log('Photo:', photo.value);
+
+      civilite.value = personnelData.civilite || "";
+      console.log('Civilité:', civilite.value);
+
+      adresse.value = personnelData.adresse || "";
+      console.log('Adresse:', adresse.value);
+
+      console.log('Tous les champs ont été remplis.');
+    })
+    .catch(({ response }) => {
+      const errorMessage = response?.data?.message || "Une erreur est survenue lors de la récupération des données.";
+      console.error('Erreur lors de la requête API:', errorMessage);
+      error(errorMessage);
+    });
+}
+
 
    /* const fetchCommunes = async () => {
       ApiService.get("/communes")
@@ -1999,6 +2030,12 @@ export default defineComponent({
             desc: "Ajouter la personne à contacter"
         }*/
     ];
+    onMounted(() => {
+  const id = router.currentRoute.value.params.id; 
+  if (id) {
+    getPersonnel(Number(id)); 
+  }
+});
 
     onMounted(async () => {
     

@@ -358,6 +358,11 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
             {
+                path: "/demandes/liste-demande-pret",
+                title: "Liste des demandes de pret",
+                type: "link"
+            },
+            {
                 path: "/demandes/liste-demande-autre",
                 title: "Liste des autres demandes",
                 type: "link"
@@ -713,6 +718,12 @@ export const menu: MenuItem[] = [
             {
                 path: "/finances/liste-finance",
                 title: "Liste des financements",
+                type: "link"
+            },
+
+            {
+                path: "/finances/point-finance",
+                title: "Point des financements",
                 type: "link"
             },
         ]

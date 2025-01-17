@@ -68,6 +68,11 @@
                         <i class="fa fa-times lh-1 me-8 position-relative top-1"></i> Refuser
                       </a>
                     </li>
+                    <li v-if="justificatif.photoJustificatif" class="dropdown-item d-flex align-items-center">
+                      <a :href="getUrlApiForFiles(justificatif.photoJustificatif, 'Justificatifs')" target="_blank" download>
+                        <i class="fa fa-download lh-1 me-8 position-relative top-1"></i> Télécharger
+        </a>
+      </li>
                     <li v-if="justificatif.statut" class="dropdown-item d-flex align-items-center">
                       <a href="javascript:void(0);" @click="suppression(justificatif.id, justificatifs, 'justificatifs', 'un justificatif')">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i> Supprimer
@@ -91,7 +96,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 import ApiService from "@/services/ApiService";
 import { Justificatif } from "@/models/Justificatif";
-import { format_date, suppression, error } from "@/utils/utils";
+import { format_date, suppression, error,getUrlApiForFiles  } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
@@ -171,7 +176,8 @@ export default defineComponent({
       totalElements,
       handlePaginate,
       searchTerm,
-      rechercher
+      rechercher,
+      getUrlApiForFiles
     };
   },
 });

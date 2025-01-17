@@ -104,7 +104,6 @@ const tresorerieschema = Yup.object().shape({
     montant: Yup.number().required("Le montant est obligatoire").label("Montant"),
     dateCreation: Yup.string().required("La date de création est obligatoire").label("Date de création"),
     typeTresorerie: Yup.string().required("Le type de tresorerie est obligatoire").label("Type trésorerie"),
-
 });
 
 const getCurrentDate = () => {
