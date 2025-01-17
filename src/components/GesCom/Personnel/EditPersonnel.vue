@@ -1886,27 +1886,48 @@ export default defineComponent({
           error(response.data.message);
         });
     };
-
     function getPersonnel(id: number) {
+  console.log(`Requête pour récupérer les données du personnel avec ID: ${id}`);
+  
   ApiService.get(`/personnels/${id.toString()}`)
     .then(({ data }) => {
-      const personnelData = data.data;
-      console.log('personnel', data)
-      for (const key in personnelData) {
-        if (Object.hasOwnProperty.call(personnelData, key)) {
-          if (key in personnelForm.value) {
-            personnelForm.value[key] = 
-              typeof personnelData[key] === "object" && personnelData[key] !== null
-                ? personnelData[key].id
-                : personnelData[key];
-          } else {
-            console.warn(`La clé "${key}" n'existe pas dans personnelForm.`);
-          }
-        }
+      // Vérifiez et affichez les données reçues
+      console.log('Données reçues depuis l\'API:', data);
+
+      // Assurez-vous que les données sont disponibles
+      if (!data) {
+        console.error('Erreur : Données manquantes ou structure inattendue dans la réponse.');
+        return;
       }
+
+      const personnelData = data; // Pas de `data.data`, on utilise directement `data`
+
+      // Assignez les valeurs aux champs
+      console.log('Attribution des valeurs aux champs...');
+      nom.value = personnelData.nom || "";
+      console.log('Nom:', nom.value);
+
+      prenom.value = personnelData.prenom || "";
+      console.log('Prénom:', prenom.value);
+
+      sexe.value = personnelData.sexe || "";
+      console.log('Sexe:', sexe.value);
+
+      photo.value = personnelData.photoEmploye || "";
+      console.log('Photo:', photo.value);
+
+      civilite.value = personnelData.civilite || "";
+      console.log('Civilité:', civilite.value);
+
+      adresse.value = personnelData.adresse || "";
+      console.log('Adresse:', adresse.value);
+
+      console.log('Tous les champs ont été remplis.');
     })
     .catch(({ response }) => {
-      error(response.data.message || "Une erreur est survenue lors de la récupération des données.");
+      const errorMessage = response?.data?.message || "Une erreur est survenue lors de la récupération des données.";
+      console.error('Erreur lors de la requête API:', errorMessage);
+      error(errorMessage);
     });
 }
 
