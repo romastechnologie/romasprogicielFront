@@ -41,7 +41,6 @@
                 <table class="table text-nowrap align-middle mb-0">
                     <thead>
                         <tr>
-                            <th scope="col">Id</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Montant</th>
                             <th scope="col">Date de création</th>
@@ -50,7 +49,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="tresorerie in tresorerieList" :key="tresorerie.id">
-                            <th class="shadow-none lh-1 fw-medium text-black-emphasis">{{ tresorerie.id }}</th>
+                           <!-- <th class="shadow-none lh-1 fw-medium text-black-emphasis">{{ tresorerie.id }}</th>-->
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ tresorerie.nom }}</td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ tresorerie.montant }}</td>
                             <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ format_date(tresorerie.dateCreation)}}</td>
