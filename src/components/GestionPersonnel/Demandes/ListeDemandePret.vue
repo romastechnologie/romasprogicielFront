@@ -207,7 +207,6 @@
     </div>
   </div>
 </div>
-
       <div class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
         <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit"
           @paginate="handlePaginate" />
@@ -228,7 +227,6 @@ import Swal from "sweetalert2";
 
 import { useRoute, useRouter } from 'vue-router';
 import * as Yup from 'yup';
-
 
 export default defineComponent({
   name: "ListeDemandePret",
@@ -289,7 +287,6 @@ export default defineComponent({
           error(response.data.message)
         });
     }
-
     const annuleId = (id: number) => {
       selectedItem.value = id;
     };
@@ -311,8 +308,6 @@ export default defineComponent({
     badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
   };
 };*/
-
-
 const accept = async (demande:any)=>{
       const valeur = ref(demande);
       const result = await Swal.fire({

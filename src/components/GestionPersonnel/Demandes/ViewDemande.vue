@@ -54,6 +54,8 @@
                   <td>{{ demande?.montantPret }}</td>
                 </tr>
               </tbody>
+           
+        
             </table>
           </div>
         </div>
@@ -78,6 +80,7 @@ export default defineComponent({
     function getDemande(id: string) {
       return ApiService.get("/demandes",id)
         .then(({ data }) => {
+          console.log(data.data,"je suis la")
           demande.value = data.data; 
         })
         .catch(({ response }) => {
