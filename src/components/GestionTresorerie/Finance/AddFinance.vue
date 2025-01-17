@@ -187,12 +187,8 @@
     readonly
   />
 </div>
-
-
 </div>
-
-
-                <div class="mb-3">
+            <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Ajouter une finance</button>
                     <router-link to="/finances/liste-finance/" type="button"
                         class="btn btn-danger mx-1">Annuler</router-link>

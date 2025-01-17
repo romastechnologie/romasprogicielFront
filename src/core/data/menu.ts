@@ -715,6 +715,12 @@ export const menu: MenuItem[] = [
                 title: "Liste des financements",
                 type: "link"
             },
+
+            {
+                path: "/finances/point-finance",
+                title: "Point des financements",
+                type: "link"
+            },
         ]
     },
 

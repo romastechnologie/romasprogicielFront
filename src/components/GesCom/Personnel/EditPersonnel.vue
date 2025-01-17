@@ -1578,21 +1578,7 @@ export default defineComponent({
     const serviceOptions = ref([]);
     const banqueOptions = ref([]);
 
-    function getPersonnel(id:number) {
-      ApiService.get("/personnels/"+id.toString())
-        .then(({ data }) => {
-          for (const key in data.data) {
-            personnelForm.value?.setFieldValue(key, 
-            (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
-          );
-          }
-      })
-      .catch(({ response }) => {
-        error(response.data.message);
-      });
-    }
-
-
+  
 
     const addPersonnel = async (values, { resetForm }) => {
       console.log(" valeurs :", values);
@@ -1901,6 +1887,30 @@ export default defineComponent({
         });
     };
 
+    function getPersonnel(id: number) {
+  ApiService.get(`/personnels/${id.toString()}`)
+    .then(({ data }) => {
+      const personnelData = data.data;
+      console.log('personnel', data)
+      for (const key in personnelData) {
+        if (Object.hasOwnProperty.call(personnelData, key)) {
+          if (key in personnelForm.value) {
+            personnelForm.value[key] = 
+              typeof personnelData[key] === "object" && personnelData[key] !== null
+                ? personnelData[key].id
+                : personnelData[key];
+          } else {
+            console.warn(`La clé "${key}" n'existe pas dans personnelForm.`);
+          }
+        }
+      }
+    })
+    .catch(({ response }) => {
+      error(response.data.message || "Une erreur est survenue lors de la récupération des données.");
+    });
+}
+
+
    /* const fetchCommunes = async () => {
       ApiService.get("/communes")
         .then(({ data }) => {
@@ -1999,6 +2009,12 @@ export default defineComponent({
             desc: "Ajouter la personne à contacter"
         }*/
     ];
+    onMounted(() => {
+  const id = router.currentRoute.value.params.id; 
+  if (id) {
+    getPersonnel(Number(id)); 
+  }
+});
 
     onMounted(async () => {
     

@@ -76,6 +76,7 @@ import AddFinancePage from '@/pages/GestionTresorerie/Finance/AddFinancePage.vue
 import AddFinancePage2 from '@/pages/GestionTresorerie/Finance/AddFinancePage2.vue'
 import ListeFinancePage from '@/pages/GestionTresorerie/Finance/ListeFinancePage.vue'
 import EditFinancePage from '@/pages/GestionTresorerie/Finance/EditFinancePage.vue'
+import PointFinancePage from '@/pages/GestionTresorerie/Finance/PointFinancePage.vue'
 import AddOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddOuvFerPage.vue'
 import AddFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddFerPage.vue'
 import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/ListeOuvFerPage.vue'
@@ -1837,6 +1838,14 @@ const routes: Array<RouteRecordRaw> = [
         component: EditFinancePage,
         meta: {
           title: 'Modifier un financement',
+        }
+      },
+      {
+        path: "point-finance",
+        name: "PointFinancePage",
+        component: PointFinancePage,
+        meta: {
+          title: 'Point de financement',
         }
       }
     ]
