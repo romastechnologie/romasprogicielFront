@@ -5,26 +5,27 @@
     <div class="text-center mb-3">
         <h4 v-if="tpValue == 1">
           Vous êtes sur le point de retourner le bien {{ nombien }}
-           dans son emplacement de depart  {{ typMouv }}
+           dans un magasin
         </h4>
         <h2 v-if="tpValue == 2">
             Vous êtes sur le point de retourner le bien {{ nombien }}
-            dans son emplacement de depart  {{ typMouv }}
+            dans un magasin 
                 </h2>
     </div>
             <Form ref="bienForm" @submit="addMouvementBien" :validation-schema="mouvementBienSchema">
               <div class="row" mt-3>
               
                <div class="col-md-6">
-                  <label for="refMouvement" class="form-label">Référence<span class="text-danger">*</span></label>
-                    <Field name="refMouvement" class="form-control" type="text"/>
+                  <label for="refRetour" class="form-label">Référence<span class="text-danger">*</span></label>
+                    <Field name="refRetour" class="form-control" type="text"/>
                     <ErrorMessage name="refMouvement" class="text-danger"/>
             </div>
-  <div class="col-md-6">
-                    <label for="dateMouvement" class="form-label">Date de realisation<span class="text-danger">*</span></label>
-                    <Field name="dateMouvement" class="form-control" type="date"/>
-                    <ErrorMessage name="dateMouvement" class="text-danger"/>
-               </div>      
+          <div class="col-md-6">
+                    <label for="dateRetour" class="form-label">Date de realisation<span class="text-danger">*</span></label>
+                    <Field name="dateRetour" class="form-control" type="date"/>
+                    <ErrorMessage name="daterealisationre" class="text-danger"/>
+               </div>  
+
           <div class="col-md-6">
                  Magasin<span class="text-danger">*</span>
               <Field  name="magasin" v-slot="{ field }" v-model="magasin">
@@ -39,6 +40,7 @@
               </Field>
               <ErrorMessage name="magasin" class="text-danger"/>
         </div>
+
             <div class="col-md-6">
                 <label for="infosComplementaire" class="form-label">Ancien Emplacement</label>
                 <Field name="ancienEmplacement" v-model="ancienEmplacement"  class="form-control shadow-none rounded-0 text-black">
@@ -52,22 +54,11 @@
                  />
                 </Field>
             </div>
-            <div class="col-md-6">
-                <label for="infosComplementaire" class="form-label">Infos complémentaires</label>
-                <Field name="infosComplementaire" cols="20"
-                  rows="6" as="textarea" placeholder="Description" v-slot="{ field}" class="form-control shadow-none rounded-0 text-black">
-                    <textarea
-                      v-model="field.value"
-                      class="form-control shadow-none rounded-0 text-black"
-                    ></textarea>
-                </Field>
-                <ErrorMessage name="infosComplementaire" class="text-danger"/>
-            </div>
            
               <div class="col-md-12 mt-3">
                 <div class="d-flex align-items-center ">
                   <button class="btn btn-success me-3" type="submit">
-                      Créer un mouvement
+                      Retourner bien
                   </button>
                   <router-link to="/mouvementBiens/liste-mouvementbiens" 
                       class=" btn btn-danger"><i class="flaticon-delete lh-1 me-1 position-relative top-2"></i>
@@ -103,11 +94,9 @@
   
     setup: () => {
       const mouvementBienSchema = Yup.object().shape({
-            //  refMouvement: Yup.string().required("La référence est obligatoire."),
-            // dateMouvement: Yup.date().required("la date est obligatoire."),
-            // infosComplementaire: Yup.string().notRequired(),
-            magasin: Yup.string().required("Le magasin est obligatoire"),
-            nouvelEmplacement: Yup.string().required("Le nouvel emplacement est obligatoire"),
+        dateRetour:Yup.string().required("Date realisation est obligatoire"),
+        refRetour:Yup.string().required("la reference est obligatoire"),
+             magasin: Yup.string().required("Le magasin est obligatoire"),
       });
       const route = useRoute();
       const nombien = ref('');
@@ -162,10 +151,10 @@
       const emplacementDepart = ref();
       const  nouvelEmplacement =ref();
 
+    
       const addMouvementBien = async (values,{ resetForm }) => {
         // values[' nouvelEmplacement'] =  nouvelEmplacement.value.value
-      values["typeMouvement"]=tpValue.value;
-      values["bien"]=bienId.value;
+     
       console.log('Données envoyées', values)
       console.log('dataapi')
         ApiService.post("/mouvementBiens",values)
@@ -180,6 +169,7 @@
           error(response.message);
         });
       }
+      
   
       const getAllBiens = async () => {
         try{

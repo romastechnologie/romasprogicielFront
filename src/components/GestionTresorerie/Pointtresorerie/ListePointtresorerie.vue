@@ -76,7 +76,7 @@
           <tbody>
             <tr v-for="(pointtresorerie, index) in pointtresoreries" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ pointtresorerie.personnel?.nom}}nbsp{{ pointtresorerie.personnel?.prenom}}
+                {{ pointtresorerie.personnel?.nom}} {{ pointtresorerie.personnel?.prenom}}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ pointtresorerie.tresorerie?.nom}}

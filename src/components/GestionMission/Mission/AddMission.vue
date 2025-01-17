@@ -123,19 +123,19 @@
                                                 </div>
                                                 <div class="col-md-2 mb-2">
                                                   <div class="form-group">
-                                                    <input v-model="mission.datedebut" name="datedebut" type="date"
+                                                    <input v-model="mission.dateDebut" name="datedebut" type="date"
                                                       class="form-control shadow-none fs-md-15 text-black" placeholder="" />
                                                   </div>
-                                                  <div class="invalid-feedback" v-if="valideteRowMission(mission.datedebut)">
+                                                  <div class="invalid-feedback" v-if="valideteRowMission(mission.dateDebut)">
                                                     La date de début est obligatoire.
                                                   </div>
                                                 </div>
                                                 <div class="col-md-2 mb-2">
                                                   <div class="form-group">
-                                                    <input v-model="mission.datefin" name="datefin" type="date"
+                                                    <input v-model="mission.dateFin" name="datefin" type="date"
                                                       class="form-control shadow-none fs-md-15 text-black" placeholder="" />
                                                   </div>
-                                                  <div class="invalid-feedback" v-if="valideteRowMission(mission.datefin)">
+                                                  <div class="invalid-feedback" v-if="valideteRowMission(mission.dateFin)">
                                                     La date de fin est obligatoire.
                                                   </div>
                                                 </div>
@@ -214,8 +214,8 @@
     const missions = reactive([{
       titre: "",
       description: "",
-      datefin: "",
-      datedebut: ""
+      dateDebut: "",
+      dateFin: ""
     }]);
 
 
@@ -223,8 +223,8 @@
         missions.push({
           titre: "",
           description: "",
-          datedebut: "",
-          datefin: ""
+          dateDebut: "",
+          dateFin: ""
         });
       };
   
@@ -241,8 +241,8 @@
             (mission) =>
             valideteRowMission(mission.titre) ||
             valideteRowMission(mission.description) ||
-            valideteRowMission(mission.datedebut) ||
-            valideteRowMission(mission.datefin)
+            valideteRowMission(mission.dateDebut) ||
+            valideteRowMission(mission.dateFin)
           );
         },
         { deep: true }

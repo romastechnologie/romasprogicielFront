@@ -118,28 +118,23 @@ import { Tresorerie } from "@/models/Tresorerie";
   import { suppression, error } from "@/utils/utils";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
-  
   export default defineComponent({
     name: "ListeFinance",
     components: {
       PaginationComponent
     },
     setup(){
-      
       onMounted(() => {
         getAllFinances();
       });
-  
       const finances = ref<Array<Finance>>([]);   
       const finance = ref<Finance>();
-  
       // BEGIN PAGINATE
       const searchTerm = ref('');
       const page = ref(1);
       const totalPages = ref(0);
       const limit = ref(10);
       const totalElements = ref(0);
-  
       const handlePaginate = ({ page_, limit_ }) => {
         try {
           page.value = page_;
@@ -148,14 +143,10 @@ import { Tresorerie } from "@/models/Tresorerie";
           //
         }
       };
-  
        function rechercher(){
         getAllFinances(page.value, limit.value, searchTerm.value );
       }
-      
-  
       // END PAGINATE
-  
       function getAllFinances(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/finance/?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
@@ -169,13 +160,10 @@ import { Tresorerie } from "@/models/Tresorerie";
           .catch(({ response }) => {
             error(response.data.message)
         });
-        
       }
-      
       function moddifier(Editfinances:Finance) {
         finance.value = Editfinances;
       }
-  
       const deleteFinance = (id: number) => {
         ApiService.delete(`/finances/${id}`)
         .then(({ data }) => {
@@ -204,20 +192,16 @@ import { Tresorerie } from "@/models/Tresorerie";
             },
           });
         });
-  
         for(let i = 0; i < finances.value.length; i++) {
           if (finances.value[i].id === id) {
              finances.value.splice(i, 1);
           }
         }
       };
-  
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
-  
       const checkPermission = (name) => {
         return privileges.value.includes(name);
       }
-  
       return { finances,
         checkPermission,
        getAllFinances,

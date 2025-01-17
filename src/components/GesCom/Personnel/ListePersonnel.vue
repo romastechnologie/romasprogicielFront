@@ -153,7 +153,7 @@
                                   Service  <span class="text-danger">*</span>
                                 </label>
                                 <Field
-                                  name="service"
+                                  name="organisation"
                                   type="text"
                                   v-slot="{ field }"
                                 >
@@ -164,12 +164,12 @@
                                     :preserve-search="true"
                                     :multiple="false"
                                     :searchable="true"
-                                    placeholder="Sélectionner le service"
+                                    placeholder="Sélectionner l'organisation"
                                     label="label"
-                                    track-by="label"
+                                    track-by="value"
                                   />
                                 </Field>
-              <ErrorMessage name="service" class="text-danger" />
+              <ErrorMessage name="organisation" class="text-danger" />
             </div>
           </div>
           <div class="modal-footer">
@@ -226,7 +226,7 @@ export default defineComponent({
       getAllServices();
     });
     const personnelsSchema = Yup.object().shape({
-      service: Yup.string().required("service est obligatoire"),
+     organisation: Yup.string().required("service est obligatoire"),
     });
     const personnelsForm = ref(null);
     const serviceOptions = ref([]);
@@ -252,6 +252,7 @@ export default defineComponent({
 
   const addPersonnels = async (values, { resetForm }) => {
   values["id"] = personnelii.value;
+  //values["serviceId"] = personnelii.value;
   console.log("values", values);
   ApiService.put("/personnels/" + values.id, values)
     .then(({ data }) => {
@@ -260,7 +261,7 @@ export default defineComponent({
         success(data.message);
         resetForm();
        getAllPersonnels();
-       triggerButtonClick("000close-modal");   
+       triggerButtonClick("close-modal");   
       }
     })
     .catch(({ response }) => {

@@ -87,7 +87,6 @@
                                           Unité mesure <span class="text-danger">*</span>
                                         </label>
                                       </div>
-                                      
                                       <div class="col-md-3">
                                         <label class="d-block text-black fw-semibold mb-10">
                                           Action
@@ -95,7 +94,7 @@
                                       </div>
                                     </div>
                                     <hr class="mt-0" />
-                                    <div class="row" v-for="(fonction, index) in fonctions" :key="index">
+                                    <div class="row" v-for="(fonction, index) in AffectationATypeEntretien" :key="index">
                                     <!-- <div class="col-md-2 mb-2">
                                         <div class="">
                                           <Multiselect :options="fonctionOptions" :searchable="true" track-by="label"
@@ -192,7 +191,7 @@
   //import { hide } from '@/utils/utils';
   import { TypeEntretien } from '@/models/TypeEntretien';
   import { error, success } from '@/utils/utils';
-  import { useRouter } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import Multiselect from '@vueform/multiselect';
 import { title } from '@/composables/createProject';
   
@@ -223,6 +222,8 @@ import { title } from '@/composables/createProject';
       const router = useRouter();
       const typeEntretienOptions = ref([]);
       const types = ref();
+      const route = useRoute();
+
       // const item = ref({ ...props.item });
       const typeOptions = ref([]);
       const showMErr = ref(false);
@@ -235,10 +236,10 @@ import { title } from '@/composables/createProject';
       const { remove, push, fields, update } = useFieldArray("fonctions");
   
       const fonctionOptions = ref([]);
-      const fonctions = reactive([
+      const AffectationATypeEntretien = reactive([
         {
           //caburation: "",
-          typeEntretien: "",
+          // typeEntretien: "",
           valeur: "",
           uniteMesure: "",
           typeBien: ""
@@ -246,9 +247,9 @@ import { title } from '@/composables/createProject';
       ]);
   
       const addRowFonction = () => {
-        fonctions.push({
+        AffectationATypeEntretien.push({
          // caburation: "",
-          typeEntretien: "",
+          // typeEntretien: "",
           valeur: "",
           uniteMesure: "",
           typeBien: ""
@@ -256,7 +257,7 @@ import { title } from '@/composables/createProject';
       };
   
       const removeRowFonction = (index) => {
-        if (fonctions.length > 1) fonctions.splice(index, 1);
+        if (AffectationATypeEntretien.length > 1) AffectationATypeEntretien.splice(index, 1);
         //totals();
       };
   
@@ -270,11 +271,11 @@ import { title } from '@/composables/createProject';
       };
   
   
-      watch(fonctions, (newValue, oldValue) => {
+      watch(AffectationATypeEntretien, (newValue, oldValue) => {
         Object.keys(newValue).forEach(function (key) {
           if (
            // newValue[key].caburation == "" ||
-            newValue[key].typeEntretien == "" ||
+            // newValue[key].typeEntretien == "" ||
             newValue[key].valeur == "" ||
             newValue[key].typeBien == "" ||
             newValue[key].uniteMesure == ""
@@ -305,22 +306,55 @@ import { title } from '@/composables/createProject';
         }
       }*/
      
-      const getTypeEntretien = async (id: number) => {
-        return ApiService.get("/typeEntretiens/" + id)
+      // const getTypeEntretien = async (id: number) => {
+      //   return ApiService.get("/typeEntretiens/" + id)
+      //     .then(({ data }) => {
+      //       // map data in form
+      //       const donnees = data.data;
+      //     console.log('Valeurs', data.data);
+
+      //       for (const key in donnees) {
+      //         typeEntretienForm.value?.setFieldValue(key,
+      //           (typeof donnees[key] === 'object' && donnees[key] !== null) ? donnees[key].id : donnees[key]
+      //         );
+      //       }
+
+      //       // emit('openmodal', editTypeEntretienRef.value);
+  
+      //     })
+      //     .catch(({ response }) => {
+      //       error(response.data.message)
+      //     });
+      // }
+
+
+      function getTypeEntretien(id:number) {
+        ApiService.get("/typeEntretiens/"+id.toString())
           .then(({ data }) => {
-            // map data in form
+            console.log('data',data);
             const donnees = data.data;
             for (const key in donnees) {
               typeEntretienForm.value?.setFieldValue(key,
                 (typeof donnees[key] === 'object' && donnees[key] !== null) ? donnees[key].id : donnees[key]
               );
             }
-            emit('openmodal', editTypeEntretienRef.value);
-  
-          })
-          .catch(({ response }) => {
-            error(response.data.message)
-          });
+            // console.log("data.data['dateDebut']",data.data['dateDebut'].split('T')[0])
+            //  dateDebut.value = data.data['dateDebut'].split('T')[0];
+            //  dateFin.value = data.data['dateFin'].split('T')[0];
+            //   description.value = data.data['description'];
+            //   destination.value = data.data['destination'];
+            //   data.data.taches.forEach(donne => {
+            //     taches.push({
+            //       titre : donne.titre,
+            //       description: donne.description,
+            //       dateDebut : donne.dateDebut.split('T')[0],
+            //       dateFin : donne.dateFin.split('T')[0],
+            //     })
+            //   })
+         })
+        .catch(({ response }) => {
+          error(response.data.message);
+        });
       }
   
       const fetchTypeEntretien = async () => {
@@ -355,6 +389,13 @@ import { title } from '@/composables/createProject';
         fetchTypeEntretien();
         // fetchFonction();
         getAllTypeBien();
+      });
+
+      
+      onMounted(() => {
+        if(route.params.id) {
+          getTypeEntretien(parseInt(route.params.id as string));
+        }
       });
   
       const editTypeEntretien = async (values: any, typeEntretienForm) => {
@@ -431,10 +472,11 @@ import { title } from '@/composables/createProject';
         addRowFonction,
         valideteRowFonction,
         fonctionOptions,
-        fonctions,
+        AffectationATypeEntretien,
         types,
         showMErr,
-        typeOptions
+        typeOptions,
+        isDisable
       };
     },
   });

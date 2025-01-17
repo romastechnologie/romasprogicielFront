@@ -1,186 +1,174 @@
 <template>
-  <div class="modal fade" id="AddTypesDepensesModal" tabindex="-1" role="dialog" ref="addTypesDepensesModalRef"
-    aria-labelledby="tooltipmodal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">{{ title }}</h4>
-          <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <Form ref="typesDepensesForm" @submit="addTypesDepenses" :validation-schema="typesDepensesSchema">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Libellé <span class="text-danger">*</span>
-                  </label>
-                  <Field name="libelle" type="text" class="form-control shadow-none fs-md-15 text-black"
-                    placeholder="Entrer le libelle" />
-                  <ErrorMessage name="libelle" class="text-danger" />
-                </div>
+
+  <div class="modal fade" id="AddTypesDepensesModal" tabindex="-1" role="dialog" ref="addTypesDepensesModalRef" aria-labelledby="tooltipmodal" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title">{{ title }}</h4>
+                      <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <Form ref="typedepenseForm" @submit="addTypeDepense" :validation-schema="typedepenseSchema">
+                      <div class="row">
+                        <div class="col-md-12 mb-3">
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black fw-semibold mb-10">
+                              Libelle <span class="text-danger">*</span>
+                            </label>
+                            <Field name="libelle" type="text" 
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le libelle"/>
+                            <ErrorMessage name="libelle" class="text-danger"/>
+                          </div>     
+                        </div>
+
+
+                        <div class="col-md-12 mb-3">
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black fw-semibold mb-10">
+                              Description <span class="text-danger">*</span>
+                            </label>
+                            <Field name="description" type="text" 
+                            class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le description"/>
+                            <ErrorMessage name="description" class="text-danger"/>
+                          </div>     
+                        </div>
+                        
+                        <button
+                          class="btn btn-primary"
+                          type="submit">
+                          {{ btntext }}
+                        </button>
+                      </div>
+                    </Form>
+                  </div>
+               
               </div>
-              <div class="col-md-6">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Description <span class="text-danger">*</span>
-                  </label>
-                  <Field name="description" type="text" class="form-control shadow-none fs-md-15 text-black"
-                    placeholder="Entrer la description" />
-                  <ErrorMessage name="description" class="text-danger" />
-                </div>
-              </div>
-              <button class="btn btn-primary mt-3">
-                {{ btntext }}
-              </button>
-            </div>
-          </Form>
-        </div>
-        <!-- <button
-          type="button"
-          class="btn-close shadow-none"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          @click="resetValue()"
-        ></button> -->
+          </div>
       </div>
-    </div>
-  </div>
-</template>
+  </template> 
+  
+  <script lang="ts">
+  import { ref, watch } from 'vue';
+  import { Form, Field, ErrorMessage } from 'vee-validate';
+  import * as Yup from 'yup';
+  import ApiService from '@/services/ApiService';
+  import { error, hideModal, success } from '@/utils/utils';
+  import { TypeDepense} from '@/models/TypeDepense';
+  import { useRouter } from 'vue-router';
+  
+  export default {
+    name: "AddTypesDepensesModal",
+    components: {
+      Form,
+      Field,
+      ErrorMessage
+    },
+    props:{
+      id: {
+        type: Number,
+        required: true,
+        default:0
+      },
+    },
+    emits: ["refreshTypesDepenses",'openmodal'],
+  
+    setup: (props:any, { emit }: { emit: Function }) => {
+  
+      const loading = ref<boolean>(false);
+      const typedepenseSchema = Yup.object().shape({
+        //description: Yup.string().required('La religion est obligatoire'),
+        libelle: Yup.string().required('Le libelle est obligatoire'),
+        description: Yup.string().required('Le description est obligatoire'),
 
-<script lang="ts">
-import { defineComponent, ref, watch, onMounted } from 'vue';
-import { Form, Field, ErrorMessage } from 'vee-validate';
-import ApiService from '@/services/ApiService';
-import * as Yup from 'yup';
-import { hideModal } from '@/utils/utils';
-import { TypesDepenses } from '@/models/TypesDepenses';
-import { error, success } from '@/utils/utils';
-import { useRouter } from 'vue-router';
-
-export default defineComponent({
-  name: "AddTypesDepensesModal",
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-  },
-  props: {
-    item: {
-      type: Number,
-      default: 0,
-    }
-  },
-  setup(props, { emit }) {
-    const typesDepensesSchema = Yup.object().shape({
-      libelle: Yup.string().required('Le libellé est obligatoire'),
-      description: Yup.string().required('La description est obligatoire'),
-    });
-    const typesDepensesForm = ref<TypesDepenses | null>(null);
-    const addTypesDepensesModalRef = ref<null | HTMLElement>(null);
-    const router = useRouter();
-    const typesDepensesOptions = ref([]);
-    // const item = ref({ ...props.item });
-    const localItem = ref(props.item);
-    const isUPDATE = ref(false);
-    const title = ref("Ajouter un typeDepense");
-    const btntext = ref('Ajouter');
-
-    watch(() => props.item, (newValue) => {
-      getTypesDepenses(newValue);
-      isUPDATE.value = true;
-      btnTitle();
-    });
-    const btnTitle = async () => {
-      if (isUPDATE.value) {
-        title.value = "Modifier le typesDepense";
-        btntext.value = "Modifier";
-      } else {
-        title.value = "Ajouter un typesDepense";
-        btntext.value = "Ajouter";
-      }
-    }
-    const getTypesDepenses = async (id: number) => {
-      return ApiService.get("/typesDepenses/" + id)
+      });
+  
+      const typedepensenew = ref(props.id);
+      const typedepenseForm =  ref<TypeDepense | null>(null);
+      const addTypesDepensesModalRef = ref<null | HTMLElement>(null);
+      let typesdepenses= ref<Array<TypeDepense>>([]);
+      const title = ref('Ajouter un type de depense');
+      const btntext = ref('Ajouter');
+      const isupdate=ref(false);
+      const router = useRouter();
+  
+      watch(() => props.id , (newValue) => {   
+        if (newValue!=0) {
+          getTypeDepense(newValue);
+          isupdate.value=true;
+        }
+        btnTitle();
+      });
+  
+      const getTypeDepense = async (id: number) => {
+        return ApiService.get("/typesDepenses/"+id)
         .then(({ data }) => {
-          // map data in form
-          const donnees = data.data;
-          for (const key in donnees) {
-            typesDepensesForm.value?.setFieldValue(key,
-              (typeof donnees[key] === 'object' && donnees[key] !== null) ? donnees[key].id : donnees[key]
-            );
-          }
+          typedepenseForm.value?.setFieldValue("id",data.data.id);
+          typedepenseForm.value?.setFieldValue("libelle",data.data.libelle);
+          typedepenseForm.value?.setFieldValue("code", data.data.description);
           emit('openmodal', addTypesDepensesModalRef.value);
-
         })
         .catch(({ response }) => {
           error(response.data.message)
         });
-    }
-    const fetchTypesDepenses = async () => {
-      try {
-        const response = await ApiService.get('/all/typesDepenses/');
-        const typesDepensesData = response.data.data.data;
-        typesDepensesOptions.value = typesDepensesData.map((typesDepenses) => ({
-          value: typesDepenses.id,
-          label: `${typesDepenses.codeTypesDepenses} - ${typesDepenses.libelleTypesDepenses}`,
-        }));
-      } catch (error) {
-        //
       }
-    };
-    onMounted(() => {
-      fetchTypesDepenses();
-    });
-    const addTypesDepenses = async (values: any, typesDepensesForm) => {
-      values = values as TypesDepenses;
-      if (isUPDATE.value) {
-        ApiService.put("/typesDepenses/" + values.id, values)
+  
+      const btnTitle = async () => {
+        if (isupdate.value) {
+           title.value = "Modifier le type de dépense";
+           btntext.value = "Modifier";
+        }else{
+           title.value = "Ajouter un type de depense";
+           btntext.value = "Ajouter";
+        }
+      }
+  
+      const addTypeDepense = async (values:any, {resetForm}: {resetForm: () => void  }) => {
+        values = values as TypeDepense;
+        loading.value = false;
+        if(isupdate.value) {
+          ApiService.put(`/typesDepenses/${values.id}`,values)
           .then(({ data }) => {
-            if (data.code == 200) {
+            if(data.code == 200) { 
               success(data.message);
-              typesDepensesForm.resetForm();
+              resetForm();
               hideModal(addTypesDepensesModalRef.value);
-              isUPDATE.value = false;
+              isupdate.value=false;
               btnTitle();
-              emit('close');
+              emit("refreshTypesDepenses");
+              router.push('/typesdepenses/liste-typesdepenses');
             }
-          })
-          .catch(({ response }) => {
+          }).catch(({ response }) => {
             error(response.data.message);
           });
-      }else{
-        console.log('values', values)
-        ApiService.post("/typesDepenses/", values)
+        }else{
+          ApiService.post("/typesDepenses",values)
           .then(({ data }) => {
-            if (data.code == 201) {
-              success(data.message);
-              typesDepensesForm.resetForm();
+            if(data.code == 201) { 
+              success(data.message)
+              resetForm();
               hideModal(addTypesDepensesModalRef.value);
-              emit('close');
+              emit("refreshTypesDepenses");
+  
             }
-          })
-          .catch(({ response }) => {
+          }).catch(({ response }) => {
             error(response.data.message);
           });
-      }
-    };
-    const resetValue = () => {
-      const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
-      isUPDATE.value = false;
-      formFields.forEach(field => {
-        field.value = '';
-      });
-      btnTitle()
-    };
-    return {
-      typesDepensesSchema,
-      addTypesDepensesModalRef,
-      addTypesDepenses,
-      typesDepensesForm,
-      title, btntext, resetValue,
-      typesDepensesOptions,
-    };
-  },
-});
-</script>
+        }
+      }; 
+  
+      const resetValue = () => {
+        const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
+        isupdate.value=false;
+        formFields.forEach(field => {
+          field.value = '';
+        });
+        btnTitle()
+      };
+  
+      return {typesdepenses, title,btntext, resetValue, typedepenseSchema,
+         addTypeDepense, typedepenseForm,addTypesDepensesModalRef,typedepensenew,
+         //refreshReligions
+         };
+    },
+  };
+  </script>@/models/TypeDepense
