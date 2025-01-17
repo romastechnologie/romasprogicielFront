@@ -46,6 +46,12 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
+                  Montant total du pret
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
                   Statut
                 </th>
                 <th
@@ -56,9 +62,10 @@
           </thead>
           <tbody>
             <tr v-for="(demande, index) in demandes" :key="index">  
-              <td class="shadow-none lh-1 fw-medium ">{{ demande.dateDemande }} </td>              
+                  <td class="shadow-none lh-1 fw-medium ">{{ demande.dateDemande }} </td>              
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ demande.montantPret }} </td>              
                  
                   <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ demande.statut }}
  <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
@@ -224,7 +231,7 @@ import * as Yup from 'yup';
 
 
 export default defineComponent({
-  name: "ListeDemandePermission",
+  name: "ListeDemandePret",
   components: {
     PaginationComponent,
     Form,
@@ -269,7 +276,7 @@ export default defineComponent({
     }
     // END PAGINATE
     function getAllDemandes(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&cat=1&`)
+      return ApiService.get(`/all/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&cat=4&`)
         .then(({ data }) => {
           demandes.value = data.data.data;
           console.log(data.data.data,"dona")

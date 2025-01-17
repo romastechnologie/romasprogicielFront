@@ -583,7 +583,10 @@ const addDemande = async (values: any, { resetForm }) => {
                 console.log('je suis là')
                 router.push({ name: "ListeDemandeAttestationPage" });
 
-                }else{
+                }else if(data.data.categorie == 4){
+                console.log('je suis là oooh')
+                router.push({ name: "ListeDemandePretPage" });
+              }else{
                router.push({ name: "ListeDemandeAutrePage" });
                }
             
