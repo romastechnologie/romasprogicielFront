@@ -337,7 +337,7 @@ function triggerButtonClick(buttonId: string) {
   
 }, 2000);*/ // 2 secondes
 // Utilisation
-    const addDemandes = async (values, { resetForm }) => {
+  const addDemandes = async (values, { resetForm }) => {
   values["id"] = demandeii.value;
   values["statut"] = true;
 
@@ -357,7 +357,7 @@ function triggerButtonClick(buttonId: string) {
     });
 };
 
-const rejectDemandes = async () => {
+  const rejectDemandes = async () => {
   const values = {
     id: demandeii.value,
     statut: false, // État pour rejeter
