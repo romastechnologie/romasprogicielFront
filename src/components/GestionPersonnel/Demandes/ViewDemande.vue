@@ -25,7 +25,7 @@
                   <td>{{ demande?.personnel?.prenom }} </td>
                 </tr>
                 <tr>
-                  <td>Motif de la permission :</td>
+                  <td>Motif de la demande :</td>
                   <td>{{ demande?.motifDemande}}</td>
                 </tr>
                 <tr>
@@ -33,19 +33,19 @@
                   <td>{{ demande?.statut }}</td>
                 </tr>
                
-                <tr>
+                <tr v-if="demande?.dateDebut">
                   <td>Date Début :</td>
                   <td>{{ demande?.dateDebut }}</td>
                 </tr>
-                <tr>
+                <tr v-if="demande?.dateFinPrevu">
                   <td>Date Fin Prévue :</td>
                   <td>{{ demande?.dateFinPrevu }}</td>
                 </tr>
-                <tr>
+                <tr v-if="demande?.dateFin">
                   <td>Date Fin :</td>
                   <td>{{ demande?.dateFin }}</td>
                 </tr>
-                <tr>
+                <tr v-if="demande?.dateReprise">
                   <td>Date Reprise :</td>
                   <td>{{ demande?.dateReprise }}</td>
                 </tr>
