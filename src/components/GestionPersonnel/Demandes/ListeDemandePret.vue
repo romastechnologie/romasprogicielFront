@@ -83,7 +83,7 @@
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
                         </router-link>
                     </li>
-                    
+                    <!--
                     <li >
                       <a v-if="(demande.statut =='En attente')"
                         class="dropdown-item d-flex align-items-center"
@@ -120,7 +120,7 @@
                         ></i>
                         Rejetée
                       </a>
-                    </li>
+                    </li>-->
       <!-- Bouton Valider : affiché seulement si la demande n'est pas validée -->
       <li v-if="(demande.statut =='En attente')" class="dropdown-item d-flex align-items-center">
         <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(demande.id)">
@@ -192,7 +192,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Valider</button>
+            <button type="submit" class="btn btn-primary">Accepter</button>
             <button
               type="button"
               class="btn btn-danger"

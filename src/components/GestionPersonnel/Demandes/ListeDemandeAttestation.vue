@@ -110,7 +110,7 @@
                               Traiter
                             </a>
                            </li>
-                        <li class="dropdown-item d-flex align-items-center">
+                          <!-- <li class="dropdown-item d-flex align-items-center">
                           <router-link
                             
                             :to="{ name: 'ViewDemandePage',params: { id: demande.id } }"
@@ -118,7 +118,7 @@
                             <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                             Archiver
                           </router-link>
-                        </li> 
+                        </li> -->
                           
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
@@ -168,7 +168,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Valider</button>
+            <button type="submit" class="btn btn-primary">Accepter</button>
             <button
               type="button"
               class="btn btn-danger"

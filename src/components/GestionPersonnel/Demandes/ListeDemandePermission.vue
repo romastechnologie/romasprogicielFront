@@ -77,7 +77,7 @@
                         </router-link>
                     </li>
                     
-                    <li >
+                  <!--  <li >
                       <a v-if="(demande.statut =='En attente')"
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
@@ -98,7 +98,7 @@
                         ></i>
                         Valider
                       </router-link>
-                    </li>
+                    </li>-->
                     
                     <li >
                       <a
@@ -185,7 +185,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Valider</button>
+            <button type="submit" class="btn btn-primary">Accepter</button>
             <button
               type="button"
               class="btn btn-danger"
