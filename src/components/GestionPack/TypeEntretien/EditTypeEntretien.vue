@@ -334,7 +334,7 @@ import { title } from '@/composables/createProject';
                 AffectationATypeEntretien.value.push({
                       valeur: element.valeur,
                       uniteMesure:element.unitemesure,
-                      typeBien:""
+                      typeBien:element.typebien?.id,
                 })
             });
                  
@@ -367,7 +367,7 @@ import { title } from '@/composables/createProject';
       const getAllTypeBien = async () => {
         try {
           const response = await ApiService.get('/all/typeBiens');
-          const typesData = response.data.data;
+          const typesData = response.data.data.data;
   
           typeOptions.value = typesData.map((type) => ({
             value: type.id,
