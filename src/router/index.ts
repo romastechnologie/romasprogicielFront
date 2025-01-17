@@ -399,7 +399,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "editer-typeEntretien",
+        path: "editer-typeEntretien/:id",
         name: "EditTypeEntretien",
         component: EditTypeEntretienPage,
         meta: {

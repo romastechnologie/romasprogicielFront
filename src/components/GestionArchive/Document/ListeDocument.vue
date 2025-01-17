@@ -10,8 +10,8 @@
         </div>
         <div class="d-flex align-items-center">
           <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
-            <input type="text" v-model="searchTerm" @keyup="rechercher" class="form-control shadow-none text-black"
-              placeholder="Rechercher un document" />
+            <input type="text" name="mot" v-model="searchTerm" @keyup="rechercher" class="form-control shadow-none text-black"
+              placeholder="Rechercher un document" aria-disabled="true" />
             <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
               <i class="flaticon-search-interface-symbol"></i>
             </button>
@@ -51,7 +51,7 @@
                   placeholder="Sélectionner la Catégorie Document"
                 />
               </Field>
-              <ErrorMessage name="categorie" class="text-danger"/>
+              <ErrorMessage name="categoriedocument" class="text-danger"/>
             </div>
           </div>
 
@@ -69,7 +69,56 @@
                   placeholder="Sélectionner le type de document"
                 />
               </Field>
-              <ErrorMessage name="typeDoc" class="text-danger"/>
+              <ErrorMessage name="typeDocument" class="text-danger"/>
+            </div>
+          </div>
+
+          <div class="col-md-3 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Tag <span class="text-danger">*</span>
+              </label>
+              <Field name="tagDoc" v-model="_tagDoc" type="text" v-slot="{ field }">
+                <Multiselect
+                  v-model="field.value"
+                  v-bind="field"
+                  :options="tagOptions"
+                  :preserve-search="true"
+                  :multiple="false"
+                  :searchable="true"
+                  placeholder="Sélectionner le tag"
+                  label="label"
+                  track-by="label"
+                />
+              </Field>
+              <ErrorMessage name="tagDoc" class="text-danger" />
+            </div>
+          </div>
+
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Organisation de production<span class="text-danger">*</span>
+              </label>
+              <Field
+                name="organisation"
+                v-model="_organisations"
+                type="text"
+                v-slot="{ field }"
+              >
+                <Multiselect
+                  v-model="field.value"
+                  v-bind="field"
+                  :options="organisationOptions"
+                  :preserve-search="true"
+                  :multiple="false"
+                  :searchable="true"
+                  placeholder="Sélectionner l'organisation"
+                  label="label"
+                  track-by="label"
+                />
+              </Field>
+              <ErrorMessage name="organisation" class="text-danger" />
             </div>
           </div>
       </div>
@@ -199,6 +248,7 @@ import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 import { Field } from "vee-validate";
 import Multiselect from "@vueform/multiselect/src/Multiselect";
+import axios from "axios";
 
 
 export default defineComponent({
@@ -214,7 +264,9 @@ export default defineComponent({
       getAllDocuments();
       fetchCategorieDocuments();
       fetchTypeDocuments();
-      rechercher();
+      getAllOrganisations();
+      getAllTags();
+
     });
 
     const documents = ref<Array<any>>([]);
@@ -222,17 +274,18 @@ export default defineComponent({
 
     const categorieOptions = ref([]);
     const typeOptions = ref([]);
-
+    const tagOptions = ref();
+    const organisationOptions = ref();
     const searchTerm = ref('');
     const dateFinConservation = ref('');
-    
     const page = ref(1);
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
-
     const categorie = ref('');
     const typeDoc= ref('');
+    const _organisations = ref('');
+    const _tagDoc = ref('');
 
 
     const handlePaginate = ({ page, limit }) => {
@@ -284,8 +337,32 @@ const fetchCategorieDocuments = async () => {
         // error(response.data.message)
       });
     }
-
-
+    const getAllTags = async () => {
+      try {
+        const response = await ApiService.get("/tags");
+        const tagsData = response.data.data.data;
+        console.log("Data", tagsData);
+        tagOptions.value = tagsData.map((tag) => ({
+          value: tag.id,
+          label: tag.libelle,
+        }));
+      } catch (error) {
+        //error(response.data.message)
+      }
+    };
+    const getAllOrganisations = async () => {
+      try {
+        const response = await axios.get("all/organisations");
+        const organisationsData = response.data.data.data;
+        console.log("RESPONSE ORGANISATION ===> ", response);
+        organisationOptions.value = organisationsData.map((organisations) => ({
+          value: organisations.id,
+          label: organisations.nom,
+        }));
+      } catch (error) {
+        //error(response.data.message)
+      }
+    };
     const fetchTypeDocuments = async () => {
       ApiService.get("all/typedocuments")
       .then(({ data }) => {
@@ -311,17 +388,25 @@ const fetchCategorieDocuments = async () => {
       rechercher();
     });
 
+    watch(_tagDoc, () => {
+      rechercher();
+    });
+
+    watch(_organisations, () => {
+      rechercher();
+    });
+
     watch(dateFinConservation, () => {
       rechercher();
     });
 
      function rechercher()  {
-  getAllDocuments(page.value, limit.value, categorie.value,typeDoc.value,dateFinConservation.value);
+  getAllDocuments(page.value, limit.value, categorie.value,typeDoc.value,dateFinConservation.value,_tagDoc.value,_organisations.value);
 };
 
 
-    function getAllDocuments(page = 1, limi = 10, categorie = '' ,  typeDoc = '', dateFinConservation = '' ,searchTerm = '') {
-      return ApiService.get(`/documents?page=${page}&limit=${limi}&categoriedocument=${categorie}&typeDocument=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&`)
+    function getAllDocuments(page = 1, limi = 10, categorie = '' ,  typeDoc = '', dateFinConservation = '' ,searchTerm = '', _tagDoc='', _organisations='') {
+      return ApiService.get(`/documents?page=${page}&limit=${limi}&categoriedocument=${categorie}&typeDocument=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&organisation=${_organisations}&tagDoc=${_tagDoc}`)
         .then(({ data }) => {
           documents.value = data.data.data;
           totalPages.value = data.data.totalPages;
@@ -350,9 +435,13 @@ const fetchCategorieDocuments = async () => {
       page,
       categorie,
       typeDoc,
+      _organisations,
+      _tagDoc,
       categorieOptions,
       typeOptions,
       dateFinConservation,
+      organisationOptions,
+      tagOptions,
       changerStatut,
       getStatusClass,
       totalPages,

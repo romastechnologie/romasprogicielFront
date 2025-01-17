@@ -8,7 +8,7 @@
                     <label class="d-block text-black fw-semibold mb-10">
                       Libellé <span class="text-danger">*</span>
                     </label>
-                    <Field name="libelle" type="text" class="form-control shadow-none fs-md-15 text-black"
+                    <Field name="libelle" type="text"  v-model="libelle" class="form-control shadow-none fs-md-15 text-black"
                       placeholder="Entrer le libelle" />
                     <ErrorMessage name="libelle" class="text-danger" />
                   </div>
@@ -18,7 +18,7 @@
                     <label class="d-block text-black fw-semibold mb-10">
                       Description <span class="text-danger">*</span>
                     </label>
-                    <Field name="description" cols="12" rows="3" as="textarea" placeholder="Description" v-slot="{ field }"
+                    <Field name="description" cols="12" v-model="description" rows="3" as="textarea" placeholder="Description" v-slot="{ field }"
                       class="form-control shadow-none rounded-0 text-black">
                       <textarea v-model="field.value" class="form-control shadow-none rounded-0 text-black"></textarea>
                     </Field>
@@ -223,6 +223,8 @@ import { title } from '@/composables/createProject';
       const typeEntretienOptions = ref([]);
       const types = ref();
       const route = useRoute();
+      const libelle = ref();
+      const description = ref();
 
       // const item = ref({ ...props.item });
       const typeOptions = ref([]);
@@ -236,20 +238,10 @@ import { title } from '@/composables/createProject';
       const { remove, push, fields, update } = useFieldArray("fonctions");
   
       const fonctionOptions = ref([]);
-      const AffectationATypeEntretien = reactive([
-        {
-          //caburation: "",
-          // typeEntretien: "",
-          valeur: "",
-          uniteMesure: "",
-          typeBien: ""
-        },
-      ]);
+      const AffectationATypeEntretien = ref([]);
   
       const addRowFonction = () => {
-        AffectationATypeEntretien.push({
-         // caburation: "",
-          // typeEntretien: "",
+        AffectationATypeEntretien.value.push({
           valeur: "",
           uniteMesure: "",
           typeBien: ""
@@ -257,7 +249,7 @@ import { title } from '@/composables/createProject';
       };
   
       const removeRowFonction = (index) => {
-        if (AffectationATypeEntretien.length > 1) AffectationATypeEntretien.splice(index, 1);
+        if (AffectationATypeEntretien.value.length > 1) AffectationATypeEntretien.value.splice(index, 1);
         //totals();
       };
   
@@ -271,7 +263,7 @@ import { title } from '@/composables/createProject';
       };
   
   
-      watch(AffectationATypeEntretien, (newValue, oldValue) => {
+      watch(AffectationATypeEntretien.value, (newValue, oldValue) => {
         Object.keys(newValue).forEach(function (key) {
           if (
            // newValue[key].caburation == "" ||
@@ -331,26 +323,28 @@ import { title } from '@/composables/createProject';
       function getTypeEntretien(id:number) {
         ApiService.get("/typeEntretiens/"+id.toString())
           .then(({ data }) => {
-            console.log('data',data);
-            const donnees = data.data;
-            for (const key in donnees) {
+            console.log('dataNouveau',data.data);
+            for (const key in data.data) {
               typeEntretienForm.value?.setFieldValue(key,
-                (typeof donnees[key] === 'object' && donnees[key] !== null) ? donnees[key].id : donnees[key]
+                (typeof data.data[key] === 'object' && data.data[key] !== null) ? data.data[key].id : data.data[key]
               );
-            }
-            // console.log("data.data['dateDebut']",data.data['dateDebut'].split('T')[0])
-            //  dateDebut.value = data.data['dateDebut'].split('T')[0];
-            //  dateFin.value = data.data['dateFin'].split('T')[0];
-            //   description.value = data.data['description'];
-            //   destination.value = data.data['destination'];
-            //   data.data.taches.forEach(donne => {
-            //     taches.push({
-            //       titre : donne.titre,
-            //       description: donne.description,
-            //       dateDebut : donne.dateDebut.split('T')[0],
-            //       dateFin : donne.dateFin.split('T')[0],
-            //     })
-            //   })
+            };
+            data.data.AffectationATypeEntretien.forEach(element => {
+              console.log(element,"data.data.AffectationATypeEntretien")
+                AffectationATypeEntretien.value.push({
+                      valeur: element.valeur,
+                      uniteMesure:element.unitemesure,
+                      typeBien:""
+                })
+            });
+                 
+              /*.foreEach(donne => {
+                  AffectationATypeEntretien.push({
+                    typeBien:donne.typebien?.id,
+                    valeur: donne.valeur,
+                    uniteMesure:donne.unitemesure
+                  })
+              })*/
          })
         .catch(({ response }) => {
           error(response.data.message);
@@ -476,7 +470,9 @@ import { title } from '@/composables/createProject';
         types,
         showMErr,
         typeOptions,
-        isDisable
+        isDisable,
+        libelle,
+        description
       };
     },
   });
