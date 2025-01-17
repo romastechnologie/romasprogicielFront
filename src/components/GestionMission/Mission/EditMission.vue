@@ -1,14 +1,14 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-            <Form ref="missionForm" @submit="editMission" :validation-schema="missionlSchema" :initial-values="missionForm">
+            <Form ref="missionForm" @submit="editMission" :validation-schema="missionSchema" :initial-values="missionForm">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Description <span class="text-danger">*</span>
                   </label>
-                  <Field name="description" type="string"
+                  <Field name="description" type="string" v-model="description"
                   class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la description"/>
                   <ErrorMessage name="description" class="text-danger"/>
                 </div>
@@ -98,7 +98,7 @@
                                                 </div>
                                               </div>
                                               <hr class="mt-0" />
-                                              <div class="row" v-for="(mission, index) in missions" :key="index">
+                                              <div class="row" v-for="(mission, index) in taches" :key="index">
                                                 <div class="col-md-3 mb-2">
                                                   <div class="form-group ">
                                                     <input v-model="mission.titre" name="titre" type="text" class="form-control shadow-none fs-md-15 text-black"
@@ -119,19 +119,19 @@
                                                 </div>
                                                 <div class="col-md-2 mb-2">
                                                   <div class="form-group">
-                                                    <input v-model="mission.datedebut" name="datedebut" type="date"
+                                                    <input v-model="mission.dateDebut" name="datedebut" type="date"
                                                       class="form-control shadow-none fs-md-15 text-black" placeholder="" />
                                                   </div>
-                                                  <div class="invalid-feedback" v-if="valideteRowMission(mission.datedebut)">
+                                                  <div class="invalid-feedback" v-if="valideteRowMission(mission.dateDebut)">
                                                     La date de début est obligatoire.
                                                   </div>
                                                 </div>
                                                 <div class="col-md-2 mb-2">
                                                   <div class="form-group">
-                                                    <input v-model="mission.datefin" name="datefin" type="date"
+                                                    <input v-model="mission.dateFin" name="datefin" type="date"
                                                       class="form-control shadow-none fs-md-15 text-black" placeholder="" />
                                                   </div>
-                                                  <div class="invalid-feedback" v-if="valideteRowMission(mission.datefin)">
+                                                  <div class="invalid-feedback" v-if="valideteRowMission(mission.dateFin)">
                                                     La date de fin est obligatoire.
                                                   </div>
                                                 </div>
@@ -205,26 +205,26 @@
        const description = ref();
 
       const addRowMission = () => {
-        missions.push({
+        taches.push({
           titre: "",
           description: "",
-          datedebut: "",
-          datefin: ""
+          dateDebut: "",
+          dateFin: ""
         });
       };
 
       const removeRowMission = (index) => {
-        if (missions.length > 1) missions.splice(index, 1);
+        if (taches.length > 1) taches.splice(index, 1);
         //totals();
       };
 
 
       const isDisable = ref(true);
-    const missions = reactive([{
+    const taches = reactive([{
       titre: "",
       description: "",
-      datefin: "",
-      datedebut: ""
+      dateFin: "",
+      dateDebut: ""
     }]);
 
   
@@ -239,12 +239,19 @@
           //   );
            
           // }
-
             console.log("data.data['dateDebut']",data.data['dateDebut'].split('T')[0])
              dateDebut.value = data.data['dateDebut'].split('T')[0];
              dateFin.value = data.data['dateFin'].split('T')[0];
               description.value = data.data['description'];
               destination.value = data.data['destination'];
+              data.data.taches.forEach(donne => {
+                taches.push({
+                  titre : donne.titre,
+                  description: donne.description,
+                  dateDebut : donne.dateDebut.split('T')[0],
+                  dateFin : donne.dateFin.split('T')[0],
+                })
+              })
          })
         .catch(({ response }) => {
           error(response.data.message);
@@ -267,15 +274,15 @@
   };
   
   watch(
-        missions,
+        taches,
         (newValue) => {
           isDisable.value =
           newValue.some(
             (mission) =>
             valideteRowMission(mission.titre) ||
             valideteRowMission(mission.description) ||
-            valideteRowMission(mission.datedebut) ||
-            valideteRowMission(mission.datefin)
+            valideteRowMission(mission.dateDebut) ||
+            valideteRowMission(mission.dateFin)
           );
         },
         { deep: true }
@@ -299,7 +306,7 @@
       });
   
       return { 
-        missionSchema, editMission, missionForm,missions,isDisable,
+        missionSchema, editMission, missionForm,taches,isDisable,
         addRowMission,removeRowMission,valideteRowMission,destination,description,dateDebut,dateFin
         
       };
