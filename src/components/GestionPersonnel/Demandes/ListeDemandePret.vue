@@ -46,6 +46,12 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
+                  Montant total du pret
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
                   Statut
                 </th>
                 <th
@@ -56,9 +62,10 @@
           </thead>
           <tbody>
             <tr v-for="(demande, index) in demandes" :key="index">  
-              <td class="shadow-none lh-1 fw-medium ">{{ demande.dateDemande }} </td>              
+                  <td class="shadow-none lh-1 fw-medium ">{{ demande.dateDemande }} </td>              
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ demande.montantPret }} </td>              
                  
                   <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ demande.statut }}
  <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
@@ -76,8 +83,8 @@
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
                         </router-link>
                     </li>
-                    
-                  <!--  <li >
+                    <!--
+                    <li >
                       <a v-if="(demande.statut =='En attente')"
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
@@ -98,7 +105,7 @@
                         ></i>
                         Valider
                       </router-link>
-                    </li>-->
+                    </li>
                     
                     <li >
                       <a
@@ -113,7 +120,7 @@
                         ></i>
                         Rejetée
                       </a>
-                    </li>
+                    </li>-->
       <!-- Bouton Valider : affiché seulement si la demande n'est pas validée -->
       <li v-if="(demande.statut =='En attente')" class="dropdown-item d-flex align-items-center">
         <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(demande.id)">
@@ -200,7 +207,6 @@
     </div>
   </div>
 </div>
-
       <div class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
         <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit"
           @paginate="handlePaginate" />
@@ -222,9 +228,8 @@ import Swal from "sweetalert2";
 import { useRoute, useRouter } from 'vue-router';
 import * as Yup from 'yup';
 
-
 export default defineComponent({
-  name: "ListeDemandePermission",
+  name: "ListeDemandePret",
   components: {
     PaginationComponent,
     Form,
@@ -269,7 +274,7 @@ export default defineComponent({
     }
     // END PAGINATE
     function getAllDemandes(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/all/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&cat=1&`)
+      return ApiService.get(`/all/demandes?page=${page}&limit=${limi}&mot=${searchTerm}&cat=4&`)
         .then(({ data }) => {
           demandes.value = data.data.data;
           console.log(data.data.data,"dona")
@@ -282,7 +287,6 @@ export default defineComponent({
           error(response.data.message)
         });
     }
-
     const annuleId = (id: number) => {
       selectedItem.value = id;
     };
@@ -304,8 +308,6 @@ export default defineComponent({
     badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
   };
 };*/
-
-
 const accept = async (demande:any)=>{
       const valeur = ref(demande);
       const result = await Swal.fire({
@@ -337,7 +339,7 @@ function triggerButtonClick(buttonId: string) {
   
 }, 2000);*/ // 2 secondes
 // Utilisation
-  const addDemandes = async (values, { resetForm }) => {
+    const addDemandes = async (values, { resetForm }) => {
   values["id"] = demandeii.value;
   values["statut"] = true;
 
@@ -357,7 +359,7 @@ function triggerButtonClick(buttonId: string) {
     });
 };
 
-  const rejectDemandes = async () => {
+const rejectDemandes = async () => {
   const values = {
     id: demandeii.value,
     statut: false, // État pour rejeter

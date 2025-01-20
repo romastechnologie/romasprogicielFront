@@ -561,6 +561,7 @@ const addDemande = async (values: any, { resetForm }) => {
       console.log('typeCongé',typeConge.value)
       values['categories'] = categories.value
       values['personnel'] = personnels.value
+      values['echeances'] = echeances
       console.log('Données envoyées', values,typeConge.value)
       if (showMErr.value === false) {
         ApiService.post("/demandes", values)
@@ -583,7 +584,10 @@ const addDemande = async (values: any, { resetForm }) => {
                 console.log('je suis là')
                 router.push({ name: "ListeDemandeAttestationPage" });
 
-                }else{
+                }else if(data.data.categorie == 4){
+                console.log('je suis là oooh')
+                router.push({ name: "ListeDemandePretPage" });
+              }else{
                router.push({ name: "ListeDemandeAutrePage" });
                }
             

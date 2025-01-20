@@ -345,6 +345,7 @@ import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
 import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
 import AddArchivagePage from '@/pages/GestionPersonnel/Demandes/AddArchivagePage.vue';
+import ListeDemandePretPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePretPage.vue';
 
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
@@ -400,7 +401,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "editer-typeEntretien",
+        path: "editer-typeEntretien/:id",
         name: "EditTypeEntretien",
         component: EditTypeEntretienPage,
         meta: {
@@ -1541,6 +1542,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeDemandePermissionPage,
         meta: {
           title: 'Liste des demandes de permission',
+        }
+      },
+      {
+        path: "liste-demande-pret",
+        name: "ListeDemandePretPage",
+        component: ListeDemandePretPage,
+        meta: {
+          title: 'Liste des demandes de pret',
         }
       },
       {

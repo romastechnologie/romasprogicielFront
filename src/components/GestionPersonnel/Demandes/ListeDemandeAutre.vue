@@ -104,7 +104,12 @@
                               Détails
                             </router-link>
                           </li>
-                          
+                          <li v-if="(demande.statut =='En attente')" class="dropdown-item d-flex align-items-center">
+                          <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(demande.id)">
+                            <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
+                            Traiter
+                          </a>
+                         </li>
                           <li  class="dropdown-item d-flex align-items-center">
                             <a
                              
@@ -124,6 +129,50 @@
                 </tbody>
               </table>
             </div>
+            <div class="modal fade" id="create-task" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Voulez-vous traiter cette demande ?</h6>
+        <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4">
+        <Form
+          ref="demandesForm"
+          @submit="addDemandes"
+          :validation-schema="demandesSchema"
+        >
+          <div class="row gy-2">
+            <div class="col-md-4-3">
+              <label class="d-block fw-semibold mb-10">
+                Observation<span class="text-danger"></span>
+              </label>
+              <Field
+                name="observation"
+                as="textarea"
+                placeholder="Entrer l'observation"
+                class="form-control shadow-none rounded-0 text-black"
+              />
+              <ErrorMessage name="observation" class="text-danger" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Accepter</button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              @click="rejectDemandes"
+              aria-label="Close"
+            >
+              Rejeter
+            </button>
+          </div>
+        </Form>
+      </div>
+    </div>
+  </div>
+</div>
+
         <div
           class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center"
         >
@@ -137,15 +186,22 @@
   import { defineComponent, onMounted, ref} from "vue";
   import ApiService from "@/services/ApiService";
   import { Demande } from "@/models/Demande";
-  import { format_date, suppression, error, } from "@/utils/utils";
+  import { format_date, suppression, error,success } from "@/utils/utils";
   
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
+  import * as Yup from 'yup';
+import Swal from "sweetalert2";
+import { ErrorMessage, Field, Form } from "vee-validate";
+
   
   export default defineComponent({
     name: "ListeDemandeAutre",
     components: {
-      PaginationComponent
+      PaginationComponent,
+      Form,
+      Field,
+      ErrorMessage
     },
     setup(){
       onMounted(() => {
@@ -171,10 +227,22 @@
         }
       };
   
+
+      const demandeii = ref();
+    const openModal = (id: number) => {
+      demandeii.value = id;
+    };
        function rechercher(){
         getAllDemandes(page.value, limit.value, searchTerm.value );
       }
   
+
+      const demandesSchema = Yup.object().shape({
+      observation: Yup.string().required("L'observation est obligatoire"),
+    });
+    const demandesForm = ref(null);
+    //const demandes = ref<Array<Demande>>([]);
+    const selectedItem = ref(0);
   
       // END PAGINATE
   
@@ -191,6 +259,38 @@
             error(response.data.message)
         });
       }
+
+      const annuleId = (id: number) => {
+      selectedItem.value = id;
+    };
+
+    const accept = async (demande:any)=>{
+      const valeur = ref(demande);
+      const result = await Swal.fire({
+            text: "Etes-vous sur de vouloir accepter cette demande ?",
+            icon: "warning",
+            buttonsStyling: true,
+            showCancelButton: true,
+            confirmButtonText: "Accepter",
+            cancelButtonText: `Annuler`,
+            heightAuto: false,
+            customClass: {
+              confirmButton: "btn btn-danger",
+            },
+          });
+           }
+
+
+function triggerButtonClick(buttonId: string) {
+  const button = document.getElementById(buttonId) as HTMLButtonElement;
+  if (button) {
+    button.click(); // Simule un clic
+  } else {
+    console.error(`Button with ID "${buttonId}" not found.`);
+  }
+}
+
+
 
       const getEtatBadge = (statut: boolean | null) => {
   if (statut === true) {
@@ -209,17 +309,67 @@
     badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
   };
 };
+
+
+const addDemandes = async (values, { resetForm }) => {
+  values["id"] = demandeii.value;
+  values["statut"] = true;
+
+  ApiService.put("/demandes/" + values.id, values)
+    .then(({ data }) => {
+      console.log('demande', data);
+      if (data.code === 200) {
+        success(data.message);
+        resetForm();
+        getAllDemandes();
+        triggerButtonClick("close-modal");
+        
+      }
+    })
+    .catch(({ response }) => {
+      error(response.data.message);
+    });
+};
+
+  const rejectDemandes = async () => {
+  const values = {
+    id: demandeii.value,
+    statut: false, // État pour rejeter
+    observation: demandesForm.value?.values?.observation || '', // Récupération de l'observation si remplie
+  };
+
+  ApiService.put("/demandes/" + values.id, values)
+    .then(({ data }) => {
+      if (data.code === 200) {
+        success(data.message);
+        demandesForm.value?.resetForm(); // Réinitialiser le formulaire
+        getAllDemandes(); // Rafraîchir les données
+        triggerButtonClick("close-modal"); // Fermer le modal
+      }
+    })
+    .catch(({ response }) => {
+      error(response.data.message);
+    });
+};
+
   
-      const privileges = ref<Array<string>>(JwtService.getPrivilege());
+const privileges = ref<Array<string>>(JwtService.getPrivilege());
   
   const checkPermission = (name) => {
     return privileges.value.includes(name);
   }
   
       return {demandes,
+        openModal,
+        accept,
+      demandesForm,
+      annuleId,
+      selectedItem,
         checkPermission,
         format_date,
         suppression,
+        addDemandes,
+      demandesSchema,
         demande,
         page, 
         totalPages,
@@ -228,6 +378,7 @@
         handlePaginate,
         searchTerm,
         getEtatBadge,
+        rejectDemandes,
         rechercher
       };
     },
