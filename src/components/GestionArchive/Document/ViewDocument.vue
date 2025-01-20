@@ -13,6 +13,9 @@
         <h2 class="card-title text-center mb-4">Informations Générales</h2>
         <div class="row">
           <div class="col-md-6 mb-3">
+            <a v-if="document?.photoDocument" :href="getUrlApiForFiles(document.photoDocument, 'Documents')" target="_blank">
+          <img :src="getUrlApiForFiles(document.photoDocument, 'Documents')" alt="Document Image" class="img-thumbnail" style="width: 120px; height: 120px;"/>
+        </a>
             <strong>Date de conservation :</strong>
             <p>{{ format_date(document?.dateFinConservation) || 'Non renseigné' }}</p>
           </div>
@@ -127,7 +130,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import ApiService from "@/services/ApiService";
-import { error, format_date } from "@/utils/utils";
+import { error, format_date,getUrlApiForFiles } from "@/utils/utils";
 import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
@@ -151,9 +154,7 @@ export default defineComponent({
       }
     }
 
-     function getUrlApiForFiles (){
-      
-     }
+
 //     function getFileUrl(fichier: string) {
 //   const baseUrl = "http://localhost:3008/api"; // Remplace par l'URL de base de ton backend
 //   return fichier.startsWith("http") ? fichier : `${baseUrl}${fichier}`;

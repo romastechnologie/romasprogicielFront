@@ -59,7 +59,7 @@
                                 <label class="d-block text-black mb-10">
                                     Trésorerie <span class="text-danger">*</span>
                                 </label>
-                                <Field name="tresorerie" type="text" v-slot="{ field }">
+                                <Field name="tresorerieName" type="text" v-slot="{ field }">
                                     <Multiselect v-model="field.value" v-bind="field" :options="tresorerieOptions"
                                         :preserve-search="true" :multiple="false" :searchable="true"
                                         placeholder="Sélectionner la trésorerie" label="label" track-by="label" />
@@ -196,7 +196,7 @@ const schema = Yup.object().shape({
    // nomBeneficiaire: Yup.string().required('Le nom du bénéficiaire est obligatoire'),
    // prenomBeneficiaire: Yup.string().required('Le prénom du bénéficiaire est obligatoire'),
     //personnel: Yup.string().required('Le personnel est obligatoire'),
-    tresorerie: Yup.string().required('La trésorerie est obligatoire'),
+    tresorerieName: Yup.string().required('La trésorerie est obligatoire'),
     
 })
 

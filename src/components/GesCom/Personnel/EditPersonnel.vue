@@ -574,7 +574,7 @@
                                             placeholder="Entrer la nationalité du conjoint " />
                                         </div>
                                       </div>-->
-                              <div class="col-md-6">
+<div class="col-md-6">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label
                                     class="d-block text-black fw-semibold mb-10"
@@ -609,7 +609,7 @@
                                     >
                                   </label>
                                   <Field
-                                    name="telephoneCon"
+                                    name="teleph                              oneCon"
                                     v-model="telephoneCon"
                                     type="string"
                                     class="form-control shadow-none fs-md-15 text-black"
@@ -1351,7 +1351,7 @@ import {
   useFieldArray,
   useForm,
 } from "vee-validate";
-import { error, success } from "@/utils/utils";
+import { error, success, format_date } from "@/utils/utils";
 import { useRouter } from "vue-router";
 import ApiService from "@/services/ApiService";
 import { Personnel } from "@/models/Personnel";
@@ -1580,9 +1580,14 @@ export default defineComponent({
 
   
 
-    const addPersonnel = async (values, { resetForm }) => {
-      console.log(" valeurs :", values);
-
+    const addPersonnel = async ( values) => {
+      const id = router.currentRoute.value.params.id; 
+  if (!id) {
+    console.error("ID manquant dans l'URL");
+    return;
+  }
+  
+  values.id = id;
       const elemt = {
         nom: nom.value,
         urlImage: photo.value,
@@ -1657,15 +1662,14 @@ export default defineComponent({
         values[key] = elemt[key];
       }
 
-      axios
-        .post("/personnels", values, {
+      axios.put(`/personnels/${values.id}`, values, {
           headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
         })
         .then(({ data }) => {
           console.log("Réponse de la requête :", data);
-          if (data.code == 201) {
+          if (data.code == 200) {
             success(data.message);
-            resetForm();
+           // resetForm();
             router.push("/personnelles/liste-personnel");
           }
         })
@@ -1888,48 +1892,90 @@ export default defineComponent({
     };
     function getPersonnel(id: number) {
   console.log(`Requête pour récupérer les données du personnel avec ID: ${id}`);
-  
   ApiService.get(`/personnels/${id.toString()}`)
     .then(({ data }) => {
-      // Vérifiez et affichez les données reçues
-      console.log('Données reçues depuis l\'API:', data);
-
-      // Assurez-vous que les données sont disponibles
+      console.log("Données reçues depuis l'API:", data);
       if (!data) {
-        console.error('Erreur : Données manquantes ou structure inattendue dans la réponse.');
+        console.error("Erreur : Données manquantes ou structure inattendue dans la réponse.");
         return;
       }
+      const personnelData = data;
 
-      const personnelData = data; // Pas de `data.data`, on utilise directement `data`
+      const formatDate = (date: string | null | undefined) => {
+        return date ? new Date(date).toISOString().split("T")[0] : "";
+      };
 
-      // Assignez les valeurs aux champs
-      console.log('Attribution des valeurs aux champs...');
       nom.value = personnelData.nom || "";
-      console.log('Nom:', nom.value);
-
       prenom.value = personnelData.prenom || "";
-      console.log('Prénom:', prenom.value);
-
       sexe.value = personnelData.sexe || "";
-      console.log('Sexe:', sexe.value);
-
+      situation.value = personnelData.situationMatrimoniale || "";
       photo.value = personnelData.photoEmploye || "";
-      console.log('Photo:', photo.value);
-
       civilite.value = personnelData.civilite || "";
-      console.log('Civilité:', civilite.value);
-
+      birthdate.value = formatDate(personnelData.birthdate); 
+      dateEmbauche.value = formatDate(personnelData.dateEmbauche); 
+      numeroSecuriteSociale.value = personnelData.numeroSecuriteSociale || "";
+      nationalite.value = personnelData.nationalite || "";
       adresse.value = personnelData.adresse || "";
-      console.log('Adresse:', adresse.value);
 
-      console.log('Tous les champs ont été remplis.');
+      service.value = personnelData.service?.id || ""; 
+      console.log('service', service.value);
+      religion.value = personnelData.religion?.id || ""; 
+      ethnie.value = personnelData.ethnie?.id || ""; //
+      console.log("ethnie",ethnie.value);
+      departement.value = personnelData.departement?.id || "";
+      commune.value = personnelData.commune?.id || ""; // 
+      console.log('commune',commune.value);
+      arrondissement.value = personnelData.arrondissement?.id || ""; 
+      quartier.value = personnelData.quartier?.id || ""; 
+
+      boitePostale.value = personnelData.boitePostale || "";
+      telephone.value = personnelData.telephone || "";
+      telephone2.value = personnelData.telephone2 || "";
+      email.value = personnelData.email || "";
+
+      nomCon.value = personnelData.conjoints?.nomCon || "";
+      prenomCon.value = personnelData.conjoints?.prenomCon || "";
+      dateNaissanceCon.value = formatDate(personnelData.conjoints?.dateNaissanceCon);
+      nationaliteCon.value = personnelData.conjoints?.nationaliteCon || "";
+      console.log('nationalité conjoint', nationaliteCon);
+      telephoneCon.value = personnelData.conjoints?.telephoneCon || "";
+      numPassportCon.value = personnelData.conjoints?.numPassportCon || "";
+      religionCon.value = personnelData.conjoints?.religion?.id || "";
+      ethnieCon.value = personnelData.conjoints?.ethnie?.id || "";
+
+      nombreEnfant.value = personnelData.nombreEnfant || 0;
+      taille.value = personnelData.santeemploye?.taille || "";
+      poids.value = personnelData.santeemploye?.poids || "";
+      groupeSanguin.value = personnelData.santeemploye?.groupeSanguin || "";
+      visionGauche.value = personnelData.santeemploye?.visionGauche || "";
+      visionDroite.value = personnelData.santeemploye?.visionDroite || "";
+      audienceGauche.value = personnelData.santeemploye?.audienceGauche || "";
+      audienceDroite.value = personnelData.santeemploye?.audienceDroite || "";
+      mainDroite.value = personnelData.santeemploye?.mainDroite || "";
+      mainGauche.value = personnelData.santeemploye?.mainGauche || "";
+      jambeGauche.value = personnelData.santeemploye?.jambeGauche || "";
+      jambeDroite.value = personnelData.santeemploye?.jambeDroite || "";
+
+
+      banque.value = personnelData.banque?.denominationBanque || ""; 
+      numeroCompte.value = personnelData.numeroCompte || "";
+      codeIban.value = personnelData.codeIban || "";
+      swift.value = personnelData.codeSwift || "";
+
+      nomPersonneAContacter.value = personnelData.nomPersonneAContacter || "";
+      prenomPersonneAContacter.value = personnelData.prenomPersonneAContacter || "";
+      telephonePersonneAContacter.value = personnelData.telephonePersonneAContacter || "";
+      relation.value = personnelData.relation || "";
+
+      console.log("Tous les champs ont été remplis.");
     })
     .catch(({ response }) => {
       const errorMessage = response?.data?.message || "Une erreur est survenue lors de la récupération des données.";
-      console.error('Erreur lors de la requête API:', errorMessage);
+      console.error("Erreur lors de la requête API:", errorMessage);
       error(errorMessage);
     });
 }
+
 
 
    /* const fetchCommunes = async () => {
@@ -2392,7 +2438,8 @@ export default defineComponent({
       ageError,
       maxDate,
       maxDate1,
-      getPersonnel
+      getPersonnel,
+      format_date,
     };
   },
   computed: {
