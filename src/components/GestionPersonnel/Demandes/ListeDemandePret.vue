@@ -311,7 +311,7 @@ export default defineComponent({
 const accept = async (demande:any)=>{
       const valeur = ref(demande);
       const result = await Swal.fire({
-            text: "Etes-vous sur de vouloir accepter cette demande ?",
+            text: "Etes-vous sur de vouloir accepter cette demande {{ nomPersonnel }} ?",
             icon: "warning",
             buttonsStyling: true,
             showCancelButton: true,
