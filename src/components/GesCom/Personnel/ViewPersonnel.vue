@@ -47,13 +47,67 @@
             <div class="align-self-start">
             </div>
           </div>
+       
+          <div class="col-sm-12">
+    <div class="d-flex align-items-center">
+      <div class="accordion" id="additionalInfoAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingAdditionalInfo">
+            <button 
+              class="accordion-button" 
+              type="button" 
+              :class="{'collapsed': !isOpen, 'btn-blue': true}" 
+              @click="toggleAccordion">
+              <i :class="isOpen ? 'fas fa-chevron-down' : 'fas fa-chevron-up'"></i> Voir plus
+            </button>
+          </h2>
+          <div 
+            id="collapseAdditionalInfo" 
+            :class="{'accordion-collapse collapse': true, 'show': isOpen}"
+            aria-labelledby="headingAdditionalInfo">
+            <div class="accordion-body">
+             
+              <div class="row">
+                  <div class="col-md-6">
+                    <p><strong>Boite postale:</strong> {{ personnel?.boitePostale || 'Nom inconnu' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Téléphone 1:</strong> {{ personnel?.telephone || 'Prénom inconnu' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Téléphone 2:</strong> {{ personnel?.telephone2 || 'Non renseigné' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Email:</strong> {{ personnel?.email || 'Non renseigné' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Departement:</strong>  {{ personnel?.departement?.libelle || 'Non renseigné' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Commune:</strong>  {{ personnel?.commune?.libelle || 'Non renseigné' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Quartier:</strong>{{ personnel?.quartier?.libelle || 'Non renseigné' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Adresse:</strong> {{ personnel?.adresse || 'Non renseigné' }}</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
         </div>
 
+       
 
         <ul class="nav nav-tabs border-tab nav-primary mb-3" id="top-tab" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" id="contact-info-tab" data-bs-toggle="tab" href="#contact-info" role="tab" aria-controls="contact-info" aria-selected="true">
-              <strong>Adresse et contact</strong>
+              <strong>Personne a contacter</strong>
             </a>
           </li>
           <li class="nav-item">
@@ -68,7 +122,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" id="bank-info-tab" data-bs-toggle="tab" href="#bank-info" role="tab" aria-controls="bank-info" aria-selected="false">
-              <strong>Autres informations</strong>
+              <strong>Informations bancaires</strong>
             </a>
           </li>
         </ul>
@@ -78,29 +132,19 @@
             <table class="table table-bordered">
               <tbody>
                 <tr>
-                  <th><strong>Boîte postale</strong></th>
-                  <td>{{ personnel?.boitePostale || 'Non renseigné' }}</td>
-                  <th><strong>Téléphone 1</strong></th>
-                  <td>{{ personnel?.telephone || 'Non renseigné' }}</td>
+                  <th><strong>Nom personne a contacter</strong></th>
+                  <td> {{ personnel?.nomPersonneAContacter || 'Non renseigné' }}</td>
+                  <th><strong>Prenom personne a contacter</strong></th>
+                  <td> {{ personnel?.prenomPersonneAContacter || 'Non renseigné' }}</td>
                 </tr>
+                
                 <tr>
-                  <th><strong>Téléphone 2</strong></th>
-                  <td>{{ personnel?.telephone2 || 'Non renseigné' }}</td>
-                  <th><strong>Email</strong></th>
-                  <td>{{ personnel?.email || 'Non renseigné' }}</td>
+                  <th><strong>Telephone personne a contacter</strong></th>
+                  <td>   {{ personnel?.telephonePersonneAContacter || 'Non renseigné' }}</td>
+                  <th><strong>Relation</strong></th>
+                  <td>{{ personnel?.relation || 'Non renseigné' }}</td>
                 </tr>
-                <tr>
-                  <th><strong>Département</strong></th>
-                  <td>{{ personnel?.departement?.libelle || 'Non renseigné' }}</td>
-                  <th><strong>Commune</strong></th>
-                  <td>{{ personnel?.commune?.libelle || 'Non renseigné' }}</td>
-                </tr>
-                  <tr>
-                  <th><strong>Quartier</strong></th>
-                  <td>{{ personnel?.quartier?.libelle || 'Non renseigné' }}</td>
-                  <th><strong>Adresse</strong></th>
-                  <td>{{ personnel?.adresse || 'Non renseigné' }}</td>
-                </tr>
+                
               </tbody>
             </table>
           </div>
@@ -199,20 +243,7 @@
                   <th><strong>Code swift </strong></th>
                   <td>  {{ personnel?.codeSwift || 'Non renseigné' }}</td>
                 </tr>
-                <tr>
-                  <th><strong>Nom personne a contacter</strong></th>
-                  <td> {{ personnel?.nomPersonneAContacter || 'Non renseigné' }}</td>
-                  <th><strong>Prenom personne a contacter</strong></th>
-                  <td> {{ personnel?.prenomPersonneAContacter || 'Non renseigné' }}</td>
-                </tr>
-                
-                <tr>
-                  <th><strong>Telephone personne a contacter</strong></th>
-                  <td>   {{ personnel?.telephonePersonneAContacter || 'Non renseigné' }}</td>
-                  <th><strong>Relation</strong></th>
-                  <td>{{ personnel?.relation || 'Non renseigné' }}</td>
-                </tr>
-                
+           
              
               </tbody>
             </table>
@@ -242,6 +273,11 @@ export default defineComponent({
     const personnel = ref(null);
     const route = useRoute();
 
+    const isOpen = ref(false); 
+const toggleAccordion = () => {
+  isOpen.value = !isOpen.value;
+};
+
     const getPersonnel = async (id: number) => {
       try {
         const { data } = await ApiService.get(`/personnel/${id}`);
@@ -264,7 +300,31 @@ export default defineComponent({
       }
     });
 
-    return { personnel, formatDate,getUrlApiForFiles };
+    return { personnel, formatDate,getUrlApiForFiles,isOpen, toggleAccordion };
   },
 });
 </script>
+
+<style scoped>
+/* Styles pour le bouton avec la couleur bleue et flèche */
+.btn-blue {
+  background-color: #007bff; /* Bleu */
+  color: #007bff;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.btn-blue i {
+  margin-right: 8px;
+}
+
+.btn-blue:hover {
+  background-color: #0056b3;
+  color: whit;
+}
+
+.accordion-button {
+  background-color: transparent; 
+}
+</style>
