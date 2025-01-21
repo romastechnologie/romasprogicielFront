@@ -207,7 +207,7 @@
             dureeVie: Yup.number().typeError('Veuillez entrer des chiffres').required("La durée de vie est obligatoire."),
             dateMiseEnService: Yup.date().required("La date de mise en service est obligatoire."),
             numeroEnregistrement: Yup.number().required("Le numero d'enregistrement est obligatoire."),
-            nbreKmParUnLitre: Yup.number(),
+            nbreKmParUnLitre: Yup.number().typeError('Veuillez entrer des chiffres').required("Le nombre est obligatoire."),
             codeBar: Yup.string().notRequired(),
             localisation: Yup.string().notRequired(),
             longitude: Yup.number().notRequired(),
