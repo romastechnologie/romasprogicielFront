@@ -4,39 +4,12 @@
       <Form ref="paieForm" @submit="addPaie" :validation-schema="paieSchema">
         <div class="row">
 
-          <div class="col-md-6 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Contrat  <span class="text-danger">*</span>
-                                </label>
-                                <Field
-                                  name="religion"
-                                  v-model="newContrat"
-                                  type="text"
-                                  v-slot="{ field }"
-                                >
-                                  <Multiselect
-                                    v-model="field.value"
-                                    v-bind="field"
-                                    :options="contratOptions"
-                                    :preserve-search="true"
-                                    :multiple="false"
-                                    :searchable="true"
-                                    placeholder="Sélectionner le contrat"
-                                    label="label"
-                                    track-by="value"
-                                  />
-                                </Field>
-                              </div>
-        
-                            </div>
-
-          <!-- <div class="col-md-4 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Contrat <span class="text-danger">*</span>
               </label>
-              <Field name="contrat" v-model="selectedContrat" >
+              <!-- <Field name="contrat" v-model="selectedContrat" >
               <Multiselect
                 :options="contratOptions"
                 :searchable="true"
@@ -46,23 +19,15 @@
                 placeholder="Sélectionner le contrat"
                 @select="fetchPrimeRetenue(selectedContrat)"
               />
-            </Field>                      
-              <Field name="contrat" 
-              v-slot="{ field }"
-               v-model="newContrat">
-                <Multiselect
-                 :options="contratOptions"
-                 :preserve-search="true"
-                 :searchable="true" 
-                 track-by="value" 
-                 label="label"
-                 v-model="field.value"
-                   v-bind="field" 
-                   placeholder="Sélectionner le contrat" />
+            </Field>-->
+              <Field name="contrat" v-slot="{ field }" v-model="newContrat">
+                <Multiselect :options="contratOptions" :searchable="true" track-by="value" label="label"
+                  v-model="field.value" v-bind="field" placeholder="Sélectionner le contrat" />
               </Field>
+
               <ErrorMessage name="contrat" class="text-danger" />
             </div>
-          </div>--> 
+          </div>
 
           <div class="col-md-4 mb-3">
             <label for="refPaie" class="form-label">Référence<span class="text-danger">*</span></label>
