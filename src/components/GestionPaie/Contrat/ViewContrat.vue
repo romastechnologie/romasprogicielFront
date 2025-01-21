@@ -1,0 +1,225 @@
+<template>
+  <div class="row">
+    <div class="col-md-12 col-xxl-12 col-sm-12 mb-10">
+      <div class="card mb-25 border-0 rounded-0">
+        <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Informations Générales</h4>
+            <router-link to="/contrats/liste-contrats" 
+              class="btn btn-primary transition border-0 lh-1 fw-medium">
+              <i class="flaticon-left-arrow lh-1 me-1 position-relative top-2"></i>
+              <span class="position-relative"></span>Retour</router-link>
+          </div>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Durée du contrat</td>
+                <td>{{contrat?.dureeContrat|| 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Date d'embauche</td>
+                <td>{{ contrat?.datePriseFonction  || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Salaire de base</td>
+                <td>{{ contrat?. salaire || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Mode de tarification</td>
+                <td>{{ contrat?.modetarification?.libelle || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Catégorie de contrat</td>
+                <td>{{ contrat?.categorieContrat || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Période d'essai</td>
+                <td>{{ contrat?.dureePeriodeEssai || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Date de fin de contrat</td>
+                <td>{{contrat?.dateFin || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Renouvelable</td>
+                <td>{{ contrat?.renouvelable || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Date fin de période d'Essai</td>
+                <td>{{ contrat?.dateFinperiodeEssai || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Période de Paie</td>
+                <td>{{ contrat?.periodeDePaie || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Type Contrat</td>
+                <td>{{ contrat?.typeContrat?.libelle || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Personnel</td>
+                <td>{{ contrat?.personnel?.nom + ' ' + contrat?.personnel?.prenom }}</td>
+              </tr>
+              <tr>
+                <td>Poste Occupé</td>
+                <td>{{ contrat?.poste?.libelle || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Attributions </td>
+                <td>{{ contrat?.attributioncontrats?.attribution?.libelle || 'Non renseigné' }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Horaires -->
+          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Horaires de l'Entreprise</h4>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Jour</th>
+                <th>Heure d'ouverture</th>
+                <th>Heure de debut de Pause</th>
+                <th>Heure de fin de Pause</th>
+                <th>Heure de fermeture</th>
+
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(horaire, index) in contrat?.horaire_personnels" :key="index">
+                <td>{{ horaire?.jour || 'Non renseigné' }}</td>
+                <td>{{ horaire?.heureArrivee || 'Non renseigné' }}</td>
+                <td>{{ horaire?.heureDebutPause || 'Non renseigné' }}</td>
+                <td>{{ horaire?.heureFinPause || 'Non renseigné' }}</td>
+                <td>{{ horaire?.heureDepart || 'Non renseigné' }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Primes et Retenues -->
+          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Primes et Retenues</h4>
+          </div>
+          <div class="tables-container">
+          <div class="table-wrapper">
+              <h4>Primes</h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Type prime</th>
+                <th>Valeur</th>
+                <th>Quantité</th>
+                <th>Valeur Unitaire</th>
+                <th>Montant</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(prime, index) in contrat?.contratprimes" :key="index">
+                <td>{{ prime?.typeprime?.nomPrime || 'Non renseigné' }}</td>
+                <td>{{ prime?.typeprime?.valeur || 'Non renseigné' }}</td>
+                <td>{{ prime?.quantite || 'Non renseigné' }}</td>
+                <td>{{ prime?.valeurUnitaire || 'Non renseigné' }}</td>
+                <td>{{ prime?.montant || 'Non renseigné' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper">
+          <h4>Retenues</h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Type retenue</th>
+                <th>Valeur</th>
+                <th>Quantité</th>
+                <th>Valeur Unitaire</th>
+                <th>Montant</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(retenue, index) in contrat?.contratretenues" :key="index">
+                <td>{{ retenue?.typesretenue?.nomRetenue || 'Non renseigné' }}</td>
+                <td>{{ retenue?.typesretenue?.valeur || 'Non renseigné' }}</td>
+                <td>{{ retenue?.quantite || 'Non renseigné' }}</td>
+                <td>{{ retenue?.valeurUnitaire || 'Non renseigné' }}</td>
+                <td>{{ retenue?.montant || 'Non renseigné' }}</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, onMounted, ref } from "vue";
+import ApiService from "@/services/ApiService";
+import { error } from "@/utils/utils";
+import { useRoute } from "vue-router";
+
+export default defineComponent({
+  name: "ViewContrat",
+  setup() {
+    const route = useRoute();
+    const contrat = ref(null);
+    const loading = ref(false);
+
+    // Fonction pour récupérer les détails du contrat
+    async function getContrat(id: string) {
+      loading.value = true;
+      try {
+        const { data } = await ApiService.get(`/contrat/${id}`);
+        if (data?.data) {
+          contrat.value = data.data;
+        } else {
+          throw new Error("Données du contrat non trouvées.");
+        }
+      } catch (err) {
+        error(err instanceof Error ? err.message : "Erreur lors de la récupération du contrat");
+      } finally {
+        loading.value = false;
+      }
+    }
+    onMounted(() => {
+      const id = route.params.id as string;
+      if (id) {
+        getContrat(id);
+      } else {
+        error("ID du contrat non spécifié.");
+      }
+    });
+
+    return {
+      contrat,
+      loading
+    };
+  },
+});
+</script>
+
+<style scoped>
+.table {
+  text-align: left;
+}
+
+.tables-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-wrapper {
+  flex: 1;
+  margin-right: 30px; /* Séparation entre les tables */
+}
+
+/* Optionnel : pour ne pas que la dernière table ait de marge à droite */
+.table-wrapper:last-child {
+  margin-right: 0;
+}
+</style>

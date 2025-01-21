@@ -1942,6 +1942,7 @@ export default defineComponent({
       numPassportCon.value = personnelData.conjoints?.numPassportCon || "";
       religionCon.value = personnelData.conjoints?.religion?.id || "";
       ethnieCon.value = personnelData.conjoints?.ethnie?.id || "";
+      console.log('ethnie',ethnieCon.value);
 
       nombreEnfant.value = personnelData.nombreEnfant || 0;
       taille.value = personnelData.santeemploye?.taille || "";

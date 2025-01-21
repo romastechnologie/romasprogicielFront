@@ -108,6 +108,14 @@
                             class="flaticon-pen lh-1 me-8 position-relative top-1"
                           ></i>Modifier</router-link>
                       </li>-->
+
+                      <li class="dropdown-item d-flex align-items-center">
+                        <router-link :to="{ name: 'ViewContrat', params: { id: contrat.id } }"
+                          class="dropdown-item d-flex align-items-center">
+                          <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>
+                          <p><strong>Détails</strong></p>
+                        </router-link>
+                      </li>
                     
                       <li >
                         <a

@@ -118,7 +118,7 @@
               isupdate.value=false;
               btnTitle();
               emit("refreshReligions");
-              router.push('/religions/liste-religions');
+             // router.push('/religions/liste-religions');
             }
           }).catch(({ response }) => {
             error(response.data.message);
