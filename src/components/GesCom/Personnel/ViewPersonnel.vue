@@ -45,19 +45,12 @@
               </div>
             </div>
             <div class="align-self-start">
- <!--<button type="button" class="btn btn-primary">Consulter </button>-->
             </div>
           </div>
         </div>
 
 
-        <!-- Tabs -->
         <ul class="nav nav-tabs border-tab nav-primary mb-3" id="top-tab" role="tablist">
-        <!--<li class="nav-item">
-            <a class="nav-link active" id="general-info-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true">
-              <strong>Informations générales</strong>
-            </a>
-          </li>--> 
           <li class="nav-item">
             <a class="nav-link active" id="contact-info-tab" data-bs-toggle="tab" href="#contact-info" role="tab" aria-controls="contact-info" aria-selected="true">
               <strong>Adresse et contact</strong>
@@ -80,47 +73,7 @@
           </li>
         </ul>
 
-        <!-- Tab Content -->
         <div class="tab-content" id="top-tabContent">
-          <!-- General Information -->
-        <!-- <div class="tab-pane fade show active" id="general-info" role="tabpanel" aria-labelledby="general-info-tab">
-            <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <th><strong>Nom</strong></th>
-                  <td>{{ personnel?.nom || 'Non renseigné' }}</td>
-                  <th><strong>Prénom</strong></th>
-                  <td>{{ personnel?.prenom || 'Non renseigné' }}</td>
-                </tr>
-                <tr>
-                  <th><strong>Situation matrimoniale</strong></th>
-                  <td>{{ personnel?.situationMatrimoniale || 'Non renseigné' }}</td>
-                  <th><strong>Civilité</strong></th>
-                  <td>{{ personnel?.civilite || 'Non renseigné' }}</td>
-                </tr>
-                <tr>
-                  <th><strong>Date de naissance</strong></th>
-                  <td>{{ personnel?.birthdate ? formatDate(personnel.birthdate) : 'Non renseigné' }}</td>
-                  <th><strong>Date d'embauche</strong></th>
-                  <td>{{ personnel?.dateEmbauche ? formatDate(personnel.dateEmbauche) : 'Non renseigné' }}</td>
-                </tr>
-                <tr>
-                  <th><strong>Numéro de sécurité sociale</strong></th>
-                  <td>{{ personnel?.numeroSecuriteSociale || 'Non renseigné' }}</td>
-                  <th><strong>Pays de résidence</strong></th>
-                  <td>{{ personnel?.nationalite || 'Non renseigné' }}</td>
-                </tr>
-                <tr>
-                  <th><strong>Religion</strong></th>
-                  <td>{{ personnel?.religion || 'Non renseigné' }}</td>
-                  <th><strong>Ethnie</strong></th>
-                  <td>{{ personnel?.ethnie || 'Non renseigné' }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>--> 
-
-          <!-- Contact Information -->
           <div class="tab-pane fade show active" id="contact-info" role="tabpanel" aria-labelledby="contact-info-tab">
             <table class="table table-bordered">
               <tbody>

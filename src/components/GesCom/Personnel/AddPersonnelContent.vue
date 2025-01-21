@@ -695,6 +695,7 @@
                           </div>
                         </div>
                         <div class="col-md-12 mb-md-25">
+                          
                           <div
                             class="tab-pane fade show active p-10"
                             id="home-tab-pane"
@@ -718,7 +719,7 @@
                                   />
                                 </div>
                               </div>
-                              <div class="border border-primary mb-10">
+                              <div class="border border-primary mb-10" v-if="nombreEnfant > 0"> 
                                 <div
                                   class="row d-flex align-items-center justify-content-between fw-bold py-2"
                                   style="background-color: #0a59a4"
@@ -858,8 +859,8 @@
                                                     </button>-->
                                     </div>
                                   </div>
+                                  </div>
                                 </div>
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -1160,6 +1161,7 @@
                       >
                         <div class="sidebar-body">
                           <div class="row g-2">
+
                             <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
@@ -1173,7 +1175,10 @@
                                     track-by="label"
                                     label="label"
                                     placeholder="Sélectionner la banque"
+                                    @change="onBanqueSelected(banque)"
+
                                   />
+                            
                                 </Field>
                               </div>
                             </div>
@@ -1181,11 +1186,12 @@
                             <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
-                                  Numéro de compte bancaire
+                                  Code Iban
                                 </label>
                                 <Field
-                                  name="numeroCompte"
-                                  v-model="numeroCompte"
+                                  name="codeBanque"
+                                  disabled
+                                  v-model="codeBanque"
                                   type="text"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer le numéro de compte"
@@ -1196,28 +1202,48 @@
                             <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
-                                  Code Iban
+                                 Identification internationale
                                 </label>
                                 <Field
-                                  name="codeIban"
-                                  v-model="codeIban"
+                                  name="identification"
+                                  v-model="identification"
+                                  disabled
                                   type="text"
                                   class="form-control shadow-none fs-md-15 text-black"
-                                  placeholder="Entrer le code"
+                                  placeholder="Entrer le numéro de compte"
                                 />
                               </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+
+                            <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
-                                  Code Swift
+                                  Code swift
                                 </label>
                                 <Field
                                   name="codeSwift"
-                                  v-model="swift"
+                                  v-model="codeSwift"
+                                  disabled
                                   type="text"
                                   class="form-control shadow-none fs-md-15 text-black"
-                                  placeholder="Entrer le code"
+                                  placeholder="Entrer le numéro de compte"
+                                />
+                              </div>
+                            </div>
+
+                          
+
+                            <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                 Numero de compte 
+                                </label>
+                                <Field
+                                  name="numeroCompte"
+                                  v-model="numeroCompte"
+                                  type="text"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                  placeholder="Entrer le numéro de compte"
                                 />
                               </div>
                             </div>
@@ -1241,6 +1267,40 @@
                             </div>-->
 
                             <h1>Informations sur la personne à contacter</h1>
+                    
+                               <div class="col-md-4 mb-3">
+  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+    <label class="d-block text-black mb-10">
+      Relation
+      <span class="text-danger">*</span>
+    </label>
+    <Field
+      name="relation"
+      type="text"
+      v-model="relation"
+      v-slot="{ field }"
+    >
+      <Multiselect
+        :searchable="true"
+        :options="[
+          'Parent',
+          'Frere',
+          'Soeur',
+          'Ami',
+          'Collègue',
+          'Enfant',
+          'Voisin',
+          'Employeur',
+          ...(situation !== 'Célibataire' && situation !== 'Divorcée' && situation !== 'Veuve' ? ['Conjoint(e)'] : [])
+        ]"
+        v-model="field.value"
+        v-bind="field"
+        placeholder="Sélectionner la relation"
+      />
+    </Field>
+  </div>
+</div>
+                    
                             <div class="row g-2">
                               <div class="col-md-6 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -1287,20 +1347,9 @@
                                   />
                                 </div>
                               </div>
-                              <div class="col-md-6 mb-3">
-                                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                  <label class="d-block text-black mb-10">
-                                    Relation
-                                  </label>
-                                  <Field
-                                    name="relation"
-                                    v-model="relation"
-                                    type="text"
-                                    class="form-control shadow-none fs-md-15 text-black"
-                                    placeholder="Indiquer la relation"
-                                  />
-                                </div>
-                              </div>
+
+
+      
                             </div>
                           </div>
                         </div>
@@ -1464,15 +1513,15 @@ export default defineComponent({
     const sexe = ref();
     const civilite = ref();
     const groupeSanguin = ref();
-    const visionGauche = ref();
-    const visionDroite = ref();
-    const audienceGauche = ref();
-    const audienceDroite = ref();
-    const mainGauche = ref();
+    const visionGauche = ref('Normal');
+    const visionDroite = ref('Normal');
+    const audienceGauche = ref('Normal');
+    const audienceDroite = ref('Normal');
+    const mainGauche = ref('Normal');
     const numeroCompte = ref();
-    const mainDroite = ref();
-    const jambeGauche = ref();
-    const jambeDroite = ref();
+    const mainDroite = ref('Normal');
+    const jambeGauche = ref('Normal');
+    const jambeDroite = ref('Normal');
     const boitePostale = ref();
     const nomPersonneAContacter = ref();
     const prenomPersonneAContacter = ref();
@@ -1490,7 +1539,7 @@ export default defineComponent({
     const swift = ref();
     const religionCon = ref();
     const ethnieCon = ref();
-    const nombreEnfant = ref();
+    const nombreEnfant = ref(null);
     const situation = ref();
     const photo = ref<File>(null);
     const departementOptions = ref([]);
@@ -1570,7 +1619,9 @@ export default defineComponent({
     };
 
     const { remove, push, fields, update } = useFieldArray("enfants");
-
+    const codeBanque = ref("");
+    const codeSwift = ref("");
+    const identification = ref("");
     const enfantOptions = ref([]);
     const valuess = ref();
     const religionOptions = ref([]);
@@ -1885,6 +1936,25 @@ export default defineComponent({
         });
     };
 
+    const getBanque = async (id) => {
+      try {
+        const { data } = await ApiService.get(`/banques/${id}`);
+
+        codeBanque.value = data.data.codeBanque;
+        codeSwift.value = data.data.codeSwift;
+        identification.value = data.data.identification;
+      } catch (err) {
+        error("Erreur lors de la récupération des détails de la demande.");
+      }
+    };
+
+    const onBanqueSelected = (selectedBanqueId) => {
+      if (selectedBanqueId) {
+        getBanque(selectedBanqueId);
+      } else {
+        console.error("personnel ID  indefini.");
+      }
+    };
    /* const fetchCommunes = async () => {
       ApiService.get("/communes")
         .then(({ data }) => {
@@ -1933,6 +2003,7 @@ export default defineComponent({
         });
     };*/
 
+    onMounted(fetchBanque);
 
     const maxDate = new Date(
       today.getFullYear() - 18,
@@ -2339,6 +2410,11 @@ export default defineComponent({
       ageError,
       maxDate,
       maxDate1,
+      onBanqueSelected,
+      codeBanque,
+      codeSwift,
+      identification,
+
     };
   },
   computed: {

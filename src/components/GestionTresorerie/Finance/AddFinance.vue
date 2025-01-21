@@ -36,14 +36,13 @@
                                 </label>
                                 <Field name="depense" v-slot="{ field }">
                   <Multiselect
-                    :options="depenseOptions"
-                    :searchable="true"
-                    track-by="value"
-                    label="label"
-                    v-model="field.value"
-                    v-bind="field"
-                    placeholder="Sélectionner la depense"
-                    @change="onDepenseSelected(field.value)"
+                  :options="depenseOptions"
+    :searchable="true"
+    track-by="value"
+    label="label"
+    v-model="depenseId" 
+    v-bind="field"
+    placeholder="Sélectionner la dépense"
                   />
                 </Field>
 
@@ -68,7 +67,7 @@
                                 <label class="d-block text-black mb-10">
                                     Personnel <span class="text-danger">*</span>
                                 </label>
-                                <Field name="personnel" v-model="personnelSelect" type="text" v-slot="{ field }">
+                                <Field name="personnelName" v-model="personnelSelect" type="text" v-slot="{ field }">
   <Multiselect
     v-bind="field"
     v-model="field.value"
@@ -94,7 +93,7 @@
                                 <label class="d-block text-black mb-10">
                                     Trésorerie <span class="text-danger">*</span>
                                 </label>
-                                <Field name="tresorerie" type="text" v-slot="{ field }">
+                                <Field name="tresorerieName" type="text" v-slot="{ field }">
                                     <Multiselect v-model="field.value" v-bind="field" :options="tresorerieOptions"
                                         :preserve-search="true" :multiple="false" :searchable="true"
                                         placeholder="Sélectionner la trésorerie" label="label" track-by="label" />
@@ -273,9 +272,9 @@ const schema = Yup.object().shape({
     fichierfinance: Yup.mixed().required('Le fichier de la caisse est obligatoire'),
     montant: Yup.number().min(1, '').required('Le montant est obligatoire'),
     modepaiement: Yup.string().required('Le mode de paiement est obligatoire'),
-    tresorerie: Yup.string().required('La trésorerie est obligatoire'),
+    tresorerieName: Yup.string().required('La trésorerie est obligatoire'),
     depense: Yup.string().required('La dépense est obligatoire'),
-    personnel: Yup.string(),
+    personnelName: Yup.string(),
     beneficiaire: Yup.string(),
     montantDepense: Yup.number(),
     resteAPayer: Yup.number()
@@ -296,45 +295,76 @@ const fichierfinanceChange = (e) => {
       ]);
     };
 
-    const onDepenseSelected = (selectedDepenseId) => {
-  if (selectedDepenseId) {
-    getDepense(selectedDepenseId);
-    depenseSelected.value = true;  // On met à jour l'état de sélection
-  } else {
-    depenseSelected.value = false;  // Si aucune dépense n'est sélectionnée
-  }
-};
+    const depenseId = ref(null); // La dépense sélectionnée
+    watch(depenseId, async (newDepenseId) => {
+  if (newDepenseId) {
+    try {
+      const { data } = await ApiService.get(`/depenses/${newDepenseId}`);
+      montantTotalDepense.value = data.data.montant;
+      beneficiaireselect.value = data.data.beneficiaire; 
+      personnelSelect.value = data.data.personnel ? data.data.personnel.id : null;
 
-    const sendFinance = async (values, { resetForm }) => {
-      if (montantTotal.value > montantTotalDepense.value) {
+      if (data.data.personnel) {
+        selectedPersonnel.value = {
+          value: data.data.personnel.id,
+          label: `${data.data.personnel.nom} ${data.data.personnel.prenom}`,
+        };
+      } else {
+        selectedPersonnel.value = null; 
+      }
+
+      depenseSelected.value = true; 
+    } catch (err) {
+      console.error(err);
+      error("Erreur lors de la récupération des détails de la dépense.");
+      depenseSelected.value = false; 
+    }
+  } else {
+    depenseSelected.value = false; 
+  }
+});
+
+const sendFinance = async (values, { resetForm }) => {
+  if (montantTotal.value > montantTotalDepense.value) {
     Swal.fire({
       icon: 'error',
       title: 'Erreur',
-      text: 'Le montant du financement ne doit pas être supérieur du financement.',
+      text: 'Le montant du financement ne doit pas être supérieur au financement.',
     });
     return; 
+  }
+
+  if (!personnelSelect.value && !beneficiaireselect.value) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erreur',
+      text: 'Veuillez sélectionner un personnel ou un bénéficiaire.',
+    });
+    return;
   }
 
   try {
     const payload = {
       ...values,
-      type:"depenses",
+      type: "depenses",
       billetages: billetageList.map((billetage) => ({
         montant: billetage.montant,
         qteBillet: billetage.qteBillet,
         valueAct: billetage.valueAct,
         monnaie: billetage.monnaie,
       })),
-      montantDepense: montantTotalDepense.value,  
+      montantDepense: montantTotalDepense.value,
       resteAPayer: resteAPayer.value,
+      personnelName: personnelSelect.value, // Envoyer l'ID du personnel
+      beneficiaire: beneficiaireselect.value, // Envoyer le bénéficiaire
     };
 
-
-    console.log("Payload envoyé :", payload); 
+    console.log("Payload envoyé :", payload);
+    console.log("Données envoyé :", values);
     const { data } = await axios.post("/finances", payload, {
       headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
     });
-
+    console.log("Réponse reçue :", data); 
     if (data.code == 201) {
       success(data.message);
       resetForm();

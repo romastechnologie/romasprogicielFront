@@ -3,7 +3,7 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
       <Form ref="demandeForm" @submit="addDemande" :validation-schema="demandeSchema">
         <div class="row">
-          <div class="col-md-6 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Date de la demande <span class="text-danger">*</span>
@@ -12,7 +12,7 @@
               <ErrorMessage name="dateDemande" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Catégorie de la demande <span class="text-danger">*</span>
@@ -25,7 +25,7 @@
               <ErrorMessage name="categorie" class="text-danger" />
             </div>
           </div>
-          <div class="col-md-6 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
                 Personnel <span class="text-danger">*</span>
@@ -38,7 +38,16 @@
               <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
-          <div v-show="fieldHide8" class="col-md-6 mb-3">
+          <div v-show="fieldHide8" class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-1">
+                Montant total du Prêt
+              </label>
+              <Field type="number" name="montantPret"  v-model="montantPret" class="form-control shadow-none fs-md-15 text-black" />
+              <ErrorMessage name="montantPret" class="text-danger" />
+            </div>
+          </div>
+          <!--<div v-show="fieldHide8" class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-1">
                 Montant total du Prêt
@@ -46,9 +55,29 @@
               <Field type="number" name="montantPret"  v-model="montantPret" class="form-control shadow-none fs-md-15 text-black" readonly="true"  @input="calculMontantTotal"/>
               <ErrorMessage name="montantPret" class="text-danger" />
             </div>
+          </div>-->
+          <div v-show="fieldHide9" class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-1">
+                Nombre d'échéances <span class="text-danger">*</span>
+              </label>
+              <Field type="number" name="nbreEcheance"  v-model="nbreEcheance" class="form-control shadow-none fs-md-15 text-black" />
+              <ErrorMessage name="nbreEcheance" class="text-danger" />
+            </div>
+          </div>
+
+          <div v-show="fieldHide10" class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-1">
+               A raison de : <span class="text-danger">*</span>
+              </label>
+              <Field type="number" name="mensualite"  v-model="mensualite" @input="updateMontant" class="form-control shadow-none fs-md-15 text-black" />
+              <ErrorMessage name="mensualite" class="text-danger" />
+            </div>
           </div>
          
-          <div v-show="fieldHide6" class="col-md-6 mb-3">
+         
+          <div v-show="fieldHide6" class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Type de congés <span class="text-danger">*</span>
@@ -62,7 +91,7 @@
             </div>
           </div>
 
-          <div class="col-md-6 mb-3">
+          <div class="col-md-12 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Motif de la demande <span class="text-danger">*</span>
@@ -75,7 +104,7 @@
             </div>
           </div>
           
-          <div v-show="fieldHide7" class="col-md-12 mb-md-25">
+          <div v-if="nbreEcheance > 0" class="col-md-12 mb-md-25">
             <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
               <div class="row">
                 <div class="border border-primary mb-10">
@@ -138,7 +167,7 @@
                       </div>
                       <div class="col-md-4 mb-2">
                         <div class="form-group">
-                          <input v-model="echeance.montant" name="montant" type="number"  @input="calculMontantTotal"
+                          <input v-model="echeance.montant" name="montant" type="number"  
                             class="form-control shadow-none fs-md-15 text-black" placeholder="entrer le montant" />
                         </div>
                         <div class="invalid-feedback" v-if="valideteRowEcheance(echeance.montant)">
@@ -278,6 +307,7 @@ import router from '@/router';
       dateDebut: Yup.date().required('La date de début est obligatoire'),
       dateFin: Yup.date().required('La date de fin est obligatoire'),
       dateReprise: Yup.date().required('La date de reprise est obligatoire'),
+      
       //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
     });
 
@@ -306,6 +336,8 @@ import router from '@/router';
       categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
       montantPret: Yup.string().required('Le montant total est obligatoire'),
+      nbreEcheance:Yup.number().typeError('Veuillez entrer des chiffres').required('Le nombre est obligatoire'),
+      mensualite:Yup.number().typeError('Veuillez entrer des chiffres').required('La mensualité est obligatoire'),
       //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
       //dateEcheance: Yup.date().required('La date  est obligatoire'),
       //montant: Yup.string().required('Le montant par échéance est obligatoire'),
@@ -353,8 +385,11 @@ import router from '@/router';
     
     const demandeSchema = ref(defaultSchema);
     const file = ref(null);
+    const mensualite = ref(null);
     const selectedFile = ref<any>();
-    const errorMessage = ref('');
+      const errorMessage = ref('');
+      const nbreEcheance = ref();
+    
     const maxFileSize = 5 * 1024 * 1024; // 5 Mo
 
     onMounted(() => {
@@ -385,7 +420,7 @@ import router from '@/router';
       const removeRowEcheance = (index) => {
         if (echeances.length > 1) echeances.splice(index, 1);
         //totals();
-        calculMontantTotal()
+        //calculMontantTotal()
       };
   
       watch(
@@ -402,6 +437,18 @@ import router from '@/router';
         },
         { deep: true }
       );
+
+
+      watch(nbreEcheance, (newVal) => {
+      const count = parseInt(newVal) || 0;
+
+      echeances.length = count;
+      for (let i = 0; i < count; i++) {
+        if (!echeances[i]) {
+          echeances[i] = { dateEcheance: "", montant: "",};
+        }
+      }
+    });
   
       const valideteRowEcheance = (e) => {
         if (e == "" ||  e == "0"  || e < 0) {
@@ -450,9 +497,9 @@ import router from '@/router';
           fieldHide6.value = true;
           fieldHide7.value = false;
           fieldHide8.value = false;
-          fieldHide9.value = true;
-          fieldHide10.value = true;
-          fieldHide11.value = true;
+          fieldHide9.value = false;
+          fieldHide10.value = false;
+          fieldHide11.value = false;
           fieldHide12.value = false;
           fieldHide13.value = false;
           
@@ -470,11 +517,11 @@ import router from '@/router';
           fieldHide6.value = false;
           fieldHide7.value = false;
           fieldHide8.value = false;
-          fieldHide9.value = true;
-          fieldHide10.value = true;
-          fieldHide11.value = true;
-          fieldHide12.value = true;
-          fieldHide13.value = true;
+          fieldHide9.value = false;
+          fieldHide10.value = false;
+          fieldHide11.value = false;
+          fieldHide12.value = false;
+          fieldHide13.value = false;
           break;
 
         case 4:
@@ -488,8 +535,8 @@ import router from '@/router';
           fieldHide6.value = false;
           fieldHide7.value = true;
           fieldHide8.value = true;
-          fieldHide9.value = false;
-          fieldHide10.value = false;
+          fieldHide9.value = true;
+          fieldHide10.value = true;
           fieldHide11.value = false;
           fieldHide12.value = false;
           fieldHide13.value = false;
@@ -504,9 +551,11 @@ import router from '@/router';
 
       //Calcul
       const montantPret = ref(0);
-      const calculMontantTotal = () => {
+      /*nconst calculMontantTotal = () => {
         montantPret.value = echeances.reduce((acc, echeance) => acc + Number(echeance.montant || 0), 0);
-      };
+      };*/
+
+     
 
       const getAllTypeConges = async () => {
           try{
@@ -619,9 +668,10 @@ const addDemande = async (values: any, { resetForm }) => {
       echeances,
       fichierChange,onFileChange,
       errorMessage,montantPret,
-      calculMontantTotal,
+      //calculMontantTotal,
+      nbreEcheance,mensualite,
       typeCongeOptions,typeConge,personnel,
-      getCurrentDate,
+      getCurrentDate, 
     };
     },
   });
