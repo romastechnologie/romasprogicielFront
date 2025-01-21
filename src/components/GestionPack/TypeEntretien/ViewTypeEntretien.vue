@@ -1,27 +1,15 @@
 <template>
-  <div class="type-entretien-details">
-    <h1 class="text-center mb-4">Détails du Type d'Entretien</h1>
-
-    <div class="position-relative mb-3" style="height: 50px; background-color: #f8f9fa;">
-      <button
-        class="btn btn-primary btn-sm"
-        style="position: absolute; top: 10px; right: 10px;"
-        @click="goBack"
-      >
-        Retour
-      </button>
-    </div>
-
-    <!-- Loader si les données sont en cours de chargement -->
-    <div v-if="loading" class="text-center">
-      <p>Chargement des données...</p>
-    </div>
-
-    <!-- Affichage des données du type d'entretien -->
-    <div v-else>
-      <div class="card my-4">
-        <div class="card-body">
-          <h2 class="card-title text-center mb-4">INFORMATIONS GENERALES</h2>
+  <div class="row">
+    <div class="col-md-12 col-xxl-12 col-sm-12 mb-10">
+      <div class="card mb-25 border-0 rounded-0">
+        <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Informations Générales</h4>
+            <router-link to="/typeEntretiens/liste-typeEntretien" 
+              class="btn btn-primary transition border-0 lh-1 fw-medium">
+              <i class="flaticon-left-arrow lh-1 me-1 position-relative top-2"></i>
+              <span class="position-relative"></span>Retour</router-link>
+          </div>
           <div class="row">
             <div class="col-md-6 mb-3">
               <strong>Libellé :</strong>
@@ -33,13 +21,11 @@
               <p>{{ typeEntretien?.description || 'Non renseigné' }}</p>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Section des moyens roulants liés -->
-      <div class="card my-4">
-        <div class="card-body">
-          <h2 class="card-title text-center mb-4">MOYENS ROULANTS</h2>
+          
+          <!-- Moyens Roulants -->
+          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Moyens Roulants</h4>
+          </div>
           <table class="table table-bordered">
             <thead>
               <tr>
@@ -49,19 +35,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(moyen, index) in typeEntretien?.AffectationATypeEntretien || []"
-                :key="index"
-              >
+              <tr v-for="(moyen, index) in typeEntretien?.AffectationATypeEntretien || []" :key="index">
                 <td>{{ moyen?.typebien?.libelle || 'Non renseigné' }}</td>
                 <td>{{ moyen?.valeur || 'Non renseigné' }}</td>
                 <td>{{ moyen?.unitemesure || 'Non renseigné' }}</td>
               </tr>
               <tr v-if="!(typeEntretien?.AffectationATypeEntretien?.length)">
-                <td colspan="3">Aucun TypeMoyensRoulantsEntretien</td>
+                <td colspan="3">Aucun Moyen Roulant</td>
               </tr>
             </tbody>
           </table>
+
         </div>
       </div>
     </div>
@@ -70,28 +54,26 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import ApiService from "@/services/ApiService";
 import { error } from "@/utils/utils";
 
-interface AffectationATypeEntretien {
-  type: string;
+interface MoyenRoulant {
+  typebien: { libelle: string };
   valeur: string;
-  uniteMesure: string;
+  unitemesure: string;
 }
 
 interface TypeEntretien {
   libelle: string;
   description: string;
-  moyensRoulants: AffectationATypeEntretien[];
+  AffectationATypeEntretien: MoyenRoulant[];
 }
 
 export default defineComponent({
   name: "ViewTypeEntretien",
   setup() {
     const route = useRoute();
-    const router = useRouter();
-
     const typeEntretien = ref<TypeEntretien | null>(null);
     const loading = ref<boolean>(false);
 
@@ -102,7 +84,6 @@ export default defineComponent({
         const { data } = await ApiService.get(`/typeEntretiens/${id}`);
         if (data?.data) {
           typeEntretien.value = data.data;
-          console.log('data1',typeEntretien.value);
         } else {
           throw new Error("Données du type d'entretien non trouvées.");
         }
@@ -115,45 +96,25 @@ export default defineComponent({
       }
     };
 
-    // Fonction pour revenir à la liste des types d'entretiens
-    const goBack = () => {
-      router.push({ name: "ListeTypeEntretienPage" });
-    };
-
     onMounted(() => {
       const id = route.params.id as string | undefined;
       if (id) {
         getTypeEntretien(id);
       } else {
         error("ID du type d'entretien non spécifié.");
-        goBack();
       }
     });
 
     return {
       typeEntretien,
-      loading,
-      goBack,
+      loading
     };
   },
 });
 </script>
 
 <style scoped>
-.type-entretien-details {
-  max-width: 1000px;
-  margin: auto;
-}
-.card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-.card-title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
 .table {
-  text-align: center;
+  text-align: left;
 }
 </style>
