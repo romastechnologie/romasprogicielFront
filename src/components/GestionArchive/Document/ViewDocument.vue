@@ -17,7 +17,7 @@
           <img :src="getUrlApiForFiles(document.photoDocument, 'Documents')" alt="Document Image" class="img-thumbnail" style="width: 120px; height: 120px;"/>
         </a>
             <strong>Date de conservation :</strong>
-            <p>{{ format_date(document?.dateFinConservation) || 'Non renseigné' }}</p>
+            <p>{{ format_date(document?.regleDocuments?.dateFinConservation) || 'Non renseigné' }}</p>
           </div>
           <div class="col-md-6 mb-3">
             <strong>Catégorie :</strong>
