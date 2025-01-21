@@ -77,9 +77,7 @@
           </thead>
           <tbody>
             <tr v-for="(quartier, index) in quartiers" :key="index">
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ quartier.code }}
-              </td>
+            
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ quartier.libelle }}
               </td>
