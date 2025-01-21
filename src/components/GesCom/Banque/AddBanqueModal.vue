@@ -35,11 +35,31 @@
             <div class="col-md-12 mb-3">
               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                 <label class="d-block text-black fw-semibold mb-10">
-                  Adresse <span class="text-danger">*</span>
+                  Code banque<span class="text-danger">*</span>
                 </label>
-                <Field name="adresse" type="text" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'adresse"/>
+                <Field name="codeBanque" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code banque"/>
                 <ErrorMessage name="adresse" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Code swift<span class="text-danger">*</span>
+                </label>
+                <Field name="codeSwift" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code swift"/>
+                <ErrorMessage name="adresse" class="text-danger"/>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Identification internationale<span class="text-danger">*</span>
+                </label>
+                <Field name="identification" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer l'identification internationale"/>
+                <ErrorMessage name="identification" class="text-danger"/>
               </div>
             </div>
               <button class="btn btn-primary" type="submit">
@@ -76,16 +96,15 @@ export default {
       default: 0
     },
   },
-
   setup: (props, { emit }) => {
     const loading = ref<boolean>(false);
     const banqueSchema = Yup.object().shape({
-      
       sigle: Yup.string().required('Le sigle est obligatoire'),
       denominationBanque: Yup.string().required('La dénomination est obligatoire'),
-      adresse: Yup.string().required("L'adresse est obligatoire"),
+      codeSwift: Yup.string().required("L'adresse est obligatoire"),
+      codeBanque: Yup.string().required("Le code banque est obligatoire"),
+      identification: Yup.string().required("L'identification est obligatoire"),
     });
-
     const banqueForm = ref<Banque | null>(null);
     const addBanquesModalRef = ref<null | HTMLElement>(null);
     const title = ref('Ajouter une banque');
