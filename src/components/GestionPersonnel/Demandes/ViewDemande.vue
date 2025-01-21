@@ -53,6 +53,18 @@
                   <td>Montant Total du Prêt :</td>
                   <td>{{ demande?.montantPret }}</td>
                 </tr>
+                <table class="table">
+                <tbody>
+                <tr v-if="demande.echeances">
+                  <td>Date d'écheance :</td>
+                  <td>{{ demande?.echeance?.dateEcheance }}</td>
+                </tr>
+                <tr v-if="demande?.echeances">
+                  <td>Montant :</td>
+                  <td>{{ demande?.echeance?.montant }}</td>
+                </tr>
+              </tbody>
+          </table>
               </tbody>
            
         

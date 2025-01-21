@@ -64,8 +64,15 @@
             <tbody>
               <tr v-for="(finance, index) in finances" :key="index">
                            <th>{{ finance.tresorerie?.nom }}</th>
-                           <th>{{ (finance.personnel?.nom + ' ' + finance.personnel?.prenom) || finance.beneficiaire }}
-                          </th>  
+                           <th>
+  {{
+    finance.beneficiaire 
+      ? finance.beneficiaire 
+      : finance.personnel 
+        ? `${finance.personnel.nom || ''} ${finance.personnel.prenom || ''}` 
+        : ''
+  }}
+</th>
                           <th>{{ finance.type }}</th>
                           <th>{{ finance.modepaiement }}</th>                                                  
                             <th>{{ finance.montant }}</th>
