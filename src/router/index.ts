@@ -218,6 +218,8 @@ import ListeModeTarificationPage from "@/pages/GestionPaie/ModeTarification/List
 import ListeReligionPage from "@/pages/GestionPaie/Religion/ListeReligionPage.vue";
 import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
+import ViewContratPage from "@/pages/GestionPaie/Contrat/ViewContratPage.vue";
+
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
@@ -654,6 +656,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeContratPage,
         meta: {
           title: 'Liste des contrats',
+        }
+      },
+      {
+        path: "view-contrat/:id",
+        name: "ViewContrat",
+        component: ViewContratPage,
+        meta: {
+          title: 'Détails d\'un Contrat',
         }
       },
     ]
