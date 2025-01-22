@@ -179,25 +179,25 @@
                     <ul class="dropdown-menu">
                       <!-- Options pour changer le statut -->
                       <li>
-                        <a class="dropdown-item" href="javascript:void(0);"
+                        <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
                           @click="changerStatut(document.id, 'Brouillon')">
                           Brouillon
                         </a>
                       </li>
                       <li>
-                        <a class="dropdown-item" href="javascript:void(0);"
+                        <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
                           @click="changerStatut(document.id, 'En attente')">
                           En attente
                         </a>
                       </li>
                       <li>
-                        <a class="dropdown-item" href="javascript:void(0);"
+                        <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
                           @click="changerStatut(document.id, 'Validé')">
                           Validé
                         </a>
                       </li>
                       <li>
-                        <a class="dropdown-item" href="javascript:void(0);"
+                        <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
                           @click="changerStatut(document.id, 'Rejeté')">
                           Rejeté
                         </a>
