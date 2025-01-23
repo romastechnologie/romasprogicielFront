@@ -248,6 +248,7 @@
                 placeholder="Sélectionner la fonction"
                 label="label"
                 track-by="label"
+                @change = "fetchAttributionsByPoste($event)"
               />
               <span class="invalid-feedback"></span>
             </div>
@@ -257,15 +258,17 @@
               <label class="d-block text-black fw-semibold mb-10">
                 Attributions <span class="text-danger">*</span>
               </label>
+              <Field name="attributioncontrats" v-slot="{ field }" v-model="attributionpostes">
               <Multiselect
                 mode="tags"
+                v-bind="field"
                 :close-on-select="false"
                 :options="attributionOptions"
                 :searchable="true"
                 :multiple="true"
-                v-model="contrat.attribution"
-                placeholder="Sélectionner les attributions"
+                placeholder=""
               />
+            </Field>
               <span class="invalid-feedback"></span>
             </div>
           </div>
@@ -979,6 +982,7 @@ export default defineComponent({
     const typeOptions = ref([]);
     const typePrimeOptions = ref([]);
     const typeRetenueOptions = ref([]);
+    const attributionpostes = ref<number[]>([]);
     const router = useRouter();
     const typePrimes = ref(null);
     const typeRetenues = ref(null);
@@ -1026,7 +1030,7 @@ export default defineComponent({
         const canalsData = response.data.data.data;
         console.log("Data", canalsData);
         attributionOptions.value = canalsData.map((attribution) => ({
-          value: attribution.code,
+          value: attribution.id,
           label: attribution.libelle,
         }));
       } catch (error) {
@@ -1101,7 +1105,19 @@ export default defineComponent({
         //error(response.data.message)
       }
     };
-
+    const fetchAttributionsByPoste = async (id) => {
+            try {
+              console.log('data1',id);
+            const response = await axios.get("/attributionsPoste/"+id); 
+            attributionpostes.value = [];
+               response.data.data.forEach((a) => {
+                attributionpostes.value.push(a.id)
+               }) 
+                console.log('data2',attributionpostes.value);
+            } catch (error) {
+                console.error('Erreur lors du chargement des attributions :', error);
+            }
+        };
     const getAllOrganisations = async () => {
       try {
         const response = await ApiService.get("/all/organisations");
@@ -1548,6 +1564,7 @@ export default defineComponent({
       typeOptions,
       showMErr,
       types,
+      fetchAttributionsByPoste,
       typePrimeOptions,
       typePrimes,
       selectTypePrime,
@@ -1585,6 +1602,7 @@ export default defineComponent({
       attributionOptions,
       attribution,
       handleFormSubmission,
+      attributionpostes,
       horaireContrats,
       isDisableeeeee,
       validateStep,

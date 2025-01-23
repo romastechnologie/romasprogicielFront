@@ -1,126 +1,155 @@
 <template>
-  <div class="document-details">
-    <h1 class="text-center mb-4">Détails du Document</h1>
-
-    <div class="position-relative mb-3" style="height: 50px; background-color: #f8f9fa;">
-      <button class="btn btn-primary btn-sm" style="position: absolute; top: 10px; right: 10px;" @click="goBack">
-        Retour
-      </button>
-    </div>
-    <!-- Bloc des informations générales -->
-    <div class="card my-4">
-      <div class="card-body">
-        <h2 class="card-title text-center mb-4">Informations Générales</h2>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <a v-if="document?.photoDocument" :href="getUrlApiForFiles(document.photoDocument, 'Documents')" target="_blank">
-          <img :src="getUrlApiForFiles(document.photoDocument, 'Documents')" alt="Document Image" class="img-thumbnail" style="width: 120px; height: 120px;"/>
-        </a>
-            <strong>Date de conservation :</strong>
-            <p>{{ format_date(document?.regleDocuments?.dateFinConservation) || 'Non renseigné' }}</p>
-          </div>
-          <div class="col-md-6 mb-3">
-            <strong>Catégorie :</strong>
-            <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
-                class="badge bg-info text-dark me-1">
-                {{ val.regleType?.categoriedocument?.libelle || 'Non renseigné' }}
-              </span>
-            </p>
-          </div>
-          <div class="col-md-6 mb-3">
-            <strong>Type de document :</strong>
-            <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
-                class="badge bg-secondary text-light me-1">
-                {{ val.regleType?.typeDocument?.nom || 'Non renseigné' }}
-              </span>
-            </p>
-          </div>
-          <div class="col-md-6 mb-3">
-            <strong>Référence :</strong>
-            <p>{{ document?.refDoc || 'Non renseigné' }}</p>
-          </div>
-          <div class="col-md-6 mb-3">
-            <strong>Nom :</strong>
-            <p>{{ document?.nom || 'Non renseigné' }}</p>
-          </div>
-          <div class="col-md-6 mb-3">
-            <strong>Tag Document :</strong>
-            <p>{{ document?.tagDoc?.libelle || 'Non renseigné' }}</p>
-          </div>
-          <div class="col-md-12 mb-3">
-            <strong>Description :</strong>
-            <p>{{ document?.description || 'Non renseigné' }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bloc des informations supplémentaires -->
-    <div class="card my-4">
-      <div class="card-body">
-        <h2 class="card-title text-center mb-4">Informations Supplémentaires</h2>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <strong>Organisation :</strong>
-            <p>{{ document?.organisation?.nom || 'Non renseigné' }}</p>
-          </div>
-          <div class="col-md-6 mb-3">
-            <strong>Emplacement :</strong>
-            <p>{{ document?.emplacement?.code || 'Non renseigné' }}</p>
-          </div>
-          <div class="col-md-6 mb-3">
-            <strong>Fichier :</strong>
-            <p v-if="document?.fichier">
-              <a :href="getUrlApiForFiles(document.fichier)" target="_blank" class="text-decoration-underline">
-                Télécharger le fichier
-              </a>
-            </p>
-            <p v-else>Non disponible</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card my-4">
-      <div class="card-body">
-        <h2 class="card-title text-center mb-4">Règle de Conservation</h2>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <strong>Type :</strong>
-            <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
-                class="badge bg-secondary text-light me-1">
-                {{ val.regleType?.typeDocument?.nom || 'Non renseigné' }}
-              </span>
-            </p>
-          </div>
-          <div class="col-md-6 mb-3">
-            <strong>Durée :</strong>
-            <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
-                class="badge bg-info text-dark me-1">
-                {{ val.regleType?.regleConservation?.dureeConservation + " " +
-                val.regleType?.regleConservation?.typeDuree || 'Non renseigné' }}
-              </span>
-            </p>
+  <div class="row">
+    <div class="col-md-12 col-xxl-12 col-sm-12 mb-10">
+      <div class="card mb-25 border-0 rounded-0">
+        <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Informations Générales</h4>
+            <router-link
+              to="/documents/liste-document"
+              class="btn btn-primary transition border-0 lh-1 fw-medium"
+            >
+              <i class="flaticon-left-arrow lh-1 me-1 position-relative top-2"></i>
+              Retour
+            </router-link>
           </div>
 
-          <div class="col-md-6 mb-3">
-            <strong>Date Fin Conservation :</strong>
-            <p>{{ format_date(document?.dateFinConservation) || 'Non renseigné' }}</p>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Date de conservation</td>
+                <td>{{ format_date(document?.regleDocuments?.dateFinConservation) || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Catégorie</td>
+                <td>
+                  <span
+                    v-for="(val, index) in document?.regleDocuments || []"
+                    :key="index"
+                    class="badge bg-info text-dark me-1"
+                  >
+                    {{ val.regleType?.categoriedocument?.libelle || 'Non renseigné' }}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Type de document</td>
+                <td>
+                  <span
+                    v-for="(val, index) in document?.regleDocuments || []"
+                    :key="index"
+                    class="badge bg-secondary text-light me-1"
+                  >
+                    {{ val.regleType?.typeDocument?.nom || 'Non renseigné' }}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Référence</td>
+                <td>{{ document?.refDoc || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Nom</td>
+                <td>{{ document?.nom || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Tag Document</td>
+                <td>{{ document?.tagDoc?.libelle || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Description</td>
+                <td>{{ document?.description || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Fichier</td>
+                <td>
+                  <a v-if="document?.photoDocument" :href="getUrlApiForFiles(document.photoDocument, 'Documents')" target="_blank">
+                    <img
+                      :src="getUrlApiForFiles(document.photoDocument, 'Documents')"
+                      alt="Document Image"
+                      class="img-thumbnail"
+                      style="width: 120px; height: 120px;"
+                    />
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Organisation et Emplacement</h4>
           </div>
 
-          <div class="col-md-6 mb-3">
-            <strong>Sort Final :</strong>
-            <p>
-              <span v-for="(val, index) in document?.regleDocuments || []" :key="index"
-                class="badge bg-info text-dark me-1">
-                {{ val.regleType?.regleConservation?.sortFinal || 'Non renseigné' }}
-              </span>
-            </p>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Organisation</td>
+                <td>{{ document?.organisation?.nom || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Emplacement</td>
+                <td>{{ document?.emplacement?.code || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Fichier</td>
+                <td>
+                  <p v-if="document?.fichier">
+                    <a :href="getUrlApiForFiles(document.fichier)" target="_blank" class="text-decoration-underline">
+                      Télécharger le fichier
+                    </a>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Règle de Conservation</h4>
           </div>
+
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Type</td>
+                <td>
+                  <span
+                    v-for="(val, index) in document?.regleDocuments || []"
+                    :key="index"
+                    class="badge bg-secondary text-light me-1"
+                  >
+                    {{ val.regleType?.typeDocument?.nom || 'Non renseigné' }}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Durée</td>
+                <td>
+                  <span
+                    v-for="(val, index) in document?.regleDocuments || []"
+                    :key="index"
+                    class="badge bg-info text-dark me-1"
+                  >
+                    {{
+                      val.regleType?.regleConservation?.dureeConservation + ' ' +
+                      val.regleType?.regleConservation?.typeDuree || 'Non renseigné'
+                    }}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Sort final</td>
+                <td>
+                  <span
+                    v-for="(val, index) in document?.regleDocuments || []"
+                    :key="index"
+                    class="badge bg-info text-dark me-1"
+                  >
+                    {{ val.regleType?.regleConservation?.sortFinal || 'Non renseigné' }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -130,14 +159,13 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import ApiService from "@/services/ApiService";
-import { error, format_date,getUrlApiForFiles } from "@/utils/utils";
-import { useRoute, useRouter } from "vue-router";
+import { error, format_date, getUrlApiForFiles } from "@/utils/utils";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "ViewDocument",
   setup() {
     const route = useRoute();
-    const router = useRouter();
     const document = ref<any | null>(null);
 
     async function getDocument(id: string) {
@@ -150,19 +178,7 @@ export default defineComponent({
         }
       } catch (err) {
         error(err instanceof Error ? err.message : "Erreur lors de la récupération du document.");
-        goBack(); // Retourne si une erreur survient
       }
-    }
-
-
-//     function getFileUrl(fichier: string) {
-//   const baseUrl = "http://localhost:3008/api"; // Remplace par l'URL de base de ton backend
-//   return fichier.startsWith("http") ? fichier : `${baseUrl}${fichier}`;
-// }
-
-
-    function goBack() {
-      router.push({ name: "ListeDocumentPage" }); // Redirige vers la liste des documents
     }
 
     onMounted(() => {
@@ -171,39 +187,25 @@ export default defineComponent({
         getDocument(id);
       } else {
         error("ID du document non spécifié.");
-        goBack();
       }
     });
 
     return {
       document,
       format_date,
-      goBack,
-      getUrlApiForFiles
-      // getFileUrl
+      getUrlApiForFiles,
     };
   },
 });
 </script>
 
 <style scoped>
-.document-details {
-  max-width: 900px;
-  margin: auto;
-}
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.card-title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-.badge {
+.table .badge {
   font-size: 0.9rem;
-}
-.button {
-  z-index: 1000;
 }
 </style>
