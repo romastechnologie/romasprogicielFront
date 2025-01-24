@@ -120,7 +120,7 @@
                       <li >
                         <a
                           class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(contrat.id,contrats,'contrats',`Contrat ${contrat.id}`)">
-                          <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
+                          <i class="flaticon-eye lh-1 me-8 position-relative top-1" ></i>
                            Supprimer
                         </a>
                       </li>

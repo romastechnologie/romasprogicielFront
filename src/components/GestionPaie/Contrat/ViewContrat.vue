@@ -9,7 +9,15 @@
               class="btn btn-primary transition border-0 lh-1 fw-medium">
               <i class="flaticon-left-arrow lh-1 me-1 position-relative top-2"></i>
               <span class="position-relative"></span>Retour</router-link>
+              <button @click="downloadContratDetails" class="btn btn-success transition border-0 lh-1 fw-medium ms-2">
+                <i class="flaticon-download lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Télécharger
+              </button>
           </div>
+          
+
+
+          
           <table class="table">
             <tbody>
               <tr>
@@ -162,6 +170,9 @@ import { defineComponent, onMounted, ref } from "vue";
 import ApiService from "@/services/ApiService";
 import { error } from "@/utils/utils";
 import { useRoute } from "vue-router";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
 
 export default defineComponent({
   name: "ViewContrat",
@@ -186,10 +197,99 @@ export default defineComponent({
         loading.value = false;
       }
     }
+
+    function downloadContratDetails() {
+      if (contrat.value) {
+        const doc = new jsPDF();
+
+        doc.setFontSize(12);
+        doc.text("Détails du Contrat", 10, 10);
+
+        const horaires = contrat.value?.horaire_personnels?.map(horaire => ([
+                    horaire?.jour || "Non renseigné",
+                    horaire?.heureArrivee || "Non renseigné",
+                    horaire?.heureDebutPause || "Non renseigné",
+                    horaire?.heureFinPause || "Non renseigné",
+                    horaire?.heureDepart || "Non renseigné"
+])) || [];
+
+        const primes = contrat.value?.contratprimes?.map(prime => ([
+                  prime?.typeprime?.nomPrime || "Non renseigné",
+                  prime?.typeprime?.valeur || "Non renseigné",
+                  prime?.quantite || "Non renseigné",
+                  prime?.valeurUnitaire || "Non renseigné",
+                  prime?.montant || "Non renseigné"
+])) || [];
+
+        const retenues = contrat.value?.contratretenues?.map(retenue => ([
+                 retenue?.typesretenue?.nomRetenue || "Non renseigné",
+                 retenue?.typesretenue?.valeur || "Non renseigné",
+                 retenue?.quantite || "Non renseigné",
+                 retenue?.valeurUnitaire || "Non renseigné",
+                 retenue?.montant || "Non renseigné"
+])) || [];
+
+
+
+
+const detailsContrat = [
+  ["Durée du contrat", contrat.value?.dureeContrat || "Non renseigné"],
+  ["Date d'embauche", contrat.value?.datePriseFonction || "Non renseigné"],
+  ["Salaire de base", contrat.value?.salaire || "Non renseigné"],
+  ["Mode de tarification", contrat.value?.modetarification?.libelle || "Non renseigné"],
+  ["Catégorie de contrat", contrat.value?.categorieContrat || "Non renseigné"],
+  ["Période d'essai", contrat.value?.dureePeriodeEssai || "Non renseigné"],
+  ["Date de fin de contrat", contrat.value?.dateFin || "Non renseigné"],
+  ["Renouvelable", contrat.value?.renouvelable || "Non renseigné"],
+  ["Date fin de période d'Essai", contrat.value?.dateFinperiodeEssai || "Non renseigné"],
+  ["Période de Paie", contrat.value?.periodeDePaie || "Non renseigné"],
+  ["Type Contrat", contrat.value?.typeContrat?.libelle || "Non renseigné"],
+  ["Personnel", `${contrat.value?.personnel?.nom} ${contrat.value?.personnel?.prenom}`],
+  ["Poste Occupé", contrat.value?.poste?.libelle || "Non renseigné"],
+  ["Attributions", contrat.value?.attributioncontrats?.attribution?.libelle || "Non renseigné"],
+];
+
+// detailsContrat.forEach(([key, value], index) => {
+//       doc.text(`${key}: ${value}`, 10, 20 + index * 8);
+//     });
+
+    autoTable(doc, {
+      startY: 20,
+      head: [["Champ", "Valeur"]],
+      body: detailsContrat,
+    });
+
+    // Ajouter les horaires
+    autoTable(doc, {
+      startY: (doc as any).lastAutoTable.finalY + 10,
+      head: [["Jour", "Heure d'ouverture", "Heure début pause", "Heure fin pause", "Heure de fermeture"]],
+      body: horaires,
+    });
+
+
+    // Ajouter les primes
+    autoTable(doc, {
+      startY: (doc as any).lastAutoTable.finalY + 10,
+      head: [["Type prime", "Valeur", "Quantité", "Valeur Unitaire", "Montant"]],
+      body: primes,
+    });
+
+    // Ajouter les retenues
+    autoTable(doc, {
+      startY: (doc as any).lastAutoTable.finalY + 10,
+      head: [["Type retenue", "Valeur", "Quantité", "Valeur Unitaire", "Montant"]],
+      body: retenues,
+    });
+
+    // Sauvegarde du fichier PDF
+    doc.save(`Details_Contrat_${contrat.value?.personnel?.nom || "Inconnu"}.pdf`);
+  }
+}
     onMounted(() => {
       const id = route.params.id as string;
       if (id) {
         getContrat(id);
+
       } else {
         error("ID du contrat non spécifié.");
       }
@@ -197,7 +297,9 @@ export default defineComponent({
 
     return {
       contrat,
-      loading
+      loading,
+      downloadContratDetails,
+      autoTable
     };
   },
 });

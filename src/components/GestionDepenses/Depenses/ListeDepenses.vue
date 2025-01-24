@@ -90,7 +90,6 @@
           Traiter
         </a>
       </li>
-
       <!--<li class="dropdown-item d-flex align-items-center">
                             <router-link
                               
@@ -101,6 +100,7 @@
                             </router-link>
                           </li>-->
       <!-- Bouton Modifier : affiché seulement si la dépense n'est pas validée -->
+
       <li class="dropdown-item d-flex align-items-center">
         <router-link :to="{ name: 'ViewDepenses', params: { id: depense.id } }">
           <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
@@ -128,7 +128,6 @@
           </tbody>
         </table>
       </div>
-
 
 
   <div class="modal fade" id="create-task" tabindex="-1" aria-hidden="true">

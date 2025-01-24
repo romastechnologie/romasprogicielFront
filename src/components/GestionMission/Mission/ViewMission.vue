@@ -1,80 +1,69 @@
 <template>
-  <div class="mission-details">
-    <h1 class="text-center mb-4">Détails Mission</h1>
-
-    <div class="position-relative mb-3" style="height: 50px; background-color: #f8f9fa;">
-      <button
-        class="btn btn-primary btn-sm"
-        style="position: absolute; top: 10px; right: 10px;"
-        @click="goBack"
-      >
-        Retour
-      </button>
-    </div>
-
-    <!-- Affichage d'un loader si les données sont en cours de chargement -->
-    <div v-if="loading" class="text-center">
-      <p>Chargement des données...</p>
-    </div>
-
-    <!-- Affichage des données de la mission -->
-    <div v-else class="card my-4">
-      <div class="card-body">
-        <h2 class="card-title text-center mb-4">Informations sur la Mission</h2>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <strong>Description :</strong>
-            <p>{{ mission?.description || 'Non renseigné' }}</p>
+  <div class="row">
+    <div class="col-md-12 col-xxl-12 col-sm-12 mb-10">
+      <div class="card mb-25 border-0 rounded-0">
+        <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+          <div
+            class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Informations Générales</h4>
+            <router-link to="/missions/liste-missions"
+              class="btn btn-primary transition border-0 lh-1 fw-medium">
+              <i class="flaticon-left-arrow lh-1 me-1 position-relative top-2"></i>
+              <span class="position-relative"></span>Retour</router-link>
           </div>
 
-          <div class="col-md-6 mb-3">
-            <strong>Destination :</strong>
-            <p>{{ mission?.destination || 'Non renseigné' }}</p>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <strong>Date Début :</strong>
-            <p>{{ format_Date(mission?.dateDebut) || 'Non renseigné' }}</p>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <strong>Date Fin :</strong>
-            <p>{{ format_Date(mission?.dateFin) || 'Non renseigné' }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-     <!-- Section des moyens roulants liés -->
-     <div class="card my-4">
-        <div class="card-body">
-          <h2 class="card-title text-center mb-4">MISSIONS ASSOCIEES</h2>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Date Debut</th>
-                <th>Date Fin</th>
-
-              </tr>
-            </thead>
+          <table class="table">
             <tbody>
-              <tr
-                v-for="(tache, index) in mission?.taches" :key="index">
-                <td>{{ tache?.titre || 'Non renseigné' }}</td>
-                <td>{{ tache?.description || 'Non renseigné' }}</td>
-                <td>{{ tache?.dateDebut || 'Non renseigné' }}</td>
-                <td>{{ tache?.dateFin || 'Non renseigné' }}</td>
-
+              <tr>
+                <td>Description</td>
+                <td>{{ mission?.description || 'Non renseigné' }}</td>
               </tr>
-              <tr v-if="!(mission?.taches?.length)">
-                <td colspan="3">Aucune tache associée</td>
+              <tr>
+                <td>Destination</td>
+                <td>{{ mission?.destination || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Date de début</td>
+                <td>{{ format_Date(mission?.dateDebut) || 'Non renseigné' }}</td>
+              </tr>
+              <tr>
+                <td>Date de fin</td>
+                <td>{{ format_Date(mission?.dateFin) || 'Non renseigné' }}</td>
               </tr>
             </tbody>
           </table>
+
+          <div
+            class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+            <h4 class="position-relative text-black fw-bold mb-10">Missions</h4>
+          </div>
+          <div class="table-wrapper">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Titre</th>
+                  <th>Description</th>
+                  <th>Date Debut</th>
+                  <th>Date Fin</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(tache, index) in mission?.taches" :key="index">
+                  <td>{{ tache?.titre || 'Non renseigné' }}</td>
+                  <td>{{ tache?.description || 'Non renseigné' }}</td>
+                  <td>{{ tache?.dateDebut || 'Non renseigné' }}</td>
+                  <td>{{ tache?.dateFin || 'Non renseigné' }}</td>
+
+                </tr>
+              </tbody>
+            </table>
+
+
+          </div>
+
         </div>
       </div>
+    </div>
   </div>
 </template>
 
@@ -107,17 +96,10 @@ export default defineComponent({
         }
       } catch (err) {
         error(err instanceof Error ? err.message : "Erreur lors de la récupération de la mission");
-        goBack(); // Retour si une erreur survient
       } finally {
         loading.value = false; // Fin du chargement
       }
     }
-
-    // Fonction pour revenir à la liste des missions
-    function goBack() {
-      router.push({ name: "ListeMissionPage" }); // Redirige vers la liste des missions
-    }
-
     // Au montage du composant, récupérer les données de la mission
     onMounted(() => {
       const id = route.params.id as string;
@@ -125,7 +107,6 @@ export default defineComponent({
         getMission(id);
       } else {
         error("ID de la mission non spécifié.");
-        goBack();
       }
     });
 
@@ -133,7 +114,6 @@ export default defineComponent({
       mission,
       loading,
       format_date,
-      goBack,
       format_Date,
     };
   },
@@ -141,20 +121,20 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.mission-details {
-  max-width: 900px;
-  margin: auto;
+
+.table {
+  text-align: left;
 }
-.card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+.table-wrapper {
+  flex: 1;
+  margin-right: 30px; /* Séparation entre les tables */
 }
-.card-title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+
+/* Optionnel : pour ne pas que la dernière table ait de marge à droite */
+.table-wrapper:last-child {
+  margin-right: 0;
 }
-.badge {
-  font-size: 0.9rem;
-}
+
+
 </style>

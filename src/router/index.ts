@@ -60,7 +60,7 @@ import ListePresencePage from '@/pages/GestionPersonnel/Presences/ListePresenceP
 import EditPresencePage from '@/pages/GestionPersonnel/Presences/EditPresencePage.vue'
 import AddPersonnelPage from '@/pages/GestionPersonnel/Personnels/AddPersonnelPage.vue';
 import ListePersonnelPage from '@/pages/GestionPersonnel/Personnels/ListePersonnelPage.vue';
-import EditPersonnelPage from '@/pages/GestionPersonnel/Personnels/EditPersonnelPage.vue'
+import EditPersonnelPage from '@/pages/GestionPersonnel/Personnels/EditPersonnelPage.vue';
 import DetailsPersonnelPage from '@/pages/GestionPersonnel/Personnels/DetailsPersonnelPage.vue'
 import AddTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/AddTresoreriePage.vue'
 import ListeTresoreriePage from '@/pages/GestionTresorerie/Tresorerie/ListeTresoreriePage.vue'
@@ -145,6 +145,7 @@ import EditBanquePage from "@/pages/GesCom/Banque/EditBanquePage.vue";
 import ListeBanquePage from "@/pages/GesCom/Banque/ListeBanquePage.vue";
 import AddPersonnellePage from "@/pages/GesCom/Personnel/AddPersonnellePage.vue";
 import EditPersonnellePage from "@/pages/GesCom/Personnel/EditPersonnellePage.vue";
+import EditPersonnellePage2 from "@/pages/GesCom/Personnel/EditPersonnellePage2.vue";
 import ListePersonnellePage from "@/pages/GesCom/Personnel/ListePersonnellePage.vue";
 import ViewPersonnellePage from "@/pages/GesCom/Personnel/ViewPersonnellePage.vue";
 import AddPersonnelPostePage from "@/pages/GesCom/AddPersonnelPostePage/AddPersonnelPostePage.vue";
@@ -1675,6 +1676,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "edit-personnel/:id",
         name: "EditPersonnellePage",
         component: EditPersonnellePage,
+        meta: {
+          title: 'Modifier un personnel',
+        }
+      },
+      {
+        path: "edit-personnel2/:id",
+        name: "EditPersonnellePage2",
+        component: EditPersonnellePage2,
         meta: {
           title: 'Modifier un personnel',
         }

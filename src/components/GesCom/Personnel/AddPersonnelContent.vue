@@ -82,7 +82,7 @@
                                     placeholder="Sélectionner le sexe"
                                   />
                                 </Field>
-                                                      </div>
+                              </div>
                             </div>
                             <div class="col-md-6 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -151,52 +151,7 @@
                                 </Field>
                               </div>
                             </div>
-                            <div class="col-md-4 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Date de naissance
-                                </label>
-                                <Field
-                                  name="birthdate"
-                                  v-model="birthdate"
-                                  :max="maxDate"
-                                  @input="checkAge"
-                                  type="date"
-                                  class="form-control shadow-none fs-md-15 text-black"
-                                />
-                              </div>
-                              <p v-if="ageError" class="text-danger fs-md-12">
-                                L'âge minimal est de 18 ans.
-                              </p>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                              <label for="dateEmbauche" class="form-label">
-                                Date d'embauche<span class="text-danger"
-                                  >*</span
-                                ></label
-                              >
-                              <Field
-                                name="dateEmbauche"
-                                v-model="dateEmbauche"
-                                class="form-control"
-                                type="Date"
-                                :max="maxDate1"
-                              />
-                            </div>
-                            <div class="col-md-4 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Numéro de Sécurité Sociale
-                                </label>
-                                <Field
-                                  name="numeroSecuriteSociale"
-                                  v-model="numeroSecuriteSociale"
-                                  type="text"
-                                  class="form-control shadow-none fs-md-15 text-black"
-                                  placeholder="Entrer le numéro"
-                                />
-                              </div>
-                            </div>
+
                             <!--<div class="col-md-4 mb-3">
                                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                           <label class="d-block text-black mb-10">
@@ -305,6 +260,57 @@
                                 </Field>
                               </div>
                             </div>
+
+                            <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Date d'embauche<span class="text-danger"
+                                    >*</span
+                                  ></label
+                                >
+                                <Field
+                                  name="dateEmbauche"
+                                  v-model="dateEmbauche"
+                                  class="form-control"
+                                  type="Date"
+                                  :max="maxDate1"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Date de naissance
+                                </label>
+                                <Field
+                                  name="birthdate"
+                                  v-model="birthdate"
+                                  :max="maxDate"
+                                  @input="checkAge"
+                                  type="date"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                />
+                              </div>
+                              <p v-if="ageError" class="text-danger fs-md-12">
+                                L'âge minimal est de 18 ans.
+                              </p>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Numéro de Sécurité Sociale
+                                </label>
+                                <Field
+                                  name="numeroSecuriteSociale"
+                                  v-model="numeroSecuriteSociale"
+                                  type="text"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                  placeholder="Entrer le numéro"
+                                />
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -333,35 +339,37 @@
                               </div>
                             </div>
                             <div class="col-md-4 mb-3">
-  <div class="form-group mb-15 mb-sm-20 mb-md-25">
-    <label class="d-block text-black mb-10">
-      Téléphone 1<span class="text-danger">*</span>
-    </label>
-    <input
-      v-model="telephone"
-      type="text"
-      class="form-control shadow-none fs-md-15 text-black"
-      placeholder="Entrer le téléphone"
-      maxlength="10"
-      @input="telephone = '01' + telephone.slice(2)"
-    />
-  </div>
-</div>
-<div class="col-md-4 mb-3">
-  <div class="form-group mb-15 mb-sm-20 mb-md-25">
-    <label class="d-block text-black mb-10">
-      Téléphone 2
-    </label>
-    <input
-      v-model="telephone2"
-      type="text"
-      class="form-control shadow-none fs-md-15 text-black"
-      placeholder="Entrer le téléphone"
-      maxlength="10"
-      @input="telephone2 = '01' + telephone2.slice(2)"
-    />
-  </div>
-</div>
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Téléphone 1<span class="text-danger">*</span>
+                                </label>
+                                <input
+                                  v-model="telephone"
+                                  type="text"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                  placeholder="Entrer le téléphone"
+                                  maxlength="10"
+                                  @input="telephone = '01' + telephone.slice(2)"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Téléphone 2
+                                </label>
+                                <input
+                                  v-model="telephone2"
+                                  type="text"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                  placeholder="Entrer le téléphone"
+                                  maxlength="10"
+                                  @input="
+                                    telephone2 = '01' + telephone2.slice(2)
+                                  "
+                                />
+                              </div>
+                            </div>
 
                             <div class="col-md-6 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -427,7 +435,6 @@
                                   />
                                 </Field>
                               </div>
-                            
                             </div>
                             <div class="col-md-6">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -554,6 +561,7 @@
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
                                     Date de Naissance du conjoint
+                                    <span class="text-danger">*</span>
                                   </label>
                                   <Field
                                     name="dateNaissanceCon"
@@ -565,15 +573,6 @@
                                   />
                                 </div>
                               </div>
-                              <!-- <div class="col-md-4 mb-3">
-                                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                          <label class="d-block text-black mb-10">
-                                            Nationalité du Conjoint<span class="text-danger">*</span>
-                                          </label>
-                                          <Field name="nationaliteCon" v-model="nationaliteCon" type="text" class="form-control shadow-none fs-md-15 text-black"
-                                            placeholder="Entrer la nationalité du conjoint " />
-                                        </div>
-                                      </div>-->
                               <div class="col-md-6">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label
@@ -597,9 +596,19 @@
                                       placeholder="Sélectionner le pays de résidence"
                                     />
                                   </Field>
-
-                                  </div>
+                                </div>
                               </div>
+
+                              <!-- <div class="col-md-4 mb-3">
+                                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                          <label class="d-block text-black mb-10">
+                                            Nationalité du Conjoint<span class="text-danger">*</span>
+                                          </label>
+                                          <Field name="nationaliteCon" v-model="nationaliteCon" type="text" class="form-control shadow-none fs-md-15 text-black"
+                                            placeholder="Entrer la nationalité du conjoint " />
+                                        </div>
+                                      </div>-->
+
                               <div class="col-md-6 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
@@ -614,8 +623,11 @@
                                     type="string"
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone du conjoint "
-                                      maxlength="10"
-                                    @input="telephoneCon = '01' + telephoneCon.slice(2)"
+                                    maxlength="10"
+                                    @input="
+                                      telephoneCon =
+                                        '01' + telephoneCon.slice(2)
+                                    "
                                   />
                                 </div>
                               </div>
@@ -624,8 +636,7 @@
                                   <label class="d-block text-black mb-10">
                                     Passport du Conjoint<span
                                       class="text-danger"
-                                      ></span
-                                    >
+                                    ></span>
                                   </label>
                                   <Field
                                     name="passportCon"
@@ -641,8 +652,7 @@
                                   <label class="d-block text-black mb-10">
                                     Religion Du Conjoint<span
                                       class="text-danger"
-                                      ></span
-                                    >
+                                    ></span>
                                   </label>
                                   <Field
                                     name="religionCon"
@@ -667,9 +677,9 @@
                               <div class="col-md-6 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
-                                    Ethnie Du Conjoint<span class="text-danger"
-                                      ></span
-                                    >
+                                    Ethnie Du Conjoint<span
+                                      class="text-danger"
+                                    ></span>
                                   </label>
                                   <Field
                                     name="ethnieCon"
@@ -695,7 +705,6 @@
                           </div>
                         </div>
                         <div class="col-md-12 mb-md-25">
-                          
                           <div
                             class="tab-pane fade show active p-10"
                             id="home-tab-pane"
@@ -719,7 +728,10 @@
                                   />
                                 </div>
                               </div>
-                              <div class="border border-primary mb-10" v-if="nombreEnfant > 0"> 
+                              <div
+                                class="border border-primary mb-10"
+                                v-if="nombreEnfant > 0"
+                              >
                                 <div
                                   class="row d-flex align-items-center justify-content-between fw-bold py-2"
                                   style="background-color: #0a59a4"
@@ -801,8 +813,7 @@
                                         <div
                                           class="invalid-feedback"
                                           v-if="valideteRowEnfant(enfant.nom)"
-                                        >
-                                        </div>
+                                        ></div>
                                       </div>
                                     </div>
                                     <div class="col-md-3 mb-2">
@@ -818,8 +829,7 @@
                                           v-if="
                                             valideteRowEnfant(enfant.prenom)
                                           "
-                                        >
-                                        </div>
+                                        ></div>
                                       </div>
                                     </div>
                                     <div class="col-md-3 mb-2">
@@ -839,8 +849,7 @@
                                             enfant.dateNaissance
                                           )
                                         "
-                                      >
-                                      </div>
+                                      ></div>
                                     </div>
                                     <div class="col-md-3 mb-2">
                                       <div class="form-group">
@@ -853,14 +862,10 @@
                                       </div>
                                     </div>
                                     <div class="col-md-2 mb-2">
-                                      <!--   <button class="btn btn-danger transition border-0 pb-2 ps-8 pe-8" type="button"
-                                                    @click="removeRowEnfant(index)">
-                                                   <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                                                    </button>-->
                                     </div>
                                   </div>
-                                  </div>
                                 </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1161,7 +1166,6 @@
                       >
                         <div class="sidebar-body">
                           <div class="row g-2">
-
                             <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
@@ -1176,9 +1180,7 @@
                                     label="label"
                                     placeholder="Sélectionner la banque"
                                     @change="onBanqueSelected(banque)"
-
                                   />
-                            
                                 </Field>
                               </div>
                             </div>
@@ -1202,7 +1204,7 @@
                             <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
-                                 Identification internationale
+                                  Identification internationale
                                 </label>
                                 <Field
                                   name="identification"
@@ -1231,12 +1233,10 @@
                               </div>
                             </div>
 
-                          
-
                             <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
-                                 Numero de compte 
+                                  Numero de compte
                                 </label>
                                 <Field
                                   name="numeroCompte"
@@ -1247,7 +1247,7 @@
                                 />
                               </div>
                             </div>
-                           <!-- <div class="col-md-6 mb-3">
+                            <!-- <div class="col-md-6 mb-3">
                               <label
                                 for="releveIdentiteBancaire"
                                 class="form-label"
@@ -1267,45 +1267,49 @@
                             </div>-->
 
                             <h1>Informations sur la personne à contacter</h1>
-                    
-                               <div class="col-md-4 mb-3">
-  <div class="form-group mb-15 mb-sm-20 mb-md-25">
-    <label class="d-block text-black mb-10">
-      Relation
-      <span class="text-danger">*</span>
-    </label>
-    <Field
-      name="relation"
-      type="text"
-      v-model="relation"
-      v-slot="{ field }"
-    >
-      <Multiselect
-        :searchable="true"
-        :options="[
-          'Parent',
-          'Frere',
-          'Soeur',
-          'Ami',
-          'Collègue',
-          'Enfant',
-          'Voisin',
-          'Employeur',
-          ...(situation !== 'Célibataire' && situation !== 'Divorcée' && situation !== 'Veuve' ? ['Conjoint(e)'] : [])
-        ]"
-        v-model="field.value"
-        v-bind="field"
-        placeholder="Sélectionner la relation"
-      />
-    </Field>
-  </div>
-</div>
-                    
+
                             <div class="row g-2">
                               <div class="col-md-6 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
+                                    Relation
+                                    <span class="text-danger">*</span>
+                                  </label>
+                                  <Field
+                                    name="relation"
+                                    type="text"
+                                    v-model="relation"
+                                    v-slot="{ field }"
+                                  >
+                                    <Multiselect
+                                      :searchable="true"
+                                      :options="[
+                                        'Parent',
+                                        'Frere',
+                                        'Soeur',
+                                        'Ami',
+                                        'Collègue',
+                                        'Enfant',
+                                        'Voisin',
+                                        'Employeur',
+                                        ...(situation !== 'Célibataire' &&
+                                        situation !== 'Divorcée' &&
+                                        situation !== 'Veuve'
+                                          ? ['Conjoint(e)']
+                                          : []),
+                                      ]"
+                                      v-model="field.value"
+                                      v-bind="field"
+                                      placeholder="Sélectionner la relation"
+                                    />
+                                  </Field>
+                                </div>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                  <label class="d-block text-black mb-10">
                                     Nom de la personne à contacter
+                                    <span class="text-danger">*</span>
                                   </label>
                                   <Field
                                     name="nomPersonneAContacter"
@@ -1320,6 +1324,7 @@
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
                                     Prénom personne à contacter
+                                    <span class="text-danger">*</span>
                                   </label>
                                   <Field
                                     name="prenomPersonneAContacter"
@@ -1334,6 +1339,7 @@
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
                                     Téléphone personne à contacter
+                                    <span class="text-danger">*</span>
                                   </label>
                                   <Field
                                     name="telephonePersonneAContacter"
@@ -1342,14 +1348,14 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone"
                                     maxlength="10"
-                                    @input="telephonePersonneAContacter = '01' + telephonePersonneAContacter.slice(2)"
-                                 
+                                    @input="
+                                      telephonePersonneAContacter =
+                                        '01' +
+                                        telephonePersonneAContacter.slice(2)
+                                    "
                                   />
                                 </div>
                               </div>
-
-
-      
                             </div>
                           </div>
                         </div>
@@ -1375,6 +1381,7 @@
                           v-if="currentStep === tabs.length"
                           type="submit"
                           class="btn btn-success"
+                          onclick="valider"
                         >
                           Soumettre
                         </button>
@@ -1513,15 +1520,15 @@ export default defineComponent({
     const sexe = ref();
     const civilite = ref();
     const groupeSanguin = ref();
-    const visionGauche = ref('Normal');
-    const visionDroite = ref('Normal');
-    const audienceGauche = ref('Normal');
-    const audienceDroite = ref('Normal');
-    const mainGauche = ref('Normal');
+    const visionGauche = ref("Normal");
+    const visionDroite = ref("Normal");
+    const audienceGauche = ref("Normal");
+    const audienceDroite = ref("Normal");
+    const mainGauche = ref("Normal");
     const numeroCompte = ref();
-    const mainDroite = ref('Normal');
-    const jambeGauche = ref('Normal');
-    const jambeDroite = ref('Normal');
+    const mainDroite = ref("Normal");
+    const jambeGauche = ref("Normal");
+    const jambeDroite = ref("Normal");
     const boitePostale = ref();
     const nomPersonneAContacter = ref();
     const prenomPersonneAContacter = ref();
@@ -1827,14 +1834,13 @@ export default defineComponent({
     //     //
     //   }
     // };
-   
+
     const countriesRef = ref(countries);
-    const nationalite = ref('Bénin'); 
+    const nationalite = ref("Bénin");
     const selectedCommune = ref([]);
     const selectedArrondissement = ref([]);
     const selectedQuartier = ref([]);
 
-   
     function departementChange(value) {
       console.log("g,rl;m", value);
       if (value) {
@@ -1955,7 +1961,7 @@ export default defineComponent({
         console.error("personnel ID  indefini.");
       }
     };
-   /* const fetchCommunes = async () => {
+    /* const fetchCommunes = async () => {
       ApiService.get("/communes")
         .then(({ data }) => {
           const donnees = data.data.data;
@@ -2056,11 +2062,10 @@ export default defineComponent({
     ];
 
     onMounted(async () => {
-    
       tabs.forEach((tab, index) => {
         const li = document.createElement("li");
         li.classList.add("nav-item");
-      li.innerHTML = `
+        li.innerHTML = `
 <button 
     class="nav-link ${currentStep.value === index + 1 ? "active" : ""}" 
     id="${tab.id}" 
@@ -2073,7 +2078,7 @@ export default defineComponent({
         <div class="product-icons">
             <svg class="stroke-icon">
                 <use href="${
-                    require("@/assets/svg/icon-sprite.svg") + "#" + tab.icon
+                  require("@/assets/svg/icon-sprite.svg") + "#" + tab.icon
                 }"></use>
             </svg>
         </div>
@@ -2087,18 +2092,18 @@ export default defineComponent({
 
         tabContainer.value.appendChild(li);
         const tabElements = tabContainer.value.querySelectorAll(".nav-link");
-       tabElements.forEach((tab, index) => {
-    const bsTab = new Tab(tab);
+        tabElements.forEach((tab, index) => {
+          const bsTab = new Tab(tab);
 
-    tab.addEventListener("click", (event) => {
-        if (index + 1 > currentStep.value) {
-            event.preventDefault();
-            return;
-        }
-        currentStep.value = index + 1;
-        bsTab.show();
-    });
-});
+          tab.addEventListener("click", (event) => {
+            if (index + 1 > currentStep.value) {
+              event.preventDefault();
+              return;
+            }
+            currentStep.value = index + 1;
+            bsTab.show();
+          });
+        });
         tabElements.forEach((tab, index) => {
           const bsTab = new Tab(tab);
           tab.addEventListener("click", () => {
@@ -2113,10 +2118,10 @@ export default defineComponent({
       await getAllEthnies();
       await getAllServices();
       await fetchBanque();
-    await fetchDepartements();
-    //  await fetchCommunes();
-    //  await fetchQuartiers();
-     // await fetchArrondissement();
+      await fetchDepartements();
+      //  await fetchCommunes();
+      //  await fetchQuartiers();
+      // await fetchArrondissement();
     });
 
     const { handleSubmit, validate } = useForm({
@@ -2147,9 +2152,9 @@ export default defineComponent({
           situation: situation.value,
           photo: photo.value,
           civilite: civilite.value,
-        // birthdate: birthdate.value,
+          // birthdate: birthdate.value,
           dateEmbauche: dateEmbauche.value,
-       //   numeroSecuriteSociale: numeroSecuriteSociale.value,
+          //   numeroSecuriteSociale: numeroSecuriteSociale.value,
           religion: religion.value,
           ethnie: ethnie.value,
           service: service.value,
@@ -2195,7 +2200,7 @@ export default defineComponent({
           dateNaissanceCon: dateNaissanceCon.value,
           nationaliteCon: nationaliteCon.value,
           telephoneCon: telephoneCon.value,
-        //  religionCon: religionCon.value,
+          //  religionCon: religionCon.value,
           //ethnieCon: ethnieCon.value,
         };
         if (
@@ -2255,36 +2260,6 @@ export default defineComponent({
         }
       }
 
-      if (currentStep.value === 5) {
-  // Vérifiez si une banque est sélectionnée
-  if (banque.value) {
-    let element5 = {
-      numeroCompte: numeroCompte.value,
-      codeIban: codeIban.value,
-      swift: swift.value,
-      releveIdentiteBancaire: releveIdentiteBancaire.value,
-      nomPersonneAContacter: nomPersonneAContacter.value,
-      prenomPersonneAContacter: prenomPersonneAContacter.value,
-      telephonePersonneAContacter: telephonePersonneAContacter.value,
-      relation: relation.value,
-    };
-
-    // Vérifiez que tous les champs sont remplis
-    for (const key in element5) {
-      if (!element5[key]) {
-        error(`Saisir l'élément suivant ${key}`);
-        return false;
-      }
-    }
-  } else {
-    // Si aucune banque n'est sélectionnée, seul le champ "banque" est obligatoire
-    if (!banque.value) {
-      error("Veuillez sélectionner une banque");
-      return false;
-    }
-  }
-}
-
       currentStep.value++;
       showTab(currentStep.value);
     };
@@ -2301,12 +2276,43 @@ export default defineComponent({
     const previousStep = () => {
       if (currentStep.value > 1) {
         currentStep.value--;
-        showTab(currentStep.value); // Afficher l'onglet correspondant à l'étape précédente
+        showTab(currentStep.value); 
       }
     };
 
-    // Soumettre le formulaire
-    const handleSubmitForm = (values) => {
+    const valider = async () => {
+  const isValid = await validate();
+  if (!isValid) return;
+  if (currentStep.value === 5) {
+    let element5 = {
+      banque: banque.value,
+      numeroCompte: numeroCompte.value,
+      codeIban: codeBanque.value,
+      swift: codeSwift.value,
+      nomPersonneAContacter: nomPersonneAContacter.value,
+      prenomPersonneAContacter: prenomPersonneAContacter.value,
+      telephonePersonneAContacter: telephonePersonneAContacter.value,
+      relation: relation.value,
+    };
+    if (banque.value) {
+      const champsObligatoires = ['numeroCompte', 'codeIban', 'swift'];
+      for (const champ of champsObligatoires) {
+        if (!element5[champ]) {
+          error(`Saisir l'élément suivant : ${champ}`);
+          return false;
+        }
+      }
+    }
+    for (const key in element5) {
+      if (!element5[key]) {
+        error(`Saisir l'élément suivant : ${key}`);
+        return false;
+      }
+    }
+  }
+};
+
+      const handleSubmitForm = (values) => {
       if (currentStep.value === tabs.length) {
         alert("Formulaire soumis avec succès !");
         console.log(values); // Envoyer les données à une API si nécessaire
@@ -2414,7 +2420,8 @@ export default defineComponent({
       codeBanque,
       codeSwift,
       identification,
-
+      checkAge,
+      valider
     };
   },
   computed: {

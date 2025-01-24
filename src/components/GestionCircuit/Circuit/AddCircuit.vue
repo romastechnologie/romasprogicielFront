@@ -13,6 +13,8 @@
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>
+
+
             <div class="col-md-4 mb-3"> 
               <label for="Duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
               <div class="input-group">
@@ -31,6 +33,8 @@
                 <ErrorMessage name="duree" class="text-danger"/> 
               </div>
             </div>
+
+
             <div class="col-md-12 mb-md-25">
               <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                 <div class="row">
@@ -91,7 +95,7 @@
                         </div>
                       </div>
                       <hr class="mt-0" />
-                      <div class="row" v-for="(circuit, index) in circuits" :key="index">
+                      <div class="row" v-for="(circuit, index) in etapevalidations" :key="index">
                         <div class="col-md-2 mb-2">
                           <div class="form-group ">
                             <input v-model="circuit.nom" type="text" class="form-control shadow-none fs-md-15 text-black"
@@ -224,7 +228,7 @@ export default defineComponent({
     const typeDuree = ref();
     const Duree = ref();
     
-    const circuits = reactive([{
+    const etapevalidations = reactive([{
       nom: "",
       role: "",
       ordre: "",
@@ -234,7 +238,7 @@ export default defineComponent({
     }]);
 
     const addRowCircuit = () => {
-      circuits.push({
+      etapevalidations.push({
         nom: "",
         role: "",
         ordre: "",
@@ -245,12 +249,12 @@ export default defineComponent({
     };
 
     const removeRowCircuit = (index) => {
-      if (circuits.length > 1) circuits.splice(index, 1);
+      if (etapevalidations.length > 1) etapevalidations.splice(index, 1);
       //totals();
     };
 
     watch(
-      circuits,
+      etapevalidations,
       (newValue) => {
         isDisable.value =
         newValue.some(
@@ -279,26 +283,52 @@ export default defineComponent({
 
 
     typeDureeOptions.value = [{value:"jour(s)", label:"Jour(s)"}, {value:"mois", label:"Mois"},{value:"annees", label:"Annees"}]
-   
-   
-    
-   
-    const addCircuit = async (values, {resetForm}) => {
-      console.log("top icieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-      values["etapes"]=circuits;
-      console.log("top ici",values);
-      ApiService.post("/circuits",values)
-        .then(({ data }) => {
-          console.log("top ici",data)
-          if(data.code == 201) { 
-            success(data.message);
-            resetForm();
-            router.push({ name: "ListeCircuitPage" });
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-        });
+
+    const addCircuit = async (values) => {
+      if (!values || Object.keys(values).length === 0) {
+        console.error("Erreur : L'objet 'values' est vide ou indéfini !");
+        return;
+      }
+      try{
+        values["etapeCircuit"]  =  etapevalidations.map((etape) => ({
+          ordre:etape.ordre,
+          duree:etape.duree,
+          typeDuree:etape.typeDuree,
+          nom:etape.nom,
+          role:etape.role,
+          personnel:etape?.personnel,
+        }))
+        const {data} = await ApiService.post("/circuits",values);
+        if(data.code === 201){
+          success(data.message);
+          router.push({name: "ListeCircuitPage"});
+        }
+
+      }catch(err){
+        console.error("Erreur d'API :", err);
+      }
+
+
+
+
+
+    //   console.log("top icieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    //   values["etapes"]=circuits;
+    //   console.log("top ici",values);
+    //   ApiService.post("/circuits",values)
+    //     .then(({ data }) => {
+    //       console.log("top ici",data)
+    //       if(data.code == 201) { 
+    //         success(data.message);
+    //         resetForm();
+    //         router.push({ name: "ListeCircuitPage" });
+    //       }
+    //     }).catch(({ response }) => {
+    //       error(response.data.message);
+    //     });
     };
+
+    
 
     const getAllPersonnels = async () => {
       try{
@@ -339,7 +369,7 @@ export default defineComponent({
        addCircuit,
         circuitForm,typeDureeOptions,
       isDisable,
-      circuits,removeRowCircuit,
+      etapevalidations,removeRowCircuit,
       addRowCircuit,
       valideteRowCircuit,personnelOptions,roleOptions,
       };
