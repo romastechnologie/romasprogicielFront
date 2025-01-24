@@ -2163,10 +2163,9 @@ export default defineComponent({
 
     const nextStep = async () => {
       const isValid = await validate();
-      if (!isValid) return; // Ne pas avancer si le formulaire est invalide
+      if (!isValid) return; 
 
       if (currentStep.value === 1) {
-        //useForm({ validationSchema: personnelConSchema });
         checkAge();
         if (ageError.value) return;
         let element1 = {
@@ -2201,15 +2200,12 @@ export default defineComponent({
           quartier: quartier.value,
           adresse: adresse.value,
         };
-
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
         for (const key in element2) {
           if (!element2[key]) {
             error(`Saisir l'élément suivant ${key}`);
             return false;
           }
-
           if (key === "email" && !emailRegex.test(element2[key])) {
             error("Veuillez entrer une adresse email valide");
             return false;
@@ -2240,7 +2236,6 @@ export default defineComponent({
             }
           }
         }
-
         if (nombreEnfant.value === null || nombreEnfant.value === undefined) {
           error("Saisir le nombre d'enfants");
           return false;

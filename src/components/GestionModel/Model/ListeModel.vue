@@ -125,9 +125,7 @@
   
       const models = ref<Array<Model>>([]);   
       const model = ref<Model>();
-  
-      // BEGIN PAGINATE
-      const searchTerm = ref('');
+        const searchTerm = ref('');
       const page = ref(1);
       const totalPages = ref(0);
       const limit = ref(10);
@@ -145,10 +143,7 @@
        function rechercher(){
         getAllModels(page.value, limit.value, searchTerm.value );
       }
-      
-  
-      // END PAGINATE
-  
+
       function getAllModels(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/models?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {

@@ -138,7 +138,9 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title">Voulez-vous affecter ce personnel à un au autre service ?</h6>
+        <h6 class="modal-title">  Voulez-vous affecter le personnel
+    <span class="fw-bold">{{ selectedPersonnel?.nom }} {{ selectedPersonnel?.prenom }}</span>
+    à un autre service ?</h6>
         <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body px-4">
@@ -148,12 +150,26 @@
           :validation-schema="personnelsSchema"
         >
           <div class="row gy-2">
+
+            <div class="col-md-4-3">
+              <label class="d-block text-black mb-10">
+                Date d'affectation<span class="text-danger">*</span></label
+            >
+            <Field
+              name="DateDebut"
+              class="form-control"
+              type="date"
+            />
+            <ErrorMessage name="DateDebut" class="text-danger" />
+          </div>
+
+
             <div class="col-md-4-3">
               <label class="d-block text-black mb-10">
                                   Service  <span class="text-danger">*</span>
                                 </label>
                                 <Field
-                                  name="organisation"
+                                  name="organisation_id"
                                   type="text"
                                   v-slot="{ field }"
                                 >
@@ -169,7 +185,7 @@
                                     track-by="value"
                                   />
                                 </Field>
-              <ErrorMessage name="organisation" class="text-danger" />
+              <ErrorMessage name="organisation_id" class="text-danger" />
             </div>
           </div>
           <div class="modal-footer">
@@ -226,7 +242,8 @@ export default defineComponent({
       getAllServices();
     });
     const personnelsSchema = Yup.object().shape({
-     organisation: Yup.string().required("service est obligatoire"),
+     organisation_id: Yup.string().required("service est obligatoire"),
+     DateDebut: Yup.string().required("service est obligatoire"),
     });
     const personnelsForm = ref(null);
     const serviceOptions = ref([]);
@@ -251,13 +268,14 @@ export default defineComponent({
 };
 
   const addPersonnels = async (values, { resetForm }) => {
-  values["id"] = personnelii.value;
+  values["personnel_id"] = personnelii.value;
   //values["serviceId"] = personnelii.value;
   console.log("values", values);
-  ApiService.put("/personnels/" + values.id, values)
+ // ApiService.put("/orgapersonnel/" + values.id, values)
+  ApiService.post("/orgapersonnel/", values)
     .then(({ data }) => {
       console.log('personnel', data);
-      if (data.code === 200) {
+      if (data.code === 201) {
         success(data.message);
         resetForm();
        getAllPersonnels();
@@ -290,9 +308,17 @@ const getAllServices = async () => {
       }
     };
     const personnelii = ref();
-    const openModal = (id: number) => {
-      personnelii.value = id;
-    };
+    const selectedPersonnel = ref<{ nom: string; prenom: string } | null>(null);
+
+const openModal = (id: number) => {
+  personnelii.value = id;
+  const personnel = personnels.value.find((p) => p.id === id);
+  if (personnel) {
+    selectedPersonnel.value = { nom: personnel.nom, prenom: personnel.prenom };
+  }
+  console.log("Personnel sélectionné", selectedPersonnel.value);
+};
+
      function rechercher(){
       getAllPersonnels(page.value, limit.value, searchTerm.value );
     }
@@ -384,6 +410,7 @@ const getAllServices = async () => {
     ajout,
     openModal,
     serviceOptions,
+    selectedPersonnel
 
 
   };
