@@ -26,6 +26,7 @@
           <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
             <h4 class="position-relative text-black fw-bold mb-10">Moyens Roulants</h4>
           </div>
+        <div class="table-wrapper">
           <table class="table table-bordered">
             <thead>
               <tr>
@@ -45,7 +46,7 @@
               </tr>
             </tbody>
           </table>
-
+</div>
         </div>
       </div>
     </div>
@@ -116,5 +117,14 @@ export default defineComponent({
 <style scoped>
 .table {
   text-align: left;
+}
+.table-wrapper {
+  flex: 1;
+  margin-right: 30px; /* Séparation entre les tables */
+}
+
+/* Optionnel : pour ne pas que la dernière table ait de marge à droite */
+.table-wrapper:last-child {
+  margin-right: 0;
 }
 </style>
