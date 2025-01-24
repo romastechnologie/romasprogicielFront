@@ -12,11 +12,11 @@
                 class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
-            </div>
-            <div class="col-md-4 mb-3"> 
+            </div>           
+            <div class="col-md-2 mb-2"> 
               <label for="Duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
               <div class="input-group">
-                <Field  name="duree" id="duree" class="form-control" type="number" v-model="duree"    placeholder="Entrez la durée"/>
+                <Field  name="duree" id="duree" class="form-control" type="number" v-model="duree" placeholder="Entrez la durée"/> 
                 <Field name="typeDuree"  type="text"  v-model="typeDuree"  v-slot="{ field }">
                   <Multiselect v-model="field.value" v-bind="field" :options="typeDureeOptions" :preserve-search="true"
                    :multiple="false" :searchable="true" placeholder="Sélectionner le type de duree"
@@ -34,6 +34,9 @@
                 <ErrorMessage name="duree" class="text-danger"/> 
               </div>
             </div>
+
+
+
             <div class="col-md-12 mb-md-25">
               <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                 <div class="row">
@@ -133,7 +136,6 @@
                         <div class="col-md-2 mb-2">
                           <div class="form-group ">
                           <Multiselect 
-                          
                           :close-on-select="false"
                           :options="roleOptions" 
                           :searchable="true" 
@@ -297,6 +299,7 @@ export default defineComponent({
 
           duree.value = data.data['Duree'];
           typeDuree.value = data.data['typeDuree'];
+   
           console.log('data1',duree.value);
           console.log('data3',typeDuree.value);
 

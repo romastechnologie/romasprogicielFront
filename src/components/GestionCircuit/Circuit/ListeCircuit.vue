@@ -79,7 +79,7 @@
                 {{ circuit.nom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ circuit.Duree }}
+                {{ circuit?.Duree }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ circuit.typeDuree }}

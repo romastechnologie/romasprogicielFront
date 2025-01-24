@@ -11,7 +11,7 @@
         <div class="d-flex align-items-center">
           <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
             <input type="text" name="mot" v-model="searchTerm" @keyup="rechercher" class="form-control shadow-none text-black"
-              placeholder="Rechercher un document" aria-disabled="true" />
+            aria-disabled="true" placeholder="Rechercher un document"/>
             <button type="submit" class="bg-transparent text-primary transition p-0 border-0">
               <i class="flaticon-search-interface-symbol"></i>
             </button>
@@ -297,6 +297,27 @@ export default defineComponent({
       }
     };
 
+    watch(categorie, () => {
+      rechercher();
+    });
+
+    watch(typeDoc, () => {
+      rechercher();
+    });
+
+    watch(_tagDoc, () => {
+      rechercher();
+    });
+
+    watch(_organisations, () => {
+      rechercher();
+    });
+
+    watch(dateFinConservation, () => {
+      rechercher();
+    });
+
+
     // Fonction pour changer le statut d'un document
 const changerStatut = (id, nouveauStatut) => {
   const doc = documents.value.find((d) => d.id === id);
@@ -380,26 +401,7 @@ const fetchCategorieDocuments = async () => {
     }
 
 
-  watch(categorie, () => {
-      rechercher();
-    });
-
-    watch(typeDoc, () => {
-      rechercher();
-    });
-
-    watch(_tagDoc, () => {
-      rechercher();
-    });
-
-    watch(_organisations, () => {
-      rechercher();
-    });
-
-    watch(dateFinConservation, () => {
-      rechercher();
-    });
-
+ 
      function rechercher()  {
   getAllDocuments(page.value, limit.value,searchTerm.value, categorie.value,typeDoc.value,dateFinConservation.value,_tagDoc.value,_organisations.value);
 };
