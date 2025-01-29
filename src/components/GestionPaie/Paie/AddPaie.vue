@@ -333,7 +333,7 @@ export default defineComponent({
         lesContrats.value = contratsData;
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label: contrat.salaireBase + "-" + contrat?.personnel?.nom,
+          label:contrat?.personnel?.nom + "-" + contrat?.typeContrat?.libelle +" "+ contrat?.datePriseFonction +"-"+ contrat?.dateFin,
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
@@ -565,10 +565,16 @@ export default defineComponent({
     };
 
     watch(newContrat, (newValue, oldValue) => {
-      const salaire = lesContrats.value.find((el) => el.id === newValue);
-      console.log('valeurs recupérées', salaire);
-      salaireDeBase.value = salaire
-    })
+  const count = lesContrats.value.find((el) => el.id === newValue);
+  console.log('Valeurs recupérées:', count);
+
+  if (count) {
+    salaireDeBase.value = count.salaire;
+  } else {
+    console.warn('Aucun contrat trouvé avec cet ID');
+    salaireDeBase.value = 0; 
+  }
+});
 
 
     watch(salaireDeBase, () => {
