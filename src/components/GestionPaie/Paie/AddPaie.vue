@@ -315,7 +315,7 @@ export default defineComponent({
     const modeOptions = ref([]);
     const contrat = ref();
     const newContrat = ref();
-
+    const salaire = ref([]);
     const contratOptions = ref([]);
     const router = useRouter();
     const typePrimes = ref(null);
@@ -406,14 +406,6 @@ export default defineComponent({
         // H
       }
     };
-
-
-    watch(newContrat, (newValue, oldValue) => {
-      const cont = lesContrats.value.find((el) => el.id === newValue);
-      console.log('valeurs recupérées', cont);
-      salaireDeBase.value = cont.salaire;
-    })
-
     const getAllTypeRetenue = async () => {
       try {
         const response = await ApiService.get('/all/typeRetenues');
@@ -572,6 +564,13 @@ export default defineComponent({
       });
     };
 
+    watch(newContrat, (newValue, oldValue) => {
+      const salaire = lesContrats.value.find((el) => el.id === newValue);
+      console.log('valeurs recupérées', salaire);
+      salaireDeBase.value = salaire
+    })
+
+
     watch(salaireDeBase, () => {
       updateValeurUnitaire();
       updateAllMontants();
@@ -716,6 +715,7 @@ export default defineComponent({
       typePrimeOptions,
       typePrimes,
       selectTypePrime,
+      salaire,
       removeRowPrime,
       addRowPrime,
       validateRowPrime,

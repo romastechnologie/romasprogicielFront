@@ -92,8 +92,8 @@
               <Multiselect
                 :searchable="true"
                 :options="[
-                  'Contrat à durée déterminée (CDD)',
-                  'Contrat à durée indéterminée (CDI)',
+                  'Prestation',
+                  'Contrat de travail',
                 ]"
                 v-model="contrat.categorieContrat"
                 placeholder="Sélectionner la catégorie de contrat"

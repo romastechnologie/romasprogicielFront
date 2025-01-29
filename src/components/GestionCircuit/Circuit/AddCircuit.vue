@@ -13,8 +13,6 @@
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>
-
-
             <div class="col-md-4 mb-3"> 
               <label for="Duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
               <div class="input-group">

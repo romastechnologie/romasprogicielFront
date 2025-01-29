@@ -115,11 +115,6 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-
-
-
-   
-
     function getNoteMission(id:number) {
       ApiService.get("/noteMissions/"+id.toString())
         .then(({ data }) => {
@@ -164,6 +159,7 @@ export default defineComponent({
 //       }
 //     });
 // };
+
 const getAllMissions = async () => {
       try {
         const response = await ApiService.get('/all/missions');
@@ -177,7 +173,6 @@ const getAllMissions = async () => {
         console.error(err);
       }
     };
-
 const editNoteMission = async (values, { resetForm }) => {
   try {
     const response = await ApiService.put(`/noteMissions/${values.id}`, values);

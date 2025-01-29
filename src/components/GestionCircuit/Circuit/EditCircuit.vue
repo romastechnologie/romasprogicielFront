@@ -27,6 +27,7 @@
                   <option value="Mois">Mois</option>
                   <option value="Annees">Années</option>
                 </select> -->
+
               </Field>
               </div>
               <div>
@@ -34,9 +35,6 @@
                 <ErrorMessage name="duree" class="text-danger"/> 
               </div>
             </div>
-
-
-
             <div class="col-md-12 mb-md-25">
               <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                 <div class="row">
@@ -237,7 +235,6 @@ export default defineComponent({
       personnel: []
     }]);
     
-
     const addRowCircuit = () => {
       etapevalidations.push({
         nom: "",
@@ -248,12 +245,10 @@ export default defineComponent({
         personnel:[]
       });
     };
-
     const removeRowCircuit = (index) => {
       if (etapevalidations.length > 1) etapevalidations.splice(index, 1);
       //totals();
     };
-
     watch(
       etapevalidations,
       (newValue) => {
@@ -270,7 +265,6 @@ export default defineComponent({
       },
       { deep: true }
     );
-
     const valideteRowCircuit = (e) => {
       if (e == "" || e == "" || e == "" || e == 0 || e == "0" || e == null || e < 0) {
         console.log('erg')
@@ -279,13 +273,7 @@ export default defineComponent({
         return false;
       }
     };
-
-
-
-
-
     typeDureeOptions.value = [{value:"jour(s)", label:"Jour(s)"}, {value:"mois", label:"Mois"},{value:"annees", label:"Annees"}]
-   
 
     function getCircuit(id:number) {
       ApiService.get("/circuits/"+id.toString())
@@ -350,8 +338,6 @@ export default defineComponent({
 //       }
 //     });
 // };
-
-
 
 const editCircuit = async (values, { resetForm }) => {
   try {
