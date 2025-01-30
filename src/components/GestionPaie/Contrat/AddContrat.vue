@@ -1439,8 +1439,8 @@ export default defineComponent({
     watch(fonctions, (newValue, oldValue) => {
       Object.keys(newValue).forEach(function (key) {
         if (
-          newValue[key].estActif == "" ||
-          newValue[key].fonction == "" ||
+          newValue[key].estActif == ""  ||
+          newValue[key].fonction == ""  ||
           newValue[key].organisation == "" ||
           newValue[key].dateDebut == "" ||
           newValue[key].dateFin == ""

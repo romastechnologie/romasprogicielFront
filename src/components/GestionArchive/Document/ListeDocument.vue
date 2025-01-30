@@ -288,10 +288,10 @@ export default defineComponent({
     const _tagDoc = ref('');
 
 
-    const handlePaginate = ({ page, limit }) => {
+    const handlePaginate = ({ page_, limit_ }:{ page_: number, limit_: number }) => {
       try {
-        page.value = page;
-        getAllDocuments(page, limit);
+        page.value = page_;
+        getAllDocuments(page_, limit_);
       } catch (error) {
         //
       }
@@ -408,7 +408,7 @@ const fetchCategorieDocuments = async () => {
 
 
     function getAllDocuments(page = 1, limi = 10, categorie = '' ,  typeDoc = '', dateFinConservation = '' ,searchTerm = '', _tagDoc='', _organisations='') {
-      return ApiService.get(`/documents?page=${page}&limit=${limi}&categoriedocument=${categorie}&typeDocument=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&organisation=${_organisations}&tagDoc=${_tagDoc}`)
+      return ApiService.get(`/documents?page=${page}&limit=${limi}&categoriedocument=${categorie}&typeDocument=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&organisation=${_organisations}&tagDoc=${_tagDoc}&`)
         .then(({ data }) => {
           documents.value = data.data.data;
           totalPages.value = data.data.totalPages;

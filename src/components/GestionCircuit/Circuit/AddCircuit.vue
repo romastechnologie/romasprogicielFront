@@ -13,8 +13,6 @@
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>
-
-
             <div class="col-md-4 mb-3"> 
               <label for="Duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
               <div class="input-group">
@@ -134,7 +132,6 @@
                         <div class="col-md-2 mb-2">
                           <div class="form-group ">
                           <Multiselect 
-                          
                           :close-on-select="false"
                           :options="roleOptions" 
                           :searchable="true" 
@@ -191,7 +188,7 @@ import { defineComponent, onMounted, reactive, ref, watch } from 'vue';
 import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
-import { Document } from '@/models/Document';
+import { Circuit } from "@/models/Circuit";
 import { error, success,ajouterPeriode } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';

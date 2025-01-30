@@ -315,7 +315,7 @@ export default defineComponent({
     const modeOptions = ref([]);
     const contrat = ref();
     const newContrat = ref();
-
+    const salaire = ref([]);
     const contratOptions = ref([]);
     const router = useRouter();
     const typePrimes = ref(null);
@@ -333,11 +333,10 @@ export default defineComponent({
         lesContrats.value = contratsData;
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label: contrat.salaireBase + "-" + contrat?.personnel?.nom,
+          label:contrat?.personnel?.nom + "-" + contrat?.typeContrat?.libelle +" "+ contrat?.datePriseFonction +"-"+ contrat?.dateFin,
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
-        // Gérer 
       }
     };
 
@@ -406,14 +405,6 @@ export default defineComponent({
         // H
       }
     };
-
-
-    watch(newContrat, (newValue, oldValue) => {
-      const cont = lesContrats.value.find((el) => el.id === newValue);
-      console.log('valeurs recupérées', cont);
-      salaireDeBase.value = cont.salaire;
-    })
-
     const getAllTypeRetenue = async () => {
       try {
         const response = await ApiService.get('/all/typeRetenues');
@@ -572,6 +563,19 @@ export default defineComponent({
       });
     };
 
+    watch(newContrat, (newValue, oldValue) => {
+  const count = lesContrats.value.find((el) => el.id === newValue);
+  console.log('Valeurs recupérées:', count);
+
+  if (count) {
+    salaireDeBase.value = count.salaire;
+  } else {
+    console.warn('Aucun contrat trouvé avec cet ID');
+    salaireDeBase.value = 0; 
+  }
+});
+
+
     watch(salaireDeBase, () => {
       updateValeurUnitaire();
       updateAllMontants();
@@ -716,6 +720,7 @@ export default defineComponent({
       typePrimeOptions,
       typePrimes,
       selectTypePrime,
+      salaire,
       removeRowPrime,
       addRowPrime,
       validateRowPrime,
