@@ -3,17 +3,17 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
             <Form ref="bienForm" @submit="addBien" :validation-schema="bienSchema">
               <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-4 mt-3">
                     <label for="ref" class="form-label">Référence<span class="text-danger">*</span></label>
                     <Field name="refBien" class="form-control" type="text"/>
                     <ErrorMessage name="refBien" class="text-danger" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                     <label for="nomBien" class="form-label">Nom du Bien<span class="text-danger">*</span></label>
                     <Field name="nomBien" class="form-control" type="text"/>
                     <ErrorMessage name="nomBien" class="text-danger" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mt-3">
                     <label for="coutAcquisition" class="form-label">Cout Acquisition<span class="text-danger">*</span></label>
                     <Field name="coutAcquisition" class="form-control" type="number"/>
                     <ErrorMessage name="coutAcquisition" class="text-danger" />
