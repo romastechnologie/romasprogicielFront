@@ -76,13 +76,13 @@
           <tbody>
             <tr v-for="(circuit, index) in circuits" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ circuit.nom }}
+                {{ circuit?.nom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ circuit?.Duree }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ circuit.typeDuree }}
+                {{ circuit?.typeDuree }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"

@@ -337,7 +337,6 @@ export default defineComponent({
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
-        // Gérer 
       }
     };
 
