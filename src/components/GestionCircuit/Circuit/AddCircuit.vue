@@ -287,6 +287,7 @@ export default defineComponent({
         return;
       }
       try{
+      
         values["etapeCircuit"]  =  etapevalidations.map((etape) => ({
           ordre:etape.ordre,
           duree:etape.duree,
@@ -295,6 +296,7 @@ export default defineComponent({
           role:etape.role,
           personnel:etape?.personnel,
         }))
+        console.log("values",values);
         const {data} = await ApiService.post("/circuits",values);
         if(data.code === 201){
           success(data.message);
