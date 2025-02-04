@@ -1497,6 +1497,11 @@ export default defineComponent({
           montant: retenue.montant,
           quantite: retenue.quantite,
         }));
+        
+        values["attributionpostes"]  = attributionpostes.map((attributionpostes) =>({
+
+       
+        }));
 
         values["horaireContrats"] = horaires.map((horraire) => ({
           jour:horraire.jour,
