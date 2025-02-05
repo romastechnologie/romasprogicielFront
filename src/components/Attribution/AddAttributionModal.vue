@@ -1,5 +1,4 @@
 <template>
-
   <div class="modal fade" id="AddAttributionModal" tabindex="-1" role="dialog" ref="addAttributionModalRef"
     aria-labelledby="tooltipmodal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -32,31 +31,6 @@
                   <ErrorMessage name="libelle" class="text-danger" />
                 </div>
               </div>
-              <div class="col-md-12 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Poste Occupé <span class="text-danger">*</span>
-              </label>
-        <Field  name="attributionpostes" type="text" v-slot="{ field }">
-              <Multiselect
-                :v-model="field.value"
-                :v-bind="field"
-                :options="fonctionOptions"
-                :preserve-search="true"
-                :multiple="true"
-                :group-select="true"
-                :searchable="false"
-                placeholder="Sélectionner le poste"
-                label="label"
-                track-by="label"
-                group-values="libs" 
-                group-label="language"
-
-              />
-            </Field>
-              <span class="invalid-feedback"></span>
-            </div>
-          </div>
 
               <button class="btn btn-primary" type="submit">
                 {{ btntext }}
@@ -124,7 +98,6 @@ export default {
     });
 
     onMounted(async () => {
-      fetchFonction();
     });
 
     const btnTitle = async () => {
@@ -193,20 +166,8 @@ export default {
       }
     };
 
-    const fonctionOptions = ref([]);
-    const fetchFonction = async () => {
-      try {
-        const response = await axios.get("all/postes");
-        const fonctionData = response.data.data.data;
-        console.log("ZZZZZZZZZZ ===> ", fonctionData);
-        fonctionOptions.value = fonctionData.map((fonction) => ({
-          value: fonction.id,
-          label: `${fonction.libelle}`,
-        }));
-      } catch (error) {
-        
-      }
-    };
+   
+   
     const resetValue = () => {
       const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
       isupdate.value = false;
@@ -216,7 +177,7 @@ export default {
       btnTitle()
     };
 
-    return { attributionSchema,fonctionOptions,fetchFonction, addAttribution, attributionForm, addAttributionsModalRef, btntext, title, resetValue, closeAttributionModal };
+    return { attributionSchema,addAttribution, attributionForm, addAttributionsModalRef, btntext, title, resetValue, closeAttributionModal };
   },
 };
 
