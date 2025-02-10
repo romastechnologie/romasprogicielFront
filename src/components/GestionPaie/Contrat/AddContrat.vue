@@ -992,7 +992,6 @@ export default defineComponent({
     const attribution = ref();
     const OrganisationOptions = ref();
     const Organisation = ref();
-
     const modeDeTarificationOptions = ref([]);
     const personnels = ref([] as any[]);
 
@@ -1240,6 +1239,15 @@ export default defineComponent({
       },
     ]);
 
+
+    const attribution_postes = reactive([
+  {
+        poste: "", 
+        attribution: "",
+  },
+]);
+
+
     const addRowPrime = () => {
       primes.push({
         typePrime: "",
@@ -1260,6 +1268,14 @@ export default defineComponent({
       });
     };
 
+    const addAttributionPoste = () => {
+     attribution_postes.push({
+        poste: "",
+        attribution: "",
+  });
+};
+
+
     const removeRowPrime = (index) => {
       if (primes.length > 1) {
         primes.splice(index, 1);
@@ -1278,6 +1294,17 @@ export default defineComponent({
     const validateRowRetenue = (value) => {
       return !value || value <= 0;
     };
+
+
+    const removeAttributionPoste = (index) => {
+       if(attribution_postes.length > 1 )
+       attribution_postes.splice(index, 1);
+};
+
+    const validateAttributionPoste = (value) => {
+      return !value || value <= 0;
+    };
+
 
     const calculerMontant = (item) => {
       const valeurUnitaire = item.valeurUnitaire || 1;
@@ -1465,7 +1492,7 @@ export default defineComponent({
           label: `${fonction.libelle}`,
         }));
       } catch (error) {
-        //
+        //Ecrire un message d'erreur ici 
       }
     };
 
@@ -1479,6 +1506,9 @@ export default defineComponent({
       console.log("retenues ===> ", retenues);
       console.log("fonctions ===> ", fonctions);
       console.log("horaireContrats ===> ", horaires);
+      console.log("horaireContrat ===> ", horaires);
+
+
 
       try {
         // Préparez les données avant l'envoi
@@ -1498,10 +1528,11 @@ export default defineComponent({
           quantite: retenue.quantite,
         }));
         
-        // values["attributionpostes"]  = attributionpostes.map((attributionpostes) =>({
 
-       
-        // }));
+        values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
+           poste: parseInt(attributionposte.poste.split("|")[0]), 
+           attribution: parseInt(attributionposte.attribution.split("|")[0]), 
+         }));
 
         values["horaireContrats"] = horaires.map((horraire) => ({
           jour:horraire.jour,
@@ -1611,6 +1642,9 @@ export default defineComponent({
       horaireContrats,
       isDisableeeeee,
       validateStep,
+      addAttributionPoste,
+      removeAttributionPoste,
+      validateAttributionPoste
     };
   },
 });
