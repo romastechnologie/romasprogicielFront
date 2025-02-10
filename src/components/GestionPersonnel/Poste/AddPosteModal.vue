@@ -42,7 +42,7 @@
                       placeholder="Sélectionner l'attribution" v-bind="field" label="label" track-by="value" />
                     <!-- <span class="text-danger">{{ errors[0] }}</span> -->
                   </Field>
-                  
+
                    <ErrorMessage name="attributionpostes" class="text-danger" />
                 </div>
               </div>
@@ -101,23 +101,19 @@ export default {
     const addPosteModalRef = ref<null | HTMLElement>(null);
     let postes = ref<Array<Poste>>([]);
     const attributionOptions = ref<number[]>([]);
-      const attributionpostes = ref<number[]>([]);
+    const attributionpostes = ref<number[]>([]);
     const title = ref('Ajouter un poste');
     const btntext = ref('Ajouter');
     const isupdate = ref(false);
     const router = useRouter();
 
-
     watch(() => props.id, (newValue) => {
       if (newValue != 0) {
-        // getPoste(newValue);
+        getPoste(newValue);
         isupdate.value = true;
       }
       btnTitle();
     });
-    // watch(() => values.attributionpostes, (newValue) => {
-    // console.log("Attribution sélectionnée :", newValue);
-    //   });
     const getPoste = async (id: number) => {
       return ApiService.get("/postes/" + id)
         .then(({ data }) => {
@@ -151,8 +147,8 @@ export default {
       loading.value = false;
 
       // Vérifie si values contient bien une liste d'attributions
-      console.log("values ===> ", values);
-      return;
+      // console.log("values ===> ", values);
+      // return;
 
       values["attribution"] = values.attributionpostes?.map((attribution) => ({
         id: attribution.value, // Si attributionOptions utilise { value: id, label: libelle }

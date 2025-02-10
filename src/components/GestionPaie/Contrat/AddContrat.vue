@@ -1492,7 +1492,7 @@ export default defineComponent({
           label: `${fonction.libelle}`,
         }));
       } catch (error) {
-        //
+        //Ecrire un message d'erreur ici 
       }
     };
 
