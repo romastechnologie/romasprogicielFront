@@ -72,9 +72,10 @@
                   {{ poste.libelle }}
               </td>
            <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+
             <span v-if="poste.attributionpostes && poste.attributionpostes.length > 0">
                 <span v-for="(val,index) in poste?.attributionpostes" :key="index">
-                     {{ val.attribution?.libelle }}
+                     {{ val.attribution?.libelle }}<span v-if="index < poste.attributionpostes.length - 1"> - </span>
                 </span>
               </span>
            </td>

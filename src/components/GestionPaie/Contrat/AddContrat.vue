@@ -994,6 +994,8 @@ export default defineComponent({
     const Organisation = ref();
     const modeDeTarificationOptions = ref([]);
     const personnels = ref([] as any[]);
+    const fonctionOptions = ref([]);
+
 
     const getAllTypeContrat = async () => {
       try {
@@ -1481,7 +1483,6 @@ export default defineComponent({
 
     const { remove, push, fields, update } = useFieldArray("fonctions");
 
-    const fonctionOptions = ref([]);
     const fetchFonction = async () => {
       try {
         const response = await axios.get("all/postes");
