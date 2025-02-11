@@ -18,7 +18,6 @@
           </form>
         </div>
       </div>
-
       <div class="col-md-12">
       <div class="row"> 
           <div class="col-md-3 mb-3">
@@ -123,7 +122,6 @@
           </div>
       </div>
       </div>
-
       <div class="card-body p-15 p-sm-20 p-md-25">
         <div class="table-responsive">
           <table class="table text-nowrap align-middle mb-0">
@@ -166,7 +164,6 @@
                 {{ val.regleType?.categoriedocument?.libelle || 'Non renseigné' }}
               </span>
             </td>
-
                 <td>
                   <span :class="getStatusClass(document.statut)">
                     {{ document.statut }}
@@ -271,7 +268,6 @@ export default defineComponent({
 
     const documents = ref<Array<any>>([]);
     const document = ref<Document>();
-
     const categorieOptions = ref([]);
     const typeOptions = ref([]);
     const tagOptions = ref();

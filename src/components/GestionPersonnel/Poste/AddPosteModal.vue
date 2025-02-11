@@ -195,7 +195,6 @@ export default {
           label: `${fonction.libelle}`,
         }));
       } catch (error) {
-
       }
     };
     const resetValue = () => {
