@@ -14,7 +14,6 @@
           <!-- <i class="fa fa-plus-circle"></i> -->
           Ajouter un poste
         </a>
-       
       </div>
       <div class="d-flex align-items-center">
         <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
@@ -42,20 +41,22 @@
             <tr>
               <th
                 scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Libelle
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">CODE
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >code
+              >LIBELLE
                 
               </th>
-             <!--<th
+
+              <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Date
-              </th>--> 
+              >ATTRIBUTIONS
+                
+              </th>
+          
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 "
@@ -70,6 +71,14 @@
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ poste.libelle }}
               </td>
+           <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+
+            <span v-if="poste.attributionpostes && poste.attributionpostes.length > 0">
+                <span v-for="(val,index) in poste?.attributionpostes" :key="index">
+                     {{ val.attribution?.libelle }}<span v-if="index < poste.attributionpostes.length - 1"> - </span>
+                </span>
+              </span>
+           </td>
               <td
                 class="shadow-none lh-1 fw-medium text-black pe-0 "
               >
@@ -180,7 +189,6 @@ export default defineComponent({
           error(response.data.message)
       });
     }
-    
     function moddifier(Editposte:Poste) {
       idposte.value = Editposte.id;
     }

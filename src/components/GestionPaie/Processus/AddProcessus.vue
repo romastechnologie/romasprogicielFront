@@ -1,7 +1,7 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-      <Form ref="processusForm" :validation-schema="processusSchema">
+      <Form ref="processusForm"  @submit="addProcessus" :validation-schema="processusSchema">
         <div class="row">
           <div class="col-md-3 mb-3">
             <label for="dateProcessus" class="form-label">
@@ -140,7 +140,6 @@
                       readonly
                     />
                   </div>
-
                   <div class="col-md-6 mb-3">
                     <label
                       >Total des retenues
@@ -514,7 +513,6 @@
               <button
                 class="btn btn-success me-3"
                 type="submit"
-                @click.prevent="addPaie"
               >
                 Ajouter un processus
               </button>
@@ -627,7 +625,7 @@ export default defineComponent({
 
     const getAllModePaiements = async () => {
       try {
-        const response = await ApiService.get("/modepaiements");
+        const response = await ApiService.get("all/modepaiements");
         const modesData = response.data.data.data;
         modeOptions.value = modesData.map((mode) => ({
           value: mode.id,
@@ -899,54 +897,63 @@ export default defineComponent({
       { deep: true }
     );
 
-    const addPaie = async () => {
-      try {
-        const values = payments.map((payment) => ({
-          contrat: payment.contrat,
-          refPaie: payment.refPaie,
-          datePaie: payment.datePaie,
-          periode: payment.periode,
-          modes: payment.modes,
-          salaireBrut: payment.salaireBrut,
-          totalRetenues: payment.totalRetenues,
-          totalPrimes: payment.totalPrimes,
-          salaireNet: payment.salaireNet,
-          primes: payment.primes.map((prime) => ({
-            typePrime: parseInt(prime.typePrime.split("|")[0]),
-            valeur: parseInt(prime.valeur),
-            valeurUnitaire: prime.valeurUnitaire,
-            montant: prime.montant,
-            quantite: prime.quantite,
-          })),
-          retenues: payment.retenues.map((retenue) => ({
-            typeRetenue: parseInt(retenue.typeRetenue.split("|")[0]),
-            valeur: parseInt(retenue.valeur),
-            valeurUnitaire: retenue.valeurUnitaire,
-            montant: retenue.montant,
-            quantite: retenue.quantite,
-          })),
-        }));
+    const addProcessus = async (values: any, { resetForm }) => {
+  if (!payments || payments.length === 0) {
+    console.error("Aucun paiement trouvé !");
+    error("Aucune donnée de paiement disponible.");
+    return;
+  }
+  values = payments.map((payment) => ({
+    contrat: payment.contrat,
+    refPaie: payment.refPaie,
+    datePaie: payment.datePaie,
+    periode: payment.periode,
+    modes: payment.modes,
+    salaireBrut: payment.salaireBrut,
+    totalRetenues: payment.totalRetenues,
+    totalPrimes: payment.totalPrimes,
+    salaireNet: payment.salaireNet,
+    primes: payment.primes.map((prime) => ({
+      typePrime: parseInt(prime.typePrime.split("|")[0]),
+      valeur: parseInt(prime.valeur),
+      valeurUnitaire: prime.valeurUnitaire,
+      montant: prime.montant,
+      quantite: prime.quantite,
+    })),
+    retenues: payment.retenues.map((retenue) => ({
+      typeRetenue: parseInt(retenue.typeRetenue.split("|")[0]),
+      valeur: parseInt(retenue.valeur),
+      valeurUnitaire: retenue.valeurUnitaire,
+      montant: retenue.montant,
+      quantite: retenue.quantite,
+    })),
+  }));
 
-        const response = await ApiService.post("/gescom/paies", values);
-        if (response.data.code === 201) {
-          console.log("Paiement ajouté avec succès");
-          router.push({ name: "ListePrcessus" });
-        }
-      } catch (error) {
-        console.error("Erreur lors de l'ajout du paiement", error);
+  console.log("Données envoyées", values);
+
+  ApiService.post("/processuspaies", values) 
+    .then(({ data }) => {
+      if (data.code === 201) {
+        success(data.message);
+        console.log("Processus ajouté avec succès", data);
+        router.push({ name: "ListeProcessus" });
       }
-    };
+    })
+    .catch((err) => {
+      console.error("Erreur lors de l'ajout du processus :", err);
+      error(err?.response?.data?.message || "Une erreur s'est produite.");
+    });
+};
 
     return {
       processusSchema,
       processusForm,
-
-      //paie
       typePrimeOptions,
       typePrimes,
       selectTypePrime,
       removeRowPrime,
       addRowPrime,
+      addProcessus,
       isDisable,
       salaireDeBase,
       typeRetenueOptions,
@@ -968,7 +975,7 @@ export default defineComponent({
       contratOptions,
       addPayment,
       removePayment,
-      addPaie,
+      // addPaie,
       toggleAccordion,
       validateRowPrime,
       validateRowRetenue,
