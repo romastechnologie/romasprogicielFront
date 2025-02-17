@@ -367,6 +367,11 @@ export const menu: MenuItem[] = [
                 title: "Liste des autres demandes",
                 type: "link"
             },
+            {
+                path: "/demandes/liste-demande-validation",
+                title: "Liste des validations",
+                type: "link"
+            },
 
         ]
        
