@@ -132,7 +132,7 @@
                         <div class="col-md-2 mb-2">
                           <div class="form-group ">
                           <Multiselect 
-                          :close-on-select="false"
+                          
                           :options="roleOptions" 
                           :searchable="true" 
                           :multiple="false"
