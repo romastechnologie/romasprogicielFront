@@ -1,30 +1,31 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-      <Form ref="processusForm"  @submit="addProcessus" :validation-schema="processusSchema">
+      <Form ref="processusForm" @submit="add_Processus" :validation-schema="processusSchema">
         <div class="row">
+
           <div class="col-md-3 mb-3">
-            <label for="dateProcessus" class="form-label">
-              Date débit Processus<span class="text-danger">*</span></label
-            >
-            <Field name="dateProcessus" class="form-control" type="Date" />
-            <ErrorMessage name="dateProcessus" class="text-danger" />
+            <label for="dateDebutProcessus" class="form-label">
+              Date début Processus<span class="text-danger">*</span>
+            </label>
+            <Field name="dateDebutProcessus" class="form-control" type="Date" />
+            <ErrorMessage name="dateDebutProcessus" class="text-danger" />
           </div>
 
           <div class="col-md-3 mb-3">
-            <label for="dateProcessus" class="form-label">
-              Date fin Processus<span class="text-danger">*</span></label
+            <label for="dateFinProcessus" class="form-label">
+              Date Fin Processus<span class="text-danger">*</span></label
             >
             <Field name="dateFinProcessus" class="form-control" type="Date" />
             <ErrorMessage name="dateFinProcessus" class="text-danger" />
           </div>
 
           <div class="col-md-3 mb-3">
-            <label for="periode" class="form-label">
+            <label for="periodePaie" class="form-label">
               Période<span class="text-danger">*</span></label
             >
-            <Field name="periode" class="form-control" type="Date" />
-            <ErrorMessage name="periode" class="text-danger" />
+            <Field name="periodePaie" class="form-control" type="Date" />
+            <ErrorMessage name="periodePaie" class="text-danger" />
           </div>
 
           <!-- Paie-->
@@ -140,6 +141,7 @@
                       readonly
                     />
                   </div>
+
                   <div class="col-md-6 mb-3">
                     <label
                       >Total des retenues
@@ -163,7 +165,7 @@
                       type="number"
                       class="form-control"
                       readonly
-                    />
+                    />   
                   </div>
 
                   <div class="col-md-6 mb-3">
@@ -561,15 +563,9 @@ export default defineComponent({
 
   setup: () => {
     const processusSchema = Yup.object().shape({
-      debutProcessus: Yup.date()
-        .typeError("Entrer une date valide")
-        .required("La date est obligatoire."),
-      periode: Yup.date()
-        .typeError("Entrer une date valide")
-        .required("La période est obligatoire."),
-      dateFinProcessus: Yup.date()
-        .typeError("Entrer une date valide")
-        .required("La période est obligatoire."),
+      dateProcessus: Yup.date().typeError("Entrer une date valide").required("La date est obligatoire."),
+      periode: Yup.date().typeError("Entrer une date valide").required("La période est obligatoire."),
+      dateFinProcessus: Yup.date().typeError("Entrer une date valide").required("La période est obligatoire."),
     });
 
     const processusForm = ref(null);
@@ -603,7 +599,7 @@ export default defineComponent({
         }));
       } catch (error) {
         console.error("Error fetching contrats:", error);
-        // Gérer
+      
       }
     };
 
@@ -625,7 +621,7 @@ export default defineComponent({
 
     const getAllModePaiements = async () => {
       try {
-        const response = await ApiService.get("all/modepaiements");
+        const response = await ApiService.get("/all/modepaiements");
         const modesData = response.data.data.data;
         modeOptions.value = modesData.map((mode) => ({
           value: mode.id,
@@ -897,63 +893,69 @@ export default defineComponent({
       { deep: true }
     );
 
-    const addProcessus = async (values: any, { resetForm }) => {
-  if (!payments || payments.length === 0) {
-    console.error("Aucun paiement trouvé !");
-    error("Aucune donnée de paiement disponible.");
+const add_Processus = async (values) => {
+  
+  if (!values || Object.keys(values).length === 0) {
+    console.error("Erreur : L'objet 'values' est vide ou indéfini !");
     return;
   }
-  values = payments.map((payment) => ({
-    contrat: payment.contrat,
-    refPaie: payment.refPaie,
-    datePaie: payment.datePaie,
-    periode: payment.periode,
-    modes: payment.modes,
-    salaireBrut: payment.salaireBrut,
-    totalRetenues: payment.totalRetenues,
-    totalPrimes: payment.totalPrimes,
-    salaireNet: payment.salaireNet,
-    primes: payment.primes.map((prime) => ({
-      typePrime: parseInt(prime.typePrime.split("|")[0]),
-      valeur: parseInt(prime.valeur),
-      valeurUnitaire: prime.valeurUnitaire,
-      montant: prime.montant,
-      quantite: prime.quantite,
-    })),
-    retenues: payment.retenues.map((retenue) => ({
-      typeRetenue: parseInt(retenue.typeRetenue.split("|")[0]),
-      valeur: parseInt(retenue.valeur),
-      valeurUnitaire: retenue.valeurUnitaire,
-      montant: retenue.montant,
-      quantite: retenue.quantite,
-    })),
-  }));
+  try {
+    console.log("test", values);
+      //  values["dateProcessus"] = new Date().toISOString().split("T")[0];
+      //  values["dateDebutProcessus"] = values["dateDebutProcessus"] ? new Date(values["dateDebutProcessus"]).toISOString().split("T")[0] : null;
+      //  values["dateFinProcessus"] = values["dateFinProcessus"] ? new Date(values["dateFinProcessus"]).toISOString().split("T")[0] : null;
+      //  values["periodePaie"] = values["periodePaie"] || "";
+      values["paiements"] = payments.map((payment) => ({
+      contrat: payment.contrat,
+      refPaie: payment.refPaie,
+      datePaie: payment.datePaie,
+      periode: payment.periode,
+      modes: payment.modes,
+      salaireBrut: payment.salaireBrut,
+      totalRetenues: payment.totalRetenues,
+      totalPrimes: payment.totalPrimes,
+      salaireNet: payment.salaireNet,
+      primes: payment.primes.map((prime) => ({
+        typePrime: prime.typePrime,
+        montant: prime.montant,
+        valeurUnitaire: prime.valeurUnitaire,
+        quantite: prime.quantite,
+        valeur: prime.valeur,
+        desactive: prime.desactive,
+      })),
+      retenues: payment.retenues.map((retenue) => ({
+        typeRetenue: retenue.typeRetenue,
+        montant: retenue.montant,
+        valeurUnitaire: retenue.valeurUnitaire,
+        quantite: retenue.quantite,
+        valeur: retenue.valeur,
+        desactive: retenue.desactive,
+      })),
+    }));
 
-  console.log("Données envoyées", values);
-
-  ApiService.post("/processuspaies", values) 
-    .then(({ data }) => {
-      if (data.code === 201) {
-        success(data.message);
-        console.log("Processus ajouté avec succès", data);
-        router.push({ name: "ListeProcessus" });
-      }
-    })
-    .catch((err) => {
-      console.error("Erreur lors de l'ajout du processus :", err);
-      error(err?.response?.data?.message || "Une erreur s'est produite.");
-    });
+    console.log("values", values);
+    const { data } = await ApiService.post("/processuspaies", values);
+    if (data.code === 201) {
+      success(data.message);
+      router.push({ name: "ListeProcessus" });
+    }
+  } catch (err) {
+    console.error("Erreur d'API :", err);
+  }
 };
+
+     
 
     return {
       processusSchema,
       processusForm,
+
+      //paie
       typePrimeOptions,
       typePrimes,
       selectTypePrime,
       removeRowPrime,
       addRowPrime,
-      addProcessus,
       isDisable,
       salaireDeBase,
       typeRetenueOptions,
@@ -975,7 +977,7 @@ export default defineComponent({
       contratOptions,
       addPayment,
       removePayment,
-      // addPaie,
+      add_Processus,
       toggleAccordion,
       validateRowPrime,
       validateRowRetenue,
