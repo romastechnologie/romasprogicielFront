@@ -1,4 +1,4 @@
-export  interface Vente {
+export  interface Validation {
     id: number;
     statut: string;
     dateValidation: Date;
