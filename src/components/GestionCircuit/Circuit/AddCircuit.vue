@@ -220,7 +220,6 @@ export default defineComponent({
     const roleOptions=ref([]);
     const typeDureeOptions = ref([]);
     const personnelOptions = ref();
-
     const isDisable = ref(true);
     const typeDuree = ref();
     const Duree = ref();
@@ -278,7 +277,7 @@ export default defineComponent({
 
     const { remove, push, fields, update } = useFieldArray("circuits");
 
-
+  
     typeDureeOptions.value = [{value:"jour(s)", label:"Jour(s)"}, {value:"mois", label:"Mois"},{value:"annees", label:"Annees"}]
 
     const addCircuit = async (values) => {
@@ -300,7 +299,7 @@ export default defineComponent({
         const {data} = await ApiService.post("/circuits",values);
         if(data.code === 201){
           success(data.message);
-          router.push({name: "ListeCircuitPage"});
+          router.push({name: "ListeProcessus"});
         }
 
       }catch(err){

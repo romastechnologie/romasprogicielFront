@@ -53,18 +53,18 @@
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
                   Date du processus
+                </th> 
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                  Date Debut du Processus
                 </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
-                  Date début du processus
-                </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                  Date fin du processus
+                  Date Fin du Processus
                 </th>
                 <th
                   scope="col"
