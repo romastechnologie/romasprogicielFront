@@ -67,6 +67,12 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
+                Demandeur
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
                 Statut
               </th>
               <th
@@ -99,24 +105,23 @@
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ validation.demande?.categorie?.libelle }}
               </td>
+              <td class="shadow-none lh-1 fw-medium ">{{  validation.demande?.personnel?.nom }}&nbsp;{{  validation.demande?.personnel?.prenom }} </td>  
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ validation.statut }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ validation.dateValidation }}
               </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ validation.commentaire }}
-              </td>
+             
+              <td class="shadow-none lh-1 fw-medium">{{ (validation.commentaire.length > 25) ? validation.commentaire.substring(0, 25) + '...' : validation.commentaire  }} </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
               <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
+                <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                </button>
+              <ul class="dropdown-menu">
                    
                     <li >
                       <a
