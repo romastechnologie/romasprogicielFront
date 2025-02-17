@@ -70,7 +70,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import { error, success } from '@/utils/utils';
 import { useRouter } from "vue-router";
 import ApiService from '@/services/ApiService';
-import { Validation } from '@/models/Validation';
+import { Validation } from "@/models/Validation";
 import * as Yup from 'yup';
 import axios from 'axios';
 
