@@ -208,4 +208,4 @@ const checkPermission = (name) => {
     };
   },
 });
-</script> , corrige moi ce code pour que je puisse récupérer les valeurs des champs sur Ajouter Demande
+</script> 
