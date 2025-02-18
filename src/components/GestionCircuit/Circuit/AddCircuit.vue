@@ -299,7 +299,7 @@ export default defineComponent({
         const {data} = await ApiService.post("/circuits",values);
         if(data.code === 201){
           success(data.message);
-          router.push({name: "ListeCircuit"});
+          router.push({name: "ListeCircuitPage"});
         }
 
       }catch(err){
