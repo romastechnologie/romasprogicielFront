@@ -81,7 +81,7 @@
                         <div class="col-md-3">
                     <div class="form-group mb-15 mb-sm-20 mb-md-25">
                       <label class="d-block text-black fw-semibold mb-10">
-                          Personnels <span class="text-danger">*</span>
+                          Users <span class="text-danger">*</span>
                       </label>  
                       </div>
                     </div>
@@ -146,12 +146,12 @@
                           <Multiselect 
                           mode="tags"
                           :close-on-select="false"
-                          :options="personnelOptions" 
+                          :options="userOptions" 
                           :searchable="true" 
                           :multiple="true"
-                          v-model="circuit.personnel"
-                          placeholder="Sélectionner les personnels"/>
-                        <span class="invalid-feedback" v-if="valideteRowCircuit(circuit.personnel)"></span>
+                          v-model="circuit.user"
+                          placeholder="Sélectionner les users"/>
+                        <span class="invalid-feedback" v-if="valideteRowCircuit(circuit.user)"></span>
                           </div>
                         </div>
                         
@@ -160,7 +160,7 @@
                             @click="removeRowCircuit(index)">
                             <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                             </button>
-                      </div> 
+                      </div>  
                       </div>
                     </div>
                   </div>
@@ -219,7 +219,7 @@ export default defineComponent({
     const router = useRouter();
     const roleOptions=ref([]);
     const typeDureeOptions = ref([]);
-    const personnelOptions = ref();
+    const userOptions = ref([]);
     const isDisable = ref(true);
     const typeDuree = ref();
     const Duree = ref();
@@ -230,7 +230,7 @@ export default defineComponent({
       ordre: "",
       duree: "",
       typeDuree: "",
-      personnel: []
+      user: []
     }]);
 
     const addRowCircuit = () => {
@@ -240,7 +240,7 @@ export default defineComponent({
         ordre: "",
         duree: "",
         typeDuree: "",
-        personnel:[]
+        user:[]
       });
     };
 
@@ -260,7 +260,7 @@ export default defineComponent({
           valideteRowCircuit(circuit.role) ||
           valideteRowCircuit(circuit.duree)||
           valideteRowCircuit(circuit.typeDuree)||
-          valideteRowCircuit(circuit.personnel)
+          valideteRowCircuit(circuit.user)
         );
       },
       { deep: true }
@@ -293,13 +293,13 @@ export default defineComponent({
           typeDuree:etape.typeDuree,
           nom:etape.nom,
           role:etape.role,
-          personnel:etape?.personnel,
+          user:etape?.user,
         }))
         console.log("values",values);
         const {data} = await ApiService.post("/circuits",values);
         if(data.code === 201){
           success(data.message);
-          router.push({name: "ListeProcessus"});
+          router.push({name: "ListeCircuit"});
         }
 
       }catch(err){
@@ -328,14 +328,14 @@ export default defineComponent({
 
     
 
-    const getAllPersonnels = async () => {
+    const getAllUsers = async () => {
       try{
-      const response = await ApiService.get('/all/personnels');
+      const response = await ApiService.get('/users');
       const canalsData = response.data.data.data;
       console.log('Data',canalsData)
-      personnelOptions.value = canalsData.map((personnel) => ({
-        value:personnel.id,
-        label:personnel.nom + " " + personnel.prenom ,
+      userOptions.value = canalsData.map((user) => ({
+        value:user.id,
+        label:user.nom + '' + user.prenom,
       }));
       }
       catch (error) {
@@ -359,7 +359,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      getAllPersonnels();
+      getAllUsers();
       getAllRoleEtaps();
     })
     
@@ -369,7 +369,7 @@ export default defineComponent({
       isDisable,
       etapevalidations,removeRowCircuit,
       addRowCircuit,
-      valideteRowCircuit,personnelOptions,roleOptions,
+      valideteRowCircuit,userOptions,roleOptions,
       };
     
   },
