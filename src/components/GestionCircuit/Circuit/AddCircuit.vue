@@ -306,10 +306,6 @@ export default defineComponent({
         console.error("Erreur d'API :", err);
       }
 
-
-
-
-
     //   console.log("top icieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
     //   values["etapes"]=circuits;
     //   console.log("top ici",values);
@@ -325,9 +321,6 @@ export default defineComponent({
     //       error(response.data.message);
     //     });
     };
-
-    
-
     const getAllUsers = async () => {
       try{
       const response = await ApiService.get('/users');
