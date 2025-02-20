@@ -16,7 +16,7 @@
             <div class="col-md-4 mb-3"> 
               <label for="Duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
               <div class="input-group">
-                <Field  name="duree" id="duree" class="form-control" type="number" placeholder="Entrez la durée"/>
+                <Field  name="Duree" id="Duree" class="form-control" type="number" placeholder="Entrez la durée"/>
                 <Field name="typeDuree"  type="text"  v-slot="{ field }">
                 <select  v-model = "field.value" v-bind = "field"  class="form-select form-control" style="width: 20px !important;">
                   <option value="...">...</option>
@@ -28,11 +28,9 @@
               </div>
               <div>
                 <ErrorMessage name="typeDuree" class="text-danger"/>
-                <ErrorMessage name="duree" class="text-danger"/> 
+                <ErrorMessage name="Duree" class="text-danger"/> 
               </div>
             </div>
-
-
             <div class="col-md-12 mb-md-25">
               <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                 <div class="row">
@@ -114,8 +112,8 @@
                         </div>
                         <div class="col-md-2 mb-2">
                           <div class="input-group">
-                      <input v-model="circuit.duree" class="form-control" type="number" for="inputGroupSelect01" >
-                      <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
+                      <input v-model="circuit.Duree" class="form-control" type="number" for="inputGroupSelect01" >
+                      <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.Duree)">
                             La durée est obligatoire
                           </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
@@ -207,7 +205,7 @@ export default defineComponent({
   setup: () => {
     const circuitSchema = Yup.object().shape({
       nom: Yup.string().required("Le nom est obligatoire."),
-      duree: Yup.number().typeError("").required("La durée est obligatoire."),
+      Duree: Yup.number().typeError("").required("La durée est obligatoire."),
       typeDuree: Yup.string().required("Le type de duree est obligatoire."),
     });
 
@@ -228,7 +226,7 @@ export default defineComponent({
       nom: "",
       role: "",
       ordre: "",
-      duree: "",
+      Duree: "",
       typeDuree: "",
       user: []
     }]);
@@ -238,7 +236,7 @@ export default defineComponent({
         nom: "",
         role: "",
         ordre: "",
-        duree: "",
+        Duree: "",
         typeDuree: "",
         user:[]
       });
@@ -258,7 +256,7 @@ export default defineComponent({
           valideteRowCircuit(circuit.nom) ||
           valideteRowCircuit(circuit.ordre) ||
           valideteRowCircuit(circuit.role) ||
-          valideteRowCircuit(circuit.duree)||
+          valideteRowCircuit(circuit.Duree)||
           valideteRowCircuit(circuit.typeDuree)||
           valideteRowCircuit(circuit.user)
         );
@@ -289,11 +287,11 @@ export default defineComponent({
       
         values["etapeCircuit"]  =  etapevalidations.map((etape) => ({
           ordre:etape.ordre,
-          duree:etape.duree,
+          Duree:etape.Duree,
           typeDuree:etape.typeDuree,
           nom:etape.nom,
           role:etape.role,
-          user:etape?.user,
+          user:etape.user,
         }))
         console.log("values",values);
         const {data} = await ApiService.post("/circuits",values);
@@ -301,7 +299,6 @@ export default defineComponent({
           success(data.message);
           router.push({name: "ListeCircuitPage"});
         }
-
       }catch(err){
         console.error("Erreur d'API :", err);
       }
