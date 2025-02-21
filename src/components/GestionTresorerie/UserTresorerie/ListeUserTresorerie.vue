@@ -12,7 +12,7 @@
           >
           <i class="fa fa-plus-circle"></i>
             <!-- <i class="fa fa-plus-circle"></i> -->
-                Ajouter
+                Ajouter une tresorerie
                 
               </a>
           <!-- <button

@@ -159,9 +159,6 @@ export default {
       error(response.data.message);
     });
 };
-        
-
-
         const getAllPersonnels= async () => {
           try{
           const response = await ApiService.get('/all/personnels');
@@ -177,8 +174,6 @@ export default {
             //error(response.data.message)
           }
         } 
-    
-
         const getAllTresoreries= async () => {
           try{
           const response = await ApiService.get('/all/tresoreries');
@@ -231,7 +226,6 @@ export default {
                             hideModal(addUserTresorerieModalRef.value);
                             //router.push('/pannes/liste-panne');
                             emit("refreshUserTresoreries");
-
                         }
                     }).catch(({ response }) => {
                         error(response.message);
