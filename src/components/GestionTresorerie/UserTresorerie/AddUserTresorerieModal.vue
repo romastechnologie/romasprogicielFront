@@ -39,6 +39,7 @@
                                   <ErrorMessage name="tresorerie" class="text-danger" />
                                 </div>
                             </div>
+                          
                             <button class="btn btn-primary" type="submit">
                                 {{ btntext }}
                             </button>
@@ -88,11 +89,8 @@ export default {
         const usertresorerieSchema = Yup.object().shape({
             //code: Yup.string().required('Le code est obligatoire'),
             personnel: Yup.string().required('Utilisateur est obligatoire'),
-            tresorerie: Yup.string().required('La tresorerie est obligatoire'),
-
+            tresorerie: Yup.string().required('La tresorerie est obligatoire')
         });
-
-
         const usertresorerienew = ref(props.id);
         const usertresorerieForm = ref<UserTresorerie | null>(null);
         const addUserTresorerieModalRef = ref<null | HTMLElement>(null);
@@ -110,8 +108,6 @@ export default {
         getAllPersonnels();
         getAllTresoreries();
       });
-  
-
         watch(() => props.id, (newValue) => {
             if (newValue != 0) {
                 getUserTresorerie(newValue);

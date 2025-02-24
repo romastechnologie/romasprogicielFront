@@ -16,7 +16,7 @@
             <div class="col-md-2 mb-2"> 
               <label for="Duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
               <div class="input-group">
-                <Field  name="duree" id="duree" class="form-control" type="number" v-model="duree" placeholder="Entrez la durée"/> 
+                <Field  name="Duree" id="Duree" class="form-control" type="number" v-model="duree" placeholder="Entrez la durée"/> 
                 <Field name="typeDuree"  type="text"  v-model="typeDuree"  v-slot="{ field }">
                   <Multiselect v-model="field.value" v-bind="field" :options="typeDureeOptions" :preserve-search="true"
                    :multiple="false" :searchable="true" placeholder="Sélectionner le type de duree"
@@ -32,7 +32,7 @@
               </div>
               <div>
                 <ErrorMessage name="typeDuree" class="text-danger"/>
-                <ErrorMessage name="duree" class="text-danger"/> 
+                <ErrorMessage name="Duree" class="text-danger"/> 
               </div>
             </div>
             <div class="col-md-12 mb-md-25">
@@ -118,7 +118,7 @@
                           <div class="input-group">
                       <input v-model="circuit.duree" class="form-control" type="number" for="inputGroupSelect01" >
                       <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
-                            La durée est obligatoire
+                            La Durée est obligatoire
                           </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
                         <option value="...">...</option>
