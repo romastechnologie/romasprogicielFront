@@ -237,11 +237,6 @@ export default defineComponent({
           error(response.data.message)
         });
     }
-
-   
-
-
-          
     const getEtatBadge = (statut: boolean | null) => {
   if (statut === true) {
     return {
@@ -264,7 +259,7 @@ export default defineComponent({
 function triggerButtonClick(buttonId: string) {
   const button = document.getElementById(buttonId) as HTMLButtonElement;
   if (button) {
-    button.click(); // Simule un clic
+    button.click(); 
   } else {
     console.error(`Button with ID "${buttonId}" not found.`);
   }

@@ -91,8 +91,6 @@
                 <th>Heure de debut de Pause</th>
                 <th>Heure de fin de Pause</th>
                 <th>Heure de fermeture</th>
-
-
               </tr>
             </thead>
             <tbody>

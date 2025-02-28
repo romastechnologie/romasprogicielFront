@@ -19,6 +19,7 @@
               type="text"
               v-model="searchTerm"
               @keyup="rechercher"
+              name="mot"
               class="form-control shadow-none text-black"
               placeholder="Rechercher"
             />
@@ -93,8 +94,6 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ contrat.nobreheuresTravail }} </td>
                  <!--<td class="shadow-none lh-1 fw-medium ">{{ contrat.typeContrat.libelle }} </td>-->
                   <td class="shadow-none lh-1 fw-medium">{{ format_date(contrat.createdAat) }} </td>
-                 
-                
                 <td
                   class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
                 >
@@ -171,7 +170,7 @@ export default defineComponent({
         page.value = page_;
         getAllContrats(page_, limit_);
       } catch (error) {
-        //
+        
       }
     };
      function rechercher(){

@@ -399,7 +399,7 @@ const fetchCategorieDocuments = async () => {
 
  
      function rechercher()  {
-  getAllDocuments(page.value, limit.value,searchTerm.value, categorie.value,typeDoc.value,dateFinConservation.value,_tagDoc.value,_organisations.value);
+  getAllDocuments(page.value, limit.value,categorie.value,typeDoc.value,dateFinConservation.value,searchTerm.value,_tagDoc.value,_organisations.value);
 };
 
 

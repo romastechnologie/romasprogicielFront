@@ -12,7 +12,7 @@
           >
           <i class="fa fa-plus-circle"></i>
             <!-- <i class="fa fa-plus-circle"></i> -->
-                Ajouter
+                Ajouter une tresorerie
                 
               </a>
           <!-- <button
@@ -52,7 +52,6 @@
           <table class="table text-nowrap align-middle mb-0">
             <thead>
               <tr>
-                
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Personnel
@@ -65,7 +64,6 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >DATE DE CREATION
-                  
                 </th>
                 <th
                   scope="col"
@@ -142,7 +140,6 @@
       onMounted(() => {
         getAllUserTresoreries();
       });
-  
       const usertresoreries = ref<Array<UserTresorerie>>([]);
       const idusertresorerie = ref(0);
       // const panne = ref<Panne>();
@@ -164,7 +161,6 @@
           //
         }
       };
-  
        function rechercher(){
         getAllUserTresoreries(page.value, limit.value, searchTerm.value );
       }
@@ -178,7 +174,6 @@
         loading.value=false;
         getAllUserTresoreries()
       });
-  
       const refreshUserTresoreries = () => {
           getAllUserTresoreries();
       };
@@ -197,11 +192,9 @@
             error(response.data.message)
         });
       }
-      
       function moddifier(Editusertresorerie:UserTresorerie) {
         idusertresorerie.value = Editusertresorerie.id;
       }
-  
       function showModalEdite(model:any){
         showModal(model);
         idusertresorerie.value=0;
@@ -212,7 +205,6 @@
       const checkUserTresorerie = (name:string) => {
         return privileges.value.includes(name);
       }
-  
       return {suppression,
         checkUserTresorerie,
        usertresoreries,
@@ -232,7 +224,5 @@
         refreshUserTresoreries,
        };
     },
-  
-   
   });
   </script>

@@ -206,6 +206,7 @@ export default {
     const emplacement = ref();
     const typeEmplacement = ref();
     const etatEmplacement = ref(true);
+   
 
     watch(
       () => props.id,
@@ -226,7 +227,6 @@ export default {
     onBeforeMount(() => {
       
     });
-
     onMounted(async () => {
       
       if (!isLoaded.value) {
@@ -234,7 +234,6 @@ export default {
         await getAllTypeEmplacements();
       }
     });
-
     const getEmplacement = async (id: number) => {
       return ApiService.get("/emplacements/" + id)
         .then(async ({ data }) => {
@@ -315,6 +314,7 @@ export default {
       ) {
         const type = objetTrouv.typeemplacement;
         await getLesEmplacements(type.id);
+        
       } else {
         emplacementOptions.value = [];
         emplacementEtat.value = true;
