@@ -111,9 +111,9 @@
                           </div>
                         </div>
                         <div class="col-md-2 mb-2">
-                          <div class="input-group">
-                      <input v-model="circuit.Duree" class="form-control" type="number" for="inputGroupSelect01" >
-                      <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.Duree)">
+                        <div class="input-group">
+                      <input v-model="circuit.duree" class="form-control" type="number" for="inputGroupSelect01" >
+                          <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
                             La durée est obligatoire
                           </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
@@ -217,12 +217,7 @@ export default defineComponent({
     const router = useRouter();
     const roleOptions=ref([]);
     const typeDureeOptions = ref([]);
-<<<<<<< HEAD
-    const personnelOptions = ref();
-
-=======
     const userOptions = ref([]);
->>>>>>> f1a4e6eb8c25cc70f274b16d2936c43317ac88df
     const isDisable = ref(true);
     const typeDuree = ref();
     const Duree = ref();

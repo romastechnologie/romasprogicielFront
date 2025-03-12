@@ -275,7 +275,7 @@ export default defineComponent({
         if (data.code === 201) {
           success(data.message);
           resetForm();
-          router.push({ name: "ListeFournisseurPage" });
+          router.push({ name: "ListeFournisseur" });
         }
       } catch (err) {
         error(err.response?.data?.message || "Une erreur s'est produite");
