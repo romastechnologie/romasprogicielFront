@@ -176,13 +176,13 @@
                   </span>
                   <ul class="dropdown-menu">
                     <li >
-                      <router-link :to="{ name: 'EditFournisseurPage', params: { id: fournisseur.id } }" 
+                      <router-link :to="{ name: 'EditFournisseur', params: { id: fournisseur.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'ViewFournisseurPage', params: { id: fournisseur.id } }" class="dropdown-item d-flex align-items-center">
+                        <router-link :to="{ name: 'ViewFournisseur', params: { id: fournisseur.id } }" class="dropdown-item d-flex align-items-center">
                             <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
                         </router-link>
                     </li>

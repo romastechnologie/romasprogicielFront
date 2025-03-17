@@ -111,9 +111,9 @@
                           </div>
                         </div>
                         <div class="col-md-2 mb-2">
-                          <div class="input-group">
-                      <input v-model="circuit.Duree" class="form-control" type="number" for="inputGroupSelect01" >
-                      <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.Duree)">
+                        <div class="input-group">
+                      <input v-model="circuit.duree" class="form-control" type="number" for="inputGroupSelect01" >
+                          <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
                             La durée est obligatoire
                           </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
@@ -275,7 +275,7 @@ export default defineComponent({
 
     const { remove, push, fields, update } = useFieldArray("circuits");
 
-  
+
     typeDureeOptions.value = [{value:"jour(s)", label:"Jour(s)"}, {value:"mois", label:"Mois"},{value:"annees", label:"Annees"}]
 
     const addCircuit = async (values) => {
