@@ -274,7 +274,7 @@ function triggerButtonClick(buttonId: string) {
 }
     const addDepenses = async (values, { resetForm }) => {
   values["id"] = depenseii.value;
-  values["estValide"] = true;
+  values["statut"] = true;
   ApiService.put("/depenses/" + values.id, values)
     .then(({ data }) => {
       console.log('depense', data);

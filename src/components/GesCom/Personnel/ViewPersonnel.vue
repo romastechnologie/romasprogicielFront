@@ -207,22 +207,26 @@
                             tabindex="0"
                           >
                             <div class="row">
-                              <div class="col-md-6 mb-3">
-                                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                  <label class="d-block text-black mb-10">
-                                    Nombre d'enfants<span class="text-danger"
-                                      >*</span
-                                    >
-                                  </label>
-                                  <Field
-                                    name="nombreEnfant"
-                                    v-model="nombreEnfant"
-                                    type="text"
-                                    class="form-control shadow-none fs-md-15 text-black"
-                                    placeholder="Entrer le nombre d'enfants"
-                                  />
-                                </div>
-                              </div>
+                              <div class="col-md-12 mb-3">
+  <div class="form-group mb-15 mb-sm-20 mb-md-25 d-flex align-items-center">
+    <div class="me-3" style="flex: 0 0 150px;">
+      <label class="d-block text-black mb-10">
+        Nombre d'enfants<span class="text-danger">*</span>
+      </label>
+      <Field
+        name="nombreEnfant"
+        v-model="nombreEnfant"
+        type="text"
+        class="form-control shadow-none fs-md-15 text-black"
+        placeholder="Entrer le nombre d'enfants"
+      />
+    </div>
+    <button style="flex: 0 0 150px;" class=" me-3 btn btn-success" data-bs-target="#create-task" @click="openModal('ajoutenfant')">
+      <i class="fa fa-edit lh-1 me-1 position-relative top-2"></i>
+      <span class="position-relative">Ajouter</span>
+    </button>
+  </div>
+</div>
                               <div
                                 class="border border-primary mb-10"
                                 v-if="nombreEnfant > 0"
@@ -247,7 +251,7 @@
                                   <div
                                     class="row d-flex align-items-center justify-content-between mt-10"
                                   >
-                                    <div class="col-md-2">
+                                  <div class="col-md-2 mb-2">
                                       <label
                                         class="d-block text-black fw-semibold"
                                       >
@@ -255,7 +259,7 @@
                                         <span class="text-danger">*</span>
                                       </label>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 mb-2">
                                       <label
                                         class="d-block text-black fw-semibold"
                                       >
@@ -295,6 +299,7 @@
                                       <div class="form-group">
                                         <input
                                           v-model="enfant.nom"
+                                          :disabled="true"
                                           type="text"
                                           class="form-control shadow-none fs-md-15 text-black"
                                           placeholder="Saisir le nom"
@@ -309,6 +314,7 @@
                                       <div class="form-group">
                                         <input
                                           v-model="enfant.prenom"
+                                           :disabled="true"
                                           type="text"
                                           class="form-control shadow-none fs-md-15 text-black"
                                           placeholder="saisir le prénom"
@@ -325,8 +331,8 @@
                                       <div class="form-group">
                                         <input
                                           v-model="enfant.dateNaissance"
-                                          type="date"
-                                          :max="maxDate1"
+                                           :disabled="true"
+                                          type="text"
                                           class="form-control shadow-none fs-md-15 text-black"
                                           placeholder=""
                                         />
@@ -343,6 +349,7 @@
                                     <div class="col-md-2 mb-2">
                                       <div class="form-group">
                                         <Multiselect
+                                         :disabled="true"
                                           :searchable="true"
                                           :options="['Masculin', 'Féminin']"
                                           v-model="enfant.sexe"
@@ -351,24 +358,21 @@
                                       </div>
                                     </div>
                                     <div class="col-md-2 mb-2">
-                                    </div>
+                                      <button
+      class="btn btn-primary btn-sm"
+      @click="openModal('enfant', enfant.id)"
+      data-bs-target="#create-task"
+    >
+      <i class="fa fa-edit lh-1 me-1 position-relative top-2"></i>
+      Modifier
+    </button>                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-
-  <div class="mt-3">
-    <button class="btn btn-success" data-bs-target="#create-task" @click="openModal('enfant')">
-      <i class="fa fa-edit lh-1 me-1 position-relative top-2"></i>
-      <span class="position-relative">Modifier</span>
-    </button>
-  </div>
 </div>
-
-
-
 
           <div class="tab-pane fade" id="health-info" role="tabpanel" aria-labelledby="health-info-tab"> 
             <table class="table table-bordered">
@@ -580,8 +584,6 @@
         <input type="text" class="form-control" v-model="personnel.santeemploye.poids">
       </div>
     </div>
-
-
                                 <div class="row mb-2">
                                 <div class="col-md-6">
                                 <label class="d-block text-black mb-10">
@@ -825,7 +827,6 @@
   </form>
 </template>
 
-
         <template v-if="modalType === 'bank'">
           <form @submit.prevent="saveBankInfo">
             <div class="mb-3">
@@ -856,6 +857,64 @@
             <button type="submit" class="btn btn-primary">Sauvegarder</button>
           </form>
         </template>
+
+
+        
+
+        <template v-if="modalType === 'enfant'">
+  <form @submit.prevent="saveEnfantInfo">
+    <div class="mb-3">
+      <label class="form-label">Nom enfant</label>
+      <input type="text" class="form-control" v-model="activeEnfant.nom" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Prénom enfant</label>
+      <input type="text" class="form-control" v-model="activeEnfant.prenom" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Date</label>
+      <input type="date" class="form-control" v-model="activeEnfant.dateNaissance" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Sexe</label>
+      <Multiselect
+        :searchable="true"
+        :options="['Masculin', 'Féminin']"
+        v-model="activeEnfant.sexe"
+        placeholder="Sélectionner le sexe"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+  </form>
+</template>
+
+
+<template v-if="modalType === 'ajoutenfant'">
+  <form @submit.prevent="ajoutEnfantInfo">
+    <div class="mb-3">
+      <label class="form-label">Nom enfant</label>
+      <input type="text" class="form-control"  v-model="child.nom" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Prénom enfant</label>
+      <input type="text" class="form-control" v-model="child.prenom"/>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Date</label>
+      <input type="date" class="form-control" v-model="child.dateNaissance"/>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Sexe</label>
+      <Multiselect
+        :searchable="true"
+        :options="['Masculin', 'Féminin']"
+         placeholder="Sélectionner le sexe"
+         v-model="child.sexe"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+  </form>
+</template>
       </div>
     </div>
   </div>
@@ -868,7 +927,7 @@ import { useRoute } from "vue-router";
 import ApiService from "@/services/ApiService";
 import { countries } from "./countries";
 import {  Form, Field,ErrorMessage,useFieldArray, useForm,} from "vee-validate";
-import { error,getUrlApiForFiles,success, showModal, hideModal, } from "@/utils/utils";
+import { error,getUrlApiForFiles,success, showModal, hideModal,format_Date } from "@/utils/utils";
 import Multiselect from "@vueform/multiselect";
 export default defineComponent({
   name: "ViewPersonnel",
@@ -894,8 +953,33 @@ export default defineComponent({
     const isDisable = ref(true);
     const enfantOptions = ref([]);
     const { remove, push, fields, update } = useFieldArray("enfants");
+    const enfant= ref();
+    const child = ref({
+  id: "",
+  nom: "",
+  prenom: "",
+  dateNaissance: "",
+  sexe: "",
+});
+
+    const activeEnfantId = ref(null); 
+  const activeEnfant = ref();    
+  const openModal = (type, enfantId = null) => {
+    modalType.value = type;
+    activeEnfantId.value = enfantId;
+    if (type === "enfant" && enfantId) {
+      activeEnfant.value = enfants.find((e) => e.id === enfantId) || {};
+    }
+
+    isModalOpen.value = true;
+    const modalElement = document.getElementById("create-task");
+    if (modalElement) {
+      showModal(modalElement);
+    }
+  };
     const enfants = reactive([
       {
+        id:"",
         nom: "",
         sexe: "",
         prenom: "",
@@ -905,16 +989,6 @@ export default defineComponent({
 const toggleAccordion = () => {
   isOpen.value = !isOpen.value;
 };
-
-const openModal = (type) => {
-      modalType.value = type;
-      isModalOpen.value = true;
-      const modalElement = document.getElementById("create-task");
-      if (modalElement) {
-        showModal(modalElement);
-      }
-    };
-
     const closeModal = () => {
       isModalOpen.value = false;
       const modalElement = document.getElementById("create-task");
@@ -922,18 +996,29 @@ const openModal = (type) => {
         hideModal(modalElement);
       }
     };
-
     const getPersonnel = async (id: number) => {
-      try {
-        const { data } = await ApiService.get(`/personnel/${id}`);
-        console.log("data",data);
-        personnel.value = data.data;
-        nombreEnfant.value = data.data.nombreEnfant || '';
-      } catch (err) {
-        error(err.response?.data?.message || "Erreur lors de la récupération des données.");
-      }
-    };
-
+  try {
+    const { data } = await ApiService.get(`/personnel/${id}`);
+    console.log("data", data);
+    personnel.value = data.data;
+    nombreEnfant.value = data.data.nombreEnfant || 0;
+    enfants.splice(0, enfants.length); 
+    if (data.data.enfants && data.data.enfants.length > 0) {
+      data.data.enfants.forEach((enfant) => {
+        enfants.push({
+          id: enfant.id || "",
+          nom: enfant.nom || "",
+          prenom: enfant.prenom || "",
+          dateNaissance:format_Date(enfant.dateNaissance) || "",
+          sexe: enfant.sexe || "",
+        });
+      });
+    }
+    console.log("Liste complète des enfants formatés :", enfants);
+  } catch (err) {
+    error(err.response?.data?.message || "Erreur lors de la récupération des données.");
+  }
+};
     const saveContactInfo = async () => {
   try {
     const response = await ApiService.put(`/personnels/${personnel.value.id}`, {
@@ -953,7 +1038,6 @@ const openModal = (type) => {
     error("Une erreur est survenue lors de la mise à jour des informations de contact.");
   }
 };
-
 const saveFamilyInfo = async () => {
   try {
     const response = await ApiService.put(`/conjointPersonnels/${personnel.value.id}`, {
@@ -966,7 +1050,6 @@ const saveFamilyInfo = async () => {
    ethnieCon: personnel.value.conjoints.ethnieCon?.value,
    telephoneCon: personnel.value.conjoints.telephoneCon,
 });
-
     if (response.data.code === 200) {
       success(response.data.message);
       closeModal();
@@ -978,7 +1061,6 @@ const saveFamilyInfo = async () => {
     error("Une erreur est survenue lors de la mise à jour des informations de contact.");
   }
 };
-
 const saveHealthInfo = async () => {
   try {
     const response = await ApiService.put(`/santePersonnels/${personnel.value.id}`, {
@@ -1004,7 +1086,6 @@ const saveHealthInfo = async () => {
     error("Une erreur est survenue lors de la mise à jour des informations de contact.");
   }
 };
-
 const saveBankInfo = async () => {
   try {
     const response = await ApiService.put(`/personnels/${personnel.value.id}`, {
@@ -1024,7 +1105,46 @@ const saveBankInfo = async () => {
     error("Une erreur est survenue lors de la mise à jour des informations de contact.");
   }
 };
-
+const saveEnfantInfo = async () => {
+  try {
+    const response = await ApiService.put(`/PersonnelEnfants/${personnel.value.id}`, {
+        id:activeEnfant.value.id,
+        nom: activeEnfant.value.nom,
+          prenom: activeEnfant.value.prenom,
+          dateNaissance:activeEnfant.value.dateNaissance,
+          sexe: activeEnfant.value.sexe,
+    });
+    if (response.data.code === 200) {
+      success(response.data.message);
+      closeModal();
+    } else {
+      error("Une erreur est survenue lors de la mise à jour des informations de contact.");
+    }
+  } catch (err) {
+    console.error(err);
+    error("Une erreur est survenue lors de la mise à jour des informations de contact.");
+  }
+};
+const ajoutEnfantInfo = async () => {
+  try {
+    const response = await ApiService.post(`/enfant`, {
+      personnelId: personnel.value.id,
+        nom: child.value.nom,
+          prenom: child.value.prenom,
+          dateNaissance:child.value.dateNaissance,
+          sexe: child.value.sexe,
+    });
+    if (response.data.code === 201) {
+      success(response.data.message);
+      closeModal();
+    } else {
+      error("Une erreur est survenue lors de la mise à jour des informations de contact.");
+    }
+  } catch (err) {
+    console.error(err);
+    error("Une erreur est survenue lors de la mise à jour des informations de contact.");
+  }
+};
 const getAllReligions = async () => {
       try {
         const response = await ApiService.get("/all/religions");
@@ -1036,7 +1156,6 @@ const getAllReligions = async () => {
       } catch (error) {
       }
     };
-
     const fetchBanque = async () => {
       ApiService.get("all/banques")
         .then(({ data }) => {
@@ -1052,7 +1171,6 @@ const getAllReligions = async () => {
           error(response.data.message);
         });
     };
-
     const getAllEthnies = async () => {
       try {
         const response = await ApiService.get("/all/ethnies");
@@ -1064,20 +1182,18 @@ const getAllReligions = async () => {
       } catch (error) {
       }
     };
-
     const addRowEnfant = () => {
       enfants.push({
+        id:"",
         nom: "",
         sexe: "",
         prenom: "",
         dateNaissance: "",
       });
     };
-
     const removeRowEnfant = (index) => {
       if (enfants.length > 1) enfants.splice(index, 1);
     };
-
     watch(
       enfants,
       (newValue) => {
@@ -1091,18 +1207,15 @@ const getAllReligions = async () => {
       },
       { deep: true }
     );
-
     watch(nombreEnfant, (newVal) => {
       const count = parseInt(newVal) || 0;
-
       enfants.length = count;
       for (let i = 0; i < count; i++) {
         if (!enfants[i]) {
-          enfants[i] = { nom: "", prenom: "", dateNaissance: "", sexe: "" };
+          enfants[i] = { id:"", nom: "", prenom: "", dateNaissance: "", sexe: "" };
         }
       }
     });
-
     const valideteRowEnfant = (e) => {
       if (e == "" || e == 0 || e == "0" || e == null || e < 0) {
         console.log("erg");
@@ -1111,7 +1224,6 @@ const getAllReligions = async () => {
         return false;
       }
     };
-
     const formatDate = (dateString: string) => {
       if (!dateString) return "Non spécifiée";
       const date = new Date(dateString);
@@ -1138,6 +1250,8 @@ const getAllReligions = async () => {
       saveFamilyInfo,
       saveHealthInfo,
       saveBankInfo,
+      saveEnfantInfo,
+      ajoutEnfantInfo,
       religionOptions,
       religion,
       ethnieOptions,
@@ -1151,6 +1265,10 @@ const getAllReligions = async () => {
       enfantOptions,
       isDisable,
       enfants,
+      format_Date,
+      enfant,
+      activeEnfant,
+      child,
     };
   },
 });
