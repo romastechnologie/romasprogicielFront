@@ -74,8 +74,6 @@
                   <ErrorMessage name="libelle" class="text-danger" />
                 </div>
               </div>
-
-             
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
@@ -160,6 +158,7 @@ export default defineComponent({
     const typeEmplacement = ref();
     const typesEmplacementsOptions = ref([]);
     const typesEmplacements = ref();
+    
 
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
@@ -205,6 +204,7 @@ export default defineComponent({
                 : donnees[key]
             );
           }
+          typeEmplacement.value = data.data['typeEmplacement'];
           //typeEmplacement.value = donnees.typeEmplacement?.id;
           console.log("typeEmplacement.value ",typeEmplacement.value)
           emit("openmodal", addTypeEmplacementModalRef.value);

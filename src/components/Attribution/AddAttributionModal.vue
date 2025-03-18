@@ -1,5 +1,4 @@
 <template>
-
   <div class="modal fade" id="AddAttributionModal" tabindex="-1" role="dialog" ref="addAttributionModalRef"
     aria-labelledby="tooltipmodal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -32,6 +31,7 @@
                   <ErrorMessage name="libelle" class="text-danger" />
                 </div>
               </div>
+
               <button class="btn btn-primary" type="submit">
                 {{ btntext }}
 
@@ -45,12 +45,15 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch,onMounted } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
+import axios from "axios";
 import { error, hideModal, success } from '@/utils/utils';
 import { Attribution} from '@/models/Attribution';
+import Multiselect from '@vueform/multiselect';
+import VueMultiselect from "vue-multiselect";
 import router from '@/router';
 
 export default {
@@ -58,7 +61,9 @@ export default {
   components: {
     Form,
     Field,
-    ErrorMessage
+    ErrorMessage,
+    Multiselect,
+    VueMultiselect,
   },
   props: {
     id: {
@@ -90,6 +95,9 @@ export default {
         btnTitle();
       }
 
+    });
+
+    onMounted(async () => {
     });
 
     const btnTitle = async () => {
@@ -158,6 +166,8 @@ export default {
       }
     };
 
+   
+   
     const resetValue = () => {
       const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
       isupdate.value = false;
@@ -167,7 +177,7 @@ export default {
       btnTitle()
     };
 
-    return { attributionSchema, addAttribution, attributionForm, addAttributionsModalRef, btntext, title, resetValue, closeAttributionModal };
+    return { attributionSchema,addAttribution, attributionForm, addAttributionsModalRef, btntext, title, resetValue, closeAttributionModal };
   },
 };
 

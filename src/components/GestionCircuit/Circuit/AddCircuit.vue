@@ -13,12 +13,10 @@
                 <ErrorMessage name="nom" class="text-danger"/>
               </div>
             </div>
-
-
             <div class="col-md-4 mb-3"> 
               <label for="Duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
               <div class="input-group">
-                <Field  name="duree" id="duree" class="form-control" type="number" placeholder="Entrez la durée"/>
+                <Field  name="Duree" id="Duree" class="form-control" type="number" placeholder="Entrez la durée"/>
                 <Field name="typeDuree"  type="text"  v-slot="{ field }">
                 <select  v-model = "field.value" v-bind = "field"  class="form-select form-control" style="width: 20px !important;">
                   <option value="...">...</option>
@@ -30,11 +28,9 @@
               </div>
               <div>
                 <ErrorMessage name="typeDuree" class="text-danger"/>
-                <ErrorMessage name="duree" class="text-danger"/> 
+                <ErrorMessage name="Duree" class="text-danger"/> 
               </div>
             </div>
-
-
             <div class="col-md-12 mb-md-25">
               <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                 <div class="row">
@@ -83,7 +79,7 @@
                         <div class="col-md-3">
                     <div class="form-group mb-15 mb-sm-20 mb-md-25">
                       <label class="d-block text-black fw-semibold mb-10">
-                          Personnels <span class="text-danger">*</span>
+                          Users <span class="text-danger">*</span>
                       </label>  
                       </div>
                     </div>
@@ -115,9 +111,9 @@
                           </div>
                         </div>
                         <div class="col-md-2 mb-2">
-                          <div class="input-group">
+                        <div class="input-group">
                       <input v-model="circuit.duree" class="form-control" type="number" for="inputGroupSelect01" >
-                      <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
+                          <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
                             La durée est obligatoire
                           </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
@@ -135,7 +131,6 @@
                           <div class="form-group ">
                           <Multiselect 
                           
-                          :close-on-select="false"
                           :options="roleOptions" 
                           :searchable="true" 
                           :multiple="false"
@@ -149,12 +144,12 @@
                           <Multiselect 
                           mode="tags"
                           :close-on-select="false"
-                          :options="personnelOptions" 
+                          :options="userOptions" 
                           :searchable="true" 
                           :multiple="true"
-                          v-model="circuit.personnel"
-                          placeholder="Sélectionner les personnels"/>
-                        <span class="invalid-feedback" v-if="valideteRowCircuit(circuit.personnel)"></span>
+                          v-model="circuit.user"
+                          placeholder="Sélectionner les users"/>
+                        <span class="invalid-feedback" v-if="valideteRowCircuit(circuit.user)"></span>
                           </div>
                         </div>
                         
@@ -163,7 +158,7 @@
                             @click="removeRowCircuit(index)">
                             <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                             </button>
-                      </div> 
+                      </div>  
                       </div>
                     </div>
                   </div>
@@ -191,7 +186,7 @@ import { defineComponent, onMounted, reactive, ref, watch } from 'vue';
 import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
-import { Document } from '@/models/Document';
+import { Circuit } from "@/models/Circuit";
 import { error, success,ajouterPeriode } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
@@ -210,7 +205,7 @@ export default defineComponent({
   setup: () => {
     const circuitSchema = Yup.object().shape({
       nom: Yup.string().required("Le nom est obligatoire."),
-      duree: Yup.number().typeError("").required("La durée est obligatoire."),
+      Duree: Yup.number().typeError("").required("La durée est obligatoire."),
       typeDuree: Yup.string().required("Le type de duree est obligatoire."),
     });
 
@@ -222,8 +217,7 @@ export default defineComponent({
     const router = useRouter();
     const roleOptions=ref([]);
     const typeDureeOptions = ref([]);
-    const personnelOptions = ref();
-
+    const userOptions = ref([]);
     const isDisable = ref(true);
     const typeDuree = ref();
     const Duree = ref();
@@ -232,9 +226,9 @@ export default defineComponent({
       nom: "",
       role: "",
       ordre: "",
-      duree: "",
+      Duree: "",
       typeDuree: "",
-      personnel: []
+      user: []
     }]);
 
     const addRowCircuit = () => {
@@ -242,9 +236,9 @@ export default defineComponent({
         nom: "",
         role: "",
         ordre: "",
-        duree: "",
+        Duree: "",
         typeDuree: "",
-        personnel:[]
+        user:[]
       });
     };
 
@@ -262,9 +256,9 @@ export default defineComponent({
           valideteRowCircuit(circuit.nom) ||
           valideteRowCircuit(circuit.ordre) ||
           valideteRowCircuit(circuit.role) ||
-          valideteRowCircuit(circuit.duree)||
+          valideteRowCircuit(circuit.Duree)||
           valideteRowCircuit(circuit.typeDuree)||
-          valideteRowCircuit(circuit.personnel)
+          valideteRowCircuit(circuit.user)
         );
       },
       { deep: true }
@@ -290,27 +284,24 @@ export default defineComponent({
         return;
       }
       try{
+      
         values["etapeCircuit"]  =  etapevalidations.map((etape) => ({
           ordre:etape.ordre,
-          duree:etape.duree,
+          Duree:etape.Duree,
           typeDuree:etape.typeDuree,
           nom:etape.nom,
           role:etape.role,
-          personnel:etape?.personnel,
+          user:etape.user,
         }))
+        console.log("values",values);
         const {data} = await ApiService.post("/circuits",values);
         if(data.code === 201){
           success(data.message);
           router.push({name: "ListeCircuitPage"});
         }
-
       }catch(err){
         console.error("Erreur d'API :", err);
       }
-
-
-
-
 
     //   console.log("top icieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
     //   values["etapes"]=circuits;
@@ -327,17 +318,14 @@ export default defineComponent({
     //       error(response.data.message);
     //     });
     };
-
-    
-
-    const getAllPersonnels = async () => {
+    const getAllUsers = async () => {
       try{
-      const response = await ApiService.get('/all/personnels');
+      const response = await ApiService.get('/users');
       const canalsData = response.data.data.data;
       console.log('Data',canalsData)
-      personnelOptions.value = canalsData.map((personnel) => ({
-        value:personnel.id,
-        label:personnel.nom + " " + personnel.prenom ,
+      userOptions.value = canalsData.map((user) => ({
+        value:user.id,
+        label:user.nom + '' + user.prenom,
       }));
       }
       catch (error) {
@@ -361,7 +349,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      getAllPersonnels();
+      getAllUsers();
       getAllRoleEtaps();
     })
     
@@ -371,7 +359,7 @@ export default defineComponent({
       isDisable,
       etapevalidations,removeRowCircuit,
       addRowCircuit,
-      valideteRowCircuit,personnelOptions,roleOptions,
+      valideteRowCircuit,userOptions,roleOptions,
       };
     
   },

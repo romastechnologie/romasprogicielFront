@@ -53,7 +53,6 @@
                   <td>{{ tache?.description || 'Non renseigné' }}</td>
                   <td>{{ tache?.dateDebut || 'Non renseigné' }}</td>
                   <td>{{ tache?.dateFin || 'Non renseigné' }}</td>
-
                 </tr>
               </tbody>
             </table>

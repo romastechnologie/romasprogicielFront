@@ -16,7 +16,7 @@
             <div class="col-md-2 mb-2"> 
               <label for="Duree" class="form-label">Durée du circuit <span class="text-danger">*</span></label>
               <div class="input-group">
-                <Field  name="duree" id="duree" class="form-control" type="number" v-model="duree" placeholder="Entrez la durée"/> 
+                <Field  name="Duree" id="Duree" class="form-control" type="number" v-model="duree" placeholder="Entrez la durée"/> 
                 <Field name="typeDuree"  type="text"  v-model="typeDuree"  v-slot="{ field }">
                   <Multiselect v-model="field.value" v-bind="field" :options="typeDureeOptions" :preserve-search="true"
                    :multiple="false" :searchable="true" placeholder="Sélectionner le type de duree"
@@ -27,16 +27,14 @@
                   <option value="Mois">Mois</option>
                   <option value="Annees">Années</option>
                 </select> -->
+
               </Field>
               </div>
               <div>
                 <ErrorMessage name="typeDuree" class="text-danger"/>
-                <ErrorMessage name="duree" class="text-danger"/> 
+                <ErrorMessage name="Duree" class="text-danger"/> 
               </div>
             </div>
-
-
-
             <div class="col-md-12 mb-md-25">
               <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                 <div class="row">
@@ -120,7 +118,7 @@
                           <div class="input-group">
                       <input v-model="circuit.duree" class="form-control" type="number" for="inputGroupSelect01" >
                       <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
-                            La durée est obligatoire
+                            La Durée est obligatoire
                           </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
                         <option value="...">...</option>
@@ -237,7 +235,6 @@ export default defineComponent({
       personnel: []
     }]);
     
-
     const addRowCircuit = () => {
       etapevalidations.push({
         nom: "",
@@ -248,12 +245,10 @@ export default defineComponent({
         personnel:[]
       });
     };
-
     const removeRowCircuit = (index) => {
       if (etapevalidations.length > 1) etapevalidations.splice(index, 1);
       //totals();
     };
-
     watch(
       etapevalidations,
       (newValue) => {
@@ -270,7 +265,6 @@ export default defineComponent({
       },
       { deep: true }
     );
-
     const valideteRowCircuit = (e) => {
       if (e == "" || e == "" || e == "" || e == 0 || e == "0" || e == null || e < 0) {
         console.log('erg')
@@ -279,13 +273,7 @@ export default defineComponent({
         return false;
       }
     };
-
-
-
-
-
     typeDureeOptions.value = [{value:"jour(s)", label:"Jour(s)"}, {value:"mois", label:"Mois"},{value:"annees", label:"Annees"}]
-   
 
     function getCircuit(id:number) {
       ApiService.get("/circuits/"+id.toString())
@@ -350,8 +338,6 @@ export default defineComponent({
 //       }
 //     });
 // };
-
-
 
 const editCircuit = async (values, { resetForm }) => {
   try {

@@ -6,10 +6,10 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/fournisseurs/ajouter-fournisseur"
+          to="/validations/ajouter-validation"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter un fournisseur
+          Ajouter une validation
         </router-link>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -26,7 +26,7 @@
             v-model="searchTerm"
             @keyup="rechercher"
             class="form-control shadow-none text-black"
-            placeholder="Rechercher un fournisseur"
+            placeholder="Rechercher une validation"
           />
           <button
             type="submit"
@@ -35,12 +35,7 @@
             <i class="flaticon-search-interface-symbol"></i>
           </button>
         </form>
-        <!-- <button
-          class="dot-btn lh-1 position-relative top-3 bg-transparent border-0 shadow-none p-0 transition d-inline-block"
-          type="button"
-        >
-          <i class="flaticon-dots"></i>
-        </button> -->
+        
       </div>
     </div>
     <div class="card-body p-15 p-sm-20 p-md-25">
@@ -48,82 +43,49 @@
         <table class="table text-nowrap align-middle mb-0">
           <thead>
             <tr>
+              
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Nom
+               Date notification
+              </th>
+              
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Validateur
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Prénom
-              </th>
-              <!-- <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Dénomination
-              </th> -->
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Adresse
+                Demande
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Email
+                Demandeur
               </th>
-
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Sexe
+                Statut
               </th>
-
-             
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Téléphone 1
+               Date validation
               </th>
-
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Téléphone 2
-              </th>
-              <!-- <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Rccm
-              </th> -->
-              <!-- <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Sigle
-              </th> -->
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Ifu
-              </th>
-
-              <th
-                scope="col"
-                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-              >
-                Date Création
+                Commentaire
               </th>
               <th
                 scope="col"
@@ -132,63 +94,38 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(fournisseur, index) in fournisseurs" :key="index">
+            <tr v-for="(validation, index) in validations" :key="index">
+             
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.nomFournisseur }}
+                {{ validation.dateNotification }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.prenomFournisseur }}
-              </td>
-              <!-- <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.denomination }}
-              </td> -->
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.adresseFournisseur }}
+                {{ validation.validateur }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.email }}
+                {{ validation.demande?.categorie?.libelle }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium ">{{  validation.demande?.personnel?.nom }}&nbsp;{{  validation.demande?.personnel?.prenom }} </td>  
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ validation.statut }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.sexe }}
+                {{ validation.dateValidation }}
               </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.telFournisseur1 }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.telFournisseur2 }}
-              </td>
-              <!-- <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.sigle }}
-              </td> -->
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ fournisseur.ifu }}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{  format_Date(fournisseur.createdAt) }}
-              </td>
+             
+              <td class="shadow-none lh-1 fw-medium">{{ (validation.commentaire.length > 25) ? validation.commentaire.substring(0, 25) + '...' : validation.commentaire  }} </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
               <div class="dropdown">
-                  <span class="badge text-white bg-primary fs-15 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      Actions
-                      <i class="flaticon-chevron-2 position-relative ms-5 top-2 fs-15"></i>
-                  </span>
-                  <ul class="dropdown-menu">
-                    <li >
-                      <router-link :to="{ name: 'EditFournisseur', params: { id: fournisseur.id } }" 
-                          class="dropdown-item d-flex align-items-center"><i
-                          class="flaticon-pen lh-1 me-8 position-relative top-1"
-                        ></i>Modifier</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{ name: 'ViewFournisseur', params: { id: fournisseur.id } }" class="dropdown-item d-flex align-items-center">
-                            <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>Détails
-                        </router-link>
-                    </li>
+                <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                </button>
+              <ul class="dropdown-menu">
+                   
                     <li >
                       <a
-                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(fournisseur.id,fournisseurs,'fournisseurs',`l\'fournisseur ${fournisseur.id}`)">
+                        class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(validation.id,validations,'validations',`l\'validation ${validation.id}`)">
                         <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                          Supprimer
                       </a>
@@ -212,25 +149,25 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref} from "vue";
 import Swal from "sweetalert2";
-import { Fournisseur } from "@/models/Fournisseur";
+import { Validation } from "@/models/Validation";
 import ApiService from "@/services/ApiService";
-import { format_date,suppression,format_Date, error } from "@/utils/utils";
+import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 
 export default defineComponent({
-  name: "ListeFournisseur",
+  name: "ListeValidation",
   components: {
     PaginationComponent
   },
   setup(){
     
     onMounted(() => {
-      getAllFournisseurs();
+      getAllValidations();
     });
 
-    const fournisseurs = ref<Array<Fournisseur>>([]);   
-    const fournisseur = ref<Fournisseur>();
+    const validations = ref<Array<Validation>>([]);   
+    const validation = ref<Validation>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -242,22 +179,23 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllFournisseurs(page_, limit_);
+        getAllValidations(page_, limit_);
       } catch (error) {
         //
       }
     };
 
      function rechercher(){
-      getAllFournisseurs(page.value, limit.value, searchTerm.value );
+      getAllValidations(page.value, limit.value, searchTerm.value );
     }
 
     // END PAGINATE
 
-    function getAllFournisseurs(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`all/fournisseurs?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+    function getAllValidations(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`all/validations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          fournisseurs.value = data.data.data;
+          console.log(data,'je suis la')
+          validations.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
           totalElements.value = data.data.totalElements;
@@ -268,12 +206,12 @@ export default defineComponent({
       });
     }
     
-    function moddifier(Editfournisseurs:Fournisseur) {
-      fournisseur.value = Editfournisseurs;
+    function moddifier(Editvalidations:Validation) {
+      validation.value = Editvalidations;
     }
 
-    const deleteFournisseur = (id: number) => {
-      ApiService.delete(`/fournisseurs/${id}`)
+    const deleteValidation = (id: number) => {
+      ApiService.delete(`/validations/${id}`)
       .then(({ data }) => {
         Swal.fire({
           text: data.message,
@@ -301,9 +239,9 @@ export default defineComponent({
         });
       });
 
-      for(let i = 0; i < fournisseurs.value.length; i++) {
-        if (fournisseurs.value[i].id === id) {
-          fournisseurs.value.splice(i, 1);
+      for(let i = 0; i < validations.value.length; i++) {
+        if (validations.value[i].id === id) {
+          validations.value.splice(i, 1);
         }
       }
     };
@@ -314,11 +252,10 @@ export default defineComponent({
       return privileges.value.includes(name);
     }
 
-    return { fournisseurs,
+    return { validations,
       checkPermission,
-      format_date,
-     getAllFournisseurs,
-     deleteFournisseur,
+     getAllValidations,
+     deleteValidation,
      moddifier ,
      suppression,
      page, 
@@ -327,8 +264,7 @@ export default defineComponent({
     totalElements,
     handlePaginate,
     rechercher,
-    searchTerm,
-    format_Date
+    searchTerm
   };
   },
 });

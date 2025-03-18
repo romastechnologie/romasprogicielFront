@@ -259,58 +259,7 @@
                                   />
                                 </Field>
                               </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Date d'embauche<span class="text-danger"
-                                    >*</span
-                                  ></label
-                                >
-                                <Field
-                                  name="dateEmbauche"
-                                  v-model="dateEmbauche"
-                                  class="form-control"
-                                  type="Date"
-                                  :max="maxDate1"
-                                />
-                              </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Date de naissance
-                                </label>
-                                <Field
-                                  name="birthdate"
-                                  v-model="birthdate"
-                                  :max="maxDate"
-                                  @input="checkAge"
-                                  type="date"
-                                  class="form-control shadow-none fs-md-15 text-black"
-                                />
-                              </div>
-                              <p v-if="ageError" class="text-danger fs-md-12">
-                                L'âge minimal est de 18 ans.
-                              </p>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Numéro de Sécurité Sociale
-                                </label>
-                                <Field
-                                  name="numeroSecuriteSociale"
-                                  v-model="numeroSecuriteSociale"
-                                  type="text"
-                                  class="form-control shadow-none fs-md-15 text-black"
-                                  placeholder="Entrer le numéro"
-                                />
-                              </div>
-                            </div>
+                            </div> 
                           </div>
                         </div>
                       </div>
@@ -1267,44 +1216,43 @@
                             </div>-->
 
                             <h1>Informations sur la personne à contacter</h1>
+                    
+                               <div class="col-md-4 mb-3">
+  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+    <label class="d-block text-black mb-10">
+      Relation
+      <span class="text-danger">*</span>
+    </label>
+    <Field
+      name="relation"
+      type="text"
+      v-model="relation"
+      v-slot="{ field }"
+    >
+      <Multiselect
+        :searchable="true"
+        :options="[
+          'Parent',
+          'Frere',
+          'Soeur',
+          'Ami',
+          'Collègue',
+          'Enfant',
+          'Voisin',
+          'Employeur',
+          ...(situation !== 'Célibataire' && situation !== 'Divorcée' && situation !== 'Veuve' ? ['Conjoint(e)'] : [])
+        ]"
+        v-model="field.value"
+        v-bind="field"
+        placeholder="Sélectionner la relation"
+      />
+    </Field>
+  </div>
+  <span class="text-danger" v-show="!relation">Veuillez choisir la Banque</span>
 
+</div>
+                    
                             <div class="row g-2">
-                              <div class="col-md-6 mb-3">
-                                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                  <label class="d-block text-black mb-10">
-                                    Relation
-                                    <span class="text-danger">*</span>
-                                  </label>
-                                  <Field
-                                    name="relation"
-                                    type="text"
-                                    v-model="relation"
-                                    v-slot="{ field }"
-                                  >
-                                    <Multiselect
-                                      :searchable="true"
-                                      :options="[
-                                        'Parent',
-                                        'Frere',
-                                        'Soeur',
-                                        'Ami',
-                                        'Collègue',
-                                        'Enfant',
-                                        'Voisin',
-                                        'Employeur',
-                                        ...(situation !== 'Célibataire' &&
-                                        situation !== 'Divorcée' &&
-                                        situation !== 'Veuve'
-                                          ? ['Conjoint(e)']
-                                          : []),
-                                      ]"
-                                      v-model="field.value"
-                                      v-bind="field"
-                                      placeholder="Sélectionner la relation"
-                                    />
-                                  </Field>
-                                </div>
-                              </div>
                               <div class="col-md-6 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
@@ -1317,8 +1265,11 @@
                                     type="text"
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le nom"
+
                                   />
                                 </div>
+                                <span class="text-danger" v-show="!nomPersonneAContacter">Entrez le nom de la Personne à contacter</span>
+
                               </div>
                               <div class="col-md-6 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -1332,8 +1283,12 @@
                                     type="text"
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le prenom"
+                                  
                                   />
                                 </div>
+                                <span class="text-danger" v-show="!prenomPersonneAContacter">Entrez le prénom de la Personne à contacter</span>
+
+
                               </div>
                               <div class="col-md-6 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -1348,14 +1303,17 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone"
                                     maxlength="10"
-                                    @input="
-                                      telephonePersonneAContacter =
-                                        '01' +
-                                        telephonePersonneAContacter.slice(2)
-                                    "
+                                    @input="telephonePersonneAContacter = '01' + telephonePersonneAContacter.slice(2)"
+                                
                                   />
                                 </div>
+                                <span class="text-danger" v-show="!telephonePersonneAContacter">Entrez le téléphone de la Personne à contacter</span>
+         
+     
                               </div>
+
+
+      
                             </div>
                           </div>
                         </div>
@@ -1483,11 +1441,11 @@ export default defineComponent({
     });
 
     const personnelPersonneConSchema = Yup.object().shape({
-      nomPersonneAContacter: Yup.string().notRequired(),
-      prenomPersonneAContacter: Yup.string().notRequired(),
-      telephonePersonneAContacter: Yup.number().notRequired(),
-      relation: Yup.string().notRequired(),
-
+      nomPersonneAContacter: Yup.string().required("Le nom de la personne est obligatoire"),
+      prenomPersonneAContacter: Yup.string().required("Le prénom de la personne est obligatoire"),
+      telephonePersonneAContacter: Yup.number().required("Le téléphone est obligatoire"),
+      relation: Yup.string().required("La relation est obligatoire"),
+      banque:Yup.string().required("La Banque est obligatoire"),
       quartier: Yup.string().required("Le quartier est obligatoire"),
       arrondissement: Yup.string().required(
         "L'arrondissement  est obligatoire"
@@ -1500,7 +1458,7 @@ export default defineComponent({
     const router = useRouter();
     const religion = ref();
     const ethnie = ref();
-    const service = ref();
+   const service = ref();
     const nom = ref();
     const prenom = ref();
     const adresse = ref();
@@ -1586,6 +1544,11 @@ export default defineComponent({
       });
     };
 
+   
+
+
+   
+
     const removeRowEnfant = (index) => {
       if (enfants.length > 1) enfants.splice(index, 1);
       //totals();
@@ -1625,6 +1588,7 @@ export default defineComponent({
       }
     };
 
+  
     const { remove, push, fields, update } = useFieldArray("enfants");
     const codeBanque = ref("");
     const codeSwift = ref("");
@@ -1708,7 +1672,7 @@ export default defineComponent({
       });
       console.log("Enfants traités :", values.enfants);
 
-      console.log("requête:", values);
+      console.log("requête:", values); 
       for (const key in elemt) {
         values[key] = elemt[key];
       }
@@ -2116,7 +2080,7 @@ export default defineComponent({
       showTab(currentStep.value);
       await getAllReligions();
       await getAllEthnies();
-      await getAllServices();
+      // await getAllServices();
       await fetchBanque();
       await fetchDepartements();
       //  await fetchCommunes();
@@ -2326,6 +2290,8 @@ export default defineComponent({
     };
 
     return {
+      personnelInfoSchema,
+      personnelPersonneConSchema,
       activateTab,
       handleSubmitForm,
       addPersonnel,

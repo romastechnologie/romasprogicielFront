@@ -31,7 +31,22 @@
                               <ErrorMessage name="libelle" class="text-danger"/>
                             </div>     
                           </div>
-
+                      <div class="form-check mt-3 mb-15 mb-sm-20 mb-md-25">
+                        <label for="estBloque"  class="form-check-label fw-medium position-relative top-1">
+                          Ce rôle peut arrêter le processus
+                          <Field 
+                          id="estBloque"
+                          name="estBloque" 
+                          class="form-check-input shadow-none"
+                          v-model="estBloque"
+                          :value="true"
+                          :unchecked-value="false"
+                          type="checkbox"
+                          placeholder="Entrer ordre"/>
+                        </label>
+                        
+                        <ErrorMessage name="estBloque" class="text-danger" />
+                      </div>
                         <div class="col-md-12 mb-3">
                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                           <label class="d-block text-black fw-semibold mb-10">
@@ -42,7 +57,6 @@
                           <ErrorMessage name="ordre" class="text-danger"/>
                         </div>
                       </div>
-                          
                           <button
                             class="btn btn-primary"
                             type="submit">
@@ -103,7 +117,8 @@
         const btntext = ref('Ajouter');
         const isupdate=ref(false);
         const router = useRouter();
-    
+        const estBloque = ref(false);
+
         watch(() => props.id , (newValue) => {   
           if (newValue!=0) {
             getRoleEtap(newValue);
@@ -112,6 +127,10 @@
           btnTitle();
         });
     
+
+        watch(estBloque, (newValue) => {
+  console.log("Valeur de estBloque modifiée :", newValue);
+});
         const getRoleEtap = async (id: number) => {
           return ApiService.get("/roleetaps/"+id)
           .then(({ data }) => {
@@ -119,6 +138,8 @@
             roleEtapForm.value?.setFieldValue("code",data.data.code);
             roleEtapForm.value?.setFieldValue("libelle",data.data.libelle);
             roleEtapForm.value?.setFieldValue("ordre",data.data.ordre);
+            roleEtapForm.value?.setFieldValue("estBloque",data.data.estBloque);
+
             emit('openmodal', addRoleEtapModalRef.value);
           })
           .catch(({ response }) => {
@@ -134,43 +155,44 @@
              title.value = "Ajouter un roleEtap";
              btntext.value = "Ajouter";
           }
+        }   
+const addRoleEtap = async (values: any, { resetForm }: { resetForm: () => void }) => {
+  values = values as RoleEtap;
+  console.log("Valeurs envoyées à l'API :", values); // Debug
+  loading.value = false;
+  if (isupdate.value) {
+    ApiService.put(`/roleetaps/${values.id}`, values)
+      .then(({ data }) => {
+        if (data.code === 200) {
+          success(data.message);
+          resetForm();
+          hideModal(addRoleEtapModalRef.value);
+          isupdate.value = false;
+          btnTitle();
+          emit("refreshRoleEtaps");
+          router.push({ name: "ListeRoleEtapPage" });
         }
-    
-        const addRoleEtap = async (values:any, {resetForm}: {resetForm: () => void  }) => {
-          values = values as RoleEtap;
-          loading.value = false;
-          if(isupdate.value) {
-            ApiService.put(`/roleetaps/${values.id}`,values)
-            .then(({ data }) => {
-              if(data.code == 200) { 
-                success(data.message);
-                resetForm();
-                hideModal(addRoleEtapModalRef.value);
-                isupdate.value=false;
-                btnTitle();
-                emit("refreshRoleEtaps");
-                router.push({ name: "ListeRoleEtapPage" });
-              }
-            }).catch(({ response }) => {
-              error(response.data.message);
-            });
-          }else{
-            ApiService.post("/roleetaps",values)
-            .then(({ data }) => {
-              if(data.code == 201) { 
-                success(data.message)
-                resetForm();
-                hideModal(addRoleEtapModalRef.value);
-                //router.push('/roleEtaps/liste-roleEtap');
-                emit("refreshRoleEtaps");
-    
-              }
-            }).catch(({ response }) => {
-              error(response.data.message);
-            });
-          }
-        }; 
-    
+      })
+      .catch(({ response }) => {
+        error(response.data.message);
+      });
+  } else {
+    ApiService.post("/roleetaps", values)
+      .then(({ data }) => {
+        if (data.code === 201) {
+          success(data.message);
+          resetForm();
+          hideModal(addRoleEtapModalRef.value);
+          emit("refreshRoleEtaps");
+        }
+      })
+      .catch(({ response }) => {
+        error(response.data.message);
+      });
+  }
+};
+
+
         const resetValue = () => {
           const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
           isupdate.value=false;
@@ -181,7 +203,7 @@
         };
     
         return {roleEtaps, title,btntext, resetValue, roleEtapSchema,
-           addRoleEtap, roleEtapForm,addRoleEtapModalRef,roleEtapnew,
+           addRoleEtap, roleEtapForm,addRoleEtapModalRef,roleEtapnew,estBloque,
            //refreshRoleEtaps
            };
       },

@@ -167,15 +167,15 @@ export default defineComponent({
 
       const fetchDemande = async () => {
   try {
-    const response = await axios.get('/demandepermission');
-    if (response.data && response.data.data) {
-      demandeOptions.value = response.data.data.map((demande) => ({
-        value: demande.id,
-        label: demande.motifDemande,
-      }));
-    } else {
-      console.warn("No demandes found.");
-    }
+    const response = await axios.get('/all/demandes');
+    const demandesData = response.data.data.data;
+        console.log('Data', demandesData)
+        demandeOptions.value = demandesData.map((demande) => ({
+          value: demande.id,
+          label: demande.motifDemande,
+        }));
+     
+    
   } catch (err) {
     console.error("Erreur lors de la récupération des demandes:", err);
     error("Erreur lors de la récupération des demandes.");
@@ -219,12 +219,12 @@ const getDemande = async (id) => {
         permissionpForm,
         onDemandeSelected,
         demandeOptions,
-    personnelOptions,
-    personnel,
-    dateDebut,
-    dateReprise,
-    dateFin,
-    motifPermission,
+        personnelOptions,
+        personnel,
+        dateDebut,
+        dateReprise,
+        dateFin,
+        motifPermission,
       };
 
 
