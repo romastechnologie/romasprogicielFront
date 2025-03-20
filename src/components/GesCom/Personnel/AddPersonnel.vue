@@ -967,23 +967,26 @@ export default defineComponent({
       } 
 
       const getAllServices = async () => {
-        try{
-          console.log("nous sommes icic oo");
-          const response = await ApiService.get('/organisations');
-          console.log("mes services", response.data.data.data);
-        const servicesData = response.data.data.data;
+  try {
+    const response = await ApiService.get(
+      "/all/recupererToutesOrganisationSansFilsAvecParent"
+    );
 
-        serviceOptions.value = servicesData.map((service) => ({
-          value: service.id,
-          label: service.libelle,
-        }));
-        }
-        catch(error){
-        // error(response.data.message)
-        console.log("une erreur s'est produite aau niveau de service", error);
-        }
-      } 
+    console.log("rfrrf ===> ", response);
+    const servicesData = response.data.data;
+    console.log("465484635418416541 ===> ", servicesData);
 
+    serviceOptions.value = servicesData.map((service) => ({
+      value: service.id,
+      label: `[ ${service?.organisation.nom} ] ` + service.nom,
+    }));
+
+    console.log("RYYYYY ==> ", serviceOptions);
+  } catch (error) {
+    console.log("RYYYYY5252 ==> ", error);
+    //error(response.data.message)
+  }
+};
       
     onMounted(async () => {
       fetchFonction();
