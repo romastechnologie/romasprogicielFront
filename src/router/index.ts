@@ -3765,8 +3765,10 @@ router.beforeEach((to, from, next) => {
   }
   const path = ['/auth/login', '/auth/register'];
   if (path.includes(to.path) || localStorage.getItem('user')) {
+    //next('/auth/login');
     return next();
   }
+  //next();
   next('/auth/login');
 });
 
