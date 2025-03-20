@@ -6,7 +6,7 @@
       <div class="d-sm-flex align-items-center">
         <router-link
           class="btn btn-primary"
-          to="/validations/ajouter-validation"
+          to="/demandes/ajouter-validation"
         >
           <i class="fa fa-plus-circle"></i>
           Ajouter une validation

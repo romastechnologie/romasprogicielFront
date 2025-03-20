@@ -350,6 +350,7 @@ import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventai
 import AddArchivagePage from '@/pages/GestionPersonnel/Demandes/AddArchivagePage.vue';
 import ListeDemandePretPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePretPage.vue';
 import ListeValidationPage from '@/pages/Validation/ListeValidationPage.vue';
+import AddValidationPage from '@/pages/Validation/AddValidationPage.vue';
 
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
@@ -1594,6 +1595,14 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeValidationPage,
         meta: {
           title: 'Liste des validations',
+        }
+      },
+      {
+        path: "ajouter-validation",
+        name: "AddValidationPage",
+        component: AddValidationPage,
+        meta: {
+          title: 'Ajouter validations',
         }
       },
       {
