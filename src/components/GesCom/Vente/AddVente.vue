@@ -947,7 +947,7 @@ export default defineComponent({
     const fetchProduits = async () => {
       try {
         const response = await axios.get("/produitconditionnements");
-        const produitsData = response.data.data;
+        const produitsData = response.data.data.data;
         produitsss.value = produitsData;
         produitOptions.value = produitsData.map((produitconditionnements) => ({
           value: produitconditionnements.id+"|"+ `${produitconditionnements.produit.nomProd} [ ${produitconditionnements.conditionnement.libelle} ]` + "|" + produitconditionnements.prixVenteHt +"|"+ produitconditionnements.prixVenteTtc,
