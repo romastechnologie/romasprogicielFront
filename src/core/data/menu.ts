@@ -836,6 +836,16 @@ export const menu: MenuItem[] = [
         isPinned: false, 
     },
     {
+        title: "RegleTypeDocument",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "link",
+        path: "/reglestypes/liste-reglestypes",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false, 
+    },
+    {
         title: "TypeDocument",
         icon: "stroke-learning",
         icon1: "fill-learning",

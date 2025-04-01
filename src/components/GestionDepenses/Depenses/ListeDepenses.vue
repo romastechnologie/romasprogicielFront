@@ -123,8 +123,7 @@
     </ul>
   </div>
 </td>
-
-            </tr>
+           </tr>
           </tbody>
         </table>
       </div>

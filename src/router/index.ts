@@ -260,6 +260,7 @@ import ListeCategoriesDepensesPage from '@/components/GestionDepenses/Categories
 // Gestion Archivages
 
 import ListeCategorieDocumentPage from '@/components/GestionArchivages/CategorieDocument/ListeCategorieDocument.vue'
+import ListeReglesTypesPage from '@/components/GestionArchivages/ReglesTypes/ListeReglesTypes.vue'
 import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/ListeTypeDocument.vue'
 import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue'
 import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue'
@@ -2951,6 +2952,20 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeTypeDepensePage,
         meta: {
           title: 'Liste des types de dépenses',
+        }
+      },
+    ]
+  },
+  {
+    path: "/reglestypes",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-reglestypes",
+        name: "ListeReglesTypes",
+        component: ListeReglesTypesPage,
+        meta: {
+          title: 'Ajouter une regle type document',
         }
       },
     ]

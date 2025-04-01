@@ -92,7 +92,7 @@
                                 </label>
                                 <Field
                                   name="situationMatrimoniale"
-                                  v-model="situation"
+                                  v-model="situationMatrimoniale"
                                   type="text"
                                   v-slot="{ field }"
                                 >
@@ -1522,7 +1522,7 @@ export default defineComponent({
     const religionCon = ref();
     const ethnieCon = ref();
     const nombreEnfant = ref(null);
-    const situation = ref();
+    const situationMatrimoniale = ref();
     const photo = ref<File>(null);
     const departementOptions = ref([]);
     const communeOptions = ref([]);
@@ -1619,7 +1619,7 @@ export default defineComponent({
         urlImage: photo.value,
         prenom: prenom.value,
         sexe: sexe.value,
-        situation: situation.value,
+        situationMatrimoniale: situationMatrimoniale.value,
         civilite: civilite.value,
         birthdate: birthdate.value,
      //   numeroSecuriteSociale: numeroSecuriteSociale.value,
@@ -2124,7 +2124,7 @@ export default defineComponent({
           nom: nom.value,
           prenom: prenom.value,
           sexe: sexe.value,
-          situation: situation.value,
+          situationMatrimoniale: situationMatrimoniale.value,
           photo: photo.value,
           civilite: civilite.value,
           // birthdate: birthdate.value,
@@ -2179,10 +2179,10 @@ export default defineComponent({
           //ethnieCon: ethnieCon.value,
         };
         if (
-          situation.value == "Marié(e)" ||
-          situation.value == "Concubinage" ||
-          situation.value == "Union libre" ||
-          situation.value == "Veuve"
+          situationMatrimoniale.value == "Marié(e)" ||
+          situationMatrimoniale.value == "Concubinage" ||
+          situationMatrimoniale.value == "Union libre" ||
+          situationMatrimoniale.value == "Veuve"
         ) {
           for (const key in element3) {
             if (!element3[key]) {
@@ -2328,7 +2328,7 @@ export default defineComponent({
       serviceOptions,
       banqueOptions,
       prenomCon,
-      situation,
+      situationMatrimoniale,
       photo,
       religion,
       ethnie,
@@ -2403,8 +2403,8 @@ export default defineComponent({
   computed: {
     showSpouseFields() {
       return (
-        this.situation?.toString() !== "Célibataire" &&
-        this.situation !== "Divorcée"
+        this.situationMatrimoniale?.toString() !== "Célibataire" &&
+        this.situationMatrimoniale !== "Divorcée"
       );
     },
   },

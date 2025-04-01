@@ -9,13 +9,13 @@
               <label class="d-block text-black mb-10">
                 Demandes <span class="text-danger">*</span>
               </label>
-              <Field name="demande" v-slot="{ field }">
+              <Field name="demande"  v-model="demande" v-slot="{ field }">
   <Multiselect
   v-bind="field" 
     v-model="field.value"
     :options="demandeOptions"
     label="label"
-     track-by="value"
+    track-by="value" 
     placeholder="Sélectionner la demande"
     @change="onDemandeSelected(field.value)" 
   />
@@ -166,6 +166,19 @@ export default defineComponent({
       }
 
       const fetchDemande = async () => {
+        try{
+        const response = await ApiService.get('all/demandes');
+        const demandesData = response.data.data.data;
+        console.log('DemandeData', demandesData)
+        demandeOptions.value = demandesData.map((demande) => ({
+          value: demande.id,
+          label: demande.id,
+        }));
+        }
+        catch(error){
+        }
+      }
+     /* const fetchDemande = async () => {
   try {
     const response = await axios.get('/all/demandes');
     const demandesData = response.data.data.data;
@@ -180,7 +193,7 @@ export default defineComponent({
     console.error("Erreur lors de la récupération des demandes:", err);
     error("Erreur lors de la récupération des demandes.");
   }
-};
+};*/
 const getDemande = async (id) => {
   try {
     console.log("Fetching demande details for ID:", id);

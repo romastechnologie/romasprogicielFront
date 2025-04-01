@@ -83,7 +83,8 @@
                           Document <span class="text-danger">*</span>
                         </label>
                         <Field name="document" v-model="document1" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un document" />
+                          <Multiselect v-model="field.value" v-bind="field" label="label" track-by="label" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" 
+                          placeholder="Sélectionner un document" />
                         </Field>
                         <ErrorMessage name="document" class="text-danger" />
                       </div>
@@ -337,22 +338,32 @@ export default {
 
      const documentByTypeOptions = ref([]);
 
-    const getDocumentByType = async (type:any)=>{
-      try{
-        const response = await axios.get(`documents/typeEmplacement/:type/donnes`);
-        const documentData = response.data.data;
-        lesDocuments.value = documentData;
-        documentByTypeOptions.value = documentData.map(
-          (document) => ({
-            value: document.id,
-            label: `${document.nom} - ${document.refDoc}`,
-          }))
-      } catch (error) {
-        //
-        console.log("Erreur ===> ",error)
-      }
-      
+     const getDocumentByType = async (type: any) => {
+  try {
+    if (!type) {
+      console.error("Type de document invalide !");
+      return;
     }
+
+    const response = await axios.get(`documents/typeEmplacement/${type}/donnes`);
+    
+    if (response.status === 200) {
+      const documentData = response.data.data;
+      console.log("Documents récupérés :", documentData);
+
+      lesDocuments.value = documentData;
+      documentByTypeOptions.value = documentData.map((document) => ({
+        value: document.id,
+        label: `${document.nom} - ${document.refDoc}`,
+      }));
+    } else {
+      console.error("Erreur de récupération :", response.status);
+    }
+  } catch (error) {
+    console.error("Erreur ===> ", error);
+  }
+};
+
     const emplacementOptions1 = ref([])
     const getEmplacement1 = async (type: any) => {
       if (type && type != "") {

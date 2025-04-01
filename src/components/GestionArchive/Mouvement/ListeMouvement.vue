@@ -68,6 +68,12 @@
                 </th>
                 <th
                   scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >Statut
+                  
+                </th>
+                <th
+                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
                 >Actions</th>
               </tr>
@@ -83,16 +89,21 @@
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ format_date(mouvement.createdAt)  }}
                 </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  <span :class="getStatutBadge(mouvement?.statut).badgeClass">
+                  {{ getStatutBadge(mouvement.statut).text }}
+                </span>
+                </td>
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"
                 >
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                  <li class="dropdown-item d-flex align-items-center">
+                 <!--- <li class="dropdown-item d-flex align-items-center">
                     <router-link  href="javascript:void(0);" @click="moddifier(mouvement)">
                     <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </router-link>
-                  </li>
+                  </li>-->
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
                         @click="suppression(mouvement.id,mouvements,'mouvements',`le mouvement ${mouvement.id}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
@@ -160,6 +171,35 @@
           //
         }
       };
+      const getStatutBadge = (statut: number) => {
+      switch (statut) {
+        case 0:
+          return {
+            text: "Retour",
+            badgeClass: "badge bg-secondary text-white",
+          };
+        case 1:
+          return {
+            text: "Sortie",
+            badgeClass: "badge bg-info text-white",
+          };
+        case 2:
+          return {
+            text: "Destruction",
+            badgeClass: "badge bg-danger text-white",
+          };
+          case 3:
+          return {
+            text: "Deplacement",
+            badgeClass: "badge bg-primary text-white",
+          };
+        default:
+          return {
+            text: "",
+            badgeClass: "badge bg-white text-danger",
+          };
+      }
+    };
   
        function rechercher(){
         getAllMouvements(page.value, limit.value, searchTerm.value );
@@ -225,6 +265,7 @@
         rechercher,
         recharger,
         refreshMouvements,
+        getStatutBadge
        };
     },
   

@@ -192,7 +192,7 @@ export default defineComponent({
     // END PAGINATE
 
     function getAllValidations(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`all/validations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/demandecircuit?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           console.log(data,'je suis la')
           validations.value = data.data.data;

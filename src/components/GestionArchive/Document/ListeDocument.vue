@@ -174,31 +174,13 @@
                     <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
                       aria-expanded="false">Actions</button>
                     <ul class="dropdown-menu">
-                      <!-- Options pour changer le statut -->
-                      <li>
-                        <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
-                          @click="changerStatut(document.id, 'Brouillon')">
-                          Brouillon
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
-                          @click="changerStatut(document.id, 'En attente')">
-                          En attente
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
-                          @click="changerStatut(document.id, 'Validé')">
-                          Validé
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
-                          @click="changerStatut(document.id, 'Rejeté')">
-                          Rejeté
-                        </a>
-                      </li>
+                      <li v-for="action in getAvailableActions(document.statut)" :key="action.value">
+                            <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
+                              @click="changerStatut(document.id, action.value)">
+                              {{ action.label }}
+                            </a>
+                          </li>
+
 
                       <li class="dropdown-item d-flex align-items-center">
                         <router-link :to="{ name: 'ViewDocument', params: { id: document.id } }"
@@ -240,7 +222,7 @@
 import { defineComponent, onMounted, ref,watch } from "vue";
 import ApiService from "@/services/ApiService";
 import { Document } from "@/models/Document";
-import { format_date,format_Date, suppression, error } from "@/utils/utils";
+import { format_date,format_Date, suppression, error,success } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 import { Field } from "vee-validate";
@@ -314,19 +296,45 @@ export default defineComponent({
     });
 
 
-    // Fonction pour changer le statut d'un document
-const changerStatut = (id, nouveauStatut) => {
+    const changerStatut = async (id, nouveauStatut) => {
   const doc = documents.value.find((d) => d.id === id);
   if (doc) {
     doc.statut = nouveauStatut;
+    await editDocument({ id: doc.id, statut: nouveauStatut });
   }
+};
+const editDocument = async (values) => { 
+  try {
+    const response = await ApiService.put(`/documents/${values.id}`, values);
+    if (response.status === 200) {
+      success(response.data.message);
+      getAllDocuments(); 
+    }
+  } catch (error) {
+    error(error.response?.data?.message || "Une erreur est survenue.");
+  }
+};
+
+
+const getAvailableActions = (statut) => {
+  const actions = [
+    { label: "En attente", value: "En attente" },
+    { label: "Validé", value: "Validé" },
+    { label: "Rejeté", value: "Rejeté" },
+  ];
+
+  if (statut === "En attente") {
+    return actions.filter(action => action.value !== "En attente");
+  } else if (statut === "Validé" || statut === "Rejeté") {
+    return [];
+  }
+
+  return actions;
 };
 
 // Fonction pour retourner une classe CSS en fonction du statut
 const getStatusClass = (statut) => {
   switch (statut) {
-    case "Brouillon":
-      return "badge bg-secondary";
     case "En attente":
       return "badge bg-warning";
     case "Validé":
@@ -395,14 +403,9 @@ const fetchCategorieDocuments = async () => {
         // error(response.data.message)
       });
     }
-
-
- 
      function rechercher()  {
   getAllDocuments(page.value, limit.value,categorie.value,typeDoc.value,dateFinConservation.value,searchTerm.value,_tagDoc.value,_organisations.value);
 };
-
-
     function getAllDocuments(page = 1, limi = 10, categorie = '' ,  typeDoc = '', dateFinConservation = '' ,searchTerm = '', _tagDoc='', _organisations='') {
       return ApiService.get(`/documents?page=${page}&limit=${limi}&categoriedocument=${categorie}&typeDocument=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&organisation=${_organisations}&tagDoc=${_tagDoc}&`)
         .then(({ data }) => {
@@ -448,7 +451,8 @@ const fetchCategorieDocuments = async () => {
       handlePaginate,
       searchTerm,
       rechercher,
-      format_Date
+      format_Date,
+      getAvailableActions
     };
   },
 });

@@ -59,11 +59,13 @@
               <td class="shadow-none lh-1 fw-medium ">{{ demande.dateDemande }} </td>              
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
-                 
-                  <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ demande.statut }}
+                    <td class="shadow-none lh-1 fw-medium">
+  <span :class="getEtatBadge(demande.statut).badgeClass">
+    {{ getEtatBadge(demande.statut).text }}
+  </span>
+</td>
  <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
                 <span v-else class="badge text-outline-success">{{ demande.statut }}</span> -->
-              </td>
 
 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
   <div class="dropdown">
@@ -100,7 +102,7 @@
                       </router-link>
                     </li>-->
                     
-                    <li >
+                 <!--   <li >
                       <a
                         class="dropdown-item d-flex align-items-center"
                         href="javascript:void(0);"
@@ -113,14 +115,15 @@
                         ></i>
                         Rejetée
                       </a>
-                    </li>
+                    </li>-->
       <!-- Bouton Valider : affiché seulement si la demande n'est pas validée -->
-      <li v-if="(demande.statut =='En attente')" class="dropdown-item d-flex align-items-center">
-        <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(demande.id)">
-          <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
-          Traiter
-        </a>
-      </li>
+                      <li v-if="demande.statut === null" class="dropdown-item d-flex align-items-center">
+                  <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(demande.id)">
+                    <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
+                    Traiter
+                  </a>
+                </li>
+
      <!-- <li class="dropdown-item d-flex align-items-center">
                           <router-link
                             
@@ -287,7 +290,7 @@ export default defineComponent({
       selectedItem.value = id;
     };
 
-    /*const getEtatBadge = (statut: boolean | null) => {
+    const getEtatBadge = (statut: boolean | null) => {
   if (statut === true) {
     return {
       text: "Validé",
@@ -303,7 +306,7 @@ export default defineComponent({
     text: "En attente",
     badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
   };
-};*/
+};
 
 
 const accept = async (demande:any)=>{
@@ -341,7 +344,7 @@ function triggerButtonClick(buttonId: string) {
   values["id"] = demandeii.value;
   values["statut"] = true;
 
-  ApiService.put("/demandes/" + values.id, values)
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       console.log('demande', data);
       if (data.code === 200) {
@@ -364,7 +367,7 @@ function triggerButtonClick(buttonId: string) {
     observation: demandesForm.value?.values?.observation || '', // Récupération de l'observation si remplie
   };
 
-  ApiService.put("/demandes/" + values.id, values)
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       if (data.code === 200) {
         success(data.message);
@@ -405,7 +408,7 @@ function triggerButtonClick(buttonId: string) {
       rechercher,
       addDemandes,
       demandesSchema,
-      //getEtatBadge,
+      getEtatBadge,
       rejectDemandes
       
     };
