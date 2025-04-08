@@ -47,7 +47,7 @@
           </div>
           <div class="col-6">
             <label class="d-block text-black mb-10">
-              Type de document <span class="text-danger">*</span>
+              Type d'archivage <span class="text-danger">*</span>
             </label>
             <div class="row">
               <div class="col-12">

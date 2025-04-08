@@ -73,6 +73,21 @@
                 </th>
                 <th
                   scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Boite
+                  
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Cartable
+                  
+                </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Classeur
+                  
+                </th>
+                <th
+                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
                 >Actions</th>
               </tr>
@@ -90,6 +105,15 @@
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ emplacement.emplacement?.code }}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ emplacement.boite }}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ emplacement.cartable }}
+                </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ emplacement.classeur }}
                 </td>
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"

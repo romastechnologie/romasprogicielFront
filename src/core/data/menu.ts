@@ -835,7 +835,7 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false, 
     },
-    {
+   /* {
         title: "RegleTypeDocument",
         icon: "stroke-user",
         icon1: "fill-user",
@@ -844,9 +844,9 @@ export const menu: MenuItem[] = [
         badgeType: "light-primary",
         active: false,
         isPinned: false, 
-    },
+    },*/
     {
-        title: "TypeDocument",
+        title: "TypeArchivage",
         icon: "stroke-learning",
         icon1: "fill-learning",
         type: "link",
@@ -866,7 +866,7 @@ export const menu: MenuItem[] = [
         isPinned: false,   
     },
     {
-        title: "RegleConservation",
+        title: "Regle de gestion",
         icon: "stroke-learning",
         icon1: "fill-learning",
         type: "link",

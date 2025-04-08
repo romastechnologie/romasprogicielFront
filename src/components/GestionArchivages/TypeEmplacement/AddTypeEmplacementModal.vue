@@ -26,6 +26,22 @@
             :validation-schema="typeEmplacementSchema"
           >
             <div class="row">
+
+              <div class="col-md-12 mb-3">
+              <div class="form-check">
+                <Field
+                  name="estContenant"
+                  type="checkbox"
+                  class="form-check-input"
+                  id="estContenantCheckbox"
+                  :value="true"
+                />
+                <label class="form-check-label" for="estContenantCheckbox">
+                  Est contenant
+                </label>
+              </div>
+            </div>
+
               <div class="col-md-12 mb-4">
                 <div class="form-group">
                   <label class="d-block text-black mb-10">
@@ -149,6 +165,7 @@ export default defineComponent({
       prefixe: Yup.string().required("Le Prefixe est obligatoire"),
       ordre: Yup.string().required("Les ordres sont obligatoires"),
       typeEmplacement: Yup.string().notRequired(),
+      estContenant: Yup.boolean().required(),
     });
 
     const typeEmplacementForm = ref<TypeEmplacement | null>(null);

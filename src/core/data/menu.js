@@ -333,8 +333,18 @@ export const menu = [
                 type: "link"
             },
             {
+                path: "/demandes/liste-demande-pret",
+                title: "Liste des demandes de pret",
+                type: "link"
+            },
+            {
                 path: "/demandes/liste-demande-autre",
                 title: "Liste des autres demandes",
+                type: "link"
+            },
+            {
+                path: "/demandes/liste-demande-validation",
+                title: "Liste des validations",
                 type: "link"
             },
         ]
@@ -674,6 +684,11 @@ export const menu = [
                 title: "Liste des financements",
                 type: "link"
             },
+            {
+                path: "/finances/point-finance",
+                title: "Point des financements",
+                type: "link"
+            },
         ]
     },
     {
@@ -772,8 +787,18 @@ export const menu = [
         active: false,
         isPinned: false,
     },
+    /* {
+         title: "RegleTypeDocument",
+         icon: "stroke-user",
+         icon1: "fill-user",
+         type: "link",
+         path: "/reglestypes/liste-reglestypes",
+         badgeType: "light-primary",
+         active: false,
+         isPinned: false,
+     },*/
     {
-        title: "TypeDocument",
+        title: "TypeArchivage",
         icon: "stroke-learning",
         icon1: "fill-learning",
         type: "link",
@@ -793,7 +818,7 @@ export const menu = [
         isPinned: false,
     },
     {
-        title: "RegleConservation",
+        title: "Regle de gestion",
         icon: "stroke-learning",
         icon1: "fill-learning",
         type: "link",

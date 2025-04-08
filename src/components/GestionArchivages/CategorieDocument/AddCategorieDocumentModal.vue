@@ -55,6 +55,40 @@
                 </div>
               </div>
 
+              <div class="col-md-6">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Durée <span class="text-danger">*</span>
+                  </label>
+                  <Field
+                    name="duree"
+                    type="number"
+                    class="form-control shadow-none fs-md-15 text-black"
+                    placeholder="Entrer la durée"
+                  />
+                  <ErrorMessage name="number" class="text-danger" />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                    <label class="d-block text-black mb-10">
+                                        Type document
+                                    </label>
+                                    <Field name="typeDoc" v-model="typesDocuments" type="text"
+                                        v-slot="{ field }">
+                                        <Multiselect v-model="field.value" v-bind="field"
+                                            :options="typesDocumentsOptions" :preserve-search="true"
+                                            :multiple="false" :searchable="true"
+                                            placeholder="Sélectionner le type de document" label="label"
+                                            track-by="label" />
+                                    </Field>
+                                    <span class="text-danger" v-if="showMErr">Le type document est
+                                        obligatoire</span>
+                                </div>
+                            </div>
+                            
+
               <button class="btn btn-primary mt-3">
                 {{ btntext }}
               </button>
@@ -82,6 +116,7 @@ import { hideModal } from "@/utils/utils";
 import { CategorieDocument } from "@/models/CategorieDocument";
 import { error, success } from "@/utils/utils";
 import { useRouter } from "vue-router";
+import Multiselect from '@vueform/multiselect/src/Multiselect';
 
 export default defineComponent({
   name: "AddCategorieDocumentModal",
@@ -89,6 +124,8 @@ export default defineComponent({
     Form,
     Field,
     ErrorMessage,
+    Multiselect,
+
   },
   props: {
     item: {
@@ -100,12 +137,15 @@ export default defineComponent({
     const categorieSchema = Yup.object().shape({
       libelle: Yup.string().required("Le libellé est obligatoire"),
       code: Yup.string().required("Le code est obligatoire"),
+      typeDoc: Yup.string().required("Le type de document est obligatoire"),
     });
 
     const categorieDocumentForm = ref<CategorieDocument | null>(null);
     const addCategorieDocumentModalRef = ref<null | HTMLElement>(null);
     const router = useRouter();
     const CategorieDocumentOptions = ref([]);
+    const typesDocuments = ref();
+    const typesDocumentsOptions = ref([]);
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
     const isUPDATE = ref(false);
@@ -166,8 +206,28 @@ export default defineComponent({
       }
     };
 
+    const getAllTypesDocuments = async () => {
+            try {
+                const response = await ApiService.get('all/typedocs');
+                const typesDocumentsData = response.data.data.data;
+                console.log('Data')
+                console.log('categoriesDepensesData',typesDocumentsData)
+                typesDocumentsOptions.value = typesDocumentsData.map((typesDocuments) => ({
+                    value: typesDocuments.id,
+                    label: typesDocuments.nom,
+
+                }));
+            }
+            catch (error) {
+                //error(response.data.message)
+            }
+        }
+    
+
     onMounted(() => {
       fetchCategorieDocument();
+      getAllTypesDocuments();
+
     });
 
     const addCategorieDocument = async (values: any, categorieDocumentForm) => {
@@ -224,6 +284,8 @@ export default defineComponent({
       btntext,
       resetValue,
       CategorieDocumentOptions,
+      typesDocuments, 
+      typesDocumentsOptions,
     };
   },
 });

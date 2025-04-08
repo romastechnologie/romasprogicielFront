@@ -37,15 +37,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(regleTypes, index) in regleTypes" :key="index">
+            <tr v-for="(regleTypes, index) in reglesTypes" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ regleTypes.regleConservation }}
+                {{ regleTypes.regleConservation?.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ regleTypes.typeDocument }}
+                {{ regleTypes.typeDocument?.nom }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black">
-                {{ regleTypes.categorieDocument }}
+                {{ regleTypes.categoriedocument?.libelle }}
               </td>
               
               <td class="shadow-none lh-1 fw-medium text-black pe-0">
@@ -61,7 +61,7 @@
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                      @click="suppression(regleTypes.id, reglesTypes, 'reglesTypes', `la regle types ${regleTypes.libelle}`)">
+                      @click="suppression(regleTypes.id, reglesTypes, 'regletypecategories', `la regle types ${regleTypes.libelle}`)">
                       <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                       Supprimer
                     </a>
@@ -141,11 +141,11 @@ export default defineComponent({
       getAllReglesTypes();
     };
 
-  
 
     function getAllReglesTypes(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/regletypecategories?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
+            console.log(data, "donnerert");
             reglesTypes.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;

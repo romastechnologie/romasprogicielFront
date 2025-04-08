@@ -145,6 +145,8 @@
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                   Statut
                 </th>
+                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Mouvement</th>
+
                 <th scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text-end pe-0">Actions</th>
               </tr>
@@ -158,58 +160,286 @@
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.tagDoc?.libelle }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation?.nom }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.emplacement?.code }} </td>
-                <td class="shadow-none lh-1 fw-medium ">
-              <span v-for="(val, index) in document?.regleDocuments" :key="index"
-                class="badge bg-info text-dark me-1">
-                {{ val.regleType?.categoriedocument?.libelle || 'Non renseigné' }}
-              </span>
-            </td>
+                <td class="shadow-none lh-1 fw-medium ">{{ document?.categorie?.libelle}} </td>
                 <td>
                   <span :class="getStatusClass(document.statut)">
                     {{ document.statut }}
                   </span>
                 </td>
+                <td>
+                  <span :class="getStatutBadge(document?.mouvement?.statut).badgeClass">
+                  {{ getStatutBadge(document?.mouvement?.statut).text }}
+                </span>
+                </td>
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
+                <div class="d-flex justify-content-end gap-2">
+
                   <div class="dropdown">
-                    <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
-                      aria-expanded="false">Actions</button>
+                    <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                    </button>
                     <ul class="dropdown-menu">
                       <li v-for="action in getAvailableActions(document.statut)" :key="action.value">
-                            <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
-                              @click="changerStatut(document.id, action.value)">
-                              {{ action.label }}
-                            </a>
-                          </li>
-
-
+                        <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
+                          @click="changerStatut(document.id, action.value)">
+                          {{ action.label }}
+                        </a>
+                      </li>
                       <li class="dropdown-item d-flex align-items-center">
                         <router-link :to="{ name: 'ViewDocument', params: { id: document.id } }"
-                          class="dropdown-item d-flex align-items-center">
+                                    class="dropdown-item d-flex align-items-center">
                           <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>
                           <p><strong>Détails</strong></p>
                         </router-link>
                       </li>
                       <li class="dropdown-item d-flex align-items-center">
-                        <router-link :to="{ name: 'EditDocumentPage', params: { id: document.id } }" >
+                        <router-link :to="{ name: 'EditDocumentPage', params: { id: document.id } }">
                           <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                           Modifier
                         </router-link>
                       </li>
-                      <li class="dropdown-item d-flex align-items-center">
-                        <a href="javascript:void(0);"
-                          @click="suppression(document.id, documents, 'documents', `le document ${document.nom}`)">
-                          <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>
-                          Supprimer
-                        </a>
-                      </li>
                     </ul>
                   </div>
-                </td>
+
+                  <div class="dropdown">
+                    <button class="btn dropdown-toggle btn-secondary text-white" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                      Mouvmnt
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(document.id,  'Retour')">Retour</a></li>
+                      <li><a class="dropdown-item" href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(document.id, 'Sortie')">Sortie</a></li>
+                      <li><a class="dropdown-item" href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(document.id, 'Deplacement')">Deplacement</a></li>
+                      <li><a class="dropdown-item" href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(document.id, 'Destruction')">Destruction</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
+        <div class="modal fade" id="create-task" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Voulez-vous traiter cette mouvement ?</h6>
+        <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-8">
+       
+        <Form ref="mouvementForm" @submit="addMouvement" :validation-schema="mouvementSchema">
+            <div class="row">
+           <!--<div class="col-md-12 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Type Mouvement <span class="text-danger">*</span>
+                  </label>
+                  <Field name="typeMouvement" v-model="typeMouv" type="text" v-slot="{ field }">
+                    <Multiselect v-model="field.value" :options="typeMouvement" v-bind="field" :preserve-search="true"
+                      :multiple="false" :searchable="true" placeholder="type de mouvement" label="label"
+                      track-by="label" />
+                  </Field>
+                  <ErrorMessage name="typeMouvement" class="text-danger" />
+                </div>
+              </div>--> 
+            </div>
+            <!--</fieldset>-->
+          <!--   <fieldset class="border rounded-3 p-1">
+              <legend class="float-none w-auto px-3">
+                Source
+              </legend>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                    <label class="d-block text-black mb-10">
+                      Type Emplacement <span class="text-danger">*</span>
+                    </label>
+                    <Field name="typeEmplacementSource" v-model="type1" type="text" v-slot="{ field }">
+                      <Multiselect v-model="field.value" v-bind="field" :options="typeEmplacementOptions" :preserve-search="true" :multiple="false"
+                        :searchable="true" placeholder="type emplacement" label="label"
+                        track-by="label" />
+                    </Field>
+                    <ErrorMessage name="typeEmplacementSource" class="text-danger" />
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                    <label class="d-block text-black mb-10">
+                      Emplacement <span class="text-danger">*</span>
+                    </label>
+                    <Field name="emplacementInitial" type="text" v-slot="{ field }">
+                      <Multiselect v-model="field.value" v-bind="field" :options="emplacementOptions1" :preserve-search="true" :multiple="false"
+                        :searchable="true" placeholder="emplacement" label="label" track-by="label" />
+                    </Field>
+                    <ErrorMessage name="emplacementInitial" class="text-danger" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>-->
+            <div class="row">
+
+              <div class="col-md-12"  v-if="modeMouvement === 'Sortie'">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Personnel chargé de retrait <span class="text-danger">*</span>
+                        </label>
+                        <Field name="personnel" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
+                            :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
+                              const results = await getPersonnelByKey(query);
+                              if (results && results.length > 0) {
+                                return results;
+                              } else if (query.length >= 3) {
+                                return [{ value: '', label: 'Aucun enregistrement trouvé' }];
+                              } else {
+                                return [];
+                              }
+                            }" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un personnel" />
+                        </Field>
+                        <ErrorMessage name="personnel" class="text-danger" />
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Personnel bénéficiaire <span class="text-danger">*</span>
+                        </label>
+                        <Field name="personnel" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
+                            :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
+                              const results = await getPersonnelByKey(query);
+                              if (results && results.length > 0) {
+                                return results;
+                              } else if (query.length >= 3) {
+                                return [{ value: '', label: 'Aucun enregistrement trouvé' }];
+                              } else {
+                                return [];
+                              }
+                            }" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un personnel" />
+                        </Field>
+                        <ErrorMessage name="personnel" class="text-danger" />
+                      </div>
+                    </div>
+                    
+              <div class="col-md-6 mb-3">
+                <fieldset class="border rounded-3 p-1">
+                 <!--  <legend class="float-none w-auto px-3">
+                    Document informations
+                  </legend>-->  
+                <!-- <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Type Document <span class="text-danger">*</span>
+                        </label>
+                        <Field name="typeDocument" v-model="type3" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :options="typeDocumentOptions"
+                            :preserve-search="true" :multiple="false" :searchable="true"
+                            placeholder="type document" label="label" track-by="label" />
+                        </Field>
+                        <ErrorMessage name="typeDocument" class="text-danger" />
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Document <span class="text-danger">*</span>
+                        </label>
+                        <Field name="document" v-model="document1" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" label="label" track-by="label" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" 
+                          placeholder="document" />
+                        </Field>
+                        <ErrorMessage name="document" class="text-danger" />
+                      </div>
+                    </div>
+                  </div>-->  
+                </fieldset>
+              </div>
+              <div class="col-md-12 mb-3" v-if="modeMouvement === 'Deplacement'">
+                <fieldset class="border rounded-3 p-1" >
+                  <legend class="float-none w-auto px-3">
+                    Destination
+                  </legend>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Type Emplacement <span class="text-danger">*</span>
+                        </label>
+                        <Field name="typeEmplacementDestinataire" v-model="type2" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :options="typeEmplacementOptions" :preserve-search="true" :multiple="false"
+                            :searchable="true" placeholder="type emplacement" label="label"
+                            track-by="label" />
+                        </Field>
+                        <ErrorMessage name="typeEmplacementDestinataire" class="text-danger" />
+                      </div>
+                    </div>
+                   <div class="col-md-12">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Emplacement Destination <span class="text-danger">*</span>
+                        </label>
+                        <Field name="emplacementDestinataire" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" :options="emplacementOptions2" v-bind="field" :preserve-search="true" :multiple="false"
+                            :searchable="true" placeholder="emplacement" label="label"
+                            track-by="label" />
+                        </Field>
+                        <ErrorMessage name="emplacementDestinataire" class="text-danger" />
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            <!--- <div class="col-md-6 mb-3">
+                <fieldset class="border rounded-3 p-1">
+                  <legend class="float-none w-auto px-3">
+                    Informations
+                  </legend>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th class="shadow-none lh-1 fw-medium text-black">
+                              Nom :
+                            </th>
+                            <td class="shadow-none lh-1 fw-medium text-black">
+                              {{ leDocu?.nom }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="shadow-none lh-1 fw-medium text-black">
+                              Description :
+                            </th>
+                            <td class="shadow-none lh-1 fw-medium text-black">
+                              {{ leDocu?.description }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="shadow-none lh-1 fw-medium text-black">
+                              Date :
+                            </th>
+                            <td class="shadow-none lh-1 fw-medium text-black">
+                              {{ format_Date(leDocu?.createdAt) }}
+                            </td>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>-->
+            </div>
+            <button type="submit" class="btn btn-primary">Valider</button>
+
+          </Form>
+      </div>
+    </div>
+  </div>
+</div>
+   <div class="pagination-area d-md-flex mt-15 mt-sm-20 mt-md-25 justify-content-between align-items-center">
           <PaginationComponent :page="page" :totalPages="totalPages" :totalElements="totalElements" :limit="limit"
             @paginate="handlePaginate" />
         </div>
@@ -217,37 +447,46 @@
     </div>
   
 </template>
-
 <script lang="ts">
 import { defineComponent, onMounted, ref,watch } from "vue";
 import ApiService from "@/services/ApiService";
 import { Document } from "@/models/Document";
-import { format_date,format_Date, suppression, error,success } from "@/utils/utils";
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import { format_date,format_Date, suppression, showModal, hideModal, error,success } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import { Field } from "vee-validate";
 import Multiselect from "@vueform/multiselect/src/Multiselect";
+import * as Yup from 'yup';
 import axios from "axios";
-
-
 export default defineComponent({
   name: "ListeDocument",
   components: {
     PaginationComponent,
     Field,
-    Multiselect
-
+    Multiselect,
+    Form
   },
   setup() {
     onMounted(() => {
+      getTypeDocument();
+      getTypeEmplacement();
       getAllDocuments();
       fetchCategorieDocuments();
       fetchTypeDocuments();
       getAllOrganisations();
       getAllTags();
-
+     
     });
-
+    const mouvementSchema = Yup.object().shape({
+      emplacementInitial: Yup.string().notRequired(),
+      emplacementDestinataire: Yup.string().notRequired(),
+      typeEmplacementSource:Yup.string().notRequired(),
+      typeEmplacementDestinataire: Yup.string().notRequired(),
+    //  document: Yup.string().required('Le document est obligatoire'),
+   //   typeMouvement: Yup.string().required('Le type de mouvement est obligatoire'),
+   //   typeDocument: Yup.string().required('Le type de document est obligatoire'),
+      personnel: Yup.string().notRequired(),
+    });
     const documents = ref<Array<any>>([]);
     const document = ref<Document>();
     const categorieOptions = ref([]);
@@ -264,8 +503,16 @@ export default defineComponent({
     const typeDoc= ref('');
     const _organisations = ref('');
     const _tagDoc = ref('');
-
-
+    const documentii = ref();
+    const etatDocument = ref("Libre");
+    const document1 = ref();
+    const typeEmplacementOptions = ref<Array<any>>([]);
+    const typeDocumentOptions = ref<Array<any>>([]);
+    const typeMouv= ref();
+    const type1 = ref();
+    const type2 = ref();
+    const modeMouvement = ref('');
+   
     const handlePaginate = ({ page_, limit_ }:{ page_: number, limit_: number }) => {
       try {
         page.value = page_;
@@ -274,27 +521,56 @@ export default defineComponent({
         //
       }
     };
-
     watch(categorie, () => {
       rechercher();
     });
-
     watch(typeDoc, () => {
       rechercher();
     });
-
     watch(_tagDoc, () => {
       rechercher();
     });
-
     watch(_organisations, () => {
       rechercher();
     });
-
     watch(dateFinConservation, () => {
       rechercher();
     });
 
+
+    const openModal = (id: number, mode: string) => {
+  documentii.value = id;
+  modeMouvement.value = mode;
+ // showModal("create-task"); // ou comme tu ouvres ton modal
+};
+
+
+function triggerButtonClick(buttonId: string) {
+  const button = window.document.getElementById(buttonId) as HTMLButtonElement;
+  if (button) {
+    button.click();
+  } else {
+    console.error(`Button with ID "${buttonId}" not found.`);
+  }
+}
+
+  const addMouvement = async (values, { resetForm }) => {
+  values["id"] = documentii.value;
+  values["statut"] = true;
+  ApiService.post("/mouvement/document/",values)
+    .then(({ data }) => {
+      console.log('depense', data);
+      if (data.code === 201) {
+        success(data.message);
+        resetForm();
+        getAllDocuments();
+        triggerButtonClick("close-modal");       
+      }
+    })
+    .catch(({ response }) => {
+      error(response.data.message);
+    });
+};
 
     const changerStatut = async (id, nouveauStatut) => {
   const doc = documents.value.find((d) => d.id === id);
@@ -314,7 +590,35 @@ const editDocument = async (values) => {
     error(error.response?.data?.message || "Une erreur est survenue.");
   }
 };
-
+const getStatutBadge = (statut: number) => {
+      switch (statut) {
+        case 0:
+          return {
+            text: "Retour",
+            badgeClass: "badge bg-secondary text-white",
+          };
+        case 1:
+          return {
+            text: "Sortie",
+            badgeClass: "badge bg-info text-white",
+          };
+        case 2:
+          return {
+            text: "Destruction",
+            badgeClass: "badge bg-danger text-white",
+          };
+          case 3:
+          return {
+            text: "Deplacement",
+            badgeClass: "badge bg-primary text-white",
+          };
+        default:
+          return {
+            text: "",
+            badgeClass: "badge bg-white text-danger",
+          };
+      }
+    };
 
 const getAvailableActions = (statut) => {
   const actions = [
@@ -322,16 +626,13 @@ const getAvailableActions = (statut) => {
     { label: "Validé", value: "Validé" },
     { label: "Rejeté", value: "Rejeté" },
   ];
-
   if (statut === "En attente") {
     return actions.filter(action => action.value !== "En attente");
   } else if (statut === "Validé" || statut === "Rejeté") {
     return [];
   }
-
   return actions;
 };
-
 // Fonction pour retourner une classe CSS en fonction du statut
 const getStatusClass = (statut) => {
   switch (statut) {
@@ -345,8 +646,6 @@ const getStatusClass = (statut) => {
       return "badge bg-light";
   }
 };
-
-
 const fetchCategorieDocuments = async () => {
       ApiService.get("all/categorieDocuments")
       .then(({ data }) => {
@@ -409,6 +708,7 @@ const fetchCategorieDocuments = async () => {
     function getAllDocuments(page = 1, limi = 10, categorie = '' ,  typeDoc = '', dateFinConservation = '' ,searchTerm = '', _tagDoc='', _organisations='') {
       return ApiService.get(`/documents?page=${page}&limit=${limi}&categoriedocument=${categorie}&typeDocument=${typeDoc}&dateFinConservation=${dateFinConservation}&mot=${searchTerm}&organisation=${_organisations}&tagDoc=${_tagDoc}&`)
         .then(({ data }) => {
+          console.log("docummentrecupéré",data);
           documents.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;
@@ -421,12 +721,183 @@ const fetchCategorieDocuments = async () => {
         });
     }
 
-    const privileges = ref<Array<string>>(JwtService.getPrivilege());
+    const leDocu = ref()
+    const lesDocuments = ref([])
+    
+    watch(document1, (newValue, oldValue) => {
+      if (newValue != oldValue && newValue) {
+        leDocu.value = lesDocuments.value.find(objet => objet.id === newValue);
+      }
+    });
 
+
+    const getTypeEmplacement = async () => {
+      try {
+        const response = await ApiService.get("/all/typeEmplacements");
+        const typeEmplacementData = response.data.data.data;
+        typeEmplacementOptions.value = typeEmplacementData.map(
+          (typeEmplacement) => ({
+            value: typeEmplacement.id,
+            label: `${typeEmplacement.code} - ${typeEmplacement.libelle}`,
+          })
+        );
+      } catch (error) {
+        //
+        console.log("Erreur ===> ",error)
+      }
+    }
+
+    const getTypeDocument = async () => {
+      try {
+        const response = await ApiService.get("/tous/typedocuments");
+        const typeDocumentData = response.data.data;
+        typeDocumentOptions.value = typeDocumentData.map(
+          (typeDoc) => ({
+            value: typeDoc.id,
+            label: `${typeDoc.code} - ${typeDoc.nom}`,
+          })
+        );
+      } catch (error) {
+        //
+        console.log("Erreur ===> ",error)
+      }
+    }
+
+     const documentByTypeOptions = ref([]);
+     const getDocumentByType = async (type: any) => {
+  try {
+    if (!type) {
+      console.error("Type de document invalide !");
+      return;
+    }
+    const response = await axios.get(`documents/typeEmplacement/${type}/donnes`);
+    
+    if (response.status === 200) {
+      const documentData = response.data.data;
+      console.log("Documents récupérés :", documentData);
+
+      lesDocuments.value = documentData;
+      documentByTypeOptions.value = documentData.map((document) => ({
+        value: document.id,
+        label: `${document.nom} - ${document.refDoc}`,
+      }));
+    } else {
+      console.error("Erreur de récupération :", response.status);
+    }
+  } catch (error) {
+    console.error("Erreur ===> ", error);
+  }
+};
+
+    const emplacementOptions1 = ref([])
+    const getEmplacement1 = async (type: any) => {
+      if (type && type != "") {
+        try {
+          const response = await ApiService.get(
+            `/emplacement/by/${type}/typeemplacement`
+          );
+          const emplacementData = response.data.data;
+          emplacementOptions1.value = emplacementData.map(
+            (emplacement) => ({
+              value: emplacement.id,
+              label: `${emplacement.code}`,
+            })
+          );
+        } catch (error) {
+          //
+          console.log("Erreur ===> ", error);
+        }
+      }else{
+        emplacementOptions1.value = [];
+      }
+    };
+
+    const emplacementOptions2 = ref([])
+    const getEmplacement2 = async (type: any) => {
+      if (type && type != "") {
+        try {
+          const response = await ApiService.get(
+            `/emplacement/by/${type}/typeemplacement`
+          );
+          const emplacementData = response.data.data;
+          emplacementOptions2.value = emplacementData.map(
+            (emplacement) => ({
+              value: emplacement.id,
+              label: `${emplacement.code}`,
+            })
+          );
+        } catch (error) {
+          //
+          console.log("Erreur ===> ", error);
+        }
+      }else{
+        emplacementOptions2.value = [];
+      }
+    };
+
+    const getDocumentByKey = async (valeur: any) => {
+      try {
+          const etat = etatDocument.value;
+          const retourr = await axios.get(`get/documents/${valeur}/${etat}`);
+          console.log("EEEEEEEE ===> ", retourr);
+          const data = retourr.data.data.data;
+          return data.map((da) => ({
+          value: da.id,
+          label: da.nom,
+        }));
+        } catch (error) {
+          console.log("ERREREUR  ===> ", error)
+        }
+    }
+    const getEmplacementByTypeEmplacementSource = async (valeur: any) => {
+      try {
+          const etat = etatDocument.value;
+          const retourr = await axios.get(`empacement/documents/${valeur}/${etat}`);
+          console.log("EEEEEEEE ===> ", retourr);
+          const data = retourr.data.data.data;
+          return data.map((da) => ({
+          value: da.id,
+          label: da.nom,
+        }));
+        } catch (error) {
+          console.log("ERREREUR  ===> ", error)
+        }
+    }
+    const getPersonnelByKey = async (valeur: any) => {
+      try {
+          const retourr = await axios.get(`/get/personnels/${valeur}`);
+          const data = retourr.data.data;
+          return data.map((da) => ({
+            value: da.id,
+            label: da.nom + " "+ da.prenom,
+          }));
+        } catch (error) {
+          console.log("ERREREUR  ===> ", error)
+        }
+    }
+  
+    const type3 = ref();
+
+    watch(type1, (newValue, oldValue) => {
+      if (newValue != oldValue && newValue) {
+       getEmplacement1(newValue)
+      }
+    });
+    watch(type2, (newValue, oldValue) => {
+      if (newValue != oldValue && newValue) {
+       getEmplacement2(newValue)
+      }
+    });
+    watch(type3, (newValue, oldValue) => {
+      if (newValue != oldValue && newValue) {
+        getDocumentByType(newValue)
+      }
+    });
+
+    const privileges = ref<Array<string>>(JwtService.getPrivilege());
     const checkPermission = (name) => {
       return privileges.value.includes(name);
     }
-
     return {
       documents,
       checkPermission,
@@ -452,7 +923,30 @@ const fetchCategorieDocuments = async () => {
       searchTerm,
       rechercher,
       format_Date,
-      getAvailableActions
+      getAvailableActions,
+      openModal,
+     leDocu,
+     lesDocuments,
+     getEmplacement1,
+     type3, 
+     type1,
+     emplacementOptions1,
+     getDocumentByType,
+     getPersonnelByKey,
+     etatDocument,
+     typeEmplacementOptions,
+     typeDocumentOptions,
+     getDocumentByKey,
+     getEmplacementByTypeEmplacementSource,
+     emplacementOptions2,
+     typeMouv,
+     addMouvement,
+     mouvementSchema,
+     modeMouvement,
+     type2,
+     getStatutBadge 
+
+     
     };
   },
 });

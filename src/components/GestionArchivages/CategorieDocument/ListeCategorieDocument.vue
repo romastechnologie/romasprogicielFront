@@ -65,6 +65,18 @@
               </th>
               <th
                 scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+              Durée
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+              Type Document 
+              </th>
+              <th
+                scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
               >ACTIONS</th>
             </tr>
@@ -74,9 +86,14 @@
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ categorieDocument.code }}
               </td>
-              
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ categorieDocument.libelle }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ categorieDocument.duree }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ categorieDocument.typeDocument?.libelle }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
@@ -199,7 +216,7 @@ export default defineComponent({
     function getAllCategorieDocuments(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`/all/categorieDocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          console.log('data ==== ',data);
+          console.log('datacategoriedocument ==== ',data);
           CategoriesDocuments.value = data.data.data.map((element)=>{
             return element;
           });

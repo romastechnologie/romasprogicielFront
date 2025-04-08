@@ -18,7 +18,7 @@
                                     <label class="d-block text-black mb-10">
                                         Regle de conservation
                                     </label>
-                                    <Field name="regleconservation" v-model="reglesConservations" type="text"
+                                    <Field name="regleConservation" v-model="reglesConservations" type="text"
                                         v-slot="{ field }">
                                         <Multiselect v-model="field.value" v-bind="field"
                                             :options="reglesConservationsOptions" :preserve-search="true"
@@ -36,7 +36,7 @@
                                     <label class="d-block text-black mb-10">
                                         Type document
                                     </label>
-                                    <Field name="typedocument" v-model="typesDocuments" type="text"
+                                    <Field name="typeDocument" v-model="typesDocuments" type="text"
                                         v-slot="{ field }">
                                         <Multiselect v-model="field.value" v-bind="field"
                                             :options="typesDocumentsOptions" :preserve-search="true"
@@ -114,9 +114,9 @@ export default {
 
         const loading = ref<boolean>(false);
         const reglesTypesSchema = Yup.object().shape({
-            typedocument: Yup.string().required('La Référence est obligatoire'),
+            typeDocument: Yup.string().required('La Référence est obligatoire'),
             categoriedocument: Yup.string().required('Le libelle est obligatoire'),
-           regleconservation: Yup.string().required('La description est obligatoire'),     
+           regleConservation: Yup.string().required('La description est obligatoire'),     
         });
         const reglesTypesnew = ref(props.id);
         const reglesTypesForm = ref<ReglesTypes | null>(null);

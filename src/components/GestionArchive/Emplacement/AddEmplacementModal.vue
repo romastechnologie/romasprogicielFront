@@ -61,6 +61,59 @@
                 </div>
               </div>
 
+              <div v-if="estContenantActif" class="col-md-12 mb-3">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">Boîte</label>
+                <Field
+                  name="boite"
+                  v-model="champsContenant.boite"
+                  type="text"
+                  v-slot="{ field }"
+                >
+                  <input
+                    v-bind="field"
+                    class="form-control shadow-none"
+                    placeholder="Nom de la boîte"
+                />
+                </Field>
+                <ErrorMessage name="boite" class="text-danger" />
+              </div>
+
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">Cartable</label>
+                <Field
+                  name="cartable"
+                  v-model="champsContenant.cartable"
+                  type="text"
+                  v-slot="{ field }"
+                >
+                  <input
+                    v-bind="field"
+                    class="form-control shadow-none"
+                    placeholder="Nom du cartable"
+                />
+                </Field>
+                <ErrorMessage name="cartable" class="text-danger" />              
+              </div>
+
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black mb-10">Classeur</label>
+                <Field
+                name="classeur"
+                v-model="champsContenant.classeur"
+                type="text"
+                v-slot="{ field }"
+              >
+                <input
+                  v-bind="field"
+                  class="form-control shadow-none"
+                  placeholder="Nom du classeur"
+              />
+              </Field>
+              <ErrorMessage name="classeur" class="text-danger" />
+              </div>
+            </div>
+
               <div class="col-md-12 mb-3">
                 <label class="form-label"
                   >Code<span class="text-danger">*</span></label
@@ -136,6 +189,7 @@
                 </div>
               </div>
 
+
               <button class="btn btn-primary" type="submit">
                 {{ btntext }}
               </button>
@@ -177,10 +231,24 @@ export default {
   setup: (props: any, { emit }: { emit: Function }) => {
     const loading = ref<boolean>(false);
     const prefix = ref("");
+    const estContenantActif = ref(false);
+
     const emplacementEtat = ref(true);
     const emplacementSchema = Yup.object().shape({
       code: Yup.string().required("Le code est obligatoire"),
       description: Yup.string().notRequired(),
+      boite:
+      estContenantActif.value === true
+          ? Yup.string().notRequired()
+          : Yup.string().required("La boite est obligatoire"),
+      cartable:
+      estContenantActif.value === true
+          ? Yup.string().notRequired()
+          : Yup.string().required("La boite est obligatoire"),
+          classeur:
+      estContenantActif.value === true
+          ? Yup.string().notRequired()
+          : Yup.string().required("La boite est obligatoire"),
       emplacement:
         emplacementEtat.value === true
           ? Yup.string().notRequired()
@@ -206,7 +274,12 @@ export default {
     const emplacement = ref();
     const typeEmplacement = ref();
     const etatEmplacement = ref(true);
-   
+  const champsContenant = ref({
+  boite: '',
+  cartable: '',
+  classeur: ''
+});
+
 
     watch(
       () => props.id,
@@ -223,6 +296,36 @@ export default {
       }
     );
 
+    const handleTypeEmplacementChange = async (selectedId: number) => {
+  try {
+    const { data } = await ApiService.get(`/typeEmplacements/${selectedId}`);
+    const typeData = data.data;
+
+    if (typeData.estContenant === true) {
+      estContenantActif.value = true;
+    } else {
+      estContenantActif.value = false;
+    }
+    await modificationEmplacement(selectedId);
+  } catch (err) {
+    console.error("Erreur lors du fetch du typeEmplacement :", err);
+  }
+};
+
+watch(typeEmplacement, async (newTypeId) => {
+  const selectedType = typeEmplacementOptions.value.find(
+    (type) => type.value === newTypeId
+  );
+  if (selectedType) {
+    prefix.value = selectedType.prefix;
+    await fetchDernierCode(newTypeId);
+    await handleTypeEmplacementChange(newTypeId); // <== ajouté
+  } else {
+    dernierCodeMessage.value = "RAS";
+  }
+});
+
+
     const isLoaded = ref(false);
     onBeforeMount(() => {
       
@@ -237,6 +340,7 @@ export default {
     const getEmplacement = async (id: number) => {
       return ApiService.get("/emplacements/" + id)
         .then(async ({ data }) => {
+          console.log("emplacement",data);
           if (data.data.emplacement && data.data.emplacement != null) {
             emplacementOptions.value = [
               {
@@ -262,7 +366,18 @@ export default {
             "description",
             data.data.description
           );
-
+          emplacementForm.value?.setFieldValue(
+            "boite",
+            data.data.boite
+          );
+          emplacementForm.value?.setFieldValue(
+            "cartable",
+            data.data.cartable
+          );
+          emplacementForm.value?.setFieldValue(
+            "classeur",
+            data.data.classeur
+          );
           prefix.value = data.data.code.split("-")[0];
           typeEmplacement.value = data.data?.typeEmplacement?.id;
 
@@ -448,6 +563,9 @@ export default {
       modificationEmplacement,
       emplacementEtat,
       typeEmplacement,
+      champsContenant,
+      estContenantActif 
+      
     };
   },
 };

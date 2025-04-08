@@ -280,7 +280,6 @@ export default {
     });    
 
     const leDocu = ref()
-
     const lesDocuments = ref([])
     
     watch(document1, (newValue, oldValue) => {
@@ -288,8 +287,6 @@ export default {
         leDocu.value = lesDocuments.value.find(objet => objet.id === newValue);
       }
     });
-
-
 
     const getMouvement = async (id: number) => {
       return ApiService.get("/mouvements/" + id)
@@ -536,7 +533,6 @@ export default {
           });
       }
     };
-
     watch(() => typeMouv.value, async (newValue, oldValue) => {
       if (newValue && oldValue != newValue) {
         typeMouv.value = newValue.toString();
