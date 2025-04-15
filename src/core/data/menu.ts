@@ -856,6 +856,16 @@ export const menu: MenuItem[] = [
         isPinned: false,
     },
     {
+        title: "TypeDocument",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/typedoc/liste-typedoc",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+    },
+    {
         title: "TypeEmplacement",
         icon: "stroke-user",
         icon1: "fill-user",

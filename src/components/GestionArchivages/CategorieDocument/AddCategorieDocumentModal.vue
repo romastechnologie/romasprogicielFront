@@ -75,7 +75,7 @@
                                     <label class="d-block text-black mb-10">
                                         Type document
                                     </label>
-                                    <Field name="typeDoc" v-model="typesDocuments" type="text"
+                                    <Field name="typedoc" v-model="typesDocuments" type="text"
                                         v-slot="{ field }">
                                         <Multiselect v-model="field.value" v-bind="field"
                                             :options="typesDocumentsOptions" :preserve-search="true"
@@ -137,7 +137,7 @@ export default defineComponent({
     const categorieSchema = Yup.object().shape({
       libelle: Yup.string().required("Le libellé est obligatoire"),
       code: Yup.string().required("Le code est obligatoire"),
-      typeDoc: Yup.string().required("Le type de document est obligatoire"),
+      typedoc: Yup.string().required("Le type de document est obligatoire"),
     });
 
     const categorieDocumentForm = ref<CategorieDocument | null>(null);
@@ -214,7 +214,7 @@ export default defineComponent({
                 console.log('categoriesDepensesData',typesDocumentsData)
                 typesDocumentsOptions.value = typesDocumentsData.map((typesDocuments) => ({
                     value: typesDocuments.id,
-                    label: typesDocuments.nom,
+                    label: typesDocuments.libelle,
 
                 }));
             }

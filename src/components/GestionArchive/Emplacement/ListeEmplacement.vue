@@ -73,17 +73,12 @@
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Boite
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Catégorie document
                   
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Cartable
-                  
-                </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Classeur
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type document
                   
                 </th>
                 <th
@@ -92,49 +87,48 @@
                 >Actions</th>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="(emplacement, index) in emplacements" :key="index">
-                <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ emplacement.code }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.description }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.typeEmplacement?.libelle }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.emplacement?.code }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.boite }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.cartable }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ emplacement.classeur }}
-                </td>
-                <td
-                  class="shadow-none lh-1 fw-medium text-black pe-0"
-                >
-                <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
-                <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                  <li class="dropdown-item d-flex align-items-center">
-                    <a  href="javascript:void(0);" @click="moddifier(emplacement)">
-                    <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
+                    <tbody>
+          <template v-for="(emplacement, index) in emplacements" :key="index">
+            <tr v-for="(cat, catIndex) in emplacement.emplacementCategories" :key="catIndex">
+              <td class="shadow-none lh-1 fw-medium text-black">
+                {{ emplacement.code }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ emplacement.description }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ emplacement.typeEmplacement?.libelle }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ emplacement.emplacement?.code }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ cat.categorie?.libelle }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ cat.typedocument?.libelle }}
+              </td>
+              <td class="shadow-none lh-1 fw-medium text-black pe-0">
+                <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                </button>
+                <ul class="dropdown-menu dropdown-block">
+                  <!--<li class="dropdown-item d-flex align-items-center">
+                    <a href="javascript:void(0);" @click="moddifier(emplacement)">
+                      <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </a>
-                  </li>
+                  </li>-->
                   <li class="dropdown-item d-flex align-items-center">
-                    <a href="javascript:void(0);"
-                        @click="suppression(emplacement.id,emplacements,'emplacements',`l'emplacement ${emplacement.code}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
-                         Supprimer
+                    <a href="javascript:void(0);" @click="suppression(emplacement.id, emplacements, 'emplacements', `l'emplacement ${emplacement.code}`)">
+                      <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i> Supprimer
                     </a>
                   </li>
                 </ul>
-                </td>
-              </tr>
-            </tbody>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+
           </table>
         </div>
         <div

@@ -262,6 +262,7 @@ import ListeCategoriesDepensesPage from '@/components/GestionDepenses/Categories
 import ListeCategorieDocumentPage from '@/components/GestionArchivages/CategorieDocument/ListeCategorieDocument.vue'
 import ListeReglesTypesPage from '@/components/GestionArchivages/ReglesTypes/ListeReglesTypes.vue'
 import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/ListeTypeDocument.vue'
+import ListeTypeDocPage from '@/components/GestionArchivages/TypeDoc/ListeTypeDoc.vue'
 import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue'
 import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue'
 import ListeFormatPage from "@/pages/GestionArchive/Format/ListeFormatPage.vue";
@@ -2995,6 +2996,20 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeTypeDocumentPage,
         meta: {
           title: 'Liste des types documents',
+        }
+      },
+    ]
+  },
+  {
+    path: "/typedoc",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-typedoc",
+        name: "ListeTypeDoc",
+        component: ListeTypeDocPage,
+        meta: {
+          title: 'Liste des types docs',
         }
       },
     ]

@@ -27,14 +27,14 @@
           >
             <div class="row">
               <div class="col-md-12 mb-3">
-                <div
+             <!--  <div
                   v-if="dernierCodeMessage != 'RAS' || dernierCodeMessage != ''"
                 >
                   <p>Dernier code est : {{ dernierCodeMessage }}</p>
-                </div>
+                </div>--> 
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
-                    Type d'emplacement {{ typeEmplacement }}
+                    Type d'emplacement <!-- {{ typeEmplacement }}--> 
                     <span class="text-danger">*</span>
                   </label>
                   <Field
@@ -61,58 +61,36 @@
                 </div>
               </div>
 
-              <div v-if="estContenantActif" class="col-md-12 mb-3">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">Boîte</label>
-                <Field
-                  name="boite"
-                  v-model="champsContenant.boite"
-                  type="text"
-                  v-slot="{ field }"
-                >
-                  <input
-                    v-bind="field"
-                    class="form-control shadow-none"
-                    placeholder="Nom de la boîte"
-                />
-                </Field>
-                <ErrorMessage name="boite" class="text-danger" />
-              </div>
 
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">Cartable</label>
-                <Field
-                  name="cartable"
-                  v-model="champsContenant.cartable"
-                  type="text"
-                  v-slot="{ field }"
-                >
-                  <input
-                    v-bind="field"
-                    class="form-control shadow-none"
-                    placeholder="Nom du cartable"
-                />
-                </Field>
-                <ErrorMessage name="cartable" class="text-danger" />              
-              </div>
+              <div class="col-md-12" v-if="estContenantActif">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Type Document <span class="text-danger">*</span>
+                        </label>
+                        <Field name="typedocument" v-model="type3" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :options="typeDocumentOptions"
+                            :preserve-search="true" :multiple="false" :searchable="true"
+                            placeholder="Sélectionner un type document" label="label" track-by="label" />
+                        </Field>
+                        <ErrorMessage name="typedocument" class="text-danger" />
+                      </div>
+                    </div>
 
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black mb-10">Classeur</label>
-                <Field
-                name="classeur"
-                v-model="champsContenant.classeur"
-                type="text"
-                v-slot="{ field }"
-              >
-                <input
-                  v-bind="field"
-                  class="form-control shadow-none"
-                  placeholder="Nom du classeur"
-              />
-              </Field>
-              <ErrorMessage name="classeur" class="text-danger" />
-              </div>
-            </div>
+                    <div class="col-md-12" v-if="estContenantActif">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                         Categorie Document <span class="text-danger">*</span>
+                        </label>
+                        <Field name="categorie" v-model="document1" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" label="label" track-by="label" :options="documentByTypeOptions" noOptionsText="Selectionnez un type document" 
+                          mode="tags"
+                          multiple
+                          placeholder="Sélectionner une catégorie document" />
+                        </Field>
+                        <ErrorMessage name="categorie" class="text-danger" />
+                      </div>
+                    </div>
+
 
               <div class="col-md-12 mb-3">
                 <label class="form-label"
@@ -201,7 +179,7 @@
   </div>
 </template> 
 <script lang="ts">
-import { ref, watch, onMounted,onBeforeMount } from "vue";
+import { ref, watch, onMounted,onBeforeMount,computed } from "vue";
 import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 import * as Yup from "yup";
 import ApiService from "@/services/ApiService";
@@ -232,31 +210,22 @@ export default {
     const loading = ref<boolean>(false);
     const prefix = ref("");
     const estContenantActif = ref(false);
-
+    const document1 = ref();
     const emplacementEtat = ref(true);
-    const emplacementSchema = Yup.object().shape({
-      code: Yup.string().required("Le code est obligatoire"),
-      description: Yup.string().notRequired(),
-      boite:
-      estContenantActif.value === true
-          ? Yup.string().notRequired()
-          : Yup.string().required("La boite est obligatoire"),
-      cartable:
-      estContenantActif.value === true
-          ? Yup.string().notRequired()
-          : Yup.string().required("La boite est obligatoire"),
-          classeur:
-      estContenantActif.value === true
-          ? Yup.string().notRequired()
-          : Yup.string().required("La boite est obligatoire"),
-      emplacement:
-        emplacementEtat.value === true
-          ? Yup.string().notRequired()
-          : Yup.string().required("L'emplacement est obligatoire"),
-      typeEmplacement: Yup.string().required(
-        "Le type d'emplacement est obligatoire."
-      ),
-    });
+    const emplacementSchema = computed(() => {
+  return Yup.object().shape({
+    code: Yup.string().required("Le code est obligatoire"),
+    description: Yup.string().notRequired(),
+    typeEmplacement: Yup.string().required("Le type d'emplacement est obligatoire."),
+    typedocument: estContenantActif.value
+      ? Yup.string().required("Le type de document est obligatoire")
+      : Yup.string().nullable(),
+    categorie: estContenantActif.value
+      ? Yup.array().min(1, "La catégorie de document est obligatoire").required("La catégorie de document est obligatoire")
+      : Yup.array().notRequired().nullable(),
+  });
+});
+
     
     const { resetForm } = useForm();
     const emplacementForm = ref<any | null>(null);
@@ -273,13 +242,14 @@ export default {
     const lesTypesEmplacement = ref([]);
     const emplacement = ref();
     const typeEmplacement = ref();
-    const etatEmplacement = ref(true);
-  const champsContenant = ref({
-  boite: '',
-  cartable: '',
-  classeur: ''
-});
-
+    const typeDocumentOptions = ref<Array<any>>([]);
+      //const etatEmplacement = ref(true);
+    const type3 = ref();
+    const leDocu = ref();
+    const lesDocuments = ref([]);
+    const documentByTypeOptions = ref([]);
+    const newType= ref();
+    const newCategorie= ref();
 
     watch(
       () => props.id,
@@ -295,6 +265,81 @@ export default {
         btnTitle();
       }
     );
+
+    watch(type3, (newValue, oldValue) => {
+      if (newValue != oldValue && newValue) {
+        getDocumentByType(newValue)
+      }
+    });
+    watch(estContenantActif, (isActive) => {
+  if (!isActive) {
+    type3.value = null;
+    document1.value = [];
+  }
+});
+
+watch([type3, document1], ([newType, newCategories]) => {
+  if (!newType || !newCategories || newCategories.length === 0) return;
+
+  const typeDocObj = typeDocumentOptions.value.find((doc) => doc.value === newType);
+
+  if (typeDocObj) {
+    const typeCode = typeDocObj.label.split(" - ")[0]?.trim();
+
+    const categorieCodes = newCategories.map((categorieId) => {
+      const categorieObj = documentByTypeOptions.value.find((cat) => cat.value === categorieId);
+      return categorieObj ? categorieObj.label.split(" - ")[1]?.trim() : null;
+    }).filter((code) => code !== null);
+
+    if (categorieCodes.length > 0) {
+      const finalCode = `(${typeCode})-${categorieCodes.join("-")}`;
+      emplacementForm.value?.setFieldValue("code", finalCode);
+    }
+  }
+});
+
+
+    const getTypeDocument = async () => {
+      try {
+        const response = await ApiService.get("all/typedocs");
+        const typeDocumentData =  response.data.data.data;
+        console.log("documentrecupéré",typeDocumentData );
+        typeDocumentOptions.value = typeDocumentData.map(
+          (typeDoc) => ({
+            value: typeDoc.id,
+            label: `${typeDoc.code} - ${typeDoc.libelle}`,
+          })
+        );
+      } catch (error) {
+        //
+        console.log("Erreur ===> ",error)
+      }
+    }
+
+    const getDocumentByType = async (type: any) => {
+  try {
+    if (!type) {
+      console.error("Type de document invalide !");
+      return;
+    }
+
+    const response = await axios.get(`documents/${type}/donnes`);
+    if (response.status === 200) {
+      const documentData = response.data.data;
+      console.log("Documents récupérés :", documentData);
+
+      lesDocuments.value = documentData;
+      documentByTypeOptions.value = documentData.map((document) => ({
+        value: document.id,
+        label: `${document.libelle} - ${document.code}`,
+      }));
+    } else {
+      console.error("Erreur de récupération :", response.status);
+    }
+  } catch (error) {
+    console.error("Erreur ===> ", error);
+  }
+};
 
     const handleTypeEmplacementChange = async (selectedId: number) => {
   try {
@@ -324,74 +369,78 @@ watch(typeEmplacement, async (newTypeId) => {
     dernierCodeMessage.value = "RAS";
   }
 });
-
-
     const isLoaded = ref(false);
-    onBeforeMount(() => {
-      
-    });
+    onBeforeMount(() => {});
     onMounted(async () => {
-      
+      await getTypeDocument();
       if (!isLoaded.value) {
         isLoaded.value = true;
         await getAllTypeEmplacements();
       }
     });
     const getEmplacement = async (id: number) => {
-      return ApiService.get("/emplacements/" + id)
-        .then(async ({ data }) => {
-          console.log("emplacement",data);
-          if (data.data.emplacement && data.data.emplacement != null) {
-            emplacementOptions.value = [
-              {
-                value: data.data.emplacement?.id,
-                label: data.data.emplacement?.code,
-              },
-            ];
+  return ApiService.get("/emplacements/" + id)
+    .then(async ({ data }) => {
+      console.log("emplacement", data);
 
-            await modificationEmplacement(data.data?.typeEmplacement?.id);
-            emplacementEtat.value = false;
-            emplacement.value = data.data.emplacement?.id;
-          } else {
-            emplacementOptions.value = [];
-            emplacementEtat.value = true;
-          }
-          emplacement.value = data.data?.emplacement?.id;
-          emplacementForm.value?.setFieldValue("id", data.data.id);
-          emplacementForm.value?.setFieldValue(
-            "code",
-            data.data.code.split("-")[1]
-          );
-          emplacementForm.value?.setFieldValue(
-            "description",
-            data.data.description
-          );
-          emplacementForm.value?.setFieldValue(
-            "boite",
-            data.data.boite
-          );
-          emplacementForm.value?.setFieldValue(
-            "cartable",
-            data.data.cartable
-          );
-          emplacementForm.value?.setFieldValue(
-            "classeur",
-            data.data.classeur
-          );
-          prefix.value = data.data.code.split("-")[0];
-          typeEmplacement.value = data.data?.typeEmplacement?.id;
+      const emplacementData = data.data;
 
-          console.log("TYTUUIIIIIIOOOOOO ===> ");
-          // if(data.data?.emplacement){
-          //   emplacement
-          // }
-          emit("openmodal", addEmplacementModalRef.value);
-        })
-        .catch(({ response }) => {
-          error(response.data.message);
-        });
-    };
+      if (emplacementData.emplacement) {
+        emplacementOptions.value = [
+          {
+            value: emplacementData.emplacement?.id,
+            label: emplacementData.emplacement?.code,
+          },
+        ];
+        await modificationEmplacement(emplacementData?.typeEmplacement?.id);
+        emplacementEtat.value = false;
+        emplacement.value = emplacementData.emplacement?.id;
+      } else {
+        emplacementOptions.value = [];
+        emplacementEtat.value = true;
+      }
 
+      emplacementForm.value?.setFieldValue("id", emplacementData.id);
+      emplacementForm.value?.setFieldValue(
+        "code",
+        emplacementData.code.split("-")[1]
+      );
+      emplacementForm.value?.setFieldValue(
+        "description",
+        emplacementData.description
+      );
+
+      prefix.value = emplacementData.code.split("-")[0];
+      typeEmplacement.value = emplacementData?.typeEmplacement?.id;
+
+      // 🎯 Récupération du typeDocument et categorie depuis emplacementCategories
+      if (
+        emplacementData.emplacementCategories &&
+        emplacementData.emplacementCategories.length > 0
+      ) {
+        const catDoc = emplacementData.emplacementCategories[0];
+
+        const typeDocId = catDoc.typedocument?.id;
+        const categorieId = catDoc.categorie?.id;
+
+        // Mise à jour des champs du formulaire
+        emplacementForm.value?.setFieldValue("typeDocument", typeDocId);
+        emplacementForm.value?.setFieldValue("categorieDocument", [categorieId]);
+
+        // Optionnel : précharger les documents pour ce type
+        await getDocumentByType(typeDocId);
+
+        // Pour que les selects aient les bonnes options actives
+        type3.value = typeDocId;
+        document1.value = [categorieId];
+      }
+
+      emit("openmodal", addEmplacementModalRef.value);
+    })
+    .catch(({ response }) => {
+      error(response.data.message);
+    });
+};
     const btnTitle = async () => {
       if (isupdate.value) {
         title.value = "Modifier l'emplacement";
@@ -402,6 +451,7 @@ watch(typeEmplacement, async (newTypeId) => {
       }
     };
 
+    
     const getAllTypeEmplacements = async () => {
       try {
         const response = await ApiService.get("/all/typeEmplacements");
@@ -419,7 +469,6 @@ watch(typeEmplacement, async (newTypeId) => {
         // Handle error
       }
     };
-    
     const modificationEmplacement = async (value) => {
       const lesTypes = lesTypesEmplacement.value;
       const objetTrouv = lesTypes.find((objet) => objet.id === value);
@@ -462,10 +511,8 @@ watch(typeEmplacement, async (newTypeId) => {
         //
       }
     };
-
     const addEmplacement = async (
       values: any,
-
       { resetForm }: { resetForm: () => void }
     ) => {
       console.log("GHJHGHGHGFHGFHF VALUE ==> ", values)
@@ -511,13 +558,12 @@ watch(typeEmplacement, async (newTypeId) => {
     };
 
     const resetValue = () => {
-      emplacementForm.value?.setFieldValue("code", ""); // Vider le champ "code"
-      emplacementForm.value?.setFieldValue("description", ""); // Vider le champ "description"
-      emplacementForm.value?.setFieldValue("typeEmplacement", ""); // Vider le champ "typeEmplacement"
+      emplacementForm.value?.setFieldValue("code", ""); 
+      emplacementForm.value?.setFieldValue("description", ""); 
+      emplacementForm.value?.setFieldValue("typeEmplacement", ""); 
       emplacementForm.value?.setFieldValue("emplacement", "")
       btnTitle();
     };
-
     const fetchDernierCode = async (value: any) => {
       try {
         const response = await ApiService.get("/derniercode/" + value);
@@ -563,9 +609,15 @@ watch(typeEmplacement, async (newTypeId) => {
       modificationEmplacement,
       emplacementEtat,
       typeEmplacement,
-      champsContenant,
-      estContenantActif 
-      
+      typeDocumentOptions,
+      getDocumentByType,
+      leDocu,
+      lesDocuments,
+      documentByTypeOptions,
+      document1,
+      type3,
+      estContenantActif,
+      newCategorie
     };
   },
 };

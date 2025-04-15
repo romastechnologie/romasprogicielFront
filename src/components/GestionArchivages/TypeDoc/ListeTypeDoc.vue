@@ -3,9 +3,9 @@
     <div
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
       <div class="d-sm-flex align-items-center">
-        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#AddTypeDocumentModal">
+        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#AddTypeDocModal">
           <i class="fa fa-plus-circle"></i>
-          Ajouter un type d'archivage
+          Ajouter un type de document
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -47,13 +47,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(typeDocument, index) in TypesDocuments" :key="index">
+            <tr v-for="(typeDoc, index) in TypesDocs" :key="index">
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ typeDocument.code }}
+                {{ typeDoc.code }}
               </td>
 
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ typeDocument.nom }}
+                {{ typeDoc.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0">
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown"
@@ -63,14 +63,14 @@
                   data-popper-placement="bottom-start">
                   <li class="dropdown-item d-flex align-items-center">
                     <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" data-bs-toggle="modal"
-                      data-bs-target="#AddTypeDocumentModal" @click="moddifier(typeDocument)">
+                      data-bs-target="#AddTypeDocModal" @click="moddifier(typeDoc)">
                       <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
                       Modifier
                     </a>
                   </li>
                   <li class="dropdown-item d-flex align-items-center">
                     <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
-                      @click="suppression(typeDocument.id, TypesDocuments, 'typeDocuments', `le type ${typeDocument.code}`)">
+                      @click="suppression(typeDoc.id, TypesDocs, 'typeDocs', `le type ${typeDoc.code}`)">
                       <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>
                       Supprimer
                     </a>
@@ -87,8 +87,8 @@
       </div>
     </div>
   </div>
-  <AddTypeDocumentModal @get-all-typesDepensess="getAllTypeDocuments" :item="selectedItem" @close="recharger"
-    @refreshTypesDepenses="refreshTypesDepenses" />
+  <AddTypeDocModal @get-all-typesDocss="getAllTypeDocs" :item="selectedItem" @close="recharger"
+    @refreshTypesDocs="refreshTypesDocs" />
 
 </template>
 
@@ -99,27 +99,27 @@ import ApiService from "@/services/ApiService";
 import { suppression, error } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import AddTypeDocumentModal from "./AddTypeDocumentModal.vue";
+import AddTypeDocModal from "./AddTypeDocModal.vue";
 import { useRouter } from "vue-router";
-import { TypeDocument } from "@/models/TypeDocument";
+import { TypeDoc } from "@/models/TypeDoc";
 import axios from "axios";
 
 export default defineComponent({
-  name: "ListeTypeDocument",
+  name: "ListeTypeDoc",
   components: {
     PaginationComponent,
-    AddTypeDocumentModal
+    AddTypeDocModal
   },
   setup() {
 
     onMounted(() => {
-      getAllTypeDocuments();
+      getAllTypeDocs();
     });
-    const idtypeDocument = ref(0);
+    const idtypeDoc = ref(0);
     const loading = ref<boolean>(false);
     const router = useRouter();
-    const TypesDocuments = ref<Array<TypeDocument>>([]);
-    const typeDocument = ref<TypeDocument>();
+    const TypesDocs = ref<Array<TypeDoc>>([]);
+    const typeDoc = ref<TypeDoc>();
 
     // BEGIN PAGINATE
     const searchTerm = ref('');
@@ -132,18 +132,18 @@ export default defineComponent({
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
-        getAllTypeDocuments(page_, limit_);
+        getAllTypeDocs(page_, limit_);
       } catch (error) {
         //
       }
     };
 
     function rechercher() {
-      getAllTypeDocuments(page.value, limit.value, searchTerm.value);
+      getAllTypeDocs(page.value, limit.value, searchTerm.value);
     }
 
     const recharger = () => {
-      getAllTypeDocuments();
+      getAllTypeDocs();
     };
 
 
@@ -151,18 +151,18 @@ export default defineComponent({
 
     onMounted(async () => {
       loading.value = false;
-      await getAllTypeDocuments();
+      await getAllTypeDocs();
     });
 
-    const refreshTypesDepenses = () => {
-      getAllTypeDocuments();
+    const refreshTypesDocs = () => {
+      getAllTypeDocs();
     };
 
-    const getAllTypeDocuments = async(page = 1, limi = 10, searchTerm = '') => {
+    const getAllTypeDocs = async(page = 1, limi = 10, searchTerm = '') => {
       try {
-        const data = await axios.get(`/all/typedocuments?page=${page}&limit=${limi}&mot=${searchTerm}&`);
+        const data = await axios.get(`/all/typedocs?page=${page}&limit=${limi}&mot=${searchTerm}&`);
         console.log("TTTTTYYYYYYYy ===> ", data);
-        TypesDocuments.value = data.data.data.data;
+        TypesDocs.value = data.data.data.data;
         totalPages.value = data.data.data.totalPages;
         limit.value = data.data.data.limit;
         totalElements.value = data.data.data.totalElements;
@@ -172,23 +172,19 @@ export default defineComponent({
       }
     }
 
-    function moddifier(EditTypeDocument: TypeDocument) {
-      typeDocument.value = EditTypeDocument;
-      selectedItem.value = EditTypeDocument.id;
+    function moddifier(EditTypeDoc: TypeDoc) {
+      typeDoc.value = EditTypeDoc;
+      selectedItem.value = EditTypeDoc.id;
     }
-
-
-
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
-
     const checkPermission = (name) => {
       return privileges.value.includes(name);
     }
 
     return {
-      typeDocument,
+      typeDoc,
       checkPermission,
-      getAllTypeDocuments,
+      getAllTypeDocs,
       moddifier,
       suppression,
       page,
@@ -200,8 +196,8 @@ export default defineComponent({
       searchTerm,
       selectedItem,
       recharger,
-      refreshTypesDepenses,
-      TypesDocuments
+      refreshTypesDocs,
+      TypesDocs
     };
   },
 });

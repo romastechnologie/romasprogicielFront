@@ -19,10 +19,11 @@
         </div>
       </div>
       <div class="col-md-12">
-      <div class="row"> 
-          <div class="col-md-3 mb-3">
+        <div class="container py-4 px-3">
+        <div class="row gx-4"> 
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label class="d-block text-black mb-10">
               Date de Fin  Conservation
               </label>
               <Field 
@@ -37,9 +38,9 @@
             </div>
           </div>
 
-          <div class="col-md-4 mb-2">
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
+              <label class="d-block text-black mb-10">
                 Catégorie Document <span class="text-danger">*</span>
               </label>
               <Field v-model="categorie"   name="categoriedocument" v-slot="{ field }">
@@ -54,10 +55,10 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3">
+          <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Type de Document <span class="text-danger">*</span>
+              <label class="d-block text-black mb-10">
+                Type d'archivage <span class="text-danger">*</span>
               </label>
               <Field v-model="typeDoc" name="typeDocument" v-slot="{ field }">
                 <Multiselect
@@ -65,14 +66,14 @@
                   :searchable="true"
                   v-model="field.value"
                   v-bind="field"
-                  placeholder="Sélectionner le type de document"
+                  placeholder="Sélectionner le type d'archivage"
                 />
               </Field>
               <ErrorMessage name="typeDocument" class="text-danger"/>
             </div>
           </div>
 
-          <div class="col-md-3 mt-3">
+                <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Tag <span class="text-danger">*</span>
@@ -120,6 +121,7 @@
               <ErrorMessage name="organisation" class="text-danger" />
             </div>
           </div>
+        </div>
       </div>
       </div>
       <div class="card-body p-15 p-sm-20 p-md-25">
@@ -153,6 +155,7 @@
             </thead>
             <tbody>
               <tr v-for="(document, index) in documents" :key="index">
+              
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.refDoc }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.nom }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.description }} </td>
@@ -167,9 +170,13 @@
                   </span>
                 </td>
                 <td>
-                  <span :class="getStatutBadge(document?.mouvement?.statut).badgeClass">
-                  {{ getStatutBadge(document?.mouvement?.statut).text }}
+                  <span v-if="document?.mouvements?.length > 0" :class="getStatutBadge(document.mouvements[(document.mouvements.length - 1)].statut).badgeClass">
+                  {{ getStatutBadge(document.mouvements[(document.mouvements.length - 1)].statut).text }}
                 </span>
+                <span v-else class="badge bg-secondary">
+                  Aucun
+                </span>
+
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                 <div class="d-flex justify-content-end gap-2">
@@ -207,11 +214,17 @@
                       Mouvmnt
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(document.id,  'Retour')">Retour</a></li>
-                      <li><a class="dropdown-item" href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(document.id, 'Sortie')">Sortie</a></li>
-                      <li><a class="dropdown-item" href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(document.id, 'Deplacement')">Deplacement</a></li>
-                      <li><a class="dropdown-item" href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(document.id, 'Destruction')">Destruction</a></li>
-                    </ul>
+                      <li v-if="getAvailableMouvements(document).length === 0">
+                      <span class="dropdown-item text-muted">Aucun mouvement disponible</span>
+                    </li>
+                    <li v-for="mvt in getAvailableMouvements(document)" :key="mvt.value">
+                      <a class="dropdown-item" href="javascript:void(0);"
+                        data-bs-target="#create-task" data-bs-toggle="modal"
+                        @click="openModal(document.id, mvt.value)">
+                        {{ mvt.label }}
+                      </a>
+                    </li>
+                  </ul>
                   </div>
                 </div>
               </td>
@@ -223,60 +236,14 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title">Voulez-vous traiter cette mouvement ?</h6>
+        <h6 class="modal-title" v-if="modeMouvement" >Voulez-vous traiter l'action "{{ mouvementLabel }}"sur ce document </h6>
         <button type="button" id="close-modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body px-8">
        
         <Form ref="mouvementForm" @submit="addMouvement" :validation-schema="mouvementSchema">
-            <div class="row">
-           <!--<div class="col-md-12 mb-3">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black mb-10">
-                    Type Mouvement <span class="text-danger">*</span>
-                  </label>
-                  <Field name="typeMouvement" v-model="typeMouv" type="text" v-slot="{ field }">
-                    <Multiselect v-model="field.value" :options="typeMouvement" v-bind="field" :preserve-search="true"
-                      :multiple="false" :searchable="true" placeholder="type de mouvement" label="label"
-                      track-by="label" />
-                  </Field>
-                  <ErrorMessage name="typeMouvement" class="text-danger" />
-                </div>
-              </div>--> 
-            </div>
-            <!--</fieldset>-->
-          <!--   <fieldset class="border rounded-3 p-1">
-              <legend class="float-none w-auto px-3">
-                Source
-              </legend>
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                    <label class="d-block text-black mb-10">
-                      Type Emplacement <span class="text-danger">*</span>
-                    </label>
-                    <Field name="typeEmplacementSource" v-model="type1" type="text" v-slot="{ field }">
-                      <Multiselect v-model="field.value" v-bind="field" :options="typeEmplacementOptions" :preserve-search="true" :multiple="false"
-                        :searchable="true" placeholder="type emplacement" label="label"
-                        track-by="label" />
-                    </Field>
-                    <ErrorMessage name="typeEmplacementSource" class="text-danger" />
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                    <label class="d-block text-black mb-10">
-                      Emplacement <span class="text-danger">*</span>
-                    </label>
-                    <Field name="emplacementInitial" type="text" v-slot="{ field }">
-                      <Multiselect v-model="field.value" v-bind="field" :options="emplacementOptions1" :preserve-search="true" :multiple="false"
-                        :searchable="true" placeholder="emplacement" label="label" track-by="label" />
-                    </Field>
-                    <ErrorMessage name="emplacementInitial" class="text-danger" />
-                  </div>
-                </div>
-              </div>
-            </fieldset>-->
+           
+            
             <div class="row">
 
               <div class="col-md-12"  v-if="modeMouvement === 'Sortie'">
@@ -284,7 +251,7 @@
                         <label class="d-block text-black mb-10">
                           Personnel chargé de retrait <span class="text-danger">*</span>
                         </label>
-                        <Field name="personnel" type="text" v-slot="{ field }">
+                        <Field name="personnelR" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
                             :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
                               const results = await getPersonnelByKey(query);
@@ -297,14 +264,14 @@
                               }
                             }" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un personnel" />
                         </Field>
-                        <ErrorMessage name="personnel" class="text-danger" />
+                        <ErrorMessage name="personnel2" class="text-danger" />
                       </div>
                     </div>
 
                     <div class="col-md-12">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
-                          Personnel bénéficiaire <span class="text-danger">*</span>
+                          Personnel<span class="text-danger">*</span>
                         </label>
                         <Field name="personnel" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
@@ -323,41 +290,7 @@
                       </div>
                     </div>
                     
-              <div class="col-md-6 mb-3">
-                <fieldset class="border rounded-3 p-1">
-                 <!--  <legend class="float-none w-auto px-3">
-                    Document informations
-                  </legend>-->  
-                <!-- <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                        <label class="d-block text-black mb-10">
-                          Type Document <span class="text-danger">*</span>
-                        </label>
-                        <Field name="typeDocument" v-model="type3" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" :options="typeDocumentOptions"
-                            :preserve-search="true" :multiple="false" :searchable="true"
-                            placeholder="type document" label="label" track-by="label" />
-                        </Field>
-                        <ErrorMessage name="typeDocument" class="text-danger" />
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                        <label class="d-block text-black mb-10">
-                          Document <span class="text-danger">*</span>
-                        </label>
-                        <Field name="document" v-model="document1" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" label="label" track-by="label" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" 
-                          placeholder="document" />
-                        </Field>
-                        <ErrorMessage name="document" class="text-danger" />
-                      </div>
-                    </div>
-                  </div>-->  
-                </fieldset>
-              </div>
-              <div class="col-md-12 mb-3" v-if="modeMouvement === 'Deplacement'">
+       <div class="col-md-12 mb-3" v-if="modeMouvement === 'Deplacement'">
                 <fieldset class="border rounded-3 p-1" >
                   <legend class="float-none w-auto px-3">
                     Destination
@@ -392,48 +325,10 @@
                   </div>
                 </fieldset>
               </div>
-            <!--- <div class="col-md-6 mb-3">
-                <fieldset class="border rounded-3 p-1">
-                  <legend class="float-none w-auto px-3">
-                    Informations
-                  </legend>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th class="shadow-none lh-1 fw-medium text-black">
-                              Nom :
-                            </th>
-                            <td class="shadow-none lh-1 fw-medium text-black">
-                              {{ leDocu?.nom }}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th class="shadow-none lh-1 fw-medium text-black">
-                              Description :
-                            </th>
-                            <td class="shadow-none lh-1 fw-medium text-black">
-                              {{ leDocu?.description }}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th class="shadow-none lh-1 fw-medium text-black">
-                              Date :
-                            </th>
-                            <td class="shadow-none lh-1 fw-medium text-black">
-                              {{ format_Date(leDocu?.createdAt) }}
-                            </td>
-                          </tr>
-                        </thead>
-                      </table>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>-->
             </div>
+            <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Valider</button>
-
+          </div>
           </Form>
       </div>
     </div>
@@ -448,7 +343,7 @@
   
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref,watch } from "vue";
+import { defineComponent, onMounted, ref,watch,computed } from "vue";
 import ApiService from "@/services/ApiService";
 import { Document } from "@/models/Document";
 import { Form, Field, ErrorMessage } from 'vee-validate';
@@ -486,6 +381,8 @@ export default defineComponent({
    //   typeMouvement: Yup.string().required('Le type de mouvement est obligatoire'),
    //   typeDocument: Yup.string().required('Le type de document est obligatoire'),
       personnel: Yup.string().notRequired(),
+      personnelR: Yup.string().notRequired(),
+
     });
     const documents = ref<Array<any>>([]);
     const document = ref<Document>();
@@ -512,6 +409,32 @@ export default defineComponent({
     const type1 = ref();
     const type2 = ref();
     const modeMouvement = ref('');
+
+    const getAvailableMouvements = (document: any) => {
+  const mouvements = document?.mouvements || [];
+  const dernierMouvement = mouvements.length > 0 ? mouvements[mouvements.length - 1].statut : null;
+
+  const allMouvements = [
+    { label: 'Retour', value: 'Retour' },
+    { label: 'Sortie', value: 'Sortie' },
+    { label: 'Deplacement', value: 'Deplacement' },
+    { label: 'Destruction', value: 'Destruction' },
+  ];
+
+  switch (dernierMouvement) {
+    case 0: // Retour
+      return allMouvements.filter(m => m.value !== 'Retour');
+    case 1: // Sortie
+      return allMouvements.filter(m => m.value === 'Retour');
+    case 2: // Destruction
+      return []; // Aucune action disponible
+    case 3: // Deplacement
+      return allMouvements; // Tous les mouvements possibles
+    default:
+      return allMouvements; // Aucun mouvement effectué encore
+  }
+};
+
    
     const handlePaginate = ({ page_, limit_ }:{ page_: number, limit_: number }) => {
       try {
@@ -538,11 +461,27 @@ export default defineComponent({
     });
 
 
+    
     const openModal = (id: number, mode: string) => {
   documentii.value = id;
   modeMouvement.value = mode;
  // showModal("create-task"); // ou comme tu ouvres ton modal
 };
+
+const mouvementLabel = computed(() => {
+  switch (modeMouvement.value) {
+    case 'Retour':
+      return 'Retour de document';
+    case 'Sortie':
+      return 'Sortie de document';
+    case 'Deplacement':
+      return 'Déplacement de document';
+    case 'Destruction':
+      return 'Destruction de document';
+    default:
+      return modeMouvement.value;
+  }
+});
 
 
 function triggerButtonClick(buttonId: string) {
@@ -554,17 +493,27 @@ function triggerButtonClick(buttonId: string) {
   }
 }
 
-  const addMouvement = async (values, { resetForm }) => {
-  values["id"] = documentii.value;
-  values["statut"] = true;
-  ApiService.post("/mouvement/document/",values)
+const addMouvement = async (values, { resetForm }) => {
+  const doc = documents.value.find(d => d.id === documentii.value);
+  
+  if (doc?.emplacement?.id) {
+    values["emplacementInitial"] = doc.emplacement.id;
+  } else {
+    values["emplacementInitial"] = null; 
+  }
+
+  values["document"] = documentii.value;
+  values["typeMouvement"] = modeMouvement.value;
+
+  console.log("mouvementdocument", values);
+
+  ApiService.post("/mouvement/document/", values)
     .then(({ data }) => {
-      console.log('depense', data);
       if (data.code === 201) {
         success(data.message);
         resetForm();
         getAllDocuments();
-        triggerButtonClick("close-modal");       
+        triggerButtonClick("close-modal");
       }
     })
     .catch(({ response }) => {
@@ -633,7 +582,7 @@ const getAvailableActions = (statut) => {
   }
   return actions;
 };
-// Fonction pour retourner une classe CSS en fonction du statut
+
 const getStatusClass = (statut) => {
   switch (statut) {
     case "En attente":
@@ -944,7 +893,9 @@ const fetchCategorieDocuments = async () => {
      mouvementSchema,
      modeMouvement,
      type2,
-     getStatutBadge 
+     getStatutBadge,
+     mouvementLabel,
+     getAvailableMouvements
 
      
     };

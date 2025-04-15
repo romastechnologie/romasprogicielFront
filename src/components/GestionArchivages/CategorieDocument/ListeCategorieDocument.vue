@@ -93,7 +93,7 @@
                 {{ categorieDocument.duree }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ categorieDocument.typeDocument?.libelle }}
+                {{ categorieDocument.typedoc?.libelle }}
               </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"

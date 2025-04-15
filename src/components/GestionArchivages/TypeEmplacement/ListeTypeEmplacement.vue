@@ -79,7 +79,7 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                Ordre
+                Contenant
               </th>
               <th
                 scope="col"
@@ -102,8 +102,12 @@
                 {{typeEmplacement.prefixe }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{typeEmplacement.ordre }}
-              </td>
+              <span :class="getContenantStatus(typeEmplacement.estContenant).class">
+                {{ getContenantStatus(typeEmplacement.estContenant).label }}
+              </span>
+            </td>
+
+
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
@@ -244,6 +248,15 @@ export default defineComponent({
     }
 
     
+    
+
+    const getContenantStatus = (val: boolean) => {
+  return {
+    label: val ? 'Oui' : 'Non',
+    class: val ? 'badge bg-success' : 'badge bg-warning',
+  };
+};
+
 
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
 
@@ -266,7 +279,8 @@ export default defineComponent({
     selectedItem,
     recharger,
     refreshtypeEmplacement,
-    TypesEmplacements
+    TypesEmplacements,
+    getContenantStatus
 
   };
   },

@@ -71,7 +71,7 @@
                 </th>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type document 
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type archivage
                 </th>
                 <th
                   scope="col"

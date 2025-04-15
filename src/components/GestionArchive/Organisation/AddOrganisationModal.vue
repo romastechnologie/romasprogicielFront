@@ -14,7 +14,8 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
-                    Type d'organisation {{typeOrganisation}} <span class="text-danger">*</span>
+                    Type d'organisation <!--{{typeOrganisation}}-->
+                    <span class="text-danger">*</span>
                   </label>
                   <Field name="typeorganisation"  v-model="typeOrganisation" type="text" v-slot="{ field }">
                     <Multiselect v-model="field.value" v-bind="field" :options="typeOrganisationOptions"
@@ -64,19 +65,18 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
-                    Type de document  <span class="text-danger">*</span>
+                    Type d'archivage <span class="text-danger">*</span>
                   </label>
                   <Field name="typedocument" v-slot="{ field }">
                   <Multiselect
                   :options="typeDocumentOptions"
-                  :searchable="true"
                   track-by="label"
                   label="label"
-                  mode="tags"
-                  multiple
+                  :multiple="false"
+                  :searchable="true"
                   v-model = "field.value"
                   v-bind = "field"
-                  placeholder="Sélectionner le type de document"
+                  placeholder="Sélectionner le type d'archivage"
                   />
                   </Field>
                   <ErrorMessage name="typedocument" class="text-danger" />
@@ -134,7 +134,8 @@ export default {
     const organisationSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       nom: Yup.string().required('Le nom est obligatoire'),
-      typedocument: Yup.array().min(1, "Le type de document obligatoire").required("Le type de document obligatoire"),
+      typedocument: Yup.string().required('Le type de document est obligatoire'),
+     // typedocument: Yup.array().min(1, "Le type de document obligatoire").required("Le type de document obligatoire"),
       organisation: Yup.string().notRequired(),
        typeorganisation: etatOrganisation.value == true ? Yup.string().notRequired() :  Yup.string().required("Le type d'organisation est obligatoire."),
 

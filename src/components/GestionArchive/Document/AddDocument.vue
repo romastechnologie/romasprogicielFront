@@ -101,7 +101,6 @@
             />
             <ErrorMessage name="refDoc" class="text-danger" />
           </div>
-
           <div class="col-md-4 mt-3">
             <label for="nom" class="form-label"
               >Nom Document<span class="text-danger">*</span></label
@@ -136,7 +135,6 @@
               <ErrorMessage name="description" class="text-danger" />
             </div>
           </div>
-
           <div class="col-md-4 mt-3">
             <label for="fichier" class="form-label"
               >Fichier<span class="text-danger">*</span></label
@@ -222,7 +220,8 @@
                 <Multiselect
                   v-model="field.value"
                   v-bind="field"
-                  :options="emplacementOptions"
+                 :options="emplacementByCategorieOptions" 
+                 noOptionsText="Selectionnez un type document"
                   :preserve-search="true"
                   :multiple="false"
                   :searchable="true"
@@ -234,6 +233,29 @@
               <ErrorMessage name="emplacement" class="text-danger" />
             </div>
           </div>
+
+
+     <!-- <div class="col-md-4 mt-3" v-if="sousEmplacementOptions.length">
+          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+          <label class="d-block text-black mb-10">Sous emplacement:</label>
+          <div class="d-flex">
+            <div v-for="option in sousEmplacementOptions" :key="option.value" class="form-check me-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                :id="option.value"
+                :value="option.value"
+                v-model="sousEmplacement"
+                :name="`sousEmplacement-${emplacement}`" 
+                :disabled="!option.label" 
+              />
+              <label class="form-check-label" :for="option.value">
+                {{ option.label }}
+              </label>
+            </div>
+          </div>
+        </div> 
+          </div>--> 
           <div class="col-12">
             <div class="tab-content" id="myTabContent">
               <div
@@ -282,16 +304,16 @@
                                 </td>
                                 <td class="text-center">
                                   {{
-                                    regle.regleConservation?.dureeConservation +
+                                    regle.dureeConservation +
                                     " " +
-                                    regle.regleConservation?.typeDuree
+                                    regle.typeDuree
                                   }}
                                 </td>
                                 <td class="text-center">
                                   {{ regle.dateFinConservation }}
                                 </td>
                                 <td class="text-center">
-                                  {{ regle.regleConservation?.sortFinal }}
+                                  {{ regle.sortFinal }}
                                 </td>
                               </tr>
                             </tbody>
@@ -325,12 +347,10 @@ import { defineComponent, onMounted, ref, watch } from "vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as Yup from "yup";
 import ApiService from "@/services/ApiService";
-import { Document } from "@/models/Document";
 import { error, success, ajouterPeriode, onFileChange } from "@/utils/utils";
 import { useRouter } from "vue-router";
 import Multiselect from "@vueform/multiselect/src/Multiselect";
 import axios from "axios";
-
 export default defineComponent({
   name: "AddDocument",
   components: {
@@ -339,7 +359,6 @@ export default defineComponent({
     ErrorMessage,
     Multiselect,
   },
-
   setup: () => {
     const documentSchema = Yup.object().shape({
       nom: Yup.string().required("Le nom est obligatoire."),
@@ -352,8 +371,9 @@ export default defineComponent({
       emplacement: Yup.string().notRequired(),
       categorie: Yup.string().required("Le tag est obligatoire."),
       typeDoc: Yup.string().required("Le type est obligatoire."),
-    });
+      //sousEmplacement: Yup.string().required("Veuillez choisir une option."),
 
+    });
     const documentForm = ref(null);
     const tagOptions = ref();
     const formatOptions = ref();
@@ -364,7 +384,6 @@ export default defineComponent({
     const selectedFile = ref<any>();
     const typeDoc = ref();
     const formats = ref();
-    const categorie = ref();
     const dateConservation = ref();
     const lesRegles = ref<Array<number>>([]);
     const emplacementOptions = ref<Array<any>>();
@@ -374,7 +393,6 @@ export default defineComponent({
     const typeOptions = ref([]);
     const router = useRouter();
     // const permissions= ref<Array<Permission>>([]);
-
     const fichierChange = (e) => {
       selectedFile.value = onFileChange(e, [
         "image/jpeg",
@@ -382,9 +400,59 @@ export default defineComponent({
         "application/pdf",
       ]);
     };
+    const categorie = ref();
+    const lesEmplacements = ref([]);
+    const emplacementByCategorieOptions = ref([]);
+   /*watch(typeDoc, async (newTypeDoc) => {
+  if (newTypeDoc) {
+    await getAllOrganisations(newTypeDoc); // Passer le type sélectionné
+  }
+});*/
+
+watch(typeDoc, async (newVal, oldVal) => {
+  await getAllRegleByTypeOrCategorie();
+  await getAllOrganisations(newVal);
+});
+
+watch(categorie, async (newValue, oldValue) => {
+      if (newValue != oldValue && newValue) {
+        console.log("categorie",newValue)
+      await getEmplacementByCategorie(newValue)
+      }
+    });
+
+
+const getEmplacementByCategorie = async (categorie: any) => {
+  try {
+    if (!categorie) {
+      console.error("Type de document invalide !");
+      return;
+    }
+
+    const response = await axios.get(`emplacements/${categorie}/donnes`);
+    if (response.status === 200) {
+      const emplacementData = response.data.data;
+      console.log("Emplacements récupérés :", emplacementData);
+
+      lesEmplacements.value = emplacementData;
+      emplacementByCategorieOptions.value = emplacementData.map((emplacement) => ({
+        value: emplacement.id,
+        label: `${emplacement.code}`,
+      }));
+    } else {
+      console.error("Erreur de récupération :", response.status);
+    }
+  } catch (error) {
+    console.error("Erreur ===> ", error);
+  }
+};
 
     const addDocument = async (values, { resetForm }) => {
+      console.log('sousEmplacement direct:', sousEmplacement);
+console.log('sousEmplacement.value:', sousEmplacement.value); 
       values["regles"] = lesRegles.value;
+      values["sousEmplacement"] = sousEmplacement;
+      console.log('donnéeee',values);
       axios
         .post("/documents", values, {
           headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
@@ -400,13 +468,11 @@ export default defineComponent({
           error(response.data.message);
         });
     };
-
     const getAllTypeDocument = async () => {
       console.log("Je suis dedans ");
       try {
         const response = await axios.get("all/typedocuments");
         const typesData = response.data.data.data;
-
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
           label: type.nom,
@@ -424,8 +490,7 @@ export default defineComponent({
       dateConservation.value = `${year}-${month}-${day}`;
       return dateConservation.value;
     };
-
-    const getAllOrganisations = async () => {
+   /* const getAllOrganisations = async () => {
       try {
         const response = await axios.get("all/organisations");
         const organisationsData = response.data.data.data;
@@ -437,7 +502,30 @@ export default defineComponent({
       } catch (error) {
         //error(response.data.message)
       }
-    };
+    };*/
+
+    const getAllOrganisations = async (selectedTypeId = null) => {
+  try {
+    const response = await axios.get("all/organisations");
+    const organisationsData = response.data?.data?.data ?? [];
+
+    const filteredOrgs = selectedTypeId === "deux" || selectedTypeId === null
+      ? organisationsData
+      : organisationsData.filter(
+          (org) => org?.typedocument?.id === parseInt(selectedTypeId, 10)
+        );
+
+    organisationOptions.value = filteredOrgs
+      .filter(org => org?.organisation)  // évite les null
+      .map((org) => ({
+        value: org.organisation.id,
+        label: org.organisation.nom,
+      }));
+  } catch (error) {
+    console.error("Erreur lors du chargement des organisations :", error);
+  }
+};
+
 
     const getAllFormats = async () => {
       try {
@@ -465,13 +553,35 @@ export default defineComponent({
         //error(response.data.message)
       }
     };
+
+
+    const sousEmplacementOptions = ref([]);
+    const emplacementDetails= ref ();
+    const sousEmplacement= ref ();
+
+watch(emplacement, (newVal) => {
+  if (newVal) {
+    const selected = emplacementOptions.value.find((opt) => opt.value === newVal);
+    emplacementDetails.value = selected || null;
+
+    sousEmplacementOptions.value = [];
+  } else {
+    emplacementDetails.value = null;
+    sousEmplacementOptions.value = [];
+  }
+
+  // Réinitialiser le sous-emplacement sélectionné
+  sousEmplacement.value = "";
+});
+
+
+
+
     const categoriesOptions = ref<Array<any>>([]);
-    const getAllCategorie = async () => {
+   /* const getAllCategorie = async () => {
       try {
         const response = await axios.get("/all/categorieDocuments");
-
         const formatsData = response.data.data.data;
-
         categoriesOptions.value = formatsData.map((cate) => ({
           value: cate.id,
           label: cate.libelle,
@@ -480,12 +590,28 @@ export default defineComponent({
       } catch (error) {
         //error(response.data.message)
       }
-    };
-
+    };*/
+    const getAllCategorie = async () => {
+      try {
+        const response = await ApiService.get("/all/categorieDocuments");
+        const categorieDocumentData =  response.data.data.data;
+        console.log("documentrecupéré",categorieDocumentData );
+        categoriesOptions.value = categorieDocumentData.map(
+          (categorieDocument) => ({
+            value: categorieDocument.id,
+            label: `${categorieDocument.libelle}`,
+          })
+        );
+      } catch (error) {
+        //
+        console.log("Erreur ===> ",error)
+      }
+    }
     const getAllRegleByTypeOrCategorie = async () => {
       const categoriee = categorie.value;
       const type = typeDoc.value;
       const date = dateConservation.value;
+
       if (type && categoriee) {
         try {
           const response = await axios.get(
@@ -493,7 +619,6 @@ export default defineComponent({
           );
           console.log("EERRRR ==> ", response);
           const formatsData = response.data.data;
-
           console.log("formatsData ==> ", formatsData);
           success(
             `Ces informations ont permis de trouvé ${formatsData.length} règle(s) de conservation de ce document`
@@ -506,17 +631,17 @@ export default defineComponent({
               ...regles,
               dateFinConservation: ajouterPeriode(
                 date.toLowerCase(),
-                regles.regleConservation?.dureeConservation,
-                regles.regleConservation?.typeDuree
+                regles?.dureeConservation,
+                regles?.typeDuree
               ),
             };
           });
+          console.log("regleconservation",reglesConservations);
         } catch (error) {
           console.warn("GHGH ==> ", error);
         }
       }
     };
-
     const getAllTags = async () => {
       try {
         const response = await ApiService.get("/tags");
@@ -530,12 +655,10 @@ export default defineComponent({
         //error(response.data.message)
       }
     };
-
     watch(categorie, async (newVal, oldVal) => {
       categorie.value = newVal;
       await getAllRegleByTypeOrCategorie();
     });
-
     watch(dateConservation, async (newVal, oldVal) => {
       console.log(newVal);
       dateConservation.value = newVal;
@@ -570,7 +693,14 @@ export default defineComponent({
       formatOptions,
       organisationOptions,
       tagOptions,
+      sousEmplacementOptions,
+      sousEmplacement,
+      lesEmplacements,
+      emplacementByCategorieOptions,
+      getEmplacementByCategorie
+      
+      
     };
   },
 });
-</script>
+</script> 

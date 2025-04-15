@@ -146,7 +146,7 @@
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
-                    Type document <span class="text-danger">*</span>
+                    Type d'archivage <span class="text-danger">*</span>
                   </label>
                   <Field name="typeDocument" v-slot="{ field }">
                     <Multiselect 
