@@ -189,7 +189,7 @@ export default {
       try {
         const response = await axios.get("all/attributions");
         const fonctionData = response.data.data.data;
-        console.log("ZZZZZZZZZZ ===> ", fonctionData);
+        console.log("valeurs", fonctionData);
         attributionOptions.value = fonctionData.map((fonction) => ({
           value: fonction.id,
           label: `${fonction.libelle}`,
