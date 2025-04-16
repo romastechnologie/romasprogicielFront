@@ -219,10 +219,6 @@
             typeBien: Yup.string().required("type Bien  est obligatoire."),
             magasin: Yup.string().required("magasin  est obligatoire."),
             typeentretien: Yup.string().required("type entretien  est obligatoire."),
-
-
-
-
       });
   
       onMounted(() => {

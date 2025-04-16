@@ -26,26 +26,23 @@
             :validation-schema="typeEmplacementSchema"
           >
             <div class="row">
-              <div class="col-md-12 mb-4">
-                <div class="form-group">
-                  <label class="d-block text-black mb-10">
-                    Type d'emplacement
-                  </label>
-                  <Field name="typeemplacement" v-model="typeEmplacement" type="text" v-slot="{ field }">
-                    <Multiselect
-                      v-model="field.value"
-                      v-bind="field"
-                      :options="typesEmplacementsOptions"
-                      :multiple="false"
-                      :searchable="true"
-                      placeholder="Sélectionner le type d'emplacement"
-                      label="label"
-                      track-by="label"
-                    />
-                  </Field>
-                  <ErrorMessage name="typeemplacement" class="text-danger" />
-                </div>
+
+              <div class="col-md-12 mb-3">
+              <div class="form-check">
+                <Field
+                  name="estContenant"
+                  type="checkbox"
+                  class="form-check-input"
+                  id="estContenantCheckbox"
+                  :value="true"
+                />
+                <label class="form-check-label" for="estContenantCheckbox">
+                  Est contenant
+                </label>
               </div>
+            </div>
+
+             
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
@@ -91,6 +88,27 @@
 
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Type d'emplacement
+                  </label>
+                  <Field name="typeemplacement" v-model="typeEmplacement" type="text" v-slot="{ field }">
+                    <Multiselect
+                      v-model="field.value"
+                      v-bind="field"
+                      :options="typesEmplacementsOptions"
+                      :multiple="false"
+                      :searchable="true"
+                      placeholder="Sélectionner le type d'emplacement"
+                      label="label"
+                      track-by="label"
+                    />
+                  </Field>
+                  <ErrorMessage name="typeemplacement" class="text-danger" />
+                </div>
+              </div>
+
+           <!--  <div class="col-md-6">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
                     Ordre <span class="text-danger">*</span>
                   </label>
@@ -102,7 +120,7 @@
                   />
                   <ErrorMessage name="ordre" class="text-danger" />
                 </div>
-              </div>
+              </div>--> 
             <button
               class="btn btn-primary mt-3"
             >
@@ -147,8 +165,9 @@ export default defineComponent({
       libelle: Yup.string().required("Le libellé est obligatoire"),
       code: Yup.string().required("Le code est obligatoire"),
       prefixe: Yup.string().required("Le Prefixe est obligatoire"),
-      ordre: Yup.string().required("Les ordres sont obligatoires"),
+      //ordre: Yup.string().required("Les ordres sont obligatoires"),
       typeEmplacement: Yup.string().notRequired(),
+     estContenant: Yup.string().notRequired(),
     });
 
     const typeEmplacementForm = ref<TypeEmplacement | null>(null);

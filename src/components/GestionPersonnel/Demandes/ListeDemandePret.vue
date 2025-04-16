@@ -67,11 +67,11 @@
                   <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.montantPret }} </td>              
                  
-                  <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ demande.statut }}
- <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
-                <span v-else class="badge text-outline-success">{{ demande.statut }}</span> -->
-              </td>
-
+                  <td class="shadow-none lh-1 fw-medium">
+  <span :class="getEtatBadge(demande.statut).badgeClass">
+    {{ getEtatBadge(demande.statut).text }}
+  </span>
+</td>
 <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
   <div class="dropdown">
     <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -291,7 +291,7 @@ export default defineComponent({
       selectedItem.value = id;
     };
 
-    /*const getEtatBadge = (statut: boolean | null) => {
+    const getEtatBadge = (statut: boolean | null) => {
   if (statut === true) {
     return {
       text: "Validé",
@@ -307,7 +307,7 @@ export default defineComponent({
     text: "En attente",
     badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
   };
-};*/
+};
 const accept = async (demande:any)=>{
       const valeur = ref(demande);
       const result = await Swal.fire({
@@ -343,7 +343,7 @@ function triggerButtonClick(buttonId: string) {
   values["id"] = demandeii.value;
   values["statut"] = true;
 
-  ApiService.put("/demandes/" + values.id, values)
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       console.log('demande', data);
       if (data.code === 200) {
@@ -366,7 +366,7 @@ const rejectDemandes = async () => {
     observation: demandesForm.value?.values?.observation || '', // Récupération de l'observation si remplie
   };
 
-  ApiService.put("/demandes/" + values.id, values)
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       if (data.code === 200) {
         success(data.message);
@@ -379,11 +379,7 @@ const rejectDemandes = async () => {
       error(response.data.message);
     });
 };
-
-
-
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
-
     const checkPermission = (name) => {
       return privileges.value.includes(name);
     }
@@ -407,7 +403,7 @@ const rejectDemandes = async () => {
       rechercher,
       addDemandes,
       demandesSchema,
-      //getEtatBadge,
+      getEtatBadge,
       rejectDemandes
       
     };

@@ -14,7 +14,8 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
-                    Type d'organisation {{typeOrganisation}} <span class="text-danger">*</span>
+                    Type d'organisation <!--{{typeOrganisation}}-->
+                    <span class="text-danger">*</span>
                   </label>
                   <Field name="typeorganisation"  v-model="typeOrganisation" type="text" v-slot="{ field }">
                     <Multiselect v-model="field.value" v-bind="field" :options="typeOrganisationOptions"
@@ -60,6 +61,29 @@
                   <ErrorMessage name="nom" class="text-danger" />
                 </div>
               </div>
+
+              <div class="col-md-12 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                    Type d'archivage <span class="text-danger">*</span>
+                  </label>
+                  <Field name="typedocument" v-slot="{ field }">
+                  <Multiselect
+                  :options="typeDocumentOptions"
+                  track-by="label"
+                  label="label"
+                  :multiple="false"
+                  :searchable="true"
+                  v-model = "field.value"
+                  v-bind = "field"
+                  placeholder="Sélectionner le type d'archivage"
+                  />
+                  </Field>
+                  <ErrorMessage name="typedocument" class="text-danger" />
+                </div>
+              </div>
+
+              
               <button class="btn btn-primary" type="submit">
                 {{ btntext }}
               </button>
@@ -110,6 +134,8 @@ export default {
     const organisationSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       nom: Yup.string().required('Le nom est obligatoire'),
+      typedocument: Yup.string().required('Le type de document est obligatoire'),
+     // typedocument: Yup.array().min(1, "Le type de document obligatoire").required("Le type de document obligatoire"),
       organisation: Yup.string().notRequired(),
        typeorganisation: etatOrganisation.value == true ? Yup.string().notRequired() :  Yup.string().required("Le type d'organisation est obligatoire."),
 
@@ -129,6 +155,8 @@ export default {
     const typeOrganisation = ref();
     const organisationOptions = ref();
     const organisation = ref();
+    const typeDocumentOptions = ref();
+    const typeDocument = ref();
 
 
 
@@ -136,6 +164,8 @@ export default {
 
     onMounted(async () => {
       await getAllTypeOrganisations();
+      await getAllTypeDocuments();
+
     });
 
     watch(() => props.id, (newValue) => {
@@ -202,6 +232,8 @@ export default {
       }
     }
     const lesTypesOrganisations = ref<Array<any>>([]);
+      const lesTypesDocuments = ref<Array<any>>([]);
+
 
     const getAllTypeOrganisations = async () => {
       try {
@@ -218,6 +250,24 @@ export default {
         //error(response.data.message)
       }
     }
+
+    
+    const getAllTypeDocuments = async () => {
+      try {
+        const response = await ApiService.get('/all/typeDocuments');
+        const typeDocumentsData = response.data.data.data;
+        console.log('Data', typeDocumentsData)
+        lesTypesDocuments.value = typeDocumentsData;
+        typeDocumentOptions.value = typeDocumentsData.map((typeDocument) => ({
+          value: typeDocument.id,
+          label: typeDocument.nom,
+        }));
+      }
+      catch (error) {
+        //error(response.data.message)
+      }
+    }
+
     const addOrganisation = async (values: any, { resetForm }: { resetForm: () => void }) => {
       values = values as Organisation;
       loading.value = false;
@@ -239,6 +289,7 @@ export default {
       } else {
         ApiService.post("/organisations", values)
           .then(({ data }) => {
+            console.log("valeur",values);
             if (data.code == 201) {
               success(data.message)
               resetForm();
@@ -280,6 +331,7 @@ export default {
       modificationOrganisation,
       organisations, title, btntext, etatOrganisation, resetValue, organisationSchema,
       addOrganisation, organisationForm, addOrganisationModalRef, organisationnew, typeOrganisation, organisation, typeOrganisationOptions, organisationOptions,
+      typeDocumentOptions,typeDocument
       //refreshOrganisations
     };
   },

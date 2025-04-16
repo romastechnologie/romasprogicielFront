@@ -203,7 +203,6 @@
   import ApiService from "@/services/ApiService";
   import { Demande } from "@/models/Demande";
   import { format_date, suppression, error,success } from "@/utils/utils";
-  
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
 import Swal from "sweetalert2";
@@ -328,7 +327,7 @@ const addDemandes = async (values, { resetForm }) => {
   values["id"] = demandeii.value;
   values["statut"] = true;
 
-  ApiService.put("/demandes/" + values.id, values)
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       console.log('demande', data);
       if (data.code === 200) {
@@ -351,7 +350,7 @@ const addDemandes = async (values, { resetForm }) => {
     observation: demandesForm.value?.values?.observation || '', // Récupération de l'observation si remplie
   };
 
-  ApiService.put("/demandes/" + values.id, values)
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       if (data.code === 200) {
         success(data.message);

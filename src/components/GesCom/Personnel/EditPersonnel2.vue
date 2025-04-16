@@ -1,33 +1,34 @@
-
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
-    <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-      <Form ref="personnelForm" @submit="editPersonnel" :validation-schema="personnelSchema" :initial-values="personnelForm">
-        <div v-if="currentStep === 1" class="row">
-          <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                 Nom <span class="text-danger">*</span>
-                </label>
-                <Field name="nom" type="string" v-model="nom"
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
-                <ErrorMessage name="nom" class="text-danger"/>
+  <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
+          <Form ref="personnelForm" @submit="editPersonnel" :validation-schema="personnelSchema" :initial-values="personnelForm">
+          
+            <Field name="id" v-model="personnelId" type="hidden" />
+
+            <div class="row">
+            <div class="col-md-4">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Nom <span class="text-danger">*</span>
+                  </label>
+                  <Field v-model="nom" name="nom" type="text" 
+                  class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le nom"/>
+                  <ErrorMessage name="nom" class="text-danger"/>
+                </div>
               </div>
-            </div>
-
-
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                 Prenoms<span class="text-danger">*</span>
-                </label>
-                <Field name="prenom" type="string" v-model="prenom"
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom"/>
-                <ErrorMessage name="prenom" class="text-danger"/>
+              
+              <div class="col-md-4">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Prénom <span class="text-danger">*</span>
+                  </label>
+                  <Field v-model="prenom" name="prenom" type="text" 
+                  class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le prenom"/>
+                  <ErrorMessage name="prenom" class="text-danger"/>
+                </div>
               </div>
-            </div>
 
-            <div class="col-md-6">
+              <div class="col-md-4">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Situation matrimoniale
@@ -57,66 +58,7 @@
                               </div>
                             </div>
 
-
-
-
-             <div class="col-md-6 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                  Civilite <span class="text-danger">*</span>
-                                </label>
-                                <Field
-                                  name="civilite"
-                                  v-model="civilite"
-                                  type="text"
-                                  v-slot="{ field }"
-                                >
-                                  <Multiselect
-                                    :searchable="true"
-                                    :options="['Mr', 'Mme']"
-                                    v-model="field.value"
-                                    v-bind="field"
-                                    placeholder="Sélectionner la civilité"
-                                  />
-                                </Field>
-                              </div>
-                            </div>
-
-
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                Date Naissance <span class="text-danger">*</span>
-                </label>
-                <Field name="birthdate" type="date" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer date"/>
-                <ErrorMessage name="birthdate" class="text-danger"/>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                Date Embauche <span class="text-danger">*</span>
-                </label>
-                <Field name="dateEmbauche" type="date" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer date"/>
-                <ErrorMessage name="dateEmbauche" class="text-danger"/>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                Numéro de sécurité sociale <span class="text-danger">*</span>
-                </label>
-                <Field name="numeroSecuriteSociale" type="string" v-model="numeroSecuriteSociale"
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer numéro sécurité sociale"/>
-                <ErrorMessage name="numeroSecuriteSociale" class="text-danger"/>
-              </div>
-            </div>
-
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Pays de résidence
@@ -140,7 +82,62 @@
                               </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Civilite <span class="text-danger">*</span>
+                                </label>
+                                <Field
+                                  name="civilite"
+                                  v-model="civilite"
+                                  type="text"
+                                  v-slot="{ field }"
+                                >
+                                  <Multiselect
+                                    :searchable="true"
+                                    :options="['Mr', 'Mme']"
+                                    v-model="field.value"
+                                    v-bind="field"
+                                    placeholder="Sélectionner la civilité"
+                                  />
+                                </Field>
+                              </div>
+                            </div>
+
+                            <div class="col-md-4">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                Email <span class="text-danger">*</span>
+                </label>
+                <Field name="email" type="string" v-model="email"
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le mail"/>
+                <ErrorMessage name="email" class="text-danger"/>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                Téléphone <span class="text-danger">*</span>
+                </label>
+                <Field name="telephone" type="string" v-model=telephone
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer telephone"/>
+                <ErrorMessage name="telephone" class="text-danger"/>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                Telephone 2 <span class="text-danger"></span>
+                </label>
+                <Field name="telephone2" type="string" v-model="telephone2"
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le telephone 2"/>
+                <ErrorMessage name="telephone2" class="text-danger"/>
+              </div>
+            </div>
+
+            <div class="col-md-4">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Religion <span class="text-danger">*</span>
@@ -166,7 +163,7 @@
                               </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Ethnie <span class="text-danger">*</span>
@@ -191,55 +188,8 @@
                                 </Field>
                               </div>
                             </div>      
-                            </div>
 
-        <div v-if="currentStep === 2" class="row">
-          <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                Boite postale <span class="text-danger">*</span>
-                </label>
-                <Field name="boitePostale" type="string" v-model="boitePostale" 
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer boite postale"/>
-                <ErrorMessage name="boitePostale" class="text-danger"/>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                Téléphone <span class="text-danger">*</span>
-                </label>
-                <Field name="telephone" type="string" v-model=telephone
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer telephone"/>
-                <ErrorMessage name="telephone" class="text-danger"/>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                Telephone 2 <span class="text-danger">*</span>
-                </label>
-                <Field name="telephone2" type="string" v-model="telephone2"
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le telephone 2"/>
-                <ErrorMessage name="telephone2" class="text-danger"/>
-              </div>
-            </div>
-
-
-            <div class="col-md-6">
-              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                <label class="d-block text-black fw-semibold mb-10">
-                Email <span class="text-danger">*</span>
-                </label>
-                <Field name="email" type="string" v-model="email"
-                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le mail"/>
-                <ErrorMessage name="email" class="text-danger"/>
-              </div>
-            </div>
-
-            <div class="col-md-6">
+                              <div class="col-md-4">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label
                                   class="d-block text-black fw-semibold mb-10"
@@ -264,7 +214,7 @@
                                 </Field>
                               </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label
                                   class="d-block text-black fw-semibold mb-10"
@@ -290,7 +240,7 @@
                                 </Field>
                               </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label
                                   class="d-block text-black fw-semibold mb-10"
@@ -317,7 +267,7 @@
                                 </Field>
                               </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label
                                   class="d-block text-black fw-semibold mb-10"
@@ -367,78 +317,70 @@
                               </Field>
                             </div>
                           </div>
-                    </div>
-
         <div class="col-md-12 d-flex flex-column mt-3">
-          <div class="d-flex align-items-center">
-            <button v-if="currentStep > 1" @click.prevent="prevStep" class="btn btn-secondary me-3">
-              Précédent
+          <div class="d-flex align-items-center ">
+            <button
+              class="btn btn-success me-3"
+              type="submit"
+            >
+                Modifier le personnel 
             </button>
-            <button v-if="currentStep < totalSteps" @click.prevent="nextStep" class="btn btn-primary me-3">
-              Suivant
-            </button>
-            <button v-if="currentStep === totalSteps" class="btn btn-success me-3" type="submit">
-              Modifier 
-            </button>
-            <router-link to="/models/liste-models" 
-                class="btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+            <router-link to="/liste-personnel" 
+                class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
           </div>
         </div>
-      </Form>
-    </div>
+      </div>
+    </Form>
   </div>
+</div>
 </template>
 
 <script lang="ts">
+
 import { defineComponent, ref, onMounted } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { error, success } from '@/utils/utils';
 import { useRoute, useRouter } from 'vue-router';
 import ApiService from '@/services/ApiService';
-import { Personnel } from '@/models/Personnel';
+import { Personnel} from '@/models/Personnel';
 import * as Yup from 'yup';
-import Multiselect from "@vueform/multiselect";
+import axios from 'axios';
+import Multiselect from '@vueform/multiselect';
 import { countries } from "./countries";
 
-
-
 export default defineComponent({
-  name: "EditPersonnel",
-  components: {
+    name: "EditPersonnel",
+    components: {
     Form,
     Field,
     ErrorMessage,
-    Multiselect,
+    Multiselect
+
   },
   setup: () => {
     const personnelSchema = Yup.object().shape({
-      nom: Yup.string().required("nom est obligatoire."),
-      prenom: Yup.string().required("prenom est obligatoire."),
-      birthdate: Yup.string().required("Date de naissance obligatoire"),
-      dateEmbauche:Yup.string().required("Date embauche obligatoire"),
-      numeroSecuriteSociale:Yup.string().required("Numero securite social"),
-      boitePostale:Yup.string().required("boite postale obligatoire"),
-      telephone: Yup.string().required("telephone est obligatoire"),
-      telephone2: Yup.string().required("telephone 2 est obligatoire"),
-      email: Yup.string().required("email obligatoire"),
-      nationalite: Yup.string().required("La nationalité est obligatoire"),
-      religion: Yup.string().required("Religion est obligatoire"),
-      ethnie: Yup.string().required("Ethnie est obligatoire"),
-      situationMatrimoniale: Yup.string().required("Situation matrimoniale obligatoire"),
-      departement:Yup.string().required("Departement obligatoire"),
-      commune: Yup.string().required("commune obligatoire"),
-      arrondissement: Yup.string().required("arrondissement obligatoire"),
-      quartier: Yup.string().required("quartier est obligatoire"),
-      adresse: Yup.string().required ("adresse est obligatoire"),
-    });
-
-    const countriesRef = ref(countries);
+  nom: Yup.string().required("Nom est obligatoire."),
+  prenom: Yup.string().required("Prénom est obligatoire."),
+  situationMatrimoniale: Yup.string().required("Situation est obligatoire."),
+  email: Yup.string().required("Situation est obligatoire."),
+  civilite: Yup.string().required("Civilité est obligatoire."),
+  //pays: Yup.string().required("Pays est obligatoire."),
+  religion: Yup.string().required("Réligion est obligatoire."),
+  ethnie: Yup.string().required("Ethnie est obligatoire."),
+  telephone: Yup.string().required("Téléphone est obligatoire."),
+  telephone2: Yup.string().required("Téléphone est obligatoire."),
+  commune: Yup.string().required("Commune est obligatoire."),
+  departement: Yup.string().required("Département est obligatoire."),
+  arrondissement: Yup.string().required("Arrondissement est obligatoire."),
+  quartier: Yup.string().required("Quartier est obligatoire."),
+  adresse: Yup.string().required("Adrese est obligatoire."),
+  nationalite: Yup.string().required("Nationalite est obligatoire."),
+  
+});
     const personnelForm = ref<Personnel>();
-    const router = useRouter();
-    const route = useRoute();
-    const currentStep = ref(1);
-    const totalSteps = 2;
+      const personnelId = ref();      
+    const countriesRef = ref(countries);
     const selectedCommune = ref([]);
     const selectedArrondissement = ref([]);
     const selectedQuartier = ref([]);
@@ -457,42 +399,16 @@ export default defineComponent({
     const ethnie = ref();
     const situationMatrimoniale = ref();
     const ethnieOptions = ref([]);
+    const nom = ref();
+    const prenom = ref();
+    const email = ref();
+    const telephone = ref();
+    const telephone2 = ref();
+    const civilite= ref();
+  
+    const router = useRouter();
+    const route = useRoute();
 
-    function nextStep() {
-      if (currentStep.value < totalSteps) currentStep.value++;
-    }
-
-    function prevStep() {
-      if (currentStep.value > 1) currentStep.value--;
-    }
-
-    const getPersonnel = async(id: number) =>{
-      ApiService.get("/personnel/" + id.toString())
-        .then(async ({ data }) => {
-          console.log("personnel1",data);
-
-          console.log("personnel2",data.data);
-          for (const key in data.data) {
-            personnelForm.value?.setFieldValue(key, 
-              (typeof data.data[key] === 'object' && data.data[key] !== null) ? data.data[key].id : data.data[key]
-            );
-                     
-
-          }
-          departement.value= data?.data?.departement?.id;
-          await departementChange(departement.value);
-          commune.value= data?.data?.commune?.id;
-          arrondissement.value= data?.data?.arrondissement?.id;
-          ethnie.value= data?.data?.ethnie?.id;
-          console.log ("ethnie",ethnie.value);
-          quartier.value= data?.data?.quartier?.id;
-          religion.value= data?.data?.religion?.id;
-          console.log ("religion",religion.value);
-        })
-        .catch(({ response }) => {
-          error(response.data.message);
-        });
-    }
 
     const getAllReligions = async () => {
       try {
@@ -505,21 +421,6 @@ export default defineComponent({
       } catch (error) {
       }
     }
-
-    const editPersonnel = async (values, { resetForm }) => {
-      try {
-        const response = await ApiService.put(`/personnels/${values.id}`, values);
-
-        if (response.status === 200) {
-          success(response.data.message);
-          resetForm();
-          router.push({ name: "ListeModelPage" });
-        }
-      } catch (error) {
-        error(error.response?.data?.message || "Une erreur est survenue.");
-      }
-    };
-
     const getAllEthnies = async () => {
       try {
         const response = await ApiService.get("/all/ethnies");
@@ -636,24 +537,65 @@ export default defineComponent({
     };
 
     
-    onMounted(() => {
-      if (route.params.id) {
-        getPersonnel(parseInt(route.params.id as string));
-      }
-      fetchDepartements();
-      getAllReligions();
-      getAllEthnies();
+const  getPersonnel = async (id: number) => {
+            console.log(id, "Personnel")
+            return ApiService.get("/personnel/" + id)
+                .then(({ data }) => {
+                    const donnees = data.data;
+                    console.log(donnees, 'donnéees');
+                    nom.value=donnees?.nom;
+                    prenom.value=donnees?.prenom;
+                    civilite.value=donnees?.civilite;
+                    email.value=donnees?.email;
+                    telephone.value=donnees?.telephone;
+                    telephone2.value=donnees?.telephone2;
+                    religion.value=donnees?.religion.id; 
+                    adresse.value= donnees?.adresse;  
+                    situationMatrimoniale.value=donnees?.situationMatrimoniale;
+                    nationalite.value=donnees?.nationalite;
+                    departement.value=donnees?.departement.id;
+                    commune.value=donnees?.commune;
+                    arrondissement.value=donnees?.arrondissement;
+                    quartier.value=donnees?.quartier;
+                    adresse.value=donnees?.adresse; 
+                    ethnie.value=donnees?.ethnie.id;
+                    personnelId.value = donnees?.id;
+           
+                })
+                .catch(({ response }) => {
+                    error(response.data.message)
+                });
+        }
 
+const editPersonnel = async (values, { resetForm }) => {
+  console.log("Valeurs envoyées :", values);
+  try {
+    const response = await ApiService.put(`/personnels/${values.id}`, values);
+    if (response.status === 200) {
+      success(response.data.message);
+      resetForm();
+     router.push({ name: "DetailsPersonnelPage" });
+    }
+  } catch (error) {
+  //  console.error("Erreur lors de la modification :", error.response?.data?.message);
+  }
+};
+
+
+
+    onMounted(async () => {
+      await  fetchDepartements();
+      await getAllReligions();
+      await getAllEthnies();
+     if (route.params.id) {
+       await getPersonnel(parseInt(route.params.id as string));
+      }
     });
 
-    return {
+    return { 
       personnelSchema, 
       editPersonnel, 
       personnelForm, 
-      currentStep, 
-      totalSteps, 
-      nextStep, 
-      prevStep,
       quartierOptions,
       communeOptions,
       departementOptions,
@@ -676,6 +618,14 @@ export default defineComponent({
       ethnie,
       nationalite,
       situationMatrimoniale,
+       nom,
+     prenom,
+    email,
+     telephone,
+    telephone2,
+    civilite,
+    personnelId
+
     };
   },
 });

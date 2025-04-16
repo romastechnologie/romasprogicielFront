@@ -65,6 +65,7 @@ import AddFinancePage from '@/pages/GestionTresorerie/Finance/AddFinancePage.vue
 import AddFinancePage2 from '@/pages/GestionTresorerie/Finance/AddFinancePage2.vue';
 import ListeFinancePage from '@/pages/GestionTresorerie/Finance/ListeFinancePage.vue';
 import EditFinancePage from '@/pages/GestionTresorerie/Finance/EditFinancePage.vue';
+import PointFinancePage from '@/pages/GestionTresorerie/Finance/PointFinancePage.vue';
 import AddOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddOuvFerPage.vue';
 import AddFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/AddFerPage.vue';
 import ListeOuvFerPage from '@/pages/GestionTresorerie/Ouverture_Fermeture/ListeOuvFerPage.vue';
@@ -133,6 +134,7 @@ import EditBanquePage from "@/pages/GesCom/Banque/EditBanquePage.vue";
 import ListeBanquePage from "@/pages/GesCom/Banque/ListeBanquePage.vue";
 import AddPersonnellePage from "@/pages/GesCom/Personnel/AddPersonnellePage.vue";
 import EditPersonnellePage from "@/pages/GesCom/Personnel/EditPersonnellePage.vue";
+import EditPersonnellePage2 from "@/pages/GesCom/Personnel/EditPersonnellePage2.vue";
 import ListePersonnellePage from "@/pages/GesCom/Personnel/ListePersonnellePage.vue";
 import ViewPersonnellePage from "@/pages/GesCom/Personnel/ViewPersonnellePage.vue";
 import ListeTaxePage from "@/pages/GesCom/Taxe/ListeTaxePage.vue";
@@ -198,6 +200,7 @@ import ListeModeTarificationPage from "@/pages/GestionPaie/ModeTarification/List
 import ListeReligionPage from "@/pages/GestionPaie/Religion/ListeReligionPage.vue";
 import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
+import ViewContratPage from "@/pages/GestionPaie/Contrat/ViewContratPage.vue";
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
@@ -207,6 +210,7 @@ import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.
 import AddTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/AddTypeEntretienPage.vue";
 import EditTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/EditTypeEntretienPage.vue";
 import ListeTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/ListeTypeEntretienPage.vue";
+import ViewTypeEntretienPage from "@/pages/GestionPack/TypeEntretien/ViewTypeEntretienPage.vue";
 import ListePackingPage from '@/pages/GestionPack/Packing/ListePackingPage.vue';
 import ListeTypeMoyenRoulantPage from '@/pages/GestionPack/TypeMoyenRoulant/ListeTypeMoyenRoulantPage.vue';
 import ListeCoursePage from '@/pages/GestionPack/Course/ListeCoursePage.vue';
@@ -230,6 +234,7 @@ import ListeTypesDepensesPage from '@/components/GestionDepenses/TypesDepenses/L
 import ListeCategoriesDepensesPage from '@/components/GestionDepenses/CategoriesDepenses/ListeCategoriesDepenses.vue';
 // Gestion Archivages
 import ListeCategorieDocumentPage from '@/components/GestionArchivages/CategorieDocument/ListeCategorieDocument.vue';
+import ListeReglesTypesPage from '@/components/GestionArchivages/ReglesTypes/ListeReglesTypes.vue';
 import ListeTypeDocumentPage from '@/components/GestionArchivages/TypeDocument/ListeTypeDocument.vue';
 import ListeTypeEmplacementPage from '@/components/GestionArchivages/TypeEmplacement/ListeTypeEmplacement.vue';
 import ListeRegleConservationPage from '@/components/GestionArchivages/RegleConservation/ListeRegleConservation.vue';
@@ -256,6 +261,7 @@ import ListeChampsLibrePage from "@/pages/ChampsLibre/ListeChampsLibrePage.vue";
 import AddCircuitPage from "@/pages/GestionCircuit/Circuit/AddCircuitPage.vue";
 import EditCircuitPage from "@/pages/GestionCircuit/Circuit/EditCircuitPage.vue";
 import ListeCircuitPage from "@/pages/GestionCircuit/Circuit/ListeCircuitPage.vue";
+import ViewCircuitPage from "@/pages/GestionCircuit/Circuit/ViewCircuitPage.vue";
 //import AddCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/AddCircuitDemandePage.vue";
 import ListeCircuitDemandePage from "@/pages/GestionPersonnel/CircuitDemande/ListeCircuitDemandePage.vue";
 //import AddEtapeValidationPage from "@/components/GestionCircuit/EtapeValidation/AddEtapeValidation.vue";
@@ -295,6 +301,9 @@ import AddEquipePage from '@/pages/GesCom/Equipe/AddEquipePage.vue';
 import AddMouvementPage from '@/pages/GesCom/Mouvement/AddMouvementPage.vue';
 import MiseAJourInventairePage from '@/pages/GesCom/Inventaire/MiseAJourInventairePage.vue';
 import AddArchivagePage from '@/pages/GestionPersonnel/Demandes/AddArchivagePage.vue';
+import ListeDemandePretPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePretPage.vue';
+import ListeValidationPage from '@/pages/Validation/ListeValidationPage.vue';
+import AddValidationPage from '@/pages/Validation/AddValidationPage.vue';
 //import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
@@ -345,7 +354,7 @@ const routes = [
                 }
             },
             {
-                path: "editer-typeEntretien",
+                path: "editer-typeEntretien/:id",
                 name: "EditTypeEntretien",
                 component: EditTypeEntretienPage,
                 meta: {
@@ -354,10 +363,18 @@ const routes = [
             },
             {
                 path: "liste-typeEntretien",
-                name: "ListeTypeEntretien",
+                name: "ListeTypeEntretienPage",
                 component: ListeTypeEntretienPage,
                 meta: {
                     title: "Liste des types d'entretien",
+                }
+            },
+            {
+                path: "view-typeEntretien/:id",
+                name: "ViewTypeEntretien",
+                component: ViewTypeEntretienPage,
+                meta: {
+                    title: 'Détails d\'un type entretien',
                 }
             },
         ]
@@ -584,6 +601,14 @@ const routes = [
                 component: ListeContratPage,
                 meta: {
                     title: 'Liste des contrats',
+                }
+            },
+            {
+                path: "view-contrat/:id",
+                name: "ViewContrat",
+                component: ViewContratPage,
+                meta: {
+                    title: 'Détails d\'un Contrat',
                 }
             },
         ]
@@ -1453,6 +1478,14 @@ const routes = [
                 }
             },
             {
+                path: "liste-demande-pret",
+                name: "ListeDemandePretPage",
+                component: ListeDemandePretPage,
+                meta: {
+                    title: 'Liste des demandes de pret',
+                }
+            },
+            {
                 path: "liste-demande-conge",
                 name: "ListeDemandeCongePage",
                 component: ListeDemandeCongePage,
@@ -1474,6 +1507,22 @@ const routes = [
                 component: ListeDemandeAutrePage,
                 meta: {
                     title: 'Liste des autres demandes',
+                }
+            },
+            {
+                path: "liste-demande-validation",
+                name: "ListeValidationPage",
+                component: ListeValidationPage,
+                meta: {
+                    title: 'Liste des validations',
+                }
+            },
+            {
+                path: "ajouter-validation",
+                name: "AddValidationPage",
+                component: AddValidationPage,
+                meta: {
+                    title: 'Ajouter validations',
                 }
             },
             {
@@ -1564,6 +1613,14 @@ const routes = [
                 path: "edit-personnel/:id",
                 name: "EditPersonnellePage",
                 component: EditPersonnellePage,
+                meta: {
+                    title: 'Modifier un personnel',
+                }
+            },
+            {
+                path: "edit-personnel2/:id",
+                name: "EditPersonnellePage2",
+                component: EditPersonnellePage2,
                 meta: {
                     title: 'Modifier un personnel',
                 }
@@ -1738,6 +1795,14 @@ const routes = [
                 component: EditFinancePage,
                 meta: {
                     title: 'Modifier un financement',
+                }
+            },
+            {
+                path: "point-finance",
+                name: "PointFinancePage",
+                component: PointFinancePage,
+                meta: {
+                    title: 'Point de financement',
                 }
             }
         ]
@@ -1971,6 +2036,14 @@ const routes = [
                 component: ListeCircuitDemandePage,
                 meta: {
                     title: 'Liste des circuits de demande',
+                }
+            },
+            {
+                path: "view-circuit/:id",
+                name: "ViewCircuit",
+                component: ViewCircuitPage,
+                meta: {
+                    title: 'Détails d\'un circuit',
                 }
             },
         ]
@@ -2749,6 +2822,20 @@ const routes = [
                 component: ListeTypeDepensePage,
                 meta: {
                     title: 'Liste des types de dépenses',
+                }
+            },
+        ]
+    },
+    {
+        path: "/reglestypes",
+        component: BodyView,
+        children: [
+            {
+                path: "liste-reglestypes",
+                name: "ListeReglesTypes",
+                component: ListeReglesTypesPage,
+                meta: {
+                    title: 'Ajouter une regle type document',
                 }
             },
         ]
@@ -3546,8 +3633,10 @@ router.beforeEach((to, from, next) => {
     }
     const path = ['/auth/login', '/auth/register'];
     if (path.includes(to.path) || localStorage.getItem('user')) {
+        //next('/auth/login');
         return next();
     }
+    //next();
     next('/auth/login');
 });
 export default router;

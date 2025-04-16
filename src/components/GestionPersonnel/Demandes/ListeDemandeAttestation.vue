@@ -85,10 +85,14 @@
                   <td class="shadow-none lh-1 fw-medium ">{{demande.dateDemande}} </td>                
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
-                  <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ demande.statut }}
- <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
+                    <td class="shadow-none lh-1 fw-medium">
+  <span :class="getEtatBadge(demande.statut).badgeClass">
+    {{ getEtatBadge(demande.statut).text }}
+  </span>
+</td>
+
+                    <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
                 <span v-else class="badge text-outline-success">{{ demande.statut }}</span> -->
-              </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary text-end pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
@@ -235,6 +239,25 @@ import { ErrorMessage, Field, Form } from "vee-validate";
       const totalPages = ref(0);
       const limit = ref(10);
       const totalElements = ref(0);
+
+      
+      const getEtatBadge = (statut: boolean | null) => {
+  if (statut === true) {
+    return {
+      text: "Validé",
+      badgeClass: "badge bg-success text-white",
+    };
+  } else if (statut === false) {
+    return {
+      text: "Rejeté",
+      badgeClass: "badge bg-danger text-white", // Classe rouge pour "Rejeté"
+    };
+  }
+  return {
+    text: "En attente",
+    badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
+  };
+};
   
       const handlePaginate = ({ page_, limit_ }) => {
         try {
@@ -277,8 +300,8 @@ function triggerButtonClick(buttonId: string) {
   const addDemandes = async (values, { resetForm }) => {
   values["id"] = demandeii.value;
   values["statut"] = true;
-
-  ApiService.put("/demandes/" + values.id, values)
+console.log(values, "values");
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       console.log('demande', data);
       if (data.code === 200) {
@@ -301,7 +324,7 @@ const rejectDemandes = async () => {
     observation: demandesForm.value?.values?.observation || '', // Récupération de l'observation si remplie
   };
 
-  ApiService.put("/demandes/" + values.id, values)
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       if (data.code === 200) {
         success(data.message);
@@ -372,7 +395,7 @@ const demandeii = ref();
       rechercher,
       addDemandes,
       demandesSchema,
-      //getEtatBadge,
+      getEtatBadge,
       rejectDemandes
       };
     },

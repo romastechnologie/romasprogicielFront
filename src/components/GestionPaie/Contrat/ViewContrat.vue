@@ -179,7 +179,6 @@ export default defineComponent({
     const contrat = ref(null);
     const loading = ref(false);
 
-    // Fonction pour récupérer les détails du contrat
     async function getContrat(id: string) {
       loading.value = true;
       try {
