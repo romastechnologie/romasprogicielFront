@@ -17,69 +17,78 @@
           
 
 
-          
-          <table class="table">
-            <tbody>
-              <tr>
-                <td>Durée du contrat</td>
-                <td>{{contrat?.dureeContrat|| 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Date d'embauche</td>
-                <td>{{ contrat?.datePriseFonction  || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Salaire de base</td>
-                <td>{{ contrat?. salaire || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Mode de tarification</td>
-                <td>{{ contrat?.modetarification?.libelle || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Catégorie de contrat</td>
-                <td>{{ contrat?.categorieContrat || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Période d'essai</td>
-                <td>{{ contrat?.dureePeriodeEssai || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Date de fin de contrat</td>
-                <td>{{contrat?.dateFin || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Renouvelable</td>
-                <td>{{ contrat?.renouvelable || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Date fin de période d'Essai</td>
-                <td>{{ contrat?.dateFinperiodeEssai || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Période de Paie</td>
-                <td>{{ contrat?.periodeDePaie || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Type Contrat</td>
-                <td>{{ contrat?.typeContrat?.libelle || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Personnel</td>
-                <td>{{ contrat?.personnel?.nom + ' ' + contrat?.personnel?.prenom }}</td>
-              </tr>
-              <tr>
-                <td>Poste Occupé</td>
-                <td>{{ contrat?.poste?.libelle || 'Non renseigné' }}</td>
-              </tr>
-              <tr>
-                <td>Attributions </td>
-                <td>{{ contrat?.attributioncontrats?.attribution?.libelle || 'Non renseigné' }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="row">
+  <div class="col-md-6">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td class="label-title">Durée du contrat </td>
+          <td>{{ contrat?.dureeContrat || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Date d'embauche</td>
+          <td>{{ contrat?.datePriseFonction || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Salaire de base</td>
+          <td>{{ contrat?.salaire || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Mode de tarification</td>
+          <td>{{ contrat?.modetarification?.libelle || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Catégorie de contrat</td>
+          <td>{{ contrat?.categorieContrat || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Période d'essai</td>
+          <td>{{ contrat?.dureePeriodeEssai || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Date de fin de contrat</td>
+          <td>{{ contrat?.dateFin || 'Non renseigné' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-          <!-- Horaires -->
+  <div class="col-md-6">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td class="label-title">Renouvelable</td>
+          <td>{{ contrat?.renouvelable || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Date fin de période d'Essai</td>
+          <td>{{ contrat?.dateFinperiodeEssai || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Période de Paie</td>
+          <td>{{ contrat?.periodeDePaie || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Type Contrat</td>
+          <td>{{ contrat?.typeContrat?.libelle || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Personnel</td>
+          <td>{{ contrat?.personnel?.nom + ' ' + contrat?.personnel?.prenom }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Poste Occupé</td>
+          <td>{{ contrat?.poste?.libelle || 'Non renseigné' }}</td>
+        </tr>
+        <tr>
+          <td class="label-title">Attributions</td>
+          <td>{{ contrat?.attributioncontrats?.attribution?.libelle || 'Non renseigné' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div> 
+</div>
+
           <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
             <h4 class="position-relative text-black fw-bold mb-10">Horaires de l'Entreprise</h4>
           </div>
@@ -183,6 +192,7 @@ export default defineComponent({
       loading.value = true;
       try {
         const { data } = await ApiService.get(`/contrat/${id}`);
+        console.log("contrat recupéré",data);
         if (data?.data) {
           contrat.value = data.data;
         } else {
@@ -321,4 +331,10 @@ const detailsContrat = [
 .table-wrapper:last-child {
   margin-right: 0;
 }
+
+.label-title {
+  font-weight: 600; /* Plus gras que normal (400) mais pas aussi gras que bold (700) */
+  color: #333; /* Optionnel : rend le texte un peu plus foncé */
+}
+
 </style>
