@@ -35,7 +35,7 @@
                 <th>Ordre</th>
                 <th>Durée du circuit</th>
                 <th>Role Etape</th>
-                <th>Personnels</th>
+                <th>Users</th>
 
 
               </tr>
@@ -46,7 +46,7 @@
                 <td>{{ etape?.Ordre || 'Non renseigné' }}</td>
                 <td>{{ etape?.Duree || 'Non renseigné' }}</td>
                 <td>{{ etape?.roleetap?.libelle || 'Non renseigné' }}</td>
-                <td>{{ etape?.useretapes?.userId || 'Non renseigné' }}</td>
+                <td>{{ etape?.etapevalidations?.useretapes?.userId || 'Non renseigné' }}</td>
               </tr>
             </tbody>
           </table>

@@ -112,8 +112,8 @@
                         </div>
                         <div class="col-md-2 mb-2">
                         <div class="input-group">
-                      <input v-model="circuit.duree" class="form-control" type="number" for="inputGroupSelect01" >
-                          <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.duree)">
+                      <input v-model="circuit.Duree" class="form-control" type="number" for="inputGroupSelect01" >
+                          <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.Duree)">
                             La durée est obligatoire
                           </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
