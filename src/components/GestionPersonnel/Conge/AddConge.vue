@@ -231,6 +231,7 @@ export default defineComponent({
           value: demande.id,
           label: demande.motifDemande,
         }));
+      console.log("response",response);
       } catch (err) {
         error("Erreur lors de la récupération des demandes.");
       }
