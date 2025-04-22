@@ -314,8 +314,7 @@
                                   placeholder="Entrer le téléphone"
                                   maxlength="10"
                                   @input="
-                                    telephone2 = '01' + telephone2.slice(2)
-                                  "
+                                    telephone2 = '01' + telephone2.slice(2)"
                                 />
                               </div>
                             </div>

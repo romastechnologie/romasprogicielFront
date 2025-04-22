@@ -104,17 +104,31 @@
               <td class="shadow-none lh-1 fw-medium">
                 {{validation.valideur}}
             </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-               {{validation.dateDemandeur}}
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                <span
-                class="badge"
-                :class="validation.statut ? 'bg-success' : 'bg-danger'"
-              >
-                {{ validation.statut ? 'Validé' : 'Rejeté' }}
-              </span>
-              </td>
+            <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+              {{
+                validation.validations && validation.validations.length
+                  ? (() => {
+                      const d = new Date(
+                        validation.validations
+                          .filter(v => v.dateValidation)
+                          .sort((a, b) => new Date(b.dateValidation) - new Date(a.dateValidation))[0]
+                          ?.dateValidation
+                      );
+                      const pad = n => String(n).padStart(2, '0');
+                      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+                    })()
+                  : '—'
+              }}
+          </td>
+          <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+          <span
+            class="badge"
+            :class="validation.statut === true ? 'bg-success' : validation.statut === false ? 'bg-danger' : 'bg-warning text-dark'"
+          >
+            {{ validation.statut === true ? 'Validé' : validation.statut === false ? 'Rejeté' : 'En attente' }}
+          </span>
+        </td>
+
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"
               >
@@ -129,12 +143,13 @@
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>
                     </li>-->
-                    <li v-if="!validation.estValide && validation.estValide !== false" class="dropdown-item d-flex align-items-center">
-                  <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(validation.id)">
-                    <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
-                    Traiter
-                  </a>
-                </li>
+                    <li v-if="validation.statut == null" class="dropdown-item d-flex align-items-center">
+                    <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(validation.id)">
+                      <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
+                      Traiter
+                    </a>
+                  </li>
+
                     <li >
                       <a
                         class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(validation.id,validations,'validations',`Validation ${validation.id}`)">
@@ -170,12 +185,12 @@
                 Observation<span class="text-danger"></span>
               </label>
               <Field
-                name="observation"
+                name="commentaire"
                 as="textarea"
                 placeholder="Entrer l'observation"
                 class="form-control shadow-none rounded-0 text-black"
               />
-              <ErrorMessage name="observation" class="text-danger" />
+              <ErrorMessage name="commentaire" class="text-danger" />
             </div>
           </div>
           <div class="modal-footer">
@@ -250,7 +265,7 @@ export default defineComponent({
     };
 
     const validationsSchema = Yup.object().shape({
-      observation: Yup.string().required("L'observation est obligatoire"),
+      commentaire: Yup.string().required("L'observation est obligatoire"),
     });
     const validationsForm = ref(null);
 
@@ -267,13 +282,12 @@ export default defineComponent({
     console.error(`Button with ID "${buttonId}" not found.`);
   }
 }
-    const addValidations = async (values, { resetForm }) => {
-  values["id"] = validationii.value;
-  values["statut"] = true;
-  ApiService.put("/validations/" + values.id, values)
+const addValidations = async (values, { resetForm }) => {
+  values["demandeId"] = validationii.value;
+  values["statut"] = true; // ou autre statut
+  ApiService.post("/validations", values)
     .then(({ data }) => {
-      console.log('validation', data);
-      if (data.code === 200) {
+      if (data.code === 201) {
         success(data.message);
         resetForm();
         getAllValidations();
@@ -284,15 +298,16 @@ export default defineComponent({
       error(response.data.message);
     });
 };
+
 const rejectValidations = async () => {
   const values = {
     id: validationii.value,
-    estValide: false, 
-    observation: validationsForm.value?.values?.observation || '', 
+    statut: false, 
+    commentaire: validationsForm.value?.values?.commentaire || '', 
   };
-  ApiService.put("/validations/" + values.id, values)
+  ApiService.post("/validations/" + values.id, values)
     .then(({ data }) => {
-      if (data.code === 200) {
+      if (data.code === 201) {
         success(data.message);
         validationsForm.value?.resetForm(); 
         getAllValidations(); 

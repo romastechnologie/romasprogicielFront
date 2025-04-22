@@ -106,6 +106,12 @@
                       {{ personnel?.ethnie?.libelle || "Non renseigné" }}
                     </p>
                   </div>
+                  <div class="col-md-6">
+                    <p>
+                      <strong>Service:</strong>
+                      {{ personnel?.ethnie?.libelle || "Non renseigné" }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

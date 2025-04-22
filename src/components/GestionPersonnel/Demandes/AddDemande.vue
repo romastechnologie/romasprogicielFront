@@ -76,6 +76,7 @@
             </div>
           </div>
          
+         
           <div v-show="fieldHide6" class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -553,6 +554,8 @@ import router from '@/router';
       /*nconst calculMontantTotal = () => {
         montantPret.value = echeances.reduce((acc, echeance) => acc + Number(echeance.montant || 0), 0);
       };*/
+
+     
 
       const getAllTypeConges = async () => {
           try{
