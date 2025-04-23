@@ -36,8 +36,6 @@
                 <th>Durée du circuit</th>
                 <th>Role Etape</th>
                 <th>Users</th>
-
-
               </tr>
             </thead>
             <tbody>
@@ -46,7 +44,14 @@
                 <td>{{ etape?.Ordre || 'Non renseigné' }}</td>
                 <td>{{ etape?.Duree || 'Non renseigné' }}</td>
                 <td>{{ etape?.roleetap?.libelle || 'Non renseigné' }}</td>
-                <td>{{ etape?.etapevalidations?.useretapes?.userId || 'Non renseigné' }}</td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                <span v-if="etape.useretapes && etape.useretapes.length > 0">
+                  <span v-for="(userEtape, index) in etape.useretapes" :key="index">
+                    {{ userEtape.user.nom }} {{ userEtape.user.prenom }}
+                    <span v-if="index < etape.useretapes.length - 1"> - </span>
+                  </span>
+                </span>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -55,10 +60,6 @@
       </div>
     </div>
   </div>
-
-
-
-
 </template>
 
 <script lang="ts">
@@ -79,8 +80,10 @@ export default defineComponent({
     // Fonction pour récupérer les détails du circuit
     async function getCircuit(id: string) {
       loading.value = true;
+      
       try {
         const { data } = await ApiService.get(`/circuits/${id}`);
+        console.log('valeurs',data);
         if (data?.data) {
           circuit.value = data.data;
         } else {
