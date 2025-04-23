@@ -99,7 +99,7 @@
                 {{ validation?.personnel?.nom +' '+  validation?.personnel?.prenom }} 
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{validation.observation}}
+                {{validation.commentaire}} 
               </td>
               <td class="shadow-none lh-1 fw-medium">
                 {{validation.valideur}}

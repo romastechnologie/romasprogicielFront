@@ -238,11 +238,11 @@
                             <div class="col-md-6 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
-                                  Service GG <span class="text-danger">*</span>
+                                  Service  <span class="text-danger">*</span>
                                 </label>
                                 <Field
                                   name="service"
-                                  v-model="service"
+                                  v-model="organisation"
                                   type="text"
                                   v-slot="{ field }"
                                 >
@@ -901,12 +901,12 @@
                                     :searchable="true"
                                     :options="[
                                       'Normal',
-                                      'à vue réduite',
+                                      'A vue réduite',
                                       'Visé de loin',
                                       'Astigmatique',
-                                      'à vue réduite & astigmatique',
+                                      'A vue réduite & astigmatique',
                                       'Visé de loin & astigmatique',
-                                      'partiellement handicapé',
+                                      'Partiellement handicapé',
                                       'Aveugle',
                                     ]"
                                     v-model="field.value"
@@ -932,12 +932,12 @@
                                     :searchable="true"
                                     :options="[
                                       'Normal',
-                                      'à vue réduite',
+                                      'A vue réduite',
                                       'Visé de loin',
                                       'Astigmatique',
-                                      'à vue réduite & astigmatique',
+                                      'A vue réduite & astigmatique',
                                       'Visé de loin & astigmatique',
-                                      'partiellement handicapé',
+                                      'Partiellement handicapé',
                                       'Aveugle',
                                     ]"
                                     v-model="field.value"
@@ -963,7 +963,7 @@
                                     :searchable="true"
                                     :options="[
                                       'Normal',
-                                      'partiellement handicapé',
+                                      'Partiellement handicapé',
                                       'Sourd',
                                     ]"
                                     v-model="field.value"
@@ -989,7 +989,7 @@
                                     :searchable="true"
                                     :options="[
                                       'Normal',
-                                      'partiellement handicapé',
+                                      'Partiellement handicapé',
                                       'Sourd',
                                     ]"
                                     v-model="field.value"
@@ -1014,8 +1014,8 @@
                                     :searchable="true"
                                     :options="[
                                       'Normal',
-                                      'partiellement handicapé',
-                                      'handicapé',
+                                      'Partiellement handicapé',
+                                      'Handicapé',
                                     ]"
                                     v-model="field.value"
                                     v-bind="field"
@@ -1039,8 +1039,8 @@
                                     :searchable="true"
                                     :options="[
                                       'Normal',
-                                      'partiellement handicapé',
-                                      'handicapé',
+                                      'Partiellement handicapé',
+                                      'Handicapé',
                                     ]"
                                     v-model="field.value"
                                     v-bind="field"
@@ -1065,8 +1065,8 @@
                                     :searchable="true"
                                     :options="[
                                       'Normal',
-                                      'partiellement handicapé',
-                                      'handicapé',
+                                      'Partiellement handicapé',
+                                      'Handicapé',
                                     ]"
                                     v-model="field.value"
                                     v-bind="field"
@@ -1091,8 +1091,8 @@
                                     :searchable="true"
                                     :options="[
                                       'Normal',
-                                      'partiellement handicapé',
-                                      'handicapé',
+                                      'Partiellement handicapé',
+                                      'Handicapé',
                                     ]"
                                     v-model="field.value"
                                     v-bind="field"
@@ -1215,7 +1215,7 @@
 
                             <h1>Informations sur la personne à contacter</h1>
 
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Relation
@@ -1227,36 +1227,36 @@
                                   v-model="relation"
                                   v-slot="{ field }"
                                 >
-                                  <Multiselect
-                                    :searchable="true"
-                                    :options="[
-                                      'Parent',
-                                      'Frere',
-                                      'Soeur',
-                                      'Ami',
-                                      'Collègue',
-                                      'Enfant',
-                                      'Voisin',
-                                      'Employeur',
-                                      ...(situation !== 'Célibataire' &&
-                                      situation !== 'Divorcée' &&
-                                      situation !== 'Veuve'
-                                        ? ['Conjoint(e)']
-                                        : []),
-                                    ]"
-                                    v-model="field.value"
-                                    v-bind="field"
-                                    placeholder="Sélectionner la relation"
-                                  />
+                          <Multiselect
+                          :searchable="true"
+                          :options="[
+                            'Père',
+                            'Mère',
+                            'Frere',
+                            'Soeur',
+                            'Ami',
+                            'Enfant',
+                            'Voisin',
+                            ...(situationMatrimoniale === 'Marié(e)' ||
+                              situationMatrimoniale === 'Concubinage' ||
+                              situationMatrimoniale === 'Union libre'
+                                ? ['Conjoint(e)']
+                                : []),
+                          ]"
+                          v-model="field.value"
+                          v-bind="field"
+                          placeholder="Sélectionner la relation"
+                        />
+
                                 </Field>
                               </div>
                               <span class="text-danger" v-show="!relation"
-                                >Veuillez choisir la Banque</span
+                                >Veuillez choisir la relation </span
                               >
                             </div>
 
-                            <div class="row g-2">
-                              <div class="col-md-6 mb-3">
+                           
+                              <div class="col-md-6 mb-3" v-if="relation !== 'Conjoint(e)'">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
                                     Nom de la personne à contacter
@@ -1277,7 +1277,7 @@
                                   contacter</span
                                 >
                               </div>
-                              <div class="col-md-6 mb-3">
+                              <div class="col-md-6 mb-3" v-if="relation !== 'Conjoint(e)'">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
                                     Prénom personne à contacter
@@ -1298,7 +1298,7 @@
                                   contacter</span
                                 >
                               </div>
-                              <div class="col-md-6 mb-3">
+                              <div class="col-md-6 mb-3" v-if="relation !== 'Conjoint(e)'">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
                                     Téléphone personne à contacter
@@ -1324,11 +1324,11 @@
                                   >Entrez le téléphone de la Personne à
                                   contacter</span
                                 >
-                              </div>
-                            </div>
+                              </div>                    
                           </div>
                         </div>
-                      </div>
+                    
+                    </div>
                       <div class="buttons mt-3">
                         <a
                           type="button"
@@ -1350,7 +1350,7 @@
                           v-if="currentStep === tabs.length"
                           type="submit"
                           class="btn btn-success"
-                        >-
+                        >
                           Soumettre
                         </button>
                       </div>
@@ -1474,7 +1474,7 @@ export default defineComponent({
     const router = useRouter();
     const religion = ref();
     const ethnie = ref();
-    const service = ref();
+    const organisation = ref();
     const nom = ref();
     const prenom = ref();
     const adresse = ref();
@@ -1522,6 +1522,7 @@ export default defineComponent({
     const ethnieCon = ref();
     const nombreEnfant = ref(null);
     const situationMatrimoniale = ref();
+    const situation = ref();
     const photo = ref<File>(null);
     const departementOptions = ref([]);
     const communeOptions = ref([]);
@@ -1624,7 +1625,7 @@ export default defineComponent({
      //   numeroSecuriteSociale: numeroSecuriteSociale.value,
         religion: religion.value,
         ethnie: ethnie.value,
-        service: service.value,
+        organisation: organisation.value,
         boitePostale: boitePostale.value,
         telephone: telephone.value,
         telephone2: telephone2.value,
@@ -2131,7 +2132,7 @@ export default defineComponent({
           //   numeroSecuriteSociale: numeroSecuriteSociale.value,
           religion: religion.value,
           ethnie: ethnie.value,
-          service: service.value,
+          organisation: organisation.value,
         };
         for (const key in element1) {
           if (!element1[key]) {
@@ -2159,13 +2160,19 @@ export default defineComponent({
             error(`Saisir l'élément suivant ${key}`);
             return false;
           }
+          if (key === "telephone" && !/^\d{10}$/.test(element2[key])) {
+    error("Le numéro de téléphone doit contenir exactement 10 chiffres");
+    return false;
+  }
 
           if (key === "email" && !emailRegex.test(element2[key])) {
             error("Veuillez entrer une adresse email valide");
             return false;
           }
         }
+ 
       }
+
 
       if (currentStep.value === 3) {
         let element3 = {
@@ -2331,7 +2338,7 @@ export default defineComponent({
       photo,
       religion,
       ethnie,
-      service,
+      organisation,
       nom,
       prenom,
       adresse,
@@ -2397,6 +2404,7 @@ export default defineComponent({
       codeSwift,
       identification,
       checkAge,
+      situation
     };
   },
   computed: {
