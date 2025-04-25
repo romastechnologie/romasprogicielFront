@@ -127,4 +127,6 @@ export default defineComponent({
 .table-wrapper:last-child {
   margin-right: 0;
 }
+
 </style>
+

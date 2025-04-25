@@ -22,7 +22,7 @@
                   </tr>
                   <tr>
                     <td>Montant :</td>
-                    <td>{{ depense?.montant }}</td>
+                    <td>{{ separateur(depense?.montant) }}</td>
                   </tr>
                   <tr>
                     <td>Entretien :</td>
@@ -68,7 +68,7 @@
   import { defineComponent, onMounted, ref } from "vue";
   import ApiService from "@/services/ApiService";
   import { Depense } from "@/models/Depense";
-  import { error, format_date, showModal } from "@/utils/utils";
+  import { error, format_date, showModal,separateur } from "@/utils/utils";
   import { useRoute } from "vue-router";
 
   
@@ -97,6 +97,7 @@
         depense,
         getDepense,
         format_date,
+        separateur
        };
     },
   });

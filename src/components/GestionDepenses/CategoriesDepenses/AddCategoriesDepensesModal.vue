@@ -152,14 +152,14 @@ export default {
 
         const getAllCategoriesDepense = async () => {
             try {
-                const response = await ApiService.get('all/categoriesDepenses');
+                const response = await ApiService.get('/all/categoriesDepenses');
                 const categoriesDepensesData = response.data.data.data;
                 console.log('Data')
                 console.log('categoriesDepensesData',categoriesDepensesData)
 
                 categoriesDepensesOptions.value = categoriesDepensesData.map((categoriesDepenses) => ({
                     value: categoriesDepenses.id,
-                    label: categoriesDepenses.reference,
+                    label: categoriesDepenses.libelle,
 
                 }));
             }

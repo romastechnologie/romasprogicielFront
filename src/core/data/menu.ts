@@ -655,11 +655,11 @@ export const menu: MenuItem[] = [
                 title: "Ouverture de caisse ",
                 type: "link"
             },
-            {
-                path: "/ouv_fers/ajouter-fermeture",
-                title: "Fermeture de caisse ",
-                type: "link"
-            },
+            // {
+            //     path: "/ouv_fers/ajouter-fermeture",
+            //     title: "Fermeture de caisse ",
+            //     type: "link"
+            // },
             {
                 path: "/ouv_fers/liste-ouv_fer",
                 title: "Liste des ouvertures/fermetures",
@@ -679,16 +679,16 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
-    {
-        title: "User Compte",
-        icon: "stroke-animation",
-        icon1: "fill-animation",
-        type: "link",
-        path: "/userComptes/liste-userCompte",
-        badgeType: "light-primary",
-        active: false,
-        isPinned: false
-    },
+    // {
+    //     title: "User Compte",
+    //     icon: "stroke-animation",
+    //     icon1: "fill-animation",
+    //     type: "link",
+    //     path: "/userComptes/liste-userCompte",
+    //     badgeType: "light-primary",
+    //     active: false,
+    //     isPinned: false
+    // },
 
     {
         title: "User Tresorerie",
@@ -712,12 +712,12 @@ export const menu: MenuItem[] = [
         children: [
             {
                 path: "/finances/ajouter-finance",
-                title: "Declarer une depense ",
+                title: "Décaissement ",
                 type: "link"
             },
             {
                 path: "/finances/ajouter-finance2",
-                title: "Declarer une recette ",
+                title: "Encaissement ",
                 type: "link"
             },
             {

@@ -1,5 +1,6 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+    
     <div
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
@@ -63,13 +64,19 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-               Main
+               Mail
               </th>
               <th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
                 Telephone
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Service
               </th>
               <th
                 scope="col"
@@ -98,17 +105,20 @@
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ personnel.telephone }}
               </td>
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ personnel?.organisation_personnels?.[personnel.organisation_personnels.length - 1]?.organisation?.nom || "Non renseigné" }}
+              </td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                   <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                    <li class="dropdown-item d-flex align-items-center">
+                  <!-- <li class="dropdown-item d-flex align-items-center">
                      <router-link :to="{ name: 'EditPersonnellePage', params: { id: personnel.id } }" 
                           class="dropdown-item d-flex align-items-center"><i
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>
-                    </li>
+                    </li>--> 
                     <li class="dropdown-item d-flex align-items-center">
         <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(personnel.id)">
           <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
@@ -243,7 +253,7 @@ export default defineComponent({
     });
     const personnelsSchema = Yup.object().shape({
      organisation_id: Yup.string().required("service est obligatoire"),
-     DateDebut: Yup.string().required("service est obligatoire"),
+     DateDebut: Yup.string().required("La date de début est obligatoire"),
     });
     const personnelsForm = ref(null);
     const serviceOptions = ref([]);
@@ -325,7 +335,7 @@ const openModal = (id: number) => {
     function getAllPersonnels(page = 1, limi = 10, searchTerm = '') {
       return ApiService.get(`all/personnels?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
-          console.log(data.data.data);
+          console.log("dataaa", data.data.data);
           personnels.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;

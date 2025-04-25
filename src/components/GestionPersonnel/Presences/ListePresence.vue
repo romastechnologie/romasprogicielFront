@@ -173,6 +173,7 @@ function getAllPresences(page = 1, limi = 10, searchTerm = '') {
        return ApiService.get(`/presences?page=${page}&limit=${limi}&mot=${searchTerm}&`)
       //return ApiService.get('/typeConges')
         .then(({ data }) => {
+          console.log("presence",data);
           presence.value = data.data.data;
           totalPages.value = data.data.totalPages;
           limit.value = data.data.limit;

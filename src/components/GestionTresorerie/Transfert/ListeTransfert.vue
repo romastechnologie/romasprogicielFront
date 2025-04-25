@@ -37,7 +37,7 @@
           <table class="table text-nowrap align-middle mb-0">
             <thead>
               <tr> 
-                            <th scope="col">id</th>
+                           
                             <th scope="col">Source</th>
                             <th scope="col">Destination</th>
                             <th scope="col">Montant</th>
@@ -50,10 +50,10 @@
             </thead>
             <tbody>
               <tr v-for="(transfert, index) in transferts" :key="index">
-                             <th>{{ transfert.id }}</th>
+                            
                              <th>{{ transfert.tresorerie?.nom}}</th>
                              <td>{{ transfert.tresorerie2?.nom}}</td>
-                            <td>{{ transfert.montant }}</td>
+                            <td>{{ separateur(transfert.montant) }}</td>
                             <td>{{ format_date(transfert.dateDeTransfert) }}</td>
              
                 <td
@@ -64,12 +64,12 @@
                     Actions
                   </button>
                     <ul class="dropdown-menu">
-                      <li >
+                     <!-- <li >
                         <router-link :to="{ name: 'EditTransfertPage', params: { id:transfert.id } }" 
                             class="dropdown-item d-flex align-items-center"><i
                             class="flaticon-pen lh-1 me-8 position-relative top-1"
                           ></i>Modifier</router-link>
-                      </li>
+                      </li>-->
                     
                     <!--  <li >
                         <a
@@ -99,7 +99,7 @@
   import Swal from "sweetalert2";
   import { Transfert } from "@/models/Transfert";
   import ApiService from "@/services/ApiService";
-  import {format_date,suppression, error } from "@/utils/utils";
+  import {format_date,suppression, error,separateur } from "@/utils/utils";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   
@@ -214,6 +214,7 @@
       totalElements,
       handlePaginate,
       rechercher,
+      separateur,
       searchTerm
     };
     },

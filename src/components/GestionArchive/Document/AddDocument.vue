@@ -113,29 +113,7 @@
             />
             <ErrorMessage name="nom" class="text-danger" />
           </div>
-          <div class="col-md-4 mt-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Description <span class="text-danger">*</span>
-              </label>
-              <Field
-                name="description"
-                cols="20"
-                rows="3"
-                as="textarea"
-                placeholder="Description"
-                v-slot="{ field }"
-                class="form-control shadow-none rounded-0 text-black"
-              >
-                <textarea
-                  v-model="field.value"
-                  class="form-control shadow-none rounded-0 text-black"
-                ></textarea>
-              </Field>
-              <ErrorMessage name="description" class="text-danger" />
-            </div>
-          </div>
-          <div class="col-md-4 mt-3">
+        <div class="col-md-4 mt-3">
             <label for="fichier" class="form-label"
               >Fichier<span class="text-danger">*</span></label
             >
@@ -233,6 +211,30 @@
               <ErrorMessage name="emplacement" class="text-danger" />
             </div>
           </div>
+
+            <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Description <span class="text-danger">*</span>
+              </label>
+              <Field
+                name="description"
+                cols="20"
+                rows="3"
+                as="textarea"
+                placeholder="Description"
+                v-slot="{ field }"
+                class="form-control shadow-none rounded-0 text-black"
+              >
+                <textarea
+                  v-model="field.value"
+                  class="form-control shadow-none rounded-0 text-black"
+                ></textarea>
+              </Field>
+              <ErrorMessage name="description" class="text-danger" />
+            </div>
+          </div>
+          
 
 
      <!-- <div class="col-md-4 mt-3" v-if="sousEmplacementOptions.length">

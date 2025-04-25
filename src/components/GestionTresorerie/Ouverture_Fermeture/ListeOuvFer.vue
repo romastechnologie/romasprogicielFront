@@ -12,7 +12,7 @@
             Ouverture de caisse
           </router-link>
         </div>
-          <div class="d-sm-flex align-items-center">
+         <!-- <div class="d-sm-flex align-items-center">
           <router-link
             class="btn btn-primary"
             to="/ouv_fers/ajouter-fermeture"
@@ -21,7 +21,7 @@
             Fermeture de caisse
           </router-link>
       
-        </div>
+        </div>-->
         <div class="d-flex align-items-center">
          <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
             <input
@@ -48,6 +48,7 @@
                <!--        <th scope="col">id</th>-->
                             <th scope="col">Caisse</th>
                             <th scope="col">Fond de roulement</th>
+                            <th scope="col">Chiffre d'affaire</th>
                             <th scope="col">Statut</th>
                 <th
                   scope="col"
@@ -59,7 +60,8 @@
               <tr v-for="(ouvFer, index) in ouvFers" :key="index">
                       <!--<th>{{ ouvFer.id }}</th>-->
                              <th>{{ ouvFer.tresorerie?.nom }} </th>
-                             <th>{{ ouvFer.fondDeRoulement }}</th>
+                             <th>{{ separateur(ouvFer.fondDeRoulement) }}</th>
+                             <th>{{ separateur(ouvFer?.ouvFerId?.chiffreaffaire) }}</th>
                              <th>
   <span
     :class="[
@@ -83,19 +85,19 @@
         </router-link>
       </li>
 
-      <li v-if="ouvFer.tresorerie?.status !== 'Fermé'">
+       <!--<li v-if="ouvFer.tresorerie?.status !== 'Fermé'">
         <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center"
            @click="updateStatut(ouvFer.id, 'Fermé')">
           <i class="flaticon-lock lh-1 me-8 position-relative top-1"></i>Fermer
         </a>
-      </li>
+      </li>-->
 
-      <li>
+     <!-- <li>
         <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" 
            @click="suppression(ouvFer.id, ouvFers,'ouvFers', `OuvFer ${ouvFer.id}`)">
           <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>Supprimer
         </a>
-      </li>
+      </li>-->
     </ul>
   </div>
 </td>
@@ -118,7 +120,7 @@
   import Swal from "sweetalert2";
   import { OuvFer } from "@/models/OuvFer";
   import ApiService from "@/services/ApiService";
-  import { suppression, error } from "@/utils/utils";
+  import { suppression, error,separateur } from "@/utils/utils";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   export default defineComponent({
@@ -275,7 +277,8 @@
       handlePaginate,
       rechercher,
       searchTerm,
-      updateStatut
+      updateStatut,
+      separateur
     };
     },
   });

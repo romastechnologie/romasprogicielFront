@@ -64,7 +64,7 @@
               <td class="shadow-none lh-1 fw-medium ">{{ format_date(depense.createdAt) }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.libelle }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense?.beneficiaire}} {{ depense?.personnel?.nom}}  {{ depense?.personnel?.prenom}} </td>
-              <td class="shadow-none lh-1 fw-medium ">{{ depense.montant }} </td>
+              <td class="shadow-none lh-1 fw-medium ">{{separateur (depense.montant) }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.motif }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.typedepense?.libelle }} </td>
               <td class="shadow-none lh-1 fw-medium ">{{ depense.categoriedepense?.libelle }} </td>
@@ -90,29 +90,41 @@
           Traiter
         </a>
       </li>
+      <!--<li class="dropdown-item d-flex align-items-center">
+                            <router-link
+                              
+                              :to="{ name: 'ViewDepenses',params: { id: depense.id } }"
+                            >
+                              <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
+                              Détails
+                            </router-link>
+                          </li>-->
+      <!-- Bouton Modifier : affiché seulement si la dépense n'est pas validée -->
+
       <li class="dropdown-item d-flex align-items-center">
         <router-link :to="{ name: 'ViewDepenses', params: { id: depense.id } }">
           <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
           Details
         </router-link>
       </li>
-      <li v-if="!depense.estValide" class="dropdown-item d-flex align-items-center">
+     <!-- <li v-if="!depense.estValide" class="dropdown-item d-flex align-items-center">
         <router-link :to="{ name: 'EditDepenses', params: { id: depense.id } }">
           <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>
           Modifier
         </router-link>
-      </li>
+      </li>-->
       <!-- Bouton Supprimer : toujours affiché -->
-      <li class="dropdown-item d-flex align-items-center">
+      <!--<li class="dropdown-item d-flex align-items-center">
         <a href="javascript:void(0);" @click="suppression(depense.id, depenses, 'depenses', 'une dépense')">
           <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>
           Supprimer
         </a>
-      </li>
+      </li>-->
     </ul>
   </div>
 </td>
-           </tr>
+
+            </tr>
           </tbody>
         </table>
       </div>
@@ -153,7 +165,7 @@
               @click="rejectDepenses"
               aria-label="Close"
             >
-              Fermer
+              Rejeter
             </button>
           </div>
         </Form>
@@ -175,7 +187,7 @@ import { defineComponent, onMounted, ref } from "vue";
 import ApiService from "@/services/ApiService";
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { Depense } from "@/models/Depense";
-import { format_date, showModal, hideModal, suppression, error,success  } from "@/utils/utils";
+import { format_date, showModal, hideModal, suppression, error,success,separateur  } from "@/utils/utils";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 import { useRoute, useRouter } from 'vue-router';
@@ -262,7 +274,7 @@ function triggerButtonClick(buttonId: string) {
 }
     const addDepenses = async (values, { resetForm }) => {
   values["id"] = depenseii.value;
-  values["statut"] = true;
+  values["estValide"] = 1;
   ApiService.put("/depenses/" + values.id, values)
     .then(({ data }) => {
       console.log('depense', data);
@@ -280,7 +292,7 @@ function triggerButtonClick(buttonId: string) {
 const rejectDepenses = async () => {
   const values = {
     id: depenseii.value,
-    estValide: false, // État pour rejeter
+    estValide: 2, // État pour rejeter
     observation: depensesForm.value?.values?.observation || '', // Récupération de l'observation si remplie
   };
   ApiService.put("/depenses/" + values.id, values)
@@ -320,7 +332,7 @@ const rejectDepenses = async () => {
       addDepenses,
       depensesSchema,
       getEtatBadge,
-      rejectDepenses      
+      rejectDepenses, separateur      
     };
   },
 });

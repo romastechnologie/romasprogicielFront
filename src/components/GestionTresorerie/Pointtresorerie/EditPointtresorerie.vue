@@ -7,13 +7,13 @@
             <div class="card-body">
               <h5 class="card-title text-black fw-bold mb-3">Informations sur les dates</h5>
               <p class="mb-2">
-                <strong>Date de début :</strong> {{ formatDate(pointtresorerie?.dateDebut) }}
+                <strong>Date de début :</strong> {{ format_Date(pointtresorerie?.dateDebut) }}
               </p>
               <p class="mb-2">
-                <strong>Date de fin :</strong> {{ formatDate(pointtresorerie?.dateFin) }}
+                <strong>Date de fin :</strong> {{ format_Date(pointtresorerie?.dateFin) }}
               </p>
               <p class="mb-2">
-                <strong>Date d'exécution :</strong> {{ formatDate(pointtresorerie?.dateExecution) }}
+                <strong>Date d'exécution :</strong> {{ format_Date(pointtresorerie?.dateExecution) }}
               </p>
             </div>
           </div>
@@ -23,10 +23,10 @@
             <div class="card-body">
               <h5 class="card-title text-black fw-bold mb-3">Informations financières</h5>
               <p class="mb-2">
-                <strong>Montant total :</strong> {{ pointtresorerie?.montant }} €
+                <strong>Montant total :</strong> {{separateur( pointtresorerie?.montant) }} FCFA
               </p>
               <p class="mb-2">
-                <strong>Montant visible :</strong> {{ pointtresorerie?.montantvisible }} €
+                <strong>Montant visible :</strong> {{ separateur(pointtresorerie?.montantvisible) }} FCFA
               </p>
             </div>
           </div>
@@ -51,7 +51,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import ApiService from "@/services/ApiService";
-import { error } from "@/utils/utils";
+import { error,separateur } from "@/utils/utils";
 
 export default defineComponent({
   name: "ViewPointtresorerie",
@@ -68,7 +68,7 @@ export default defineComponent({
       }
     };
 
-    const formatDate = (dateString: string) => {
+    const format_Date = (dateString: string) => {
       if (!dateString) return "Non spécifiée";
       const date = new Date(dateString);
       return isNaN(date.getTime()) ? "Format invalide" : date.toLocaleDateString("fr-FR");
@@ -80,7 +80,7 @@ export default defineComponent({
       }
     });
 
-    return { pointtresorerie, formatDate };
+    return { pointtresorerie, format_Date, separateur };
   },
 });
 </script>

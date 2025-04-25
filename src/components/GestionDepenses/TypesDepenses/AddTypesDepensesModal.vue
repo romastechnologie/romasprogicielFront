@@ -104,7 +104,7 @@
         .then(({ data }) => {
           typedepenseForm.value?.setFieldValue("id",data.data.id);
           typedepenseForm.value?.setFieldValue("libelle",data.data.libelle);
-          typedepenseForm.value?.setFieldValue("code", data.data.description);
+          typedepenseForm.value?.setFieldValue("description", data.data.description);
           emit('openmodal', addTypesDepensesModalRef.value);
         })
         .catch(({ response }) => {

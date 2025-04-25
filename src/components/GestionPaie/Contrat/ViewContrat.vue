@@ -27,7 +27,7 @@
         </tr>
         <tr>
           <td class="label-title">Date d'embauche</td>
-          <td>{{ contrat?.datePriseFonction || 'Non renseigné' }}</td>
+          <td>{{ formatDate(contrat?.datePriseFonction) || 'Non renseigné' }}</td>
         </tr>
         <tr>
           <td class="label-title">Salaire de base</td>
@@ -47,7 +47,7 @@
         </tr>
         <tr>
           <td class="label-title">Date de fin de contrat</td>
-          <td>{{ contrat?.dateFin || 'Non renseigné' }}</td>
+          <td>{{ formatDate(contrat?.dateFin) || 'Non renseigné' }}</td>
         </tr>
       </tbody>
     </table>
@@ -62,7 +62,7 @@
         </tr>
         <tr>
           <td class="label-title">Date fin de période d'Essai</td>
-          <td>{{ contrat?.dateFinperiodeEssai || 'Non renseigné' }}</td>
+          <td>{{ formatDate(contrat?.dateFinperiodeEssai) || 'Non renseigné' }}</td>
         </tr>
         <tr>
           <td class="label-title">Période de Paie</td>
@@ -188,6 +188,15 @@ export default defineComponent({
     const contrat = ref(null);
     const loading = ref(false);
 
+    function formatDate(dateStr: string): string {
+  if (!dateStr) return "Non renseigné";
+  const date = new Date(dateStr);
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, "0");
+  const day = `${date.getDate()}`.padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
     async function getContrat(id: string) {
       loading.value = true;
       try {
@@ -306,7 +315,8 @@ const detailsContrat = [
       contrat,
       loading,
       downloadContratDetails,
-      autoTable
+      autoTable,
+      formatDate
     };
   },
 });

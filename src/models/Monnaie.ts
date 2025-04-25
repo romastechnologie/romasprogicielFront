@@ -8,6 +8,6 @@ export interface Monnaie {
     id: number;
     libelle: string;
     valeur: number;
-    created_at?: Date;
+    created_at: Date;
     setFieldValue: (field: string, value: any) => void;
 }
