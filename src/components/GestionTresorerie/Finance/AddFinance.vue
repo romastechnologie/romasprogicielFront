@@ -1,10 +1,13 @@
 <template>
     <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+      <div class="card-header">
+      <h3 class="text-black fw-semibold">Faire un financement</h3>
+    </div>
         <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing ">
             <Form class="row g-3" :validation-schema="schema" @submit="sendFinance">
                     <div class="col-md-6">
                         <div class="my-3">
-                            <label for="fichierfinance">Fichier</label>
+                            <label for="fichierfinance">Fichier<span class="text-danger">*</span></label>
                             <Field type="file" class="form-control"
                              @change="fichierfinanceChange"
                             id="fichierfinance" name="fichierfinance"
@@ -188,7 +191,7 @@
 </div>
 </div>
             <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Ajouter une finance</button>
+                    <button type="submit" class="btn btn-primary">Ajouter une dépense</button>
                     <router-link to="/finances/liste-finance/" type="button"
                         class="btn btn-danger mx-1">Annuler</router-link>
                 </div>
@@ -424,7 +427,9 @@ const getAllTresoreries = async () => {
         const response = await ApiService.get('all/tresoreries');
         const tresoreriesData = response.data.data.data;
         console.log('Data', tresoreriesData)
-        tresorerieOptions.value = tresoreriesData.map((tresorerie) => ({
+        tresorerieOptions.value = tresoreriesData
+        .filter(tresorerie => tresorerie.operation === true)
+        .map((tresorerie) => ({
             value: tresorerie.id,
             label: tresorerie.nom,
         }));

@@ -1,82 +1,58 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+    <div class="card-header">
+      <h3 class="text-black fw-semibold">Faire une fermeture de caisse</h3>
+    </div>
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-      <Form
-        class="row g-3"
-        :validation-schema="schema"
-        @submit="sendOuvFer(ouvFer.tresorerieName, ouvFer.ouvFerName)"
-      >
+      <Form class="row g-3" :validation-schema="schema" @submit="sendOuvFer(ouvFer.tresorerieName, ouvFer.ouvFerName)">
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12 mb-md-25">
-              <div
-                class="tab-pane fade show active p-10"
-                id="home-tab-pane"
-                role="tabpanel"
-                tabindex="0"
-              >
+              <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
                 <div class="row">
                   <div class="border border-primary mb-10">
-                    <div
-                      class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                      style="background-color: #0a59a4"
-                    >
+                    <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                      style="background-color: #0a59a4">
                       <div class="col-md-7">
                         <h3 class="fs-4 text-white">Billetage</h3>
                       </div>
                     </div>
                     <div>
-                      <div
-                        class="row d-flex align-items-center justify-content-between mt-2"
-                      >
+                      <div class="row d-flex align-items-center justify-content-between mt-2">
                         <div class="col-md-3">
-                          <label class="d-block text-black fw-semibold"
-                            >Monnaie</label
-                          >
+                          <label class="d-block text-black fw-semibold">Monnaie</label>
                         </div>
                         <div class="col-md-3">
-                          <label class="d-block text-black fw-semibold"
-                            >Quantité</label
-                          >
+                          <label class="d-block text-black fw-semibold">Quantité</label>
                         </div>
                         <div class="col-md-3">
-                          <label class="d-block text-black fw-semibold"
-                            >Montant</label
-                          >
+                          <label class="d-block text-black fw-semibold">Montant</label>
                         </div>
                       </div>
                       <hr class="mt-0" />
-                      <template v-for="(billetage,index) in billetageList" :key="index">
-    <Form :validation-schema="schema" class="container m-3">
-        <div class="">
-            <div class="row">
-                <div class="col-md-4">
-                    <input name="monnaie" id="monnaie" 
-                        placeholder="Sélectionner la monnaie" v-model="billetage.libelle" readonly class="form-control">
-                </div>
-                <div class="col-md-4">
-                    <Field  name="qteBillet" 
-         id="qteBillet" 
-         type="number" 
-         placeholder="Entrer la quantité" 
-         class="form-control" 
-         :value="billetage.qteBillet"
-         @input="event => handleBilletageInput(event, billetage)" />
-                    <ErrorMessage name="qteBillet" />
-                </div>
-                <div class="col-md-4">
-                    <Field name="montant" 
-                           id="montant" 
-                           type="text" 
-                           v-model="billetage.montant"
-                           placeholder="Montant" 
-                           readonly class="form-control" />
-                    <ErrorMessage name="montant" />
-                </div>
-            </div>
-        </div>
-    </Form>
-</template>
+                      <template v-for="(billetage, index) in billetageList" :key="index">
+                        <Form :validation-schema="schema" class="container m-3">
+                          <div class="">
+                            <div class="row">
+                              <div class="col-md-4">
+                                <input name="monnaie" id="monnaie" placeholder="Sélectionner la monnaie"
+                                  v-model="billetage.libelle" readonly class="form-control">
+                              </div>
+                              <div class="col-md-4">
+                                <Field name="qteBillet" id="qteBillet" type="number" placeholder="Entrer la quantité"
+                                  class="form-control" :value="billetage.qteBillet"
+                                  @input="event => handleBilletageInput(event, billetage)" />
+                                <ErrorMessage name="qteBillet" />
+                              </div>
+                              <div class="col-md-4">
+                                <Field name="montant" id="montant" type="text" v-model="billetage.montant"
+                                  placeholder="Montant" readonly class="form-control" />
+                                <ErrorMessage name="montant" />
+                              </div>
+                            </div>
+                          </div>
+                        </Form>
+                      </template>
                       <p>Montant Total: {{ montantTotal }}</p>
                     </div>
                   </div>
@@ -86,44 +62,29 @@
           </div>
         </div>
         <div class="col-md-6 mt-4">
-          
+
           <div class="col mb-3">
-            <label for="fondDeRoulement">FondDeRoulement</label>
-            <Field
-              type="number"
-              id="fondDeRoulement"
-              name="fondDeRoulement"
-              class="form-control"
-              v-model="montantTotal"
-              disabled
-            />
+            <label for="fondDeRoulement">Point de la caisse</label>
+            <Field type="number" id="fondDeRoulement" name="fondDeRoulement" class="form-control" v-model="montantTotal"
+              disabled />
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
 
-          <div class="col mb-3" >
-                                    <label for="tresorerieName">Tresorerie</label>
-                                    <Field name="tresorerieName" v-model="tresoreries" type="text" v-slot="{ field }">
-                                      <Multiselect 
-  v-model="tresoreries" 
-  :options="tresorerieOptions" 
-  :preserve-search="true"
-  :multiple="false" 
-  :searchable="true" 
-  placeholder="Sélectionner la trésorerie"
-  label="label" 
-  track-by="value" 
-/>
+          <div class="col mb-3">
+            <label for="tresorerieName">Trésorerie</label>
+            <Field name="tresorerieName" v-model="tresoreries" type="text" v-slot="{ field }">
+              <Multiselect v-model="tresoreries" :options="tresorerieOptions" :preserve-search="true" :multiple="false"
+                :searchable="true" placeholder="Sélectionner la trésorerie" label="label" track-by="value" />
 
-                                  </Field>
-                                    <ErrorMessage name="tresorerieName" class="text-danger" />
-                                </div>
+            </Field>
+            <ErrorMessage name="tresorerieName" class="text-danger" />
+          </div>
 
-             <div class="mb-3 mt-1">
+          <div class="mb-3 mt-1">
             <button type="submit" class="btn btn-primary top-end">
               Envoyer
             </button>
-            <router-link to="/ouv_fers/liste-ouv_fer/" type="button"
-            class="btn btn-danger mx-1">Annuler</router-link>
+            <router-link to="/ouv_fers/liste-ouv_fer/" type="button" class="btn btn-danger mx-1">Annuler</router-link>
           </div>
         </div>
       </Form>
@@ -167,9 +128,9 @@ const tresoreries = ref();
 const tresorerieOptions = ref([]);
 const schema = Yup.object().shape({
   fondDeRoulement: Yup.number()
-    .nullable() 
-    .required("Le fond de roulement est obligatoire") 
-    .notOneOf([0], "Le fond de roulement ne peut pas être 0"), 
+    .nullable()
+    .required("Le fond de roulement est obligatoire")
+    .notOneOf([0], "Le fond de roulement ne peut pas être 0"),
   tresorerieName: Yup.string().required("La trésorerie est obligatoire"),
 });
 
@@ -195,7 +156,7 @@ async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
     const res = await ApiService.post("/fers/", ouvFer.value);
     const ouvFerId = res.data.id;
 
-    
+
     if (res.data) {
       const billetageData = billetageList.map((billetage) => ({
         ...billetage,
@@ -215,7 +176,7 @@ async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
     }
   } catch (err) {
     console.error("Erreur lors de l'ouverture de caisse:", err);
-    if (err.code  && err.code === "ERR_BAD_REQUEST") {
+    if (err.code && err.code === "ERR_BAD_REQUEST") {
       const errorMessage = err.response?.data?.message || "Une erreur est survenue.";
       error(errorMessage);
     }
@@ -228,19 +189,21 @@ const caisses = computed(() => {
 });
 
 
-const getTresorerie= async () => {
-          try{
-          const response = await ApiService.get('/tresoreriecaisses');
-          const tresoreriesData = response.data.data.data;
-          console.log("tresorerie", tresoreriesData);
-          tresorerieOptions.value = tresoreriesData.map((tresorerie) => ({
-            value: tresorerie.id,
-            label: tresorerie.nom,
-          }));
-          }
-          catch(error){
-          }
-        } 
+const getTresorerie = async () => {
+  try {
+    const response = await ApiService.get('/tresoreriecaisses');
+    const tresoreriesData = response.data.data.data;
+    console.log("tresorerie", tresoreriesData);
+    tresorerieOptions.value = tresoreriesData
+      .filter(tresorerie => tresorerie.operation === true)
+      .map((tresorerie) => ({
+        value: tresorerie.id,
+        label: tresorerie.nom,
+      }));
+  }
+  catch (error) {
+  }
+}
 
 const getouvFer = async () => {
   await ApiService.get("all/ouv_fers").then((res) => {
@@ -282,7 +245,7 @@ const calculateTotal = () => {
   const total = billetageList.reduce((total, billetage) => {
     return total + (billetage.montant || 0);
   }, 0);
-  montantTotal.value = total || null; 
+  montantTotal.value = total || null;
 };
 
 
@@ -302,20 +265,20 @@ onMounted(() => {
 
 <style scoped>
 .overview {
-    margin: auto;
+  margin: auto;
 
 }
 
 .container {
-    padding: 10px 10px;
+  padding: 10px 10px;
 }
 
 .text-title {
-    text-align: center;
+  text-align: center;
 }
 
 .overflow {
-    padding: 20px 100px;
+  padding: 20px 100px;
 
 }
 </style>

@@ -147,11 +147,20 @@ const format_Date = (date) => {
         return format(new Date(date), 'dd-MM-yyyy', { locale: fr });
     }
 };
-const separateur = (montant) => {
-    if (montant) {
-        return montant.toLocaleString('fr-FR');
+
+const separateur = (montant)=>{ 
+    if(montant > 0 ){
+      return montant.toLocaleString('fr-FR')+" FCFA";
+    } else {
+      return 0
     }
-};
+  }
+  
+// const separateur = (montant) => {
+//     if (montant) {
+//         return montant.toLocaleString('fr-FR');
+//     }
+// };
 const removeModalBackdrop = () => {
     if (document.querySelectorAll(".modal-backdrop.fade.show").length) {
         document.querySelectorAll(".modal-backdrop.fade.show").forEach((item) => {

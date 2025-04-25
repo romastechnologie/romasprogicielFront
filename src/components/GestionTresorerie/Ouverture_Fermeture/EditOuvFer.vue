@@ -83,7 +83,7 @@
         </div>
     </Form>
 </template>
-                      <p>Montant Total: {{ montantTotal }}</p>
+                      <p>Montant Total : {{ montantTotal }}</p>
                     </div>
                   </div>
                 </div>
@@ -93,7 +93,7 @@
         </div>
         <div class="col-md-6 mt-4">
           <div class="col mb-3">
-            <label for="fondDeRoulement">FondDeRoulement</label>
+            <label for="fondDeRoulement">Fond de roulement</label>
             <Field
               type="number"
               id="fondDeRoulement"
@@ -108,7 +108,7 @@
 
           <div class="col-md-6 mt-4">
           <div class="col mb-3">
-            <label for="chiffreaffaire">Chiffreaffaire</label>
+            <label for="chiffreaffaire">Chiffre d'affaire</label>
             <Field
               type="number"
               id="chiffreaffaire"
@@ -295,9 +295,9 @@ function getouvfer(id: number) {
 }
 
 
-const getMonnaie = async () => {
+const getAllMonnaie = async () => {
   try {
-    const res = await ApiService.get("/monnaies");
+    const res = await ApiService.get("/all/monnaies");
     monnaieList.value = res.data.data.data;
     monnaieList.value.forEach((element) => {
       billetageList.push({
@@ -359,7 +359,7 @@ onMounted(() => {
   if(route.params.id) {
         getouvfer(parseInt(route.params.id as string));
       }
-  getTresorerie(), getMonnaie(), calculateTotal(),calculateEcart(), getouvFer();
+  getTresorerie(), getAllMonnaie(), calculateTotal(),calculateEcart(), getouvFer();
 });
 </script>
 

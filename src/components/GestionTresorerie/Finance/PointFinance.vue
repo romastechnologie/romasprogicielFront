@@ -1,5 +1,8 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+    <div class="card-header">
+      <h3 class="text-black fw-semibold">Effectuer le point des finances</h3>
+    </div>
     <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
       <div class="card-body p-15 p-sm-20 p-md-25">
         <!-- Sélection Trésorerie -->
@@ -45,9 +48,15 @@
                     <li v-for="recette in tresorerieDetails.recettes" :key="recette.id" class="list-group-item">
                       <div class="d-flex justify-content-between">
                         <div>
-                          <strong>Montant:</strong> {{ recette.montant }} <br>
-                          <strong>Mode de Paiement:</strong> {{ recette.modepaiement }} <br>
-                          <strong>Personnel/Bénéficiaire:</strong> {{ recette.personnel || recette.beneficiaire }}
+                          <div v-if="recette.montant">
+                            <strong>Montant:</strong> {{ separateur(recette.montant) }} <br>
+                          </div>
+                          <div v-if="recette.modepaiement">
+                            <strong>Mode de Paiement:</strong> {{ recette.modepaiement }} <br>
+                          </div>
+                          <div v-if="recette.personnel || recette.beneficiaire">
+                            <strong>Personnel/Bénéficiaire:</strong> {{ recette.personnel || recette.beneficiaire }}
+                          </div>
                         </div>
                       </div>
                     </li>
@@ -67,9 +76,15 @@
                     <li v-for="depense in tresorerieDetails.depenses" :key="depense.id" class="list-group-item">
                       <div class="d-flex justify-content-between">
                         <div>
-                          <strong>Montant Dépensé:</strong> {{ depense.montantDepense }} <br>
-                          <strong>Mode de Paiement:</strong> {{ depense.modepaiement }} <br>
-                          <strong>Personnel/Bénéficiaire:</strong> {{ depense.personnel || depense.beneficiaire }}
+                          <div v-if="depense.montantDepense">
+                            <strong>Montant Dépensé:</strong> {{ separateur(depense.montantDepense) }} <br>
+                          </div>
+                          <div v-if="depense.modepaiement">
+                            <strong>Mode de Paiement:</strong> {{ depense.modepaiement }} <br>
+                          </div>
+                          <div v-if="depense.personnel || depense.beneficiaire">
+                            <strong>Personnel/Bénéficiaire:</strong> {{ depense.personnel || depense.beneficiaire }}
+                          </div>
                         </div>
                       </div>
                     </li>
@@ -86,7 +101,9 @@
                 <h5>Écart</h5>
               </div>
               <div class="card-body">
-                <p><strong>Écart:</strong> {{ tresorerieDetails.ecart }}</p>
+                <p v-if="tresorerieDetails.ecart !== null">
+                  <strong>Écart:</strong> {{ separateur(tresorerieDetails.ecart) }}
+                </p>
               </div>
             </div>
           </div>
@@ -101,6 +118,7 @@ import { defineComponent, onMounted, ref } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import ApiService from '@/services/ApiService';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
+import { separateur } from '@/utils/utils';
 
 export default defineComponent({
   name: "AddDepenses",
@@ -118,7 +136,7 @@ export default defineComponent({
     const getAllTresoreries = async () => {
       console.log('Récupération des trésoreries...');
       try {
-        const response = await ApiService.get('all/tresoreries');
+        const response = await ApiService.get('/all/tresoreries');
         console.log('Trésoreries récupérées:', response.data);
         const tresoreriesData = response.data.data.data;
         tresorerieOptions.value = tresoreriesData.map((tresorerie) => ({
@@ -133,7 +151,7 @@ export default defineComponent({
     // Fonction pour récupérer les détails de la trésorerie sélectionnée
     const getTresorerieDetails = async (tresorerieId: number) => {
       console.log('Récupération des détails pour la trésorerie ID:', tresorerieId);
-      tresorerieDetails.value = null;  // Réinitialiser les données précédentes
+      tresorerieDetails.value = null; // Réinitialiser les données précédentes
 
       try {
         const response = await ApiService.get(`point/tresorerie/${tresorerieId}`);
@@ -163,10 +181,11 @@ export default defineComponent({
       getAllTresoreries();
     });
 
-    return { 
+    return {
       tresorerieOptions,
       tresorerieDetails,
-      handleTresorerieSelection
+      handleTresorerieSelection,
+      separateur,
     };
   },
 });

@@ -351,7 +351,8 @@ import AddArchivagePage from '@/pages/GestionPersonnel/Demandes/AddArchivagePage
 import ListeDemandePretPage from '@/pages/GestionPersonnel/Demandes/ListeDemandePretPage.vue';
 import ListeValidationPage from '@/pages/Validation/ListeValidationPage.vue';
 
-//import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
+
+import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
 // import AddChampsLibreFamillePage from "@/pages/ChampsLibre/AddChampsLibreFamillePage.vue"
@@ -1757,7 +1758,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "EditPointtresoreriePage",
         component: EditPointtresoreriePage,
         meta: {
-          title: 'Modifier un point tresorerie',
+          title: 'Détails de points de trésorerie',
         }
       }
     ]

@@ -41,20 +41,19 @@
                               <div class="col-md-4">
                                 <Field name="qteBillet" id="qteBillet" type="number" placeholder="Entrer la quantité"
                                   class="form-control" :value="billetage.qteBillet"
-                                  @input="event => handleBilletageInput(event, billetage)"
-                                  @keypress="restrictInput($event)" />
-                                <ErrorMessage name="qteBillet" class="text-danger" />
+                                  @input="event => handleBilletageInput(event, billetage)" />
+                                <ErrorMessage name="qteBillet" />
                               </div>
                               <div class="col-md-4">
                                 <Field name="montant" id="montant" type="text" v-model="billetage.montant"
                                   placeholder="Montant" readonly class="form-control" />
-                                <ErrorMessage name="montant" class="text-danger" />
+                                <ErrorMessage name="montant" />
                               </div>
                             </div>
                           </div>
                         </Form>
                       </template>
-                      <p class="montant-total">Montant Total : {{ montantTotal }}</p>
+                      <p>Montant Total : {{ montantTotal }}</p>
                     </div>
                   </div>
                 </div>
@@ -63,32 +62,24 @@
           </div>
         </div>
         <div class="col-md-6 mt-4">
+
           <div class="col mb-3">
             <label for="fondDeRoulement">Fond de roulement</label>
             <Field type="number" id="fondDeRoulement" name="fondDeRoulement" class="form-control" v-model="montantTotal"
               disabled />
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
+
           <div class="col mb-3">
             <label for="tresorerieName">Trésorerie</label>
             <Field name="tresorerieName" v-model="tresoreries" type="text" v-slot="{ field }">
               <Multiselect v-model="tresoreries" :options="tresorerieOptions" :preserve-search="true" :multiple="false"
                 :searchable="true" placeholder="Sélectionner la trésorerie" label="label" track-by="value" />
+
             </Field>
             <ErrorMessage name="tresorerieName" class="text-danger" />
           </div>
-          <div class="col-md-12 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Utilisateur <span class="text-danger">*</span>
-              </label>
-              <Field name="user" v-slot="{ field }">
-                <Multiselect v-model="field.value" :options="userOptions" :searchable="true" track-by="label" mode="tags"
-                  label="label" placeholder="Sélectionner l'Utilisateur" v-bind="field" />
-              </Field>
-              <ErrorMessage name="user" class="text-danger" />
-            </div>
-          </div>
+
           <div class="mb-3 mt-1">
             <button type="submit" class="btn btn-primary top-end">
               Envoyer
@@ -115,15 +106,11 @@ import ApiService from "@/services/ApiService";
 import router from "@/router";
 import { error } from "../../../utils/utils";
 
-const userOptions = ref([]);
-const user = ref();
-
 const ouvFer = ref<Ouv_Fer>({});
 const ouvFerList = ref<Ouv_Fer[]>([]);
 const tresorerieList = ref<Tresorerie[]>([]);
 const tresorerie = ref<Tresorerie>({});
 let show = ref(true);
-
 interface Billetage {
   montant: number;
   libelle: string;
@@ -132,24 +119,17 @@ interface Billetage {
   monnaie: number;
   ouv_fer?: number;
 }
-
 const billetageList = reactive<Billetage[]>([]);
 const monnaieList = ref([] as any[]);
 let montantTotal = ref<null | number>(null);
 const tresoreries = ref();
 const tresorerieOptions = ref([]);
-
 const schema = Yup.object().shape({
   fondDeRoulement: Yup.number()
     .nullable()
     .required("Le fond de roulement est obligatoire")
     .notOneOf([0], "Le fond de roulement ne peut pas être 0"),
   tresorerieName: Yup.string().required("La trésorerie est obligatoire"),
-  qteBillet: Yup.number()
-    .typeError("La quantité doit être un nombre")
-    .required("La quantité est obligatoire")
-    .integer("La quantité doit être un entier")
-    .min(0, "La quantité ne peut pas être négative"),
 });
 
 configure({
@@ -158,24 +138,22 @@ configure({
   validateOnInput: true,
 });
 
-// Restreindre l'entrée à des chiffres uniquement (bloquer 'e', 'E', '+', '-', '.')
-const restrictInput = (event: KeyboardEvent) => {
-  const invalidChars = ['e', 'E', '+', '-', '.'];
-  if (invalidChars.includes(event.key)) {
-    event.preventDefault();
-  }
-};
 
 async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
   try {
     ouvFer.value.tresorerieId = tresoreries.value;
+
     const fondDeRoulement = (
       document.getElementById("fondDeRoulement") as HTMLInputElement
     ).value;
-    ouvFer.value.fondDeRoulement = Number(fondDeRoulement);
+    ouvFer.value.fondDeRoulement = Number(fondDeRoulement); // Conversion en nombre
+
     console.log("Données envoyées :", ouvFer.value);
+
     const res = await ApiService.post("/ouv_fers/", ouvFer.value);
     const ouvFerId = res.data.id;
+
+
     if (res.data) {
       const billetageData = billetageList.map((billetage) => ({
         ...billetage,
@@ -199,19 +177,21 @@ async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
       const errorMessage = err.response?.data?.message || "Une erreur est survenue.";
       error(errorMessage);
     }
+
   }
 }
-
 
 
 const caisses = computed(() => {
   return tresorerieList.value.filter(entity => entity.nom?.toLowerCase().includes('caisse'));
 });
 
+
 const getTresorerie = async () => {
   try {
     const response = await ApiService.get('/tresoreriecaisses');
     const tresoreriesData = response.data.data.data;
+
     console.log("tresorerie", tresoreriesData);
     tresorerieOptions.value = tresoreriesData
       .filter(tresorerie => tresorerie.operation === true)
@@ -219,31 +199,16 @@ const getTresorerie = async () => {
         value: tresorerie.id,
         label: tresorerie.nom,
       }));
-  } catch (error) {
-    // Gestion d'erreur
   }
-};
-
-const getAllUsers = async () => {
-      try {
-        const response = await ApiService.get('/users');
-        const userData = response.data.data;
-        userOptions.value = userData.map((user: any) => ({
-          value: user.id,
-          label: `${user.nom} ${user.prenom}`,
-        }));
-      } catch (err) {
-        //error('Erreur lors de la récupération des utilisateurs');
-      }
-    };
-
+  catch (error) {
+  }
+}
 const getouvFer = async () => {
   await ApiService.get("all/ouv_fers").then((res) => {
     ouvFerList.value = res.data;
     console.log(ouvFerList.value);
   });
 };
-
 const getAllMonnaie = async () => {
   try {
     const res = await ApiService.get("/all/monnaies");
@@ -261,25 +226,21 @@ const getAllMonnaie = async () => {
     console.error("Erreur lors de la récupération des monnaies:", error);
   }
 };
-
 function handleBilletageInput(event: Event, billetage: Billetage) {
   const newValue = Number((event.target as HTMLInputElement).value);
   billetage.qteBillet = newValue || 0;
   updateMontant(billetage);
 }
-
 const updateMontant = (billetage: Billetage) => {
   billetage.montant = billetage.qteBillet * billetage.valueAct || 0;
   calculateTotal();
 };
-
 const calculateTotal = () => {
   const total = billetageList.reduce((total, billetage) => {
     return total + (billetage.montant || 0);
   }, 0);
   montantTotal.value = total || null;
 };
-
 watch(
   billetageList,
   () => {
@@ -287,7 +248,6 @@ watch(
   },
   { deep: true }
 );
-
 onMounted(() => {
   getTresorerie(), getAllMonnaie(), calculateTotal(), getouvFer();
 });
@@ -297,15 +257,12 @@ onMounted(() => {
 .overview {
   margin: auto;
 }
+
 .text-title {
   text-align: center;
 }
+
 .overflow {
   padding: 20px 100px;
-}
-.montant-total {
-  text-align: right;
-  font-weight: bold;
-  margin-top: 10px;
 }
 </style>

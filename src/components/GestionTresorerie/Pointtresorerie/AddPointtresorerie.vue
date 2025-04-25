@@ -1,6 +1,9 @@
 <template>
     <main>
       <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+        <div class="card-header">
+      <h3 class="text-black fw-semibold">Ajouter un point de trésorerie</h3>
+    </div>
         <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
           <Form class="col" :validation-schema="pointtresorerieSchema" @submit="addPointtresorerie">
             <div class="row">
@@ -51,7 +54,7 @@
                     Date d'exécution <span class="text-danger">*</span>
                   </label>
                   <Field name="dateExecution"
-                  :value="new Date().toISOString().slice(0, 10)"
+                 
                    type="date" class="form-control shadow-none fs-md-15 text-black" />
                   <ErrorMessage name="dateExecution" class="text-danger" />
                 </div>
@@ -110,7 +113,7 @@
             <div class="row mt-4">
               <div class="col-6">
                 <button type="submit" class="btn btn-primary mx-2">Ajouter</button>
-                <router-link to="pointtresoreries/liste-pointtresorerie/" type="button" class="btn btn-danger">
+                <router-link to="/pointtresoreries/liste-pointtresorerie" type="button" class="btn btn-danger">
                   Annuler
                 </router-link>
               </div>
@@ -136,10 +139,12 @@
     name: 'AddPointtresorerie',
     components: { Form, Field, ErrorMessage, Multiselect },
     setup() {
-        const pointtresorerieSchema = Yup.object().shape({
+      const pointtresorerieSchema = Yup.object().shape({
     personnel: Yup.string().required('Le personnel est obligatoire.'),
     dateDebut: Yup.date().required('La date de début est obligatoire.'),
-    dateExecution: Yup.date().required('La date exécution est obligatoire.'),
+    dateExecution: Yup.date()
+        .required('La date d\'exécution est obligatoire.')
+        .min(Yup.ref('dateFin'), 'La date d\'exécution doit être égale ou postérieure à la date de fin.'),
     dateFin: Yup.date()
         .required('La date de fin est obligatoire.')
         .min(Yup.ref('dateDebut'), 'La date de fin ne peut pas être antérieure à la date de début.'),
@@ -184,7 +189,7 @@
         personnel: values.personnel,
         dateDebut: values.dateDebut,
         dateFin: values.dateFin,
-        dateExecution: values.date,
+        dateExecution: values.dateExecution,
         tresoreries: tresoreries.value.map((tresorerie) => ({
             id: tresorerie.id,
             montant: tresorerie.montant,
