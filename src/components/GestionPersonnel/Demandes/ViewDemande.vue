@@ -53,6 +53,31 @@
                   <td>Montant Total du Prêt :</td>
                   <td>{{ demande?.montantPret }}</td>
                 </tr>
+                <tr>
+                <td>Fichier</td>
+                <td>
+                  <a
+                  v-if="demande?.photoDemande"
+                  :href="getUrlApiForFiles(demande.photoDemande, 'Demandes')"
+                  target="_blank"
+                  download
+                >
+                  <template v-if="isPdf(demande.photoDemande)">
+                    <i class="bi bi-file-earmark-pdf-fill text-danger" style="font-size: 2.5rem;"></i>
+                    <span class="d-block">Télécharger le PDF</span>
+                  </template>
+                  <template v-else>
+                    <img
+                      :src="getUrlApiForFiles(demande.photoDemande, 'Demandes')"
+                      alt="Demande Image"
+                      class="img-thumbnail"
+                      style="width: 120px; height: 120px;"
+                    />
+                  </template>
+                </a>
+
+                </td>
+              </tr>
                <!-- <table  class="table">
                 <tbody>
                 <tr v-if="demande.echeances">
@@ -80,7 +105,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 import ApiService from "@/services/ApiService";
 import { Demande } from "@/models/Demande";
-import { error, format_date, showModal } from "@/utils/utils";
+import { error, format_date, showModal,getUrlApiForFiles } from "@/utils/utils";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
@@ -88,6 +113,10 @@ export default defineComponent({
   setup: () => {
     const route = useRoute();
     const demande = ref<Demande | null>(null);
+
+    function isPdf(fileName: string): boolean {
+  return fileName.toLowerCase().endsWith('.pdf');
+}
 
     function getDemande(id: string) {
       return ApiService.get("/demandes",id)
@@ -108,6 +137,9 @@ export default defineComponent({
       demande,
       getDemande,
       format_date,
+      getUrlApiForFiles,
+      isPdf
+
      };
   },
 });

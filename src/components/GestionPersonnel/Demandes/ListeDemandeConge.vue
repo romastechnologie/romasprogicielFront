@@ -89,7 +89,12 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.typeConge?.libelle }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
-                  <td class="shadow-none lh-1 fw-medium text-black-emphasis">{{ demande.statut }}
+                  <td class="shadow-none lh-1 fw-medium text-black-emphasis"> <span
+            class="badge"
+            :class="validation.statut === 'Validé' ? 'bg-success' : validation.statut === 'Rejeté' ? 'bg-danger' : 'bg-warning text-white'"
+          >
+            {{ validation.statut === 'Validé'? 'Validé' : validation.statut === 'Rejeté'? 'Rejeté' : 'En attente' }}
+          </span>
  <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
                 <span v-else class="badge text-outline-success">{{ demande.statut }}</span> -->
               </td>

@@ -3,6 +3,10 @@
     <div
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
+    <div class="card-header">
+                <h5 class="">Liste des validations</h5>
+                <!----><!----><!---->
+              </div>
       <div class="d-sm-flex align-items-center">
       <!-- <router-link
           class="btn btn-primary"
@@ -89,43 +93,25 @@
           </thead>
           <tbody>
             <tr v-for="(validation, index) in validations" :key="index">
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{validation.dateDemande}}
+              <td>{{ format_date(validation?.dateNotification) }}</td>
+              <td>{{ validation?.demande?.categorie?.libelle }}</td>
+              <td>{{ validation?.demande?.personnel?.nom + ' ' + validation?.demande?.personnel?.prenom }}</td>
+              <td>{{ validation?.commentaire }}</td>
+              <td>  {{ validation?.validateur ? validation.validateur.nom + ' ' + validation.validateur.prenom : '' }}
               </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-               {{ validation?.categorie?.libelle}} 
+              <td>
+                {{
+                  validation.dateValidation
+                    ? format_date(validation.dateValidation, true)
+                    : '—'
+                }}
               </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{ validation?.personnel?.nom +' '+  validation?.personnel?.prenom }} 
-              </td>
-              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                {{validation.commentaire}} 
-              </td>
-              <td class="shadow-none lh-1 fw-medium">
-                {{validation.valideur}}
-            </td>
-            <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-              {{
-                validation.validations && validation.validations.length
-                  ? (() => {
-                      const d = new Date(
-                        validation.validations
-                          .filter(v => v.dateValidation)
-                          .sort((a, b) => new Date(b.dateValidation) - new Date(a.dateValidation))[0]
-                          ?.dateValidation
-                      );
-                      const pad = n => String(n).padStart(2, '0');
-                      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-                    })()
-                  : '—'
-              }}
-          </td>
           <td class="shadow-none lh-1 fw-medium text-black-emphasis">
           <span
             class="badge"
-            :class="validation.statut === true ? 'bg-success' : validation.statut === false ? 'bg-danger' : 'bg-warning text-dark'"
+            :class="validation.statut === 'Validé' ? 'bg-success' : validation.statut === 'Rejeté' ? 'bg-danger' : 'bg-warning text-white'"
           >
-            {{ validation.statut === true ? 'Validé' : validation.statut === false ? 'Rejeté' : 'En attente' }}
+            {{ validation.statut === 'Validé'? 'Validé' : validation.statut === 'Rejeté'? 'Rejeté' : 'En attente' }}
           </span>
         </td>
 
@@ -143,8 +129,8 @@
                           class="flaticon-pen lh-1 me-8 position-relative top-1"
                         ></i>Modifier</router-link>
                     </li>-->
-                    <li v-if="validation.statut == null" class="dropdown-item d-flex align-items-center">
-                    <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(validation.id)">
+                    <li v-if="validation.statut  === 'En attente'" class="dropdown-item d-flex align-items-center">
+                    <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(validation)">
                       <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
                       Traiter
                     </a>
@@ -182,7 +168,7 @@
           <div class="row gy-2">
             <div class="col-md-4-3">
               <label class="d-block fw-semibold mb-10">
-                Observation<span class="text-danger"></span>
+                Commentaire<span class="text-danger"></span>
               </label>
               <Field
                 name="commentaire"
@@ -265,7 +251,7 @@ export default defineComponent({
     };
 
     const validationsSchema = Yup.object().shape({
-      commentaire: Yup.string().required("L'observation est obligatoire"),
+      commentaire: Yup.string().required("Le commentaire est obligatoire"),
     });
     const validationsForm = ref(null);
 
@@ -283,8 +269,10 @@ export default defineComponent({
   }
 }
 const addValidations = async (values, { resetForm }) => {
-  values["demandeId"] = validationii.value;
-  values["statut"] = true; // ou autre statut
+  values["demandeId"] = validationii.value?.demande?.id;
+  values["statut"] = 'Validé'; // ou autre statut
+  values["etapevalidation"] = validationii.value?.etapevalidation?.id; 
+  console.log("valeur",values);
   ApiService.post("/validations", values)
     .then(({ data }) => {
       if (data.code === 201) {
@@ -300,32 +288,37 @@ const addValidations = async (values, { resetForm }) => {
 };
 
 const rejectValidations = async () => {
+  const isValid = await validationsForm.value?.validate();
+  if (!isValid) return; 
+
   const values = {
-    id: validationii.value,
-    statut: false, 
-    commentaire: validationsForm.value?.values?.commentaire || '', 
+    demandeId: validationii.value?.demande?.id,
+    statut: 'Rejeté',
+    commentaire: validationsForm.value?.values?.commentaire,
+    etapevalidation: validationii.value?.etapevalidation?.id,
   };
-  ApiService.post("/validations/" + values.id, values)
+
+  ApiService.post("/validations/", values)
     .then(({ data }) => {
       if (data.code === 201) {
         success(data.message);
-        validationsForm.value?.resetForm(); 
-        getAllValidations(); 
-        triggerButtonClick("close-modal"); 
+        validationsForm.value?.resetForm();
+        getAllValidations();
+        triggerButtonClick("close-modal");
       }
     })
     .catch(({ response }) => {
       error(response.data.message);
     });
 };
-   
+
 
      function rechercher(){
       getAllValidations(page.value, limit.value, searchTerm.value );
     }
 
     function getAllValidations(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`/demandecircuit?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`/all/validationcircuits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           console.log("validation",data);
           validations.value = data.data.data;
@@ -403,7 +396,8 @@ const rejectValidations = async () => {
     validationsForm,
     addValidations,
     validationsSchema,
-    rejectValidations
+    rejectValidations,
+    format_date
   };
   },
 });

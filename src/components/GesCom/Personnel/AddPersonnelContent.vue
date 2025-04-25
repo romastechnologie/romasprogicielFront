@@ -572,10 +572,7 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone du conjoint "
                                     maxlength="10"
-                                    @input="
-                                      telephoneCon =
-                                        '01' + telephoneCon.slice(2)
-                                    "
+                                  @input="telephone = '01' + telephone.slice(2)"
                                   />
                                 </div>
                               </div>
@@ -1311,11 +1308,8 @@
                                     class="form-control shadow-none fs-md-15 text-black"
                                     placeholder="Entrer le téléphone"
                                     maxlength="10"
-                                    @input="
-                                      telephonePersonneAContacter =
-                                        '01' +
-                                        telephonePersonneAContacter.slice(2)
-                                    "
+                                    @input="telephone = '01' + telephone.slice(2)"
+
                                   />
                                 </div>
                                 <span
