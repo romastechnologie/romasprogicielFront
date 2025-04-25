@@ -239,7 +239,7 @@ export default defineComponent({
     };
     const removeRowCircuit = (index) => {
       if (etapevalidations.length > 1) etapevalidations.splice(index, 1);
-      //totals();
+    
     };
     watch(
       etapevalidations,
@@ -283,19 +283,8 @@ export default defineComponent({
           console.log('data1',duree.value);
           console.log('data3',typeDuree.value);
 
-    // data.data.etapevalidations.forEach(donne => {
-    //   etapevalidations.push({
-    //   nom: donne.nom,
-    //   role: donne.roleetap?.id,
-    //   ordre: donne.Ordre,
-    //   duree: donne.Duree,
-    //   typeDuree: donne.typeDuree,
-    //   users: donne.useretapes?.map(u => u.user) || []
-    // })
-    // })
-
-    // Videz et remplissez etapevalidations
-      etapevalidations.length = 0; // Vide le tableau réactif
+    
+      etapevalidations.length = 0; 
       data.data.etapevalidations.forEach(donne => {
         etapevalidations.push({
           nom: donne.nom,
@@ -303,7 +292,7 @@ export default defineComponent({
           ordre: donne.Ordre,
           duree: donne.Duree,
           typeDuree: donne.typeDuree,
-          users: donne.useretapes?.map(u => u.user.id) || [] // Stockez seulement les IDs
+          users: donne.useretapes?.map(u => u.user.id) || [] 
         });
       });
       })
@@ -355,7 +344,6 @@ const editCircuit = async (values, { resetForm }) => {
     error(error.response?.data?.message || "Une erreur est survenue.");
   }
 };
-
 
 const getAllPersonnels = async () => {
       try{
