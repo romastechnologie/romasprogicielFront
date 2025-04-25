@@ -44,9 +44,9 @@
                           type="checkbox"
                           placeholder="Entrer ordre"/>
                         </label>
-                        
                         <ErrorMessage name="estBloque" class="text-danger" />
                       </div>
+
                         <div class="col-md-12 mb-3">
                         <div class="form-group mb-15 mb-sm-20 mb-md-25">
                           <label class="d-block text-black fw-semibold mb-10">

@@ -61,6 +61,15 @@
                 <td>{{ document?.description || 'Non renseigné' }}</td>
               </tr>
               <tr>
+              <td>Statut</td>
+              <td>
+                <span :class="getBadgeClass(document?.statut)">
+                  {{ document?.statut || 'Non renseigné' }}
+                </span>
+              </td>
+            </tr>
+
+              <tr>
                 <td>Fichier</td>
                 <td>
                   <a v-if="document?.photoDocument" :href="getUrlApiForFiles(document.photoDocument, 'Documents')" target="_blank">
@@ -181,6 +190,20 @@ export default defineComponent({
       }
     }
 
+    const getBadgeClass = (statut: string) => {
+    switch (statut) {
+      case 'En attente':
+        return 'badge bg-warning text-dark'; // Orange
+      case 'Validé':
+        return 'badge bg-success'; // Vert
+      case 'Rejeté':
+        return 'badge bg-danger'; // Rouge
+      default:
+        return 'badge bg-secondary'; // Gris pour "Non renseigné"
+    }
+  };
+
+
     onMounted(() => {
       const id = route.params.id as string;
       if (id) {
@@ -194,6 +217,7 @@ export default defineComponent({
       document,
       format_date,
       getUrlApiForFiles,
+      getBadgeClass
     };
   },
 });

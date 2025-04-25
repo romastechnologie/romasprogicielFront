@@ -11,7 +11,7 @@
           data-bs-target="#AddRegleConservationModal"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter une Regle Conservation 
+          Ajouter une Regle de gestion
         </a>
         <!-- <button
           class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
@@ -90,6 +90,18 @@
               </th>
               <th
                 scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Type archivage
+              </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Catégorie document 
+              </th>
+              <th
+                scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 text pe-0"
               >ACTIONS</th>
             </tr>
@@ -118,6 +130,15 @@
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 {{ regleConservation.typeDuree }}
               </td>
+
+              <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                {{ regleConservation.typeDocument?.nom }}
+              </td>
+
+              <td class="shadow-none lh-1 fw-medium  text-black-emphasis">
+                {{ regleConservation.categoriedocument?.libelle }}
+              </td>
+              
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
@@ -167,8 +188,6 @@
   :item="selectedItem" 
   @close="recharger"
   @refreshregleConservation="refreshregleConservation"
-
-  
   />
 
 </template>
@@ -200,46 +219,34 @@ export default defineComponent({
       const router = useRouter(); 
     const ReglesConservations = ref<Array<RegleConservation>>([]);   
     const regleConservation = ref<RegleConservation>();
-
-    // BEGIN PAGINATE
     const searchTerm = ref('');
     const page = ref(1);
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
     const selectedItem = ref(0);
-
     const handlePaginate = ({ page_, limit_ }) => {
       try {
         page.value = page_;
         getAllRegleConservations(page_, limit_);
       } catch (error) {
-        
       }
     };
-
      function rechercher(){
       getAllRegleConservations(page.value, limit.value, searchTerm.value );
     }
-
     const recharger = () => {
       getAllRegleConservations();
     };
-
-
-    // END PAGINATE
-
     onMounted(() => {
       loading.value=false;
       getAllRegleConservations();
     });
-
     const refreshregleConservation = () => {
       getAllRegleConservations();
     };
-
     function getAllRegleConservations(page = 1, limi = 10, searchTerm = '') {
-      return ApiService.get(`all/regleConservations?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+      return ApiService.get(`all/regletypecategories?page=${page}&limit=${limi}&mot=${searchTerm}&`)
         .then(({ data }) => {
           console.log("EEEEEEEEEEEEEEE ===> ",data)
           ReglesConservations.value = data.data.data;
@@ -252,7 +259,6 @@ export default defineComponent({
           console.log("EEEEEEEEEEEEEEE ===> ",response)
           error(response.data.message)
       });
-      
     }
     
     function moddifier(EditRegleConservation:RegleConservation) {
@@ -260,10 +266,7 @@ export default defineComponent({
       selectedItem.value = EditRegleConservation.id;  
     }
 
-    
-
     const privileges = ref<Array<string>>(JwtService.getPrivilege());
-
     const checkPermission = (name) => {
       return privileges.value.includes(name);
     }

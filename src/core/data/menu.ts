@@ -451,7 +451,7 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
-    {
+    /*{
         title: "Demande de conge",
         icon: "stroke-calendar",
         icon1: "fill-calendar",
@@ -476,7 +476,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
         ]
-    },
+    },*/
     {
         title: "HeureSupp",
         icon: "stroke-form",
@@ -515,7 +515,7 @@ export const menu: MenuItem[] = [
             },
         ]
     },
-    {
+   /* {
         title: "Demande de permission",
         icon: "stroke-calendar",
         icon1: "fill-calendar",
@@ -535,7 +535,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
         ]
-    },
+    },*/
     {
         title: "Horaires",
         icon: "stroke-to-do",
@@ -835,12 +835,32 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false, 
     },
+   /* {
+        title: "RegleTypeDocument",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "link",
+        path: "/reglestypes/liste-reglestypes",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false, 
+    },*/
+    {
+        title: "TypeArchivage",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/typedocument/liste-typedocument",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+    },
     {
         title: "TypeDocument",
         icon: "stroke-learning",
         icon1: "fill-learning",
         type: "link",
-        path: "/typedocument/liste-typedocument",
+        path: "/typedoc/liste-typedoc",
         badgeType: "light-primary",
         active: false,
         isPinned: false,
@@ -856,7 +876,7 @@ export const menu: MenuItem[] = [
         isPinned: false,   
     },
     {
-        title: "RegleConservation",
+        title: "Regle de gestion",
         icon: "stroke-learning",
         icon1: "fill-learning",
         type: "link",

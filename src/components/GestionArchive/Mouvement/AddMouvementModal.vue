@@ -67,7 +67,7 @@
                     <div class="col-md-12">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
-                          Type Document <span class="text-danger">*</span>
+                          Type archivage <span class="text-danger">*</span>
                         </label>
                         <Field name="typeDocument" v-model="type3" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :options="typeDocumentOptions"
@@ -83,7 +83,8 @@
                           Document <span class="text-danger">*</span>
                         </label>
                         <Field name="document" v-model="document1" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un document" />
+                          <Multiselect v-model="field.value" v-bind="field" label="label" track-by="label" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" 
+                          placeholder="Sélectionner un document" />
                         </Field>
                         <ErrorMessage name="document" class="text-danger" />
                       </div>
@@ -110,7 +111,7 @@
                         <ErrorMessage name="typeEmplacementDestinataire" class="text-danger" />
                       </div>
                     </div>
-                    <div class="col-md-12" v-show="typeMouv == 'Sortie' || typeMouv == 'Destruction'">
+                    <div class="col-md-12" v-show="typeMouv === 'Sortie' || typeMouv === 'Destruction'">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
                           Personnel <span class="text-danger">*</span>
@@ -131,6 +132,29 @@
                         <ErrorMessage name="personnel" class="text-danger" />
                       </div>
                     </div>
+
+                    <div class="col-md-12" v-show="typeMouv == 'Sortie'">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Personnel chargé du retrait <span class="text-danger">*</span>
+                        </label>
+                        <Field name="personnelR" type="text" v-slot="{ field }">
+                          <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
+                            :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
+                              const results = await getPersonnelByKey(query);
+                              if (results && results.length > 0) {
+                                return results;
+                              } else if (query.length >= 3) {
+                                return [{ value: '', label: 'Aucun enregistrement trouvé' }];
+                              } else {
+                                return [];
+                              }
+                            }" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un personnel" />
+                        </Field>
+                        <ErrorMessage name="personnel" class="text-danger" />
+                      </div>
+                    </div>
+
                     <div class="col-md-12"  v-show="typeMouv == 'Déplacement'">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
@@ -237,6 +261,7 @@ export default {
       typeMouvement: Yup.string().required('Le type de mouvement est obligatoire'),
       typeDocument: Yup.string().required('Le type de document est obligatoire'),
       personnel: Yup.string().notRequired(),
+      personnelR: Yup.string().notRequired(),
 
     });
     const etatAffiche = ref(false);
@@ -279,7 +304,6 @@ export default {
     });    
 
     const leDocu = ref()
-
     const lesDocuments = ref([])
     
     watch(document1, (newValue, oldValue) => {
@@ -287,8 +311,6 @@ export default {
         leDocu.value = lesDocuments.value.find(objet => objet.id === newValue);
       }
     });
-
-
 
     const getMouvement = async (id: number) => {
       return ApiService.get("/mouvements/" + id)
@@ -337,22 +359,32 @@ export default {
 
      const documentByTypeOptions = ref([]);
 
-    const getDocumentByType = async (type:any)=>{
-      try{
-        const response = await axios.get(`documents/typeEmplacement/:type/donnes`);
-        const documentData = response.data.data;
-        lesDocuments.value = documentData;
-        documentByTypeOptions.value = documentData.map(
-          (document) => ({
-            value: document.id,
-            label: `${document.nom} - ${document.refDoc}`,
-          }))
-      } catch (error) {
-        //
-        console.log("Erreur ===> ",error)
-      }
-      
+     const getDocumentByType = async (type: any) => {
+  try {
+    if (!type) {
+      console.error("Type de document invalide !");
+      return;
     }
+
+    const response = await axios.get(`documents/typeEmplacement/${type}/donnes`);
+    
+    if (response.status === 200) {
+      const documentData = response.data.data;
+      console.log("Documents récupérés :", documentData);
+
+      lesDocuments.value = documentData;
+      documentByTypeOptions.value = documentData.map((document) => ({
+        value: document.id,
+        label: `${document.nom} - ${document.refDoc}`,
+      }));
+    } else {
+      console.error("Erreur de récupération :", response.status);
+    }
+  } catch (error) {
+    console.error("Erreur ===> ", error);
+  }
+};
+
     const emplacementOptions1 = ref([])
     const getEmplacement1 = async (type: any) => {
       if (type && type != "") {
@@ -525,7 +557,6 @@ export default {
           });
       }
     };
-
     watch(() => typeMouv.value, async (newValue, oldValue) => {
       if (newValue && oldValue != newValue) {
         typeMouv.value = newValue.toString();

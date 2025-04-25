@@ -70,6 +70,29 @@
                 </div>
               </div>
 
+              
+              <div class="col-md-6">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Categories Documents
+                    <span class="text-danger">*</span>
+                  </label>
+                  <Field name="categoriedocument" v-slot="{ field }">
+                    <Multiselect
+                    v-model="field.value" v-bind="field"
+                    :options="categoriesDocumentsOptions" 
+                    :preserve-search="true"
+                    :multiple="false" :searchable="true"
+                     placeholder="Sélectionner la catégorie de document" 
+                     label="label"
+                     track-by="label"
+                      @update:modelValue="(value) => selectedCategorieId = value"
+                    />
+                  </Field>
+                </div>
+                <ErrorMessage name="categoriedocument" class="text-danger" />
+              </div>
+
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
@@ -88,7 +111,7 @@
               <div class="col-md-6">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
-                    Description <span class="text-danger">*</span>
+                    Justification <span class="text-danger">*</span>
                   </label>
                   <Field
                     name="description"
@@ -119,6 +142,28 @@
                 </div>
                 <ErrorMessage name="typeDuree" class="text-danger" />
               </div>
+
+              <div class="col-md-6">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Type d'archivage <span class="text-danger">*</span>
+                  </label>
+                  <Field name="typeDocument" v-slot="{ field }">
+                    <Multiselect 
+                    v-model="field.value" 
+                    v-bind="field"
+                    :options="typesDocumentsOptions"
+                    :preserve-search="true"
+                    :multiple="false" 
+                    :searchable="true"
+                    placeholder="Sélectionner le type de document" 
+                    label="label"
+                    track-by="label" />
+                  </Field>
+                </div>
+                <ErrorMessage name="typeDocument" class="text-danger" />
+              </div>
+
 
               <button class="btn btn-primary mt-3">
                 {{ btntext }}
@@ -169,18 +214,25 @@ export default defineComponent({
       code: Yup.string().required("Le code est obligatoire"),
       sortFinal: Yup.string().required("Le Sort Final est obligatoire"),
       dureeConservation: Yup.number().required(
-        "La Duree Conservation est obligatoire"
-      ),
+        "La Duree Conservation est obligatoire"),
       description: Yup.string().required("La description est obligatoire"),
       typeDuree: Yup.string().required("Le Type Duree est obligatoire"),
-    });
+      categoriedocument: Yup.string().required('La catégorie document est obligatoire'),
+      typeDocument: Yup.string().required('La catégorie document est obligatoire'),
+        });
 
     const regleConservationForm = ref<RegleConservation | null>(null);
     const addRegleConservationModalRef = ref<null | HTMLElement>(null);
+    const selectedCategorieId = ref<number | null>(null);
+
     const router = useRouter();
     const regleConservationOptions = ref([]);
     const typeDuree = ref();
     const typeDureeOptions = ref([]);
+    const typesDocuments = ref();
+    const typesDocumentsOptions = ref([]);
+    const categoriesDocuments = ref();
+    const categoriesDocumentsOptions = ref([]);
 
     // const item = ref({ ...props.item });
     const localItem = ref(props.item);
@@ -215,7 +267,7 @@ export default defineComponent({
     ];
 
     const getRegleConservation = async (id: number) => {
-      return ApiService.get("/regleConservations/" + id)
+      return ApiService.get("/regletypecategories/" + id)
         .then(({ data }) => {
           // map data in form
           const donnees = data.data;
@@ -249,14 +301,49 @@ export default defineComponent({
       }
     };
 
+    const getAllTypesDocuments = async () => {
+            try {
+                const response = await ApiService.get('all/typedocuments');
+                const typesDocumentsData = response.data.data.data;
+                console.log('Data')
+                console.log('categoriesDepensesData',typesDocumentsData)
+                typesDocumentsOptions.value = typesDocumentsData.map((typesDocuments) => ({
+                    value: typesDocuments.id,
+                    label: typesDocuments.nom,
+
+                }));
+            }
+            catch (error) {
+                //error(response.data.message)
+            }
+        }
+
+        const getAllCategoriesDocuments = async () => {
+            try {
+                const response = await ApiService.get('all/categorieDocuments');
+                const categoriesDocumentsData = response.data.data.data;
+                console.log('Data')
+                console.log('categoriesDepensesData',categoriesDocumentsData)
+                categoriesDocumentsOptions.value = categoriesDocumentsData.map((categoriesDocuments) => ({
+                    value: categoriesDocuments.id,
+                    label: categoriesDocuments.libelle,
+
+                }));
+            }
+            catch (error) {
+                //error(response.data.message)
+            }
+        }
     onMounted(() => {
       fetchRegleConservation();
+       getAllTypesDocuments();
+       getAllCategoriesDocuments();
     });
 
     const addRegleConservation = async (values: any, regleConservationForm) => {
       values = values as RegleConservation;
       if (isUPDATE.value) {
-        ApiService.put("/regleConservations/" + values.id, values)
+        ApiService.put("/regletypecategories/" + values.id, values)
           .then(({ data }) => {
             if (data.code == 200) {
               success(data.message);
@@ -272,7 +359,7 @@ export default defineComponent({
           });
       } else {
         console.log("values", values);
-        ApiService.post("/regleConservations/", values)
+        ApiService.post("/regletypecategories/", values)
           .then(({ data }) => {
             if (data.code == 201) {
               success(data.message);
@@ -286,6 +373,19 @@ export default defineComponent({
           });
       }
     };
+
+    watch(selectedCategorieId, async (newId) => {
+  if (newId) {
+    try {
+      const response = await ApiService.get(`categorieDocuments/${newId}`);
+      const duree = response.data.data.duree;
+      regleConservationForm.value?.setFieldValue('dureeConservation', duree);
+    } catch (err) {
+      console.error('Erreur récupération durée catégorie', err);
+    }
+  }
+});
+
 
     const resetValue = () => {
       const formFields = document.querySelectorAll<
@@ -310,7 +410,12 @@ export default defineComponent({
       showMErr,
       typeDuree,
       typeDureeOptions,
+      typesDocuments, 
+      typesDocumentsOptions,
+      categoriesDocuments,
+      categoriesDocumentsOptions, 
+      selectedCategorieId
     };
   },
 });
-</script>@/models/CategorieInfo
+</script>@/models/RegleConservation

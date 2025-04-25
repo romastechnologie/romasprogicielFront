@@ -83,7 +83,7 @@
                         <div class="col-md-3">
                     <div class="form-group mb-15 mb-sm-20 mb-md-25">
                       <label class="d-block text-black fw-semibold mb-10">
-                          Personnels <span class="text-danger">*</span>
+                          Users <span class="text-danger">*</span>
                       </label>  
                       </div>
                     </div>
@@ -121,7 +121,6 @@
                             La Durée est obligatoire
                           </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
-                        <option value="...">...</option>
                         <option value="Jour(s)">Jour(s)</option>
                         <option value="Mois">Mois</option>
                         <option value="Annees">Annees</option>
@@ -151,9 +150,9 @@
                           :options="personnelOptions" 
                           :searchable="true" 
                           :multiple="true"
-                          v-model="circuit.personnel"
+                          v-model="circuit.users"
                           placeholder="Sélectionner les personnels"/>
-                        <span class="invalid-feedback" v-if="valideteRowCircuit(circuit.personnel)"></span>
+                        <span class="invalid-feedback" v-if="valideteRowCircuit(circuit.users)"></span>
                           </div>
                         </div>
                         
@@ -226,15 +225,8 @@ export default defineComponent({
     const duree = ref();
     const typeDuree = ref();
 
-    const etapevalidations = reactive([{
-      nom: "",
-      role: "",
-      ordre: "",
-      duree: "",
-      typeDuree: "",
-      personnel: []
-    }]);
-    
+   const etapevalidations = reactive([]); 
+       
     const addRowCircuit = () => {
       etapevalidations.push({
         nom: "",
@@ -242,12 +234,12 @@ export default defineComponent({
         ordre: "",
         duree: "",
         typeDuree: "",
-        personnel:[]
+        users:[]
       });
     };
     const removeRowCircuit = (index) => {
       if (etapevalidations.length > 1) etapevalidations.splice(index, 1);
-      //totals();
+    
     };
     watch(
       etapevalidations,
@@ -260,7 +252,7 @@ export default defineComponent({
           valideteRowCircuit(circuit.role) ||
           valideteRowCircuit(circuit.duree)||
           valideteRowCircuit(circuit.typeDuree)||
-          valideteRowCircuit(circuit.personnel)
+          valideteRowCircuit(circuit.users)
         );
       },
       { deep: true }
@@ -278,30 +270,31 @@ export default defineComponent({
     function getCircuit(id:number) {
       ApiService.get("/circuits/"+id.toString())
         .then(({ data }) => {
+          console.log('valeurs', data);
           for (const key in data.data) {
             circuitForm.value?.setFieldValue(key, 
             (typeof data.data[key] === 'object' && data.data[key] !== null)? data.data[key].id :data.data[key]
           );
           };
           console.log('data2',data.data);
-
           duree.value = data.data['Duree'];
           typeDuree.value = data.data['typeDuree'];
    
           console.log('data1',duree.value);
           console.log('data3',typeDuree.value);
 
-    data.data.etapevalidations.forEach(donne => {
-      etapevalidations.push({
-      nom: donne.nom,
-      role: donne.roleetap?.id,
-      ordre: donne.Ordre,
-      duree: donne.Duree,
-      typeDuree: donne.typeDuree,
-      personnel: []
-    })
-    })
-
+    
+      etapevalidations.length = 0; 
+      data.data.etapevalidations.forEach(donne => {
+        etapevalidations.push({
+          nom: donne.nom,
+          role: donne.roleetap?.id || "",
+          ordre: donne.Ordre,
+          duree: donne.Duree,
+          typeDuree: donne.typeDuree,
+          users: donne.useretapes?.map(u => u.user.id) || [] 
+        });
+      });
       })
       .catch(({ response }) => {
         error(response.data.message);
@@ -342,7 +335,6 @@ export default defineComponent({
 const editCircuit = async (values, { resetForm }) => {
   try {
     const response = await ApiService.put(`/circuits/${values.id}`, values);
-    
     if (response.status === 200) {
       success(response.data.message);
       resetForm();
@@ -353,15 +345,14 @@ const editCircuit = async (values, { resetForm }) => {
   }
 };
 
-
 const getAllPersonnels = async () => {
       try{
-      const response = await ApiService.get('/all/personnels');
+      const response = await ApiService.get('/users');
       const canalsData = response.data.data.data;
       console.log('Data',canalsData)
-      personnelOptions.value = canalsData.map((personnel) => ({
-        value:personnel.id,
-        label:personnel.nom + " " + personnel.prenom ,
+      personnelOptions.value = canalsData.map((user) => ({
+        value:user.id,
+        label:user.nom + " " + user.prenom ,
       }));
       }
       catch (error) {

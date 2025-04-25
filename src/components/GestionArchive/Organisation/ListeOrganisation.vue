@@ -71,6 +71,10 @@
                 </th>
                 <th
                   scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type archivage
+                </th>
+                <th
+                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
                 >Actions</th>
               </tr>
@@ -89,6 +93,10 @@
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ organisation.organisation?.nom}}
                 </td>
+                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ organisation.typedocument?.nom}}
+                </td>
+                
                 
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"

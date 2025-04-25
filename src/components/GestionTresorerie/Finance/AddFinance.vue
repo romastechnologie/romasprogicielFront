@@ -38,16 +38,16 @@
                                     Depense <span class="text-danger">*</span>
                                 </label>
                                 <Field name="depense" v-slot="{ field }">
-                  <Multiselect
-                  :options="depenseOptions"
-    :searchable="true"
-    track-by="value"
-    label="label"
-    v-model="depenseId" 
-    v-bind="field"
-    placeholder="Sélectionner la dépense"
-                  />
-                </Field>
+                               <Multiselect
+                                :options="depenseOptions"
+                                :searchable="true"
+                                track-by="value"
+                                label="label"
+                                v-model="depenseId" 
+                                v-bind="field"
+                                placeholder="Sélectionner la dépense"
+                                />
+                              </Field>
 
                                 <ErrorMessage name="depense" class="text-danger" />
                             </div>

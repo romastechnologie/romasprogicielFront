@@ -1,5 +1,4 @@
 <template>
-
   <div class="modal fade" id="AddPosteModal" tabindex="-1" role="dialog" ref="addPosteModalRef"
     aria-labelledby="tooltipmodal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="poste">
@@ -37,12 +36,17 @@
                   <label class="d-block text-black mb-10">
                     Attribution <span class="text-danger">*</span>
                   </label>
-                  <Field name="attributionpostes" v-slot="{ field}" v-model="attributionpostes">
-                    <Multiselect  :options="attributionOptions" :multiple="true" mode="tags"
-                      placeholder="Sélectionner l'attribution" v-bind="field" label="label" track-by="value" />
-                    <!-- <span class="text-danger">{{ errors[0] }}</span> -->
-                  </Field>
-
+                  <Field name="attributionpostes" v-slot="{field}">
+                      <Multiselect
+                        v-model="field.value"
+                        :options="attributionOptions"
+                        :multiple="true"
+                        mode="tags"
+                        placeholder="Sélectionner l'attribution"
+                        label="label"
+                        track-by="value"
+                      />
+                    </Field>
                    <ErrorMessage name="attributionpostes" class="text-danger" />
                 </div>
               </div>
@@ -67,6 +71,8 @@ import Multiselect from '@vueform/multiselect';
 import VueMultiselect from "vue-multiselect";
 import { Poste } from '@/models/Poste';
 import { useRouter } from 'vue-router';
+import { nextTick } from 'vue';
+import { FormContext } from 'vee-validate'; 
 import axios from 'axios';
 
 export default {
@@ -97,11 +103,12 @@ export default {
 
     });
     const postenew = ref(props.id);
-    const posteForm = ref<Poste | null>(null);
+    const posteForm = ref<FormContext | null>(null);
+    // const posteForm = ref<Poste | null>(null);
     const addPosteModalRef = ref<null | HTMLElement>(null);
     let postes = ref<Array<Poste>>([]);
     const attributionOptions = ref<number[]>([]);
-    const attributionpostes = ref<number[]>([]);
+    const attributionpostes = ref();
     const title = ref('Ajouter un poste');
     const btntext = ref('Ajouter');
     const isupdate = ref(false);
@@ -114,19 +121,29 @@ export default {
       }
       btnTitle();
     });
-    const getPoste = async (id: number) => {
-      return ApiService.get("/postes/" + id)
-        .then(({ data }) => {
-          posteForm.value?.setFieldValue("id", data.data.id);
-          posteForm.value?.setFieldValue("libelle", data.data.libelle);
-          posteForm.value?.setFieldValue("code", data.data.code);
-          posteForm.value?.setFieldValue("attributionpostes", data.data.attributionpostes);
-          emit('openmodal', addPosteModalRef.value);
-        })
-        .catch(({ response }) => {
-          error(response.data.message)
-        });
-    }
+
+const getPoste = async (id: number) => {
+  return ApiService.get("/postes/" + id)
+    .then(async ({ data }) => {
+      console.log("API Response (attributionpostes):", data.data.attributionpostes);
+      posteForm.value?.setFieldValue("id", data.data.id);
+      posteForm.value?.setFieldValue("libelle", data.data.libelle);
+      posteForm.value?.setFieldValue("code", data.data.code);
+
+      // Transformez les attributionpostes pour les adapter au Multiselect
+      const selectedAttributions = data.data.attributionpostes?.map((ap: any) => ({
+        value: ap.id, 
+        label: ap.attribution?.libelle || ap.libelle
+      }));
+      console.log("Attributions formatées :", selectedAttributions);
+      posteForm.value?.setFieldValue("attributionpostes", selectedAttributions || []);
+      await nextTick();
+      emit('openmodal', addPosteModalRef.value);
+    })
+    .catch(({ response }) => {
+      error(response.data.message);
+    });
+  }
     onMounted(async () => {
       fetchAttribution();
     });
@@ -139,8 +156,6 @@ export default {
         btntext.value = "Ajouter";
       }
     }
-
- 
 
     const addPoste = async (values: any, { resetForm }: { resetForm: () => void }) => {
       //  values = values as Poste;
@@ -189,7 +204,7 @@ export default {
       try {
         const response = await axios.get("all/attributions");
         const fonctionData = response.data.data.data;
-        console.log("ZZZZZZZZZZ ===> ", fonctionData);
+        console.log("valeurs", fonctionData);
         attributionOptions.value = fonctionData.map((fonction) => ({
           value: fonction.id,
           label: `${fonction.libelle}`,
@@ -197,6 +212,15 @@ export default {
       } catch (error) {
       }
     };
+    
+    watch(
+  () => posteForm.value?.values.attributionpostes, // Surveillance des valeurs du formulaire
+  (newVal) => {
+    console.log("Valeurs actuelles (watch):", newVal); // Doit maintenant loguer les valeurs
+  },
+  { deep: true }
+);
+
     const resetValue = () => {
       const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
       isupdate.value = false;
@@ -205,6 +229,8 @@ export default {
       });
       btnTitle()
     };
+
+    
     return {
       attributionpostes,postes, fetchAttribution, attributionOptions, title, btntext, resetValue, posteSchema,
       addPoste, posteForm, addPosteModalRef, postenew

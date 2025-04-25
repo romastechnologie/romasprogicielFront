@@ -274,7 +274,7 @@ function triggerButtonClick(buttonId: string) {
   values["id"] = demandeii.value;
   values["statut"] = true;
 
-  ApiService.put("/demandes/" + values.id, values)
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       console.log('demande', data);
       if (data.code === 200) {
@@ -297,7 +297,7 @@ const rejectDemandes = async () => {
     observation: demandesForm.value?.values?.observation || '', // Récupération de l'observation si remplie
   };
 
-  ApiService.put("/demandes/" + values.id, values)
+  ApiService.put("/demandesobservation/" + values.id, values)
     .then(({ data }) => {
       if (data.code === 200) {
         success(data.message);
