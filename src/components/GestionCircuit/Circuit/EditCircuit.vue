@@ -283,7 +283,6 @@ export default defineComponent({
           console.log('data1',duree.value);
           console.log('data3',typeDuree.value);
 
-    
       etapevalidations.length = 0; 
       data.data.etapevalidations.forEach(donne => {
         etapevalidations.push({
@@ -379,7 +378,6 @@ const getAllPersonnels = async () => {
       getAllPersonnels();
       getAllRoleEtaps();
     })
-
 
     onMounted(() => {
       if(route.params.id) {

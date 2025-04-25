@@ -361,7 +361,6 @@ export default defineComponent({
       addRowCircuit,
       valideteRowCircuit,userOptions,roleOptions,
       };
-    
   },
 });
 </script>
