@@ -76,6 +76,7 @@
             </div>
           </div>
          
+         
           <div v-show="fieldHide6" class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -220,14 +221,15 @@
               >Fichier<span class="text-danger">*</span></label
             >
             <Field
-              name="fichier"
-              @change="fichierChange"
+               @change="preuveFileNameChange"
               class="form-control"
               type="file"
+              name="preuveFileName"  
             />
-            <ErrorMessage name="fichier" class="text-danger" />
+            <ErrorMessage name="preuveFileName" class="text-danger" />
           </div>
               
+       
                   
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
@@ -250,6 +252,7 @@
   import { defineComponent, onMounted, reactive, ref, watch} from 'vue';
   import { Form, Field, ErrorMessage, useFieldArray } from 'vee-validate';
   import * as Yup from 'yup';
+  import axios from 'axios';
   import ApiService from '@/services/ApiService';
   import { error, success,onFileChange } from '@/utils/utils';
   // import { useRouter } from 'vue-router';
@@ -303,11 +306,21 @@ import router from '@/router';
       dateDemande: Yup.date().required('La date de demande est obligatoire'),
       categorie: Yup.string().required('Le catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
-      dateDebut: Yup.date().required('La date de début est obligatoire'),
-      dateFin: Yup.date().required('La date de fin est obligatoire'),
-      dateReprise: Yup.date().required('La date de reprise est obligatoire'),
+      dateDebut: Yup.date()
+    .required('La date de début est obligatoire')
+    .test('dateDebut-test', 'La date de début doit être antérieure à la date de fin et à la date de reprise', function(value) {
+      const { dateFin, dateReprise } = this.parent;
+      return (!value || !dateFin || value <= dateFin) && (!value || !dateReprise || value <= dateReprise);
+    }),
+  dateFin: Yup.date()
+    .required('La date de fin est obligatoire')
+    .test('dateFin-test', 'La date de fin doit être antérieure ou égale à la date de reprise', function(value) {
+      const { dateReprise } = this.parent;
+      return !value || !dateReprise || value <= dateReprise;
+    }),  dateReprise: Yup.date().required('La date de reprise est obligatoire'),
       
-      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+    preuveFileName: Yup.mixed().notRequired(),
+
     });
 
     const congeSchema = Yup.object().shape({
@@ -316,10 +329,19 @@ import router from '@/router';
       categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       typeConge: Yup.string().required('Le type de congé est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
-      dateDebut: Yup.date().required('La date de début est obligatoire'),
-      dateFin: Yup.date().required('La date de fin est obligatoire'),
-      dateReprise: Yup.date().required('La date de reprise est obligatoire'),
-      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      dateDebut: Yup.date()
+    .required('La date de début est obligatoire')
+    .test('dateDebut-test', 'La date de début doit être antérieure à la date de fin et à la date de reprise', function(value) {
+      const { dateFin, dateReprise } = this.parent;
+      return (!value || !dateFin || value <= dateFin) && (!value || !dateReprise || value <= dateReprise);
+    }),
+  dateFin: Yup.date()
+    .required('La date de fin est obligatoire')
+    .test('dateFin-test', 'La date de fin doit être antérieure ou égale à la date de reprise', function(value) {
+      const { dateReprise } = this.parent;
+      return !value || !dateReprise || value <= dateReprise;
+    }), dateReprise: Yup.date().required('La date de reprise est obligatoire'),
+    preuveFileName: Yup.mixed().notRequired(),
     });
 
     const attestationSchema = Yup.object().shape({
@@ -327,7 +349,7 @@ import router from '@/router';
       dateDemande: Yup.date().required('La date de demande est obligatoire'),
       categorie: Yup.string().required('La catégorie de demande est obligatoire'),
       motifDemande: Yup.string().required('Le motif est obligatoire'),
-      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      preuveFileName: Yup.mixed().notRequired(),
     });
     const pretSchema = Yup.object().shape({
       personnel:Yup.string().required('Le personnel est obligatoire'),
@@ -337,7 +359,7 @@ import router from '@/router';
       montantPret: Yup.string().required('Le montant total est obligatoire'),
       nbreEcheance:Yup.number().typeError('Veuillez entrer des chiffres').required('Le nombre est obligatoire'),
       mensualite:Yup.number().typeError('Veuillez entrer des chiffres').required('La mensualité est obligatoire'),
-      //demandeFileName: Yup.string().required("Le fichier de la demande est obligatoire."),
+      preuveFileName: Yup.mixed().notRequired(),
       //dateEcheance: Yup.date().required('La date  est obligatoire'),
       //montant: Yup.string().required('Le montant par échéance est obligatoire'),
 
@@ -357,13 +379,13 @@ import router from '@/router';
     };
 
 
-      const fichierChange = (e) => {
-        selectedFile.value = onFileChange(e, [
-          "image/jpeg",
-          "image/png",
-          "application/pdf",
-        ]);
-      };
+    const preuveFileNameChange = (e) => {
+      selectedFile.value = onFileChange(e, [
+        "image/jpeg",
+        "image/png",
+        "application/pdf",
+      ]);
+    };
 
 
     //déclaration des champs
@@ -554,6 +576,8 @@ import router from '@/router';
         montantPret.value = echeances.reduce((acc, echeance) => acc + Number(echeance.montant || 0), 0);
       };*/
 
+     
+
       const getAllTypeConges = async () => {
           try{
           const response = await ApiService.get('/typeConges');
@@ -612,7 +636,10 @@ const addDemande = async (values: any, { resetForm }) => {
       }
       console.log('Données envoyées', values,typeConge.value)
       if (showMErr.value === false) {
-        ApiService.post("/demandes", values)
+        axios
+        .post("/demandes", values, {
+          headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
+        })
            .then(({ data }) => {
             console.log("data   ",data)
             if (data.code == 201) {
@@ -660,7 +687,7 @@ const addDemande = async (values: any, { resetForm }) => {
       addRowEcheance,
       valideteRowEcheance,
       echeances,
-      fichierChange,onFileChange,
+      onFileChange,preuveFileNameChange,
       errorMessage,montantPret,
       //calculMontantTotal,
       nbreEcheance,mensualite,

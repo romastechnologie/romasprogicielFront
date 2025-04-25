@@ -189,6 +189,32 @@
                               </div>
                             </div>      
 
+                         <!--  <div class="col-md-4">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Service  <span class="text-danger">*</span>
+                                </label>
+                                <Field
+                                  name="service"
+                                  v-model="organisation"
+                                  type="text"
+                                  v-slot="{ field }"
+                                >
+                                  <Multiselect
+                                    v-model="field.value"
+                                    v-bind="field"
+                                    :options="serviceOptions"
+                                    :preserve-search="true"
+                                    :multiple="false"
+                                    :searchable="true"
+                                    placeholder="Sélectionner le service"
+                                    label="label"
+                                    track-by="label"
+                                  />
+                                </Field>
+                              </div>
+                            </div>--> 
+
                               <div class="col-md-4">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label
@@ -369,7 +395,7 @@ export default defineComponent({
   religion: Yup.string().required("Réligion est obligatoire."),
   ethnie: Yup.string().required("Ethnie est obligatoire."),
   telephone: Yup.string().required("Téléphone est obligatoire."),
-  telephone2: Yup.string().required("Téléphone est obligatoire."),
+  telephone2: Yup.string().notRequired(),
   commune: Yup.string().required("Commune est obligatoire."),
   departement: Yup.string().required("Département est obligatoire."),
   arrondissement: Yup.string().required("Arrondissement est obligatoire."),
@@ -405,6 +431,10 @@ export default defineComponent({
     const telephone = ref();
     const telephone2 = ref();
     const civilite= ref();
+    const serviceOptions = ref([]);
+    const organisation = ref();
+
+
   
     const router = useRouter();
     const route = useRoute();
@@ -536,6 +566,30 @@ export default defineComponent({
         });
     };
 
+
+    const getAllServices = async () => {
+      try {
+        const response = await ApiService.get(
+          "/all/recupererToutesOrganisationSansFilsAvecParent"
+        );
+
+        console.log("rfrrf ===> ", response);
+        const servicesData = response.data.data;
+        console.log("465484635418416541 ===> ", servicesData);
+
+        serviceOptions.value = servicesData.map((service) => ({
+          value: service.id,
+          label: service.nom,
+        }));
+
+        console.log("RYYYYY ==> ", serviceOptions);
+      } catch (error) {
+        console.log("RYYYYY5252 ==> ", error);
+        //error(response.data.message)
+      }
+    };
+
+
     
 const  getPersonnel = async (id: number) => {
             console.log(id, "Personnel")
@@ -560,6 +614,10 @@ const  getPersonnel = async (id: number) => {
                     adresse.value=donnees?.adresse; 
                     ethnie.value=donnees?.ethnie.id;
                     personnelId.value = donnees?.id;
+                    if (donnees?.organisation_personnels?.length > 0) {
+        const lastOrg = donnees.organisation_personnels[donnees.organisation_personnels.length - 1];
+        organisation.value = lastOrg?.organisation?.id; 
+      }
            
                 })
                 .catch(({ response }) => {
@@ -587,6 +645,7 @@ const editPersonnel = async (values, { resetForm }) => {
       await  fetchDepartements();
       await getAllReligions();
       await getAllEthnies();
+      await getAllServices();
      if (route.params.id) {
        await getPersonnel(parseInt(route.params.id as string));
       }
@@ -624,7 +683,10 @@ const editPersonnel = async (values, { resetForm }) => {
      telephone,
     telephone2,
     civilite,
-    personnelId
+    personnelId,
+    organisation,
+    serviceOptions
+
 
     };
   },

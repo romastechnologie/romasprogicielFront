@@ -1,5 +1,19 @@
 <template>
   <div class="card">
+    <div class="card-header">
+                <h5 class="">Detail du personnel</h5>
+                <!----><!----><!---->
+                <div class="w-100 d-flex justify-content-end">
+                <router-link
+              to="/personnelles/liste-personnel"
+              class="btn btn-primary transition border-0 lh-1 justify-content-end"
+            >
+              <i class="flaticon-left-arrow lh-1 me-1 position-relative top-2"></i>
+              Retour
+            </router-link>
+              </div>
+            </div>
+
     <div class="row product-page-main">
       <div class="col-sm-12">
         <div class="profile-section mb-4 p-3 border rounded">
@@ -104,6 +118,12 @@
                     <p>
                       <strong>Ethnie:</strong>
                       {{ personnel?.ethnie?.libelle || "Non renseigné" }}
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p>
+                      <strong>Service:</strong>
+                      {{  personnel?.organisation_personnels?.[personnel.organisation_personnels.length - 1]?.organisation?.nom || "Non renseigné"}}
                     </p>
                   </div>
                 </div>
@@ -229,6 +249,8 @@
               role="tab"
               aria-controls="family-info"
               aria-selected="false"
+              v-if="!['Divorcée', 'Veuve', 'Célibataire'].includes(personnel?.situationMatrimoniale)"
+
             >
               <strong>Conjoint</strong>
             </a>
@@ -270,6 +292,20 @@
               aria-selected="false"
             >
               <strong>Informations bancaires</strong>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="affectation-info-tab"
+              data-bs-toggle="tab"
+              href="#affectation-info"
+              role="tab"
+              aria-controls="affectation-info"
+              aria-selected="false"
+            >
+              <strong>Historique des affectations</strong>
             </a>
           </li>
         </ul>
@@ -318,6 +354,7 @@
             id="family-info"
             role="tabpanel"
             aria-labelledby="family-info-tab"
+            v-if="!['Divorcée', 'Veuve', 'Célibataire'].includes(personnel?.situationMatrimoniale)"
           >
             <table class="table table-bordered">
               <tbody>
@@ -685,6 +722,35 @@
                 <span class="position-relative">Modifier</span>
               </button>
             </div>
+          </div>
+
+          <div
+            class="tab-pane fade"
+            id="affectation-info"
+            role="tabpanel"
+            aria-labelledby="affectation-info-tab"
+          >
+            <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nom de l'organisation</th>
+        <th>Date de début</th>
+        <th>Date de fin</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(affectation, index) in personnel?.organisation_personnels || []" :key="affectation.id">
+        <td>{{ index + 1 }}</td>
+        <td>{{ affectation.organisation?.nom || 'Non renseigné' }}</td>
+        <td>{{ affectation.DateDebut || 'Non renseignée' }}</td>
+        <td>{{ affectation.DateFin || 'En cours' }}</td>
+        <td>{{ affectation.statut || 'Non renseigné' }}</td>
+      </tr>
+
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

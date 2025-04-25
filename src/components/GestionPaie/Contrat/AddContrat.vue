@@ -1001,7 +1001,7 @@ export default defineComponent({
       try {
         const response = await ApiService.get("/all/typeContrats");
         const typesData = response.data.data.data;
-
+        console.log("typesData",typesData); 
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
           label: type.libelle,
@@ -1508,9 +1508,6 @@ export default defineComponent({
       console.log("fonctions ===> ", fonctions);
       console.log("horaireContrats ===> ", horaires);
       console.log("horaireContrat ===> ", horaires);
-
-
-
       try {
         // Préparez les données avant l'envoi
         values["contratPrime"] = primes.map((prime) => ({
@@ -1520,7 +1517,6 @@ export default defineComponent({
           montant: prime.montant,
           quantite: prime.quantite,
         }));
-
         values["contratretenue"] = retenues.map((retenue) => ({
           typesretenue: parseInt(retenue.typeRetenue.split("|")[0]),
           valeur: retenue.valeur,
@@ -1528,13 +1524,10 @@ export default defineComponent({
           montant: retenue.montant,
           quantite: retenue.quantite,
         }));
-        
-
         values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
            poste: parseInt(attributionposte.poste.split("|")[0]), 
            attribution: parseInt(attributionposte.attribution.split("|")[0]), 
          }));
-
         values["horaireContrats"] = horaires.map((horraire) => ({
           jour:horraire.jour,
           heureArrivee: horraire.heureOuverture,
@@ -1544,11 +1537,8 @@ export default defineComponent({
           estActif: horraire.estActif,
           personnel:values.personnel,
         }));
-
         console.log("Soumission des données formatées :", values);
-
-        // Effectuez l'appel API
-        const { data } = await ApiService.post("/gescom/contrats", values);
+        const { data } = await ApiService.post("/gescom/contrats0", values);
         if (data.code === 201) {
           success(data.message);
           router.push({ name: "ListeContrat" });

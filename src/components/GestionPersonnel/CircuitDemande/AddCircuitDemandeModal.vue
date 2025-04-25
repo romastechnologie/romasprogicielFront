@@ -36,6 +36,22 @@
               <ErrorMessage name="circuit" class="text-danger" />
             </div>
           </div>
+
+
+          <div class="col-md-12 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black  mb-10">
+                Date de debut <span class="text-danger">*</span></label
+            >
+            <Field
+              name="DateDebut"
+              class="form-control"
+              type="date"
+            />
+            <ErrorMessage name="DateDebut" class="text-danger" />
+          </div>
+          </div>
+
           
                             <button class="btn btn-primary" type="submit">
                                 {{ btntext }}
@@ -87,6 +103,7 @@ export default {
         const circuitDemandeSchema = Yup.object().shape({
             categorie: Yup.string().required('La catégorie de demande est obligatoire'),
              circuit: Yup.string().required('Le circuit est obligatoire'),
+             DateDebut: Yup.string().required("La date de début est obligatoire"),
             
         });
 

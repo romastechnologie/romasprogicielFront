@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-md-2 mb-2">
                           <div class="form-group ">
-                            <input v-model="circuit.ordre" type="number"
+                            <input v-model="circuit.ordre" type="number" readonly
                               class="form-control shadow-none fs-md-15 text-black" placeholder="saisir ordre" />
                             <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.ordre)">
                               L'ordre est obligatoire.
@@ -115,7 +115,7 @@
                       <input v-model="circuit.Duree" class="form-control" type="number" for="inputGroupSelect01" >
                           <div class="invalid-feedback" v-if="valideteRowCircuit(circuit.Duree)">
                             La durée est obligatoire
-                          </div>
+                            </div>
                       <select v-model="circuit.typeDuree" class="form-select form-control" style="width: 20px !important;">
                         <option value="...">...</option>
                         <option value="Jour(s)">Jour(s)</option>
@@ -225,27 +225,75 @@ export default defineComponent({
     const etapevalidations = reactive([{
       nom: "",
       role: "",
-      ordre: "",
+      ordre: 1,
       Duree: "",
       typeDuree: "",
       user: []
     }]);
 
-    const addRowCircuit = () => {
-      etapevalidations.push({
-        nom: "",
-        role: "",
-        ordre: "",
-        Duree: "",
-        typeDuree: "",
-        user:[]
-      });
-    };
+    const convertToDays = (value: number, unit: string): number => {
+  switch (unit.toLowerCase()) {
+    case 'jour(s)':
+      return value;
+    case 'mois':
+      return value * 30; // approx. 30 jours
+    case 'annees':
+    case 'années':
+      return value * 365; // approx. 365 jours
+    default:
+      return 0;
+  }
+};
 
-    const removeRowCircuit = (index) => {
-      if (etapevalidations.length > 1) etapevalidations.splice(index, 1);
-      //totals();
-    };
+const isStepDurationValid = (circuitDuration: number, circuitUnit: string): boolean => {
+  const circuitDurationInDays = convertToDays(circuitDuration, circuitUnit);
+
+  const totalEtapesDuration = etapevalidations.reduce((acc, etape) => {
+    const d = Number(etape.Duree);
+    const unit = etape.typeDuree;
+    return acc + convertToDays(d, unit);
+  }, 0);
+
+  return totalEtapesDuration === circuitDurationInDays;
+};
+
+
+watch(
+  [Duree, typeDuree, etapevalidations],
+  () => {
+    if (Duree.value && typeDuree.value) {
+      const isValid = isStepDurationValid(Number(Duree.value), typeDuree.value);
+      if (!isValid) {
+        error("La somme des durées des étapes doit être **exactement égale** à la durée du circuit !");
+      }
+    }
+  },
+  { deep: true }
+);
+
+
+
+    const addRowCircuit = () => {
+  const nextOrder = etapevalidations.length + 1;
+  etapevalidations.push({
+    nom: "",
+    role: "",
+    ordre: nextOrder,
+    Duree: "",
+    typeDuree: "",
+    user:[]
+  });
+};
+
+
+const removeRowCircuit = (index) => {
+  if (etapevalidations.length > 1) {
+    etapevalidations.splice(index, 1);
+    etapevalidations.forEach((etape, idx) => {
+      etape.ordre = idx + 1;
+    });
+  }
+};
 
     watch(
       etapevalidations,
@@ -283,8 +331,11 @@ export default defineComponent({
         console.error("Erreur : L'objet 'values' est vide ou indéfini !");
         return;
       }
+          if (!isStepDurationValid(Number(values.Duree), values.typeDuree)) {
+      error("La somme des durées des étapes doit correspondre exactement à la durée définie !");
+      return;
+    }
       try{
-      
         values["etapeCircuit"]  =  etapevalidations.map((etape) => ({
           ordre:etape.ordre,
           Duree:etape.Duree,
@@ -360,6 +411,7 @@ export default defineComponent({
       etapevalidations,removeRowCircuit,
       addRowCircuit,
       valideteRowCircuit,userOptions,roleOptions,
+
       };
     
   },

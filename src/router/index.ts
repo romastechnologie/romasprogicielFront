@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import ApiService from '@/services/ApiService';
 import ListeAttribution from "@/components/Attribution/ListeAttribution.vue";
 
 import BodyView from "@/layout/BodyView.vue"
@@ -3794,6 +3795,7 @@ router.beforeEach((to, from, next) => {
   if (typeof (to.meta.title) === 'string') {
     document.title = to.meta.title;
   }
+  ApiService.setHeader();
   const path = ['/auth/login', '/auth/register'];
   if (path.includes(to.path) || localStorage.getItem('user')) {
     //next('/auth/login');
