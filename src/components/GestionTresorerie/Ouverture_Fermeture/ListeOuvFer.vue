@@ -48,7 +48,9 @@
                <!--        <th scope="col">id</th>-->
                             <th scope="col">Caisse</th>
                             <th scope="col">Fond de roulement</th>
-                            <th scope="col">Chiffre d'affaire</th>
+                            <th scope="col">Solde</th>
+                            <th scope="col">Chiffre d'affaire</th>    
+                            <th scope="col">Ecart</th>
                             <th scope="col">Statut</th>
                 <th
                   scope="col"
@@ -61,7 +63,9 @@
                       <!--<th>{{ ouvFer.id }}</th>-->
                              <th>{{ ouvFer.tresorerie?.nom }} </th>
                              <th>{{ separateur(ouvFer.fondDeRoulement) }}</th>
+                             <th>{{ separateur(ouvFer.solde) }}</th>
                              <th>{{ separateur(ouvFer?.ouvFerId?.chiffreaffaire) }}</th>
+                             <th>{{ separateur(ouvFer?.ecart) }}</th>
                              <th>
   <span
     :class="[
@@ -73,33 +77,13 @@
   </span>
 </th>
 <td class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0">
-  <div class="dropdown">
-    <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Actions
-    </button>
-    <ul class="dropdown-menu">
-      <li v-if="ouvFer.status !== 'Fermé'">
-        <router-link :to="{ name: 'EditOuvFerPage', params: { id: ouvFer.id } }" 
-                      class="dropdown-item d-flex align-items-center">
-          <i class="flaticon-pen lh-1 me-8 position-relative top-1"></i>Fermer
-        </router-link>
-      </li>
-
-       <!--<li v-if="ouvFer.tresorerie?.status !== 'Fermé'">
-        <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center"
-           @click="updateStatut(ouvFer.id, 'Fermé')">
-          <i class="flaticon-lock lh-1 me-8 position-relative top-1"></i>Fermer
-        </a>
-      </li>-->
-
-     <!-- <li>
-        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" 
-           @click="suppression(ouvFer.id, ouvFers,'ouvFers', `OuvFer ${ouvFer.id}`)">
-          <i class="fa fa-trash-o lh-1 me-8 position-relative top-1"></i>Supprimer
-        </a>
-      </li>-->
-    </ul>
-  </div>
+  <button 
+    v-if="ouvFer.status !== 'Fermé'" 
+    class="btn btn-primary" 
+    @click="updateStatut(ouvFer.id, 'Fermé')"
+  >
+    <i class="flaticon-lock lh-1 me-8 position-relative top-1"></i>Fermer
+  </button>
 </td>
 
               </tr>

@@ -93,6 +93,14 @@
         </div>
         <div class="col-md-6 mt-4">
           <div class="col mb-3">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date de fermeture <span class="text-danger">*</span>
+              </label>
+              <Field name="dateFermeture" class="form-control shadow-none fs-md-15 text-black" type="datetime-local" :max="currentDateTime"
+              :value="new Date().toISOString().slice(0, 16).replace('T', ' ')"/>
+              <ErrorMessage name="dateFermeture" class="text-danger" />
+            </div>
+          <div class="col mb-3">
             <label for="fondDeRoulement">Fond de roulement</label>
             <Field
               type="number"
@@ -108,7 +116,7 @@
 
           <div class="col-md-6 mt-4">
           <div class="col mb-3">
-            <label for="chiffreaffaire">Chiffre d'affaire</label>
+            <label for="chiffreaffaire">Solde</label>
             <Field
               type="number"
               id="chiffreaffaire"
@@ -136,6 +144,18 @@
             <ErrorMessage name="" class="text-danger" />
           </div>
         </div>
+        <div class="col-md-12 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Utilisateur <span class="text-danger">*</span>
+              </label>
+              <Field name="user" v-slot="{ field }">
+                <Multiselect v-model="field.value" :options="userOptions" :searchable="true" track-by="label" mode="tags"
+                  label="label" placeholder="Sélectionner l'Utilisateur" v-bind="field" />
+              </Field>
+              <ErrorMessage name="user" class="text-danger" />
+            </div>
+          </div>
 
              <div class="mb-3 mt-1">
             <button type="submit" class="btn btn-primary top-end">
@@ -162,6 +182,10 @@ import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import { useRoute, useRouter } from "vue-router";
 import { error } from "../../../utils/utils";
+
+
+const userOptions = ref([]);
+const user = ref();
 const ouvFer = ref<Ouv_Fer>({});
 const ouvFerList = ref<Ouv_Fer[]>([]);
 const tresorerieList = ref<Tresorerie[]>([]);
@@ -181,6 +205,18 @@ interface Billetage {
 const billetageList = reactive<Billetage[]>([]);
 const monnaieList = ref([] as any[]);
 
+const dateFermeture = ref(getCurrentDateTime());
+    const currentDateTime = ref(getCurrentDateTime());
+    function getCurrentDateTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
   const montantTotal = ref<null | number>(null);
 const montantEcart = ref<null | number>(null);
 
@@ -193,6 +229,8 @@ const schema = Yup.object().shape({
     .notOneOf([0], "Le fond de roulement ne peut pas être 0"),
     chiffreaffaire: Yup.number().required(""),
     ecart: Yup.number().required(""),
+    user: Yup.array().required("L'utilisateur est obligatoire"),
+    dateFermeture: Yup.string().required("Date de transfert est obligatoire."),
 //tresorerieName: Yup.string().required("La trésorerie est obligatoire"),
 });
 const router = useRouter();
@@ -258,6 +296,8 @@ const caisses = computed(() => {
     entity.nom?.toLowerCase().includes("caisse")
   );
 });
+
+
 const getTresorerie = async () => {
   try {
     const response = await ApiService.get("/tresoreriecaisses");
@@ -276,6 +316,8 @@ const getouvFer = async () => {
     console.log(ouvFerList.value);
   });
 };
+
+
 function getouvfer(id: number) {
   ApiService.get("/ouv_fers/" + id.toString())
     .then(({ data }) => {
@@ -312,6 +354,19 @@ const getAllMonnaie = async () => {
     console.error("Erreur lors de la récupération des monnaies:", error);
   }
 };
+
+const getAllAllUsers = async () => {
+      try {
+        const response = await ApiService.get('/all/users');
+        const userData = response.data.data;
+        userOptions.value = userData.map((user: any) => ({
+          value: user.id,
+          label: `${user.nom} ${user.prenom}`,
+        }));
+      } catch (err) {
+        //error('Erreur lors de la récupération des utilisateurs');
+      }
+    };
 
 function handleBilletageInput(event: Event, billetage: Billetage) {
   const newValue = Number((event.target as HTMLInputElement).value);
@@ -359,7 +414,7 @@ onMounted(() => {
   if(route.params.id) {
         getouvfer(parseInt(route.params.id as string));
       }
-  getTresorerie(), getAllMonnaie(), calculateTotal(),calculateEcart(), getouvFer();
+  getTresorerie(), getAllMonnaie(),getAllAllUsers(),calculateTotal(),calculateEcart(), getouvFer();
 });
 </script>
 

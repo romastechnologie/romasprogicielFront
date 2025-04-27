@@ -63,6 +63,15 @@
           </div>
         </div>
         <div class="col-md-6 mt-4">
+            <div class="col mb-3">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date d'ouverture <span class="text-danger">*</span>
+              </label>
+              <Field name="dateOuverture" class="form-control shadow-none fs-md-15 text-black" type="datetime-local" :max="currentDateTime"
+              :value="new Date().toISOString().slice(0, 16).replace('T', ' ')"/>
+              <ErrorMessage name="dateOuverture" class="text-danger" />
+            </div>
+         
           <div class="col mb-3">
             <label for="fondDeRoulement">Fond de roulement</label>
             <Field type="number" id="fondDeRoulement" name="fondDeRoulement" class="form-control" v-model="montantTotal"
@@ -117,7 +126,17 @@ import { error } from "../../../utils/utils";
 
 const userOptions = ref([]);
 const user = ref();
-
+const dateOuverture = ref(getCurrentDateTime());
+    const currentDateTime = ref(getCurrentDateTime());
+    function getCurrentDateTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
 const ouvFer = ref<Ouv_Fer>({});
 const ouvFerList = ref<Ouv_Fer[]>([]);
 const tresorerieList = ref<Tresorerie[]>([]);
@@ -150,6 +169,8 @@ const schema = Yup.object().shape({
     .required("La quantité est obligatoire")
     .integer("La quantité doit être un entier")
     .min(0, "La quantité ne peut pas être négative"),
+    user: Yup.array().required("L'utilisateur est obligatoire"),
+    dateOuverture: Yup.string().required("Date de transfert est obligatoire."),
 });
 
 configure({
@@ -224,9 +245,9 @@ const getTresorerie = async () => {
   }
 };
 
-const getAllUsers = async () => {
+const getAllAllUsers = async () => {
       try {
-        const response = await ApiService.get('/users');
+        const response = await ApiService.get('/all/users');
         const userData = response.data.data;
         userOptions.value = userData.map((user: any) => ({
           value: user.id,
@@ -289,7 +310,7 @@ watch(
 );
 
 onMounted(() => {
-  getTresorerie(), getAllMonnaie(), calculateTotal(), getouvFer();
+  getTresorerie(), getAllMonnaie(), calculateTotal(), getAllAllUsers(), getouvFer();
 });
 </script>
 

@@ -13,7 +13,45 @@
             </div>
             <ErrorMessage name="date" class="text-danger" />
           </div>
-        
+          <div class="col-md-4 mt-3">
+            <label for="libelle" class="form-label"> Libelle<span class="text-danger">*</span></label>
+            <Field name="libelle" class="form-control" type="text" placeholder="Entrer le libelle" />
+            <ErrorMessage name="libelle" class="text-danger" />
+          </div>
+
+        <!--<div class="col-md-4 mt-3">
+            <label for="description" class="form-label"> Description<span class="text-danger">*</span></label>
+            <Field name="description" class="form-control" type="text" placeholder="Entrer la description" />
+            <ErrorMessage name="description" class="text-danger" />
+          </div>-->
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Montant<span class="text-danger">*</span>
+              </label>
+              <Field name="montant" type="text" class="form-control shadow-none fs-md-15 text-black"
+                placeholder="Entrer le montant" />
+              <ErrorMessage name="montant" class="text-danger" />
+            </div>
+          </div>
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Entretien <span class="text-danger">*</span>
+              </label>
+              <Field name="entretien"  v-model="entretien" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" 
+                :options="entretienOptions"
+                  @change="entretienChange($event)"
+                :preserve-search="true" :multiple="false" :searchable="true"
+                  placeholder="Sélectionner le type de depense" label="label" track-by="label" />
+              
+              </Field>
+              <span class="text-danger" v-if="showMErr">L'Entretien est obligatoire</span>
+              <ErrorMessage name="entretien" class="text-danger" />
+            </div>
+          </div>
+
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -24,14 +62,29 @@
                 v-model="selectedTypedepense"
                 v-bind="field" :options="typedepenseOptions" :preserve-search="true"
                   :multiple="false" :searchable="true" 
-                  placeholder="Sélectionner le type de dépenses" 
+                  noOptionsText="Sélectionner d'abord un entretien"
+                  placeholder="Sélectionner l'entretien" 
                   label="label"
                   track-by="label" />  
              </Field>
               <span class="text-danger" v-if="showMErr">Le Type de Depense est obligatoire</span>
             </div>
           </div>
-
+       
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Planification Reparation <span class="text-danger">*</span>
+              </label>
+              <Field name="planification" v-model="planificationReparation" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="planificationReparationOptions"
+                  :preserve-search="true" :multiple="false" :searchable="true"
+                  placeholder="Sélectionner la planification" label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">La Planification Reparation est obligatoire</span>
+            </div>
+          </div>
+          
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -45,16 +98,27 @@
               <span class="text-danger" v-if="showMErr">La categorie depense est obligatoire</span>
             </div>
           </div>
-          <div class="col-md-4 mt-3">
+         <!-- <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Montant<span class="text-danger">*</span>
+              <label class="d-block text-black mb-10">
+                Personnel <span class="text-danger">*</span>
               </label>
-              <Field name="montant" type="text" class="form-control shadow-none fs-md-15 text-black"
-                placeholder="Entrer le montant" />
-              <ErrorMessage name="montant" class="text-danger" />
+              <Field name="personnel" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
+                  track-by="label" />
+              </Field>
+              <ErrorMessage name="personnel" class="text-danger" />
             </div>
           </div>
+
+          <div class="col-md-4 mt-3">
+            <label for="beneficiaire" class="form-label"> Bénéficiaire<span class="text-danger"></span></label>
+            <Field name="beneficiaire" class="form-control" type="text" placeholder="Entrer le bénéficiaire" />
+            <ErrorMessage name="beneficiaire" class="text-danger" />
+          </div>-->
+       
+
           <div class="col-md-4 mt-3">
             <label class="d-block text-black fw-semibold mb-10">
               Type de destinataire <span class="text-danger">*</span>
@@ -161,9 +225,9 @@ export default defineComponent({
   },
   setup() {
   const depensesSchema = Yup.object().shape({
-  //libelle: Yup.string().required("Le libellé est obligatoire."),
-  //entretien: Yup.string().required("L'entretien est obligatoire."),
-  //planification: Yup.string().required("La planification Réparation est obligatoire."),
+  libelle: Yup.string().required("Le libellé est obligatoire."),
+  entretien: Yup.string().required("L'entretien est obligatoire."),
+  planification: Yup.string().required("La planification Réparation est obligatoire."),
   typedepense: Yup.string().required("Le type de dépense est obligatoire."),
   categoriedepense: Yup.string().required("La catégorie dépense est obligatoire"),
   motif: Yup.string().required("Le motif est obligatoire."),
@@ -210,7 +274,49 @@ export default defineComponent({
   }
 };
 
-   
+function entretienChange(value) {
+      console.log("g,rl;m", value);
+      if (value) {
+        typedepenseOptions.value = [];
+        selectedTypedepense.value = [];
+        ApiService.get("/entretiens/typedepenses/" + value)
+          .then(({ data }) => {
+            const donnee = data.data;
+            console.log("donnee", donnee);
+            if (donnee.length > 0) {
+              typedepenseOptions.value = donnee.map((typedepense: any) => {
+                return {
+                  label: typedepense.libelle,
+                  value: typedepense.id,
+                };
+              });
+            }
+          })
+          .catch(({ response }) => {
+            //error(response.data.message);
+          });
+      } else {
+        typedepenseOptions.value = [];
+        selectedTypedepense.value = [];
+      }
+    }
+
+
+
+    // Fonctions pour récupérer les options des listes
+   /*const getAllEntretien = async () => {
+      try {
+        const response = await ApiService.get('/all/entretiens');
+        const entretienData = response.data.data.data;
+        entretienOptions.value = entretienData.map((entretien) => ({
+          value: entretien.id,
+          label: entretien.libelle,
+        }));
+      } catch (err) {
+        console.error(err);
+      }
+    };*/
+
     const getAllPersonnels = async () => {
       try {
         const response = await ApiService.get('/all/personnels');
@@ -225,6 +331,31 @@ export default defineComponent({
       }
     };
 
+    const getAllPlanificationReparation = async () => {
+      try {
+        const response = await ApiService.get('/all/planificationReparations');
+        const planificationReparationData = response.data.data.data;
+        planificationReparationOptions.value = planificationReparationData.map((planificationReparation) => ({
+          value: planificationReparation.id,
+          label: planificationReparation.libelle,
+        }));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    const getAllEntretiens = async () => {
+      try {
+        const response = await ApiService.get('/all/entretiens');
+        const entretiensData = response.data.data.data;
+        entretienOptions.value = entretiensData.map((entretiens) => ({
+          value: entretiens.id,
+          label: entretiens.libelle,
+        }));
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
     const getAllCategoriesDepenses = async () => {
       try {
@@ -242,7 +373,8 @@ export default defineComponent({
 
     onMounted(() => {
    //   getAllEntretien();
-    
+      getAllPlanificationReparation();
+      getAllEntretiens();
       getAllCategoriesDepenses();
       getAllPersonnels();
      
@@ -263,7 +395,7 @@ export default defineComponent({
       planificationReparation,
       typesDepenses,
       categoriesDepenses,
-     
+      entretienChange,
       selectedTypedepense,
       selectedDestinataire,
 

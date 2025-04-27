@@ -106,6 +106,9 @@ import ApiService from "@/services/ApiService";
 import router from "@/router";
 import { error } from "../../../utils/utils";
 
+
+ 
+
 const ouvFer = ref<Ouv_Fer>({});
 const ouvFerList = ref<Ouv_Fer[]>([]);
 const tresorerieList = ref<Tresorerie[]>([]);

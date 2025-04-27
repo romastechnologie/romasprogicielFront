@@ -34,7 +34,7 @@
                                  <Field name="tresorerie" v-model="tresoreries" type="text" v-slot="{ field }">
                                     <Multiselect v-model="field.value" v-bind="field" :options="tresorerieOptions" :preserve-search="true"
                                      :multiple="false" :searchable="true" placeholder="Sélectionner la tresorerie "
-                                      label="label" track-by="label" />
+                                      label="label" track-by="label" mode="tags" />
                                   </Field>
                                   <ErrorMessage name="tresorerie" class="text-danger" />
                                 </div>
@@ -89,7 +89,7 @@ export default {
         const usertresorerieSchema = Yup.object().shape({
             //code: Yup.string().required('Le code est obligatoire'),
             personnel: Yup.string().required('Utilisateur est obligatoire'),
-            tresorerie: Yup.string().required('La tresorerie est obligatoire')
+            tresorerie: Yup.array().required('La tresorerie est obligatoire')
         });
         const usertresorerienew = ref(props.id);
         const usertresorerieForm = ref<UserTresorerie | null>(null);

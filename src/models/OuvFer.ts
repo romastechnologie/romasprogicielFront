@@ -22,6 +22,7 @@ export interface OuvFer {
   tresoreriestatus: string;
   status:string;
   ouvFerId: number;
+  userId: number;
   setFieldValue: (field: string, value: any) => void;
 }
 

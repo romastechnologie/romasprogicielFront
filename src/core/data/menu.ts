@@ -559,7 +559,7 @@ export const menu: MenuItem[] = [
     },
 
     {
-        headTitle1: "Gestion de trésorerie",
+        headTitle1: "Gestion de trésorerie et des dépenses",
         headTitle2: "Tresorerie, TypeTresorerie, Transfert, Finance, UserCompte et Ouverture/Fermeture de caisse",
         type: "headtitle"
     },
