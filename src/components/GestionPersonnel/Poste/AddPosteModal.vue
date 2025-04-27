@@ -10,7 +10,6 @@
         <div class="modal-body">
           <Form ref="posteForm" @submit="addPoste" :validation-schema="posteSchema">
             <div class="row">
-
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black fw-semibold mb-10">
@@ -36,18 +35,20 @@
                   <label class="d-block text-black mb-10">
                     Attribution <span class="text-danger">*</span>
                   </label>
-                  <Field name="attributionpostes" v-slot="{field}">
-                      <Multiselect
-                        v-model="field.value"
-                        :options="attributionOptions"
-                        :multiple="true"
-                        mode="tags"
-                        placeholder="Sélectionner l'attribution"
-                        label="label"
-                        track-by="value"
-                      />
-                    </Field>
-                   <ErrorMessage name="attributionpostes" class="text-danger" />
+                  <Field name="attributionpostes" v-slot="{ field }">
+                    <Multiselect
+                      v-bind="field"
+                      :options="attributionOptions"
+                      :multiple="true"
+                      mode="tags"
+                      placeholder="Sélectionner l'attribution"
+                      label="label"
+                      track-by="value"
+                      :object="true"
+                      @input="field.onChange($event)"
+                    />
+                  </Field>
+                  <ErrorMessage name="attributionpostes" class="text-danger" />
                 </div>
               </div>
               <button class="btn btn-primary" type="submit">
@@ -62,18 +63,14 @@
 </template>
 
 <script lang="ts">
-import { onMounted, reactive, ref, watch, watchEffect } from 'vue';
-import { Form, ErrorMessage, useForm, Field } from 'vee-validate';
+import { onMounted, ref, watch } from 'vue';
+import { Form, ErrorMessage, Field } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
 import { error, hideModal, success } from '@/utils/utils';
 import Multiselect from '@vueform/multiselect';
-import VueMultiselect from "vue-multiselect";
-import { Poste } from '@/models/Poste';
 import { useRouter } from 'vue-router';
 import { nextTick } from 'vue';
-import { FormContext } from 'vee-validate'; 
-import axios from 'axios';
 
 export default {
   name: "AddPosteModal",
@@ -82,93 +79,89 @@ export default {
     Field,
     ErrorMessage,
     Multiselect,
-    VueMultiselect,
   },
   props: {
     id: {
       type: Number,
       required: true,
-      default: 0
+      default: 0,
     },
   },
   emits: ["refreshPostes", 'openmodal'],
 
-  setup: (props: any, { emit }: { emit: Function }) => {
+  setup(props: any, { emit }: { emit: Function }) {
     const loading = ref<boolean>(false);
     const posteSchema = Yup.object().shape({
-      //description: Yup.string().required('La religion est obligatoire'),
       libelle: Yup.string().required('Le libelle est obligatoire'),
       code: Yup.string().required('Le code est obligatoire'),
-      attributionpostes: Yup.array().min(1, 'Les attributions de poste sont obligatoires'),
-
+      attributionpostes: Yup.array()
+        .of(
+          Yup.object().shape({
+            value: Yup.number().required('L\'ID de l\'attribution est requis'),
+            label: Yup.string().required('Le libellé de l\'attribution est requis'),
+          })
+        )
+        .min(1, 'Au moins une attribution est requise')
+        .required('Les attributions de poste sont obligatoires'),
     });
-    const postenew = ref(props.id);
-    const posteForm = ref<FormContext | null>(null);
-    // const posteForm = ref<Poste | null>(null);
+    const posteForm = ref<any>(null);
     const addPosteModalRef = ref<null | HTMLElement>(null);
-    let postes = ref<Array<Poste>>([]);
-    const attributionOptions = ref<number[]>([]);
-    const attributionpostes = ref();
+    const attributionOptions = ref<Array<{ value: number; label: string }>>([]);
     const title = ref('Ajouter un poste');
     const btntext = ref('Ajouter');
     const isupdate = ref(false);
     const router = useRouter();
 
     watch(() => props.id, (newValue) => {
-      if (newValue != 0) {
+      if (newValue !== 0) {
         getPoste(newValue);
         isupdate.value = true;
       }
       btnTitle();
     });
 
-const getPoste = async (id: number) => {
-  return ApiService.get("/postes/" + id)
-    .then(async ({ data }) => {
-      console.log("API Response (attributionpostes):", data.data.attributionpostes);
-      posteForm.value?.setFieldValue("id", data.data.id);
-      posteForm.value?.setFieldValue("libelle", data.data.libelle);
-      posteForm.value?.setFieldValue("code", data.data.code);
+    const getPoste = async (id: number) => {
+      return ApiService.get("/postes/" + id)
+        .then(async ({ data }) => {
+          console.log("Valeurs-data", data);
+          console.log("API Response (attributionpostes):", data.data.attributionpostes);
+          posteForm.value?.setFieldValue("id", data.data.id);
+          posteForm.value?.setFieldValue("libelle", data.data.libelle);
+          posteForm.value?.setFieldValue("code", data.data.code);
 
-      // Transformez les attributionpostes pour les adapter au Multiselect
-      const selectedAttributions = data.data.attributionpostes?.map((ap: any) => ({
-        value: ap.id, 
-        label: ap.attribution?.libelle || ap.libelle
-      }));
-      console.log("Attributions formatées :", selectedAttributions);
-      posteForm.value?.setFieldValue("attributionpostes", selectedAttributions || []);
-      await nextTick();
-      emit('openmodal', addPosteModalRef.value);
-    })
-    .catch(({ response }) => {
-      error(response.data.message);
-    });
-  }
+          // Transformer les attributionpostes en [{ value, label }]
+          const selectedAttributions = data.data.attributionpostes?.map(ap => ({
+            value: ap.attribution.id,
+            label: ap.attribution.libelle,
+          })) || [];
+          posteForm.value?.setFieldValue("attributionpostes", selectedAttributions);
+          await nextTick();
+          emit('openmodal', addPosteModalRef.value);
+        })
+        .catch(({ response }) => {
+          error(response.data.message);
+        });
+    };
+
     onMounted(async () => {
       fetchAttribution();
     });
-    const btnTitle = async () => {
+
+    const btnTitle = () => {
       if (isupdate.value) {
         title.value = "Modifier le poste";
         btntext.value = "Modifier";
       } else {
-        title.value = "Ajouter une poste";
+        title.value = "Ajouter un poste";
         btntext.value = "Ajouter";
       }
-    }
+    };
 
     const addPoste = async (values: any, { resetForm }: { resetForm: () => void }) => {
-      //  values = values as Poste;
       loading.value = false;
 
-      // Vérifie si values contient bien une liste d'attributions
-      // console.log("values ===> ", values);
-      // return;
+      console.log("Données envoyées au backend :", values);
 
-      values["attribution"] = values.attributionpostes?.map((attribution) => ({
-        id: attribution.value, // Si attributionOptions utilise { value: id, label: libelle }
-        libelle: attribution.label,
-      })) || [];
       if (isupdate.value) {
         ApiService.put(`/postes/${values.id}`, values)
           .then(({ data }) => {
@@ -200,9 +193,10 @@ const getPoste = async (id: number) => {
           });
       }
     };
+
     const fetchAttribution = async () => {
       try {
-        const response = await axios.get("all/attributions");
+        const response = await ApiService.get("all/attributions");
         const fonctionData = response.data.data.data;
         console.log("valeurs", fonctionData);
         attributionOptions.value = fonctionData.map((fonction) => ({
@@ -210,16 +204,9 @@ const getPoste = async (id: number) => {
           label: `${fonction.libelle}`,
         }));
       } catch (error) {
+        console.error("Erreur lors de la récupération des attributions :", error);
       }
     };
-    
-    watch(
-  () => posteForm.value?.values.attributionpostes, // Surveillance des valeurs du formulaire
-  (newVal) => {
-    console.log("Valeurs actuelles (watch):", newVal); // Doit maintenant loguer les valeurs
-  },
-  { deep: true }
-);
 
     const resetValue = () => {
       const formFields = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
@@ -227,15 +214,19 @@ const getPoste = async (id: number) => {
       formFields.forEach(field => {
         field.value = '';
       });
-      btnTitle()
+      btnTitle();
     };
 
-    
     return {
-      attributionpostes,postes, fetchAttribution, attributionOptions, title, btntext, resetValue, posteSchema,
-      addPoste, posteForm, addPosteModalRef, postenew
-      //refreshReligions
+      attributionOptions,
+      title,
+      btntext,
+      resetValue,
+      posteSchema,
+      addPoste,
+      posteForm,
+      addPosteModalRef,
     };
   },
 };
-</script>@/models/Poste
+</script>
