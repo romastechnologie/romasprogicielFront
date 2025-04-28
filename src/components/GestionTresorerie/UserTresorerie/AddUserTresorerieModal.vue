@@ -15,14 +15,14 @@
                             <div class="col-md-12 mb-4">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                     <label class="d-block text-black mb-10">
-                                        Personnel <span class="text-danger"></span>
+                                        User <span class="text-danger"></span>
                                     </label>
-                                 <Field name="personnel" v-model="personnels" type="text" v-slot="{ field }">
-                                    <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                                     :multiple="false" :searchable="true" placeholder="Sélectionner un personnel "
+                                 <Field name="user" v-model="user" type="text" v-slot="{ field }">
+                                    <Multiselect v-model="field.value" v-bind="field" :options="userOptions" :preserve-search="true"
+                                     :multiple="false" :searchable="true" placeholder="Sélectionner un user "
                                       label="label" track-by="label" />
                                   </Field>
-                                  <ErrorMessage name="personnel" class="text-danger" />
+                                  <ErrorMessage name="user" class="text-danger" />
                                 </div>
                             </div>
 
@@ -88,7 +88,7 @@ export default {
         const loading = ref<boolean>(false);
         const usertresorerieSchema = Yup.object().shape({
             //code: Yup.string().required('Le code est obligatoire'),
-            personnel: Yup.string().required('Utilisateur est obligatoire'),
+            user: Yup.string().required('Utilisateur est obligatoire'),
             tresorerie: Yup.array().required('La tresorerie est obligatoire')
         });
         const usertresorerienew = ref(props.id);
@@ -99,20 +99,20 @@ export default {
         const btntext = ref('Ajouter');
         const isupdate = ref(false);
         const router = useRouter();
-        const personnels = ref();
-        const personnelOptions = ref([]);
+        const user = ref();
+        const userOptions = ref([]);
        const tresoreries = ref();
        const tresorerieOptions = ref([]);
 
         onMounted(() => {
-        getAllPersonnels();
+        getAllAllUsers();
         getAllTresoreries();
       });
         watch(() => props.id, (newValue) => {
             if (newValue != 0) {
                 getUserTresorerie(newValue);
                 isupdate.value = true;
-                getAllPersonnels();
+                getAllAllUsers();
                 getAllTresoreries();
             }
             btnTitle();
@@ -134,10 +134,10 @@ export default {
         );
       }
 
-      if (donnees.personnel) {
+      if (donnees.user) {
         usertresorerieForm.value?.setFieldValue(
           "bien",
-          donnees.personnel.id
+          donnees.user.id
         );
       }
 
@@ -155,14 +155,14 @@ export default {
       error(response.data.message);
     });
 };
-        const getAllPersonnels= async () => {
+        const getAllAllUsers= async () => {
           try{
-          const response = await ApiService.get('/all/personnels');
-          const personnelsData = response.data.data.data;
-          console.log("personnel", personnelsData);
-          personnelOptions.value = personnelsData.map((personnel) => ({
-            value: personnel.id,
-            label: personnel.nom + " " + personnel.prenom,
+          const response = await ApiService.get('/all/users');
+          const usersData = response.data.data;
+          console.log("user", usersData);
+          userOptions.value = usersData.map((user) => ({
+            value: user.id,
+            label: `${user.nom} ${user.prenom}`,
 
           }));
           }
@@ -242,7 +242,7 @@ export default {
 
         return {
             usertresoreries, title, btntext, resetValue, usertresorerieSchema,
-            addUserTresorerie, usertresorerieForm, addUserTresorerieModalRef, usertresorerienew, personnelOptions, personnels,
+            addUserTresorerie, usertresorerieForm, addUserTresorerieModalRef, usertresorerienew, userOptions, user,
             tresorerieOptions,tresoreries
             //refreshPannes
         };

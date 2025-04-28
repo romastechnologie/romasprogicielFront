@@ -75,7 +75,7 @@
               <tr v-for="(usertresorerie, index) in usertresoreries" :key="index">
             
                 <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ usertresorerie.personnel?.nom }}  {{ usertresorerie.personnel?.prenom}}
+                  {{ usertresorerie.user?.nom }}  {{ usertresorerie.user?.prenom}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                  {{ usertresorerie.tresorerie?.nom }} 
