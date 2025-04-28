@@ -41,9 +41,10 @@
           <div class="col-md-12 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black  mb-10">
-                Date de debut <span class="text-danger">*</span></label
+                Date d'affectation <span class="text-danger">*</span></label
             >
             <Field
+            v-model="dateDebut"
               name="DateDebut"
               class="form-control"
               type="date"
@@ -122,6 +123,8 @@ export default {
         const circuit = ref();
         const categorieOptions = ref([]);
         const circuitOptions = ref([] as any[]);
+        const dateDebut = ref(new Date().toISOString().split('T')[0]); 
+
 
         watch(() => props.id, (newValue) => {
             if (newValue != 0) {
@@ -280,7 +283,7 @@ export default {
 
         return {
             circuitDemandes, title, btntext, resetValue, circuitDemandeSchema,circuit,categorie,
-            addCircuitDemande, circuitDemandeForm, addCircuitDemandeModalRef, circuitDemandenew,categorieOptions,circuitOptions,categories,circuits,
+            addCircuitDemande, circuitDemandeForm, addCircuitDemandeModalRef, circuitDemandenew,categorieOptions,circuitOptions,categories,circuits,dateDebut
             //refreshCircuitDemandes
         };
     },

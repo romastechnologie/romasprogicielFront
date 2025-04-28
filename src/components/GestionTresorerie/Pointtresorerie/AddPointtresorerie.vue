@@ -165,7 +165,9 @@
   
       const getPersonnel = async (id) => {
         try {
+          console.log('Appel API pour récupérer les trésoreries du personnel ID:', id);
           const { data } = await ApiService.get(`/userTresorerie/${id}`);
+          console.log('Réponse des trésoreries récupérées:', data); 
           tresoreries.value = data.data;
         } catch (err) {
           console.error(err);
@@ -211,6 +213,7 @@
       onMounted(() => getAllPersonnels());
   
       const onPersonnelSelected = (selectedPersonnelId) => {
+        console.log('Personnel sélectionné ID:', selectedPersonnelId); 
         if (selectedPersonnelId) {
           getPersonnel(selectedPersonnelId);
           personnelSelected.value = true;

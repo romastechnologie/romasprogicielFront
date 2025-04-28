@@ -317,30 +317,27 @@
             role="tabpanel"
             aria-labelledby="contact-info-tab"
           >
-            <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <th><strong>Nom personne a contacter</strong></th>
-                  <td>
-                    {{ personnel?.nomPersonneAContacter || "Non renseigné" }}
-                  </td>
-                  <th><strong>Prenom personne a contacter</strong></th>
-                  <td>
-                    {{ personnel?.prenomPersonneAContacter || "Non renseigné" }}
-                  </td>
-                </tr>
-                <tr>
-                  <th><strong>Telephone personne a contacter</strong></th>
-                  <td>
-                    {{
-                      personnel?.telephonePersonneAContacter || "Non renseigné"
-                    }}
-                  </td>
-                  <th><strong>Relation</strong></th>
-                  <td>{{ personnel?.relation || "Non renseigné" }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <table class="table" style="border: none;">
+            <tbody>
+              <tr>
+                <td style="padding: 4px;">
+                  <strong>Nom personne à contacter: </strong>{{ personnel?.nomPersonneAContacter || "Non renseigné" }}
+                </td>
+                <td style="padding: 4px;">
+                  <strong>Prénom personne à contacter: </strong>{{ personnel?.prenomPersonneAContacter || "Non renseigné" }}
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 4px;">
+                  <strong>Téléphone personne à contacter: </strong>{{ personnel?.telephonePersonneAContacter || "Non renseigné" }}
+                </td>
+                <td style="padding: 4px;">
+                  <strong>Relation: </strong>{{ personnel?.relation || "Non renseigné" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
             <div class="mt-3">
               <button class="btn btn-success" @click="openModal('contact')">
                 <i class="fa fa-edit lh-1 me-1 position-relative top-2"></i>
@@ -356,60 +353,44 @@
             aria-labelledby="family-info-tab"
             v-if="!['Divorcée', 'Veuve', 'Célibataire'].includes(personnel?.situationMatrimoniale)"
           >
-            <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <th><strong>Nom conjoint</strong></th>
-                  <td>{{ personnel?.conjoints?.nomCon || "Non renseigné" }}</td>
-                  <th><strong>Prénom conjoint</strong></th>
-                  <td>
-                    {{ personnel?.conjoints?.prenomCon || "Non renseigné" }}
-                  </td>
-                </tr>
-                <tr>
-                  <th><strong>Date de naissance du conjoint</strong></th>
-                  <td>
-                    {{
-                      personnel?.conjoints?.dateNaissanceCon || "Non renseigné"
-                    }}
-                  </td>
-                  <th><strong>Nationalité du conjoint</strong></th>
-                  <td>
-                    {{
-                      personnel?.conjoints?.nationaliteCon || "Non renseigné"
-                    }}
-                  </td>
-                </tr>
-                <tr>
-                  <th><strong>Passeport conjoint</strong></th>
-                  <td>
-                    {{
-                      personnel?.conjoints?.numPassportCon || "Non renseigné"
-                    }}
-                  </td>
-                  <th><strong>Religion conjoint</strong></th>
-                  <td>
-                    {{
-                      personnel?.conjoints?.religionCon?.label||
-                      "Non renseigné"
-                    }}
-                  </td>
-                </tr>
-                <tr>
-                  <th><strong>Ethnie</strong></th>
-                  <td>
-                    {{
-                      personnel?.conjoints?.ethnieCon?.label ||
-                      "Non renseigné"
-                    }}
-                  </td>
-                  <th><strong>Telephone conjoint</strong></th>
-                  <td>
-                    {{ personnel?.conjoints?.telephoneCon || "Non renseigné" }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <table class="table" style="border: none;">
+          <tbody>
+            <tr>
+              <td style="padding: 4px;">
+                <strong>Nom conjoint: </strong>{{ personnel?.conjoints?.nomCon || "Non renseigné" }}
+              </td>
+              <td style="padding: 4px;">
+                <strong>Prénom conjoint: </strong>{{ personnel?.conjoints?.prenomCon || "Non renseigné" }}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 4px;">
+                <strong>Date de naissance du conjoint: </strong>{{ personnel?.conjoints?.dateNaissanceCon || "Non renseigné" }}
+              </td>
+              <td style="padding: 4px;">
+                <strong>Nationalité du conjoint: </strong>{{ personnel?.conjoints?.nationaliteCon || "Non renseigné" }}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 4px;">
+                <strong>Passeport conjoint: </strong>{{ personnel?.conjoints?.numPassportCon || "Non renseigné" }}
+              </td>
+              <td style="padding: 4px;">
+                <strong>Religion conjoint: </strong>{{ personnel?.conjoints?.religionCon?.label || "Non renseigné" }}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 4px;">
+                <strong>Ethnie: </strong>{{ personnel?.conjoints?.ethnieCon?.label || "Non renseigné" }}
+              </td>
+              <td style="padding: 4px;">
+                <strong>Téléphone conjoint: </strong>{{ personnel?.conjoints?.telephoneCon || "Non renseigné" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
             <div class="mt-3">
               <button
                 class="btn btn-success"
@@ -601,80 +582,56 @@
             role="tabpanel"
             aria-labelledby="health-info-tab"
           >
-            <table class="table table-bordered">
+          <table class="table" style="border: none;">
               <tbody>
                 <tr>
-                  <th><strong>Taille</strong></th>
-                  <td>
-                    {{ personnel?.santeemploye?.taille || "Non renseigné" }}
+                  <td style="padding: 4px;">
+                    <strong>Taille: </strong>{{ personnel?.santeemploye?.taille || "Non renseigné" }}
                   </td>
-                  <th><strong>Poids</strong></th>
-                  <td>
-                    {{ personnel?.santeemploye?.poids || "Non renseigné" }}
+                  <td style="padding: 4px;">
+                    <strong>Poids: </strong>{{ personnel?.santeemploye?.poids || "Non renseigné" }}
                   </td>
                 </tr>
                 <tr>
-                  <th><strong>Groupe sanguin</strong></th>
-                  <td>
-                    {{
-                      personnel?.santeemploye?.groupeSanguin || "Non renseigné"
-                    }}
+                  <td style="padding: 4px;">
+                    <strong>Groupe sanguin: </strong>{{ personnel?.santeemploye?.groupeSanguin || "Non renseigné" }}
                   </td>
-                  <th><strong>Vision gauche</strong></th>
-                  <td>
-                    {{
-                      personnel?.santeemploye?.visionGauche || "Non renseigné"
-                    }}
+                  <td style="padding: 4px;">
+                    <strong>Vision gauche: </strong>{{ personnel?.santeemploye?.visionGauche || "Non renseigné" }}
                   </td>
                 </tr>
                 <tr>
-                  <th><strong>Vision droite</strong></th>
-                  <td>
-                    {{
-                      personnel?.santeemploye?.visionDroite || "Non renseigné"
-                    }}
+                  <td style="padding: 4px;">
+                    <strong>Vision droite: </strong>{{ personnel?.santeemploye?.visionDroite || "Non renseigné" }}
                   </td>
-                  <th><strong>Audience gauche</strong></th>
-                  <td>
-                    {{
-                      personnel?.santeemploye?.audienceGauche || "Non renseigné"
-                    }}
+                  <td style="padding: 4px;">
+                    <strong>Audience gauche: </strong>{{ personnel?.santeemploye?.audienceGauche || "Non renseigné" }}
                   </td>
                 </tr>
                 <tr>
-                  <th><strong>Audience droite</strong></th>
-                  <td>
-                    {{
-                      personnel?.santeemploye?.audienceDroite || "Non renseigné"
-                    }}
+                  <td style="padding: 4px;">
+                    <strong>Audience droite: </strong>{{ personnel?.santeemploye?.audienceDroite || "Non renseigné" }}
                   </td>
-                  <th><strong>Main gauche</strong></th>
-                  <td>
-                    {{ personnel?.santeemploye?.mainGauche || "Non renseigné" }}
+                  <td style="padding: 4px;">
+                    <strong>Main gauche: </strong>{{ personnel?.santeemploye?.mainGauche || "Non renseigné" }}
                   </td>
                 </tr>
                 <tr>
-                  <th><strong>Main droite</strong></th>
-                  <td>
-                    {{ personnel?.santeemploye?.mainDroite || "Non renseigné" }}
+                  <td style="padding: 4px;">
+                    <strong>Main droite: </strong>{{ personnel?.santeemploye?.mainDroite || "Non renseigné" }}
                   </td>
-                  <th><strong>Jambe gauche</strong></th>
-                  <td>
-                    {{
-                      personnel?.santeemploye?.jambeGauche || "Non renseigné"
-                    }}
+                  <td style="padding: 4px;">
+                    <strong>Jambe gauche: </strong>{{ personnel?.santeemploye?.jambeGauche || "Non renseigné" }}
                   </td>
                 </tr>
                 <tr>
-                  <th><strong>Jambe droite</strong></th>
-                  <td>
-                    {{
-                      personnel?.santeemploye?.jambeDroite || "Non renseigné"
-                    }}
+                  <td style="padding: 4px;">
+                    <strong>Jambe droite: </strong>{{ personnel?.santeemploye?.jambeDroite || "Non renseigné" }}
                   </td>
                 </tr>
               </tbody>
             </table>
+
             <div class="mt-3">
               <button
                 class="btn btn-success"
@@ -692,26 +649,27 @@
             role="tabpanel"
             aria-labelledby="bank-info-tab"
           >
-            <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <th><strong>Banque</strong></th>
-                  <td>
-                    {{
-                      personnel?.banque?.denominationBanque || "Non renseigné"
-                    }}
-                  </td>
-                  <th><strong>Numéro de compte bancaire</strong></th>
-                  <td>{{ personnel?.numeroCompte || "Non renseigné" }}</td>
-                </tr>
-                <tr>
-                  <th><strong>Code iban</strong></th>
-                  <td>{{ personnel?.codeIban || "Non renseigné" }}</td>
-                  <th><strong>Code swift </strong></th>
-                  <td>{{ personnel?.codeSwift || "Non renseigné" }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <table class="table" style="border: none;">
+          <tbody>
+            <tr>
+              <td style="padding: 4px;">
+                <strong>Banque: </strong>{{ personnel?.banque?.denominationBanque || "Non renseigné" }}
+              </td>
+              <td style="padding: 4px;">
+                <strong>Numéro de compte bancaire: </strong>{{ personnel?.numeroCompte || "Non renseigné" }}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 4px;">
+                <strong>Code IBAN: </strong>{{ personnel?.codeIban || "Non renseigné" }}
+              </td>
+              <td style="padding: 4px;">
+                <strong>Code SWIFT: </strong>{{ personnel?.codeSwift || "Non renseigné" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
             <div class="mt-3">
               <button
                 class="btn btn-success"
@@ -724,13 +682,8 @@
             </div>
           </div>
 
-          <div
-            class="tab-pane fade"
-            id="affectation-info"
-            role="tabpanel"
-            aria-labelledby="affectation-info-tab"
-          >
-            <table class="table table-bordered">
+          <div class="tab-pane fade" id="affectation-info" role="tabpanel" aria-labelledby="affectation-info-tab">
+  <table class="table table-bordered">
     <thead>
       <tr>
         <th>#</th>
@@ -746,12 +699,31 @@
         <td>{{ affectation.organisation?.nom || 'Non renseigné' }}</td>
         <td>{{ affectation.DateDebut || 'Non renseignée' }}</td>
         <td>{{ affectation.DateFin || 'En cours' }}</td>
-        <td>{{ affectation.statut || 'Non renseigné' }}</td>
+        <td>
+          <span 
+            v-if="affectation.statut === 'actif'" 
+            class="badge bg-success"
+          >
+            Actif
+          </span>
+          <span 
+            v-else-if="affectation.statut === 'inactif'" 
+            class="badge bg-danger"
+          >
+            Inactif
+          </span>
+          <span 
+            v-else 
+            class="badge bg-secondary"
+          >
+            Non renseigné
+          </span>
+        </td>
       </tr>
+    </tbody>
+  </table>
+</div>
 
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
@@ -1800,4 +1772,9 @@ export default defineComponent({
 .accordion-button {
   background-color: transparent;
 }
+.table th, .table td {
+  padding: 4px;
+  border: none;
+}
+
 </style>

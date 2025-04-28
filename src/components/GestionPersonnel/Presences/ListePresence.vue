@@ -33,7 +33,7 @@
                 Heure d'arrivée
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
-                Heure de depart
+                Heure reglémentaire
               </th>
               <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                 Durée
