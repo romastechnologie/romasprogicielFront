@@ -93,13 +93,18 @@
         </div>
         <div class="col-md-6 mt-4">
           <div class="col mb-3">
-              <label class="d-block text-black fw-semibold mb-10">
-                Date de fermeture <span class="text-danger">*</span>
-              </label>
-              <Field name="dateFermeture" class="form-control shadow-none fs-md-15 text-black" type="datetime-local" :max="currentDateTime"
-              :value="new Date().toISOString().slice(0, 16).replace('T', ' ')"/>
-              <ErrorMessage name="dateFermeture" class="text-danger" />
-            </div>
+            <label class="d-block text-black fw-semibold mb-10">
+              Date de Fermeture <span class="text-danger">*</span>
+            </label>
+            <Field
+              name="dateFermeture"
+              class="form-control shadow-none fs-md-15 text-black"
+              type="datetime-local"
+              :max="currentDateTime"
+              v-model="dateFermeture"
+            />
+            <ErrorMessage name="dateFermeture" class="text-danger" />
+          </div>
           <div class="col mb-3">
             <label for="fondDeRoulement">Fond de roulement</label>
             <Field
@@ -107,16 +112,28 @@
               id="fondDeRoulement"
               name="fondDeRoulement"
               class="form-control"
-              v-model="fondDeRoulement"
+              v-model="montantTotal"
               disabled
             />
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
-
-
           <div class="col-md-6 mt-4">
           <div class="col mb-3">
-            <label for="chiffreaffaire">Solde</label>
+            <label for="solde">Solde</label>
+            <Field
+              type="number"
+              id="solde"
+              name="solde"
+              class="form-control"
+              v-model="montantTotal"
+              disabled
+            />
+            <ErrorMessage name="solde" class="text-danger" />
+          </div>
+        </div>
+          <div class="col-md-6 mt-4">
+          <div class="col mb-3">
+            <label for="chiffreaffaire">Chiffre d'affaire</label>
             <Field
               type="number"
               id="chiffreaffaire"
@@ -128,8 +145,6 @@
             <ErrorMessage name="" class="text-danger" />
           </div>
         </div>
-
-          
           <div class="col-md-6 mt-4">
           <div class="col mb-3">
             <label for="ecart">Ecart</label>
@@ -144,7 +159,7 @@
             <ErrorMessage name="" class="text-danger" />
           </div>
         </div>
-        <div class="col-md-12 mb-3">
+        <div class="col-md-6 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Utilisateur <span class="text-danger">*</span>
@@ -170,7 +185,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Ouv_Fer } from "@/models/OuvFer";
+import { OuvFer } from "@/models/OuvFer";
 import { Tresorerie } from "@/models/Tresorerie";
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import axios from "axios";
@@ -230,6 +245,7 @@ const schema = Yup.object().shape({
     chiffreaffaire: Yup.number().required(""),
     ecart: Yup.number().required(""),
     user: Yup.array().required("L'utilisateur est obligatoire"),
+    solde: Yup.number().required("Le solde est obligatoire"),
     dateFermeture: Yup.string().required("Date de transfert est obligatoire."),
 //tresorerieName: Yup.string().required("La trésorerie est obligatoire"),
 });

@@ -4,7 +4,7 @@
       <h3 class="text-black fw-semibold">Faire une ouverture de caisse</h3>
     </div>
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-      <Form class="row g-3" :validation-schema="schema" @submit="sendOuvFer">
+      <Form class="row g-3" :validation-schema="schema" @submit="sendOuvFer(ouvFer.tresorerieName, ouvFer.ouvFerName)">
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12 mb-md-25">
@@ -63,38 +63,28 @@
           </div>
         </div>
         <div class="col-md-6 mt-4">
-          <div class="col mb-3">
-            <label class="d-block text-black fw-semibold mb-10">
-              Date d'ouverture <span class="text-danger">*</span>
-            </label>
-            <Field
-              name="dateOuverture"
-              class="form-control shadow-none fs-md-15 text-black"
-              type="datetime-local"
-              :max="currentDateTime"
-              v-model="dateOuverture"
-            />
-            <ErrorMessage name="dateOuverture" class="text-danger" />
-          </div>
+            <div class="col mb-3">
+              <label class="d-block text-black fw-semibold mb-10">
+                Date d'ouverture <span class="text-danger">*</span>
+              </label>
+              <Field name="dateOuverture" class="form-control shadow-none fs-md-15 text-black" type="datetime-local" :max="currentDateTime"
+              :value="new Date().toISOString().slice(0, 16).replace('T', ' ')"/>
+              <ErrorMessage name="dateOuverture" class="text-danger" />
+            </div>
+         
           <div class="col mb-3">
             <label for="fondDeRoulement">Fond de roulement</label>
-            <Field
-              type="number"
-              id="fondDeRoulement"
-              name="fondDeRoulement"
-              class="form-control"
-              v-model="montantTotal"
-              disabled
-            />
+            <Field type="number" id="fondDeRoulement" name="fondDeRoulement" class="form-control" v-model="montantTotal"
+              disabled />
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
           <div class="col mb-3">
-            <label for="tresorerie">Trésorerie</label>
-            <Field name="tresorerie" v-model="tresoreries" type="text" v-slot="{ field }">
+            <label for="tresorerieName">Trésorerie</label>
+            <Field name="tresorerieName" v-model="tresoreries" type="text" v-slot="{ field }">
               <Multiselect v-model="tresoreries" :options="tresorerieOptions" :preserve-search="true" :multiple="false"
                 :searchable="true" placeholder="Sélectionner la trésorerie" label="label" track-by="value" />
             </Field>
-            <ErrorMessage name="tresorerie" class="text-danger" />
+            <ErrorMessage name="tresorerieName" class="text-danger" />
           </div>
           <div class="col-md-12 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -102,16 +92,8 @@
                 Utilisateur <span class="text-danger">*</span>
               </label>
               <Field name="user" v-slot="{ field }">
-                <Multiselect
-                  v-model="user"
-                  :options="userOptions"
-                  :searchable="true"
-                  track-by="value"
-                  mode="tags"
-                  label="label"
-                  placeholder="Sélectionner l'Utilisateur"
-                  v-bind="field"
-                />
+                <Multiselect v-model="field.value" :options="userOptions" :searchable="true" track-by="label" mode="tags"
+                  label="label" placeholder="Sélectionner l'Utilisateur" v-bind="field" />
               </Field>
               <ErrorMessage name="user" class="text-danger" />
             </div>
@@ -129,9 +111,10 @@
 </template>
 
 <script setup lang="ts">
-import { OuvFer } from "@/models/OuvFer";
+import { Ouv_Fer } from "@/models/OuvFer";
 import { Tresorerie } from "@/models/Tresorerie";
 import { computed, onMounted, reactive, ref, watch } from "vue";
+import axios from "axios";
 import * as Yup from "yup";
 import { configure, Form, Field, ErrorMessage } from "vee-validate";
 import Multiselect from "@vueform/multiselect";
@@ -139,17 +122,26 @@ import { Monnaie } from "@/models/Monnaie";
 import Swal from "sweetalert2";
 import ApiService from "@/services/ApiService";
 import router from "@/router";
+import { error } from "../../../utils/utils";
 
-interface Ouv_Fer {
-  id: number;
-  tresorerieId: number;
-  fondDeRoulement: number;
-  solde: number;
-  dateOuverture: string;
-  status: string;
-  userIds: number[];
-  userCreationId: number;
-}
+const userOptions = ref([]);
+const user = ref();
+const dateOuverture = ref(getCurrentDateTime());
+    const currentDateTime = ref(getCurrentDateTime());
+    function getCurrentDateTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+const ouvFer = ref<Ouv_Fer>({});
+const ouvFerList = ref<Ouv_Fer[]>([]);
+const tresorerieList = ref<Tresorerie[]>([]);
+const tresorerie = ref<Tresorerie>({});
+let show = ref(true);
 
 interface Billetage {
   montant: number;
@@ -157,36 +149,13 @@ interface Billetage {
   qteBillet: number;
   valueAct: number;
   monnaie: number;
-  ouv_fer: number;
+  ouv_fer?: number;
 }
 
-const userOptions = ref([]);
-const user = ref<number[]>([]);
-const dateOuverture = ref(getCurrentDateTime());
-const currentDateTime = ref(getCurrentDateTime());
-
-function getCurrentDateTime() {
-  console.log("[getCurrentDateTime] Calcul de la date actuelle");
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
-  const dateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-  console.log("[getCurrentDateTime] Date calculée:", dateTime);
-  return dateTime;
-}
-
-const ouvFer = ref<Ouv_Fer>({});
-const ouvFerList = ref<Ouv_Fer[]>([]);
-const tresorerieList = ref<Tresorerie[]>([]);
-const tresorerie = ref<Tresorerie>({});
 const billetageList = reactive<Billetage[]>([]);
 const monnaieList = ref([] as any[]);
 let montantTotal = ref<null | number>(null);
-const tresoreries = ref<number | null>(null);
-const userCreation = ref<number | null>(null);
+const tresoreries = ref();
 const tresorerieOptions = ref([]);
 
 const schema = Yup.object().shape({
@@ -194,16 +163,14 @@ const schema = Yup.object().shape({
     .nullable()
     .required("Le fond de roulement est obligatoire")
     .notOneOf([0], "Le fond de roulement ne peut pas être 0"),
-  tresorerie: Yup.string().required("La trésorerie est obligatoire"),
+  tresorerieName: Yup.string().required("La trésorerie est obligatoire"),
   qteBillet: Yup.number()
     .typeError("La quantité doit être un nombre")
     .required("La quantité est obligatoire")
     .integer("La quantité doit être un entier")
     .min(0, "La quantité ne peut pas être négative"),
-  user: Yup.array()
-    .min(1, "Au moins un utilisateur doit être sélectionné")
-    .required("L'utilisateur est obligatoire"),
-  dateOuverture: Yup.string().required("La date d'ouverture est obligatoire"),
+    user: Yup.array().required("L'utilisateur est obligatoire"),
+    dateOuverture: Yup.string().required("Date de transfert est obligatoire."),
 });
 
 configure({
@@ -212,136 +179,94 @@ configure({
   validateOnInput: true,
 });
 
+// Restreindre l'entrée à des chiffres uniquement (bloquer 'e', 'E', '+', '-', '.')
 const restrictInput = (event: KeyboardEvent) => {
-  console.log("[restrictInput] Touche pressée:", event.key);
-  const invalidChars = ["e", "E", "+", "-", "."];
+  const invalidChars = ['e', 'E', '+', '-', '.'];
   if (invalidChars.includes(event.key)) {
-    console.log("[restrictInput] Caractère non autorisé, bloqué:", event.key);
     event.preventDefault();
   }
 };
 
-async function sendOuvFer() {
-  console.log("[sendOuvFer] Début de la soumission du formulaire");
+async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
   try {
-    console.log("[sendOuvFer] Valeurs du formulaire:", {
-      tresorerieId: tresoreries.value,
-      fondDeRoulement: montantTotal.value,
-      solde: montantTotal.value,
-      dateOuverture: dateOuverture.value,
-      userIds: user.value,
-      userCreationId: userCreation.value,
-    });
-
-    if (!userCreation.value) {
-      console.error("[sendOuvFer] userCreationId manquant");
-      throw new Error("L'utilisateur créateur n'est pas défini.");
-    }
-
     ouvFer.value.tresorerieId = tresoreries.value;
-    ouvFer.value.fondDeRoulement = montantTotal.value;
-    ouvFer.value.solde = montantTotal.value;
-    ouvFer.value.dateOuverture = dateOuverture.value;
-    ouvFer.value.status = "OPEN";
-    ouvFer.value.userIds = user.value;
-    ouvFer.value.userCreationId = userCreation.value;
-
-    console.log("[sendOuvFer] Données envoyées:", ouvFer.value);
-
-    console.log("[sendOuvFer] Envoi de la requête à /ouv_fers/");
+    const fondDeRoulement = (
+      document.getElementById("fondDeRoulement") as HTMLInputElement
+    ).value;
+    ouvFer.value.fondDeRoulement = Number(fondDeRoulement);
+    console.log("Données envoyées :", ouvFer.value);
     const res = await ApiService.post("/ouv_fers/", ouvFer.value);
-    console.log("[sendOuvFer] Réponse de l'API:", res.data);
-
     const ouvFerId = res.data.id;
     if (res.data) {
       const billetageData = billetageList.map((billetage) => ({
         ...billetage,
         ouv_fer: ouvFerId,
       }));
-      console.log("[sendOuvFer] Envoi des données de billetage:", billetageData);
       await ApiService.post("/billetages/", billetageData);
-      console.log("[sendOuvFer] Billetage envoyé avec succès");
-
-      console.log("[sendOuvFer] Redirection vers /ouv_fers/liste-ouv_fer");
-      router.push( { name: "ListeOuvFerPage" });
+      router.push("/ouv_fers/liste-ouv_fer");
       Swal.fire({
         timer: 2000,
         position: "top-end",
         toast: true,
         showConfirmButton: false,
         timerProgressBar: true,
-        text: "Ouverture réussie avec succès",
+        text: "Ouverture réussi avec succès",
         icon: "success",
       });
     }
   } catch (err) {
-    console.error("[sendOuvFer] Erreur lors de l'ouverture de caisse:", err);
-    const errorMessage = err.response?.data?.message || "Une erreur est survenue.";
-    Swal.fire({
-      timer: 3000,
-      position: "top-end",
-      toast: true,
-      showConfirmButton: false,
-      timerProgressBar: true,
-      text: errorMessage,
-      icon: "error",
-    });
+    console.error("Erreur lors de l'ouverture de caisse:", err);
+    if (err.code && err.code === "ERR_BAD_REQUEST") {
+      const errorMessage = err.response?.data?.message || "Une erreur est survenue.";
+      error(errorMessage);
+    }
   }
 }
 
+
+
 const caisses = computed(() => {
-  console.log("[caisses] Calcul des caisses filtrées");
-  const filtered = tresorerieList.value.filter((entity) => entity.nom?.toLowerCase().includes("caisse"));
-  console.log("[caisses] Caisses filtrées:", filtered);
-  return filtered;
+  return tresorerieList.value.filter(entity => entity.nom?.toLowerCase().includes('caisse'));
 });
 
 const getTresorerie = async () => {
   try {
-    console.log("[getTresorerie] Récupération des trésoreries...");
-    const response = await ApiService.get("/tresoreriecaisses");
+    const response = await ApiService.get('/tresoreriecaisses');
     const tresoreriesData = response.data.data.data;
+    console.log("tresorerie", tresoreriesData);
     tresorerieOptions.value = tresoreriesData
-      .filter((tresorerie) => tresorerie.operation === true)
+      .filter(tresorerie => tresorerie.operation === true)
       .map((tresorerie) => ({
         value: tresorerie.id,
         label: tresorerie.nom,
       }));
-    console.log("[getTresorerie] Trésoreries récupérées:", tresorerieOptions.value);
   } catch (error) {
-    console.error("[getTresorerie] Erreur lors de la récupération des trésoreries:", error);
+    // Gestion d'erreur
   }
 };
 
 const getAllAllUsers = async () => {
-  try {
-    console.log("[getAllAllUsers] Récupération des utilisateurs...");
-    const response = await ApiService.get("/all/users");
-    const userData = response.data.data;
-    userOptions.value = userData.map((user: any) => ({
-      value: user.id,
-      label: `${user.nom} ${user.prenom}`,
-    }));
-    console.log("[getAllAllUsers] Utilisateurs récupérés:", userOptions.value);
-  } catch (err) {
-    console.error("[getAllAllUsers] Erreur lors de la récupération des utilisateurs:", err);
-  }
-};
+      try {
+        const response = await ApiService.get('/all/users');
+        const userData = response.data.data;
+        userOptions.value = userData.map((user: any) => ({
+          value: user.id,
+          label: `${user.nom} ${user.prenom}`,
+        }));
+      } catch (err) {
+        //error('Erreur lors de la récupération des utilisateurs');
+      }
+    };
 
 const getouvFer = async () => {
-  try {
-    console.log("[getouvFer] Récupération des ouv_fer...");
-    const res = await ApiService.get("/all/ouv_fers");
+  await ApiService.get("all/ouv_fers").then((res) => {
     ouvFerList.value = res.data;
-    console.log("[getouvFer] Ouv_fer récupérés:", ouvFerList.value);
-  } catch (error) {
-    console.error("[getouvFer] Erreur lors de la récupération des ouv_fer:", error);
-  }
+    console.log(ouvFerList.value);
+  });
 };
 
 const getAllMonnaie = async () => {
   try {
-    console.log("[getAllMonnaie] Récupération des monnaies...");
     const res = await ApiService.get("/all/monnaies");
     monnaieList.value = res.data.data.data;
     monnaieList.value.forEach((element) => {
@@ -353,63 +278,39 @@ const getAllMonnaie = async () => {
         qteBillet: 0,
       });
     });
-    console.log("[getAllMonnaie] Monnaies récupérées:", monnaieList.value);
-    console.log("[getAllMonnaie] Billetage initialisé:", billetageList);
   } catch (error) {
-    console.error("[getAllMonnaie] Erreur lors de la récupération des monnaies:", error);
+    console.error("Erreur lors de la récupération des monnaies:", error);
   }
 };
 
 function handleBilletageInput(event: Event, billetage: Billetage) {
-  console.log("[handleBilletageInput] Entrée détectée pour billetage:", billetage.libelle);
   const newValue = Number((event.target as HTMLInputElement).value);
   billetage.qteBillet = newValue || 0;
-  console.log("[handleBilletageInput] Nouvelle quantité:", billetage.qteBillet);
   updateMontant(billetage);
 }
 
 const updateMontant = (billetage: Billetage) => {
-  console.log("[updateMontant] Mise à jour du montant pour:", billetage.libelle);
   billetage.montant = billetage.qteBillet * billetage.valueAct || 0;
-  console.log("[updateMontant] Nouveau montant:", billetage.montant);
   calculateTotal();
 };
 
 const calculateTotal = () => {
-  console.log("[calculateTotal] Calcul du montant total...");
   const total = billetageList.reduce((total, billetage) => {
     return total + (billetage.montant || 0);
   }, 0);
   montantTotal.value = total || null;
-  console.log("[calculateTotal] Montant total calculé:", montantTotal.value);
 };
 
 watch(
   billetageList,
   () => {
-    console.log("[watch:billetageList] Changement détecté dans billetageList");
     calculateTotal();
   },
   { deep: true }
 );
 
 onMounted(() => {
-  console.log("[onMounted] Initialisation du composant...");
-  getTresorerie();
-  getAllMonnaie();
-  calculateTotal();
-  getAllAllUsers();
-  getouvFer();
-
-  // Simuler un userCreationId pour les tests (à remplacer)
-  userCreation.value = userCreation;
-  console.log("[onMounted] userCreationId initialisé:", userCreation.value);
-  console.log("[onMounted] État initial:", {
-    tresoreries: tresoreries.value,
-    user: user.value,
-    dateOuverture: dateOuverture.value,
-    montantTotal: montantTotal.value,
-  });
+  getTresorerie(), getAllMonnaie(), calculateTotal(), getAllAllUsers(), getouvFer();
 });
 </script>
 
