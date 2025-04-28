@@ -166,6 +166,7 @@
                 Date d'affectation<span class="text-danger">*</span></label
             >
             <Field
+            v-model="dateDebut"
               name="DateDebut"
               class="form-control"
               type="date"
@@ -264,6 +265,7 @@ export default defineComponent({
     const totalPages = ref(0);
     const limit = ref(10);
     const totalElements = ref(0);
+    const dateDebut = ref(new Date().toISOString().split('T')[0]); 
 
     const handlePaginate = ({ page_, limit_ }) => {
       try {
@@ -420,7 +422,8 @@ const openModal = (id: number) => {
     ajout,
     openModal,
     serviceOptions,
-    selectedPersonnel
+    selectedPersonnel,
+    dateDebut
 
 
   };

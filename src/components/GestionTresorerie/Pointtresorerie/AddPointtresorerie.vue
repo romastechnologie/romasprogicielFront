@@ -8,17 +8,16 @@
                 <div class="form-group mb-15">
                   <label class="d-block text-black mb-10">
                     Personnel <span class="text-danger">*</span>
-                  </label>
-                  <Field name="personnel" type="text" v-slot="{ field }">
+                  </label>                
+                  <Field name="personnel" v-slot="{ field }">
                     <Multiselect
                       :options="personnelOptions"
                       :searchable="true"
                       track-by="value"
                       label="label"
                       v-model="field.value"
-                      v-bind="field"
                       placeholder="Sélectionner le personnel"
-                      @change="onPersonnelSelected(field.value)"
+                      @change="(value) => { field.value = value; onPersonnelSelected(value); }"
                     />
                   </Field>
                   <ErrorMessage name="personnel" class="text-danger" />
@@ -161,7 +160,9 @@
   
       const getPersonnel = async (id) => {
         try {
+          console.log('Appel API pour récupérer les trésoreries du personnel ID:', id);
           const { data } = await ApiService.get(`/userTresorerie/${id}`);
+          console.log('Réponse des trésoreries récupérées:', data); 
           tresoreries.value = data.data;
         } catch (err) {
           console.error(err);
@@ -207,6 +208,7 @@
       onMounted(() => getAllPersonnels());
   
       const onPersonnelSelected = (selectedPersonnelId) => {
+        console.log('Personnel sélectionné ID:', selectedPersonnelId); 
         if (selectedPersonnelId) {
           getPersonnel(selectedPersonnelId);
           personnelSelected.value = true;

@@ -60,9 +60,12 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
                     <td class="shadow-none lh-1 fw-medium">
-  <span :class="getEtatBadge(demande.statut).badgeClass">
-    {{ getEtatBadge(demande.statut).text }}
-  </span>
+                      <span
+            class="badge"
+            :class="demande.statut === 'Validé' ? 'bg-success' : demande.statut === 'Rejeté' ? 'bg-danger' : 'bg-warning text-white'"
+          >
+            {{ demande.statut === 'Validé'? 'Validé' : demande.statut === 'Rejeté'? 'Rejeté' : 'En attente' }}
+          </span>
 </td>
  <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
                 <span v-else class="badge text-outline-success">{{ demande.statut }}</span> -->
@@ -117,12 +120,12 @@
                       </a>
                     </li>-->
       <!-- Bouton Valider : affiché seulement si la demande n'est pas validée -->
-                      <li v-if="demande.statut === null" class="dropdown-item d-flex align-items-center">
+                   <!-- <li v-if="demande.statut === null" class="dropdown-item d-flex align-items-center">
                   <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(demande.id)">
                     <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
                     Traiter
                   </a>
-                </li>
+                </li>--> 
 
      <!-- <li class="dropdown-item d-flex align-items-center">
                           <router-link

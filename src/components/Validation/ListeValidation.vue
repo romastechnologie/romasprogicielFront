@@ -84,6 +84,12 @@
               >
                 Statut
               </th>
+              <th
+                scope="col"
+                class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+              >
+                Fichier
+              </th>
   
               <th
                 scope="col"
@@ -114,6 +120,17 @@
             {{ validation.statut === 'Validé'? 'Validé' : validation.statut === 'Rejeté'? 'Rejeté' : 'En attente' }}
           </span>
         </td>
+        <td>  <a
+        v-if="validation?.demande?.photoDemande"
+        :href="getUrlApiForFiles(validation.demande.photoDemande, 'Demandes')"
+        target="_blank"
+        download
+      >
+        <i class="fa fa-download me-1"></i> Télécharger
+      </a>
+        </td>
+
+
 
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"
@@ -214,7 +231,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import ApiService from "@/services/ApiService";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
-import { format_date, showModal, hideModal, suppression, error,success  } from "@/utils/utils";
+import { format_date, showModal, hideModal, suppression, error,success, getUrlApiForFiles  } from "@/utils/utils";
 import * as Yup from 'yup';
 
 
@@ -397,7 +414,8 @@ const rejectValidations = async () => {
     addValidations,
     validationsSchema,
     rejectValidations,
-    format_date
+    format_date,
+    getUrlApiForFiles
   };
   },
 });
