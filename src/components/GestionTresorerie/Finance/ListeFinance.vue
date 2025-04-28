@@ -9,7 +9,7 @@
             to="/finances/ajouter-finance"
           >
             <i class="fa fa-plus-circle"></i>
-            Declarer une dépense
+            Déclarer une dépense
           </router-link>
       
         </div>
@@ -20,7 +20,7 @@
             to="/finances/ajouter-finance2"
           >
             <i class="fa fa-plus-circle"></i>
-            Declarer une recette
+            Déclarer une recette
           </router-link>
       
         </div>
@@ -49,16 +49,16 @@
             <thead>
               <tr>
                       <!--   <th scope="col">Piece de caisse</th>-->  
-                            <th scope="col">Tresorerie</th> 
+                            <th scope="col">Trésorerie</th> 
                             <th scope="col">Bénéficiaire</th> 
                             <th scope="col">Type de finance</th>
                             <th scope="col">Mode de paiement</th>
-                            <th scope="col">montant</th>
-                            <th scope="col">Reste a payer</th>       
-                <th
+                            <th scope="col">Montant</th>
+                            <th scope="col">Reste à payer</th>       
+                <!--<th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0  pe-0"
-                >ACTIONS</th>
+                >ACTIONS</th>-->
               </tr>
             </thead>
             <tbody>
@@ -75,10 +75,10 @@
 </th>
                           <th>{{ finance.type }}</th>
                           <th>{{ finance.modepaiement }}</th>                                                  
-                            <th>{{ finance.montant }}</th>
-                            <th>{{ finance.resteAPayer }}</th>
+                            <th>{{separateur (finance.montant) }}</th>
+                            <th>{{ separateur(finance.resteAPayer) }}</th>
 
-                <td
+             <td
                   class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
                 >
                 <div class="dropdown">
@@ -86,20 +86,20 @@
                     Actions
                   </button>
                     <ul class="dropdown-menu">
-                    <!--  <li >
+                 <!-- <li >
                         <router-link :to="{ name: 'EditFinancePage', params: { id:finance.id } }" 
                             class="dropdown-item d-flex align-items-center"><i
                             class="flaticon-pen lh-1 me-8 position-relative top-1"
                           ></i>Modifier</router-link>
                       </li>-->
                     
-                      <li >
+                     <!--  <li >
                         <a
                           class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(finance.id,finances,'finances',`la finance ${finance.id}`)">
                           <i class="fa fa-trash-o lh-1 me-8 position-relative top-1" ></i>
                            Supprimer
                         </a>
-                      </li>
+                      </li>-->
                     </ul>
                 </div>
                 </td>
@@ -122,7 +122,7 @@
   import { Finance } from "@/models/Finance";
 import { Tresorerie } from "@/models/Tresorerie";
   import ApiService from "@/services/ApiService";
-  import { suppression, error } from "@/utils/utils";
+  import { suppression, error, separateur } from "@/utils/utils";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   export default defineComponent({
@@ -221,7 +221,8 @@ import { Tresorerie } from "@/models/Tresorerie";
       totalElements,
       handlePaginate,
       rechercher,
-      searchTerm
+      searchTerm,
+      separateur
     };
     },
   });

@@ -3,19 +3,18 @@
     <div
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
-      <div class="d-sm-flex align-items-center">
+      <!--<div class="d-sm-flex align-items-center">
         <a 
           class="btn btn-primary"
           href="#"
           data-bs-toggle="modal"
           data-bs-target="#AddMonnaieModal"
         >
-        <i class="fa fa-plus-circle"></i>
-          <!-- <i class="fa fa-plus-circle"></i> -->
+         <!--<i class="fa fa-plus-circle"></i>
+          
           Ajouter une monnaie
         </a>
-       
-      </div>
+      </div>-->
       <div class="d-flex align-items-center">
         <form class="search-bg svg-color pt-3" @submit.prevent="rechercher">
           <input
@@ -54,10 +53,10 @@
                                 DATE DE CREATION
 
                             </th>
-              <th
+              <!--<th
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
-              >Actions</th>
+              >Actions</th>-->
             </tr>
           </thead>
           <tbody>
@@ -66,17 +65,17 @@
                 {{ monnaie.libelle }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
-                  {{ monnaie.valeur }}
+                  {{ separateur(monnaie.valeur) }}
               </td>
               <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                                 {{ format_date(monnaie.createdAt) }}
                             </td>
-              <td
+               <!--<td
                 class="shadow-none lh-1 fw-medium text-black pe-0"
               >
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
               <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                <li class="dropdown-item d-flex align-items-center">
+               <li class="dropdown-item d-flex align-items-center">
                   <a  href="javascript:void(0);" @click="moddifier(monnaie)">
                   <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                   </a>
@@ -88,7 +87,7 @@
                   </a>
                 </li>
               </ul>
-              </td>
+              </td>-->
             </tr>
           </tbody>
         </table>
@@ -111,7 +110,7 @@
 import { defineComponent, onMounted, ref  } from "vue";
 import AddMonnaieModal from "./AddMonnaieModal.vue";
 import ApiService from "@/services/ApiService";
-import { format_date, showModal, suppression, error, } from "@/utils/utils";
+import { format_date, showModal, suppression, error, separateur} from "@/utils/utils";
 import { useRouter } from "vue-router";
 import { Monnaie } from "@/models/Monnaie";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
@@ -214,6 +213,7 @@ export default defineComponent({
       rechercher,
       recharger,
       refreshMonnaies,
+      separateur
      };
   },
 

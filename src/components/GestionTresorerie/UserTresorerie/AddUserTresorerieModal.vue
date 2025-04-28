@@ -15,11 +15,11 @@
                             <div class="col-md-12 mb-4">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                     <label class="d-block text-black mb-10">
-                                        Utilisateur <span class="text-danger"></span>
+                                        Personnel <span class="text-danger"></span>
                                     </label>
                                  <Field name="personnel" v-model="personnels" type="text" v-slot="{ field }">
                                     <Multiselect v-model="field.value" v-bind="field" :options="personnelOptions" :preserve-search="true"
-                                     :multiple="false" :searchable="true" placeholder="Sélectionner utilisateur "
+                                     :multiple="false" :searchable="true" placeholder="Sélectionner un personnel "
                                       label="label" track-by="label" />
                                   </Field>
                                   <ErrorMessage name="personnel" class="text-danger" />
@@ -34,7 +34,7 @@
                                  <Field name="tresorerie" v-model="tresoreries" type="text" v-slot="{ field }">
                                     <Multiselect v-model="field.value" v-bind="field" :options="tresorerieOptions" :preserve-search="true"
                                      :multiple="false" :searchable="true" placeholder="Sélectionner la tresorerie "
-                                      label="label" track-by="label" />
+                                      label="label" track-by="label" mode="tags" />
                                   </Field>
                                   <ErrorMessage name="tresorerie" class="text-danger" />
                                 </div>
@@ -89,7 +89,7 @@ export default {
         const usertresorerieSchema = Yup.object().shape({
             //code: Yup.string().required('Le code est obligatoire'),
             personnel: Yup.string().required('Utilisateur est obligatoire'),
-            tresorerie: Yup.string().required('La tresorerie est obligatoire')
+            tresorerie: Yup.array().required('La tresorerie est obligatoire')
         });
         const usertresorerienew = ref(props.id);
         const usertresorerieForm = ref<UserTresorerie | null>(null);
@@ -175,7 +175,9 @@ export default {
           const response = await ApiService.get('/all/tresoreries');
           const tresoreriesData = response.data.data.data;
           console.log("tresorerie", tresoreriesData);
-          tresorerieOptions.value = tresoreriesData.map((tresorerie) => ({
+          tresorerieOptions.value = tresoreriesData
+          .filter(tresorerie => tresorerie.operation === true)
+          .map((tresorerie) => ({
             value: tresorerie.id,
             label: tresorerie.nom,
           }));

@@ -13,7 +13,16 @@
             </div>
             <ErrorMessage name="date" class="text-danger" />
           </div>
-      
+          <div class="col-md-4 mt-3">
+            <label for="libelle" class="form-label"> Libelle<span class="text-danger">*</span></label>
+            <Field name="libelle" class="form-control" type="text" placeholder="Entrer le libelle" />
+            <ErrorMessage name="libelle" class="text-danger" />
+          </div>
+        <!--<div class="col-md-4 mt-3">
+            <label for="description" class="form-label"> Description<span class="text-danger">*</span></label>
+            <Field name="description" class="form-control" type="text" placeholder="Entrer la description" />
+            <ErrorMessage name="description" class="text-danger" />
+          </div>--> 
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
@@ -22,6 +31,34 @@
               <Field name="montant" type="text" class="form-control shadow-none fs-md-15 text-black"
                 placeholder="Entrer le montant" />
               <ErrorMessage name="montant" class="text-danger" />
+            </div>
+          </div>
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Entretien <span class="text-danger">*</span>
+              </label>
+              <Field name="entretien" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="entretienOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner l'entretien" label="label"
+                  track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">L'Entretien est obligatoire</span>
+
+              <ErrorMessage name="entretien" class="text-danger" />
+            </div>
+          </div>
+          <div class="col-md-4 mt-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Planification Reparation <span class="text-danger">*</span>
+              </label>
+              <Field name="planificationReparation" v-model="planificationReparation" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="planificationReparationOptions"
+                  :preserve-search="true" :multiple="false" :searchable="true"
+                  placeholder="Sélectionner la planification Reparation" label="label" track-by="label" />
+              </Field>
+              <span class="text-danger" v-if="showMErr">La Planification Reparation est obligatoire</span>
             </div>
           </div>
           <div class="col-md-4 mt-3">
@@ -126,10 +163,10 @@
     },
     setup: () => {
       const depensesSchema = Yup.object().shape({     
-      //   libelle: Yup.string().required("Le libelle est obligatoire."),
-      // //  description: Yup.string().required("La description est obligatoire."),
-      //   entretien: Yup.string().required("L'entretien est obligatoire."),
-      //   planificationReparation: Yup.string().required("La planification Reparation est obligatoire."),
+        libelle: Yup.string().required("Le libelle est obligatoire."),
+      //  description: Yup.string().required("La description est obligatoire."),
+        entretien: Yup.string().required("L'entretien est obligatoire."),
+        planificationReparation: Yup.string().required("La planification Reparation est obligatoire."),
         typesDepenses: Yup.string().required("Le type de depense est obligatoire."),
         categoriesDepenses: Yup.string().required("La categorie depense est obligatoire."),
         motif: Yup.string().required("Le motif est obligatoire."),

@@ -81,7 +81,7 @@
                   {{ usercompte.numCompte }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ usercompte.personnel?.nom }}
+                  {{ usercompte.personnel?.nom }} {{ usercompte.personnel?.prenom }}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                  {{ usercompte.tresorerie?.nom }} 
@@ -94,11 +94,11 @@
                 >
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                  <li class="dropdown-item d-flex align-items-center">
+                 <!--<li class="dropdown-item d-flex align-items-center">
                     <a  href="javascript:void(0);" @click="moddifier(usercompte)">
                     <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </a>
-                  </li>
+                  </li>-->
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
                         @click="suppression(usercompte.id,usercomptes,'usercomptes',`le compte ${usercompte.numCompte}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>

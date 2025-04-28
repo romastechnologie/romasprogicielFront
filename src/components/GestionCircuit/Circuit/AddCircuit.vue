@@ -413,7 +413,6 @@ const removeRowCircuit = (index) => {
       valideteRowCircuit,userOptions,roleOptions,
 
       };
-    
   },
 });
 </script>

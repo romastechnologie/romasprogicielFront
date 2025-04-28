@@ -13,8 +13,8 @@
             <table class="table">
               <tbody>
                 <tr>
-                  <td>Date de la demande:</td>
-                  <td>{{ demande?.dateDemande }}</td>
+                  <td>Date:</td>
+                  <td>{{ demande?.date }}</td>
                 </tr>
                 <tr>
                   <td>Nom :</td>

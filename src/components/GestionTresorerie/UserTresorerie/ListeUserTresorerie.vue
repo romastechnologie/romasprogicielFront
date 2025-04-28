@@ -12,7 +12,7 @@
           >
           <i class="fa fa-plus-circle"></i>
             <!-- <i class="fa fa-plus-circle"></i> -->
-                Ajouter une tresorerie
+                Ajouter un usertresorerie
                 
               </a>
           <!-- <button
@@ -88,14 +88,14 @@
                 >
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                  <li class="dropdown-item d-flex align-items-center">
+                  <!--<li class="dropdown-item d-flex align-items-center">
                     <a  href="javascript:void(0);" @click="moddifier(usertresorerie)">
                     <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </a>
-                  </li>
+                  </li>-->
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                        @click="suppression(usertresorerie.id,usertresoreries,'usertresoreries',`le compte ${usertresorerie}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                        @click="suppression(usertresorerie.id,usertresoreries,'usertresoreries',`le compte ${usertresorerie.id}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                          Supprimer
                     </a>
                   </li>

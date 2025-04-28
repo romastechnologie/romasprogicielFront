@@ -39,7 +39,7 @@
         </tr>
         <tr>
           <td class="label-title">Catégorie de contrat</td>
-          <td>{{ contrat?.categorieContrat || 'Non renseigné' }}</td>
+          <td>{{ contrat?.categorieContrat?.libelle || 'Non renseigné' }}</td>
         </tr>
         <tr>
           <td class="label-title">Période d'essai</td>
@@ -201,7 +201,7 @@ export default defineComponent({
       loading.value = true;
       try {
         const { data } = await ApiService.get(`/contrat/${id}`);
-        console.log("contrat recupéré",data);
+        console.log('valeurs-Details',data);
         if (data?.data) {
           contrat.value = data.data;
         } else {

@@ -1,7 +1,7 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
     <div class="card-header">
-      <h3 class="text-black fw-semibold">Faire une fermeture de caisse</h3>
+      <h3 class="text-black fw-semibold">Faire une ouverture de caisse</h3>
     </div>
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
       <Form class="row g-3" :validation-schema="schema" @submit="sendOuvFer(ouvFer.tresorerieName, ouvFer.ouvFerName)">
@@ -53,7 +53,7 @@
                           </div>
                         </Form>
                       </template>
-                      <p>Montant Total: {{ montantTotal }}</p>
+                      <p>Montant Total : {{ montantTotal }}</p>
                     </div>
                   </div>
                 </div>
@@ -64,7 +64,7 @@
         <div class="col-md-6 mt-4">
 
           <div class="col mb-3">
-            <label for="fondDeRoulement">Point de la caisse</label>
+            <label for="fondDeRoulement">Fond de roulement</label>
             <Field type="number" id="fondDeRoulement" name="fondDeRoulement" class="form-control" v-model="montantTotal"
               disabled />
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
@@ -106,12 +106,14 @@ import ApiService from "@/services/ApiService";
 import router from "@/router";
 import { error } from "../../../utils/utils";
 
+
+ 
+
 const ouvFer = ref<Ouv_Fer>({});
 const ouvFerList = ref<Ouv_Fer[]>([]);
 const tresorerieList = ref<Tresorerie[]>([]);
 const tresorerie = ref<Tresorerie>({});
 let show = ref(true);
-
 interface Billetage {
   montant: number;
   libelle: string;
@@ -123,7 +125,6 @@ interface Billetage {
 const billetageList = reactive<Billetage[]>([]);
 const monnaieList = ref([] as any[]);
 let montantTotal = ref<null | number>(null);
-
 const tresoreries = ref();
 const tresorerieOptions = ref([]);
 const schema = Yup.object().shape({
@@ -141,7 +142,6 @@ configure({
 });
 
 
-
 async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
   try {
     ouvFer.value.tresorerieId = tresoreries.value;
@@ -153,7 +153,7 @@ async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
 
     console.log("Données envoyées :", ouvFer.value);
 
-    const res = await ApiService.post("/fers/", ouvFer.value);
+    const res = await ApiService.post("/ouv_fers/", ouvFer.value);
     const ouvFerId = res.data.id;
 
 
@@ -184,6 +184,7 @@ async function sendOuvFer(tresorerieName: any, ouvFerName: any) {
   }
 }
 
+
 const caisses = computed(() => {
   return tresorerieList.value.filter(entity => entity.nom?.toLowerCase().includes('caisse'));
 });
@@ -193,6 +194,7 @@ const getTresorerie = async () => {
   try {
     const response = await ApiService.get('/tresoreriecaisses');
     const tresoreriesData = response.data.data.data;
+
     console.log("tresorerie", tresoreriesData);
     tresorerieOptions.value = tresoreriesData
       .filter(tresorerie => tresorerie.operation === true)
@@ -204,17 +206,15 @@ const getTresorerie = async () => {
   catch (error) {
   }
 }
-
 const getouvFer = async () => {
   await ApiService.get("all/ouv_fers").then((res) => {
     ouvFerList.value = res.data;
     console.log(ouvFerList.value);
   });
 };
-
-const getMonnaie = async () => {
+const getAllMonnaie = async () => {
   try {
-    const res = await ApiService.get("/monnaies");
+    const res = await ApiService.get("/all/monnaies");
     monnaieList.value = res.data.data.data;
     monnaieList.value.forEach((element) => {
       billetageList.push({
@@ -229,27 +229,21 @@ const getMonnaie = async () => {
     console.error("Erreur lors de la récupération des monnaies:", error);
   }
 };
-
 function handleBilletageInput(event: Event, billetage: Billetage) {
   const newValue = Number((event.target as HTMLInputElement).value);
   billetage.qteBillet = newValue || 0;
   updateMontant(billetage);
 }
-
 const updateMontant = (billetage: Billetage) => {
   billetage.montant = billetage.qteBillet * billetage.valueAct || 0;
   calculateTotal();
 };
-
 const calculateTotal = () => {
   const total = billetageList.reduce((total, billetage) => {
     return total + (billetage.montant || 0);
   }, 0);
   montantTotal.value = total || null;
 };
-
-
-// Watch billetageList deeply for changes and recalculate automatically
 watch(
   billetageList,
   () => {
@@ -257,20 +251,14 @@ watch(
   },
   { deep: true }
 );
-
 onMounted(() => {
-  getTresorerie(), getMonnaie(), calculateTotal(), getouvFer();
+  getTresorerie(), getAllMonnaie(), calculateTotal(), getouvFer();
 });
 </script>
 
 <style scoped>
 .overview {
   margin: auto;
-
-}
-
-.container {
-  padding: 10px 10px;
 }
 
 .text-title {
@@ -279,6 +267,5 @@ onMounted(() => {
 
 .overflow {
   padding: 20px 100px;
-
 }
 </style>
