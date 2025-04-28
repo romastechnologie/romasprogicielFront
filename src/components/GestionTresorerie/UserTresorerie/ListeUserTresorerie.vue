@@ -54,7 +54,7 @@
               <tr>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Personnel
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Utilisateur
                 </th>
                 <th
                   scope="col"
