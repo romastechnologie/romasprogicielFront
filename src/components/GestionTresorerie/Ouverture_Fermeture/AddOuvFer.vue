@@ -301,11 +301,11 @@ async function sendOuvFer() {
   }
 }
 
-const getTresorerie = async () => {
+const getTresorerieCaisse = async () => {
   try {
-    console.log("[getTresorerie] Récupération des trésoreries pour l'utilisateur connecté...");
+    console.log("[getTresorerieCaisse] Récupération des trésoreries pour l'utilisateur connecté...");
     const response = await ApiService.get("/tresoreriecaisses");
-    console.log("[getTresorerie] Réponse complète de l'API:", JSON.stringify(response.data, null, 2));
+    console.log("[getTresorerieCaisse] Réponse complète de l'API:", JSON.stringify(response.data, null, 2));
     const tresoreriesData = response.data.data; // Ajustez selon la structure réelle
     tresorerieOptions.value = tresoreriesData
       .filter((tresorerie) => tresorerie.operation === true)
@@ -313,10 +313,10 @@ const getTresorerie = async () => {
         value: tresorerie.id,
         label: tresorerie.nom,
       }));
-    console.log("[getTresorerie] Trésoreries récupérées:", tresorerieOptions.value);
+    console.log("[getTresorerieCaisse] Trésoreries récupérées:", tresorerieOptions.value);
 
     if (tresorerieOptions.value.length === 0) {
-      console.warn("[getTresorerie] Aucune trésorerie affectée à l'utilisateur.");
+      console.warn("[getTresorerieCaisse] Aucune trésorerie affectée à l'utilisateur.");
       Swal.fire({
         timer: 3000,
         position: "top-end",
@@ -328,7 +328,7 @@ const getTresorerie = async () => {
       });
     }
   } catch (error) {
-    console.error("[getTresorerie] Erreur lors de la récupération des trésoreries:", error);
+    console.error("[getTresorerieCaisse] Erreur lors de la récupération des trésoreries:", error);
     Swal.fire({
       timer: 3000,
       position: "top-end",
@@ -435,7 +435,7 @@ watch(
 onMounted(() => {
   console.log("[onMounted] Initialisation du composant...");
   getCurrentUser();
-  getTresorerie();
+  getTresorerieCaisse();
   getAllMonnaie();
   calculateTotal();
   getAllAllUsers();
