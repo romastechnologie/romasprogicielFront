@@ -692,7 +692,7 @@ const routes: Array<RouteRecordRaw> = [
             name: "ListePaie",
             component: ListePaiePage,
             meta: {
-              title: 'Liste des financements',
+              title: 'Liste des paies',
             },
           }
         ]

@@ -996,7 +996,6 @@ export default defineComponent({
     const personnels = ref([] as any[]);
     const fonctionOptions = ref([]);
 
-
     const getAllTypeContrat = async () => {
       try {
         const response = await ApiService.get("/all/typeContrats");
@@ -1106,6 +1105,10 @@ export default defineComponent({
         //error(response.data.message)
       }
     };
+
+
+
+    
     const fetchAttributionsByPoste = async (id) => {
             try {
               console.log('data1',id);
@@ -1538,7 +1541,7 @@ export default defineComponent({
           personnel:values.personnel,
         }));
         console.log("Soumission des données formatées :", values);
-        const { data } = await ApiService.post("/gescom/contrats0", values);
+        const { data } = await ApiService.post("/gescom/contrats", values);
         if (data.code === 201) {
           success(data.message);
           router.push({ name: "ListeContrat" });

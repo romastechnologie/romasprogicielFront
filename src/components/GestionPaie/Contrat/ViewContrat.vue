@@ -15,8 +15,6 @@
               </button>
           </div>
           
-
-
           <div class="row">
   <div class="col-md-6">
     <table class="table">
@@ -31,7 +29,7 @@
         </tr>
         <tr>
           <td class="label-title">Salaire de base</td>
-          <td>{{ contrat?.salaire || 'Non renseigné' }}</td>
+          <td>{{ contrat?.salaireBase || 'Non renseigné' }}</td>
         </tr>
         <tr>
           <td class="label-title">Mode de tarification</td>
@@ -202,11 +200,13 @@ export default defineComponent({
       try {
         const { data } = await ApiService.get(`/contrat/${id}`);
         console.log('valeurs-Details',data);
+        console.log(contrat); // Vérifiez la structure complète de l'objet
         if (data?.data) {
           contrat.value = data.data;
         } else {
           throw new Error("Données du contrat non trouvées.");
         }
+
       } catch (err) {
         error(err instanceof Error ? err.message : "Erreur lors de la récupération du contrat");
       } finally {
@@ -245,14 +245,11 @@ export default defineComponent({
                  retenue?.montant || "Non renseigné"
 ])) || [];
 
-
-
-
 const detailsContrat = [
   ["Durée du contrat", contrat.value?.dureeContrat || "Non renseigné"],
   ["Date d'embauche", contrat.value?.datePriseFonction || "Non renseigné"],
-  ["Salaire de base", contrat.value?.salaire || "Non renseigné"],
-  ["Mode de tarification", contrat.value?.modetarification?.libelle || "Non renseigné"],
+  ["Salaire de base", contrat.value?.salaireBase || "Non renseigné"],
+  ["Mode de tarification", contrat.value?.modetarification?.id || "Non renseigné"],
   ["Catégorie de contrat", contrat.value?.categorieContrat || "Non renseigné"],
   ["Période d'essai", contrat.value?.dureePeriodeEssai || "Non renseigné"],
   ["Date de fin de contrat", contrat.value?.dateFin || "Non renseigné"],
