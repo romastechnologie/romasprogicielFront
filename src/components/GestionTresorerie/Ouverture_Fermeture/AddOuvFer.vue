@@ -31,28 +31,41 @@
                       </div>
                       <hr class="mt-0" />
                       <template v-for="(billetage, index) in billetageList" :key="index">
-                        <Form :validation-schema="schema" class="container m-3">
-                          <div class="">
-                            <div class="row">
-                              <div class="col-md-4">
-                                <input name="monnaie" id="monnaie" placeholder="Sélectionner la monnaie"
-                                  v-model="billetage.libelle" readonly class="form-control">
-                              </div>
-                              <div class="col-md-4">
-                                <Field name="qteBillet" id="qteBillet" type="number" placeholder="Entrer la quantité"
-                                  class="form-control" :value="billetage.qteBillet"
-                                  @input="event => handleBilletageInput(event, billetage)"
-                                  @keypress="restrictInput($event)" />
-                                <ErrorMessage name="qteBillet" class="text-danger" />
-                              </div>
-                              <div class="col-md-4">
-                                <Field name="montant" id="montant" type="text" v-model="billetage.montant"
-                                  placeholder="Montant" readonly class="form-control" />
-                                <ErrorMessage name="montant" class="text-danger" />
-                              </div>
+                        <div class="container m-3">
+                          <div class="row">
+                            <div class="col-md-4">
+                              <input
+                                name="monnaie"
+                                id="monnaie"
+                                placeholder="Sélectionner la monnaie"
+                                v-model="billetage.libelle"
+                                readonly
+                                class="form-control"
+                              />
+                            </div>
+                            <div class="col-md-4">
+                              <Field
+                                :name="`billetageList[${index}].qteBillet`"
+                                type="number"
+                                placeholder="Entrer la quantité"
+                                class="form-control"
+                                v-model="billetage.qteBillet"
+                                @input="event => handleBilletageInput(event, billetage)"
+                                @keypress="restrictInput($event)"
+                              />
+                              <ErrorMessage :name="`billetageList[${index}].qteBillet`" class="text-danger" />
+                            </div>
+                            <div class="col-md-4">
+                              <input
+                                type="text"
+                                v-model="billetage.montant"
+                                placeholder="Montant"
+                                readonly
+                                class="form-control"
+                              />
                             </div>
                           </div>
-                        </Form>
+                        </div>
                       </template>
                       <p class="montant-total">Montant Total : {{ montantTotal }}</p>
                     </div>
@@ -89,7 +102,7 @@
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
           <div class="col mb-3">
-            <label for="tresorerie">Trésorerie</label>
+            <label for="tresorerie">Caisse</label>
             <Field name="tresorerie" v-model="tresoreries" type="text" v-slot="{ field }">
               <Multiselect
                 v-model="tresoreries"
@@ -97,7 +110,7 @@
                 :preserve-search="true"
                 :multiple="false"
                 :searchable="true"
-                placeholder="Sélectionner la trésorerie"
+                placeholder="Sélectionner la caisse"
                 label="label"
                 track-by="value"
                 v-bind="field"
@@ -111,7 +124,7 @@
           <div class="col-md-12 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
-                Utilisateur <span class="text-danger">*</span>
+                Personnes présentes à l'ouverture <span class="text-danger">*</span>
               </label>
               <Field name="user" v-slot="{ field }">
                 <Multiselect
@@ -153,7 +166,7 @@ import ApiService from "@/services/ApiService";
 import router from "@/router";
 
 interface Ouv_Fer {
-  id: number;
+  id?: number;
   tresorerieId: number;
   fondDeRoulement: number;
   solde: number;
@@ -169,7 +182,7 @@ interface Billetage {
   qteBillet: number;
   valueAct: number;
   monnaie: number;
-  ouv_fer: number;
+  ouv_fer?: number;
 }
 
 const userOptions = ref([]);
@@ -190,10 +203,9 @@ function getCurrentDateTime() {
   return dateTime;
 }
 
-const ouvFer = ref<Ouv_Fer>({});
+const ouvFer = ref<Ouv_Fer>({ tresorerieId: 0, fondDeRoulement: 0, solde: 0, dateOuverture: "", status: "", userIds: [], userCreationId: 0 });
 const ouvFerList = ref<Ouv_Fer[]>([]);
 const tresorerieList = ref<Tresorerie[]>([]);
-const tresorerie = ref<Tresorerie>({});
 const billetageList = reactive<Billetage[]>([]);
 const monnaieList = ref([] as any[]);
 let montantTotal = ref<null | number>(null);
@@ -202,20 +214,24 @@ const userCreation = ref<number | null>(null);
 const tresorerieOptions = ref([]);
 
 const schema = Yup.object().shape({
+  dateOuverture: Yup.string().required("La date d'ouverture est obligatoire"),
   fondDeRoulement: Yup.number()
     .nullable()
     .required("Le fond de roulement est obligatoire")
     .notOneOf([0], "Le fond de roulement ne peut pas être 0"),
   tresorerie: Yup.number().required("La trésorerie est obligatoire"),
-  qteBillet: Yup.number()
-    .typeError("La quantité doit être un nombre")
-    .required("La quantité est obligatoire")
-    .integer("La quantité doit être un entier")
-    .min(0, "La quantité ne peut pas être négative"),
   user: Yup.array()
     .min(1, "Au moins un utilisateur doit être sélectionné")
     .required("L'utilisateur est obligatoire"),
-  dateOuverture: Yup.string().required("La date d'ouverture est obligatoire"),
+  billetageList: Yup.array().of(
+    Yup.object().shape({
+      qteBillet: Yup.number()
+        .typeError("La quantité doit être un nombre")
+        .required("La quantité est obligatoire")
+        .integer("La quantité doit être un entier")
+        .min(0, "La quantité ne peut pas être négative"),
+    })
+  ),
 });
 
 configure({
@@ -234,7 +250,7 @@ const restrictInput = (event: KeyboardEvent) => {
 };
 
 async function sendOuvFer() {
-  console.log("[sendOuvFer] Début de la soumission du formulaire");
+  console.log("[sendOuvFer] Je suis dans la fonction sendOuvFer");
   try {
     console.log("[sendOuvFer] Valeurs du formulaire:", {
       tresorerieId: tresoreries.value,
@@ -246,13 +262,13 @@ async function sendOuvFer() {
     });
 
     if (!userCreation.value) {
-      console.error("[sendOuvFer] userCreationId manquant");
+      console.error("[sendOuvFer] userCreationdìd manquant");
       throw new Error("L'utilisateur créateur n'est pas défini.");
     }
 
-    ouvFer.value.tresorerieId = tresoreries.value;
-    ouvFer.value.fondDeRoulement = montantTotal.value;
-    ouvFer.value.solde = montantTotal.value;
+    ouvFer.value.tresorerieId = tresoreries.value!;
+    ouvFer.value.fondDeRoulement = montantTotal.value!;
+    ouvFer.value.solde = montantTotal.value!;
     ouvFer.value.dateOuverture = dateOuverture.value;
     ouvFer.value.status = "OPEN";
     ouvFer.value.userIds = user.value;
@@ -275,7 +291,7 @@ async function sendOuvFer() {
       console.log("[sendOuvFer] Billetage envoyé avec succès");
 
       console.log("[sendOuvFer] Redirection vers /ouv_fers/liste-ouv_fer");
-      router.push({ name: "ListeOuvFerPage" });
+      router.push("/ouv_fers/liste-ouv_fer");
       Swal.fire({
         timer: 2000,
         position: "top-end",
@@ -306,7 +322,8 @@ const getTresorerieCaisse = async () => {
     console.log("[getTresorerieCaisse] Récupération des trésoreries pour l'utilisateur connecté...");
     const response = await ApiService.get("/tresoreriecaisses");
     console.log("[getTresorerieCaisse] Réponse complète de l'API:", JSON.stringify(response.data, null, 2));
-    const tresoreriesData = response.data.data; // Ajustez selon la structure réelle
+    const tresoreriesData = response.data.data;
+    tresorerieList.value = tresoreriesData;
     tresorerieOptions.value = tresoreriesData
       .filter((tresorerie) => tresorerie.operation === true)
       .map((tresorerie) => ({
@@ -388,16 +405,7 @@ const getAllMonnaie = async () => {
   }
 };
 
-const getCurrentUser = async () => {
-  try {
-    console.log("[getCurrentUser] Récupération de l'utilisateur connecté...");
-    const response = await ApiService.get("/me");
-    userCreation.value = response.data.id;
-    console.log("[getCurrentUser] userCreationId:", userCreation.value);
-  } catch (error) {
-    console.error("[getCurrentUser] Erreur lors de la récupération de l'utilisateur:", error);
-  }
-};
+
 
 function handleBilletageInput(event: Event, billetage: Billetage) {
   console.log("[handleBilletageInput] Entrée détectée pour billetage:", billetage.libelle);
@@ -434,7 +442,7 @@ watch(
 
 onMounted(() => {
   console.log("[onMounted] Initialisation du composant...");
-  getCurrentUser();
+ 
   getTresorerieCaisse();
   getAllMonnaie();
   calculateTotal();
