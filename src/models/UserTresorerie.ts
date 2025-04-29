@@ -10,6 +10,7 @@ export interface UserTresorerieObject {
 export interface UserTresorerie {
     id: number;
     utilisateurId: number;
+    user:number;
     tresorerieId: number 
     created_at?: Date;
     setFieldValue: (field: string, value: any) => void;

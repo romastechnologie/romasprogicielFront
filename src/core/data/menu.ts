@@ -451,7 +451,7 @@ export const menu: MenuItem[] = [
         isPinned: false
     },
 
-    /*{
+    {
         title: "Demande de conge",
         icon: "stroke-calendar",
         icon1: "fill-calendar",
@@ -476,7 +476,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
         ]
-    },*/
+    },
     {
         title: "HeureSupp",
         icon: "stroke-form",

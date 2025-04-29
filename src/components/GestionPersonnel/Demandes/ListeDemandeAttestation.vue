@@ -86,9 +86,12 @@
                   <td class="shadow-none lh-1 fw-medium ">{{ demande.personnel?.nom }}&nbsp;{{ demande.personnel?.prenom }} </td>  
                   <td class="shadow-none lh-1 fw-medium">{{ (demande.motifDemande.length > 25) ? demande.motifDemande.substring(0, 25) + '...' : demande.motifDemande  }} </td>
                     <td class="shadow-none lh-1 fw-medium">
-                    <span :class="getEtatBadge(demande.statut).badgeClass">
-                      {{ getEtatBadge(demande.statut).text }}
-                    </span>
+                      <span
+            class="badge"
+            :class="demande.statut === 'Validé' ? 'bg-success' : demande.statut === 'Rejeté' ? 'bg-danger' : 'bg-warning text-white'"
+          >
+            {{ demande.statut === 'Validé'? 'Validé' : demande.statut === 'Rejeté'? 'Rejeté' : 'En attente' }}
+          </span>
                </td>
 
                     <!-- <span v-if="demande.statut === 'En attente'" class="badge text-outline-info">{{ demande.statut }}</span>
@@ -108,12 +111,12 @@
                               Détails
                             </router-link>
                           </li>
-                          <li v-if="(demande.statut =='En attente')" class="dropdown-item d-flex align-items-center">
+                        <!-- <li v-if="(demande.statut =='En attente')" class="dropdown-item d-flex align-items-center">
                             <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(demande.id)">
                               <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
                               Traiter
                             </a>
-                           </li>
+                           </li>--> 
                           <!-- <li class="dropdown-item d-flex align-items-center">
                           <router-link
                             
@@ -241,7 +244,7 @@ import { ErrorMessage, Field, Form } from "vee-validate";
       const totalElements = ref(0);
 
       
-      const getEtatBadge = (statut: boolean | null) => {
+     /* const getEtatBadge = (statut: boolean | null) => {
   if (statut === true) {
     return {
       text: "Validé",
@@ -257,7 +260,7 @@ import { ErrorMessage, Field, Form } from "vee-validate";
     text: "En attente",
     badgeClass: "badge bg-warning text-white", // Classe jaune ou autre pour "En attente"
   };
-};
+};*/
   
       const handlePaginate = ({ page_, limit_ }) => {
         try {
@@ -395,7 +398,6 @@ const demandeii = ref();
       rechercher,
       addDemandes,
       demandesSchema,
-      getEtatBadge,
       rejectDemandes
       };
     },
