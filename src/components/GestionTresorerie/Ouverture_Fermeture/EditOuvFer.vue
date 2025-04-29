@@ -105,6 +105,7 @@
             />
             <ErrorMessage name="dateFermeture" class="text-danger" />
           </div>
+          <div class="col-md-6 mt-4">
           <div class="col mb-3">
             <label for="fondDeRoulement">Fond de roulement</label>
             <Field
@@ -117,6 +118,7 @@
             />
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
+        </div>
           <div class="col-md-6 mt-4">
           <div class="col mb-3">
             <label for="solde">Solde</label>

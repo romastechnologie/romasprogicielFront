@@ -38,7 +38,7 @@
             <thead>
               <tr> 
                            
-                <th scope="col">Nom de trésorerie</th>
+                <th scope="col">Nom de Trésorerie</th>
               <th scope="col">Montant</th>
               <th scope="col">Type de trésorerie</th>
               <th scope="col">Operation</th>

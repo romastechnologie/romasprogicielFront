@@ -563,8 +563,8 @@ export default defineComponent({
 
   setup: () => {
     const processusSchema = Yup.object().shape({
-      dateProcessus: Yup.date().typeError("Entrer une date valide").required("La date est obligatoire."),
-      periode: Yup.date().typeError("Entrer une date valide").required("La période est obligatoire."),
+      dateDebutProcessus: Yup.date().typeError("Entrer une date valide").required("La date est obligatoire."),
+      periodePaie: Yup.date().typeError("Entrer une date valide").required("La période est obligatoire."),
       dateFinProcessus: Yup.date().typeError("Entrer une date valide").required("La période est obligatoire."),
     });
 

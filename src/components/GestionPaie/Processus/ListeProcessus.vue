@@ -48,16 +48,17 @@
           <table  class="table text-nowrap align-middle mb-0">
             <thead>
               <tr>
-                <th
+                <!-- <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
                   Date du processus
-                </th> 
+                </th>  -->
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
                 >
+                000
                   Date Debut du Processus
                 </th>
                 <th
@@ -80,7 +81,7 @@
             </thead>
             <tbody>
               <tr  v-for ="(processus, index) in processuss" :key="index">
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_date(processus.dateProcessus)}} </td>
+                  <!-- <td class="shadow-none lh-1 fw-medium ">{{ format_date(processus?.dateProcessus)}} </td> -->
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(processus.dateDebutProcessus) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(processus.dateFinProcessus) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_date(processus.periodePaie) }} </td>

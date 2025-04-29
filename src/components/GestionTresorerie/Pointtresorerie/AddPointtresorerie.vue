@@ -11,7 +11,7 @@
                 <div class="form-group mb-15">
                   <label class="d-block text-black mb-10">
                     Personnel <span class="text-danger">*</span>
-                  </label>                
+                  </label>
                   <Field name="personnel" v-slot="{ field }">
                     <Multiselect
                       :options="personnelOptions"
