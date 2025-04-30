@@ -72,7 +72,7 @@
                 Mode de tarification <span class="text-danger">*</span>
               </label>
               <Multiselect
-                v-model="contrat.modeDeTarification"
+                v-model="contrat.modetarification"
                 :options="modeDeTarificationOptions"
                 :preserve-search="true"
                 :multiple="false"
@@ -192,7 +192,7 @@
                   'Bimensuel',
                   'Bihebdomadaire',
                 ]"
-                v-model="contrat.periodePaie"
+                v-model="contrat.periodeDePaie"
                 placeholder="Sélectionner la période"
               />
               <span class="invalid-feedback"></span>
@@ -869,12 +869,12 @@ export default defineComponent({
       dateFinPeriodeEssai: Yup.date()
         .typeError("veuillez entrer une date valide")
         .required("La période est obligatoire."),
-      periodePaie: Yup.string().required("La période est obligatoire."),
+      periodeDePaie: Yup.string().required("La période est obligatoire."),
       renouvelable: Yup.string().notRequired(),
       types: Yup.string().required("Le type est obligatoire."),
       personnel: Yup.string().required("Le personnel est obligatoire."),
       attribution: Yup.array().required("Les attributions sont obligatoires."),
-      modeDeTarification: Yup.string().required(
+      modetarification: Yup.string().required(
         "Le mode de tarification est obligatoire."
       ),
     });
@@ -900,12 +900,12 @@ export default defineComponent({
       dateFinPeriodeEssai: null,
       periodiciteDureeEssai: null,
       categorieContrat: "",
-      periodePaie: "",
+      periodeDePaie: "",
       renouvelable: "",
       typeContrat: "",
       personnel: "",
       attribution: [],
-      modeDeTarification: "",
+      modetarification: "",
       dureePeriodeEssai: null,
       dureeContrat: null,
       periodiciteDureeContrat: null,
@@ -931,7 +931,7 @@ export default defineComponent({
         }
       }
     );
-
+    
     const rules = {
       contrat: {
         refContrat: { required },
@@ -944,12 +944,12 @@ export default defineComponent({
         categorieContrat: { required },
         dateFin: { required },
         dateFinPeriodeEssai: { required },
-        periodePaie: { required },
+        periodeDePaie: { required },
         renouvelable: { required },
         typeContrat: { required },
         personnel: { required },
         attribution: { required },
-        modeDeTarification: { required },
+        modetarification: { required },
       },
     };
 
@@ -992,7 +992,7 @@ export default defineComponent({
     const attribution = ref();
     const OrganisationOptions = ref();
     const Organisation = ref();
-    const modeDeTarificationOptions = ref([]);
+    const modeDeTarificationOptions = ref();
     const personnels = ref([] as any[]);
     const fonctionOptions = ref([]);
 
@@ -1105,10 +1105,6 @@ export default defineComponent({
         //error(response.data.message)
       }
     };
-
-
-
-    
     const fetchAttributionsByPoste = async (id) => {
             try {
               console.log('data1',id);
