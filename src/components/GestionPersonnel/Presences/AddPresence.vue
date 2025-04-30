@@ -99,7 +99,7 @@
                               </label>
                             </div>
                             <!--<div class="col-md-2">
-                              <label class="d-block text-black fw-semibold">
+                              <label class="d-block text-black fw-semibold">                                                                                                                                                                                                                                 
                                 Duree
                                 <span class="text-danger">*</span>
                               </label>
