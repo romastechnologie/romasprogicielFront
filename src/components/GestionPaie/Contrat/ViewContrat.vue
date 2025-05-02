@@ -126,9 +126,9 @@
                   <tr>
                     <th>Type prime</th>
                     <th>Valeur</th>
-                    <th>Quantité</th>--
-                    <th>Valeur Unitaire</th>--
-                    <th>Montant</th>--
+                    <th>Quantité</th>
+                    <th>Valeur Unitaire</th>
+                    <th>Montant</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -204,6 +204,7 @@ export default defineComponent({
         const { data } = await ApiService.get(`/contrat/${id}`);
         // console.log('valeurs-Details',data);
         console.log('Structure de Contrat',contrat); 
+        console.log('Données attributioncontrats :', contrat.value?.attributioncontrats ?? []);
         if (data?.data) {
           contrat.value = data.data;
         } else {
