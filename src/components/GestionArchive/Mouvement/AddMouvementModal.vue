@@ -119,7 +119,7 @@
                         <Field name="personnel" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
                             :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
-                              const results = await getPersonnelByKey2(query);
+                              const results2 = await getPersonnelByKey2(query);
                               if (results && results.length > 0) {
                                 return results;
                               } else if (query.length >= 3) {
