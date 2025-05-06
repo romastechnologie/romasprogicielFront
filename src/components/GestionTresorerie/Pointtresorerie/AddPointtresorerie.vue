@@ -10,20 +10,20 @@
               <div class="col-md-6 mb-3">
                 <div class="form-group mb-15">
                   <label class="d-block text-black mb-10">
-                    Personnel <span class="text-danger">*</span>
+                    Utilisateur <span class="text-danger">*</span>
                   </label>
-                  <Field name="personnel" v-slot="{ field }">
+                  <Field name="user" v-slot="{ field }">
                     <Multiselect
-                      :options="personnelOptions"
+                      :options="userOptions"
                       :searchable="true"
                       track-by="value"
                       label="label"
                       v-model="field.value"
-                      placeholder="Sélectionner le personnel"
-                      @change="(value) => { field.value = value; onPersonnelSelected(value); }"
+                      placeholder="Sélectionner l'utilisateur"
+                      @change="(value) => { field.value = value; onUserSelected(value); }"
                     />
                   </Field>
-                  <ErrorMessage name="personnel" class="text-danger" />
+                  <ErrorMessage name="user" class="text-danger" />
                 </div>
               </div>
   
@@ -61,7 +61,7 @@
             </div>
   
             <!-- Tableau des Trésoreries -->
-            <div class="row mt-4" v-if="personnelSelected">
+            <div class="row mt-4" v-if="userSelected">
               <div class="col-12">
                 <table class="table table-bordered table-striped text-center">
                   <thead style="background-color: #0a59a4; color: white;">
@@ -139,7 +139,7 @@
     components: { Form, Field, ErrorMessage, Multiselect },
     setup() {
       const pointtresorerieSchema = Yup.object().shape({
-    personnel: Yup.string().required('Le personnel est obligatoire.'),
+    user: Yup.string().required('Le user est obligatoire.'),
     dateDebut: Yup.date().required('La date de début est obligatoire.'),
     dateExecution: Yup.date()
         .required('La date d\'exécution est obligatoire.')
@@ -158,14 +158,14 @@
 });
 
       const tresoreries = ref([]);
-      const personnelOptions = ref([]);
-      const personnelSelected = ref(false);
+      const userOptions = ref([]);
+      const userSelected = ref(false);
       const router = useRouter();
 
   
-      const getPersonnel = async (id) => {
+      const getUser = async (id) => {
         try {
-          console.log('Appel API pour récupérer les trésoreries du personnel ID:', id);
+          console.log('Appel API pour récupérer les trésoreries du user ID:', id);
           const { data } = await ApiService.get(`/userTresorerie/${id}`);
           console.log('Réponse des trésoreries récupérées:', data); 
           tresoreries.value = data.data;
@@ -174,12 +174,12 @@
         }
       };
   
-      const getAllPersonnels = async () => {
+      const getAllAllUsers = async () => {
         try {
-          const response = await ApiService.get('all/personnels');
-          personnelOptions.value = response.data.data.data.map((personnel) => ({
-            value: personnel.id,
-            label: `${personnel.nom} ${personnel.prenom}`,
+          const response = await ApiService.get('/all/users');
+          userOptions.value = response.data.data.map((user) => ({
+            value: user.id,
+            label: `${user.nom} ${user.prenom}`,
           }));
         } catch (error) {
           console.error(error);
@@ -187,7 +187,7 @@
       };
       const addPointtresorerie = async (values, { resetForm }) => {
     const payload = {
-        personnel: values.personnel,
+        user: values.user,
         dateDebut: values.dateDebut,
         dateFin: values.dateFin,
         dateExecution: values.dateExecution,
@@ -210,15 +210,15 @@
     }
 };
 
-      onMounted(() => getAllPersonnels());
+      onMounted(() => getAllAllUsers());
   
-      const onPersonnelSelected = (selectedPersonnelId) => {
-        console.log('Personnel sélectionné ID:', selectedPersonnelId); 
-        if (selectedPersonnelId) {
-          getPersonnel(selectedPersonnelId);
-          personnelSelected.value = true;
+      const onUserSelected = (selectedUserId) => {
+        console.log('User sélectionné ID:', selectedUserId); 
+        if (selectedUserId) {
+          getUser(selectedUserId);
+          userSelected.value = true;
         } else {
-          personnelSelected.value = false;
+          userSelected.value = false;
         }
       };
   
@@ -236,9 +236,9 @@
       return {
         pointtresorerieSchema,
         tresoreries,
-        personnelOptions,
-        personnelSelected,
-        onPersonnelSelected,
+        userOptions,
+        userSelected,
+        onUserSelected,
         calculateEcart,
         totalDisponible,
         totalRenseigne,

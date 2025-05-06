@@ -193,7 +193,7 @@ const caisses = computed(() => {
 const getTresorerie = async () => {
   try {
     const response = await ApiService.get('/tresoreriecaisses');
-    const tresoreriesData = response.data.data.data;
+    const tresoreriesData = response.data.data;
 
     console.log("tresorerie", tresoreriesData);
     tresorerieOptions.value = tresoreriesData

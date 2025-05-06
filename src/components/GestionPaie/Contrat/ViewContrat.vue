@@ -3,91 +3,93 @@
     <div class="col-md-12 col-xxl-12 col-sm-12 mb-10">
       <div class="card mb-25 border-0 rounded-0">
         <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
-          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+          <div
+            class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
             <h4 class="position-relative text-black fw-bold mb-10">Informations Générales</h4>
-            <router-link to="/contrats/liste-contrats" 
-              class="btn btn-primary transition border-0 lh-1 fw-medium">
+            <router-link to="/contrats/liste-contrats" class="btn btn-primary transition border-0 lh-1 fw-medium">
               <i class="flaticon-left-arrow lh-1 me-1 position-relative top-2"></i>
               <span class="position-relative"></span>Retour</router-link>
-              <button @click="downloadContratDetails" class="btn btn-success transition border-0 lh-1 fw-medium ms-2">
-                <i class="flaticon-download lh-1 me-1 position-relative top-2"></i>
-                <span class="position-relative"></span>Télécharger
-              </button>
+            <button @click="downloadContratDetails" class="btn btn-success transition border-0 lh-1 fw-medium ms-2">
+              <i class="flaticon-download lh-1 me-1 position-relative top-2"></i>
+              <span class="position-relative"></span>Télécharger
+            </button>
           </div>
-          
           <div class="row">
-  <div class="col-md-6">
-    <table class="table">
-      <tbody>
-        <tr>
-          <td class="label-title">Durée du contrat </td>
-          <td>{{ contrat?.dureeContrat || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Date d'embauche</td>
-          <td>{{ formatDate(contrat?.datePriseFonction) || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Salaire de base</td>
-          <td>{{ contrat?.salaireBase || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Mode de tarification</td>
-          <td>{{ contrat?.modetarification?.libelle || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Catégorie de contrat</td>
-          <td>{{ contrat?.categorieContrat?.libelle || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Période d'essai</td>
-          <td>{{ contrat?.dureePeriodeEssai || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Date de fin de contrat</td>
-          <td>{{ formatDate(contrat?.dateFin) || 'Non renseigné' }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+            <div class="col-md-6">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td class="label-title">Durée du contrat </td>
+                    <td>{{ contrat?.dureeContrat || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Date d'embauche</td>
+                    <td>{{ formatDate(contrat?.datePriseFonction) || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Salaire de base</td>
+                    <td>{{ contrat?.salaireBase || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Mode de tarification</td>
+                    <td>{{ contrat?.modetarification?.libelle || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Catégorie de contrat</td>
+                    <td>{{ contrat?.categorieContrat || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Période d'essai</td>
+                    <td>{{ contrat?.dureePeriodeEssai || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Date de fin de contrat</td>
+                    <td>{{ formatDate(contrat?.dateFin) || 'Non renseigné' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-  <div class="col-md-6">
-    <table class="table">
-      <tbody>
-        <tr>
-          <td class="label-title">Renouvelable</td>
-          <td>{{ contrat?.renouvelable || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Date fin de période d'Essai</td>
-          <td>{{ formatDate(contrat?.dateFinperiodeEssai) || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Période de Paie</td>
-          <td>{{ contrat?.periodeDePaie || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Type Contrat</td>
-          <td>{{ contrat?.typeContrat?.libelle || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Personnel</td>
-          <td>{{ contrat?.personnel?.nom + ' ' + contrat?.personnel?.prenom }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Poste Occupé</td>
-          <td>{{ contrat?.poste?.libelle || 'Non renseigné' }}</td>
-        </tr>
-        <tr>
-          <td class="label-title">Attributions</td>
-          <td>{{ contrat?.attributioncontrats?.attribution?.libelle || 'Non renseigné' }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div> 
-</div>
+            <div class="col-md-6">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td class="label-title">Renouvelable</td>
+                    <td>{{ contrat?.renouvelable || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Date fin de période d'Essai</td>
+                    <td>{{ formatDate(contrat?.dateFinperiodeEssai) || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Période de Paie</td>
+                    <td>{{ contrat?.periodeDePaie || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Type Contrat</td>
+                    <td>{{ contrat?.typeContrat?.libelle || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Personnel</td>
+                    <td>{{ contrat?.personnel?.nom + ' ' + contrat?.personnel?.prenom }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Poste Occupé</td>
+                    <td>{{ contrat?.poste?.libelle || 'Non renseigné' }}</td>
+                  </tr>
+                  <tr>
+                    <td class="label-title">Attributions</td>
+                    <span v-if="contrat?.attributioncontrats?.length">
+                      {{contrat.attributioncontrats.map(a => a.attribution?.libelle).filter(Boolean).join(', ')}}
+                    </span>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+          <div
+            class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
             <h4 class="position-relative text-black fw-bold mb-10">Horaires de l'Entreprise</h4>
           </div>
           <table class="table">
@@ -112,58 +114,59 @@
           </table>
 
           <!-- Primes et Retenues -->
-          <div class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
+          <div
+            class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25">
             <h4 class="position-relative text-black fw-bold mb-10">Primes et Retenues</h4>
           </div>
           <div class="tables-container">
-          <div class="table-wrapper">
+            <div class="table-wrapper">
               <h4>Primes</h4>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Type prime</th>
-                <th>Valeur</th>
-                <th>Quantité</th>
-                <th>Valeur Unitaire</th>
-                <th>Montant</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(prime, index) in contrat?.contratprimes" :key="index">
-                <td>{{ prime?.typeprime?.nomPrime || 'Non renseigné' }}</td>
-                <td>{{ prime?.typeprime?.valeur || 'Non renseigné' }}</td>
-                <td>{{ prime?.quantite || 'Non renseigné' }}</td>
-                <td>{{ prime?.valeurUnitaire || 'Non renseigné' }}</td>
-                <td>{{ prime?.montant || 'Non renseigné' }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Type prime</th>
+                    <th>Valeur</th>
+                    <th>Quantité</th>
+                    <th>Valeur Unitaire</th>
+                    <th>Montant</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(prime, index) in contrat?.contratprimes" :key="index">
+                    <td>{{ prime?.typeprime?.nomPrime || 'Non renseigné' }}</td>
+                    <td>{{ prime?.typeprime?.valeur || 'Non renseigné' }}</td>
+                    <td>{{ prime?.quantite || 'Non renseigné' }}</td>
+                    <td>{{ prime?.valeurUnitaire || 'Non renseigné' }}</td>
+                    <td>{{ prime?.montant || 'Non renseigné' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-        <div class="table-wrapper">
-          <h4>Retenues</h4>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Type retenue</th>
-                <th>Valeur</th>
-                <th>Quantité</th>
-                <th>Valeur Unitaire</th>
-                <th>Montant</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(retenue, index) in contrat?.contratretenues" :key="index">
-                <td>{{ retenue?.typesretenue?.nomRetenue || 'Non renseigné' }}</td>
-                <td>{{ retenue?.typesretenue?.valeur || 'Non renseigné' }}</td>
-                <td>{{ retenue?.quantite || 'Non renseigné' }}</td>
-                <td>{{ retenue?.valeurUnitaire || 'Non renseigné' }}</td>
-                <td>{{ retenue?.montant || 'Non renseigné' }}</td>
-              </tr>
-            </tbody>
-          </table>
+            <div class="table-wrapper">
+              <h4>Retenues</h4>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Type retenue</th>
+                    <th>Valeur</th>
+                    <th>Quantité</th>
+                    <th>Valeur Unitaire</th>
+                    <th>Montant</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(retenue, index) in contrat?.contratretenues" :key="index">
+                    <td>{{ retenue?.typesretenue?.nomRetenue || 'Non renseigné' }}</td>
+                    <td>{{ retenue?.typesretenue?.valeur || 'Non renseigné' }}</td>
+                    <td>{{ retenue?.quantite || 'Non renseigné' }}</td>
+                    <td>{{ retenue?.valeurUnitaire || 'Non renseigné' }}</td>
+                    <td>{{ retenue?.montant || 'Non renseigné' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
@@ -199,8 +202,9 @@ export default defineComponent({
       loading.value = true;
       try {
         const { data } = await ApiService.get(`/contrat/${id}`);
-        console.log('valeurs-Details',data);
-        console.log(contrat); // Vérifiez la structure complète de l'objet
+        // console.log('valeurs-Details',data);
+        console.log('Structure de Contrat',contrat); 
+        console.log('Données attributioncontrats :', contrat.value?.attributioncontrats ?? []);
         if (data?.data) {
           contrat.value = data.data;
         } else {
@@ -278,7 +282,6 @@ const detailsContrat = [
       head: [["Jour", "Heure d'ouverture", "Heure début pause", "Heure fin pause", "Heure de fermeture"]],
       body: horaires,
     });
-
 
     // Ajouter les primes
     autoTable(doc, {

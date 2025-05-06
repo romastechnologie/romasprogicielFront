@@ -19,7 +19,7 @@ class ApiService {
         //  rejectUnauthorized: false, 
         // });
         // ApiService.vueInstance.axios.defaults.httpsAgent = httpsAgent;
-        ApiService.vueInstance.axios.defaults.baseURL = 'http://localhost:3008/api';
+        ApiService.vueInstance.axios.defaults.baseURL = 'http://localhost:3007/api';
         // ApiService.vueInstance.axios.defaults.baseURL ='https://back.romastechnologie.com/api';
         ApiService.vueInstance.axios.defaults.headers.common["Accept"] = "application/json";
         ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] = "application/json";
@@ -87,7 +87,7 @@ class ApiService {
     static patch(resource, params) {
         return ApiService.vueInstance.axios.patch(`${resource}`, params);
     }
-    /**
+    /**§
      * @description Send the DELETE HTTP request
      * @param resource: string
      * @returns Promise<AxiosResponse>

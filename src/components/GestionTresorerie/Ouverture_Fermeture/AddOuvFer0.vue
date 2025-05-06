@@ -89,17 +89,29 @@
             <ErrorMessage name="fondDeRoulement" class="text-danger" />
           </div>
           <div class="col mb-3">
-            <label for="tresorerie">Trésorerie</label>
+            <label for="tresorerie">Caisse</label>
             <Field name="tresorerie" v-model="tresoreries" type="text" v-slot="{ field }">
-              <Multiselect v-model="tresoreries" :options="tresorerieOptions" :preserve-search="true" :multiple="false"
-                :searchable="true" placeholder="Sélectionner la trésorerie" label="label" track-by="value" />
+              <Multiselect
+                v-model="tresoreries"
+                :options="tresorerieOptions"
+                :preserve-search="true"
+                :multiple="false"
+                :searchable="true"
+                placeholder="Sélectionner la caisse"
+                label="label"
+                track-by="value"
+                v-bind="field"
+              />
             </Field>
             <ErrorMessage name="tresorerie" class="text-danger" />
+            <div v-if="tresorerieOptions.length === 0" class="text-danger mt-2">
+              Aucune caisse affectée à cet utilisateur.
+            </div>
           </div>
           <div class="col-md-12 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
-                Utilisateur <span class="text-danger">*</span>
+                Personnes présentes à l'ouverture <span class="text-danger">*</span>
               </label>
               <Field name="user" v-slot="{ field }">
                 <Multiselect
@@ -117,7 +129,7 @@
             </div>
           </div>
           <div class="mb-3 mt-1">
-            <button type="submit" class="btn btn-primary top-end">
+            <button type="submit" class="btn btn-primary top-end" :disabled="tresorerieOptions.length === 0">
               Envoyer
             </button>
             <router-link to="/ouv_fers/liste-ouv_fer/" type="button" class="btn btn-danger mx-1">Annuler</router-link>
@@ -190,11 +202,12 @@ const userCreation = ref<number | null>(null);
 const tresorerieOptions = ref([]);
 
 const schema = Yup.object().shape({
+  dateOuverture: Yup.string().required("La date d'ouverture est obligatoire"),
   fondDeRoulement: Yup.number()
     .nullable()
     .required("Le fond de roulement est obligatoire")
     .notOneOf([0], "Le fond de roulement ne peut pas être 0"),
-  tresorerie: Yup.string().required("La trésorerie est obligatoire"),
+  tresorerie: Yup.number().required("La trésorerie est obligatoire"),
   qteBillet: Yup.number()
     .typeError("La quantité doit être un nombre")
     .required("La quantité est obligatoire")
@@ -203,7 +216,7 @@ const schema = Yup.object().shape({
   user: Yup.array()
     .min(1, "Au moins un utilisateur doit être sélectionné")
     .required("L'utilisateur est obligatoire"),
-  dateOuverture: Yup.string().required("La date d'ouverture est obligatoire"),
+  
 });
 
 configure({
@@ -222,10 +235,11 @@ const restrictInput = (event: KeyboardEvent) => {
 };
 
 async function sendOuvFer() {
-  console.log("[sendOuvFer] Début de la soumission du formulaire");
+  console.log("[sendOuvFer] Je suis dans la fonction sendOuvFer"); // Ajout du console.log
+  
   try {
     console.log("[sendOuvFer] Valeurs du formulaire:", {
-      tresorerieId: tresoreries.value,
+      tresorerieId: tresorerie.value,
       fondDeRoulement: montantTotal.value,
       solde: montantTotal.value,
       dateOuverture: dateOuverture.value,
@@ -263,7 +277,7 @@ async function sendOuvFer() {
       console.log("[sendOuvFer] Billetage envoyé avec succès");
 
       console.log("[sendOuvFer] Redirection vers /ouv_fers/liste-ouv_fer");
-      router.push( { name: "ListeOuvFerPage" });
+      router.push("/ouv_fers/liste-ouv_fer");
       Swal.fire({
         timer: 2000,
         position: "top-end",
@@ -289,27 +303,43 @@ async function sendOuvFer() {
   }
 }
 
-const caisses = computed(() => {
-  console.log("[caisses] Calcul des caisses filtrées");
-  const filtered = tresorerieList.value.filter((entity) => entity.nom?.toLowerCase().includes("caisse"));
-  console.log("[caisses] Caisses filtrées:", filtered);
-  return filtered;
-});
-
-const getTresorerie = async () => {
+const getTresorerieCaisse = async () => {
   try {
-    console.log("[getTresorerie] Récupération des trésoreries...");
+    console.log("[getTresorerieCaisse] Récupération des trésoreries pour l'utilisateur connecté...");
     const response = await ApiService.get("/tresoreriecaisses");
-    const tresoreriesData = response.data.data.data;
+    console.log("[getTresorerieCaisse] Réponse complète de l'API:", JSON.stringify(response.data, null, 2));
+    const tresoreriesData = response.data.data; // Ajustez selon la structure réelle
     tresorerieOptions.value = tresoreriesData
       .filter((tresorerie) => tresorerie.operation === true)
       .map((tresorerie) => ({
         value: tresorerie.id,
         label: tresorerie.nom,
       }));
-    console.log("[getTresorerie] Trésoreries récupérées:", tresorerieOptions.value);
+    console.log("[getTresorerieCaisse] Trésoreries récupérées:", tresorerieOptions.value);
+
+    if (tresorerieOptions.value.length === 0) {
+      console.warn("[getTresorerieCaisse] Aucune trésorerie affectée à l'utilisateur.");
+      Swal.fire({
+        timer: 3000,
+        position: "top-end",
+        toast: true,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        text: "Aucune caisse affectée à cet utilisateur.",
+        icon: "warning",
+      });
+    }
   } catch (error) {
-    console.error("[getTresorerie] Erreur lors de la récupération des trésoreries:", error);
+    console.error("[getTresorerieCaisse] Erreur lors de la récupération des trésoreries:", error);
+    Swal.fire({
+      timer: 3000,
+      position: "top-end",
+      toast: true,
+      showConfirmButton: false,
+      timerProgressBar: true,
+      text: "Erreur lors de la récupération des caisses.",
+      icon: "error",
+    });
   }
 };
 
@@ -360,6 +390,17 @@ const getAllMonnaie = async () => {
   }
 };
 
+const getCurrentUser = async () => {
+  try {
+    console.log("[getCurrentUser] Récupération de l'utilisateur connecté...");
+    const response = await ApiService.get("/me");
+    userCreation.value = response.data.id;
+    console.log("[getCurrentUser] userCreationId:", userCreation.value);
+  } catch (error) {
+    console.error("[getCurrentUser] Erreur lors de la récupération de l'utilisateur:", error);
+  }
+};
+
 function handleBilletageInput(event: Event, billetage: Billetage) {
   console.log("[handleBilletageInput] Entrée détectée pour billetage:", billetage.libelle);
   const newValue = Number((event.target as HTMLInputElement).value);
@@ -395,21 +436,12 @@ watch(
 
 onMounted(() => {
   console.log("[onMounted] Initialisation du composant...");
-  getTresorerie();
+  getCurrentUser();
+  getTresorerieCaisse();
   getAllMonnaie();
   calculateTotal();
   getAllAllUsers();
   getouvFer();
-
-  // Simuler un userCreationId pour les tests (à remplacer)
-  userCreation.value = userCreation;
-  console.log("[onMounted] userCreationId initialisé:", userCreation.value);
-  console.log("[onMounted] État initial:", {
-    tresoreries: tresoreries.value,
-    user: user.value,
-    dateOuverture: dateOuverture.value,
-    montantTotal: montantTotal.value,
-  });
 });
 </script>
 
