@@ -6,7 +6,7 @@ import { fr } from 'date-fns/locale';
 import { v4 as uuidv4 } from 'uuid';
 import CryptoJS from "crypto-js";
 
-const generateUuid = ()=> {
+const generateUuid = () => {
   return uuidv4(); // Générer un UUID v4
 }
 
@@ -25,14 +25,15 @@ const getDatePlusXDays = (x: number) => {
   return formattedDate;
 }
 
-
 const cleSecrete = "=_,rine5mw3l*:b87qzpn8lfiuc2~5xe;9268g+3z@jre)w.x6A%67hu^-?$BKmPM32s7[";
 export function cryptage(lemot = "") {
   let motCrypter = "";
   let i = 0;
+  // Vérifier si lemot est null ou undefined avant de convertir en chaîne
+  const texte = lemot ? lemot.toString() : "";
   do {
-    motCrypter = CryptoJS.AES.encrypt((lemot).toString(), cleSecrete).toString();
-    console.log(" Etape "+ i++, "  ===> ", motCrypter);
+    motCrypter = CryptoJS.AES.encrypt(texte, cleSecrete).toString();
+    console.log(" Etape " + i++, "  ===> ", motCrypter);
   } while (motCrypter.includes('/')); // Vérifier s'il contient "/"
 
   return motCrypter;
@@ -52,9 +53,7 @@ const hideModal = (modalEl: HTMLElement | null): void => {
   document.body.style.paddingRight = '';
   removeModalBackdrop();
   myModal?.hide();
-
 };
-
 
 const ajouterPeriode = (dateStr, x, frequence) => {
   // Convertir la date en objet Date
@@ -106,7 +105,6 @@ const getUrlApiForFiles = (nomFichier: string | null, dossier = "") => {
   }
 }
 const onFileChange = (e, accept: any = []) => {
-
   const file = e.target.files[0];
   const allowedTypes = accept != null ? accept : ['image/jpeg', 'image/png', 'application/pdf'];
 
@@ -180,21 +178,9 @@ const removeModalBackdrop = (): void => {
   }
 };
 
-
 const getAssetPath = (path: string): string => {
   return '' + path;
 };
-
-// function getAllCategorieAbonnes(route:string,element:any) {
-//   return ApiService.get(`/${route}`)
-//   .then(({ data }) => {
-//     console.log(data);
-//     element.value = data.data
-//   })
-//   .catch(({ response }) => {
-//     console.log(response)
-//   });
-// } 
 
 const calculerDuree = (heureReglementaire: string, heureArrivee: string): string => {
   if (!heureReglementaire || !heureArrivee) return "";
@@ -265,5 +251,5 @@ const suppression = (id: number, element: any, route: string, entite: string) =>
 };
 
 export {
-  getDatePlusXDays,generateUuid,calculerDuree,warning, ajouterPeriode, onFileChange, removeModalBackdrop, suppression, separateur, hideModal, getAssetPath, format_Date, showModal, format_date, success, error, getUrlApiForFiles,
+  getDatePlusXDays, generateUuid, calculerDuree, warning, ajouterPeriode, onFileChange, removeModalBackdrop, suppression, separateur, hideModal, getAssetPath, format_Date, showModal, format_date, success, error, getUrlApiForFiles,
 };

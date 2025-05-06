@@ -200,38 +200,79 @@ const etatPresepeutMarquerPresencence = ref(false);
 const peutPartir = ref(false);
 const checkPresence = async () => {
   console.log("Départ");
+  // try {
+  //   const { data } = await axios.post("/checkPresence", {
+  //     donne: cryptage(JwtService.getUserPersonnel()),
+  //   });
+  //   console.log("data", data);
+  //   if (data.code == 201) {
+  //     if (!data.data) {
+  //       etatPresence.value = "Aucune Présence";
+  //     }
+  //     //success(data.message)
+  //     if (
+  //       data.data &&
+  //       data.data.heureArrivee != "" &&
+  //       data.data.heureDepart == ""
+  //     ) {
+  //       etatPresence.value = "Présent";
+  //     }
+  //     if (data.data && data.data.heureDepart != "") {
+  //       etatPresence.value = "Fini";
+  //     }
+  //     console.log("Data data ", etatPresence.value);
+
+  //     etatPresepeutMarquerPresencence.value =
+  //       etatPresence.value == "Aucune Présence" ||
+  //       (etatPresence.value != "Présent" && etatPresence.value != "Fini");
+  //     peutPartir.value =
+  //       etatPresence.value != "Fini" && etatPresence.value == "Présent";
+  //   }
+  // } 
+  // catch (er) {
+  //   console.log("Erreur lors de la récupération de ma présence", er);
+  //   error(er.message);
+  // }
+
+  const checkPresence = async () => {
+  console.log("Vérification de la présence");
+  const userPersonnel = JwtService.getUserPersonnel();
+  if (!userPersonnel) {
+    error("Utilisateur non trouvé, veuillez vous reconnecter.");
+    return;
+  }
   try {
-    const { data } = await axios.post("/checkPresence", {
-      donne: cryptage(JwtService.getUserPersonnel()),
+    const donne = cryptage(userPersonnel);
+    console.log("Donnée cryptée envoyée :", donne);
+    const { data } = await axios.post("/checkPresence", { donne }, {
+      headers: { Authorization: `Bearer ${JwtService.getToken()}` } 
     });
-    console.log("data", data);
+    console.log("Réponse du serveur :", data);
     if (data.code == 201) {
       if (!data.data) {
         etatPresence.value = "Aucune Présence";
       }
-      //success(data.message)
-      if (
-        data.data &&
-        data.data.heureArrivee != "" &&
-        data.data.heureDepart == ""
-      ) {
+      if (data.data && data.data.heureArrivee != "" && data.data.heureDepart == "") {
         etatPresence.value = "Présent";
       }
       if (data.data && data.data.heureDepart != "") {
         etatPresence.value = "Fini";
       }
-      console.log("Data data ", etatPresence.value);
+      console.log("État de présence :", etatPresence.value);
 
       etatPresepeutMarquerPresencence.value =
         etatPresence.value == "Aucune Présence" ||
         (etatPresence.value != "Présent" && etatPresence.value != "Fini");
       peutPartir.value =
         etatPresence.value != "Fini" && etatPresence.value == "Présent";
+    } else {
+      error(data.message || "Erreur inconnue");
     }
   } catch (er) {
-    console.log("Erreur lors de la récupération de ma présence", er);
-    error(er.message);
+    console.error("Erreur détaillée :", er.response?.data || er.message);
+    error(er.response?.data?.message || "Une erreur serveur est survenue (code 500)");
   }
+};
 };
 
 onMounted(() => {
