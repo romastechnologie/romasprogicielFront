@@ -49,7 +49,7 @@
                             type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
                             @click="addRowCircuit()">
                             <i class="fa fa-plus-circle position-relative ms-5 fs-12"></i>
-                            Ajouter un circuit
+                            Ajouter une étape
                           </button>
                         </div>
                       </div>
@@ -230,6 +230,31 @@ export default defineComponent({
       typeDuree: "",
       user: []
     }]);
+    watch(
+  etapevalidations,
+  () => {
+    const hasValidationError = etapevalidations.some(
+      (circuit) =>
+        valideteRowCircuit(circuit.nom) ||
+        valideteRowCircuit(circuit.ordre) ||
+        valideteRowCircuit(circuit.role) ||
+        valideteRowCircuit(circuit.Duree) ||
+        valideteRowCircuit(circuit.typeDuree) ||
+        valideteRowCircuit(circuit.user)
+    );
+
+    const lastEtape = etapevalidations[etapevalidations.length - 1];
+    const selectedRole = roleOptions.value.find((role) => role.value === lastEtape.role);
+
+    if (selectedRole && selectedRole.code === 'VAL') {
+      isDisable.value = true;
+    } else {
+      isDisable.value = hasValidationError;
+    }
+  },
+  { deep: true }
+);
+
 
     const convertToDays = (value: number, unit: string): number => {
   switch (unit.toLowerCase()) {
@@ -295,7 +320,7 @@ const removeRowCircuit = (index) => {
   }
 };
 
-    watch(
+   /* watch(
       etapevalidations,
       (newValue) => {
         isDisable.value =
@@ -310,7 +335,7 @@ const removeRowCircuit = (index) => {
         );
       },
       { deep: true }
-    );
+    );*/
 
     const valideteRowCircuit = (e) => {
       if (e == "" || e == "" || e == "" || e == 0 || e == "0" || e == null || e < 0) {
@@ -392,6 +417,8 @@ const removeRowCircuit = (index) => {
       roleOptions.value = rolesData.map((role) => ({
         value:role.id,
         label:role.libelle,
+        code: role.code,
+
       }));
       }
       catch (error) {

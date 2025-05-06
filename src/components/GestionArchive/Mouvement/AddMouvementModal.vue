@@ -119,7 +119,7 @@
                         <Field name="personnel" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
                             :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
-                              const results = await getPersonnelByKey(query);
+                              const results = await getPersonnelByKey2(query);
                               if (results && results.length > 0) {
                                 return results;
                               } else if (query.length >= 3) {
@@ -494,6 +494,19 @@ export default {
           console.log("ERREREUR  ===> ", error)
         }
     }
+
+    const getPersonnelByKey2 = async (valeur: any) => {
+      try {
+          const retourr = await axios.get(`/get/personnels/${valeur}`);
+          const data = retourr.data.data;
+          return data.map((da) => ({
+            value: da.id,
+            label: da.nom + " "+ da.prenom,
+          }));
+        } catch (error) {
+          console.log("ERREREUR  ===> ", error)
+        }
+    }
     const btnTitle = async () => {
       if (isupdate.value) {
         title.value = "Modifier le Mouvement";
@@ -599,7 +612,7 @@ export default {
       await getTypeEmplacement()
     });
     return {
-      mouvements, title,type1,type2,document1,leDocu,lesDocuments, btntext,getEmplacement1,type3, emplacementOptions1,getDocumentByType,typeDocumentOptions, getEmplacement2,emplacementOptions2, resetValue,getPersonnelByKey, mouvementSchema, bloc2Title, getDocumentByKey,documentByTypeOptions,
+      mouvements, title,type1,type2,document1,leDocu,lesDocuments, btntext,getEmplacement1,type3, emplacementOptions1,getDocumentByType,typeDocumentOptions, getEmplacement2,emplacementOptions2, resetValue,getPersonnelByKey,getPersonnelByKey2,  mouvementSchema, bloc2Title, getDocumentByKey,documentByTypeOptions,
       addMouvement, typeMouvement,format_Date, typeMouv, mouvementForm, addMouvementModalRef, mouvementnew, etatAffiche,typeEmplacementOptions
       //refreshMouvements
     };
