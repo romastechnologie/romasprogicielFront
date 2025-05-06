@@ -351,7 +351,8 @@ import * as Yup from "yup";
 import ApiService from "@/services/ApiService";
 import { error, success, ajouterPeriode, onFileChange } from "@/utils/utils";
 import { useRouter } from "vue-router";
-import Multiselect from "@vueform/multiselect/src/Multiselect";
+// import Multiselect from "@vueform/multiselect/src/Multiselect";
+import Multiselect from '@vueform/multiselect';
 import axios from "axios";
 export default defineComponent({
   name: "AddDocument",

@@ -116,6 +116,7 @@
                         <label class="d-block text-black mb-10">
                           Personnel <span class="text-danger">*</span>
                         </label>
+                        
                         <Field name="personnel" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
                             :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
@@ -151,7 +152,7 @@
                               }
                             }" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un personnel" />
                         </Field>
-                        <ErrorMessage name="personnel" class="text-danger" />
+                        <ErrorMessage name="personnelR" class="text-danger" />
                       </div>
                     </div>
 
@@ -171,7 +172,7 @@
                   </div>
                 </fieldset>
               </div>
-              <div class="col-md-6 mb-3" v-show="etatAffiche && leDocu && leDocu.nom">
+              <div class="col-md-6 mb-3" v-if="typeMouv == 'Retour'">
 
                 <div class="col-md-12">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -195,7 +196,7 @@
                       </div>
                     </div>
 
-                <fieldset class="border rounded-3 p-1">
+                <!--<fieldset class="border rounded-3 p-1">
                   <legend class="float-none w-auto px-3">
                     Informations
                   </legend>
@@ -231,7 +232,7 @@
                       </table>
                     </div>
                   </div>
-                </fieldset>
+                </fieldset>-->
               </div>
             </div>
 
@@ -254,6 +255,7 @@ import { error, hideModal, success,format_Date } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import axios from 'axios';
+import { person } from '../../../composables/common/flagIcon';
 
 export default {
   name: "AddMouvementModal",
@@ -283,7 +285,7 @@ export default {
       document: Yup.string().required('Le document est obligatoire'),
       typeMouvement: Yup.string().required('Le type de mouvement est obligatoire'),
       typeDocument: Yup.string().required('Le type de document est obligatoire'),
-      personnel: Yup.string().notRequired(),
+      person: Yup.string().notRequired(),
       personnelR: Yup.string().notRequired(),
 
     });
@@ -303,7 +305,7 @@ export default {
         value: "Déplacement", label: "Déplacement"
       },
     ])
-    const typeMouv = ref("");
+    const typeMouv = ref("Retour");
     const mouvementForm = ref<any | null>(null);
     const addMouvementModalRef = ref<null | HTMLElement>(null);
     let mouvements = ref<Array<any>>([]);
@@ -558,12 +560,12 @@ export default {
         bloc2Title.value = "Destination";
         etatAffiche.value = false;
         etatDocument.value = "Libre";
-      } else {
-      }
+      } 
     }
     const addMouvement = async (values: any, { resetForm }: { resetForm: () => void }) => {
       console.log("valuesvaluesvaluesvalues ==> ",values)
       loading.value = false;
+      
       if (isupdate.value) {
         await axios.put(`/mouvements/${values.id}`, values)
           .then(({ data }) => {
@@ -593,9 +595,10 @@ export default {
           });
       }
     };
-    watch(() => typeMouv.value, async (newValue, oldValue) => {
-      if (newValue && oldValue != newValue) {
-        typeMouv.value = newValue.toString();
+    watch(typeMouv, async (newValue, oldValue) => {
+      console.log("newValue ===> ", newValue)
+      if (newValue) {
+        typeMouv.value = newValue;
         await btnTitle2()
       }
     })
