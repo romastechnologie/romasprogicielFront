@@ -9,7 +9,7 @@
           to="/pointtresoreries/ajouter-pointtresorerie"
         >
           <i class="fa fa-plus-circle"></i>
-          Ajouter Point tresorerie
+          Ajouter un point de trésorerie
         </router-link>
     
       </div>
@@ -47,7 +47,7 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-               Tresorerie
+               Trésorerie
               </th>
               <th
                 scope="col"
