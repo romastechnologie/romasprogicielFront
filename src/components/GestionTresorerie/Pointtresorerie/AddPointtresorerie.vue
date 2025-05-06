@@ -10,7 +10,7 @@
               <div class="col-md-6 mb-3">
                 <div class="form-group mb-15">
                   <label class="d-block text-black mb-10">
-                    User <span class="text-danger">*</span>
+                    Utilisateur <span class="text-danger">*</span>
                   </label>
                   <Field name="user" v-slot="{ field }">
                     <Multiselect
@@ -19,7 +19,7 @@
                       track-by="value"
                       label="label"
                       v-model="field.value"
-                      placeholder="Sélectionner le user"
+                      placeholder="Sélectionner l'utilisateur"
                       @change="(value) => { field.value = value; onUserSelected(value); }"
                     />
                   </Field>
