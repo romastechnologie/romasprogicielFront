@@ -49,7 +49,7 @@
                       Emplacement <span class="text-danger">*</span>
                     </label>
                     <Field name="emplacementInitial" type="text" v-slot="{ field }">
-                      <Multiselect v-model="field.value" v-bind="field" :options="emplacementOptions1" :preserve-search="true" :multiple="false"
+                      <Multiselect v-model="type3" v-bind="field" :options="emplacementOptions1" :preserve-search="true" :multiple="false"
                         :searchable="true" placeholder="Sélectionner un emplacement" label="label" track-by="label" />
                     </Field>
                     <ErrorMessage name="emplacementInitial" class="text-danger" />
@@ -64,7 +64,7 @@
                     Document informations
                   </legend>
                   <div class="row">
-                    <div class="col-md-12">
+                   <!--<div class="col-md-12">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
                           Type document <span class="text-danger">*</span>
@@ -76,14 +76,14 @@
                         </Field>
                         <ErrorMessage name="typeDocument" class="text-danger" />
                       </div>
-                    </div>
+                    </div>--> 
                     <div class="col-md-12">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
                           Document <span class="text-danger">*</span>
                         </label>
                         <Field name="document" v-model="document1" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" label="label" track-by="label" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" 
+                          <Multiselect v-model="field.value" v-bind="field" label="label" track-by="label" :options="documentByTypeOptions" noOptionsText="Selectionner d'abord un emplacement" 
                           placeholder="Sélectionner un document" />
                         </Field>
                         <ErrorMessage name="document" class="text-danger" />
@@ -120,7 +120,7 @@
                         <Field name="personnel" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
                             :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
-                              const results2 = await getPersonnelByKey2(query);
+                              const results = await getPersonnelByKey2(query);
                               if (results && results.length > 0) {
                                 return results;
                               } else if (query.length >= 3) {
