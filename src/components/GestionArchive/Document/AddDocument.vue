@@ -68,7 +68,7 @@
                       />{{ type.label }}
                     </label>
                   </div>
-                  <div class="d-inline-block">
+              <!--<div class="d-inline-block">
                     <label class="d-block mb-0">
                       <Field
                         name="typeDoc"
@@ -77,9 +77,9 @@
                         @change="getAllRegleByTypeOrCategorie"
                         class="checkbox_animated"
                         type="radio"
-                      />
+                      />Les Deux 
                     </label>
-                  </div>
+                  </div>-->    
                 </div>
                 <div class="col-12">
                   <ErrorMessage name="typeDoc" class="text-danger" />

@@ -284,8 +284,8 @@ export default {
       typeEmplacementDestinataire: Yup.string().notRequired(),
       document: Yup.string().required('Le document est obligatoire'),
       typeMouvement: Yup.string().required('Le type de mouvement est obligatoire'),
-      typeDocument: Yup.string().required('Le type de document est obligatoire'),
-      person: Yup.string().notRequired(),
+    //  typeDocument: Yup.string().required('Le type de document est obligatoire'),
+      personnel: Yup.string().notRequired(),
       personnelR: Yup.string().notRequired(),
 
     });
