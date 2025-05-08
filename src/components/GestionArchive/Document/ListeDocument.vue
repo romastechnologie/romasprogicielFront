@@ -507,7 +507,7 @@ const addMouvement = async (values, { resetForm }) => {
 
   console.log("mouvementdocument", values);
 
-  ApiService.post("/mouvement/document/", values)
+  ApiService.post("/mouvement/document1/", values)
     .then(({ data }) => {
       if (data.code === 201) {
         success(data.message);
