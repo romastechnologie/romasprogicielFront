@@ -532,6 +532,8 @@ console.log('sousEmplacement.value:', sousEmplacement.value);
         value: org.organisation.id,
         label: org.organisation.nom,
       }));
+      console.log("Organisations affichées :", filteredOrgs);
+
   } catch (error) {
     console.error("Erreur lors du chargement des organisations :", error);
   }

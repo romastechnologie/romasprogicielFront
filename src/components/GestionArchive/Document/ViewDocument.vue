@@ -23,16 +23,12 @@
               <tr>
                 <td>Catégorie</td>
                 <td>
-                  <span
-                    v-for="(val, index) in document?.regleDocuments || []"
-                    :key="index"
-                    class="badge bg-info text-dark me-1"
-                  >
-                    {{ val.regleType?.categoriedocument?.libelle || 'Non renseigné' }}
-                  </span>
-                </td>
+                <span class="badge bg-info text-dark">
+                  {{ document?.categorie?.libelle || 'Non renseigné' }}
+                </span>
+              </td>
               </tr>
-              <tr>
+            <!-- <tr>
                 <td>Type d'archivage</td>
                 <td>
                   <span
@@ -43,7 +39,7 @@
                     {{ val.regleType?.typeDocument?.nom || 'Non renseigné' }}
                   </span>
                 </td>
-              </tr>
+              </tr>--> 
               <tr>
                 <td>Référence</td>
                 <td>{{ document?.refDoc || 'Non renseigné' }}</td>
@@ -69,19 +65,39 @@
               </td>
             </tr>
 
-              <tr>
-                <td>Fichier</td>
-                <td>
-                  <a v-if="document?.photoDocument" :href="getUrlApiForFiles(document.photoDocument, 'Documents')" target="_blank">
-                    <img
-                      :src="getUrlApiForFiles(document.photoDocument, 'Documents')"
-                      alt="Document Image"
-                      class="img-thumbnail"
-                      style="width: 120px; height: 120px;"
-                    />
-                  </a>
-                </td>
-              </tr>
+            <tr>
+  <td>Fichier</td>
+  <td>
+    <template v-if="document?.photoDocument">
+      <a
+        v-if="!isImage(document.photoDocument)"
+        :href="getUrlApiForFiles(document.photoDocument, 'Documents')"
+        target="_blank"
+        class="btn btn-outline-primary d-inline-flex align-items-center gap-1"
+      >
+        <i class="bi bi-file-earmark-arrow-down"></i>
+        Télécharger le fichier
+      </a>
+
+      <a
+        v-else
+        :href="getUrlApiForFiles(document.photoDocument, 'Documents')"
+        target="_blank"
+        class="d-inline-block"
+      >
+        <img
+          :src="getUrlApiForFiles(document.photoDocument, 'Documents')"
+          alt="Document Image"
+          class="img-thumbnail"
+          style="width: 120px; height: 120px;"
+        />
+      </a>
+    </template>
+    <span v-else>Non renseigné</span>
+  </td>
+</tr>
+
+
             </tbody>
           </table>
 
@@ -99,7 +115,7 @@
                 <td>Emplacement</td>
                 <td>{{ document?.emplacement?.code || 'Non renseigné' }}</td>
               </tr>
-              <tr>
+          <!--  <tr>
                 <td>Fichier</td>
                 <td>
                   <p v-if="document?.fichier">
@@ -108,7 +124,7 @@
                     </a>
                   </p>
                 </td>
-              </tr>
+              </tr>-->  
             </tbody>
           </table>
 
@@ -117,48 +133,34 @@
           </div>
 
           <table class="table">
-            <tbody>
-              <tr>
-                <td>Type</td>
-                <td>
-                  <span
-                    v-for="(val, index) in document?.regleDocuments || []"
-                    :key="index"
-                    class="badge bg-secondary text-light me-1"
-                  >
-                    {{ val.regleType?.typeDocument?.nom || 'Non renseigné' }}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>Durée</td>
-                <td>
-                  <span
-                    v-for="(val, index) in document?.regleDocuments || []"
-                    :key="index"
-                    class="badge bg-info text-dark me-1"
-                  >
-                    {{
-                      val.regleType?.regleConservation?.dureeConservation + ' ' +
-                      val.regleType?.regleConservation?.typeDuree || 'Non renseigné'
-                    }}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>Sort final</td>
-                <td>
-                  <span
-                    v-for="(val, index) in document?.regleDocuments || []"
-                    :key="index"
-                    class="badge bg-info text-dark me-1"
-                  >
-                    {{ val.regleType?.regleConservation?.sortFinal || 'Non renseigné' }}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Durée</th>
+              <th>Sort final</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(val, index) in document?.regleDocuments || []" :key="index">
+              <td>
+                {{ val?.regleType?.typeDocument?.nom || 'Non renseigné' }}
+              </td>
+              <td>
+                {{
+                  val?.regleType?.categoriedocument?.duree &&
+                  val?.regleType?.typeDuree
+                    ? `${val.regleType.categoriedocument.duree} ${val.regleType.typeDuree}`
+                    : 'Non renseigné'
+                }}
+              </td>
+
+              <td>
+                {{  val?.regleType?.sortFinal || 'Non renseigné' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
         </div>
       </div>
     </div>
@@ -176,6 +178,10 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const document = ref<any | null>(null);
+      function isImage(filename: string): boolean {
+  return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(filename);
+}
+
 
     async function getDocument(id: string) {
       try {
@@ -218,7 +224,8 @@ export default defineComponent({
       document,
       format_date,
       getUrlApiForFiles,
-      getBadgeClass
+      getBadgeClass,
+      isImage
     };
   },
 });

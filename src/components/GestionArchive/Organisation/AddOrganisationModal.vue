@@ -28,7 +28,7 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label v-if="etatOrganisation == false" class="d-block text-black mb-10">
-                    Organisation <span class="text-danger">*</span>
+                    Organisation <span class="text-danger"></span>
                   </label>
                   <label v-else class="d-block text-black mb-10">
                     Organisation {{organisation}}
@@ -181,13 +181,14 @@ export default {
     const getOrganisation = async (id: number) => {
       return ApiService.get("/organisations/" + id)
         .then(async ({ data }) => {
-          
+          console.log("données organisation",data);
           const donnees = data.data;
           for(const key in donnees) {
             organisationForm.value?.setFieldValue(key, (typeof donnees[key] === 'object' && donnees[key] !== null) ? donnees[key].id : donnees[key]
             );
           }
           typeOrganisation.value = donnees?.typeOrganisation?.id;
+          typeDocument.value = donnees?.typeDocument?.id;
           await getAllOrganisations(typeOrganisation.value);
           organisation.value = donnees?.organisation?.id;
           emit('openmodal', addOrganisationModalRef.value);
