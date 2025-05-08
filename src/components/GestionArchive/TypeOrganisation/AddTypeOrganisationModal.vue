@@ -58,7 +58,7 @@
               <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
-                    Type d'organisation <span class="text-danger">*</span>
+                    Type d'organisation <span class="text-danger"></span>
                   </label>
                   <Field name="typeOrganisation" v-model="typeOrg" type="text" v-slot="{ field }">
                     <Multiselect
