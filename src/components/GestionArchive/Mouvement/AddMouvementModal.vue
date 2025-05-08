@@ -49,7 +49,7 @@
                       Emplacement <span class="text-danger">*</span>
                     </label>
                     <Field name="emplacementInitial" type="text" v-slot="{ field }">
-                      <Multiselect v-model="field.value" v-bind="field" :options="emplacementOptions1" :preserve-search="true" :multiple="false"
+                      <Multiselect v-model="type3" v-bind="field" :options="emplacementOptions1" :preserve-search="true" :multiple="false"
                         :searchable="true" placeholder="Sélectionner un emplacement" label="label" track-by="label" />
                     </Field>
                     <ErrorMessage name="emplacementInitial" class="text-danger" />
@@ -64,10 +64,10 @@
                     Document informations
                   </legend>
                   <div class="row">
-                    <div class="col-md-12">
+                   <!--<div class="col-md-12">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
-                          Type archivage <span class="text-danger">*</span>
+                          Type document <span class="text-danger">*</span>
                         </label>
                         <Field name="typeDocument" v-model="type3" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :options="typeDocumentOptions"
@@ -76,14 +76,14 @@
                         </Field>
                         <ErrorMessage name="typeDocument" class="text-danger" />
                       </div>
-                    </div>
+                    </div>--> 
                     <div class="col-md-12">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
                           Document <span class="text-danger">*</span>
                         </label>
                         <Field name="document" v-model="document1" type="text" v-slot="{ field }">
-                          <Multiselect v-model="field.value" v-bind="field" label="label" track-by="label" :options="documentByTypeOptions" noOptionsText="Tapez au moins deux caractères" 
+                          <Multiselect v-model="field.value" v-bind="field" label="label" track-by="label" :options="documentByTypeOptions" noOptionsText="Selectionner d'abord un emplacement" 
                           placeholder="Sélectionner un document" />
                         </Field>
                         <ErrorMessage name="document" class="text-danger" />
@@ -116,10 +116,11 @@
                         <label class="d-block text-black mb-10">
                           Personnel <span class="text-danger">*</span>
                         </label>
+                        
                         <Field name="personnel" type="text" v-slot="{ field }">
                           <Multiselect v-model="field.value" v-bind="field" :filter-results="false" :min-chars="2"
                             :resolve-on-load="false" :delay="0" :searchable="true" :options-limit="300" :options="async (query) => {
-                              const results = await getPersonnelByKey(query);
+                              const results = await getPersonnelByKey2(query);
                               if (results && results.length > 0) {
                                 return results;
                               } else if (query.length >= 3) {
@@ -151,7 +152,7 @@
                               }
                             }" noOptionsText="Tapez au moins deux caractères" placeholder="Sélectionner un personnel" />
                         </Field>
-                        <ErrorMessage name="personnel" class="text-danger" />
+                        <ErrorMessage name="personnelR" class="text-danger" />
                       </div>
                     </div>
 
@@ -171,7 +172,7 @@
                   </div>
                 </fieldset>
               </div>
-              <div class="col-md-6 mb-3" v-show="etatAffiche && leDocu && leDocu.nom">
+              <div class="col-md-6 mb-3" v-if="typeMouv == 'Retour'">
 
                 <div class="col-md-12">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -195,7 +196,7 @@
                       </div>
                     </div>
 
-                <fieldset class="border rounded-3 p-1">
+                <!--<fieldset class="border rounded-3 p-1">
                   <legend class="float-none w-auto px-3">
                     Informations
                   </legend>
@@ -231,7 +232,7 @@
                       </table>
                     </div>
                   </div>
-                </fieldset>
+                </fieldset>-->
               </div>
             </div>
 
@@ -254,6 +255,7 @@ import { error, hideModal, success,format_Date } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import axios from 'axios';
+import { person } from '../../../composables/common/flagIcon';
 
 export default {
   name: "AddMouvementModal",
@@ -282,7 +284,7 @@ export default {
       typeEmplacementDestinataire: Yup.string().notRequired(),
       document: Yup.string().required('Le document est obligatoire'),
       typeMouvement: Yup.string().required('Le type de mouvement est obligatoire'),
-      typeDocument: Yup.string().required('Le type de document est obligatoire'),
+    //  typeDocument: Yup.string().required('Le type de document est obligatoire'),
       personnel: Yup.string().notRequired(),
       personnelR: Yup.string().notRequired(),
 
@@ -303,7 +305,7 @@ export default {
         value: "Déplacement", label: "Déplacement"
       },
     ])
-    const typeMouv = ref("");
+    const typeMouv = ref("Retour");
     const mouvementForm = ref<any | null>(null);
     const addMouvementModalRef = ref<null | HTMLElement>(null);
     let mouvements = ref<Array<any>>([]);
@@ -494,6 +496,19 @@ export default {
           console.log("ERREREUR  ===> ", error)
         }
     }
+
+    const getPersonnelByKey2 = async (valeur: any) => {
+      try {
+          const retourr = await axios.get(`/get/personnels/${valeur}`);
+          const data = retourr.data.data;
+          return data.map((da) => ({
+            value: da.id,
+            label: da.nom + " "+ da.prenom,
+          }));
+        } catch (error) {
+          console.log("ERREREUR  ===> ", error)
+        }
+    }
     const btnTitle = async () => {
       if (isupdate.value) {
         title.value = "Modifier le Mouvement";
@@ -545,12 +560,12 @@ export default {
         bloc2Title.value = "Destination";
         etatAffiche.value = false;
         etatDocument.value = "Libre";
-      } else {
-      }
+      } 
     }
     const addMouvement = async (values: any, { resetForm }: { resetForm: () => void }) => {
       console.log("valuesvaluesvaluesvalues ==> ",values)
       loading.value = false;
+      
       if (isupdate.value) {
         await axios.put(`/mouvements/${values.id}`, values)
           .then(({ data }) => {
@@ -580,9 +595,10 @@ export default {
           });
       }
     };
-    watch(() => typeMouv.value, async (newValue, oldValue) => {
-      if (newValue && oldValue != newValue) {
-        typeMouv.value = newValue.toString();
+    watch(typeMouv, async (newValue, oldValue) => {
+      console.log("newValue ===> ", newValue)
+      if (newValue) {
+        typeMouv.value = newValue;
         await btnTitle2()
       }
     })
@@ -599,7 +615,7 @@ export default {
       await getTypeEmplacement()
     });
     return {
-      mouvements, title,type1,type2,document1,leDocu,lesDocuments, btntext,getEmplacement1,type3, emplacementOptions1,getDocumentByType,typeDocumentOptions, getEmplacement2,emplacementOptions2, resetValue,getPersonnelByKey, mouvementSchema, bloc2Title, getDocumentByKey,documentByTypeOptions,
+      mouvements, title,type1,type2,document1,leDocu,lesDocuments, btntext,getEmplacement1,type3, emplacementOptions1,getDocumentByType,typeDocumentOptions, getEmplacement2,emplacementOptions2, resetValue,getPersonnelByKey,getPersonnelByKey2,  mouvementSchema, bloc2Title, getDocumentByKey,documentByTypeOptions,
       addMouvement, typeMouvement,format_Date, typeMouv, mouvementForm, addMouvementModalRef, mouvementnew, etatAffiche,typeEmplacementOptions
       //refreshMouvements
     };

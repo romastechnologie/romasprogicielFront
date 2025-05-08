@@ -33,7 +33,7 @@
                 </td>
               </tr>
               <tr>
-                <td>Type de document</td>
+                <td>Type d'archivage</td>
                 <td>
                   <span
                     v-for="(val, index) in document?.regleDocuments || []"
@@ -180,6 +180,7 @@ export default defineComponent({
     async function getDocument(id: string) {
       try {
         const { data } = await ApiService.get(`/documents/${id}`);
+        console.log("documentdetail",data);
         if (data?.data) {
           document.value = data.data;
         } else {

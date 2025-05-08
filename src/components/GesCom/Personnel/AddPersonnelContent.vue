@@ -1633,7 +1633,7 @@ export default defineComponent({
       //
     }
 
-    function validation(phoneObject) {
+    /*function validation(phoneObject) {
       validPhone.value = phoneObject.valid;
       if (phoneObject.valid == true) {
         telephone.value = phoneObject.number;
@@ -1647,8 +1647,42 @@ export default defineComponent({
         nationalnumlber.value= "";
         numberPhone.value="";
       }
-    }
-    
+    }*/
+    const validation = (phoneObject: any, fieldName: string) => {
+      validPhone.value[fieldName] = phoneObject.valid || false;
+      if (phoneObject.valid) {
+        switch (fieldName) {
+          case 'telephone':
+            telephone.value = phoneObject.number;
+            break;
+          case 'telephone2':
+            telephone2.value = phoneObject.number;
+            break;
+          case 'telephonePersonneAContacter':
+            telephonePersonneAContacter.value = phoneObject.number;
+            break;
+          case 'telephoneRepresentant':
+          telephoneCon.value = phoneObject.number;
+            break;
+        }
+      } else {
+        switch (fieldName) {
+          case 'telephone1':
+            telephone.value = '';
+            break;
+          case 'telephone2':
+            telephone2.value = '';
+            break;
+          case 'telephonePersonneAContacter':
+            telephonePersonneAContacter.value = '';
+            break;
+          case 'telephoneRepresentant':
+          telephoneCon.value = '';
+            break;
+        }
+      }
+    };
+ 
 
     const enfants = reactive([
       {

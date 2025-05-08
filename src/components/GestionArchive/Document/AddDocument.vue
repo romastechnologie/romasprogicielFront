@@ -68,7 +68,7 @@
                       />{{ type.label }}
                     </label>
                   </div>
-                  <div class="d-inline-block">
+              <!--<div class="d-inline-block">
                     <label class="d-block mb-0">
                       <Field
                         name="typeDoc"
@@ -77,9 +77,9 @@
                         @change="getAllRegleByTypeOrCategorie"
                         class="checkbox_animated"
                         type="radio"
-                      />Les deux
+                      />Les Deux 
                     </label>
-                  </div>
+                  </div>-->    
                 </div>
                 <div class="col-12">
                   <ErrorMessage name="typeDoc" class="text-danger" />
@@ -179,6 +179,7 @@
                   placeholder="Sélectionner l'organisation"
                   label="label"
                   track-by="label"
+                  noOptionsText="Sélectionnez d'abord un type d'archivage"
                 />
               </Field>
               <ErrorMessage name="organisation" class="text-danger" />
@@ -199,7 +200,7 @@
                   v-model="field.value"
                   v-bind="field"
                  :options="emplacementByCategorieOptions" 
-                 noOptionsText="Selectionnez un type document"
+                 noOptionsText="Selectionnez une categorie"
                   :preserve-search="true"
                   :multiple="false"
                   :searchable="true"
@@ -351,7 +352,8 @@ import * as Yup from "yup";
 import ApiService from "@/services/ApiService";
 import { error, success, ajouterPeriode, onFileChange } from "@/utils/utils";
 import { useRouter } from "vue-router";
-import Multiselect from "@vueform/multiselect/src/Multiselect";
+// import Multiselect from "@vueform/multiselect/src/Multiselect";
+import Multiselect from '@vueform/multiselect';
 import axios from "axios";
 export default defineComponent({
   name: "AddDocument",
@@ -370,7 +372,7 @@ export default defineComponent({
       fichier: Yup.mixed().required("Le fichier est obligatoire."),
       organisation: Yup.string().required("L'organisation est obligatoire"),
       tagDoc: Yup.string().required("Le tag est obligatoire."),
-      emplacement: Yup.string().notRequired(),
+      emplacement:Yup.string().required("L'emplacement est obligatoire."),
       categorie: Yup.string().required("Le tag est obligatoire."),
       typeDoc: Yup.string().required("Le type est obligatoire."),
       //sousEmplacement: Yup.string().required("Veuillez choisir une option."),
@@ -508,17 +510,24 @@ console.log('sousEmplacement.value:', sousEmplacement.value);
 
     const getAllOrganisations = async (selectedTypeId = null) => {
   try {
+    organisationOptions.value = []; // vide avant chargement
+
+    if (!selectedTypeId) {
+      // Pas de chargement si aucun type sélectionné
+      return;
+    }
+
     const response = await axios.get("all/organisations");
     const organisationsData = response.data?.data?.data ?? [];
 
-    const filteredOrgs = selectedTypeId === "deux" || selectedTypeId === null
+    const filteredOrgs = selectedTypeId === "deux"
       ? organisationsData
       : organisationsData.filter(
           (org) => org?.typedocument?.id === parseInt(selectedTypeId, 10)
         );
 
     organisationOptions.value = filteredOrgs
-      .filter(org => org?.organisation)  // évite les null
+      .filter(org => org?.organisation)
       .map((org) => ({
         value: org.organisation.id,
         label: org.organisation.nom,
@@ -527,6 +536,7 @@ console.log('sousEmplacement.value:', sousEmplacement.value);
     console.error("Erreur lors du chargement des organisations :", error);
   }
 };
+
 
 
     const getAllFormats = async () => {
