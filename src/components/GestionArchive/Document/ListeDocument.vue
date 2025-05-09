@@ -41,7 +41,7 @@
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Catégorie Document <span class="text-danger">*</span>
+                Catégorie Document <span class="text-danger"></span>
               </label>
               <Field v-model="categorie"   name="categoriedocument" v-slot="{ field }">
                 <Multiselect
@@ -58,7 +58,7 @@
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Type d'archivage <span class="text-danger">*</span>
+                Type d'archivage <span class="text-danger"></span>
               </label>
               <Field v-model="typeDoc" name="typeDocument" v-slot="{ field }">
                 <Multiselect
@@ -76,7 +76,7 @@
                 <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Tag <span class="text-danger">*</span>
+                Tag <span class="text-danger"></span>
               </label>
               <Field name="tagDoc" v-model="_tagDoc" type="text" v-slot="{ field }">
                 <Multiselect
@@ -98,7 +98,7 @@
           <div class="col-md-4 mt-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Organisation de production<span class="text-danger">*</span>
+                Organisation de production<span class="text-danger"></span>
               </label>
               <Field
                 name="organisation"
@@ -144,9 +144,9 @@
                 </th>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Categorie Document
                 </th>
-                <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
+               <!-- <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                   Statut
-                </th>
+                </th>-->
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Mouvement</th>
 
                 <th scope="col"
@@ -164,11 +164,11 @@
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.organisation?.nom }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.emplacement?.code }} </td>
                 <td class="shadow-none lh-1 fw-medium ">{{ document?.categorie?.libelle}} </td>
-                <td>
+              <!--  <td>
                   <span :class="getStatusClass(document.statut)">
                     {{ document.statut }}
                   </span>
-                </td>
+                </td>-->
                 <td>
                   <span v-if="document?.mouvements?.length > 0" :class="getStatutBadge(document.mouvements[(document.mouvements.length - 1)].statut).badgeClass">
                   {{ getStatutBadge(document.mouvements[(document.mouvements.length - 1)].statut).text }}
@@ -186,12 +186,12 @@
                       Actions
                     </button>
                     <ul class="dropdown-menu">
-                      <li v-for="action in getAvailableActions(document.statut)" :key="action.value">
+                   <!-- <li v-for="action in getAvailableActions(document.statut)" :key="action.value">
                         <a class="dropdown-item badge text-outline-info" href="javascript:void(0);"
                           @click="changerStatut(document.id, action.value)">
                           {{ action.label }}
                         </a>
-                      </li>
+                      </li>-->  
                       <li class="dropdown-item d-flex align-items-center">
                         <router-link :to="{ name: 'ViewDocument', params: { id: document.id } }"
                                     class="dropdown-item d-flex align-items-center">
@@ -431,9 +431,11 @@ export default defineComponent({
     case 3: // Deplacement
       return allMouvements; // Tous les mouvements possibles
     default:
-      return allMouvements; // Aucun mouvement effectué encore
+      // Aucun mouvement effectué encore : on exclut "Retour"
+      return allMouvements.filter(m => m.value !== 'Retour');
   }
 };
+
 
    
     const handlePaginate = ({ page_, limit_ }:{ page_: number, limit_: number }) => {

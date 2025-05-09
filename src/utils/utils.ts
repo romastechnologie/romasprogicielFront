@@ -71,6 +71,8 @@ const ajouterPeriode = (dateStr, x, frequence) => {
       break;
     case "année":
     case "années":
+    case "annee":
+    case "annees":
     case "an":
     case "ans":
       date.setFullYear(date.getFullYear() + x);

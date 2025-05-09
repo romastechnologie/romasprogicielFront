@@ -18,7 +18,7 @@
             <tbody>
               <tr>
                 <td>Date de conservation</td>
-                <td>{{ format_date(document?.regleDocuments?.dateFinConservation) || 'Non renseigné' }}</td>
+                <td>{{ format_date(document?.regleDocuments?.[0]?.dateFinConservation) || 'Non renseigné' }}</td>
               </tr>
               <tr>
                 <td>Catégorie</td>
@@ -56,14 +56,14 @@
                 <td>Description</td>
                 <td>{{ document?.description || 'Non renseigné' }}</td>
               </tr>
-              <tr>
+           <!-- <tr>
               <td>Statut</td>
               <td>
                 <span :class="getBadgeClass(document?.statut)">
                   {{ document?.statut || 'Non renseigné' }}
                 </span>
               </td>
-            </tr>
+            </tr>-->  
 
             <tr>
   <td>Fichier</td>
@@ -133,33 +133,35 @@
           </div>
 
           <table class="table">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Durée</th>
-              <th>Sort final</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(val, index) in document?.regleDocuments || []" :key="index">
-              <td>
-                {{ val?.regleType?.typeDocument?.nom || 'Non renseigné' }}
-              </td>
-              <td>
-                {{
-                  val?.regleType?.categoriedocument?.duree &&
-                  val?.regleType?.typeDuree
-                    ? `${val.regleType.categoriedocument.duree} ${val.regleType.typeDuree}`
-                    : 'Non renseigné'
-                }}
-              </td>
-
-              <td>
-                {{  val?.regleType?.sortFinal || 'Non renseigné' }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Durée</th>
+      <th>Sort final</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-if="document?.regleDocuments?.length > 0">
+      <td>
+        {{ document.regleDocuments[0]?.regleType?.typeDocument?.nom || 'Non renseigné' }}
+      </td>
+      <td>
+        {{
+          document.regleDocuments[0]?.regleType?.categoriedocument?.duree &&
+          document.regleDocuments[0]?.regleType?.typeDuree
+            ? `${document.regleDocuments[0].regleType.categoriedocument.duree} ${document.regleDocuments[0].regleType.typeDuree}`
+            : 'Non renseigné'
+        }}
+      </td>
+      <td>
+        {{ document.regleDocuments[0]?.regleType?.sortFinal || 'Non renseigné' }}
+      </td>
+    </tr>
+    <tr v-else>
+      <td colspan="3" class="text-center">Aucune règle de conservation disponible</td>
+    </tr>
+  </tbody>
+</table>
 
         </div>
       </div>

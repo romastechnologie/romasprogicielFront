@@ -510,7 +510,7 @@ console.log('sousEmplacement.value:', sousEmplacement.value);
 
     const getAllOrganisations = async (selectedTypeId = null) => {
   try {
-    organisationOptions.value = []; // vide avant chargement
+    organisationOptions.value = []; // Vider avant le chargement
 
     if (!selectedTypeId) {
       // Pas de chargement si aucun type sélectionné
@@ -520,24 +520,28 @@ console.log('sousEmplacement.value:', sousEmplacement.value);
     const response = await axios.get("all/organisations");
     const organisationsData = response.data?.data?.data ?? [];
 
+    // Filtrer les organisations en fonction du type d'archivage
     const filteredOrgs = selectedTypeId === "deux"
       ? organisationsData
-      : organisationsData.filter(
-          (org) => org?.typedocument?.id === parseInt(selectedTypeId, 10)
-        );
+      : organisationsData.filter((org) => {
+          // Si l'organisation est un parent (n'a pas de parent) et correspond au type sélectionné
+          const isParent = !org.organisation;
+          const matchesType = org?.typedocument?.id === parseInt(selectedTypeId, 10);
+          return isParent && matchesType;
+        });
 
-    organisationOptions.value = filteredOrgs
-      .filter(org => org?.organisation)
-      .map((org) => ({
-        value: org.organisation.id,
-        label: org.organisation.nom,
-      }));
-      console.log("Organisations affichées :", filteredOrgs);
+    organisationOptions.value = filteredOrgs.map((org) => ({
+      value: org.id,
+      label: org.nom,
+    }));
+
+    console.log("Organisations affichées :", filteredOrgs);
 
   } catch (error) {
     console.error("Erreur lors du chargement des organisations :", error);
   }
 };
+
 
 
 
