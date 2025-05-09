@@ -115,7 +115,8 @@
           </div>
         <div class="col-md-4 mt-3">
             <label for="fichier" class="form-label"
-              >Fichier<span class="text-danger">*</span></label
+              >Fichier<span  v-if="!isPhysique()"  class="text-danger"
+                      >*</span></label
             >
             <Field
               name="fichier"
@@ -392,6 +393,12 @@ export default defineComponent({
     const lesRegles = ref<Array<number>>([]);
     const emplacementOptions = ref<Array<any>>();
     const emplacement = ref();
+     const typeDocEtat = ref(true);
+const isPhysique = () => {
+  const selected = typeOptions.value.find((type) => type.value === typeDoc.value);
+  return selected?.label?.trim().toLowerCase() === "physique";
+};
+
     //const showMErr = ref(false);
     //const permissions = ref(null);
     const typeOptions = ref([]);
@@ -477,6 +484,7 @@ console.log('sousEmplacement.value:', sousEmplacement.value);
       try {
         const response = await axios.get("all/typedocuments");
         const typesData = response.data.data.data;
+        console.log("typedocument",typesData);
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
           label: type.nom,
@@ -715,7 +723,8 @@ watch(emplacement, (newVal) => {
       sousEmplacement,
       lesEmplacements,
       emplacementByCategorieOptions,
-      getEmplacementByCategorie
+      getEmplacementByCategorie,
+      isPhysique
       
       
     };
