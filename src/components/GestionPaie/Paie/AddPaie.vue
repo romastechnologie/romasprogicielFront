@@ -380,33 +380,6 @@ export default defineComponent({
       }
     };
 
-
-//     const fetchPrimeRetenue = async (id) => {
-//   console.log('Testing with static data for contract ID:', id);
-//   primes.splice(0, primes.length);
-//   retenues.splice(0, retenues.length);
-//   primes.push({
-//     typePrime: '1|2000|%',
-//     montant: 20001,
-//     valeurUnitaire: 2000,
-//     quantite: 1,
-//     valeur: 2000,
-//     desactive: true,
-//   });
-//   retenues.push({
-//     typeRetenue: '1|16000|%',
-//     montant: 16001,
-//     valeurUnitaire: 16000,
-//     quantite: 1,
-//     valeur: 16000,
-//     desactive: true,
-//   });
-//   console.log('Static Primes:', primes);
-//   console.log('Static Retenues:', retenues);
-//   updateValeurUnitaire();
-//   updateAllMontants();
-// };
-
     const getContrat = async (id) => {
       try {
         const response = await ApiService.get(`/contrat/${id}`);
@@ -693,15 +666,6 @@ export default defineComponent({
       },
       { deep: true }
     );
-
-
-    watch(
-  () => newContrat.value,
-  (newValue) => {
-    console.log('newContrat updated to:', newValue);
-    fetchPrimeRetenue(newValue);
-  }
-);
 
 
     const addPaie = async (values: any, { resetForm }) => {
