@@ -9,43 +9,38 @@
               <label class="d-block text-black mb-10">
                 Contrat <span class="text-danger">*</span>
               </label>
-              <!-- <Field name="contrat" v-model="selectedContrat" >
-              <Multiselect
-                :options="contratOptions"
-                :searchable="true"
-                track-by="value"
-                label="label"
-                v-model="selectedContrat"
-                placeholder="Sélectionner le contrat"
-                @select="fetchPrimeRetenue(selectedContrat)"
-              />
-            </Field>-->
               <Field name="contrat" v-slot="{ field }" v-model="newContrat">
                 <Multiselect :options="contratOptions" :searchable="true" track-by="value" label="label"
                   v-model="field.value" v-bind="field" placeholder="Sélectionner le contrat" />
               </Field>
-
               <ErrorMessage name="contrat" class="text-danger" />
             </div>
           </div>
 
-          <div class="col-md-4 mb-3">
+          <!-- <div class="col-md-4 mb-3">
             <label for="refPaie" class="form-label">Référence<span class="text-danger">*</span></label>
             <Field name="refPaie" class="form-control" type="text" />
             <ErrorMessage name="refPaie" class="text-danger" />
-          </div>
+          </div> -->
 
           <div class="col-md-4 mb-3">
             <label for="datePaie" class="form-label"> Date de Paie<span class="text-danger">*</span></label>
             <Field name="datePaie" class="form-control" type="Date" />
             <ErrorMessage name="datePaie" class="text-danger" />
           </div>
-
           <div class="col-md-4 mb-3">
-            <label for="periode" class="form-label"> Période<span class="text-danger">*</span></label>
-            <Field name="periode" class="form-control" type="Date" />
-            <ErrorMessage name="periode" class="text-danger" />
-          </div>
+                    <label for="periode" class="form-label">Période<span class="text-danger">*</span></label>
+                    <Field
+                      name="periode"
+                      class="form-control"
+                      type="month"
+                      :min="minDate"
+                      :max="maxDate"
+                      v-model="periodeDefault"
+                    />
+                    <ErrorMessage name="periode" class="text-danger" />
+                  </div>
+
 
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -60,6 +55,22 @@
               <ErrorMessage name="modepaiement" class="text-danger" />
             </div>
           </div>
+
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Processus Paie <span class="text-danger">*</span>
+              </label>
+              <Field name="processuspaie" v-model="processuspaie" type="text" v-slot="{ field }">
+                <Multiselect v-model="field.value" v-bind="field" :options="processusOptions" :preserve-search="true"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner le processus de paie" label="label"
+                  track-by="label" />
+              </Field>
+              <ErrorMessage name="processuspaie" class="text-danger" />
+            </div>
+          </div>
+
+
 
           <div class="col-md-4 mb-3">
             <label for="salaireBrut" class="form-label">Salaire Brut<span class="text-danger">*</span></label>
@@ -81,7 +92,6 @@
             <Field name="salaireNet" class="form-control" type="text" :readonly="true" v-model="salaireNet" />
             <ErrorMessage name="salaireNet" class="text-danger" />
           </div>
-
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
               <div class="row">
@@ -249,6 +259,8 @@
             </div>
           </div>
 
+
+
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center ">
               <button class="btn btn-success me-3" type="submit">
@@ -290,15 +302,19 @@ export default defineComponent({
 
   setup: () => {
     const paieSchema = Yup.object().shape({
-      refPaie: Yup.string().required("La référence est obligatoire."),
+      // refPaie: Yup.string().required("La référence est obligatoire."),
       salaireBrut: Yup.number().required("Le salaire Brut est obligatoire."),
       totalRetenues: Yup.number().typeError("veuillez entrer des nombres").required("Le cout d'aquisition est obligatoire."),
       datePaie: Yup.date().typeError("veuillez entrer une date valide").required("La date de paie est obligatoire."),
-      // dateFin: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
-      // periodeEssai: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
-      // periodePaie: Yup.date().typeError("veuillez entrer une date valide").required("La date de fin est obligatoire."),
-      // renouvelable: Yup.string().notRequired(),
       modepaiement: Yup.string().required("Le mode de paiement est obligatoire."),
+      periode: Yup.string()
+        .matches(/^\d{4}-(0[1-9]|1[0-2])$/, "La période doit être au format YYYY-MM (ex: 2025-05)")
+        .test('valid-year', 'La période doit être comprise entre 2024 et 2025.', value => {
+          if (!value) return false;
+          const year = parseInt(value.split('-')[0], 10);
+          return year >= 2024 && year <= 2025;
+        })
+        .required("La période est obligatoire."),
     });
 
     onMounted(() => {
@@ -306,13 +322,16 @@ export default defineComponent({
       getAllTypePrime();
       getAllTypeRetenue();
       getAllContrats();
+      getAllProcessusPaie();
     });
 
     const lesContrats = ref([]);
     const paieForm = ref(null);
     const showMErr = ref(false);
     const modepaiement = ref();
+    const processuspaie = ref();
     const modeOptions = ref([]);
+    const processusOptions = ref([]);
     const contrat = ref();
     const newContrat = ref();
     const salaire = ref([]);
@@ -324,7 +343,7 @@ export default defineComponent({
     const typeRetenueOptions = ref([]);
     const typeRetenues = ref(null);
     const prOptions = ref();
-
+   
     const getAllContrats = async () => {
       try {
         const response = await ApiService.get('/all/contrats');
@@ -343,7 +362,7 @@ export default defineComponent({
     const selectedContrat = ref(null);
 
     const fetchPrimeRetenue = async (id) => {
-      console.log("ID passé à fetchPrimeRetenue:", id);
+      console.log("ID-FETCHPRIMERETENUE:", id);
       try {
         const response = await ApiService.get(`/prime/retenues/contrat/${id}`);
         const { primes: fetchedPrimes, retenues: fetchedRetenues } = response.data.data;
@@ -388,7 +407,7 @@ export default defineComponent({
         console.log("Salaire de base === > ", contratData.salaireBase);
         salaireDeBase.value = contratData.salaireBase
       } catch (error) {
-        // H
+        // Handle error
       }
     }
 
@@ -402,7 +421,7 @@ export default defineComponent({
           label: typePrime.nomPrime,
         }));
       } catch (error) {
-        // H
+        // Handle error
       }
     };
     const getAllTypeRetenue = async () => {
@@ -415,10 +434,9 @@ export default defineComponent({
           label: typeRetenue.nomRetenue,
         }));
       } catch (error) {
-        // H
+        // Handle error
       }
     };
-
 
     // formulaire dynamique
     const totalPrime = ref(0);
@@ -438,7 +456,7 @@ export default defineComponent({
     const totalRetenues = () => {
       totalRetenue.value = 0;
       Object.keys(retenues).forEach(function (key) {
-        if (primes[key].montant != null) {
+        if (retenues[key].montant != null) {
           totalRetenue.value += parseInt(retenues[key].montant)
         }
       });
@@ -446,11 +464,24 @@ export default defineComponent({
 
     const totalsalaireNet = () => {
       salaireNet.value = (totalPrime.value - totalRetenue.value) + parseInt(salaireDeBase.value);
-
     }
 
     const isDisable = ref(true);
     const isDisablee = ref(true);
+
+    // Obtenir la date actuelle (aujourd'hui : 30 mai 2025)
+    const today = new Date(); // 2025-05-30
+    const currentYear = today.getFullYear(); // 2025
+    const previousYear = currentYear - 1; // 2024
+
+    // Définir la période par défaut (mois et année actuels : "2025-05")
+    const periodeDefault = ref(`${currentYear}-${String(today.getMonth() + 1).padStart(2, '0')}`);
+
+    // Calculer minDate (janvier de l'année précédente : "2024-01")
+    const minDate = computed(() => `${previousYear}-01`);
+
+    // Calculer maxDate (décembre de l'année en cours : "2025-12")
+    const maxDate = computed(() => `${currentYear}-12`);
 
     const primes = reactive([
       {
@@ -563,18 +594,21 @@ export default defineComponent({
       });
     };
 
-    watch(newContrat, (newValue, oldValue) => {
-  const count = lesContrats.value.find((el) => el.id === newValue);
-  console.log('Valeurs recupérées:', count);
+    watch(newContrat, (newValue) => {
+      if (newValue) {
+        selectedContrat.value = newValue; // Synchronisation avec selectedContrat
+        fetchPrimeRetenue(newValue); // Charger les primes et retenues
+        const count = lesContrats.value.find((el) => el.id === newValue);
+        console.log('Valeurs récupérées:', count);
 
-  if (count) {
-    salaireDeBase.value = count.salaire;
-  } else {
-    console.warn('Aucun contrat trouvé avec cet ID');
-    salaireDeBase.value = 0; 
-  }
-});
-
+        if (count) {
+          salaireDeBase.value = count.salaireBase || 0; // Utilisation de salaireBase comme dans getContrat
+        } else {
+          console.warn('Aucun contrat trouvé avec cet ID');
+          salaireDeBase.value = 0;
+        }
+      }
+    });
 
     watch(salaireDeBase, () => {
       updateValeurUnitaire();
@@ -638,7 +672,6 @@ export default defineComponent({
       updateAllMontants();
     };
 
-
     watch(
       primes,
       (newValue) => {
@@ -667,16 +700,16 @@ export default defineComponent({
       { deep: true }
     );
 
-
     const addPaie = async (values: any, { resetForm }) => {
       values['modepaiement'] = modepaiement.value;
+      values['processuspaie'] = processuspaie.value;
       values['contrat'] = selectedContrat.value;
       values.paieprime = primes.map(prime => ({
         typeprime: parseInt(prime.typePrime.split('|')[0]),
         valeur: parseInt(prime.valeur),
-        valeurUnitaire: prime.valeurUnitaire,
+        valeurUnitaire: (prime.valeurUnitaire),
         montant: prime.montant,
-        quantite: (prime.quantite),
+        quantite: prime.quantite,
       }));
 
       values.paieretenue = retenues.map(retenue => ({
@@ -692,8 +725,6 @@ export default defineComponent({
         .then(({ data }) => {
           if (data.code == 201) {
             success(data.message);
-            //resetForm();
-            console.log('flefelef')
             router.push({ name: "ListePaie" });
           }
         }).catch(({ response }) => {
@@ -701,6 +732,7 @@ export default defineComponent({
         });
     };
 
+    
     const getAllModePaiements = async () => {
       try {
         const response = await ApiService.get('/all/modepaiements');
@@ -711,13 +743,55 @@ export default defineComponent({
         }));
       }
       catch (error) {
-        //error(response.data.message)
+        // Handle error
       }
     }
+
+    const getAllProcessusPaie = async () => {
+    try {
+        const response = await ApiService.get('/all/processuspaies');
+        const processusData = response.data.data.data;
+        processusOptions.value = processusData.map((processus) => {
+            // Récupérer le nom de la personne à partir de la première paie (si elle existe)
+            const personnel = processus.paies && processus.paies.length > 0 
+                ? processus.paies[0].contrat?.personnel 
+                : null;
+            const nomPersonnel = personnel ? `${personnel.nom} ${personnel.prenom || ''}` : 'Inconnu';
+
+            return {
+                value: processus.id,
+                label: `Processus de Paie de ${nomPersonnel} - Période ${new Date(processus.periodePaie).toISOString().slice(0, 7)}`,
+            };
+        });
+    } catch (error) {
+        console.error('Error fetching processus de paie:', error);
+    }
+};
+
+    // const getAllProcessusPaie = async () => {
+    //   try {
+    //     const response = await ApiService.get('/all/processuspaies');
+    //     const processusData = response.data.data.data;
+    //     processusOptions.value = processusData.map((processus) => ({
+    //       value: processus.id,
+
+    //       label: `Processus de Paie de ${processus?.paies?.contrat?.personnel?.nom|| ''}` : 'Inconnu'} - Période ${new Date(processus.periodePaie).toISOString().slice(0, 7)}`,
+
+    //     }));
+    //   }
+    //   catch (error) {
+    //     // Handle error
+    //   }
+    // }
 
     return {
       paieSchema, addPaie, paieForm, modeOptions, showMErr, modepaiement,
       typePrimeOptions,
+      processuspaie,
+      processusOptions,
+      periodeDefault,
+      minDate,
+      maxDate,
       typePrimes,
       selectTypePrime,
       salaire,

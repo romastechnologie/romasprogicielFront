@@ -6,6 +6,7 @@
       color="#9b59b6">
       <tab-content title="Information Générale">
         <div class="row">
+
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -17,6 +18,10 @@
               <span class="invalid-feedback"></span>
             </div>
           </div>
+
+
+
+
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -30,6 +35,7 @@
               <span class="invalid-feedback"></span>
             </div>
           </div>
+
           <div class="col-md-4 mb-3" v-if="contrat.categorieContrat !== 'Prestation'">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -40,6 +46,20 @@
                 track-by="label" />
               <span class="invalid-feedback"></span>
             </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="renouvelable" class="form-label">Renouvelable</label>
+            <div class="form-check-size">
+              <div class="form-check form-check-inline radio radio-primary">
+                <input class="form-check-input" id="oui" v-model="contrat.renouvelable" type="radio" value="1" />
+                <label class="form-check-label mb-0" for="oui">Oui</label>
+              </div>
+              <div class="form-check form-check-inline radio radio-primary">
+                <input class="form-check-input" id="non" v-model="contrat.renouvelable" type="radio" value="0" />
+                <label class="form-check-label mb-0" for="non">Non</label>
+              </div>
+            </div>
+            <span class="invalid-feedback"></span>
           </div>
           <div class="col-md-4 mb-3">
             <label for="ref" class="form-label">Durée du contrat<span class="text-danger">*</span></label>
@@ -60,35 +80,9 @@
             <input v-model="contrat.dateDebut" class="form-control" type="Date" />
             <span class="invalid-feedback"></span>
           </div>
-
-          <div class="col-md-4 mb-3">
-            <label for="ref" class="form-label">Période d'essai<span class="text-danger">*</span></label>
-            <div class="input-group">
-              <input v-model="contrat.dureePeriodeEssai" class="form-control" type="text" for="inputGroupSelect01" />
-              <select class="form-select form-control" style="width: 20px !important"
-                v-model="contrat.periodiciteDureeEssai">
-                <option value="...">...</option>
-                <option value="Jour(s)">Jour(s)</option>
-                <option value="Mois">Mois</option>
-                <option value="Ans">Ans</option>
-              </select>
-              <span class="invalid-feedback"></span>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="salaireBase" class="form-label">Salaire de base<span class="text-danger">*</span></label>
-            <input v-model="contrat.salaireBase" class="form-control" type="number" />
-            <span class="invalid-feedback"></span>
-          </div>
           <div class="col-md-4 mb-3" disabled>
             <label for="dateFin" class="form-label">Date de fin de contrat<span class="text-danger">*</span></label>
             <input v-model="contrat.dateFin" readonly disabled class="form-control" type="Date" />
-            <span class="invalid-feedback"></span>
-          </div>
-          <div class="col-md-4 mb-3" disabled>
-            <label for="dateFinPeriodeEssai" class="form-label">
-              Date fin de période d'Essai<span class="text-danger">*</span></label>
-            <input v-model="contrat.dateFinPeriodeEssai" class="form-control" type="Date" readonly disabled />
             <span class="invalid-feedback"></span>
           </div>
           <div class="col-md-4 mb-3">
@@ -103,42 +97,10 @@
             </div>
           </div>
           <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Poste Occupé <span class="text-danger">*</span>
-              </label>
-              <Multiselect v-model="contrat.poste" :options="fonctionOptions" :preserve-search="true" :multiple="false"
-                :searchable="true" placeholder="Sélectionner la fonction" label="label" track-by="label"
-                @change="fetchAttributionsByPoste($event)" />
-              <span class="invalid-feedback"></span>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="renouvelable" class="form-label">Renouvelable</label>
-            <div class="form-check-size">
-              <div class="form-check form-check-inline radio radio-primary">
-                <input class="form-check-input" id="oui" v-model="contrat.renouvelable" type="radio" value="1" />
-                <label class="form-check-label mb-0" for="oui">Oui</label>
+                <label for="salaireBase" class="form-label">{{ salaireBaseLabel }}<span class="text-danger">*</span></label>
+                <input v-model="contrat.salaireBase" class="form-control" type="number" />
+                <span class="invalid-feedback"></span>
               </div>
-              <div class="form-check form-check-inline radio radio-primary">
-                <input class="form-check-input" id="non" v-model="contrat.renouvelable" type="radio" value="0" />
-                <label class="form-check-label mb-0" for="non">Non</label>
-              </div>
-            </div>
-            <span class="invalid-feedback"></span>
-          </div>
-          <div class="col-md-8">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black fw-semibold mb-10">
-                Attributions <span class="text-danger">*</span>
-              </label>
-              <Field name="attributioncontrats" v-slot="{ field }" v-model="attributionpostes">
-                <Multiselect mode="tags" v-bind="field" :close-on-select="false" :options="attributionOptions"
-                  :searchable="true" :multiple="true" placeholder="" />
-              </Field>
-              <span class="invalid-feedback"></span>
-            </div>
-          </div>
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -150,6 +112,49 @@
                 'Bimensuel',
                 'Bihebdomadaire',
               ]" v-model="contrat.periodeDePaie" placeholder="Sélectionner la période" />
+              <span class="invalid-feedback"></span>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="ref" class="form-label">Période d'essai<span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input v-model="contrat.dureePeriodeEssai" class="form-control" type="text" for="inputGroupSelect01" />
+              <select class="form-select form-control" style="width: 20px !important"
+                v-model="contrat.periodiciteDureeEssai">
+                <option value="...">...</option>
+                <option value="Jour(s)">Jour(s)</option>
+                <option value="Mois">Mois</option>
+                <option value="Ans">Ans</option>
+              </select>
+              <span class="invalid-feedback"></span>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3" disabled>
+            <label for="dateFinPeriodeEssai" class="form-label">
+              Date fin de période d'Essai<span class="text-danger">*</span></label>
+            <input v-model="contrat.dateFinPeriodeEssai" class="form-control" type="Date" readonly disabled />
+            <span class="invalid-feedback"></span>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Poste Occupé <span class="text-danger">*</span>
+              </label>
+              <Multiselect v-model="contrat.poste" :options="fonctionOptions" :preserve-search="true" :multiple="false"
+                :searchable="true" placeholder="Sélectionner la fonction" label="label" track-by="label"
+                @change="fetchAttributionsByPoste($event)" />
+              <span class="invalid-feedback"></span>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Attributions <span class="text-danger">*</span>
+              </label>
+              <Field name="attributioncontrats" v-slot="{ field }" v-model="attributionpostes">
+                <Multiselect mode="tags" v-bind="field" :close-on-select="false" :options="attributionOptions"
+                  :searchable="true" :multiple="true" placeholder="" />
+              </Field>
               <span class="invalid-feedback"></span>
             </div>
           </div>
@@ -214,8 +219,8 @@
                           <input :disabled="horaire.estActif == '0'" readonly
                             class="form-control shadow-none fs-md-15 text-black" type="text" v-model="horaire.jour"
                             :class="valideteRowHoraire(horaire.jour, horaire.estActif)
-                                ? 'is-invalid'
-                                : ''
+                              ? 'is-invalid'
+                              : ''
                               " />
                           <div class="invalid-feedback" v-if="
                             valideteRowHoraire(horaire.jour, horaire.estActif)
@@ -231,8 +236,8 @@
                               horaire.heureOuverture,
                               horaire.estActif
                             )
-                                ? 'is-invalid'
-                                : ''
+                              ? 'is-invalid'
+                              : ''
                               " class="form-control shadow-none fs-md-15 text-black" placeholder="Saisir le nom" />
                           <div class="invalid-feedback" v-if="
                             valideteRowHoraire(
@@ -251,8 +256,8 @@
                               horaire.heureDebutPause,
                               horaire.estActif
                             )
-                                ? 'is-invalid'
-                                : ''
+                              ? 'is-invalid'
+                              : ''
                               " class="form-control shadow-none fs-md-15 text-black" />
                           <div class="invalid-feedback" v-if="
                             valideteRowHoraire(
@@ -270,8 +275,8 @@
                             horaire.heureFinPause,
                             horaire.estActif
                           )
-                              ? 'is-invalid'
-                              : ''
+                            ? 'is-invalid'
+                            : ''
                             " class="form-control shadow-none fs-md-15 text-black" placeholder="" />
                           <div class="invalid-feedback" v-if="
                             valideteRowHoraire(
@@ -290,8 +295,8 @@
                               horaire.heureFermeture,
                               horaire.estActif
                             )
-                                ? 'is-invalid'
-                                : ''
+                              ? 'is-invalid'
+                              : ''
                               " class="form-control shadow-none fs-md-15 text-black" placeholder="Saisir le nom" />
                           <div class="invalid-feedback" v-if="
                             valideteRowHoraire(
@@ -391,8 +396,8 @@
                         </td>
                         <td class="quantite-col">
                           <input type="text" v-model="prime.quantite" :class="validateRowPrime(prime.quantite)
-                              ? 'form-control is-invalid'
-                              : 'form-control'
+                            ? 'form-control is-invalid'
+                            : 'form-control'
                             " placeholder="Entrer la quantité" />
                           <span class="invalid-feedback" v-if="validateRowPrime(prime.quantite)">
                             La quantité est obligatoire.
@@ -471,8 +476,8 @@
                         </td>
                         <td class="quantite-col">
                           <input type="text" v-model="retenue.quantite" :class="validateRowRetenue(retenue.quantite)
-                              ? 'form-control is-invalid'
-                              : 'form-control'
+                            ? 'form-control is-invalid'
+                            : 'form-control'
                             " placeholder="Entrer la quantité" />
                           <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
                             La quantité est obligatoire.
@@ -695,6 +700,20 @@ export default defineComponent({
     const personnels = ref([] as any[]);
     const fonctionOptions = ref([]);
 
+    // Propriété calculée pour le libellé dynamique
+    const salaireBaseLabel = computed(() => {
+      if (contrat.value.modetarification && modeDeTarificationOptions.value.length > 0) {
+        const selectedMode = modeDeTarificationOptions.value.find(
+          (mode) => mode.value === contrat.value.modetarification
+        );
+        if (selectedMode) {
+          const baseLabel = selectedMode.label.toLowerCase().replace("par ", "Salaire ").trim();
+          return baseLabel.charAt(0).toUpperCase() + baseLabel.slice(1); // Capitalise la première lettre
+        }
+      }
+      return "Salaire de base";
+    });
+
     const getAllTypeContrat = async () => {
       try {
         const response = await ApiService.get("/all/typeContrats");
@@ -709,19 +728,52 @@ export default defineComponent({
       }
     };
 
+    // const getAllPersonnel = async () => {
+    //   try {
+    //     const response = await ApiService.get("/all/personnels");
+    //     const personnelsData = response.data.data.data;
+    //     console.log("Data", personnelsData);
+    //     personnelOptions.value = personnelsData.map((personnel) => ({
+    //       value: personnel.id,
+    //       label: personnel.nom + " " + personnel.prenom,
+    //     }));
+    //   } catch (error) {
+    //     //error(response.data.message)
+    //   }
+    // };
+
     const getAllPersonnel = async () => {
-      try {
-        const response = await ApiService.get("/all/personnels");
-        const personnelsData = response.data.data.data;
-        console.log("Data", personnelsData);
-        personnelOptions.value = personnelsData.map((personnel) => ({
-          value: personnel.id,
-          label: personnel.nom + " " + personnel.prenom,
-        }));
-      } catch (error) {
-        //error(response.data.message)
-      }
-    };
+  try {
+    // Récupérer tous les personnels
+    const response = await ApiService.get("/all/personnels");
+    const personnelsData = response.data.data.data;
+    console.log("Personnels bruts:", personnelsData);
+
+    // Récupérer les contrats existants
+    const contratsResponse = await ApiService.get("/all/contrats");
+    const contratsData = contratsResponse.data.data.data || [];
+    console.log("Contrats récupérés:", contratsData);
+
+    // Extraire les IDs des personnels ayant un contrat
+    const personnelsOccupes = contratsData.map((contrat) => contrat.personnel);
+    console.log("Personnels occupés (IDs):", personnelsOccupes);
+
+    // Filtrer les personnels non occupés
+    const filteredPersonnels = personnelsData.filter(
+      (personnel) => !personnelsOccupes.includes(personnel.id)
+    );
+    console.log("Personnels filtrés:", filteredPersonnels);
+
+    // Mettre à jour les options
+    personnelOptions.value = filteredPersonnels.map((personnel) => ({
+      value: personnel.id,
+      label: personnel.nom + " " + personnel.prenom,
+    }));
+    console.log("Options finales pour Multiselect:", personnelOptions.value);
+  } catch (error) {
+    console.error("Erreur lors du chargement des personnels ou contrats:", error);
+  }
+};
 
     const getAllAttribution = async () => {
       try {
@@ -804,6 +856,7 @@ export default defineComponent({
         //error(response.data.message)
       }
     };
+
     const fetchAttributionsByPoste = async (id) => {
       try {
         console.log('data1', id);
@@ -817,6 +870,7 @@ export default defineComponent({
         console.error('Erreur lors du chargement des attributions :', error);
       }
     };
+
     const getAllOrganisations = async () => {
       try {
         const response = await ApiService.get("/all/organisations");
@@ -939,14 +993,12 @@ export default defineComponent({
       },
     ]);
 
-
     const attribution_postes = reactive([
       {
         poste: "",
         attribution: "",
       },
     ]);
-
 
     const addRowPrime = () => {
       primes.push({
@@ -975,7 +1027,6 @@ export default defineComponent({
       });
     };
 
-
     const removeRowPrime = (index) => {
       if (primes.length > 1) {
         primes.splice(index, 1);
@@ -995,7 +1046,6 @@ export default defineComponent({
       return !value || value <= 0;
     };
 
-
     const removeAttributionPoste = (index) => {
       if (attribution_postes.length > 1)
         attribution_postes.splice(index, 1);
@@ -1004,7 +1054,6 @@ export default defineComponent({
     const validateAttributionPoste = (value) => {
       return !value || value <= 0;
     };
-
 
     const calculerMontant = (item) => {
       const valeurUnitaire = item.valeurUnitaire || 1;
@@ -1179,7 +1228,6 @@ export default defineComponent({
       });
     });
 
-
     watch(
       () => contrat.value.categorieContrat,
       (newValue) => {
@@ -1211,14 +1259,14 @@ export default defineComponent({
         return;
       }
 
-      console.log("PRIMMME ===> ", primes);
+      console.log("PRIME ===> ", primes);
       console.log("retenues ===> ", retenues);
       console.log("fonctions ===> ", fonctions);
       console.log("horaireContrats ===> ", horaires);
       console.log("horaireContrat ===> ", horaires);
       try {
         // Préparez les données avant l'envoi
-        values["contratPrime"] = primes.map((prime) => ({
+        values["contratprime"] = primes.map((prime) => ({
           typeprime: parseInt(prime.typePrime.split("|")[0]),
           valeur: prime.valeur,
           valeurUnitaire: prime.valeurUnitaire,
@@ -1343,7 +1391,8 @@ export default defineComponent({
       validateStep,
       addAttributionPoste,
       removeAttributionPoste,
-      validateAttributionPoste
+      validateAttributionPoste,
+      salaireBaseLabel, // Retourner la propriété calculée
     };
   },
 });
