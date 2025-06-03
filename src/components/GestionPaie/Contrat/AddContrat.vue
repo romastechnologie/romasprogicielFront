@@ -6,7 +6,7 @@
       color="#9b59b6">
       <tab-content title="Information Générale">
         <div class="row">
-
+          <!-- 
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -17,10 +17,20 @@
                 track-by="label" />
               <span class="invalid-feedback"></span>
             </div>
+          </div> -->
+
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Personnel <span class="text-danger">*</span>
+              </label>
+              <Multiselect v-model="contrat.personnel" :options="personnelOptions" :preserve-search="true"
+                :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
+                track-by="label" :key="componentKey"
+                />
+                <span class="invalid-feedback"></span>
+            </div>
           </div>
-
-
-
 
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -97,10 +107,10 @@
             </div>
           </div>
           <div class="col-md-4 mb-3">
-                <label for="salaireBase" class="form-label">{{ salaireBaseLabel }}<span class="text-danger">*</span></label>
-                <input v-model="contrat.salaireBase" class="form-control" type="number" />
-                <span class="invalid-feedback"></span>
-              </div>
+            <label for="salaireBase" class="form-label">{{ salaireBaseLabel }}<span class="text-danger">*</span></label>
+            <input v-model="contrat.salaireBase" class="form-control" type="number" />
+            <span class="invalid-feedback"></span>
+          </div>
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -584,15 +594,21 @@ export default defineComponent({
     });
     const horaires = reactive([]);
     onMounted(async () => {
-      await getAllTypeContrat();
-      await getAllTypePrime();
-      await getAllTypeRetenue();
-      await getAllAttribution();
-      await getAllPersonnel();
-      await getAllModeTarifications();
-      await getAllOrganisations();
-      await fetchFonction();
-    });
+  try {
+    await Promise.all([
+      getAllTypeContrat(),
+      getAllTypePrime(),
+      getAllTypeRetenue(),
+      getAllAttribution(),
+      getAllPersonnel(), // Appeler après les autres pour éviter des conflits
+      getAllModeTarifications(),
+      getAllOrganisations(),
+      fetchFonction(),
+    ]);
+  } catch (error) {
+    console.error("Erreur lors du chargement initial:", error);
+  }
+});
 
     const contrat = ref({
       refContrat: "",
@@ -691,7 +707,7 @@ export default defineComponent({
     const typePrimes = ref(null);
     const typeRetenues = ref(null);
     const salaireDeBase = ref();
-    const personnelOptions = ref();
+    const personnelOptions = ref([]);
     const attributionOptions = ref();
     const attribution = ref();
     const OrganisationOptions = ref();
@@ -713,6 +729,7 @@ export default defineComponent({
       }
       return "Salaire de base";
     });
+
 
     const getAllTypeContrat = async () => {
       try {
@@ -742,36 +759,58 @@ export default defineComponent({
     //   }
     // };
 
-    const getAllPersonnel = async () => {
+//     const getAllPersonnel = async () => {
+//   try {
+//     // Récupérer tous les personnels
+//     const response = await ApiService.get("/all/personnels");
+//     const personnelsData = response.data.data.data;
+//     console.log("Personnels bruts:", personnelsData);
+
+//     // Récupérer les contrats existants
+//     const contratsResponse = await ApiService.get("/all/contrats");
+//     const contratsData = contratsResponse.data.data.data || [];
+//     console.log("Contrats récupérés:", contratsData);
+
+//     // Extraire les IDs des personnels ayant un contrat
+//     const personnelsOccupes = contratsData.map((contrat) => contrat.personnel);
+//     console.log("Personnels occupés (IDs):", personnelsOccupes);
+
+//     // Filtrer les personnels non occupés
+//     const filteredPersonnels = personnelsData.filter(
+//       (personnel) => !personnelsOccupes.includes(personnel.id)
+//     );
+//     console.log("Personnels filtrés:", filteredPersonnels);
+
+//     // Mettre à jour les options
+//     personnelOptions.value = filteredPersonnels.map((personnel) => ({
+//       value: personnel.id,
+//       label: personnel.nom + " " + personnel.prenom,
+//     }));
+//     console.log("Options finales pour Multiselect:", personnelOptions.value);
+//   } catch (error) {
+//     console.error("Erreur lors du chargement des personnels ou contrats:", error);
+//   }
+// };
+
+const componentKey = ref(0);
+
+
+const getAllPersonnel = async () => {
   try {
-    // Récupérer tous les personnels
     const response = await ApiService.get("/all/personnels");
-    const personnelsData = response.data.data.data;
-    console.log("Personnels bruts:", personnelsData);
+    const personnelsData = response.data.data.data || [];
+    console.log("Personnels disponibles (directement filtrés par l'API):", personnelsData);
 
-    // Récupérer les contrats existants
-    const contratsResponse = await ApiService.get("/all/contrats");
-    const contratsData = contratsResponse.data.data.data || [];
-    console.log("Contrats récupérés:", contratsData);
-
-    // Extraire les IDs des personnels ayant un contrat
-    const personnelsOccupes = contratsData.map((contrat) => contrat.personnel);
-    console.log("Personnels occupés (IDs):", personnelsOccupes);
-
-    // Filtrer les personnels non occupés
-    const filteredPersonnels = personnelsData.filter(
-      (personnel) => !personnelsOccupes.includes(personnel.id)
-    );
-    console.log("Personnels filtrés:", filteredPersonnels);
-
-    // Mettre à jour les options
-    personnelOptions.value = filteredPersonnels.map((personnel) => ({
+    personnelOptions.value = personnelsData.map((personnel) => ({
       value: personnel.id,
-      label: personnel.nom + " " + personnel.prenom,
+      label: `${personnel.nom} ${personnel.prenom}`,
     }));
-    console.log("Options finales pour Multiselect:", personnelOptions.value);
+    console.log("Options pour Multiselect:", personnelOptions.value);
+    componentKey.value += 1;
   } catch (error) {
-    console.error("Erreur lors du chargement des personnels ou contrats:", error);
+    console.error("Erreur lors du chargement des personnels:", error);
+    personnelOptions.value = [];
+    componentKey.value += 1;
   }
 };
 
@@ -1253,57 +1292,172 @@ export default defineComponent({
       }
     };
 
-    const addContrat = async (values) => {
-      if (!values || Object.keys(values).length === 0) {
-        console.error("Erreur : L'objet 'values' est vide ou indéfini !");
-        return;
-      }
+    // const addContrat = async (values) => {
+    //   if (!values || Object.keys(values).length === 0) {
+    //     console.error("Erreur : L'objet 'values' est vide ou indéfini !");
+    //     return;
+    //   }
 
-      console.log("PRIME ===> ", primes);
-      console.log("retenues ===> ", retenues);
-      console.log("fonctions ===> ", fonctions);
-      console.log("horaireContrats ===> ", horaires);
-      console.log("horaireContrat ===> ", horaires);
-      try {
-        // Préparez les données avant l'envoi
-        values["contratprime"] = primes.map((prime) => ({
-          typeprime: parseInt(prime.typePrime.split("|")[0]),
-          valeur: prime.valeur,
-          valeurUnitaire: prime.valeurUnitaire,
-          montant: prime.montant,
-          quantite: prime.quantite,
-        }));
-        values["contratretenue"] = retenues.map((retenue) => ({
-          typesretenue: parseInt(retenue.typeRetenue.split("|")[0]),
-          valeur: retenue.valeur,
-          valeurUnitaire: retenue.valeurUnitaire,
-          montant: retenue.montant,
-          quantite: retenue.quantite,
-        }));
-        values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
-          poste: parseInt(attributionposte.poste.split("|")[0]),
-          attribution: parseInt(attributionposte.attribution.split("|")[0]),
-        }));
-        values["horaireContrats"] = horaires.map((horraire) => ({
-          jour: horraire.jour,
-          heureArrivee: horraire.heureOuverture,
-          heureDepart: horraire.heureFermeture,
-          heureFinPause: horraire.heureFinPause,
-          heureDebutPause: horraire.heureDebutPause,
-          estActif: horraire.estActif,
-          personnel: values.personnel,
-        }));
-        console.log("Soumission des données formatées :", values);
-        const { data } = await ApiService.post("/gescom/contrats", values);
-        if (data.code === 201) {
-          success(data.message);
-          router.push({ name: "ListeContrat" });
-        }
-      } catch (err) {
-        console.error("Erreur d'API :", err);
-      }
-    };
+    //   console.log("PRIME ===> ", primes);
+    //   console.log("retenues ===> ", retenues);
+    //   console.log("fonctions ===> ", fonctions);
+    //   console.log("horaireContrats ===> ", horaires);
+    //   console.log("horaireContrat ===> ", horaires);
+    //   try {
+    //     // Préparez les données avant l'envoi
+    //     values["contratprime"] = primes.map((prime) => ({
+    //       typeprime: parseInt(prime.typePrime.split("|")[0]),
+    //       valeur: prime.valeur,
+    //       valeurUnitaire: prime.valeurUnitaire,
+    //       montant: prime.montant,
+    //       quantite: prime.quantite,
+    //     }));
+    //     values["contratretenue"] = retenues.map((retenue) => ({
+    //       typesretenue: parseInt(retenue.typeRetenue.split("|")[0]),
+    //       valeur: retenue.valeur,
+    //       valeurUnitaire: retenue.valeurUnitaire,
+    //       montant: retenue.montant,
+    //       quantite: retenue.quantite,
+    //     }));
+    //     values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
+    //       poste: parseInt(attributionposte.poste.split("|")[0]),
+    //       attribution: parseInt(attributionposte.attribution.split("|")[0]),
+    //     }));
+    //     values["horaireContrats"] = horaires.map((horraire) => ({
+    //       jour: horraire.jour,
+    //       heureArrivee: horraire.heureOuverture,
+    //       heureDepart: horraire.heureFermeture,
+    //       heureFinPause: horraire.heureFinPause,
+    //       heureDebutPause: horraire.heureDebutPause,
+    //       estActif: horraire.estActif,
+    //       personnel: values.personnel,
+    //     }));
+    //     console.log("Soumission des données formatées :", values);
+    //     const { data } = await ApiService.post("/gescom/contrats", values);
+    //     if (data.code === 201) {
+    //       success(data.message);
+    //       router.push({ name: "ListeContrat" });
+    //     }
+    //   } catch (err) {
+    //     console.error("Erreur d'API :", err);
+    //   }
+    // };
 
+
+//     const addContrat = async (values) => {
+//   if (!values || Object.keys(values).length === 0) {
+//     console.error("Erreur : L'objet 'values' est vide ou indéfini !");
+//     return;
+//   }
+
+//   try {
+//     values["contratprime"] = primes.map((prime) => ({
+//       typeprime: parseInt(prime.typePrime.split("|")[0]),
+//       valeur: prime.valeur,
+//       valeurUnitaire: prime.valeurUnitaire,
+//       montant: prime.montant,
+//       quantite: prime.quantite,
+//     }));
+//     values["contratretenue"] = retenues.map((retenue) => ({
+//       typesretenue: parseInt(retenue.typeRetenue.split("|")[0]),
+//       valeur: retenue.valeur,
+//       valeurUnitaire: retenue.valeurUnitaire,
+//       montant: retenue.montant,
+//       quantite: retenue.quantite,
+//     }));
+//     values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
+//       poste: parseInt(attributionposte.poste.split("|")[0]),
+//       attribution: parseInt(attributionposte.attribution.split("|")[0]),
+//     }));
+//     values["horaireContrats"] = horaires.map((horraire) => ({
+//       jour: horraire.jour,
+//       heureArrivee: horraire.heureOuverture,
+//       heureDepart: horraire.heureFermeture,
+//       heureFinPause: horraire.heureFinPause,
+//       heureDebutPause: horraire.heureDebutPause,
+//       estActif: horraire.estActif,
+//       personnel: values.personnel,
+//     }));
+//     console.log("Données soumises à l'API :", values);
+
+//     const { data } = await ApiService.post("/gescom/contrats", values);
+//     if (data.code === 201) {
+//       success(data.message);
+//       console.log("Contrat ajouté avec succès, ID du personnel :", values.personnel);
+
+//       // Recharger les personnels
+//       const updatedPersonnelsResponse = await ApiService.get("/all/personnels");
+//       const updatedPersonnelsData = updatedPersonnelsResponse.data.data.data;
+//       console.log("Personnels récupérés après ajout :", updatedPersonnelsData);
+
+//       // Filtrer le personnel ajouté
+//       personnelOptions.value = updatedPersonnelsData
+//         .filter((personnel) => String(personnel.id) !== String(values.personnel))
+//         .map((personnel) => ({
+//           value: personnel.id,
+//           label: personnel.nom + " " + personnel.prenom,
+//         }));
+//       console.log("Nouvelles options pour Multiselect :", personnelOptions.value);
+
+//       router.push({ name: "ListeContrat" });
+//     }
+//   } catch (err) {
+//     console.error("Erreur d'API ou lors du filtrage :", err);
+//   }
+// };
+
+
+const addContrat = async (values) => {
+  if (!values || Object.keys(values).length === 0) {
+    console.error("Erreur : L'objet 'values' est vide ou indéfini !");
+    return;
+  }
+
+  try {
+    values["contratprime"] = primes.map((prime) => ({
+      typeprime: parseInt(prime.typePrime.split("|")[0]),
+      valeur: prime.valeur,
+      valeurUnitaire: prime.valeurUnitaire,
+      montant: prime.montant,
+      quantite: prime.quantite,
+    }));
+    values["contratretenue"] = retenues.map((retenue) => ({
+      typesretenue: parseInt(retenue.typeRetenue.split("|")[0]),
+      valeur: retenue.valeur,
+      valeurUnitaire: retenue.valeurUnitaire,
+      montant: retenue.montant,
+      quantite: retenue.quantite,
+    }));
+    values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
+      poste: parseInt(attributionposte.poste.split("|")[0]),
+      attribution: parseInt(attributionposte.attribution.split("|")[0]),
+    }));
+    values["horaireContrats"] = horaires.map((horraire) => ({
+      jour: horraire.jour,
+      heureArrivee: horraire.heureOuverture,
+      heureDepart: horraire.heureFermeture,
+      heureFinPause: horraire.heureFinPause,
+      heureDebutPause: horraire.heureDebutPause,
+      estActif: horraire.estActif,
+      personnel: values.personnel,
+    }));
+    console.log("Données soumises à l'API :", values);
+
+    const { data } = await ApiService.post("/gescom/contrats", values);
+    if (data.code === 201) {
+      success(data.message);
+      console.log("Contrat ajouté avec succès, ID du personnel :", values.personnel);
+
+      // Recharger les personnels avec le filtrage
+      await getAllPersonnel();
+      componentKey.value += 1; // Forcer le re-rendu du Multiselect
+
+      router.push({ name: "ListeContrat" });
+    }
+  } catch (err) {
+    console.error("Erreur d'API :", err);
+  }
+};
     watch(
       primes,
       (newValue) => {
@@ -1339,6 +1493,7 @@ export default defineComponent({
     });
 
     return {
+      componentKey,
       contrat,
       horaires,
       contratSchema,

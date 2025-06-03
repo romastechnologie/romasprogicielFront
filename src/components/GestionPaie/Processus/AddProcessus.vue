@@ -704,12 +704,26 @@ export default defineComponent({
         lesContrats.value = contratsData;
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label: `${contrat?.personnel?.nom} - ${contrat?.typeContrat?.libelle} ${contrat?.datePriseFonction} - ${contrat?.dateFin}`,
+          label: `${contrat?.personnel?.nom || "Inconnu"} - ${contrat?.typeContrat?.libelle || "N/A"} [${formatDate(contrat?.datePriseFonction)} - ${formatDate(contrat?.dateFin)}]`,
+        
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
       }
     };
+
+
+     // Fonction pour formater une date de YYYY-MM-DD à DD-MM-YYYY
+     const formatDate = (dateString: string | undefined | null): string => {
+      if (!dateString) return "N/A"; // Retourne "N/A" si la date est absente
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return "N/A"; // Vérifie si la date est invalide
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
 
     const getAllTypePrime = async () => {
       try {

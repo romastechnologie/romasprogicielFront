@@ -17,30 +17,23 @@
             </div>
           </div>
 
-          <!-- <div class="col-md-4 mb-3">
-            <label for="refPaie" class="form-label">Référence<span class="text-danger">*</span></label>
-            <Field name="refPaie" class="form-control" type="text" />
-            <ErrorMessage name="refPaie" class="text-danger" />
-          </div> -->
-
           <div class="col-md-4 mb-3">
             <label for="datePaie" class="form-label"> Date de Paie<span class="text-danger">*</span></label>
             <Field name="datePaie" class="form-control" type="Date" />
             <ErrorMessage name="datePaie" class="text-danger" />
           </div>
           <div class="col-md-4 mb-3">
-                    <label for="periode" class="form-label">Période<span class="text-danger">*</span></label>
-                    <Field
-                      name="periode"
-                      class="form-control"
-                      type="month"
-                      :min="minDate"
-                      :max="maxDate"
-                      v-model="periodeDefault"
-                    />
-                    <ErrorMessage name="periode" class="text-danger" />
-                  </div>
-
+            <label for="periode" class="form-label">Période<span class="text-danger">*</span></label>
+            <Field
+              name="periode"
+              class="form-control"
+              type="month"
+              :min="minDate"
+              :max="maxDate"
+              v-model="periodeDefault"
+            />
+            <ErrorMessage name="periode" class="text-danger" />
+          </div>
 
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -70,8 +63,6 @@
             </div>
           </div>
 
-
-
           <div class="col-md-4 mb-3">
             <label for="salaireBrut" class="form-label">Salaire Brut<span class="text-danger">*</span></label>
             <Field name="salaireBrut" class="form-control" type="number" v-model="salaireDeBase" :readonly="true" />
@@ -81,6 +72,10 @@
             <label for="totalRetenues" class="form-label">Total des retenues<span class="text-danger">*</span></label>
             <Field name="totalRetenues" class="form-control" type="number" :readonly="true" v-model="totalRetenue" />
             <ErrorMessage name="totalRetenues" class="text-danger" />
+            <div v-if="isRetenueOverLimit" class="retenue-error-message">
+              <i class="fa fa-exclamation-circle me-2"></i>
+              Attention : Le total des retenues dépasse 1/3 du salaire de base. Veuillez revoir les montants.
+            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="totalPrimes" class="form-label">Total des primes<span class="text-danger">*</span></label>
@@ -259,16 +254,15 @@
             </div>
           </div>
 
-
-
           <div class="col-md-12 mt-3">
-            <div class="d-flex align-items-center ">
-              <button class="btn btn-success me-3" type="submit">
+            <div class="d-flex align-items-center">
+              <button class="btn btn-success me-3" type="submit" :disabled="isRetenueOverLimit">
                 Ajouter une paie
               </button>
-              <router-link to="/paies/liste-paies" class=" btn btn-danger"><i
-                  class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
-                <span class="position-relative"></span>Annuler</router-link>
+              <router-link to="/paies/liste-paies" class="btn btn-danger">
+                <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative"></span>Annuler
+              </router-link>
             </div>
           </div>
         </div>
@@ -278,17 +272,15 @@
 </template>
 
 <script lang="ts">
-
 import { defineComponent, onMounted, ref, reactive, computed, watch } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
-import axios from 'axios';
 import ApiService from '@/services/ApiService';
 import { Paie } from '@/models/Paie';
 import { error, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
-import VueMultiselect from 'vue-multiselect'
+import VueMultiselect from 'vue-multiselect';
 
 export default defineComponent({
   name: "AddPaie",
@@ -302,11 +294,12 @@ export default defineComponent({
 
   setup: () => {
     const paieSchema = Yup.object().shape({
-      // refPaie: Yup.string().required("La référence est obligatoire."),
-      salaireBrut: Yup.number().required("Le salaire Brut est obligatoire."),
-      totalRetenues: Yup.number().typeError("veuillez entrer des nombres").required("Le cout d'aquisition est obligatoire."),
-      datePaie: Yup.date().typeError("veuillez entrer une date valide").required("La date de paie est obligatoire."),
+      contrat: Yup.string().required("Le contrat est obligatoire."),
+      salaireBrut: Yup.number().required("Le salaire brut est obligatoire."),
+      totalRetenues: Yup.number().typeError("Veuillez entrer des nombres").required("Le total des retenues est obligatoire."),
+      datePaie: Yup.date().typeError("Veuillez entrer une date valide").required("La date de paie est obligatoire."),
       modepaiement: Yup.string().required("Le mode de paiement est obligatoire."),
+      processuspaie: Yup.string().required("Le processus de paie est obligatoire."),
       periode: Yup.string()
         .matches(/^\d{4}-(0[1-9]|1[0-2])$/, "La période doit être au format YYYY-MM (ex: 2025-05)")
         .test('valid-year', 'La période doit être comprise entre 2024 et 2025.', value => {
@@ -343,7 +336,18 @@ export default defineComponent({
     const typeRetenueOptions = ref([]);
     const typeRetenues = ref(null);
     const prOptions = ref();
-   
+
+    // Fonction pour formater une date de YYYY-MM-DD à DD-MM-YYYY
+    const formatDate = (dateString: string | undefined | null): string => {
+      if (!dateString) return "N/A"; // Retourne "N/A" si la date est absente
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return "N/A"; // Vérifie si la date est invalide
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
     const getAllContrats = async () => {
       try {
         const response = await ApiService.get('/all/contrats');
@@ -352,7 +356,7 @@ export default defineComponent({
         lesContrats.value = contratsData;
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label:contrat?.personnel?.nom + "-" + contrat?.typeContrat?.libelle +" "+ contrat?.datePriseFonction +"-"+ contrat?.dateFin,
+          label: `${contrat?.personnel?.nom || "Inconnu"} - ${contrat?.typeContrat?.libelle || "N/A"} [${formatDate(contrat?.datePriseFonction)} - ${formatDate(contrat?.dateFin)}]`,
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
@@ -393,7 +397,6 @@ export default defineComponent({
             desactive: true,
           });
         });
-
       } catch (error) {
         console.error('Error fetching primes and retenues:', error);
       }
@@ -403,84 +406,79 @@ export default defineComponent({
       try {
         const response = await ApiService.get(`/contrat/${id}`);
         const contratData = response.data.data;
-        console.log('Type prime', contratData)
+        console.log('Type prime', contratData);
         console.log("Salaire de base === > ", contratData.salaireBase);
-        salaireDeBase.value = contratData.salaireBase
+        salaireDeBase.value = contratData.salaireBase || 0;
       } catch (error) {
-        // Handle error
+        console.error('Error fetching contrat:', error);
       }
-    }
+    };
 
     const getAllTypePrime = async () => {
       try {
         const response = await ApiService.get('/all/typePrimes');
         const typePrimesData = response.data.data.data;
-        console.log('Type prime', typePrimesData)
+        console.log('Type prime', typePrimesData);
         typePrimeOptions.value = typePrimesData.map(typePrime => ({
           value: `${typePrime.id}|${typePrime.valeur}|${typePrime.typeDeValeur}`,
           label: typePrime.nomPrime,
         }));
       } catch (error) {
-        // Handle error
+        console.error('Error fetching type primes:', error);
       }
     };
+
     const getAllTypeRetenue = async () => {
       try {
         const response = await ApiService.get('/all/typeRetenues');
         const typeRetenuesData = response.data.data.data;
-        console.log('Type prime', typeRetenuesData)
+        console.log('Type retenue', typeRetenuesData);
         typeRetenueOptions.value = typeRetenuesData.map(typeRetenue => ({
           value: `${typeRetenue.id}|${typeRetenue.valeur}|${typeRetenue.typeDeValeur}`,
           label: typeRetenue.nomRetenue,
         }));
       } catch (error) {
-        // Handle error
+        console.error('Error fetching type retenues:', error);
       }
     };
 
-    // formulaire dynamique
     const totalPrime = ref(0);
     const totalRetenue = ref(0);
-    const salaireDeBase = ref();
+    const salaireDeBase = ref(0);
     const salaireNet = ref(0);
+    const isRetenueOverLimit = ref(false);
 
     const totalPrimes = () => {
       totalPrime.value = 0;
-      Object.keys(primes).forEach(function (key) {
-        if (primes[key].montant != null) {
-          totalPrime.value += parseInt(primes[key].montant)
-        }
+      primes.forEach((prime) => {
+        const montant = parseFloat(prime.montant) || 0;
+        totalPrime.value += montant;
       });
-    }
+    };
 
     const totalRetenues = () => {
       totalRetenue.value = 0;
-      Object.keys(retenues).forEach(function (key) {
-        if (retenues[key].montant != null) {
-          totalRetenue.value += parseInt(retenues[key].montant)
-        }
+      retenues.forEach((retenue) => {
+        const montant = parseFloat(retenue.montant) || 0;
+        totalRetenue.value += montant;
       });
-    }
+    };
 
     const totalsalaireNet = () => {
-      salaireNet.value = (totalPrime.value - totalRetenue.value) + parseInt(salaireDeBase.value);
-    }
+      const salaireBaseValue = parseFloat(salaireDeBase.value) || 0;
+      salaireNet.value = (totalPrime.value - totalRetenue.value) + salaireBaseValue;
+    };
 
     const isDisable = ref(true);
     const isDisablee = ref(true);
 
-    // Obtenir la date actuelle (aujourd'hui : 30 mai 2025)
-    const today = new Date(); // 2025-05-30
-    const currentYear = today.getFullYear(); // 2025
-    const previousYear = currentYear - 1; // 2024
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const previousYear = currentYear - 1;
 
-    // Définir la période par défaut (mois et année actuels : "2025-05")
     const periodeDefault = ref(`${currentYear}-${String(today.getMonth() + 1).padStart(2, '0')}`);
 
-    // Calculer minDate (janvier de l'année précédente : "2024-01")
     const minDate = computed(() => `${previousYear}-01`);
-
-    // Calculer maxDate (décembre de l'année en cours : "2025-12")
     const maxDate = computed(() => `${currentYear}-12`);
 
     const primes = reactive([
@@ -540,16 +538,17 @@ export default defineComponent({
     };
 
     const validateRowPrime = (value) => {
-      return !value || value <= 0;
+      return !value || parseFloat(value) <= 0;
     };
 
     const validateRowRetenue = (value) => {
-      return !value || value <= 0;
+      return !value || parseFloat(value) <= 0;
     };
 
     const calculerMontant = (item) => {
-      const valeurUnitaire = item.valeurUnitaire || 1;
-      return valeurUnitaire * item.quantite;
+      const valeurUnitaire = parseFloat(item.valeurUnitaire) || 1;
+      const quantite = parseFloat(item.quantite) || 0;
+      return valeurUnitaire * quantite;
     };
 
     const updateAllMontants = () => {
@@ -562,6 +561,7 @@ export default defineComponent({
       totalPrimes();
       totalRetenues();
       totalsalaireNet();
+      checkRetenueLimit();
     };
 
     const updateValeurUnitaire = () => {
@@ -596,13 +596,13 @@ export default defineComponent({
 
     watch(newContrat, (newValue) => {
       if (newValue) {
-        selectedContrat.value = newValue; // Synchronisation avec selectedContrat
-        fetchPrimeRetenue(newValue); // Charger les primes et retenues
+        selectedContrat.value = newValue;
+        fetchPrimeRetenue(newValue);
         const count = lesContrats.value.find((el) => el.id === newValue);
         console.log('Valeurs récupérées:', count);
 
         if (count) {
-          salaireDeBase.value = count.salaireBase || 0; // Utilisation de salaireBase comme dans getContrat
+          salaireDeBase.value = parseFloat(count.salaireBase) || 0;
         } else {
           console.warn('Aucun contrat trouvé avec cet ID');
           salaireDeBase.value = 0;
@@ -700,14 +700,36 @@ export default defineComponent({
       { deep: true }
     );
 
+    const checkRetenueLimit = () => {
+      const salaireBaseValue = parseFloat(salaireDeBase.value) || 0;
+      const retenueLimit = salaireBaseValue / 3;
+      isRetenueOverLimit.value = totalRetenue.value > retenueLimit;
+      if (isRetenueOverLimit.value) {
+        error(`Le total des retenues (${totalRetenue.value}) dépasse les 1/3 du salaire de base (${retenueLimit.toFixed(2)}). Veuillez revoir le montant des retenues.`);
+      }
+    };
+
+    watch(totalRetenue, () => {
+      checkRetenueLimit();
+    });
+
+    watch(salaireDeBase, () => {
+      checkRetenueLimit();
+    });
+
     const addPaie = async (values: any, { resetForm }) => {
+      if (isRetenueOverLimit.value) {
+        error("Impossible d'ajouter la paie : le total des retenues dépasse 1/3 du salaire de base. Veuillez ajuster les retenues.");
+        return;
+      }
+
       values['modepaiement'] = modepaiement.value;
       values['processuspaie'] = processuspaie.value;
       values['contrat'] = selectedContrat.value;
       values.paieprime = primes.map(prime => ({
         typeprime: parseInt(prime.typePrime.split('|')[0]),
         valeur: parseInt(prime.valeur),
-        valeurUnitaire: (prime.valeurUnitaire),
+        valeurUnitaire: prime.valeurUnitaire,
         montant: prime.montant,
         quantite: prime.quantite,
       }));
@@ -715,12 +737,12 @@ export default defineComponent({
       values.paieretenue = retenues.map(retenue => ({
         typesretenue: parseInt(retenue.typeRetenue.split('|')[0]),
         valeur: parseInt(retenue.valeur),
-        valeurUnitaire: (retenue.valeurUnitaire),
+        valeurUnitaire: retenue.valeurUnitaire,
         montant: retenue.montant,
         quantite: retenue.quantite,
       }));
 
-      console.log('Données envoyées', values)
+      console.log('Données envoyées', values);
       ApiService.post("/gescom/paies", values)
         .then(({ data }) => {
           if (data.code == 201) {
@@ -732,7 +754,6 @@ export default defineComponent({
         });
     };
 
-    
     const getAllModePaiements = async () => {
       try {
         const response = await ApiService.get('/all/modepaiements');
@@ -741,48 +762,30 @@ export default defineComponent({
           value: mode.id,
           label: mode.libelle,
         }));
+      } catch (error) {
+        console.error('Error fetching mode paiements:', error);
       }
-      catch (error) {
-        // Handle error
-      }
-    }
+    };
 
     const getAllProcessusPaie = async () => {
-    try {
+      try {
         const response = await ApiService.get('/all/processuspaies');
         const processusData = response.data.data.data;
         processusOptions.value = processusData.map((processus) => {
-            // Récupérer le nom de la personne à partir de la première paie (si elle existe)
-            const personnel = processus.paies && processus.paies.length > 0 
-                ? processus.paies[0].contrat?.personnel 
-                : null;
-            const nomPersonnel = personnel ? `${personnel.nom} ${personnel.prenom || ''}` : 'Inconnu';
+          const personnel = processus.paies && processus.paies.length > 0 
+            ? processus.paies[0].contrat[0].personnel:null;
+           
+          const nomPersonnel = personnel ? `${personnel.nom} ${personnel.prenom || ''}` : 'Inconnu';
 
-            return {
-                value: processus.id,
-                label: `Processus de Paie de ${nomPersonnel} - Période ${new Date(processus.periodePaie).toISOString().slice(0, 7)}`,
-            };
+          return {
+            value: processus.id,
+            label: `Processus de Paie de ${nomPersonnel} - Période ${new Date(processus.periodePaie).toISOString().slice(0, 7)}`,
+          };
         });
-    } catch (error) {
+      } catch (error) {
         console.error('Error fetching processus de paie:', error);
-    }
-};
-
-    // const getAllProcessusPaie = async () => {
-    //   try {
-    //     const response = await ApiService.get('/all/processuspaies');
-    //     const processusData = response.data.data.data;
-    //     processusOptions.value = processusData.map((processus) => ({
-    //       value: processus.id,
-
-    //       label: `Processus de Paie de ${processus?.paies?.contrat?.personnel?.nom|| ''}` : 'Inconnu'} - Période ${new Date(processus.periodePaie).toISOString().slice(0, 7)}`,
-
-    //     }));
-    //   }
-    //   catch (error) {
-    //     // Handle error
-    //   }
-    // }
+      }
+    };
 
     return {
       paieSchema, addPaie, paieForm, modeOptions, showMErr, modepaiement,
@@ -814,8 +817,24 @@ export default defineComponent({
       salaireNet,
       totalRetenue,
       totalPrime,
-      newContrat
+      newContrat,
+      isRetenueOverLimit
     };
   },
 });
 </script>
+
+<style scoped>
+.retenue-error-message {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #d32f2f;
+  background-color: #ffebee;
+  border: 1px solid #ef5350;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+</style>

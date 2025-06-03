@@ -1,0 +1,59 @@
+\documentclass[a4paper,12pt]{article}
+% Importing necessary packages for document structure and formatting
+\usepackage[utf8]{inputenc} % Support for UTF-8 encoding
+\usepackage[T1]{fontenc} % Improved font rendering
+\usepackage[a4paper, margin=2.5cm]{geometry} % Page layout
+\usepackage{amsmath} % Mathematical typesetting
+\usepackage{fancyhdr} % Custom headers and footers
+\usepackage{lastpage} % For total page number
+\usepackage{graphicx} % For including logos if needed
+\usepackage{xcolor} % For colored text
+\usepackage{setspace} % For line spacing
+\usepackage[french]{babel} % French language support
+
+% Configuring header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Contrat de Travail}
+\fancyhead[R]{Page \thepage\ de \pageref{LastPage}}
+\fancyfoot[C]{\today} % Date automatique
+
+% Setting up the document
+\begin{document}
+
+% Title section
+\begin{center}
+    \textbf{\LARGE Contrat de Travail} \\
+    \vspace{0.5cm}
+    \large Entre l’Employeur et l’Employé \\
+    \vspace{1cm}
+\end{center}
+
+% Contract details
+\section*{Détails des Parties}
+\begin{itemize}
+    \item \textbf{Employeur :} Votre entreprise, représentée par [Votre nom], domicilié(e) à [Votre adresse].
+    \item \textbf{Employé(e) :} [Nom de l’employé(e)], domicilié(e) à [Adresse de l’employé(e)].
+\end{itemize}
+
+\section*{Conditions du Contrat}
+\begin{enumerate}
+    \item \textbf{Poste :} L’employé(e) occupera le poste de [Intitulé du poste].
+    \item \textbf{Durée :} Ce contrat est [à durée déterminée/indéterminée], débutant le [Date de début] et se terminant le [Date de fin, si applicable].
+    \item \textbf{Rémunération :} Le salaire mensuel brut est fixé à [Montant] [Devise], payable [mensuellement/à convenir].
+    \item \textbf{Horaires :} L’employé(e) travaillera [nombre] heures par semaine, selon les horaires définis par l’employeur.
+    \item \textbf{Clauses particulières :} [Ajouter toute clause spécifique, ex. congés, confidentialité, etc.]
+\end{enumerate}
+
+\section*{Signature}
+Nous, les soussignés, reconnaissons avoir lu et accepté les termes de ce contrat. \\
+
+\begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}
+    \hline
+    Employeur : [Votre nom] & Employé(e) : [Nom de l’employé(e)] \\
+    Date : [Date] & Date : [Date] \\
+    Signature : _____________________ & Signature : _____________________ \\
+    \hline
+\end{tabular}
+
+\end{document}
