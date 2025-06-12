@@ -20,9 +20,9 @@ class ApiService {
   public static init(app: App<Element>) {
     ApiService.vueInstance = app;
     ApiService.vueInstance.use(VueAxios, axios);
-    ApiService.vueInstance.axios.defaults.baseURL ='http://localhost:3006/api';
-    ApiService.vueInstance.axios.defaults.headers.common["Accept"] ="application/json";
-    ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] ="application/json";
+    ApiService.vueInstance.axios.defaults.baseURL = 'http://localhost:3006/api';
+    ApiService.vueInstance.axios.defaults.headers.common["Accept"] = "application/json";
+    ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] = "application/json";
     ApiService.vueInstance.use(VueAxios, axios);
   }
 
@@ -30,7 +30,7 @@ class ApiService {
    * @description set the default HTTP request headers
    */
   public static setHeader(): void {
-    console.log(JwtService.getToken(),"JwtService.getToken()")
+    console.log(JwtService.getToken(), "JwtService.getToken()")
     ApiService.vueInstance.axios.defaults.headers.common["Authorization"] = `bearer ${JwtService.getToken()}`;
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] = "application/json";
   }
@@ -55,7 +55,6 @@ class ApiService {
  * @returns Promise<AxiosResponse>
  */
   public static get(resource: string, slug: string = ""): Promise<AxiosResponse> {
-
     // let rest = "";
     // if (JwtService.getUserId()) {
     //   const userId = JwtService.getUserId();
@@ -72,7 +71,6 @@ class ApiService {
     const url = `${resource}${slug}`;
     return ApiService.vueInstance.axios.get(url);
   }
-
 
   /**
    * @description set the POST HTTP request
@@ -134,6 +132,17 @@ class ApiService {
    */
   public static delete(resource: string): Promise<AxiosResponse> {
     return ApiService.vueInstance.axios.delete(resource);
+  }
+
+  /**
+   * @description Resilier un contrat
+   * @param id: number - L'ID du contrat à résilier
+   * @returns Promise<AxiosResponse>
+   */
+  public static resilierContrat(id: number): Promise<AxiosResponse> {
+    return ApiService.vueInstance.axios.put(`/contrats/${id}/resilier`, {
+      estResilie: true,
+    });
   }
 }
 

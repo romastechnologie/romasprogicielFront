@@ -46,11 +46,12 @@
             </div>
           </div>
 
-          <div class="col-md-4 mb-3" v-if="contrat.categorieContrat !== 'Prestation'">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Type Contrat <span class="text-danger">*</span>
-              </label>
+          <!-- <div class="col-md-4 mb-3" v-if="contrat.categorieContrat !== 'Prestation'"> -->
+            <div class="col-md-4 mb-3" v-if="contrat.categorieContrat !== 'Prestation' && contrat.categorieContrat !== 'Contrat de stage'">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                     Type Contrat <span class="text-danger">*</span>
+                 </label>
               <Multiselect v-model="contrat.typeContrat" :options="typeOptions" :preserve-search="true"
                 :multiple="false" :searchable="true" placeholder="Sélectionner le type" label="label"
                 track-by="label" />
@@ -582,7 +583,7 @@ export default defineComponent({
       periodeDePaie: Yup.string().required("La période est obligatoire."),
       renouvelable: Yup.string().notRequired(),
       typeContrat: Yup.string().when("categorieContrat", {
-        is: (value) => value !== "Prestation",
+        is: (value) => value !== "Prestation" && value!=="Contrat de stage",
         then: (schema) => schema.required("Le type est obligatoire."),
         otherwise: (schema) => schema.notRequired(),
       }),
@@ -723,7 +724,7 @@ export default defineComponent({
           (mode) => mode.value === contrat.value.modetarification
         );
         if (selectedMode) {
-          const baseLabel = selectedMode.label.toLowerCase().replace("par ", "Salaire ").trim();
+          const baseLabel = selectedMode.label.toLowerCase().replace("par ", "Salaire de Base par ").trim();
           return baseLabel.charAt(0).toUpperCase() + baseLabel.slice(1); // Capitalise la première lettre
         }
       }
@@ -1267,14 +1268,16 @@ const getAllPersonnel = async () => {
       });
     });
 
+  
+
     watch(
-      () => contrat.value.categorieContrat,
-      (newValue) => {
-        if (newValue === "Prestation") {
-          contrat.value.typeContrat = ""; // Réinitialiser le champ
-        }
-      }
-    );
+  () => contrat.value.categorieContrat,
+  (newValue) => {
+    if (newValue === "Prestation" || newValue === "Contrat de stage") {
+      contrat.value.typeContrat = ""; // Réinitialiser le champ
+    }
+  }
+);
 
     const { remove, push, fields, update } = useFieldArray("fonctions");
 

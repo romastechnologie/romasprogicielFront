@@ -101,7 +101,7 @@ export const menu: MenuItem[] = [
 
     {
         headTitle1: "Gestion de la Paie",
-        headTitle2: "Contrat,Paie, Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat ",
+        headTitle2: "Contrat,Paie, Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat,Modèle de Contrat ",
         type: "headtitle"
     },
     {
@@ -252,6 +252,23 @@ export const menu: MenuItem[] = [
             {
                 path: "/typeContrats/liste-typeContrat",
                 title: "Liste des types de contrats",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Modele Contrat",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/modeleContrat/liste-modeleContrat",
+                title: "Liste des modeles contrats",
                 type: "link"
             },
         ]

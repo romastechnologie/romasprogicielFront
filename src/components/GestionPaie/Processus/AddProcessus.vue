@@ -343,7 +343,7 @@
                                             class="form-control"
                                           />
                                         </td>
-                                        <td class="quantite-col">
+                                        <!-- <td class="quantite-col">
                                           <input
                                             type="text"
                                             v-model="prime.quantite"
@@ -360,7 +360,27 @@
                                           >
                                             La quantité est obligatoire.
                                           </span>
+                                        </td> -->
+                                <td class="quantite-col">
+                                          <input
+                                            type="text"
+                                            v-model="prime.quantite"
+                                            :class="
+                                              validateRowPrime(prime.quantite)
+                                                ? 'form-control is-invalid'
+                                                : 'form-control'
+                                            "
+                                            placeholder="Entrer la quantité"
+                                            readonly
+                                          />
+                                          <span
+                                            class="invalid-feedback"
+                                            v-if="validateRowPrime(prime.quantite)"
+                                          >
+                                            La quantité est obligatoire.
+                                          </span>
                                         </td>
+
                                         <td class="valeurUnitaire-col">
                                           <input
                                             type="text"

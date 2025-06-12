@@ -3,7 +3,6 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
       <Form ref="paieForm" @submit="addPaie" :validation-schema="paieSchema">
         <div class="row">
-
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
@@ -42,24 +41,10 @@
               </label>
               <Field name="modepaiement" v-model="modepaiement" type="text" v-slot="{ field }">
                 <Multiselect v-model="field.value" v-bind="field" :options="modeOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le mode de paiment" label="label"
+                  :multiple="false" :searchable="true" placeholder="Sélectionner le mode de paiement" label="label"
                   track-by="label" />
               </Field>
               <ErrorMessage name="modepaiement" class="text-danger" />
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Processus Paie <span class="text-danger">*</span>
-              </label>
-              <Field name="processuspaie" v-model="processuspaie" type="text" v-slot="{ field }">
-                <Multiselect v-model="field.value" v-bind="field" :options="processusOptions" :preserve-search="true"
-                  :multiple="false" :searchable="true" placeholder="Sélectionner le processus de paie" label="label"
-                  track-by="label" />
-              </Field>
-              <ErrorMessage name="processuspaie" class="text-danger" />
             </div>
           </div>
 
@@ -72,10 +57,10 @@
             <label for="totalRetenues" class="form-label">Total des retenues<span class="text-danger">*</span></label>
             <Field name="totalRetenues" class="form-control" type="number" :readonly="true" v-model="totalRetenue" />
             <ErrorMessage name="totalRetenues" class="text-danger" />
-            <div v-if="isRetenueOverLimit" class="retenue-error-message">
+            <!-- <div v-if="isRetenueOverLimit" class="retenue-error-message">
               <i class="fa fa-exclamation-circle me-2"></i>
               Attention : Le total des retenues dépasse 1/3 du salaire de base. Veuillez revoir les montants.
-            </div>
+            </div> -->
           </div>
           <div class="col-md-4 mb-3">
             <label for="totalPrimes" class="form-label">Total des primes<span class="text-danger">*</span></label>
@@ -138,7 +123,7 @@
                               <td class="quantite-col">
                                 <input type="text" v-model="prime.quantite"
                                   :class="validateRowPrime(prime.quantite) ? 'form-control is-invalid' : 'form-control'"
-                                  placeholder="Entrer la quantité" />
+                                  placeholder="Entrer la quantité" readonly />
                                 <span class="invalid-feedback" v-if="validateRowPrime(prime.quantite)">
                                   La quantité est obligatoire.
                                 </span>
@@ -218,14 +203,25 @@
                               <td class="valeur-col">
                                 <input type="text" :readonly="true" v-model="retenue.valeur" class="form-control" />
                               </td>
-                              <td class="quantite-col">
+
+                              <!-- <td class="quantite-col">
                                 <input type="text" v-model="retenue.quantite"
                                   :class="validateRowRetenue(retenue.quantite) ? 'form-control is-invalid' : 'form-control'"
                                   placeholder="Entrer la quantité" />
                                 <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
                                   La quantité est obligatoire.
                                 </span>
-                              </td>
+                              </td> -->
+
+                              <td class="quantite-col">
+                                  <input type="text" v-model="retenue.quantite"
+                                    :class="validateRowRetenue(retenue.quantite) ? 'form-control is-invalid' : 'form-control'"
+                                    placeholder="Entrer la quantité" readonly />
+                                  <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
+                                    La quantité est obligatoire.
+                                  </span>
+                                </td>
+
                               <td class="valeurUnitaire-col">
                                 <input type="text" v-model="retenue.valeurUnitaire" class="form-control"
                                   placeholder="" />
@@ -282,6 +278,61 @@ import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
 import VueMultiselect from 'vue-multiselect';
 
+// Interfaces pour typage
+interface ContratOption {
+  value: number;
+  label: string;
+}
+
+interface ModeOption {
+  value: number;
+  label: string;
+}
+
+interface ProcessusOption {
+  value: number;
+  label: string;
+}
+
+interface Prime {
+  typePrime: string;
+  montant: number;
+  valeurUnitaire: number;
+  quantite: number;
+  valeur: string;
+  desactive: boolean;
+}
+
+interface Retenue {
+  typeRetenue: string;
+  montant: number;
+  valeurUnitaire: number;
+  quantite: number;
+  valeur: string;
+  desactive: boolean;
+}
+
+interface TypePrimeOption {
+  value: string;
+  label: string;
+}
+
+interface TypeRetenueOption {
+  value: string;
+  label: string;
+}
+
+interface Contrat {
+  id: number;
+  reference?:string
+  personnel?: { nom: string };
+  typeContrat?: { libelle: string };
+  datePriseFonction?: string;
+  dateFin?: string;
+  salaireBase?: number;
+}
+
+
 export default defineComponent({
   name: "AddPaie",
   components: {
@@ -299,10 +350,9 @@ export default defineComponent({
       totalRetenues: Yup.number().typeError("Veuillez entrer des nombres").required("Le total des retenues est obligatoire."),
       datePaie: Yup.date().typeError("Veuillez entrer une date valide").required("La date de paie est obligatoire."),
       modepaiement: Yup.string().required("Le mode de paiement est obligatoire."),
-      processuspaie: Yup.string().required("Le processus de paie est obligatoire."),
       periode: Yup.string()
         .matches(/^\d{4}-(0[1-9]|1[0-2])$/, "La période doit être au format YYYY-MM (ex: 2025-05)")
-        .test('valid-year', 'La période doit être comprise entre 2024 et 2025.', value => {
+        .test('valid-year', value => {
           if (!value) return false;
           const year = parseInt(value.split('-')[0], 10);
           return year >= 2024 && year <= 2025;
@@ -315,33 +365,31 @@ export default defineComponent({
       getAllTypePrime();
       getAllTypeRetenue();
       getAllContrats();
-      getAllProcessusPaie();
     });
 
-    const lesContrats = ref([]);
+    const lesContrats = ref<any>([]);
     const paieForm = ref(null);
-    const showMErr = ref(false);
-    const modepaiement = ref();
-    const processuspaie = ref();
-    const modeOptions = ref([]);
-    const processusOptions = ref([]);
-    const contrat = ref();
-    const newContrat = ref();
-    const salaire = ref([]);
-    const contratOptions = ref([]);
+    const showMErr = ref<boolean>(false);
+    const modepaiement = ref<string | null>(null);
+    const processuspaie = ref<string | null>(null);
+    const modeOptions = ref<ModeOption[]>([]);
+    const processusOptions = ref<ProcessusOption[]>([]);
+    const contrat = ref<string | null>(null);
+    const newContrat = ref<number | null>(null);
+    const salaire = ref<number[]>([]);
+    const contratOptions = ref<ContratOption[]>([]);
     const router = useRouter();
-    const typePrimes = ref(null);
-    const typePrimeOptions = ref([]);
-    const typeOptions = ref([]);
-    const typeRetenueOptions = ref([]);
-    const typeRetenues = ref(null);
-    const prOptions = ref();
+    const typePrimes = ref<TypePrimeOption[] | null>(null);
+    const typePrimeOptions = ref<TypePrimeOption[]>([]);
+    const typeRetenueOptions = ref<TypeRetenueOption[]>([]);
+    const typeRetenues = ref<TypeRetenueOption[] | null>(null);
 
+  
     // Fonction pour formater une date de YYYY-MM-DD à DD-MM-YYYY
     const formatDate = (dateString: string | undefined | null): string => {
-      if (!dateString) return "N/A"; // Retourne "N/A" si la date est absente
+      if (!dateString) return "N/A";
       const date = new Date(dateString);
-      if (isNaN(date.getTime())) return "N/A"; // Vérifie si la date est invalide
+      if (isNaN(date.getTime())) return "N/A";
       const day = String(date.getDate()).padStart(2, '0');
       const month = String(date.getMonth() + 1).padStart(2, '0');
       const year = date.getFullYear();
@@ -351,30 +399,30 @@ export default defineComponent({
     const getAllContrats = async () => {
       try {
         const response = await ApiService.get('/all/contrats');
-        const contratsData = response.data.data.data;
+        const contratsData: Contrat[] = response.data.data.data;
         console.log('Contrat', contratsData);
         lesContrats.value = contratsData;
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label: `${contrat?.personnel?.nom || "Inconnu"} - ${contrat?.typeContrat?.libelle || "N/A"} [${formatDate(contrat?.datePriseFonction)} - ${formatDate(contrat?.dateFin)}]`,
+          label: `${contrat?.reference || "N/A" } - ${contrat?.personnel?.nom || "N/A"} `,
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
       }
     };
 
-    const selectedContrat = ref(null);
+    const selectedContrat = ref<number | null>(null);
 
-    const fetchPrimeRetenue = async (id) => {
+    const fetchPrimeRetenue = async (id: number) => {
       console.log("ID-FETCHPRIMERETENUE:", id);
       try {
         const response = await ApiService.get(`/prime/retenues/contrat/${id}`);
         const { primes: fetchedPrimes, retenues: fetchedRetenues } = response.data.data;
-        getContrat(id);
+        await getContrat(id);
         primes.splice(0, primes.length);
         retenues.splice(0, retenues.length);
 
-        fetchedPrimes.forEach(prime => {
+        fetchedPrimes.forEach((prime: any) => {
           const typePrimeString = `${prime.typeprime.id}|${prime.typeprime.valeur}|${prime.typeprime.typeDeValeur}`;
           primes.push({
             typePrime: typePrimeString,
@@ -386,7 +434,7 @@ export default defineComponent({
           });
         });
 
-        fetchedRetenues.forEach(retenue => {
+        fetchedRetenues.forEach((retenue: any) => {
           const typeRetenueString = `${retenue.typesretenue.id}|${retenue.typesretenue.valeur}|${retenue.typesretenue.typeDeValeur}`;
           retenues.push({
             typeRetenue: typeRetenueString,
@@ -402,11 +450,11 @@ export default defineComponent({
       }
     };
 
-    const getContrat = async (id) => {
+    const getContrat = async (id: number) => {
       try {
         const response = await ApiService.get(`/contrat/${id}`);
-        const contratData = response.data.data;
-        console.log('Type prime', contratData);
+        const contratData: Contrat = response.data.data;
+        console.log('Contrat', contratData);
         console.log("Salaire de base === > ", contratData.salaireBase);
         salaireDeBase.value = contratData.salaireBase || 0;
       } catch (error) {
@@ -417,12 +465,13 @@ export default defineComponent({
     const getAllTypePrime = async () => {
       try {
         const response = await ApiService.get('/all/typePrimes');
-        const typePrimesData = response.data.data.data;
+        const typePrimesData: any[] = response.data.data.data;
         console.log('Type prime', typePrimesData);
         typePrimeOptions.value = typePrimesData.map(typePrime => ({
           value: `${typePrime.id}|${typePrime.valeur}|${typePrime.typeDeValeur}`,
           label: typePrime.nomPrime,
         }));
+        typePrimes.value = typePrimeOptions.value;
       } catch (error) {
         console.error('Error fetching type primes:', error);
       }
@@ -431,57 +480,58 @@ export default defineComponent({
     const getAllTypeRetenue = async () => {
       try {
         const response = await ApiService.get('/all/typeRetenues');
-        const typeRetenuesData = response.data.data.data;
+        const typeRetenuesData: any[] = response.data.data.data;
         console.log('Type retenue', typeRetenuesData);
         typeRetenueOptions.value = typeRetenuesData.map(typeRetenue => ({
           value: `${typeRetenue.id}|${typeRetenue.valeur}|${typeRetenue.typeDeValeur}`,
           label: typeRetenue.nomRetenue,
         }));
+        typeRetenues.value = typeRetenueOptions.value;
       } catch (error) {
         console.error('Error fetching type retenues:', error);
       }
     };
 
-    const totalPrime = ref(0);
-    const totalRetenue = ref(0);
-    const salaireDeBase = ref(0);
-    const salaireNet = ref(0);
-    const isRetenueOverLimit = ref(false);
+    const totalPrime = ref<number>(0);
+    const totalRetenue = ref<number>(0);
+    const salaireDeBase = ref<number>(0);
+    const salaireNet = ref<number>(0);
+    const isRetenueOverLimit = ref<boolean>(false);
 
     const totalPrimes = () => {
       totalPrime.value = 0;
-      primes.forEach((prime) => {
-        const montant = parseFloat(prime.montant) || 0;
+      primes.forEach((prime: Prime) => {
+        const montant = parseFloat(String(prime.montant)) || 0;
         totalPrime.value += montant;
       });
     };
 
     const totalRetenues = () => {
       totalRetenue.value = 0;
-      retenues.forEach((retenue) => {
-        const montant = parseFloat(retenue.montant) || 0;
+      retenues.forEach((retenue: Retenue) => {
+        const montant = parseFloat(String(retenue.montant)) || 0;
         totalRetenue.value += montant;
       });
     };
 
     const totalsalaireNet = () => {
-      const salaireBaseValue = parseFloat(salaireDeBase.value) || 0;
+      const salaireBaseValue = parseFloat(String(salaireDeBase.value)) || 0;
       salaireNet.value = (totalPrime.value - totalRetenue.value) + salaireBaseValue;
     };
 
-    const isDisable = ref(true);
-    const isDisablee = ref(true);
+    const isDisable = ref<boolean>(true);
+    const isDisablee = ref<boolean>(true);
 
     const today = new Date();
     const currentYear = today.getFullYear();
     const previousYear = currentYear - 1;
 
-    const periodeDefault = ref(`${currentYear}-${String(today.getMonth() + 1).padStart(2, '0')}`);
+    const periodeDefault = ref<string>(`${currentYear}-${String(today.getMonth() + 1).padStart(2, '0')}`);
 
     const minDate = computed(() => `${previousYear}-01`);
     const maxDate = computed(() => `${currentYear}-12`);
 
-    const primes = reactive([
+    const primes = reactive<Prime[]>([
       {
         typePrime: "",
         montant: 0,
@@ -492,7 +542,7 @@ export default defineComponent({
       },
     ]);
 
-    const retenues = reactive([
+    const retenues = reactive<Retenue[]>([
       {
         typeRetenue: "",
         montant: 0,
@@ -525,29 +575,29 @@ export default defineComponent({
       });
     };
 
-    const removeRowPrime = (index) => {
+    const removeRowPrime = (index: number) => {
       if (!primes[index].desactive && primes.length > 1) {
         primes.splice(index, 1);
       }
     };
 
-    const removeRowRetenue = (index) => {
+    const removeRowRetenue = (index: number) => {
       if (!retenues[index].desactive && retenues.length > 1) {
         retenues.splice(index, 1);
       }
     };
 
-    const validateRowPrime = (value) => {
-      return !value || parseFloat(value) <= 0;
+    const validateRowPrime = (value: any) => {
+      return !value || parseFloat(String(value)) <= 0;
     };
 
-    const validateRowRetenue = (value) => {
-      return !value || parseFloat(value) <= 0;
+    const validateRowRetenue = (value: any) => {
+      return !value || parseFloat(String(value)) <= 0;
     };
 
-    const calculerMontant = (item) => {
-      const valeurUnitaire = parseFloat(item.valeurUnitaire) || 1;
-      const quantite = parseFloat(item.quantite) || 0;
+    const calculerMontant = (item: Prime | Retenue) => {
+      const valeurUnitaire = parseFloat(String(item.valeurUnitaire)) || 1;
+      const quantite = parseFloat(String(item.quantite)) || 0;
       return valeurUnitaire * quantite;
     };
 
@@ -565,7 +615,7 @@ export default defineComponent({
     };
 
     const updateValeurUnitaire = () => {
-      const salaireBase = parseFloat(salaireDeBase.value) || 1;
+      const salaireBase = parseFloat(String(salaireDeBase.value)) || 1;
 
       primes.forEach(prime => {
         if (prime.typePrime) {
@@ -594,7 +644,7 @@ export default defineComponent({
       });
     };
 
-    watch(newContrat, (newValue) => {
+    watch(newContrat, (newValue: number | null) => {
       if (newValue) {
         selectedContrat.value = newValue;
         fetchPrimeRetenue(newValue);
@@ -602,7 +652,7 @@ export default defineComponent({
         console.log('Valeurs récupérées:', count);
 
         if (count) {
-          salaireDeBase.value = parseFloat(count.salaireBase) || 0;
+          salaireDeBase.value = parseFloat(String(count.salaireBase)) || 0;
         } else {
           console.warn('Aucun contrat trouvé avec cet ID');
           salaireDeBase.value = 0;
@@ -630,12 +680,12 @@ export default defineComponent({
       totalsalaireNet();
     }, { deep: true });
 
-    const selectTypePrime = (selectedTypePrime, prime) => {
+    const selectTypePrime = (selectedTypePrime: string, prime: Prime) => {
       const [id, valeur, typeDeValeur] = selectedTypePrime.split('|');
       const valeurNum = parseFloat(valeur);
-      prime.valeur = valeurNum;
+      prime.valeur = String(valeurNum);
 
-      const salaireBase = parseFloat(salaireDeBase.value) || 1;
+      const salaireBase = parseFloat(String(salaireDeBase.value)) || 1;
 
       if (typeDeValeur) {
         if (typeDeValeur.includes('%')) {
@@ -651,12 +701,12 @@ export default defineComponent({
       updateAllMontants();
     };
 
-    const selectTypeRetenue = (selectedTypeRetenue, retenue) => {
+    const selectTypeRetenue = (selectedTypeRetenue: string, retenue: Retenue) => {
       const [id, valeur, typeDeValeur] = selectedTypeRetenue.split('|');
       const valeurNum = parseFloat(valeur);
-      retenue.valeur = valeurNum;
+      retenue.valeur = String(valeurNum);
 
-      const salaireBase = parseFloat(salaireDeBase.value) || 1;
+      const salaireBase = parseFloat(String(salaireDeBase.value)) || 1;
 
       if (typeDeValeur) {
         if (typeDeValeur.includes('%')) {
@@ -674,7 +724,7 @@ export default defineComponent({
 
     watch(
       primes,
-      (newValue) => {
+      (newValue: Prime[]) => {
         isDisable.value = newValue.some(prime =>
           validateRowPrime(prime.typePrime) ||
           validateRowPrime(prime.montant) ||
@@ -688,7 +738,7 @@ export default defineComponent({
 
     watch(
       retenues,
-      (newValue) => {
+      (newValue: Retenue[]) => {
         isDisablee.value = newValue.some(retenue =>
           validateRowRetenue(retenue.typeRetenue) ||
           validateRowRetenue(retenue.montant) ||
@@ -701,7 +751,7 @@ export default defineComponent({
     );
 
     const checkRetenueLimit = () => {
-      const salaireBaseValue = parseFloat(salaireDeBase.value) || 0;
+      const salaireBaseValue = parseFloat(String(salaireDeBase.value)) || 0;
       const retenueLimit = salaireBaseValue / 3;
       isRetenueOverLimit.value = totalRetenue.value > retenueLimit;
       if (isRetenueOverLimit.value) {
@@ -717,7 +767,7 @@ export default defineComponent({
       checkRetenueLimit();
     });
 
-    const addPaie = async (values: any, { resetForm }) => {
+    const addPaie = async (values: any, { resetForm }: { resetForm: () => void }) => {
       if (isRetenueOverLimit.value) {
         error("Impossible d'ajouter la paie : le total des retenues dépasse 1/3 du salaire de base. Veuillez ajuster les retenues.");
         return;
@@ -757,7 +807,7 @@ export default defineComponent({
     const getAllModePaiements = async () => {
       try {
         const response = await ApiService.get('/all/modepaiements');
-        const modesData = response.data.data.data;
+        const modesData: any[] = response.data.data.data;
         modeOptions.value = modesData.map((mode) => ({
           value: mode.id,
           label: mode.libelle,
@@ -767,28 +817,15 @@ export default defineComponent({
       }
     };
 
-    const getAllProcessusPaie = async () => {
-      try {
-        const response = await ApiService.get('/all/processuspaies');
-        const processusData = response.data.data.data;
-        processusOptions.value = processusData.map((processus) => {
-          const personnel = processus.paies && processus.paies.length > 0 
-            ? processus.paies[0].contrat[0].personnel:null;
-           
-          const nomPersonnel = personnel ? `${personnel.nom} ${personnel.prenom || ''}` : 'Inconnu';
-
-          return {
-            value: processus.id,
-            label: `Processus de Paie de ${nomPersonnel} - Période ${new Date(processus.periodePaie).toISOString().slice(0, 7)}`,
-          };
-        });
-      } catch (error) {
-        console.error('Error fetching processus de paie:', error);
-      }
-    };
+    
 
     return {
-      paieSchema, addPaie, paieForm, modeOptions, showMErr, modepaiement,
+      paieSchema,
+      addPaie,
+      paieForm,
+      modeOptions,
+      showMErr,
+      modepaiement,
       typePrimeOptions,
       processuspaie,
       processusOptions,
@@ -801,7 +838,8 @@ export default defineComponent({
       removeRowPrime,
       addRowPrime,
       validateRowPrime,
-      isDisable, primes,
+      isDisable,
+      primes,
       salaireDeBase,
       typeRetenueOptions,
       typeRetenues,
@@ -809,10 +847,11 @@ export default defineComponent({
       removeRowRetenue,
       addRowRetenue,
       validateRowRetenue,
-      isDisablee, retenues,
+      isDisablee,
+      retenues,
       contratOptions,
       fetchPrimeRetenue,
-      prOptions, contrat,
+      contrat,
       selectedContrat,
       salaireNet,
       totalRetenue,

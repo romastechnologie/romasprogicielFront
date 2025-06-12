@@ -1,6 +1,7 @@
 export  interface Contrat {
     id: number;
-    refContrat: string;
+    reference: string;
+    estResilie?: boolean;
     dateDebut: Date;
     dateFin: Date;
     heuresTravaillees: Date;
