@@ -15,17 +15,20 @@
                   <label class="d-block text-black fw-semibold mb-10">
                     Description du Modèle <span class="text-danger">*</span>
                   </label>
-                  <Editor
-                    v-model="description"
-                    :init="{
-                      height: 300,
-                      menubar: false,
-                      plugins: 'lists link image table code',
-                      toolbar: 'undo redo | bold italic underline | bullist numlist | link image | table | code',
-                      content_style: 'body { font-family: Sans Serif; font-size: 14px; }'
-                    }"
-                    api-key="votre-api-key-ici"
-                  />
+                  <div class="tinymce-wrapper">
+                    <editor
+                      v-if="isEditorReady"
+                      v-model="description"
+                      :init="{
+                      plugins: 'advlist anchor autolink charmap code fullscreen help image insertdatetime link lists media preview searchreplace table visualblocks wordcount',
+                      toolbar: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                      height: 500,
+                      }"
+                      :api-key="tinymceApiKey"
+                      @init="handleEditorInit"
+                    />
+                    <div v-else class="text-muted">Chargement de l'éditeur...</div>
+                  </div>
                   <div v-if="descriptionError" class="text-danger">{{ descriptionError }}</div>
                 </div>
               </div>
@@ -67,7 +70,7 @@
                   <label class="d-block text-black mb-10">
                     Type Contrat <span class="text-danger">*</span>
                   </label>
-                  <Field name="typeContratId" v-slot="{ field }">
+                  <Field name="typeContrat" v-slot="{ field }">
                     <Multiselect
                       v-model="field.value"
                       v-bind="field"
@@ -82,7 +85,7 @@
                       @update:modelValue="typeContrat = $event"
                     />
                   </Field>
-                  <ErrorMessage name="typeContratId" class="text-danger" />
+                  <ErrorMessage name="typeContrat" class="text-danger" />
                 </div>
               </div>
              
@@ -98,7 +101,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, nextTick } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
 import ApiService from '@/services/ApiService';
@@ -106,7 +109,7 @@ import { error, hideModal, success } from '@/utils/utils';
 import { ModeleContrat } from '@/models/ModeleContrat';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect/src/Multiselect';
-import Editor from '@tinymce/tinymce-vue';
+import Editor from '@tinymce/tinymce-vue'
 
 export default {
   name: "AddModeleContratModal",
@@ -116,7 +119,6 @@ export default {
     Editor,
     ErrorMessage,
     Multiselect
-    
   },
   props: {
     id: {
@@ -132,17 +134,32 @@ export default {
     const description = ref('');
     const descriptionError = ref('');
     const typeContrat = ref(null);
+    const isEditorReady = ref(false);
+    const tinymceApiKey = ref('uz847a8s67ivk7r2bgs2dctztrtids7i68lucoaoja3btzk6'); // Remplace par ta clé API ou laisse vide pour le mode local
 
     const modeleContratSchema = Yup.object().shape({
       dureeDefaut: Yup.number().required("la duree est obligatoire."),
       salaireBaseDefaut: Yup.number().required("le salaire de base est obligatoire."),
       conditionsSpecifiques: Yup.string().required("Les conditions specifiques sont obligatoires."),
-      typeContratId: Yup.number().required("Le type de contrat est obligatoire."),
+      typeContrat: Yup.number().required("Le type de contrat est obligatoire."),
     });
 
     onMounted(() => {
       getAllTypeContrat();
+      initializeEditor();
     });
+
+    const initializeEditor = async () => {
+      await nextTick(); // Attendre que le DOM soit prêt
+      isEditorReady.value = true; // Activer l'éditeur après le montage
+      console.log('TinyMCE Editor initialization triggered');
+    };
+
+    const handleEditorInit = (evt: any, editor: any) => {
+      console.log('TinyMCE Editor initialized:', editor);
+      // Forcer le focus pour permettre la saisie
+      setTimeout(() => editor.focus(), 100); // Délai pour éviter les conflits avec la modale
+    };
 
     const modeleContratnew = ref(props.id);
     const modeleContratForm = ref<InstanceType<typeof Form> | null>(null);
@@ -166,14 +183,17 @@ export default {
       try {
         const { data } = await ApiService.get("/modeleContrats/" + id);
         if (modeleContratForm.value) {
+          console.log('values',modeleContratForm.value);
           modeleContratForm.value.setFieldValue("id", data.data.id);
           modeleContratForm.value.setFieldValue("dureeDefaut", data.data.dureeDefaut);
           modeleContratForm.value.setFieldValue("salaireBaseDefaut", data.data.salaireBaseDefaut);
           modeleContratForm.value.setFieldValue("conditionsSpecifiques", data.data.conditionsSpecifiques);
-          modeleContratForm.value.setFieldValue("typeContratId", data.data.typeContrat?.id || null);
+          modeleContratForm.value.setFieldValue("typeContrat", data.data.typeContrat?.id || null);
           description.value = data.data.description || '';
           typeContrat.value = data.data.typeContrat?.id || null;
           emit('openmodal', addModeleContratModalRef.value);
+          await nextTick(); 
+          initializeEditor(); 
         }
       } catch ({ response }) {
         error(response?.data?.message || 'Erreur lors de la récupération du modèle contrat');
@@ -204,7 +224,6 @@ export default {
     };
 
     const addModeleContrat = async (values: any, { resetForm }: { resetForm: () => void }) => {
-      // Validation manuelle pour description
       if (!description.value) {
         descriptionError.value = "La description est obligatoire.";
         return;
@@ -213,11 +232,11 @@ export default {
 
       const payload = {
         ...values,
-        typeContratId: typeContrat.value, // Envoie uniquement l'ID
-        description: description.value, // Ajoute la description
+        typeContrat: typeContrat.value,
+        description: description.value,
       };
 
-      console.log("Valeurs envoyées à l'API :", payload); // Debug
+      console.log("Valeurs envoyées à l'API :", payload);
       loading.value = true;
 
       try {
@@ -226,19 +245,19 @@ export default {
           if (data.code === 200) {
             success(data.message);
             resetForm();
-            description.value = ''; // Réinitialise TinyMCE
+            description.value = '';
             hideModal(addModeleContratModalRef.value);
             isupdate.value = false;
             btnTitle();
             emit("refreshModeleContrats");
-            router.push({ name: "ListeRoleEtapPage" });
+            router.push({ name: "ListeModeleContratPage" });
           }
         } else {
           const { data } = await ApiService.post("/modeleContrats", payload);
           if (data.code === 201) {
             success(data.message);
             resetForm();
-            description.value = ''; // Réinitialise TinyMCE
+            description.value = '';
             hideModal(addModeleContratModalRef.value);
             emit("refreshModeleContrats");
           }
@@ -254,8 +273,8 @@ export default {
       if (modeleContratForm.value) {
         modeleContratForm.value.resetForm();
       }
-      description.value = ''; // Réinitialise TinyMCE
-      typeContrat.value = null; // Réinitialise Multiselect
+      description.value = '';
+      typeContrat.value = null;
       isupdate.value = false;
       btnTitle();
     };
@@ -263,8 +282,20 @@ export default {
     return {
       typeContrat, title, btntext, resetValue, modeleContratSchema, typeContratOptions, modeleContrats,
       addModeleContrat, modeleContratForm, addModeleContratModalRef, modeleContratnew,
-      description, descriptionError,
+      description, descriptionError, isEditorReady, tinymceApiKey,handleEditorInit,
     };
   },
 };
 </script>
+
+<style scoped>
+.tinymce-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 300px; /* Hauteur minimale pour éviter un affichage réduit */
+}
+.tinymce-wrapper .tox-tinymce {
+  border: 1px solid #ced4da !important; /* Style cohérent avec Bootstrap */
+  z-index: 1050; /* Au-dessus de la modale Bootstrap */
+}
+</style>

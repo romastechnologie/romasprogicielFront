@@ -3,7 +3,7 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
       <Form ref="paieForm" @submit="addPaie" :validation-schema="paieSchema">
         <div class="row">
-          <div class="col-md-4 mb-3">
+          <div class="col-md-8 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Contrat <span class="text-danger">*</span>

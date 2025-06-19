@@ -85,7 +85,7 @@
               >
                 <div class="accordion-body">
                   <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-8 mb-3">
                       <div class="form-group mb-15 mb-sm-20 mb-md-25">
                         <label class="d-block text-black mb-10">
                           Contrat <span class="text-danger">*</span>
@@ -132,7 +132,7 @@
                       />
                     </div> -->
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                       <label
                         :for="`payments[${paymentIndex}].datePaie`"
                         class="form-label"
@@ -498,6 +498,7 @@
                                                 : 'form-control'
                                             "
                                             placeholder="Entrer la quantité"
+                                            readonly
                                           />
                                           <span
                                             class="invalid-feedback"
@@ -569,7 +570,6 @@
     </div>
   </div>
 </template>
-
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, reactive, watch, computed } from "vue";
@@ -724,14 +724,12 @@ export default defineComponent({
         lesContrats.value = contratsData;
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label: `${contrat?.personnel?.nom || "Inconnu"} - ${contrat?.typeContrat?.libelle || "N/A"} [${formatDate(contrat?.datePriseFonction)} - ${formatDate(contrat?.dateFin)}]`,
-        
+          label: `${contrat?.reference || "N/A" } - ${contrat?.personnel?.nom || "N/A"} `,
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
       }
     };
-
 
      // Fonction pour formater une date de YYYY-MM-DD à DD-MM-YYYY
      const formatDate = (dateString: string | undefined | null): string => {
@@ -743,7 +741,6 @@ export default defineComponent({
       const year = date.getFullYear();
       return `${day}-${month}-${year}`;
     };
-
 
     const getAllTypePrime = async () => {
       try {
@@ -784,60 +781,23 @@ export default defineComponent({
       }
     };
 
-    // const fetchPrimeRetenue = async (paymentIndex, contratId) => {
-    //   const payment = payments[paymentIndex];
-    //   try {
-    //     const response = await ApiService.get(`/prime/retenues/contrat/${contratId}`);
-    //     const { primes: fetchedPrimes, retenues: fetchedRetenues } = response.data.data;
-    //     const contratData = await getContrat(contratId);
-    //     payment.salaireBrut = contratData.salaireBase || 0;
-
-    //     payment.primes.splice(0, payment.primes.length);
-    //     payment.retenues.splice(0, payment.retenues.length);
-
-    //     fetchedPrimes.forEach(prime => {
-    //       const typePrimeString = `${prime.typeprime.id}|${prime.typeprime.valeur}|${prime.typeprime.typeDeValeur}`;
-    //       payment.primes.push({
-    //         typePrime: typePrimeString,
-    //         montant: prime.montant,
-    //         valeurUnitaire: prime.valeurUnitaire,
-    //         quantite: parseInt(prime.quantite),
-    //         valeur: `${parseInt(prime.typeprime.valeur)}`,
-    //         desactive: true,
-    //       });
-    //     });
-
-    //     fetchedRetenues.forEach(retenue => {
-    //       const typeRetenueString = `${retenue.typesretenue.id}|${retenue.typesretenue.valeur}|${retenue.typesretenue.typeDeValeur}`;
-    //       payment.retenues.push({
-    //         typeRetenue: typeRetenueString,
-    //         montant: retenue.montant,
-    //         valeurUnitaire: retenue.valeurUnitaire,
-    //         quantite: parseInt(retenue.quantite),
-    //         valeur: `${parseInt(retenue.typesretenue.valeur)}`,
-    //         desactive: true,
-    //       });
-    //     });
-
-    //     updateAllMontants(payment);
-    //   } catch (error) {
-    //     console.error('Error fetching primes and retenues:', error);
-    //   }
-    // };
-
     const fetchPrimeRetenue = async (paymentIndex, contratId) => {
       const payment = payments[paymentIndex];
       try {
         const response = await ApiService.get(`/prime/retenues/contrat/${contratId}`);
         const { primes: fetchedPrimes, retenues: fetchedRetenues, paie } = response.data.data;
 
-        // Remplissage des champs de paie
+        // Récupérer les détails du contrat pour obtenir le salaireBase
+        const contratData = await getContrat(contratId);
+        payment.salaireBrut = contratData.salaireBase || 0; 
+
+        // Si une paie existe, surcharger avec ses valeurs
         if (paie) {
           payment.refPaie = paie.refPaie || "";
           payment.datePaie = paie.datePaie || "";
           payment.periode = paie.periode || periodePaieDefault.value;
           payment.modepaiement = paie.modepaiement || "";
-          payment.salaireBrut = paie.salaireBrut || 0;
+          payment.salaireBrut = paie.salaireBrut || payment.salaireBrut; // Prendre paie.salaireBrut si disponible
           payment.totalRetenues = paie.totalRetenues || 0;
           payment.totalPrimes = paie.totalPrimes || 0;
           payment.salaireNet = paie.salaireNet || 0;
@@ -846,7 +806,6 @@ export default defineComponent({
           payment.datePaie = "";
           payment.periode = periodePaieDefault.value;
           payment.modepaiement = "";
-          payment.salaireBrut = 0;
           payment.totalRetenues = 0;
           payment.totalPrimes = 0;
           payment.salaireNet = 0;
@@ -883,16 +842,19 @@ export default defineComponent({
         updateAllMontants(payment);
       } catch (error) {
         console.error('Error fetching primes, retenues, or paie data:', error);
+        // En cas d'erreur, utiliser le salaireBase du contrat
+        const contratData = await getContrat(contratId);
+        payment.salaireBrut = contratData.salaireBase || 0;
         payment.refPaie = "";
         payment.datePaie = "";
         payment.periode = periodePaieDefault.value;
         payment.modepaiement = "";
-        payment.salaireBrut = 0;
         payment.totalRetenues = 0;
         payment.totalPrimes = 0;
         payment.salaireNet = 0;
         payment.primes = [{ typePrime: "", montant: 0, valeurUnitaire: 0, quantite: 1, valeur: "0", desactive: false }];
         payment.retenues = [{ typeRetenue: "", montant: 0, valeurUnitaire: 0, quantite: 1, valeur: "0", desactive: false }];
+        updateAllMontants(payment);
       }
     };
 
@@ -1199,7 +1161,6 @@ export default defineComponent({
   },
 });
 </script>
-
 
 <style scoped>
 .accordion-button {

@@ -1274,7 +1274,7 @@ const getAllPersonnel = async () => {
   () => contrat.value.categorieContrat,
   (newValue) => {
     if (newValue === "Prestation" || newValue === "Contrat de stage") {
-      contrat.value.typeContrat = ""; // Réinitialiser le champ
+      contrat.value.typeContrat = ""; 
     }
   }
 );

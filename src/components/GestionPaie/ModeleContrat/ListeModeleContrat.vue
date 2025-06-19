@@ -214,12 +214,12 @@
   
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
   
-      const checkRoleEtap = (name:string) => {
+      const checkModeleContrat = (name:string) => {
         return privileges.value.includes(name);
       }
   
       return {suppression,
-        checkRoleEtap,
+        checkModeleContrat,
        modeleContrats,
         format_date,
         getAllModeleContrats,

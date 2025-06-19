@@ -93,7 +93,7 @@
                     {{ contrat.estResilie ? 'Oui' : 'Non' }}
                   </span>
               </td>
-              <td class="shadow-none lh-1 fw-medium">{{ format_date(contrat.createdAt) }}</td>
+              <td class="shadow-none lh-1 fw-medium">{{ format_Date(contrat.createdAt) }}</td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >

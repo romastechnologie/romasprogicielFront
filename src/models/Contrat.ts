@@ -11,7 +11,6 @@ export  interface Contrat {
     periodeDePaie:Date;
     typeContrat:number;
     employe:string;
-    createdAt:Date;
     datePriseFonction: Date;
     salaire: number;
     dureeContrat: number;
@@ -22,6 +21,7 @@ export  interface Contrat {
     renouvelable: string;
     dureePeriodeEssai: string;
     dateFinperiodeEssai: Date;
-    personnelId: number,
+    personnelId: number;
+    createdAt:Date;
     setFieldValue: (field: string, value: any) => void;
   }
