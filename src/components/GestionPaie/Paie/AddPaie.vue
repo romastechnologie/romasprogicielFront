@@ -57,10 +57,10 @@
             <label for="totalRetenues" class="form-label">Total des retenues<span class="text-danger">*</span></label>
             <Field name="totalRetenues" class="form-control" type="number" :readonly="true" v-model="totalRetenue" />
             <ErrorMessage name="totalRetenues" class="text-danger" />
-            <!-- <div v-if="isRetenueOverLimit" class="retenue-error-message">
+            <div v-if="isRetenueOverLimit" class="retenue-error-message">
               <i class="fa fa-exclamation-circle me-2"></i>
               Attention : Le total des retenues dépasse 1/3 du salaire de base. Veuillez revoir les montants.
-            </div> -->
+            </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="totalPrimes" class="form-label">Total des primes<span class="text-danger">*</span></label>
@@ -203,25 +203,14 @@
                               <td class="valeur-col">
                                 <input type="text" :readonly="true" v-model="retenue.valeur" class="form-control" />
                               </td>
-
-                              <!-- <td class="quantite-col">
+                              <td class="quantite-col">
                                 <input type="text" v-model="retenue.quantite"
                                   :class="validateRowRetenue(retenue.quantite) ? 'form-control is-invalid' : 'form-control'"
-                                  placeholder="Entrer la quantité" />
+                                  placeholder="Entrer la quantité" readonly />
                                 <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
                                   La quantité est obligatoire.
                                 </span>
-                              </td> -->
-
-                              <td class="quantite-col">
-                                  <input type="text" v-model="retenue.quantite"
-                                    :class="validateRowRetenue(retenue.quantite) ? 'form-control is-invalid' : 'form-control'"
-                                    placeholder="Entrer la quantité" readonly />
-                                  <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
-                                    La quantité est obligatoire.
-                                  </span>
-                                </td>
-
+                              </td>
                               <td class="valeurUnitaire-col">
                                 <input type="text" v-model="retenue.valeurUnitaire" class="form-control"
                                   placeholder="" />
@@ -324,14 +313,13 @@ interface TypeRetenueOption {
 
 interface Contrat {
   id: number;
-  reference?:string
+  reference?: string;
   personnel?: { nom: string };
   typeContrat?: { libelle: string };
   datePriseFonction?: string;
   dateFin?: string;
   salaireBase?: number;
 }
-
 
 export default defineComponent({
   name: "AddPaie",
@@ -384,7 +372,6 @@ export default defineComponent({
     const typeRetenueOptions = ref<TypeRetenueOption[]>([]);
     const typeRetenues = ref<TypeRetenueOption[] | null>(null);
 
-  
     // Fonction pour formater une date de YYYY-MM-DD à DD-MM-YYYY
     const formatDate = (dateString: string | undefined | null): string => {
       if (!dateString) return "N/A";
@@ -767,42 +754,110 @@ export default defineComponent({
       checkRetenueLimit();
     });
 
+    // Nouvelle fonction pour vérifier l'unicité de la paie
+    const checkPaieUniqueness = async (contratId: number, periode: string): Promise<boolean> => {
+      try {
+        const response = await ApiService.get(`/gescom/paies/check-uniqueness?contrat=${contratId}&periode=${periode}`);
+        return response.data.exists; // Supposons que l'API renvoie { exists: true/false }
+      } catch (err) {
+        console.error('Error checking paie uniqueness:', err);
+        error('Erreur lors de la vérification de l\'unicité de la paie.');
+        return true; // En cas d'erreur, on bloque pour éviter les doublons accidentels
+      }
+    };
+
+    // const addPaie = async (values: any, { resetForm }: { resetForm: () => void }) => {
+    //   console.log('Selected Contract ID:', selectedContrat.value);
+    //   console.log('Periode:', values.periode);
+
+    //   if (isRetenueOverLimit.value) {
+    //     error("Impossible d'ajouter la paie : le total des retenues dépasse 1/3 du salaire de base. Veuillez ajuster les retenues.");
+    //     return;
+    //   }
+
+    //   // Vérifier l'unicité de la paie
+    //   const isPaieExists = await checkPaieUniqueness(selectedContrat.value!, values.periode);
+    //   if (isPaieExists) {
+    //     error("Une paie existe déjà pour ce contrat et cette période. Veuillez sélectionner une autre période ou contrat.");
+    //     return;
+    //   }
+
+    //   values['modepaiement'] = modepaiement.value;
+    //   values['processuspaie'] = processuspaie.value;
+    //   values['contrat'] = selectedContrat.value;
+    //   values.paieprime = primes.map(prime => ({
+    //     typeprime: parseInt(prime.typePrime.split('|')[0]),
+    //     valeur: parseInt(prime.valeur),
+    //     valeurUnitaire: prime.valeurUnitaire,
+    //     montant: prime.montant,
+    //     quantite: prime.quantite,
+    //   }));
+
+    //   values.paieretenue = retenues.map(retenue => ({
+    //     typesretenue: parseInt(retenue.typeRetenue.split('|')[0]),
+    //     valeur: parseInt(retenue.valeur),
+    //     valeurUnitaire: retenue.valeurUnitaire,
+    //     montant: retenue.montant,
+    //     quantite: retenue.quantite,
+    //   }));
+
+    //   console.log('Données envoyées', values);
+    //   ApiService.post("/gescom/paies", values)
+    //     .then(({ data }) => {
+    //       if (data.code == 201) {
+    //         success(data.message);
+    //         router.push({ name: "ListePaie" });
+    //       }
+    //     }).catch(({ response }) => {
+    //       error(response.data.message);
+    //     });
+    // };
+
     const addPaie = async (values: any, { resetForm }: { resetForm: () => void }) => {
-      if (isRetenueOverLimit.value) {
+    console.log('Selected Contract ID:', selectedContrat.value);
+    console.log('Periode:', values.periode);
+    if (isRetenueOverLimit.value) {
         error("Impossible d'ajouter la paie : le total des retenues dépasse 1/3 du salaire de base. Veuillez ajuster les retenues.");
         return;
-      }
-
-      values['modepaiement'] = modepaiement.value;
-      values['processuspaie'] = processuspaie.value;
-      values['contrat'] = selectedContrat.value;
-      values.paieprime = primes.map(prime => ({
-        typeprime: parseInt(prime.typePrime.split('|')[0]),
-        valeur: parseInt(prime.valeur),
-        valeurUnitaire: prime.valeurUnitaire,
-        montant: prime.montant,
-        quantite: prime.quantite,
-      }));
-
-      values.paieretenue = retenues.map(retenue => ({
-        typesretenue: parseInt(retenue.typeRetenue.split('|')[0]),
-        valeur: parseInt(retenue.valeur),
-        valeurUnitaire: retenue.valeurUnitaire,
-        montant: retenue.montant,
-        quantite: retenue.quantite,
-      }));
-
-      console.log('Données envoyées', values);
-      ApiService.post("/gescom/paies", values)
-        .then(({ data }) => {
-          if (data.code == 201) {
-            success(data.message);
-            router.push({ name: "ListePaie" });
-          }
-        }).catch(({ response }) => {
-          error(response.data.message);
-        });
-    };
+    }
+    try {
+        const isPaieExists = await checkPaieUniqueness(selectedContrat.value!, values.periode);
+        if (isPaieExists) {
+            error("Une paie existe déjà pour ce contrat et cette période. Veuillez sélectionner une autre période ou contrat.");
+            return;
+        }
+        values['modepaiement'] = modepaiement.value;
+        values['processuspaie'] = processuspaie.value;
+        values['contrat'] = selectedContrat.value;
+        values.paieprime = primes.map(prime => ({
+            typeprime: parseInt(prime.typePrime.split('|')[0]),
+            valeur: parseInt(prime.valeur),
+            valeurUnitaire: prime.valeurUnitaire,
+            montant: prime.montant,
+            quantite: prime.quantite,
+        }));
+        values.paieretenue = retenues.map(retenue => ({
+            typesretenue: parseInt(retenue.typeRetenue.split('|')[0]),
+            valeur: parseInt(retenue.valeur),
+            valeurUnitaire: retenue.valeurUnitaire,
+            montant: retenue.montant,
+            quantite: retenue.quantite,
+        }));
+        console.log('Données envoyées', values);
+        ApiService.post("/gescom/paies", values)
+            .then(({ data }) => {
+                if (data.code == 201) {
+                    success(data.message);
+                    router.push({ name: "ListePaie" });
+                }
+            }).catch(({ response }) => {
+                error(response.data.message);
+            });
+    } catch (error) {
+        console.error('Error in addPaie:', error);
+        error('Erreur lors de la vérification ou de l\'ajout de la paie. Vérifiez la connexion au serveur.');
+    }
+};
 
     const getAllModePaiements = async () => {
       try {
@@ -816,8 +871,6 @@ export default defineComponent({
         console.error('Error fetching mode paiements:', error);
       }
     };
-
-    
 
     return {
       paieSchema,
@@ -869,7 +922,7 @@ export default defineComponent({
   font-weight: bold;
   color: #d32f2f;
   background-color: #ffebee;
-  border: 1px solid #ef5350;
+  border: 1.1px solid #ef5350;
   border-radius: 4px;
   padding: 8px 12px;
   margin-top: 8px;

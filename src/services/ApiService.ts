@@ -20,7 +20,7 @@ class ApiService {
   public static init(app: App<Element>) {
     ApiService.vueInstance = app;
     ApiService.vueInstance.use(VueAxios, axios);
-    ApiService.vueInstance.axios.defaults.baseURL = 'http://localhost:3006/api';
+    ApiService.vueInstance.axios.defaults.baseURL = 'http://localhost:3007/api';
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] = "application/json";
     ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] = "application/json";
     ApiService.vueInstance.use(VueAxios, axios);
