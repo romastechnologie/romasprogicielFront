@@ -259,6 +259,8 @@
   import Multiselect from '@vueform/multiselect/src/Multiselect';
   import VueMultiselect from 'vue-multiselect'
 import router from '@/router';
+import Swal from 'sweetalert2';
+
 
 
   const demandeForm =  ref(null);
@@ -631,17 +633,28 @@ const addDemande = async (values: any, { resetForm }) => {
       console.log('typeCongé',typeConge.value)
       values['categories'] = categories.value
       values['personnel'] = personnels.value
+      
       if(categories.value == 4) {
         values['echeances'] = echeances
       }
       console.log('Données envoyées', values,typeConge.value)
-      if (showMErr.value === false) {
-        axios
-        .post("/demandes", values, {
-          headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
-        })
-           .then(({ data }) => {
-            console.log("data   ",data)
+    if (showMErr.value === false) {
+  // ✅ Afficher chargement avec Swal
+  Swal.fire({
+    title: 'Veuillez patienter...',
+    text: 'Enregistrement en cours...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  axios
+    .post("/demandes", values, {
+      headers: { "Content-Type": "multipart/form-data", Accept: "*/*" },
+    })
+    .then(({ data }) => {
+      Swal.close(); 
             if (data.code == 201) {
               success(data.message);
               resetForm();

@@ -298,6 +298,20 @@
           <li class="nav-item">
             <a
               class="nav-link"
+              id="parent-info-tab"
+              data-bs-toggle="tab"
+              href="#parent-info"
+              role="tab"
+              aria-controls="parent-info"
+              aria-selected="false"
+            >
+              <strong>Informations des parents</strong>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
               id="affectation-info-tab"
               data-bs-toggle="tab"
               href="#affectation-info"
@@ -643,13 +657,69 @@
               </button>
             </div>
           </div>
+
+               <div
+            class="tab-pane fade"
+            id="parent-info"
+            role="tabpanel"
+            aria-labelledby="parent-info-tab"
+          >
+          <table class="table" style="border: none;">
+              <tbody>
+                <tr>
+                  <td style="padding: 4px;">
+                    <strong>Nom du père: </strong>{{ personnel?.nom_p || "Non renseigné" }}
+                  </td>
+                  <td style="padding: 4px;">
+                    <strong>Nom de la mère: </strong>{{ personnel?.nom_m || "Non renseigné" }}
+                  </td>
+                 
+                
+                </tr>
+                <tr>
+                   <td style="padding: 4px;">
+                    <strong>Prénom du père: </strong>{{ personnel?.prenom_p || "Non renseigné" }}
+                  </td>
+                 
+                  <td style="padding: 4px;">
+                    <strong>Prénom de la mère: </strong>{{ personnel?.prenom_m || "Non renseigné" }}
+                  </td>
+              
+                </tr>
+
+                 <tr>
+              
+                     <td style="padding: 4px;">
+                    <strong>Téléphone du père: </strong>{{ personnel?.telephone_p || "Non renseigné" }}
+                  </td>
+                   <td style="padding: 4px;">
+                    <strong>Téléphone de la mère: </strong>{{ personnel?.telephone_m || "Non renseigné" }}
+                  </td>
+                </tr>
+            
+               
+              </tbody>
+            </table>
+
+            <div class="mt-3">
+              <button
+                class="btn btn-success"
+                data-bs-target="#create-task"
+                @click="openModal('parent')"
+              >
+                <i class="fa fa-edit lh-1 me-1 position-relative top-2"></i>
+                <span class="position-relative">Modifier</span>
+              </button>
+            </div>
+          </div>
+
           <div
             class="tab-pane fade"
             id="bank-info"
             role="tabpanel"
             aria-labelledby="bank-info-tab"
           >
-          <table class="table" style="border: none;">
+         <table class="table" style="border: none;">
           <tbody>
             <tr>
               <td style="padding: 4px;">
@@ -661,7 +731,7 @@
             </tr>
             <tr>
               <td style="padding: 4px;">
-                <strong>Code IBAN: </strong>{{ personnel?.codeIban || "Non renseigné" }}
+                <strong>Identification: </strong>{{ personnel?.identification || "Non renseigné" }}
               </td>
               <td style="padding: 4px;">
                 <strong>Code SWIFT: </strong>{{ personnel?.codeSwift || "Non renseigné" }}
@@ -669,6 +739,7 @@
             </tr>
           </tbody>
         </table>
+
 
             <div class="mt-3">
               <button
@@ -898,7 +969,7 @@
                   <div class="col-md-6">
                     <label class="form-label">Telephone conjoint </label>
                     <input
-                      type="number"
+                      type="string"
                       class="form-control"
                       v-model="personnel.conjoints.telephoneCon"
                     />
@@ -1175,35 +1246,90 @@
               </form>
             </template>
 
+                 <template v-if="modalType === 'parent'">
+              <form @submit.prevent="saveParentInfo">
+                
+              
+                <div class="mb-3">
+                  <label class="form-label">Nom du père</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="personnel.nom_p"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Prénom du père</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="personnel.prenom_p"
+                  />
+                </div>
+                 <div class="mb-3">
+                  <label class="form-label">Téléphone du père</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="personnel.telephone_p"
+                  />
+                </div>
+                  <div class="mb-3">
+                  <label class="form-label">Nom de la mère</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="personnel.nom_m"
+                  />
+                </div>
+                  <div class="mb-3">
+                  <label class="form-label">Prénom de la mère</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="personnel.prenom_m"
+                  />
+                </div>
+                  <div class="mb-3">
+                  <label class="form-label">Telephone de la mère</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="personnel.telephone_m"
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  Sauvegarder
+                </button>
+              </form>
+            </template>
+
+
             <template v-if="modalType === 'bank'">
               <form @submit.prevent="saveBankInfo">
                 <div class="mb-3">
                   <label class="form-label">Banque</label>
-                  <Field name="banque">
+                  <Field name="banque" v-model="banque">
                     <Multiselect
-                      v-model="personnel.banque"
+                      v-model="banque"
                       :options="banqueOptions"
                       :searchable="true"
                       track-by="value"
                       label="label"
                       placeholder="Sélectionner la banque"
+                      @change="onBanqueSelected"
+
                     />
                   </Field>
                 </div>
+              
                 <div class="mb-3">
-                  <label class="form-label">Numéro de compte</label>
+                  <label class="form-label">Identification</label>
                   <input
                     type="text"
                     class="form-control"
-                    v-model="personnel.numeroCompte"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Code Iban</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="personnel.codeIban"
+                    v-model="personnel.identification"
+                    disabled="true"
                   />
                 </div>
                 <div class="mb-3">
@@ -1212,6 +1338,15 @@
                     type="text"
                     class="form-control"
                     v-model="personnel.codeSwift"
+                    disabled="true"
+                  />
+                </div>
+                  <div class="mb-3">
+                  <label class="form-label">Numéro de compte</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="personnel.numeroCompte"
                   />
                 </div>
                 <button type="submit" class="btn btn-primary">
@@ -1347,6 +1482,9 @@ export default defineComponent({
     const nombreEnfant = ref(null);
     const isDisable = ref(true);
     const enfantOptions = ref([]);
+      const codeBanque = ref("");
+    const codeSwift = ref("");
+    const identification = ref("");
     const { remove, push, fields, update } = useFieldArray("enfants");
     const enfant = ref();
     const child = ref({
@@ -1393,6 +1531,7 @@ export default defineComponent({
     };
     const regionn = ref();
     const ethnnie = ref();
+    const banque = ref();
 
     const getPersonnel = async (id: number) => {
       try {
@@ -1413,6 +1552,12 @@ export default defineComponent({
         } else {
           personnel.value.conjoints.ethnieCon = null;
         };
+
+        if(data.data.banque){
+          banque.value = data.data.banque.id;
+        }else{
+          banque.value = null;
+        }
         
         nombreEnfant.value = data.data.nombreEnfant || 0;
         enfants.splice(0, enfants.length);
@@ -1422,7 +1567,7 @@ export default defineComponent({
               id: enfant.id || "",
               nom: enfant.nom || "",
               prenom: enfant.prenom || "",
-              dateNaissance: format_Date(enfant.dateNaissance) || "",
+              dateNaissance: enfant.dateNaissance || "",
               sexe: enfant.sexe || "",
             });
           });
@@ -1530,14 +1675,44 @@ export default defineComponent({
         const response = await ApiService.put(
           `/personnels/${personnel.value.id}`,
           {
-            banque: personnel.value.banque?.value,
+            banque: banque?.value,
             numeroCompte: personnel.value.numeroCompte,
-            codeIban: personnel.value.codeIban,
+            identification: personnel.value.identification,
             codeSwift: personnel.value.codeSwift,
           }
         );
         if (response.data.code === 200) {
           success(response.data.message);
+          await getPersonnel(personnel.value.id);
+          closeModal();
+        } else {
+          error(
+            "Une erreur est survenue lors de la mise à jour des informations de contact."
+          );
+        }
+      } catch (err) {
+        console.error(err);
+        error(
+          "Une erreur est survenue lors de la mise à jour des informations de contact."
+        );
+      }
+    };
+       const saveParentInfo = async () => {
+      try {
+        const response = await ApiService.put(
+          `/personnels/${personnel.value.id}`,
+          {
+            nom_p: personnel.value.nom_p,
+            prenom_p: personnel.value.prenom_p,
+            telephone_p: personnel.value.telephone_p,
+            nom_m:personnel.value.nom_m,
+            prenom_m:personnel.value.prenom_m,
+            telephone_m:personnel.value.telephone_m
+          }
+        );
+        if (response.data.code === 200) {
+          success(response.data.message);
+          await getPersonnel(personnel.value.id);
           closeModal();
         } else {
           error(
@@ -1627,6 +1802,29 @@ export default defineComponent({
           error(response.data.message);
         });
     };
+    const getBanque = async (id) => {
+  try {
+    const { data } = await ApiService.get(`/banques/${id}`);
+
+    personnel.value.identification = data.data.identification || "";
+    personnel.value.codeSwift = data.data.codeSwift || "";
+  } catch (err) {
+    error("Erreur lors de la récupération des détails de la banque.");
+  }
+};
+
+const onBanqueSelected = (selectedBanqueId) => {
+  console.log("Banque sélectionnée :", selectedBanqueId);
+
+  if (selectedBanqueId) {
+    getBanque(selectedBanqueId);
+  } else {
+    personnel.value.identification = "";
+    personnel.value.codeSwift = "";
+  }
+};
+
+
     const getAllEthnies = async () => {
       try {
         const response = await ApiService.get("/all/ethnies");
@@ -1716,6 +1914,7 @@ export default defineComponent({
       }
     });
     return {
+      banque,
       personnel,
       formatDate,
       getUrlApiForFiles,
@@ -1729,6 +1928,7 @@ export default defineComponent({
       saveFamilyInfo,
       saveHealthInfo,
       saveBankInfo,
+     saveParentInfo,
       saveEnfantInfo,
       ajoutEnfantInfo,
       religionOptions,
@@ -1750,6 +1950,11 @@ export default defineComponent({
       enfant,
       activeEnfant,
       child,
+      onBanqueSelected,
+       codeBanque,
+      codeSwift,
+      identification,
+
     };
   },
 });

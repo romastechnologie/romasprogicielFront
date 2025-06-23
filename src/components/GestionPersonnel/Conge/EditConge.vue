@@ -16,7 +16,7 @@
             </div>
           </div>
 
-          <div class="col-md-6">
+      <!--  <div class="col-md-6">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Date de fin prévu <span class="text-danger">*</span>
@@ -24,7 +24,7 @@
               <Field name="dateFinPrevu" type="date" class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer la date" />
               <ErrorMessage name="dateFinPrevu" class="text-danger" />
             </div>
-          </div>
+          </div>-->   
 
           <div class="col-md-6">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -89,7 +89,7 @@ export default defineComponent({
     const congeSchema = Yup.object().shape({
       dateDebut: Yup.string().required("Date Début est obligatoire."),
       dateReprise: Yup.string().required("Date Reprise est obligatoire."),
-      dateFinPrevu: Yup.string().required("Date Fin Prévu est obligatoire."),
+     // dateFinPrevu: Yup.string().required("Date Fin Prévu est obligatoire."),
       dateFin: Yup.string().required("Date Fin est obligatoire."),
     });
 

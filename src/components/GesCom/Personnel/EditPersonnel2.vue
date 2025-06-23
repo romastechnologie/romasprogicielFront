@@ -351,7 +351,7 @@
             >
                 Modifier le personnel 
             </button>
-            <router-link to="/liste-personnel" 
+            <router-link to="/personnelles/liste-personnel" 
                 class=" btn btn-danger"><i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler</router-link>
           </div>
@@ -463,91 +463,57 @@ export default defineComponent({
       } catch (error) {
       }
     };
+async function departementChange(value) {
+  if (!value) return;
+  communeOptions.value = [];
+  selectedCommune.value = [];
+  selectedArrondissement.value = [];
+  selectedQuartier.value = [];
 
-    function departementChange(value) {
-      console.log("g,rl;m", value);
-      if (value) {
-        communeOptions.value = [];
-        selectedCommune.value = [];
-        selectedArrondissement.value = [];
-        selectedQuartier.value = [];
-        ApiService.get("/departements/communes/" + value)
-          .then(({ data }) => {
-            const donnee = data.data;
-            console.log("donnee", donnee);
-            if (donnee.length > 0) {
-              communeOptions.value = donnee.map((commune: any) => {
-                return {
-                  label: commune.libelle,
-                  value: commune.id,
-                };
-              });
-            }
-          })
-          .catch(({ response }) => {
-            //error(response.data.message);
-          });
-      } else {
-        communeOptions.value = [];
-        selectedCommune.value = [];
-        selectedArrondissement.value = [];
-        selectedQuartier.value = [];
-      }
-    }
+  try {
+    const { data } = await ApiService.get("/departements/communes/" + value);
+    communeOptions.value = data.data.map(commune => ({
+      label: commune.libelle,
+      value: commune.id,
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-    function communeChange(value) {
-      if (value) {
-        arrondissementOptions.value = [];
-        selectedArrondissement.value = [];
-        selectedQuartier.value = [];
-        ApiService.get("/communes/arrondissements/" + value)
-          .then(({ data }) => {
-            const donnee = data.data;
-            if (donnee.length > 0) {
-              arrondissementOptions.value = donnee.map(
-                (arrondissement: any) => {
-                  return {
-                    label: arrondissement.libelle,
-                    value: arrondissement.id,
-                  };
-                }
-              );
-            }
-          })
-          .catch(({ response }) => {
-            //error(response.data.message);
-          });
-      } else {
-        arrondissementOptions.value = [];
-        selectedArrondissement.value = [];
-        selectedQuartier.value = [];
-      }
-    }
+async function communeChange(value) {
+  if (!value) return;
+  arrondissementOptions.value = [];
+  selectedArrondissement.value = [];
+  selectedQuartier.value = [];
 
-    function arrondissementChange(value) {
-      if (value) {
-        quartierOptions.value = [];
-        selectedQuartier.value = [];
-        ApiService.get("/arrondissements/quartiers/" + value)
-          .then(({ data }) => {
-            const donnee = data.data;
-            if (donnee.length > 0) {
-              quartierOptions.value = donnee.map((quartier: any) => {
-                return {
-                  label: quartier.libelle,
-                  value: quartier.id,
-                };
-              });
-            }
-          })
-          .catch(({ response }) => {
-            //error(response.data.message);
-          });
-      } else {
-        quartierOptions.value = [];
-        selectedQuartier.value = [];
-      }
-    }
+  try {
+    const { data } = await ApiService.get("/communes/arrondissements/" + value);
+    arrondissementOptions.value = data.data.map(arr => ({
+      label: arr.libelle,
+      value: arr.id,
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function arrondissementChange(value) {
+  if (!value) return;
+  quartierOptions.value = [];
+  selectedQuartier.value = [];
+
+  try {
+    const { data } = await ApiService.get("/arrondissements/quartiers/" + value);
+    quartierOptions.value = data.data.map(q => ({
+      label: q.libelle,
+      value: q.id,
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 
     const fetchDepartements = async () => {
       ApiService.get("/all/departements")
@@ -588,42 +554,54 @@ export default defineComponent({
         //error(response.data.message)
       }
     };
+const getPersonnel = async (id: number) => {
+  try {
+    console.log(id, "Personnel");
+    const { data } = await ApiService.get("/personnel/" + id);
+    const donnees = data.data;
+    console.log(donnees, "donnéees");
 
+    nom.value = donnees?.nom;
+    prenom.value = donnees?.prenom;
+    civilite.value = donnees?.civilite;
+    email.value = donnees?.email;
+    telephone.value = donnees?.telephone;
+    telephone2.value = donnees?.telephone2;
+    religion.value = donnees?.religion?.id;
+    adresse.value = donnees?.adresse;
+    situationMatrimoniale.value = donnees?.situationMatrimoniale;
+    nationalite.value = donnees?.nationalite;
+    ethnie.value = donnees?.ethnie?.id;
+    personnelId.value = donnees?.id;
 
-    
-const  getPersonnel = async (id: number) => {
-            console.log(id, "Personnel")
-            return ApiService.get("/personnel/" + id)
-                .then(({ data }) => {
-                    const donnees = data.data;
-                    console.log(donnees, 'donnéees');
-                    nom.value=donnees?.nom;
-                    prenom.value=donnees?.prenom;
-                    civilite.value=donnees?.civilite;
-                    email.value=donnees?.email;
-                    telephone.value=donnees?.telephone;
-                    telephone2.value=donnees?.telephone2;
-                    religion.value=donnees?.religion.id; 
-                    adresse.value= donnees?.adresse;  
-                    situationMatrimoniale.value=donnees?.situationMatrimoniale;
-                    nationalite.value=donnees?.nationalite;
-                    departement.value=donnees?.departement.id;
-                    commune.value=donnees?.commune;
-                    arrondissement.value=donnees?.arrondissement;
-                    quartier.value=donnees?.quartier;
-                    adresse.value=donnees?.adresse; 
-                    ethnie.value=donnees?.ethnie.id;
-                    personnelId.value = donnees?.id;
-                    if (donnees?.organisation_personnels?.length > 0) {
-        const lastOrg = donnees.organisation_personnels[donnees.organisation_personnels.length - 1];
-        organisation.value = lastOrg?.organisation?.id; 
-      }
-           
-                })
-                .catch(({ response }) => {
-                    error(response.data.message)
-                });
-        }
+    // Chargement du Département
+    departement.value = donnees?.departement?.id;
+    await departementChange(departement.value); // Cela remplit communeOptions
+
+    // Chargement de la Commune
+    commune.value = donnees?.commune?.id;
+    selectedCommune.value = commune.value;
+    await communeChange(commune.value); // Cela remplit arrondissementOptions
+
+    // Chargement de l'Arrondissement
+    arrondissement.value = donnees?.arrondissement?.id;
+    selectedArrondissement.value = arrondissement.value;
+    await arrondissementChange(arrondissement.value); // Cela remplit quartierOptions
+
+    // Chargement du Quartier
+    quartier.value = donnees?.quartier?.id;
+    selectedQuartier.value = quartier.value;
+
+    // Organisation
+    if (donnees?.organisation_personnels?.length > 0) {
+      const lastOrg = donnees.organisation_personnels[donnees.organisation_personnels.length - 1];
+      organisation.value = lastOrg?.organisation?.id;
+    }
+
+  } catch (err: any) {
+    error(err.response?.data?.message || "Erreur de chargement");
+  }
+};
 
 const editPersonnel = async (values, { resetForm }) => {
   console.log("Valeurs envoyées :", values);
@@ -632,7 +610,7 @@ const editPersonnel = async (values, { resetForm }) => {
     if (response.status === 200) {
       success(response.data.message);
       resetForm();
-     router.push({ name: "DetailsPersonnelPage" });
+     router.push({ name: "ListePersonnelPage" });
     }
   } catch (error) {
   //  console.error("Erreur lors de la modification :", error.response?.data?.message);

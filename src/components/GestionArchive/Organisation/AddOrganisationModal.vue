@@ -62,7 +62,7 @@
                 </div>
               </div>
 
-              <div class="col-md-12 mb-3">
+          <!--   <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
                     Type d'archivage <span class="text-danger">*</span>
@@ -81,7 +81,7 @@
                   </Field>
                   <ErrorMessage name="typedocument" class="text-danger" />
                 </div>
-              </div>
+              </div>--> 
 
               
               <button class="btn btn-primary" type="submit">
@@ -134,7 +134,7 @@ export default {
     const organisationSchema = Yup.object().shape({
       code: Yup.string().required('Le code est obligatoire'),
       nom: Yup.string().required('Le nom est obligatoire'),
-      typedocument: Yup.string().required('Le type de document est obligatoire'),
+   //   typedocument: Yup.string().required('Le type de document est obligatoire'),
      // typedocument: Yup.array().min(1, "Le type de document obligatoire").required("Le type de document obligatoire"),
       organisation: Yup.string().notRequired(),
        typeorganisation: etatOrganisation.value == true ? Yup.string().notRequired() :  Yup.string().required("Le type d'organisation est obligatoire."),

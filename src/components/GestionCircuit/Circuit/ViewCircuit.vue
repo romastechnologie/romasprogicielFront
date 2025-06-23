@@ -42,7 +42,11 @@
               <tr v-for="(etape, index) in circuit?.etapevalidations" :key="index">
                 <td>{{ etape?.nom || 'Non renseigné' }}</td>
                 <td>{{ etape?.Ordre || 'Non renseigné' }}</td>
-                <td>{{ etape?.Duree || 'Non renseigné' }}</td>
+                <td>
+                  <span v-if="etape?.Duree !== null && etape?.Duree !== undefined">
+                    {{ etape.Duree }} {{ etape.typeDuree || '' }}
+                  </span>
+                </td>
                 <td>{{ etape?.roleetap?.libelle || 'Non renseigné' }}</td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                 <span v-if="etape.useretapes && etape.useretapes.length > 0">

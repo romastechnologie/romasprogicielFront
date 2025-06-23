@@ -288,47 +288,37 @@
                               </div>
                             </div>
 
-                            <div class="col-md-4 mb-3">
+                       <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
-                                Téléphone <span class="text-danger">*</span>
-                              </label>
-                              <Field name="numtel" v-model="telephone"  v-slot="{ field }">
-                                  <vue-tel-input
-                                    placeholder="Entrer le numéro de téléphone"
-                                    v-model ="field.value"
-                                    v-bind ="field"
-                                    defaultCountry="BJ"
-                                    mode="international"
-                                    @validate="validation"
-                                    class ="shadow-none fs-md-15 text-black py-2">
-                                  </vue-tel-input>
-                                </Field>
-                              <ErrorMessage name="numtel" class="text-danger"/>
-                              <div v-if="!validPhone"  class="text-danger">Veuillez entrer un numéro correcte</div>
-                            </div>
-                          </div>
+                            Téléphone  <span class="text-danger">*</span>
+                          </label>
+                          <Field name="telephone" v-slot="{ field }">
+                            <vue-tel-input placeholder="Entrer le numéro de téléphone" v-model="telephone" v-bind="field"
+                              defaultCountry="BJ" mode="international" @validate="validatePhone($event, 'telephone')"
+                              class="shadow-none fs-md-15 text-black py-2">
+                            </vue-tel-input>
+                          </Field>
+                          <div v-if="telephone && !validPhone.telephone" class="text-danger">Veuillez entrer un numéro correct</div>
+                          <ErrorMessage name="telephone" class="text-danger" />
+                        </div>
+                      </div>
 
-                          <div class="col-md-4 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                Téléphone 2 <span class="text-danger">*</span>
-                              </label>
-                              <Field name="numtel2" v-model="telephone2"  v-slot="{ field }">
-                                  <vue-tel-input
-                                    placeholder="Entrer le numéro de téléphone"
-                                    v-model ="field.value"
-                                    v-bind ="field"
-                                    defaultCountry="BJ"
-                                    mode="international"
-                                    @validate="validation"
-                                    class ="shadow-none fs-md-15 text-black py-2">
-                                  </vue-tel-input>
-                                </Field>
-                              <ErrorMessage name="numtel2" class="text-danger"/>
-                              <div v-if="!validPhone"  class="text-danger">Veuillez entrer un numéro correcte</div>
-                            </div>
-                          </div>
+                      <div class="col-md-4 mb-3">
+                      <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Téléphone 2
+                        </label>
+                        <Field name="telephone2" v-slot="{ field }">
+                          <vue-tel-input placeholder="Entrer le numéro de téléphone" v-model="telephone2" v-bind="field"
+                            defaultCountry="BJ" mode="international" @validate="validatePhone($event, 'telephone2')"
+                            class="shadow-none fs-md-15 text-black py-2">
+                          </vue-tel-input>
+                        </Field>
+                        <div v-if="telephone2 && !validPhone.telephone2" class="text-danger">Veuillez entrer un numéro correct</div>
+                        <ErrorMessage name="telephone2" class="text-danger" />
+                      </div>
+                    </div>
                           <!--<div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
@@ -599,27 +589,21 @@
                                         </div>
                                       </div>-->
 
-                                      <div class="col-md-4 mb-3">
-                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                                <label class="d-block text-black mb-10">
-                                Téléphone conjoint <span class="text-danger">*</span>
-                              </label>
-                              <Field name="telephoneCon" v-model="telephoneCon"  v-slot="{ field }">
-                                  <vue-tel-input
-                                    placeholder="Entrer le numéro de téléphone"
-                                    v-model ="field.value"
-                                    v-bind ="field"
-                                    defaultCountry="BJ"
-                                    mode="international"
-                                    @validate="validation"
-                                    class ="shadow-none fs-md-15 text-black py-2">
-                                  </vue-tel-input>
-                                </Field>
-                              <ErrorMessage name="telephoneCon" class="text-danger"/>
-                              <div v-if="!validPhone"  class="text-danger">Veuillez entrer un numéro correcte</div>
-                            </div>
-                          </div>
-
+                          <div class="col-md-4 mb-3">
+                          <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                         <label class="d-block text-black mb-10">
+                          Téléphone Conjoint
+                        </label>
+                        <Field name="telephoneCon" v-slot="{ field }">
+                          <vue-tel-input placeholder="Entrer le numéro de téléphone" v-model="telephoneCon" v-bind="field"
+                            defaultCountry="BJ" mode="international" @validate="validatePhone($event, 'telephoneCon')"
+                            class="shadow-none fs-md-15 text-black py-2">
+                          </vue-tel-input>
+                        </Field>
+                        <div v-if="telephoneCon && !validPhone.telephoneCon" class="text-danger">Veuillez entrer un numéro correct</div>
+                        <ErrorMessage name="telephoneCon" class="text-danger" />
+                      </div>
+                    </div>
                              <!-- <div class="col-md-6 mb-3">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
@@ -877,7 +861,8 @@
                           </div>
                         </div>
                       </div>
-                      <div
+
+                     <div
                         v-if="currentStep === 4"
                         class="tab-pane fade show active"
                         id="info-sante-personnel"
@@ -1164,8 +1149,113 @@
                           </div>
                         </div>
                       </div>
+
                       <div
                         v-if="currentStep === 5"
+                        class="tab-pane fade show active"
+                        id="info-parent"
+                        role="tabpanel"
+                        aria-labelledby="info-parent-tab"
+                      >
+                        <div class="sidebar-body">
+                          <div class="row g-2">
+                         
+                            <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Nom du père<span class="text-danger">*</span>
+                                </label>
+                                <Field
+                                  name="nom_p"
+                                  type="text"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                  v-model="nom_p"
+                                  placeholder="Nom du père"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Prénom du père<span class="text-danger">*</span>
+                                </label>
+                                <Field
+                                  name="prenom_p"
+                                  type="text"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                  v-model="prenom_p"
+                                  placeholder="Prenom du père"
+                                />
+                              </div>
+                            </div>
+
+                             <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Telephone du père
+                                </label>
+                                   <Field name="telephone_p" v-slot="{ field }">
+                          <vue-tel-input placeholder="Entrer le numéro de téléphone" v-model="telephone_p" v-bind="field"
+                            defaultCountry="BJ" mode="international" @validate="validatePhone($event, 'telephone_p')"
+                            class="shadow-none fs-md-15 text-black py-2">
+                          </vue-tel-input>
+                        </Field>
+                              </div>
+                            </div>
+                          
+                               <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Nom de la mère 
+                                </label>
+                                <Field
+                                  name="nom_m"
+                                  type="text"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                  v-model="nom_m"
+                                  placeholder="Nom de la mère"
+                                />
+                              </div>
+                            </div>
+
+                               <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Prénom de la mère 
+                                </label>
+                                <Field
+                                  name="prenom_m"
+                                  type="text"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                  v-model="prenom_m"
+                                  placeholder="Prénom de la mère"
+                                />
+                              </div>
+                            </div>
+
+                                <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Téléphone de la mère 
+                                </label>
+                                  <Field name="telephone_m" v-slot="{ field }">
+                          <vue-tel-input placeholder="Entrer le numéro de téléphone" v-model="telephone_m" v-bind="field"
+                            defaultCountry="BJ" mode="international" @validate="validatePhone($event, 'telephone_m')"
+                            class="shadow-none fs-md-15 text-black py-2">
+                          </vue-tel-input>
+                        </Field>
+                            </div>
+                             </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        v-if="currentStep === 6"
                         class="tab-pane fade show active"
                         id="info-bancaire"
                         role="tabpanel"
@@ -1186,7 +1276,8 @@
                                     track-by="label"
                                     label="label"
                                     placeholder="Sélectionner la banque"
-                                    @change="onBanqueSelected(banque)"
+                                    @change="onBanqueSelected"
+
                                   />
                                 </Field>
                               </div>
@@ -1359,7 +1450,24 @@
                                 >
                               </div>
 
-                              <div class="col-md-6 mb-3"  v-if="relation !== 'Conjoint(e)'" >
+                          
+                          <div class="col-md-4 mb-3" v-if="relation !== 'Conjoint(e)'">
+                           <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                            <label class="d-block text-black mb-10">
+                          Téléphone personne a contacter
+                        </label>
+                        <Field name="telephonePersonneAContacter" v-slot="{ field }">
+                          <vue-tel-input placeholder="Entrer le numéro de téléphone" v-model="telephonePersonneAContacter" v-bind="field"
+                            defaultCountry="BJ" mode="international" @validate="validatePhone($event, 'telephonePersonneAContacter')"
+                            class="shadow-none fs-md-15 text-black py-2">
+                          </vue-tel-input>
+                        </Field>
+                        <div v-if="telephonePersonneAContacter && !validPhone.telephonePersonneAContacter" class="text-danger">Veuillez entrer un numéro correct</div>
+                        <ErrorMessage name="telephonePersonneAContacter" class="text-danger" />
+                      </div>
+                    </div>
+
+                            <!--  <div class="col-md-6 mb-3"  v-if="relation !== 'Conjoint(e)'" >
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                   <label class="d-block text-black mb-10">
                                 Téléphone conjoint <span class="text-danger">*</span>
@@ -1378,7 +1486,7 @@
                               <ErrorMessage name="telephonePersonneAContacter" class="text-danger"/>
                               <div v-if="!validPhone"  class="text-danger">Veuillez entrer un numéro correcte</div>
                             </div>
-                          </div>
+                          </div>-->
 
                             <!-- <div class="col-md-6 mb-3" v-if="relation !== 'Conjoint(e)'">
                                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -1613,13 +1721,30 @@ export default defineComponent({
     const ageError = ref(false);
     const today = new Date();
     const isDisable = ref(true);
+    const nom_p = ref();
+    const prenom_p = ref();
+    const telephone_p = ref();
+    const telephone_m = ref();
+    const nom_m = ref();
+    const prenom_m = ref();
+
+
+
 
     const codepay= ref();
     const nationalnumlber= ref();
     const check = ref(false);
-    const validPhone=ref<boolean>(false);
+     const validPhone = ref({
+      telephone: true,
+      telephone2: true,
+      telephonePersonneAContacter: true,
+      telephoneCon: true,
+      telephone_p:true,
+      telephone_m:true,
+    });
     const numberPhone=ref();
     const numtel = ref("");
+
 
 
     const handleNumtelInput = (event) => {
@@ -1648,7 +1773,7 @@ export default defineComponent({
         numberPhone.value="";
       }
     }*/
-    const validation = (phoneObject: any, fieldName: string) => {
+    const validatePhone = (phoneObject: any, fieldName: string) => {
       validPhone.value[fieldName] = phoneObject.valid || false;
       if (phoneObject.valid) {
         switch (fieldName) {
@@ -1661,13 +1786,19 @@ export default defineComponent({
           case 'telephonePersonneAContacter':
             telephonePersonneAContacter.value = phoneObject.number;
             break;
-          case 'telephoneRepresentant':
-          telephoneCon.value = phoneObject.number;
+          case 'telephoneCon':
+            telephoneCon.value = phoneObject.number;
+            break;
+             case 'telephone_p':
+            telephone_p.value = phoneObject.number;
+            break;
+             case 'telephone_m':
+            telephone_m.value = phoneObject.number;
             break;
         }
       } else {
         switch (fieldName) {
-          case 'telephone1':
+          case 'telephone':
             telephone.value = '';
             break;
           case 'telephone2':
@@ -1676,13 +1807,19 @@ export default defineComponent({
           case 'telephonePersonneAContacter':
             telephonePersonneAContacter.value = '';
             break;
-          case 'telephoneRepresentant':
-          telephoneCon.value = '';
+          case 'telephoneCon':
+            telephoneCon.value = '';
+            break;
+            case 'telephone_p':
+            telephone_p.value = '';
+            break;
+            case 'telephone_m':
+            telephone_m.value = '';
             break;
         }
       }
     };
- 
+
 
     const enfants = reactive([
       {
@@ -1817,6 +1954,12 @@ export default defineComponent({
         releveIdentiteBancaire: releveIdentiteBancaire.value,
         codeIban: codeIban.value,
         swift: swift.value,
+        nom_m:nom_m.value,
+        prenom_m:prenom_m.value,
+        telephone_m:telephone_m.value,
+        nom_p:nom_p.value,
+        prenom_p:prenom_p.value,
+        telephone_p:telephone_p.value,
         nomPersonneAContacter: nomPersonneAContacter.value,
         prenomPersonneAContacter: prenomPersonneAContacter.value,
         telephonePersonneAContacter: telephonePersonneAContacter.value,
@@ -2082,13 +2225,19 @@ export default defineComponent({
       }
     };
 
-    const onBanqueSelected = (selectedBanqueId) => {
-      if (selectedBanqueId) {
-        getBanque(selectedBanqueId);
-      } else {
-        console.error("personnel ID  indefini.");
-      }
-    };
+  const onBanqueSelected = (selectedBanqueId) => {
+  console.log("Banque sélectionnée :", selectedBanqueId);
+
+  if (selectedBanqueId) {
+    getBanque(selectedBanqueId);
+  } else {
+    codeBanque.value = "";
+    codeSwift.value = "";
+    identification.value = "";
+  }
+};
+
+
     /* const fetchCommunes = async () => {
       ApiService.get("/communes")
         .then(({ data }) => {
@@ -2174,6 +2323,12 @@ export default defineComponent({
         icon: "advance",
         title: "Santé et physique",
         desc: "Complèter les informations sur la santé du personnel",
+      },
+       {
+        id: "#info-parent",
+        icon: "pricing",
+        title: "Informations parent",
+        desc: "Ajouter les informations bancaires",
       },
       {
         id: "#info-bancaire",
@@ -2371,7 +2526,8 @@ export default defineComponent({
           }
         }
       }
-      if (currentStep.value === 4) {
+
+       if (currentStep.value === 4) {
         //useForm({ validationSchema: personnelPersonneConSchema });
         let element4 = {
           taille: taille.value,
@@ -2394,6 +2550,24 @@ export default defineComponent({
         }
       }
 
+        if (currentStep.value === 5) {
+      
+        let element5 = {
+          nom_m: nom_m.value,
+          prenom_m: prenom_m.value,
+         // telephone_m: telephone_m.value,
+          nom_p: nom_p.value,
+          prenom_p: prenom_p.value,
+       //   telephone_p: telephone_p.value,
+        };
+        for (const key in element5) {
+          if (!element5[key]) {
+            error(`Saisir l'élément suivant ${key}`);
+            return false;
+          }
+        }
+      }
+     
       currentStep.value++;
       showTab(currentStep.value);
     };
@@ -2558,12 +2732,18 @@ export default defineComponent({
       identification,
       checkAge,
       situation,
-          validPhone,
-          validation,
+      validPhone,
+      validatePhone, 
           onInput,
           check,
           numtel,
           handleNumtelInput,
+          nom_p,
+          prenom_p,
+          telephone_p,
+          nom_m,
+          prenom_m,
+          telephone_m
     };
   },
   computed: {

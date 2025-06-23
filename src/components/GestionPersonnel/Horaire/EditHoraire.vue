@@ -123,7 +123,7 @@
                             <label class="form-check-label mb-0" :for="index">Oui</label>
                           </div>
                           <div class="form-check form-check-inline radio radio-primary">
-                            <input class="form-check-input" :id="`radio${index}`" v-model="horaire.estActif" type="radio" :name="`radio${index}`" value="0">
+                            <input class="form-check-input" :id="`radio${index}`" v-model="horaire.estActif" type="radio" :name="`radio${index}`" value="0"   @change="handleJourOuvrableChange(horaire)">
                             <label class="form-check-label mb-0" :for="`radio${index}`">Non</label>
                           </div>
                         </div>
@@ -204,8 +204,9 @@
     };
 
     function getAllHoraires(page = 1, limi = 10, searchTerm = '') {
-        ApiService.get(`/horaires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        ApiService.get(`/all/horaires?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
+            console.log("horairedata",data);
             data.data.data.forEach(horaire => {
             horaires.push({
               id:horaire.id,
@@ -222,20 +223,31 @@
         });
     }
 
-    
-    const EditHoraire = async (values) => {
-       ApiService.put(`/horaires/${values.id}`, values)
-        .then(({ data }) => {
-          if (data.code == 201) {
-            console.log(data.code,"datadatadatadata");
-            success(data.message);
-            router.push({ name: "ListeHoraire" });
-          }
-        }).catch(({ response }) => {
-          console.log(response,"responseresponseresponse");
-          error(response.message);
-        });
-    };
+  const EditHoraire = async () => {
+  try {
+    for (const horaire of horaires) {
+      await ApiService.put(`/horaires/${horaire.id}`, horaire);
+    }
+    success("Les horaires ont été modifiés avec succès.");
+    router.push({ name: "ListeHoraire" });
+  } catch (err) {
+    console.error(err);
+    error("Une erreur s'est produite lors de la modification des horaires.");
+  }
+};
+
+
+const handleJourOuvrableChange = (horaire) => {
+  if (horaire.estActif === '0') {
+    horaire.heureOuverture = '';
+    horaire.heureDebutPause = '';
+    horaire.heureFinPause = '';
+    horaire.heureFermeture = '';
+    horaire.jour = horaire.jour || ''; // Optionnel, si besoin de le réinitialiser aussi
+  }
+};
+
+
 
     onMounted(async () => {
       getAllHoraires();
@@ -246,6 +258,7 @@
       valideteRowHoraire,
       isDisable,
       horaires,
+      handleJourOuvrableChange
     };
   },
 });

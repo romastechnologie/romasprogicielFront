@@ -113,12 +113,12 @@
                               Détails
                             </router-link>
                           </li>
-                          <li v-if="(demande.statut =='En attente')" class="dropdown-item d-flex align-items-center">
+                        <!--    <li v-if="(demande.statut =='En attente')" class="dropdown-item d-flex align-items-center">
                               <a href="javascript:void(0);" data-bs-target="#create-task" data-bs-toggle="modal" @click="openModal(demande.id)">
                                 <i class="fa fa-check-circle lh-1 me-8 position-relative top-1"></i>
                                 Traiter
                               </a>
-                       </li>
+                       </li>-->
                        <!-- <li class="dropdown-item d-flex align-items-center">
                           <router-link
                             

@@ -39,7 +39,9 @@
                     v-model="field.value"
                     v-bind="field"
                     placeholder="Sélectionner la demande"
-                    @change="onDemandeSelected(field.value)"
+                      noOptionsText="Aucune demande de congé valide"
+                      @change="onDemandeSelected"
+
                   />
                 </Field>
                 <ErrorMessage name="demande" class="text-danger" />
@@ -62,6 +64,8 @@
                     v-model="field.value"
                     v-bind="field"
                     placeholder="Sélectionner le personnel"
+                      @change="onPersonnelSelected"
+
                   />
                 </Field>
                 <ErrorMessage name="personnel" class="text-danger" />
@@ -85,7 +89,7 @@
             </div>
           </div>
 
-          <div class="col-md-6">
+        <!--<div class="col-md-6">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Date de fin prévu <span class="text-danger">*</span>
@@ -99,7 +103,7 @@
               />
               <ErrorMessage name="dateFinPrevu" class="text-danger" />
             </div>
-          </div>
+          </div>-->  
 
           <div class="col-md-6">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
@@ -171,9 +175,7 @@ export default defineComponent({
 
   setup() {
     const isWithDemande = ref(true);
-    const toggleForm = () => {
-      isWithDemande.value = !isWithDemande.value;
-    };
+   
 
     const congeSchema = computed(() => {
       return Yup.object().shape({
@@ -186,7 +188,7 @@ export default defineComponent({
             }),
         dateDebut: Yup.string().required("Date Début est obligatoire."),
         dateReprise: Yup.string().required("Date Reprise est obligatoire."),
-        dateFinPrevu: Yup.string().required("Date Fin Prévu est obligatoire."),
+      //  dateFinPrevu: Yup.string().required("Date Fin Prévu est obligatoire."),
         dateFin: Yup.string().required("Date Fin est obligatoire."),
       });
     });
@@ -197,8 +199,46 @@ export default defineComponent({
     const demandeOptions = ref([]);
     const personnelOptions = ref([]);
     const router = useRouter();
+    const allDemandes = ref([]);
+    const selectedPersonnelId = ref("");
+const onPersonnelSelected = (selectedId) => {
+  selectedPersonnelId.value = selectedId;
+};
+const congeForm = ref(null);
+
+const resetFields = () => {
+  // Reset des dates
+  dateDebut.value = "";
+  dateFin.value = "";
+  dateFinPrevu.value = "";
+  dateReprise.value = "";
+
+  // Reset des sélections
+  selectedPersonnelId.value = "";
+  personnelOptions.value = [];
+  demandeOptions.value = [];
+
+  // Reset du formulaire VeeValidate (si monté)
+  if (congeForm.value?.resetForm) {
+    congeForm.value.resetForm();
+  }
+
+  // Recharger les données selon le nouveau mode
+  if (isWithDemande.value) {
+    fetchDemande();
+  } else {
+    fetchPersonnel();
+  }
+};
+const toggleForm = () => {
+  isWithDemande.value = !isWithDemande.value;
+  resetFields();
+};
 
     const addConge = async (values, { resetForm }) => {
+        values["statut"] = "Validé";
+        values["personnel"] = selectedPersonnelId.value; // Utilise l'ID sélectionné
+       console.log("valeur",values);
       ApiService.post("/conges", values)
         .then(({ data }) => {
           if (data.code == 201) {
@@ -226,10 +266,12 @@ export default defineComponent({
 
     const fetchDemande = async () => {
       try {
-        const response = await axios.get("/demandeconge");
+        const response = await axios.get("/congevalide");
+            allDemandes.value = response.data.data;
+        console.log("reponse",response);
         demandeOptions.value = response.data.data.map((demande) => ({
           value: demande.id,
-          label: demande.motifDemande,
+          label: `${demande.refDemande} - ${demande.personnel.nom} ${demande.personnel.prenom}`,
         }));
       console.log("response",response);
       } catch (err) {
@@ -237,7 +279,7 @@ export default defineComponent({
       }
     };
 
-    const getDemande = async (id) => {
+   /* const getDemande = async (id) => {
       try {
         const { data } = await ApiService.get(`/demande/${id}`);
 
@@ -248,15 +290,30 @@ export default defineComponent({
       } catch (err) {
         error("Erreur lors de la récupération des détails de la demande.");
       }
-    };
+    };*/
 
-    const onDemandeSelected = (selectedDemandeId) => {
-      if (selectedDemandeId) {
-        getDemande(selectedDemandeId);
-      } else {
-        console.error("demande ID  indefini.");
-      }
-    };
+  const onDemandeSelected = (selectedId) => {
+  const selected = allDemandes.value.find((d) => d.id === selectedId);
+  if (selected) {
+    dateDebut.value = selected.dateDebut;
+    dateFin.value = selected.dateFin;
+    dateReprise.value = selected.dateReprise;
+    dateFinPrevu.value = selected.dateFinPrevu;
+
+    const personnel = selected.personnel;
+    if (personnel) {
+      selectedPersonnelId.value = personnel.id; // Met à jour l'ID du personnel
+      personnelOptions.value = [
+        {
+          value: personnel.id,
+          label: `${personnel.nom} ${personnel.prenom}`,
+        },
+      ];
+    }
+  }
+};
+
+
 
     onMounted(fetchDemande);
     onMounted(fetchPersonnel);
@@ -273,6 +330,11 @@ export default defineComponent({
       dateReprise,
       dateFin,
       onDemandeSelected,
+        onPersonnelSelected,
+         congeForm,
+ 
+  resetFields,
+
     };
   },
 });

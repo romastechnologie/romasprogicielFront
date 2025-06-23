@@ -69,10 +69,10 @@
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Organisation 
                 </th>
-                <th
+          <!-- <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type archivage
-                </th>
+                </th>-->   
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
@@ -93,9 +93,9 @@
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ organisation.organisation?.nom}}
                 </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+             <!--  <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ organisation.typedocument?.nom}}
-                </td>
+                </td>--> 
                 
                 
                 <td

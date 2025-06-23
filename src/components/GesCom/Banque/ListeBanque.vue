@@ -104,16 +104,17 @@
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ banque.identification }}
                 </td>
-                <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+              <!--  <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ format_date(banque.createdAt)  }}
-                </td>
+                </td>-->
                 <td
                   class="shadow-none lh-1 fw-medium text-body-tertiary pe-0"
                 >
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
                   <li class="dropdown-item d-flex align-items-center">
-                    <a  href="javascript:void(0);" @click="moddifier(banque)">
+                    <a  href="javascript:void(0);" @click="moddifier(banque)" data-bs-toggle="modal"
+            data-bs-target="#AddBanqueModal">
                     <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </a>
                   </li>
@@ -147,12 +148,12 @@
   import { defineComponent, onMounted, ref  } from "vue";
   import AddBanqueModal from "./AddBanqueModal.vue";
   import ApiService from "@/services/ApiService";
-  import { format_date, showModal, suppression, error, } from "@/utils/utils";
+  import { format_date, showModal, suppression, error } from "@/utils/utils";
   import { useRouter } from "vue-router";
   import { Banque } from "@/models/Banque";
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
-  
+
   export default defineComponent({
     name: "ListeBanque",
     components: {

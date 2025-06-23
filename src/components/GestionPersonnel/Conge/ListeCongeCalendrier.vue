@@ -77,7 +77,8 @@ const formatDate = (date: Date): string => {
 
 const getAllConges = async () => {
   try {
-    const response = await ApiService.get('/conges');
+    const response = await ApiService.get('/all/conges');
+    console.log("conge",response);
     conges.value = response.data;
 
     calendarOptions.value.events = conges.value.map(conge => {
