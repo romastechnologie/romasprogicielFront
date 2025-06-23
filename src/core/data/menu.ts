@@ -99,8 +99,224 @@ export const menu: MenuItem[] = [
         ]
     },
 
-    
-   
+    {
+        headTitle1: "Gestion de la Paie",
+        headTitle2: "Contrat,Paie, Religions, Type Retenue,Type Prime,Mode Tarification,Ethnie,Type Contrat,Modèle de Contrat ",
+        type: "headtitle"
+    },
+    {
+        title: "Contrat",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/contrats/ajouter-contrat",
+                title: "Ajouter un contrat",
+                type: "link"
+            },
+            {
+                path: "/contrats/liste-contrats",
+                title: "Liste des contrats",
+                type: "link"
+            }
+        ]
+    },
+
+    {
+        title: "Paie",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/paies/ajouter-paie",
+                title: "Ajouter une paie",
+                type: "link"
+            },
+            {
+                path: "/paies/liste-paies",
+                title: "Liste des paies",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Processus",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/processus/ajouter-processus",
+                title: "Ajouter un processus",
+                type: "link"
+            },
+            {
+                path: "/processus/liste-processus",
+                title: "Liste des processus",
+                type: "link"
+            }
+        ]
+    },
+
+    {
+        title: "Religons",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/religions/liste-religion",
+                title: "Liste des religions",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Retenue",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typeRetenues/liste-typeRetenue",
+                title: "Liste des types de retenues",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Prime",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typePrimes/liste-typePrime",
+                title: "Liste des types de primes",
+                type: "link"
+            },
+        ]
+    },
+
+    {
+        title: "Type Contrat",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/typeContrats/liste-typeContrat",
+                title: "Liste des types de contrats",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Modele Contrat",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/modeleContrat/liste-modeleContrat",
+                title: "Liste des modeles contrats",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Mode Tarification",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/modeTarifications/liste-modeTarification",
+                title: "Liste des modes de tarifications",
+                type: "link"
+            },
+        ]
+    },
+
+
+    {
+        title: "Ethnies",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            // {
+            //     path: "/permissions/ajouter-permission",
+            //     title: "Ajouter une permission",
+            //     type: "link"
+            // },
+            {
+                path: "/ethnies/liste-ethnie",
+                title: "Liste des ethnies",
+                type: "link"
+            },
+        ]
+    },
 
     {
         headTitle1: "Gestion du personnel",

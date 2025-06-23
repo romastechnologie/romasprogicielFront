@@ -1,40 +1,83 @@
 <template>
-  <Card3
-    colClass="col-md-12 simple-form-wizard"
-    pre="true"
-    preClass="f-m-light mt-1"
-    headerTitle="true"
-    title="Edition de contrat"
-    desc="Edition de contrat par type de contrat"
-  >
-    <form-wizard
-      class="border border-primary"
-      :before-change="validateStep"
-      @on-complete="handleFormSubmission"
-      shape="tab"
-      back-button-text="Précédent"
-      next-button-text="Suivant"
-      finish-button-text="Enregistrer"
-      color="#9b59b6"
-    >
+  <Card3 colClass="col-md-12 simple-form-wizard" pre="true" preClass="f-m-light mt-1" headerTitle="true"
+    title="Edition de contrat" desc="Edition de contrat par type de contrat">
+    <form-wizard class="border border-primary" :before-change="validateStep" @on-complete="handleFormSubmission"
+      shape="tab" back-button-text="Précédent" next-button-text="Suivant" finish-button-text="Enregistrer"
+      color="#9b59b6">
       <tab-content title="Information Générale">
         <div class="row">
+          <!-- 
           <div class="col-md-4 mb-3">
-            <label for="ref" class="form-label"
-              >Durée du contrat<span class="text-danger">*</span></label
-            >
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Personnel <span class="text-danger">*</span>
+              </label>
+              <Multiselect v-model="contrat.personnel" :options="personnelOptions" :preserve-search="true"
+                :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
+                track-by="label" />
+              <span class="invalid-feedback"></span>
+            </div>
+          </div> -->
+
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Personnel <span class="text-danger">*</span>
+              </label>
+              <Multiselect v-model="contrat.personnel" :options="personnelOptions" :preserve-search="true"
+                :multiple="false" :searchable="true" placeholder="Sélectionner le personnel" label="label"
+                track-by="label" :key="componentKey"
+                />
+                <span class="invalid-feedback"></span>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black mb-10">
+                Catégorie de contrat <span class="text-danger">*</span>
+              </label>
+              <Multiselect :searchable="true" :options="[
+                'Prestation',
+                'Contrat de travail',
+                'Contrat de stage'
+              ]" v-model="contrat.categorieContrat" placeholder="Sélectionner la catégorie de contrat" />
+              <span class="invalid-feedback"></span>
+            </div>
+          </div>
+
+          <!-- <div class="col-md-4 mb-3" v-if="contrat.categorieContrat !== 'Prestation'"> -->
+            <div class="col-md-4 mb-3" v-if="contrat.categorieContrat !== 'Prestation' && contrat.categorieContrat !== 'Contrat de stage'">
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black mb-10">
+                     Type Contrat <span class="text-danger">*</span>
+                 </label>
+              <Multiselect v-model="contrat.typeContrat" :options="typeOptions" :preserve-search="true"
+                :multiple="false" :searchable="true" placeholder="Sélectionner le type" label="label"
+                track-by="label" />
+              <span class="invalid-feedback"></span>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="renouvelable" class="form-label">Renouvelable</label>
+            <div class="form-check-size">
+              <div class="form-check form-check-inline radio radio-primary">
+                <input class="form-check-input" id="oui" v-model="contrat.renouvelable" type="radio" value="1" />
+                <label class="form-check-label mb-0" for="oui">Oui</label>
+              </div>
+              <div class="form-check form-check-inline radio radio-primary">
+                <input class="form-check-input" id="non" v-model="contrat.renouvelable" type="radio" value="0" />
+                <label class="form-check-label mb-0" for="non">Non</label>
+              </div>
+            </div>
+            <span class="invalid-feedback"></span>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="ref" class="form-label">Durée du contrat<span class="text-danger">*</span></label>
             <div class="input-group">
-              <input
-                v-model="contrat.dureeContrat"
-                class="form-control"
-                type="text"
-                for="inputGroupSelect01"
-              />
-              <select
-                class="form-select form-control"
-                style="width: 20px !important"
-                v-model="contrat.periodiciteDureeContrat"
-              >
+              <input v-model="contrat.dureeContrat" class="form-control" type="text" for="inputGroupSelect01" />
+              <select class="form-select form-control" style="width: 20px !important"
+                v-model="contrat.periodiciteDureeContrat">
                 <option value="...">...</option>
                 <option value="Jour(s)">Jour(s)</option>
                 <option value="Mois">Mois</option>
@@ -44,26 +87,13 @@
             </div>
           </div>
           <div class="col-md-4 mb-3">
-            <label for="dateDebut" class="form-label"
-              >Date d'embauche<span class="text-danger">*</span></label
-            >
-            <input
-              v-model="contrat.dateDebut"
-              class="form-control"
-              type="Date"
-            />
+            <label for="dateDebut" class="form-label">Date d'embauche<span class="text-danger">*</span></label>
+            <input v-model="contrat.dateDebut" class="form-control" type="Date" />
             <span class="invalid-feedback"></span>
           </div>
-
-          <div class="col-md-4 mb-3">
-            <label for="salaireBase" class="form-label"
-              >Salaire de base<span class="text-danger">*</span></label
-            >
-            <input
-              v-model="contrat.salaireBase"
-              class="form-control"
-              type="number"
-            />
+          <div class="col-md-4 mb-3" disabled>
+            <label for="dateFin" class="form-label">Date de fin de contrat<span class="text-danger">*</span></label>
+            <input v-model="contrat.dateFin" readonly disabled class="form-control" type="Date" />
             <span class="invalid-feedback"></span>
           </div>
           <div class="col-md-4 mb-3">
@@ -71,52 +101,37 @@
               <label class="d-block text-black mb-10">
                 Mode de tarification <span class="text-danger">*</span>
               </label>
-              <Multiselect
-                v-model="contrat.modetarification"
-                :options="modeDeTarificationOptions"
-                :preserve-search="true"
-                :multiple="false"
-                :searchable="true"
-                placeholder="Sélectionner le mode"
-                label="label"
-                track-by="label"
-              />
+              <Multiselect v-model="contrat.modetarification" :options="modeDeTarificationOptions"
+                :preserve-search="true" :multiple="false" :searchable="true" placeholder="Sélectionner le mode"
+                label="label" track-by="label" />
               <span class="invalid-feedback"></span>
             </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="salaireBase" class="form-label">{{ salaireBaseLabel }}<span class="text-danger">*</span></label>
+            <input v-model="contrat.salaireBase" class="form-control" type="number" />
+            <span class="invalid-feedback"></span>
           </div>
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
-                Catégorie de contrat <span class="text-danger">*</span>
+                Période de Paie <span class="text-danger">*</span>
               </label>
-              <Multiselect
-                :searchable="true"
-                :options="[
-                  'Prestation',
-                  'Contrat de travail',
-                ]"
-                v-model="contrat.categorieContrat"
-                placeholder="Sélectionner la catégorie de contrat"
-              />
+              <Multiselect :searchable="true" :options="[
+                'Mensuel',
+                'Hebdomadaire',
+                'Bimensuel',
+                'Bihebdomadaire',
+              ]" v-model="contrat.periodeDePaie" placeholder="Sélectionner la période" />
               <span class="invalid-feedback"></span>
             </div>
           </div>
           <div class="col-md-4 mb-3">
-            <label for="ref" class="form-label"
-              >Période d'essai<span class="text-danger">*</span></label
-            >
+            <label for="ref" class="form-label">Période d'essai<span class="text-danger">*</span></label>
             <div class="input-group">
-              <input
-                v-model="contrat.dureePeriodeEssai"
-                class="form-control"
-                type="text"
-                for="inputGroupSelect01"
-              />
-              <select
-                class="form-select form-control"
-                style="width: 20px !important"
-                v-model="contrat.periodiciteDureeEssai"
-              >
+              <input v-model="contrat.dureePeriodeEssai" class="form-control" type="text" for="inputGroupSelect01" />
+              <select class="form-select form-control" style="width: 20px !important"
+                v-model="contrat.periodiciteDureeEssai">
                 <option value="...">...</option>
                 <option value="Jour(s)">Jour(s)</option>
                 <option value="Mois">Mois</option>
@@ -126,149 +141,31 @@
             </div>
           </div>
           <div class="col-md-4 mb-3" disabled>
-            <label for="dateFin" class="form-label"
-              >Date de fin de contrat<span class="text-danger">*</span></label
-            >
-            <input
-              v-model="contrat.dateFin"
-              readonly
-              disabled
-              class="form-control"
-              type="Date"
-            />
-            <span class="invalid-feedback"></span>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="renouvelable" class="form-label">Renouvelable</label>
-            <div class="form-check-size">
-              <div class="form-check form-check-inline radio radio-primary">
-                <input
-                  class="form-check-input"
-                  id="oui"
-                  v-model="contrat.renouvelable"
-                  type="radio"
-                  value="1"
-                />
-                <label class="form-check-label mb-0" for="oui">Oui</label>
-              </div>
-              <div class="form-check form-check-inline radio radio-primary">
-                <input
-                  class="form-check-input"
-                  id="non"
-                  v-model="contrat.renouvelable"
-                  type="radio"
-                  value="0"
-                />
-                <label class="form-check-label mb-0" for="non">Non</label>
-              </div>
-            </div>
-            <span class="invalid-feedback"></span>
-          </div>
-          <div class="col-md-4 mb-3" disabled>
             <label for="dateFinPeriodeEssai" class="form-label">
-              Date fin de période d'Essai<span class="text-danger"
-                >*</span
-              ></label
-            >
-            <input
-              v-model="contrat.dateFinPeriodeEssai"
-              class="form-control"
-              type="Date"
-              readonly
-              disabled
-            />
+              Date fin de période d'Essai<span class="text-danger">*</span></label>
+            <input v-model="contrat.dateFinPeriodeEssai" class="form-control" type="Date" readonly disabled />
             <span class="invalid-feedback"></span>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Période de Paie <span class="text-danger">*</span>
-              </label>
-              <Multiselect
-                :searchable="true"
-                :options="[
-                  'Mensuel',
-                  'Hebdomadaire',
-                  'Bimensuel',
-                  'Bihebdomadaire',
-                ]"
-                v-model="contrat.periodeDePaie"
-                placeholder="Sélectionner la période"
-              />
-              <span class="invalid-feedback"></span>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Type Contrat <span class="text-danger">*</span>
-              </label>
-              <Multiselect
-                v-model="contrat.typeContrat"
-                :options="typeOptions"
-                :preserve-search="true"
-                :multiple="false"
-                :searchable="true"
-                placeholder="Sélectionner le type"
-                label="label"
-                track-by="label"
-              />
-              <span class="invalid-feedback"></span>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="form-group mb-15 mb-sm-20 mb-md-25">
-              <label class="d-block text-black mb-10">
-                Personnel <span class="text-danger">*</span>
-              </label>
-              <Multiselect
-                v-model="contrat.personnel"
-                :options="personnelOptions"
-                :preserve-search="true"
-                :multiple="false"
-                :searchable="true"
-                placeholder="Sélectionner le personnel"
-                label="label"
-                track-by="label"
-              />
-              <span class="invalid-feedback"></span>
-            </div>
           </div>
           <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Poste Occupé <span class="text-danger">*</span>
               </label>
-              <Multiselect
-                v-model="contrat.poste"
-                :options="fonctionOptions"
-                :preserve-search="true"
-                :multiple="false"
-                :searchable="true"
-                placeholder="Sélectionner la fonction"
-                label="label"
-                track-by="label"
-                @change = "fetchAttributionsByPoste($event)"
-              />
+              <Multiselect v-model="contrat.poste" :options="fonctionOptions" :preserve-search="true" :multiple="false"
+                :searchable="true" placeholder="Sélectionner la fonction" label="label" track-by="label"
+                @change="fetchAttributionsByPoste($event)" />
               <span class="invalid-feedback"></span>
             </div>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-8">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black fw-semibold mb-10">
                 Attributions <span class="text-danger">*</span>
               </label>
               <Field name="attributioncontrats" v-slot="{ field }" v-model="attributionpostes">
-              <Multiselect
-                mode="tags"
-                v-bind="field"
-                :close-on-select="false"
-                :options="attributionOptions"
-                :searchable="true"
-                :multiple="true"
-                placeholder=""
-              />
-            </Field>
+                <Multiselect mode="tags" v-bind="field" :close-on-select="false" :options="attributionOptions"
+                  :searchable="true" :multiple="true" placeholder="" />
+              </Field>
               <span class="invalid-feedback"></span>
             </div>
           </div>
@@ -277,18 +174,11 @@
       <tab-content title="Horaire de travail">
         <div class="row">
           <div class="col-md-12 mb-md-25">
-            <div
-              class="tab-pane fade show active p-10"
-              id="home-tab-pane"
-              role="tabpanel"
-              tabindex="0"
-            >
+            <div class="tab-pane fade show active p-10" id="home-tab-pane" role="tabpanel" tabindex="0">
               <div class="row">
                 <div class="border border-primary mb-10">
-                  <div
-                    class="row d-flex align-items-center justify-content-between fw-bold py-2"
-                    style="background-color: #0a59a4"
-                  >
+                  <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+                    style="background-color: #0a59a4">
                     <div class="col-md-7">
                       <h3 class="fs-4 text-white">
                         Les horaires de l'entreprise
@@ -296,9 +186,7 @@
                     </div>
                   </div>
                   <div>
-                    <div
-                      class="row d-flex align-items-center justify-content-between mt-2"
-                    >
+                    <div class="row d-flex align-items-center justify-content-between mt-2">
                       <div class="col-md-2">
                         <label class="d-block text-black fw-semibold">
                           Jour
@@ -336,198 +224,120 @@
                       </div>
                     </div>
                     <hr class="mt-0" />
-                    <div
-                      class="row"
-                      v-for="(horaire, index) in horaires"
-                      :key="index"
-                    >
+                    <div class="row" v-for="(horaire, index) in horaires" :key="index">
                       <div class="col-md-2 mb-2">
                         <div class="form-group">
-                          <input
-                            :disabled="horaire.estActif == '0'"
-                            readonly
-                            class="form-control shadow-none fs-md-15 text-black"
-                            type="text"
-                            v-model="horaire.jour"
-                            :class="
-                              valideteRowHoraire(horaire.jour, horaire.estActif)
-                                ? 'is-invalid'
-                                : ''
-                            "
-                          />
-                          <div
-                            class="invalid-feedback"
-                            v-if="
-                              valideteRowHoraire(horaire.jour, horaire.estActif)
-                            "
-                          >
+                          <input :disabled="horaire.estActif == '0'" readonly
+                            class="form-control shadow-none fs-md-15 text-black" type="text" v-model="horaire.jour"
+                            :class="valideteRowHoraire(horaire.jour, horaire.estActif)
+                              ? 'is-invalid'
+                              : ''
+                              " />
+                          <div class="invalid-feedback" v-if="
+                            valideteRowHoraire(horaire.jour, horaire.estActif)
+                          ">
                             Champs obligatoire.
                           </div>
                         </div>
                       </div>
                       <div class="col-md-2 mb-2">
                         <div class="form-group">
-                          <input
-                            :disabled="horaire.estActif == '0'"
-                            v-model="horaire.heureOuverture"
-                            type="time"
-                            :class="
-                              valideteRowHoraire(
-                                horaire.heureOuverture,
-                                horaire.estActif
-                              )
-                                ? 'is-invalid'
-                                : ''
-                            "
-                            class="form-control shadow-none fs-md-15 text-black"
-                            placeholder="Saisir le nom"
-                          />
-                          <div
-                            class="invalid-feedback"
-                            v-if="
-                              valideteRowHoraire(
-                                horaire.heureOuverture,
-                                horaire.estActif
-                              )
-                            "
-                          >
+                          <input :disabled="horaire.estActif == '0'" v-model="horaire.heureOuverture" type="time"
+                            :class="valideteRowHoraire(
+                              horaire.heureOuverture,
+                              horaire.estActif
+                            )
+                              ? 'is-invalid'
+                              : ''
+                              " class="form-control shadow-none fs-md-15 text-black" placeholder="Saisir le nom" />
+                          <div class="invalid-feedback" v-if="
+                            valideteRowHoraire(
+                              horaire.heureOuverture,
+                              horaire.estActif
+                            )
+                          ">
                             Champs obligatoire.
                           </div>
                         </div>
                       </div>
                       <div class="col-md-2 mb-2">
                         <div class="form-group">
-                          <input
-                            :disabled="horaire.estActif == '0'"
-                            v-model="horaire.heureDebutPause"
-                            type="time"
-                            :class="
-                              valideteRowHoraire(
-                                horaire.heureDebutPause,
-                                horaire.estActif
-                              )
-                                ? 'is-invalid'
-                                : ''
-                            "
-                            class="form-control shadow-none fs-md-15 text-black"
-                          />
-                          <div
-                            class="invalid-feedback"
-                            v-if="
-                              valideteRowHoraire(
-                                horaire.heureDebutPause,
-                                horaire.estActif
-                              )
-                            "
-                          >
+                          <input :disabled="horaire.estActif == '0'" v-model="horaire.heureDebutPause" type="time"
+                            :class="valideteRowHoraire(
+                              horaire.heureDebutPause,
+                              horaire.estActif
+                            )
+                              ? 'is-invalid'
+                              : ''
+                              " class="form-control shadow-none fs-md-15 text-black" />
+                          <div class="invalid-feedback" v-if="
+                            valideteRowHoraire(
+                              horaire.heureDebutPause,
+                              horaire.estActif
+                            )
+                          ">
                             Champs obligatoire.
                           </div>
                         </div>
                       </div>
                       <div class="col-md-2 mb-2">
                         <div class="form-group">
-                          <input
-                            :disabled="horaire.estActif == '0'"
-                            v-model="horaire.heureFinPause"
-                            type="time"
-                            :class="
-                              valideteRowHoraire(
-                                horaire.heureFinPause,
-                                horaire.estActif
-                              )
-                                ? 'is-invalid'
-                                : ''
-                            "
-                            class="form-control shadow-none fs-md-15 text-black"
-                            placeholder=""
-                          />
-                          <div
-                            class="invalid-feedback"
-                            v-if="
-                              valideteRowHoraire(
-                                horaire.heureFinPause,
-                                horaire.estActif
-                              )
-                            "
-                          >
+                          <input :disabled="horaire.estActif == '0'" v-model="horaire.heureFinPause" type="time" :class="valideteRowHoraire(
+                            horaire.heureFinPause,
+                            horaire.estActif
+                          )
+                            ? 'is-invalid'
+                            : ''
+                            " class="form-control shadow-none fs-md-15 text-black" placeholder="" />
+                          <div class="invalid-feedback" v-if="
+                            valideteRowHoraire(
+                              horaire.heureFinPause,
+                              horaire.estActif
+                            )
+                          ">
                             Champs obligatoire.
                           </div>
                         </div>
                       </div>
                       <div class="col-md-2 mb-2">
                         <div class="form-group">
-                          <input
-                            :disabled="horaire.estActif == '0'"
-                            v-model="horaire.heureFermeture"
-                            type="time"
-                            :class="
-                              valideteRowHoraire(
-                                horaire.heureFermeture,
-                                horaire.estActif
-                              )
-                                ? 'is-invalid'
-                                : ''
-                            "
-                            class="form-control shadow-none fs-md-15 text-black"
-                            placeholder="Saisir le nom"
-                          />
-                          <div
-                            class="invalid-feedback"
-                            v-if="
-                              valideteRowHoraire(
-                                horaire.heureFermeture,
-                                horaire.estActif
-                              )
-                            "
-                          >
+                          <input :disabled="horaire.estActif == '0'" v-model="horaire.heureFermeture" type="time"
+                            :class="valideteRowHoraire(
+                              horaire.heureFermeture,
+                              horaire.estActif
+                            )
+                              ? 'is-invalid'
+                              : ''
+                              " class="form-control shadow-none fs-md-15 text-black" placeholder="Saisir le nom" />
+                          <div class="invalid-feedback" v-if="
+                            valideteRowHoraire(
+                              horaire.heureFermeture,
+                              horaire.estActif
+                            )
+                          ">
                             Champs obligatoire.
                           </div>
                         </div>
                       </div>
                       <div class="col-md-2 mb-2">
                         <div class="form-check-size">
-                          <div
-                            class="form-check form-check-inline radio radio-primary"
-                          >
-                            <input
-                              class="form-check-input"
-                              :id="index"
-                              v-model="horaire.estActif"
-                              type="radio"
-                              :name="`radio${index}`"
-                              value="1"
-                            />
-                            <label class="form-check-label mb-0" :for="index"
-                              >Oui</label
-                            >
+                          <div class="form-check form-check-inline radio radio-primary">
+                            <input class="form-check-input" :id="index" v-model="horaire.estActif" type="radio"
+                              :name="`radio${index}`" value="1" />
+                            <label class="form-check-label mb-0" :for="index">Oui</label>
                           </div>
-                          <div
-                            class="form-check form-check-inline radio radio-primary"
-                          >
-                            <input
-                              class="form-check-input"
-                              :id="`radio${index}`"
-                              v-model="horaire.estActif"
-                              type="radio"
-                              :name="`radio${index}`"
-                              value="0"
-                            />
-                            <label
-                              class="form-check-label mb-0"
-                              :for="`radio${index}`"
-                              >Non</label
-                            >
+                          <div class="form-check form-check-inline radio radio-primary">
+                            <input class="form-check-input" :id="`radio${index}`" v-model="horaire.estActif"
+                              type="radio" :name="`radio${index}`" value="0" />
+                            <label class="form-check-label mb-0" :for="`radio${index}`">Non</label>
                           </div>
                         </div>
-                        <div
-                          class="invalid-feedback"
-                          v-if="
-                            valideteRowHoraire(
-                              horaire.estActif,
-                              horaire.estActif
-                            )
-                          "
-                        >
+                        <div class="invalid-feedback" v-if="
+                          valideteRowHoraire(
+                            horaire.estActif,
+                            horaire.estActif
+                          )
+                        ">
                           Champs obligatoire.
                         </div>
                       </div>
@@ -535,15 +345,9 @@
                   </div>
                 </div>
                 <div class="col-md-12 mt-3">
-                  <label for="nobreheuresTravail" class="form-label"
-                    >Heures de travail<span class="text-danger">*</span></label
-                  >
-                  <input
-                    readonly
-                    v-model="contrat.nobreheuresTravail"
-                    class="form-control"
-                    type="number"
-                  />
+                  <label for="nobreheuresTravail" class="form-label">Heures de travail<span
+                      class="text-danger">*</span></label>
+                  <input readonly v-model="contrat.nobreheuresTravail" class="form-control" type="number" />
                   <span class="invalid-feedback"></span>
                 </div>
               </div>
@@ -554,10 +358,8 @@
       <tab-content title="Primes et Retenues">
         <div class="row">
           <div class="border border-primary mb-5">
-            <div
-              class="row d-flex align-items-center justify-content-between fw-bold py-2"
-              style="background-color: #0a59a4"
-            >
+            <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+              style="background-color: #0a59a4">
               <div class="col-md-3">
                 <h3 class="fs-4 text-white">Prime</h3>
               </div>
@@ -568,11 +370,8 @@
                 <div class="d-flex float-end">
                   <button
                     class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                    type="button"
-                    :class="{ 'cursor-not-allowed': isDisable }"
-                    :disabled="isDisable"
-                    @click="addRowPrime"
-                  >
+                    type="button" :class="{ 'cursor-not-allowed': isDisable }" :disabled="isDisable"
+                    @click="addRowPrime">
                     <i class="fa fa-plus-circle"></i>
                     Ajouter une prime
                   </button>
@@ -582,9 +381,7 @@
             <div>
               <div class="card-body p-15 p-sm-20 p-md-25">
                 <div class="table-responsive">
-                  <table
-                    class="table table-fixed text-nowrap align-middle mb-0"
-                  >
+                  <table class="table table-fixed text-nowrap align-middle mb-0">
                     <thead>
                       <tr>
                         <th scope="col" class="prime">Type prime</th>
@@ -598,75 +395,36 @@
                     <tbody>
                       <tr v-for="(prime, index) in primes" :key="index">
                         <td class="typePrime-col">
-                          <Multiselect
-                            :options="typePrimeOptions"
-                            :searchable="true"
-                            track-by="label"
-                            label="label"
-                            v-model="prime.typePrime"
-                            placeholder=""
-                            @select="selectTypePrime(prime.typePrime, prime)"
-                          />
-                          <span
-                            class="invalid-feedback"
-                            v-if="validateRowPrime(prime.typePrime)"
-                          >
+                          <Multiselect :options="typePrimeOptions" :searchable="true" track-by="label" label="label"
+                            v-model="prime.typePrime" placeholder=""
+                            @select="selectTypePrime(prime.typePrime, prime)" />
+                          <span class="invalid-feedback" v-if="validateRowPrime(prime.typePrime)">
                             Le type de prime est obligatoire.
                           </span>
                         </td>
                         <td class="valeur-col">
-                          <input
-                            type="text"
-                            :readonly="true"
-                            v-model="prime.valeur"
-                            class="form-control"
-                          />
+                          <input type="text" :readonly="true" v-model="prime.valeur" class="form-control" />
                         </td>
                         <td class="quantite-col">
-                          <input
-                            type="text"
-                            v-model="prime.quantite"
-                            :class="
-                              validateRowPrime(prime.quantite)
-                                ? 'form-control is-invalid'
-                                : 'form-control'
-                            "
-                            placeholder="Entrer la quantité"
-                          />
-                          <span
-                            class="invalid-feedback"
-                            v-if="validateRowPrime(prime.quantite)"
-                          >
+                          <input type="text" v-model="prime.quantite" :class="validateRowPrime(prime.quantite)
+                            ? 'form-control is-invalid'
+                            : 'form-control'
+                            " placeholder="Entrer la quantité" />
+                          <span class="invalid-feedback" v-if="validateRowPrime(prime.quantite)">
                             La quantité est obligatoire.
                           </span>
                         </td>
                         <td class="valeurUnitaire-col">
-                          <input
-                            type="text"
-                            v-model="prime.valeurUnitaire"
-                            class="form-control"
-                            placeholder=""
-                          />
+                          <input type="text" v-model="prime.valeurUnitaire" class="form-control" placeholder="" />
                         </td>
                         <td class="montant-col">
-                          <input
-                            type="text"
-                            v-model="prime.montant"
-                            :readonly="true"
-                            class="form-control"
-                            placeholder=""
-                          />
+                          <input type="text" v-model="prime.montant" :readonly="true" class="form-control"
+                            placeholder="" />
                         </td>
                         <td class="actions-col pe-0">
-                          <div
-                            class="button-container"
-                            style="white-space: nowrap"
-                          >
-                            <button
-                              type="button"
-                              class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                              @click="removeRowPrime(index)"
-                            >
+                          <div class="button-container" style="white-space: nowrap">
+                            <button type="button" class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                              @click="removeRowPrime(index)">
                               <i class="icofont icofont-ui-delete"></i>
                             </button>
                           </div>
@@ -679,10 +437,8 @@
             </div>
           </div>
           <div class="border border-primary mb-5">
-            <div
-              class="row d-flex align-items-center justify-content-between fw-bold py-2"
-              style="background-color: #0a59a4"
-            >
+            <div class="row d-flex align-items-center justify-content-between fw-bold py-2"
+              style="background-color: #0a59a4">
               <div class="col-md-3">
                 <h3 class="fs-4 text-white">Retenue</h3>
               </div>
@@ -693,11 +449,8 @@
                 <div class="d-flex float-end">
                   <button
                     class="default-btn me-20 transition border-0 fw-medium text-white pt-2 pb-2 ps-8 pe-8 rounded-1 fs-md-13 fs-lg-14 bg-success"
-                    type="button"
-                    :class="{ 'cursor-not-allowed': isDisablee }"
-                    :disabled="isDisablee"
-                    @click="addRowRetenue"
-                  >
+                    type="button" :class="{ 'cursor-not-allowed': isDisablee }" :disabled="isDisablee"
+                    @click="addRowRetenue">
                     <i class="fa fa-plus-circle"></i>
                     Ajouter une retenue
                   </button>
@@ -707,9 +460,7 @@
             <div>
               <div class="card-body p-15 p-sm-20 p-md-25">
                 <div class="table-responsive">
-                  <table
-                    class="table table-fixed text-nowrap align-middle mb-0"
-                  >
+                  <table class="table table-fixed text-nowrap align-middle mb-0">
                     <thead>
                       <tr>
                         <th scope="col" class="prime">Type retenue</th>
@@ -723,77 +474,37 @@
                     <tbody>
                       <tr v-for="(retenue, index) in retenues" :key="index">
                         <td class="typeRetenue-col">
-                          <Multiselect
-                            :options="typeRetenueOptions"
-                            :searchable="true"
-                            track-by="label"
-                            label="label"
-                            v-model="retenue.typeRetenue"
-                            placeholder=""
-                            @select="
+                          <Multiselect :options="typeRetenueOptions" :searchable="true" track-by="label" label="label"
+                            v-model="retenue.typeRetenue" placeholder="" @select="
                               selectTypeRetenue(retenue.typeRetenue, retenue)
-                            "
-                          />
-                          <span
-                            class="invalid-feedback"
-                            v-if="validateRowRetenue(retenue.typeRetenue)"
-                          >
+                              " />
+                          <span class="invalid-feedback" v-if="validateRowRetenue(retenue.typeRetenue)">
                             Le type de retenue est obligatoire.
                           </span>
                         </td>
                         <td class="valeur-col">
-                          <input
-                            type="text"
-                            :readonly="true"
-                            v-model="retenue.valeur"
-                            class="form-control"
-                          />
+                          <input type="text" :readonly="true" v-model="retenue.valeur" class="form-control" />
                         </td>
                         <td class="quantite-col">
-                          <input
-                            type="text"
-                            v-model="retenue.quantite"
-                            :class="
-                              validateRowRetenue(retenue.quantite)
-                                ? 'form-control is-invalid'
-                                : 'form-control'
-                            "
-                            placeholder="Entrer la quantité"
-                          />
-                          <span
-                            class="invalid-feedback"
-                            v-if="validateRowRetenue(retenue.quantite)"
-                          >
+                          <input type="text" v-model="retenue.quantite" :class="validateRowRetenue(retenue.quantite)
+                            ? 'form-control is-invalid'
+                            : 'form-control'
+                            " placeholder="Entrer la quantité" />
+                          <span class="invalid-feedback" v-if="validateRowRetenue(retenue.quantite)">
                             La quantité est obligatoire.
                           </span>
                         </td>
                         <td class="valeurUnitaire-col">
-                          <input
-                            type="text"
-                            v-model="retenue.valeurUnitaire"
-                            class="form-control"
-                            placeholder=""
-                          />
+                          <input type="text" v-model="retenue.valeurUnitaire" class="form-control" placeholder="" />
                         </td>
                         <td class="montant-col">
-                          <input
-                            type="text"
-                            v-model="retenue.montant"
-                            :readonly="true"
-                            class="form-control"
-                            placeholder=""
-                          />
+                          <input type="text" v-model="retenue.montant" :readonly="true" class="form-control"
+                            placeholder="" />
                         </td>
                         <td class="actions-col pe-0">
-                          <div
-                            class="button-container"
-                            style="white-space: nowrap"
-                          >
-                            <button
-                              type="button"
-                              class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
-                              @click="removeRowRetenue(index)"
-                            >
+                          <div class="button-container" style="white-space: nowrap">
+                            <button type="button" class="btn btn-danger transition border-0 pb-2 ps-8 pe-8"
+                              @click="removeRowRetenue(index)">
                               <i class="icofont icofont-ui-delete"></i>
                             </button>
                           </div>
@@ -871,7 +582,11 @@ export default defineComponent({
         .required("La période est obligatoire."),
       periodeDePaie: Yup.string().required("La période est obligatoire."),
       renouvelable: Yup.string().notRequired(),
-      types: Yup.string().required("Le type est obligatoire."),
+      typeContrat: Yup.string().when("categorieContrat", {
+        is: (value) => value !== "Prestation" && value!=="Contrat de stage",
+        then: (schema) => schema.required("Le type est obligatoire."),
+        otherwise: (schema) => schema.notRequired(),
+      }),
       personnel: Yup.string().required("Le personnel est obligatoire."),
       attribution: Yup.array().required("Les attributions sont obligatoires."),
       modetarification: Yup.string().required(
@@ -880,15 +595,21 @@ export default defineComponent({
     });
     const horaires = reactive([]);
     onMounted(async () => {
-      await getAllTypeContrat();
-      await getAllTypePrime();
-      await getAllTypeRetenue();
-      await getAllAttribution();
-      await getAllPersonnel();
-      await getAllModeTarifications();
-      await getAllOrganisations();
-      await fetchFonction();
-    });
+  try {
+    await Promise.all([
+      getAllTypeContrat(),
+      getAllTypePrime(),
+      getAllTypeRetenue(),
+      getAllAttribution(),
+      getAllPersonnel(), // Appeler après les autres pour éviter des conflits
+      getAllModeTarifications(),
+      getAllOrganisations(),
+      fetchFonction(),
+    ]);
+  } catch (error) {
+    console.error("Erreur lors du chargement initial:", error);
+  }
+});
 
     const contrat = ref({
       refContrat: "",
@@ -931,7 +652,7 @@ export default defineComponent({
         }
       }
     );
-    
+
     const rules = {
       contrat: {
         refContrat: { required },
@@ -987,7 +708,7 @@ export default defineComponent({
     const typePrimes = ref(null);
     const typeRetenues = ref(null);
     const salaireDeBase = ref();
-    const personnelOptions = ref();
+    const personnelOptions = ref([]);
     const attributionOptions = ref();
     const attribution = ref();
     const OrganisationOptions = ref();
@@ -996,11 +717,26 @@ export default defineComponent({
     const personnels = ref([] as any[]);
     const fonctionOptions = ref([]);
 
+    // Propriété calculée pour le libellé dynamique
+    const salaireBaseLabel = computed(() => {
+      if (contrat.value.modetarification && modeDeTarificationOptions.value.length > 0) {
+        const selectedMode = modeDeTarificationOptions.value.find(
+          (mode) => mode.value === contrat.value.modetarification
+        );
+        if (selectedMode) {
+          const baseLabel = selectedMode.label.toLowerCase().replace("par ", "Salaire de Base par ").trim();
+          return baseLabel.charAt(0).toUpperCase() + baseLabel.slice(1); // Capitalise la première lettre
+        }
+      }
+      return "Salaire de base";
+    });
+
+
     const getAllTypeContrat = async () => {
       try {
         const response = await ApiService.get("/all/typeContrats");
         const typesData = response.data.data.data;
-        console.log("typesData",typesData); 
+        console.log("typesData", typesData);
         typeOptions.value = typesData.map((type) => ({
           value: type.id,
           label: type.libelle,
@@ -1010,19 +746,74 @@ export default defineComponent({
       }
     };
 
-    const getAllPersonnel = async () => {
-      try {
-        const response = await ApiService.get("/all/personnels");
-        const personnelsData = response.data.data.data;
-        console.log("Data", personnelsData);
-        personnelOptions.value = personnelsData.map((personnel) => ({
-          value: personnel.id,
-          label: personnel.nom + " " + personnel.prenom,
-        }));
-      } catch (error) {
-        //error(response.data.message)
-      }
-    };
+    // const getAllPersonnel = async () => {
+    //   try {
+    //     const response = await ApiService.get("/all/personnels");
+    //     const personnelsData = response.data.data.data;
+    //     console.log("Data", personnelsData);
+    //     personnelOptions.value = personnelsData.map((personnel) => ({
+    //       value: personnel.id,
+    //       label: personnel.nom + " " + personnel.prenom,
+    //     }));
+    //   } catch (error) {
+    //     //error(response.data.message)
+    //   }
+    // };
+
+//     const getAllPersonnel = async () => {
+//   try {
+//     // Récupérer tous les personnels
+//     const response = await ApiService.get("/all/personnels");
+//     const personnelsData = response.data.data.data;
+//     console.log("Personnels bruts:", personnelsData);
+
+//     // Récupérer les contrats existants
+//     const contratsResponse = await ApiService.get("/all/contrats");
+//     const contratsData = contratsResponse.data.data.data || [];
+//     console.log("Contrats récupérés:", contratsData);
+
+//     // Extraire les IDs des personnels ayant un contrat
+//     const personnelsOccupes = contratsData.map((contrat) => contrat.personnel);
+//     console.log("Personnels occupés (IDs):", personnelsOccupes);
+
+//     // Filtrer les personnels non occupés
+//     const filteredPersonnels = personnelsData.filter(
+//       (personnel) => !personnelsOccupes.includes(personnel.id)
+//     );
+//     console.log("Personnels filtrés:", filteredPersonnels);
+
+//     // Mettre à jour les options
+//     personnelOptions.value = filteredPersonnels.map((personnel) => ({
+//       value: personnel.id,
+//       label: personnel.nom + " " + personnel.prenom,
+//     }));
+//     console.log("Options finales pour Multiselect:", personnelOptions.value);
+//   } catch (error) {
+//     console.error("Erreur lors du chargement des personnels ou contrats:", error);
+//   }
+// };
+
+const componentKey = ref(0);
+
+
+const getAllPersonnel = async () => {
+  try {
+    const response = await ApiService.get("/all/personnels");
+    const personnelsData = response.data.data.data || [];
+    console.log("Personnels disponibles (directement filtrés par l'API):", personnelsData);
+
+    personnelOptions.value = personnelsData.map((personnel) => ({
+      value: personnel.id,
+      label: `${personnel.nom} ${personnel.prenom}`,
+    }));
+    console.log("Options pour Multiselect:", personnelOptions.value);
+    componentKey.value += 1;
+  } catch (error) {
+    console.error("Erreur lors du chargement des personnels:", error);
+    personnelOptions.value = [];
+    componentKey.value += 1;
+  }
+};
 
     const getAllAttribution = async () => {
       try {
@@ -1105,19 +896,21 @@ export default defineComponent({
         //error(response.data.message)
       }
     };
+
     const fetchAttributionsByPoste = async (id) => {
-            try {
-              console.log('data1',id);
-            const response = await axios.get("/attributionsPoste/"+id); 
-            attributionpostes.value = [];
-               response.data.data.forEach((a) => {
-                attributionpostes.value.push(a.id)
-               }) 
-                console.log('data2',attributionpostes.value);
-            } catch (error) {
-                console.error('Erreur lors du chargement des attributions :', error);
-            }
-        };
+      try {
+        console.log('data1', id);
+        const response = await axios.get("/attributionsPoste/" + id);
+        attributionpostes.value = [];
+        response.data.data.forEach((a) => {
+          attributionpostes.value.push(a.id)
+        })
+        console.log('data2', attributionpostes.value);
+      } catch (error) {
+        console.error('Erreur lors du chargement des attributions :', error);
+      }
+    };
+
     const getAllOrganisations = async () => {
       try {
         const response = await ApiService.get("/all/organisations");
@@ -1240,14 +1033,12 @@ export default defineComponent({
       },
     ]);
 
-
     const attribution_postes = reactive([
-  {
-        poste: "", 
+      {
+        poste: "",
         attribution: "",
-  },
-]);
-
+      },
+    ]);
 
     const addRowPrime = () => {
       primes.push({
@@ -1270,12 +1061,11 @@ export default defineComponent({
     };
 
     const addAttributionPoste = () => {
-     attribution_postes.push({
+      attribution_postes.push({
         poste: "",
         attribution: "",
-  });
-};
-
+      });
+    };
 
     const removeRowPrime = (index) => {
       if (primes.length > 1) {
@@ -1296,16 +1086,14 @@ export default defineComponent({
       return !value || value <= 0;
     };
 
-
     const removeAttributionPoste = (index) => {
-       if(attribution_postes.length > 1 )
-       attribution_postes.splice(index, 1);
-};
+      if (attribution_postes.length > 1)
+        attribution_postes.splice(index, 1);
+    };
 
     const validateAttributionPoste = (value) => {
       return !value || value <= 0;
     };
-
 
     const calculerMontant = (item) => {
       const valeurUnitaire = item.valeurUnitaire || 1;
@@ -1467,8 +1255,8 @@ export default defineComponent({
     watch(fonctions, (newValue, oldValue) => {
       Object.keys(newValue).forEach(function (key) {
         if (
-          newValue[key].estActif == ""  ||
-          newValue[key].fonction == ""  ||
+          newValue[key].estActif == "" ||
+          newValue[key].fonction == "" ||
           newValue[key].organisation == "" ||
           newValue[key].dateDebut == "" ||
           newValue[key].dateFin == ""
@@ -1479,6 +1267,17 @@ export default defineComponent({
         }
       });
     });
+
+  
+
+    watch(
+  () => contrat.value.categorieContrat,
+  (newValue) => {
+    if (newValue === "Prestation" || newValue === "Contrat de stage") {
+      contrat.value.typeContrat = ""; 
+    }
+  }
+);
 
     const { remove, push, fields, update } = useFieldArray("fonctions");
 
@@ -1496,57 +1295,172 @@ export default defineComponent({
       }
     };
 
-    const addContrat = async (values) => {
-      if (!values || Object.keys(values).length === 0) {
-        console.error("Erreur : L'objet 'values' est vide ou indéfini !");
-        return;
-      }
+    // const addContrat = async (values) => {
+    //   if (!values || Object.keys(values).length === 0) {
+    //     console.error("Erreur : L'objet 'values' est vide ou indéfini !");
+    //     return;
+    //   }
 
-      console.log("PRIMMME ===> ", primes);
-      console.log("retenues ===> ", retenues);
-      console.log("fonctions ===> ", fonctions);
-      console.log("horaireContrats ===> ", horaires);
-      console.log("horaireContrat ===> ", horaires);
-      try {
-        // Préparez les données avant l'envoi
-        values["contratPrime"] = primes.map((prime) => ({
-          typeprime: parseInt(prime.typePrime.split("|")[0]),
-          valeur: prime.valeur,
-          valeurUnitaire: prime.valeurUnitaire,
-          montant: prime.montant,
-          quantite: prime.quantite,
-        }));
-        values["contratretenue"] = retenues.map((retenue) => ({
-          typesretenue: parseInt(retenue.typeRetenue.split("|")[0]),
-          valeur: retenue.valeur,
-          valeurUnitaire: retenue.valeurUnitaire,
-          montant: retenue.montant,
-          quantite: retenue.quantite,
-        }));
-        values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
-           poste: parseInt(attributionposte.poste.split("|")[0]), 
-           attribution: parseInt(attributionposte.attribution.split("|")[0]), 
-         }));
-        values["horaireContrats"] = horaires.map((horraire) => ({
-          jour:horraire.jour,
-          heureArrivee: horraire.heureOuverture,
-          heureDepart: horraire.heureFermeture,
-          heureFinPause: horraire.heureFinPause,
-          heureDebutPause: horraire.heureDebutPause,
-          estActif: horraire.estActif,
-          personnel:values.personnel,
-        }));
-        console.log("Soumission des données formatées :", values);
-        const { data } = await ApiService.post("/gescom/contrats", values);
-        if (data.code === 201) {
-          success(data.message);
-          router.push({ name: "ListeContrat" });
-        }
-      } catch (err) {
-        console.error("Erreur d'API :", err);
-      }
-    };
+    //   console.log("PRIME ===> ", primes);
+    //   console.log("retenues ===> ", retenues);
+    //   console.log("fonctions ===> ", fonctions);
+    //   console.log("horaireContrats ===> ", horaires);
+    //   console.log("horaireContrat ===> ", horaires);
+    //   try {
+    //     // Préparez les données avant l'envoi
+    //     values["contratprime"] = primes.map((prime) => ({
+    //       typeprime: parseInt(prime.typePrime.split("|")[0]),
+    //       valeur: prime.valeur,
+    //       valeurUnitaire: prime.valeurUnitaire,
+    //       montant: prime.montant,
+    //       quantite: prime.quantite,
+    //     }));
+    //     values["contratretenue"] = retenues.map((retenue) => ({
+    //       typesretenue: parseInt(retenue.typeRetenue.split("|")[0]),
+    //       valeur: retenue.valeur,
+    //       valeurUnitaire: retenue.valeurUnitaire,
+    //       montant: retenue.montant,
+    //       quantite: retenue.quantite,
+    //     }));
+    //     values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
+    //       poste: parseInt(attributionposte.poste.split("|")[0]),
+    //       attribution: parseInt(attributionposte.attribution.split("|")[0]),
+    //     }));
+    //     values["horaireContrats"] = horaires.map((horraire) => ({
+    //       jour: horraire.jour,
+    //       heureArrivee: horraire.heureOuverture,
+    //       heureDepart: horraire.heureFermeture,
+    //       heureFinPause: horraire.heureFinPause,
+    //       heureDebutPause: horraire.heureDebutPause,
+    //       estActif: horraire.estActif,
+    //       personnel: values.personnel,
+    //     }));
+    //     console.log("Soumission des données formatées :", values);
+    //     const { data } = await ApiService.post("/gescom/contrats", values);
+    //     if (data.code === 201) {
+    //       success(data.message);
+    //       router.push({ name: "ListeContrat" });
+    //     }
+    //   } catch (err) {
+    //     console.error("Erreur d'API :", err);
+    //   }
+    // };
 
+
+//     const addContrat = async (values) => {
+//   if (!values || Object.keys(values).length === 0) {
+//     console.error("Erreur : L'objet 'values' est vide ou indéfini !");
+//     return;
+//   }
+
+//   try {
+//     values["contratprime"] = primes.map((prime) => ({
+//       typeprime: parseInt(prime.typePrime.split("|")[0]),
+//       valeur: prime.valeur,
+//       valeurUnitaire: prime.valeurUnitaire,
+//       montant: prime.montant,
+//       quantite: prime.quantite,
+//     }));
+//     values["contratretenue"] = retenues.map((retenue) => ({
+//       typesretenue: parseInt(retenue.typeRetenue.split("|")[0]),
+//       valeur: retenue.valeur,
+//       valeurUnitaire: retenue.valeurUnitaire,
+//       montant: retenue.montant,
+//       quantite: retenue.quantite,
+//     }));
+//     values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
+//       poste: parseInt(attributionposte.poste.split("|")[0]),
+//       attribution: parseInt(attributionposte.attribution.split("|")[0]),
+//     }));
+//     values["horaireContrats"] = horaires.map((horraire) => ({
+//       jour: horraire.jour,
+//       heureArrivee: horraire.heureOuverture,
+//       heureDepart: horraire.heureFermeture,
+//       heureFinPause: horraire.heureFinPause,
+//       heureDebutPause: horraire.heureDebutPause,
+//       estActif: horraire.estActif,
+//       personnel: values.personnel,
+//     }));
+//     console.log("Données soumises à l'API :", values);
+
+//     const { data } = await ApiService.post("/gescom/contrats", values);
+//     if (data.code === 201) {
+//       success(data.message);
+//       console.log("Contrat ajouté avec succès, ID du personnel :", values.personnel);
+
+//       // Recharger les personnels
+//       const updatedPersonnelsResponse = await ApiService.get("/all/personnels");
+//       const updatedPersonnelsData = updatedPersonnelsResponse.data.data.data;
+//       console.log("Personnels récupérés après ajout :", updatedPersonnelsData);
+
+//       // Filtrer le personnel ajouté
+//       personnelOptions.value = updatedPersonnelsData
+//         .filter((personnel) => String(personnel.id) !== String(values.personnel))
+//         .map((personnel) => ({
+//           value: personnel.id,
+//           label: personnel.nom + " " + personnel.prenom,
+//         }));
+//       console.log("Nouvelles options pour Multiselect :", personnelOptions.value);
+
+//       router.push({ name: "ListeContrat" });
+//     }
+//   } catch (err) {
+//     console.error("Erreur d'API ou lors du filtrage :", err);
+//   }
+// };
+
+
+const addContrat = async (values) => {
+  if (!values || Object.keys(values).length === 0) {
+    console.error("Erreur : L'objet 'values' est vide ou indéfini !");
+    return;
+  }
+
+  try {
+    values["contratprime"] = primes.map((prime) => ({
+      typeprime: parseInt(prime.typePrime.split("|")[0]),
+      valeur: prime.valeur,
+      valeurUnitaire: prime.valeurUnitaire,
+      montant: prime.montant,
+      quantite: prime.quantite,
+    }));
+    values["contratretenue"] = retenues.map((retenue) => ({
+      typesretenue: parseInt(retenue.typeRetenue.split("|")[0]),
+      valeur: retenue.valeur,
+      valeurUnitaire: retenue.valeurUnitaire,
+      montant: retenue.montant,
+      quantite: retenue.quantite,
+    }));
+    values["attributionpostes"] = attribution_postes.map((attributionposte) => ({
+      poste: parseInt(attributionposte.poste.split("|")[0]),
+      attribution: parseInt(attributionposte.attribution.split("|")[0]),
+    }));
+    values["horaireContrats"] = horaires.map((horraire) => ({
+      jour: horraire.jour,
+      heureArrivee: horraire.heureOuverture,
+      heureDepart: horraire.heureFermeture,
+      heureFinPause: horraire.heureFinPause,
+      heureDebutPause: horraire.heureDebutPause,
+      estActif: horraire.estActif,
+      personnel: values.personnel,
+    }));
+    console.log("Données soumises à l'API :", values);
+
+    const { data } = await ApiService.post("/gescom/contrats", values);
+    if (data.code === 201) {
+      success(data.message);
+      console.log("Contrat ajouté avec succès, ID du personnel :", values.personnel);
+
+      // Recharger les personnels avec le filtrage
+      await getAllPersonnel();
+      componentKey.value += 1; // Forcer le re-rendu du Multiselect
+
+      router.push({ name: "ListeContrat" });
+    }
+  } catch (err) {
+    console.error("Erreur d'API :", err);
+  }
+};
     watch(
       primes,
       (newValue) => {
@@ -1582,6 +1496,7 @@ export default defineComponent({
     });
 
     return {
+      componentKey,
       contrat,
       horaires,
       contratSchema,
@@ -1634,7 +1549,8 @@ export default defineComponent({
       validateStep,
       addAttributionPoste,
       removeAttributionPoste,
-      validateAttributionPoste
+      validateAttributionPoste,
+      salaireBaseLabel, // Retourner la propriété calculée
     };
   },
 });

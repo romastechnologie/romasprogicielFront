@@ -200,6 +200,7 @@ import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
 import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
 import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.vue';
+import ListeModeleContratPage from "@/pages/GestionPaie/ModeleContrat/ListeModeleContratPage.vue"
 
 
 
@@ -428,6 +429,22 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeEthniePage,
         meta: {
           title: 'Liste des ethnies',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/modeleContrat",
+    component: BodyView,
+    children: [
+      
+      {
+        path: "liste-modeleContrat",
+        name: "ListeModeleContratPage",
+        component: ListeModeleContratPage,
+        meta: {
+          title: 'Liste des modeles contrats',
         }
       }
     ]
