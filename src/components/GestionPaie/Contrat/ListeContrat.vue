@@ -67,7 +67,7 @@
                 scope="col"
                 class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
               >
-                estResilie
+                STATUT
               </th>
               <th
                 scope="col"
@@ -90,7 +90,7 @@
               <td class="shadow-none lh-1 fw-medium ">{{ contrat.nobreheuresTravail }} </td>
               <td class="shadow-none lh-1 fw-medium">
                   <span :class="contrat.estResilie ? 'badge bg-success text-white' : 'badge bg-danger text-white'">
-                    {{ contrat.estResilie ? 'Oui' : 'Non' }}
+                    {{ contrat.estResilie ? 'Resilier' : 'Actif' }}
                   </span>
               </td>
               <td class="shadow-none lh-1 fw-medium">{{ format_Date(contrat.createdAt) }}</td>

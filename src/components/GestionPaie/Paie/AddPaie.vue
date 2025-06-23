@@ -57,10 +57,10 @@
             <label for="totalRetenues" class="form-label">Total des retenues<span class="text-danger">*</span></label>
             <Field name="totalRetenues" class="form-control" type="number" :readonly="true" v-model="totalRetenue" />
             <ErrorMessage name="totalRetenues" class="text-danger" />
-            <div v-if="isRetenueOverLimit" class="retenue-error-message">
+            <!-- <div v-if="isRetenueOverLimit" class="retenue-error-message">
               <i class="fa fa-exclamation-circle me-2"></i>
               Attention : Le total des retenues dépasse 1/3 du salaire de base. Veuillez revoir les montants.
-            </div>
+            </div> -->
           </div>
           <div class="col-md-4 mb-3">
             <label for="totalPrimes" class="form-label">Total des primes<span class="text-danger">*</span></label>
@@ -758,11 +758,11 @@ export default defineComponent({
     const checkPaieUniqueness = async (contratId: number, periode: string): Promise<boolean> => {
       try {
         const response = await ApiService.get(`/gescom/paies/check-uniqueness?contrat=${contratId}&periode=${periode}`);
-        return response.data.exists; // Supposons que l'API renvoie { exists: true/false }
+        return response.data.exists; 
       } catch (err) {
         console.error('Error checking paie uniqueness:', err);
         error('Erreur lors de la vérification de l\'unicité de la paie.');
-        return true; // En cas d'erreur, on bloque pour éviter les doublons accidentels
+        return true; 
       }
     };
 
@@ -812,6 +812,7 @@ export default defineComponent({
     //       error(response.data.message);
     //     });
     // };
+
 
     const addPaie = async (values: any, { resetForm }: { resetForm: () => void }) => {
     console.log('Selected Contract ID:', selectedContrat.value);
