@@ -273,6 +273,24 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+
+    // {
+    //     title: "Bulletin Paie",
+    //     icon: "stroke-task",
+    //     icon1: "fill-task",
+    //     type: "sub",
+    //     badgeType: "light-primary",
+    //     active: false,
+    //     isPinned: false,
+    //     children: [
+            
+    //         {
+    //             path: "/bulletinPaie/liste-bulletinPaie",
+    //             title: "Liste des bulletins de paies",
+    //             type: "link"
+    //         },
+    //     ]
+    // },
     {
         title: "Mode Tarification",
         icon: "stroke-task",

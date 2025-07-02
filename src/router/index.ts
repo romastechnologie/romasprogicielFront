@@ -201,6 +201,8 @@ import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue
 import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
 import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.vue';
 import ListeModeleContratPage from "@/pages/GestionPaie/ModeleContrat/ListeModeleContratPage.vue"
+// import ListeBulletinPaiePage from "@/pages/GestionPaie/BulletinPaie/ListeBulletinPaiePage.vue"
+
 
 
 
@@ -449,6 +451,22 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
+  // {
+  //   path: "/bulletinPaie",
+  //   component: BodyView,
+  //   children: [
+      
+  //     {
+  //       path: "liste-bulletinPaie",
+  //       name: "ListeBulletinPaiePage",
+  //       component: ListeBulletinPaiePage,
+  //       meta: {
+  //         title: 'Liste des bulletins de paie',
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: "/contrats",
     component: BodyView,

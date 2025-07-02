@@ -27,6 +27,7 @@
               name="periode"
               class="form-control"
               type="month"
+              id="periode"
               :min="minDate"
               :max="maxDate"
               v-model="periodeDefault"
@@ -50,7 +51,7 @@
 
           <div class="col-md-4 mb-3">
             <label for="salaireBrut" class="form-label">Salaire Brut<span class="text-danger">*</span></label>
-            <Field name="salaireBrut" class="form-control" type="number" v-model="salaireDeBase" :readonly="true" />
+            <Field name="salaireBrut" class="form-control" type="number" id="salaireBrut" v-model="salaireDeBase" :readonly="true" />
             <ErrorMessage name="salaireBrut" class="text-danger" />
           </div>
           <div class="col-md-4 mb-3">
@@ -69,7 +70,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="salaireNet" class="form-label">Salaire Net<span class="text-danger">*</span></label>
-            <Field name="salaireNet" class="form-control" type="text" :readonly="true" v-model="salaireNet" />
+            <Field name="salaireNet" class="form-control" type="text" id="salaireNet" :readonly="true" v-model="salaireNet" />
             <ErrorMessage name="salaireNet" class="text-danger" />
           </div>
           <div class="tab-content" id="myTabContent">
@@ -108,7 +109,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr v-for="(prime, index) in primes" :key="index">
+                            <tr v-for="(prime, index) in primes" :key="index" class="prime-row">
                               <td class="typePrime-col">
                                 <Multiselect :options="typePrimeOptions" :searchable="true" track-by="label"
                                   label="label" v-model="prime.typePrime" placeholder=""
@@ -191,7 +192,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr v-for="(retenue, index) in retenues" :key="index">
+                            <tr v-for="(retenue, index) in retenues" :key="index" class="retenue-row">
                               <td class="typeRetenue-col">
                                 <Multiselect :options="typeRetenueOptions" :searchable="true" track-by="label"
                                   label="label" v-model="retenue.typeRetenue" placeholder=""
@@ -239,11 +240,16 @@
             </div>
           </div>
 
+        
+
           <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center">
               <button class="btn btn-success me-3" type="submit" :disabled="isRetenueOverLimit">
                 Ajouter une paie
               </button>
+              <div class="me-3">
+            <button id="generateBulletinBtn" class="btn btn-success" @click="generateBulletin">Générer Bulletin de Paie</button>
+             </div>
               <router-link to="/paies/liste-paies" class="btn btn-danger">
                 <i class="fa fa-trash-o lh-1 me-1 position-relative top-2"></i>
                 <span class="position-relative"></span>Annuler
@@ -372,7 +378,7 @@ export default defineComponent({
     const typeRetenueOptions = ref<TypeRetenueOption[]>([]);
     const typeRetenues = ref<TypeRetenueOption[] | null>(null);
 
-    // Fonction pour formater une date de YYYY-MM-DD à DD-MM-YYYY
+    // Fonction pour formater une date
     const formatDate = (dateString: string | undefined | null): string => {
       if (!dateString) return "N/A";
       const date = new Date(dateString);
@@ -387,11 +393,10 @@ export default defineComponent({
       try {
         const response = await ApiService.get('/all/contrats');
         const contratsData: Contrat[] = response.data.data.data;
-        console.log('Contrat', contratsData);
         lesContrats.value = contratsData;
         contratOptions.value = contratsData.map((contrat) => ({
           value: contrat.id,
-          label: `${contrat?.reference || "N/A" } - ${contrat?.personnel?.nom || "N/A"} `,
+          label: `${contrat?.reference || "N/A"} - ${contrat?.personnel?.nom || "N/A"}`,
         }));
       } catch (error) {
         console.error('Error fetching contrats:', error);
@@ -401,7 +406,6 @@ export default defineComponent({
     const selectedContrat = ref<number | null>(null);
 
     const fetchPrimeRetenue = async (id: number) => {
-      console.log("ID-FETCHPRIMERETENUE:", id);
       try {
         const response = await ApiService.get(`/prime/retenues/contrat/${id}`);
         const { primes: fetchedPrimes, retenues: fetchedRetenues } = response.data.data;
@@ -441,8 +445,6 @@ export default defineComponent({
       try {
         const response = await ApiService.get(`/contrat/${id}`);
         const contratData: Contrat = response.data.data;
-        console.log('Contrat', contratData);
-        console.log("Salaire de base === > ", contratData.salaireBase);
         salaireDeBase.value = contratData.salaireBase || 0;
       } catch (error) {
         console.error('Error fetching contrat:', error);
@@ -453,7 +455,6 @@ export default defineComponent({
       try {
         const response = await ApiService.get('/all/typePrimes');
         const typePrimesData: any[] = response.data.data.data;
-        console.log('Type prime', typePrimesData);
         typePrimeOptions.value = typePrimesData.map(typePrime => ({
           value: `${typePrime.id}|${typePrime.valeur}|${typePrime.typeDeValeur}`,
           label: typePrime.nomPrime,
@@ -468,7 +469,6 @@ export default defineComponent({
       try {
         const response = await ApiService.get('/all/typeRetenues');
         const typeRetenuesData: any[] = response.data.data.data;
-        console.log('Type retenue', typeRetenuesData);
         typeRetenueOptions.value = typeRetenuesData.map(typeRetenue => ({
           value: `${typeRetenue.id}|${typeRetenue.valeur}|${typeRetenue.typeDeValeur}`,
           label: typeRetenue.nomRetenue,
@@ -636,8 +636,6 @@ export default defineComponent({
         selectedContrat.value = newValue;
         fetchPrimeRetenue(newValue);
         const count = lesContrats.value.find((el) => el.id === newValue);
-        console.log('Valeurs récupérées:', count);
-
         if (count) {
           salaireDeBase.value = parseFloat(String(count.salaireBase)) || 0;
         } else {
@@ -673,17 +671,11 @@ export default defineComponent({
       prime.valeur = String(valeurNum);
 
       const salaireBase = parseFloat(String(salaireDeBase.value)) || 1;
-
-      if (typeDeValeur) {
-        if (typeDeValeur.includes('%')) {
-          prime.valeurUnitaire = salaireBase * valeurNum / 100;
-        } else if (typeDeValeur.includes('MT')) {
-          prime.valeurUnitaire = salaireBase + valeurNum;
-        }
-      } else {
-        console.error('typeDeValeur is undefined');
+      if (typeDeValeur.includes('%')) {
+        prime.valeurUnitaire = salaireBase * valeurNum / 100;
+      } else if (typeDeValeur.includes('MT')) {
+        prime.valeurUnitaire = salaireBase + valeurNum;
       }
-
       prime.montant = calculerMontant(prime);
       updateAllMontants();
     };
@@ -694,17 +686,11 @@ export default defineComponent({
       retenue.valeur = String(valeurNum);
 
       const salaireBase = parseFloat(String(salaireDeBase.value)) || 1;
-
-      if (typeDeValeur) {
-        if (typeDeValeur.includes('%')) {
-          retenue.valeurUnitaire = salaireBase * valeurNum / 100;
-        } else if (typeDeValeur.includes('MT')) {
-          retenue.valeurUnitaire = salaireBase + valeurNum;
-        }
-      } else {
-        console.error('typeDeValeur is undefined');
+      if (typeDeValeur.includes('%')) {
+        retenue.valeurUnitaire = salaireBase * valeurNum / 100;
+      } else if (typeDeValeur.includes('MT')) {
+        retenue.valeurUnitaire = salaireBase + valeurNum;
       }
-
       retenue.montant = calculerMontant(retenue);
       updateAllMontants();
     };
@@ -754,111 +740,62 @@ export default defineComponent({
       checkRetenueLimit();
     });
 
-    // Nouvelle fonction pour vérifier l'unicité de la paie
     const checkPaieUniqueness = async (contratId: number, periode: string): Promise<boolean> => {
       try {
         const response = await ApiService.get(`/gescom/paies/check-uniqueness?contrat=${contratId}&periode=${periode}`);
-        return response.data.exists; 
+        return response.data.exists;
       } catch (err) {
         console.error('Error checking paie uniqueness:', err);
         error('Erreur lors de la vérification de l\'unicité de la paie.');
-        return true; 
+        return true;
       }
     };
 
-    // const addPaie = async (values: any, { resetForm }: { resetForm: () => void }) => {
-    //   console.log('Selected Contract ID:', selectedContrat.value);
-    //   console.log('Periode:', values.periode);
-
-    //   if (isRetenueOverLimit.value) {
-    //     error("Impossible d'ajouter la paie : le total des retenues dépasse 1/3 du salaire de base. Veuillez ajuster les retenues.");
-    //     return;
-    //   }
-
-    //   // Vérifier l'unicité de la paie
-    //   const isPaieExists = await checkPaieUniqueness(selectedContrat.value!, values.periode);
-    //   if (isPaieExists) {
-    //     error("Une paie existe déjà pour ce contrat et cette période. Veuillez sélectionner une autre période ou contrat.");
-    //     return;
-    //   }
-
-    //   values['modepaiement'] = modepaiement.value;
-    //   values['processuspaie'] = processuspaie.value;
-    //   values['contrat'] = selectedContrat.value;
-    //   values.paieprime = primes.map(prime => ({
-    //     typeprime: parseInt(prime.typePrime.split('|')[0]),
-    //     valeur: parseInt(prime.valeur),
-    //     valeurUnitaire: prime.valeurUnitaire,
-    //     montant: prime.montant,
-    //     quantite: prime.quantite,
-    //   }));
-
-    //   values.paieretenue = retenues.map(retenue => ({
-    //     typesretenue: parseInt(retenue.typeRetenue.split('|')[0]),
-    //     valeur: parseInt(retenue.valeur),
-    //     valeurUnitaire: retenue.valeurUnitaire,
-    //     montant: retenue.montant,
-    //     quantite: retenue.quantite,
-    //   }));
-
-    //   console.log('Données envoyées', values);
-    //   ApiService.post("/gescom/paies", values)
-    //     .then(({ data }) => {
-    //       if (data.code == 201) {
-    //         success(data.message);
-    //         router.push({ name: "ListePaie" });
-    //       }
-    //     }).catch(({ response }) => {
-    //       error(response.data.message);
-    //     });
-    // };
-
-
     const addPaie = async (values: any, { resetForm }: { resetForm: () => void }) => {
-    console.log('Selected Contract ID:', selectedContrat.value);
-    console.log('Periode:', values.periode);
-    if (isRetenueOverLimit.value) {
+      console.log('Selected Contract ID:', selectedContrat.value);
+      console.log('Periode:', values.periode);
+      if (isRetenueOverLimit.value) {
         error("Impossible d'ajouter la paie : le total des retenues dépasse 1/3 du salaire de base. Veuillez ajuster les retenues.");
         return;
-    }
-    try {
+      }
+      try {
         const isPaieExists = await checkPaieUniqueness(selectedContrat.value!, values.periode);
         if (isPaieExists) {
-            error("Une paie existe déjà pour ce contrat et cette période. Veuillez sélectionner une autre période ou contrat.");
-            return;
+          error("Une paie existe déjà pour ce contrat et cette période. Veuillez sélectionner une autre période ou contrat.");
+          return;
         }
         values['modepaiement'] = modepaiement.value;
         values['processuspaie'] = processuspaie.value;
         values['contrat'] = selectedContrat.value;
         values.paieprime = primes.map(prime => ({
-            typeprime: parseInt(prime.typePrime.split('|')[0]),
-            valeur: parseInt(prime.valeur),
-            valeurUnitaire: prime.valeurUnitaire,
-            montant: prime.montant,
-            quantite: prime.quantite,
+          typeprime: parseInt(prime.typePrime.split('|')[0]),
+          valeur: parseInt(prime.valeur),
+          valeurUnitaire: prime.valeurUnitaire,
+          montant: prime.montant,
+          quantite: prime.quantite,
         }));
         values.paieretenue = retenues.map(retenue => ({
-            typesretenue: parseInt(retenue.typeRetenue.split('|')[0]),
-            valeur: parseInt(retenue.valeur),
-            valeurUnitaire: retenue.valeurUnitaire,
-            montant: retenue.montant,
-            quantite: retenue.quantite,
+          typesretenue: parseInt(retenue.typeRetenue.split('|')[0]),
+          valeur: parseInt(retenue.valeur),
+          valeurUnitaire: retenue.valeurUnitaire,
+          montant: retenue.montant,
+          quantite: retenue.quantite,
         }));
         console.log('Données envoyées', values);
         ApiService.post("/gescom/paies", values)
-            .then(({ data }) => {
-                if (data.code == 201) {
-                    success(data.message);
-                    router.push({ name: "ListePaie" });
-                }
-            }).catch(({ response }) => {
-                error(response.data.message);
-            });
-    } catch (error) {
+          .then(({ data }) => {
+            if (data.code == 201) {
+              success(data.message);
+              router.push({ name: "ListePaie" });
+            }
+          }).catch(({ response }) => {
+            error(response.data.message);
+          });
+      } catch (error) {
         console.error('Error in addPaie:', error);
         error('Erreur lors de la vérification ou de l\'ajout de la paie. Vérifiez la connexion au serveur.');
-    }
-};
+      }
+    };
 
     const getAllModePaiements = async () => {
       try {
@@ -872,6 +809,111 @@ export default defineComponent({
         console.error('Error fetching mode paiements:', error);
       }
     };
+
+ 
+
+
+
+
+
+    const generateBulletin = async () => {
+  console.log('Début generateBulletin', {
+    selectedContrat: selectedContrat.value,
+    isRetenueOverLimit: isRetenueOverLimit.value,
+  });
+
+  if (isRetenueOverLimit.value) {
+    error("Impossible de générer le bulletin : le total des retenues dépasse 1/3 du salaire de base.");
+    return;
+  }
+
+  const contrat = lesContrats.value.find((c: Contrat) => c.id === selectedContrat.value);
+  if (!contrat) {
+    error("Erreur : Aucun contrat sélectionné ou contrat introuvable.");
+    return;
+  }
+
+  const data = {
+    nom: contrat.personnel?.nom || "Inconnu",
+    matricule: contrat.reference || "N/A",
+    poste: contrat.typeContrat?.libelle || "N/A",
+    periode: periodeDefault.value,
+    salaire_brut: salaireDeBase.value,
+    total_gains: totalPrime.value + salaireDeBase.value,
+    total_retenues: totalRetenue.value,
+    net_a_payer: salaireNet.value,
+    primes: primes.map(prime => ({
+      type_prime: prime.typePrime?.split('|')[2] || "N/A",
+      quantite_prime: prime.quantite,
+      montant_prime: prime.montant,
+    })),
+    retenues: retenues.map(retenue => ({
+      type_retenue: retenue.typeRetenue?.split('|')[2] || "N/A",
+      quantite_retenue: retenue.quantite,
+      montant_retenue: retenue.montant,
+    })),
+  };
+
+  // Validation supplémentaire
+  if (!data.periode || typeof data.periode !== 'string' || !/^\d{4}-\d{2}$/.test(data.periode)) {
+    error("Erreur : Format de période invalide (attendu : YYYY-MM).");
+    return;
+  }
+  if (typeof data.salaire_brut !== 'number' || data.salaire_brut <= 0) {
+    error("Erreur : Salaire brut invalide.");
+    return;
+  }
+
+  console.log('Données envoyées à l’API:', JSON.stringify(data, null, 2));
+
+  try {
+    console.log('Avant ApiService.post');
+    const response = await ApiService.post('/generatePdf', {
+      ...data,
+      responseType: 'blob',
+      headers: { Accept: 'application/pdf' },
+    });
+    console.log('Après ApiService.post, réponse:', response);
+
+    const contentType = response.headers['content-type'];
+    if (!contentType || !contentType.includes('application/pdf')) {
+      throw new Error('La réponse de l’API n’est pas un fichier PDF valide.');
+    }
+
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    window.open(url, '_blank');
+
+    success('Bulletin généré avec succès !');
+  } catch (err) {
+    console.error('Erreur détaillée:', {
+      message: err.message,
+      response: err.response ? {
+        status: err.response.status,
+        data: err.response.data,
+      } : 'Aucune réponse disponible',
+    });
+
+    if (err.response?.data instanceof Blob) {
+      const text = await err.response.data.text();
+      console.error('Contenu de response.data:', text);
+      try {
+        const json = JSON.parse(text);
+        console.error('Erreur JSON:', json);
+      } catch (e) {
+        console.error('Impossible de parser response.data en JSON:', e);
+      }
+    }
+
+    if (err.response?.status === 400) {
+      error('Erreur : Les données envoyées à l’API sont incorrectes.');
+    } else if (err.response?.status === 500) {
+      error('Erreur : Problème côté serveur lors de la génération du PDF. Consultez les logs serveur.');
+    } else {
+      error(`Erreur lors de la génération du bulletin : ${err.message}`);
+    }
+  }
+};
 
     return {
       paieSchema,
@@ -911,7 +953,8 @@ export default defineComponent({
       totalRetenue,
       totalPrime,
       newContrat,
-      isRetenueOverLimit
+      isRetenueOverLimit,
+      generateBulletin
     };
   },
 });
