@@ -9,13 +9,13 @@
       <SearchData :class="store.active ? 'open' : ''" />
       <div class="col">
         <!-- Bouton pour "Ma présence" -->
-        <a
+      <!--  <a
           type="button"
           class="btn btn-primary"
           data-bs-toggle="modal"
            data-bs-target="#AddPresenceModal"
           >Ma présence</a
-        >
+        >-->
 
         <!-- <a
           v-if="etatPresepeutMarquerPresencence == true"

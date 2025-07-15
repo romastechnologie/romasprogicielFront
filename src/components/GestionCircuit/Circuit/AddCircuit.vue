@@ -396,9 +396,9 @@ const removeRowCircuit = (index) => {
     };
     const getAllUsers = async () => {
       try{
-      const response = await ApiService.get('/users');
+      const response = await ApiService.get('/all/users');
       const canalsData = response.data.data.data;
-      console.log('Data',canalsData)
+      console.log('Data user',canalsData)
       userOptions.value = canalsData.map((user) => ({
         value:user.id,
         label:user.nom + '' + user.prenom,

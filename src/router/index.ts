@@ -200,6 +200,9 @@ import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
 import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
 import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.vue';
+import ListeModeleContratPage from "@/pages/GestionPaie/ModeleContrat/ListeModeleContratPage.vue"
+// import ListeBulletinPaiePage from "@/pages/GestionPaie/BulletinPaie/ListeBulletinPaiePage.vue"
+
 
 
 
@@ -432,6 +435,38 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
+  {
+    path: "/modeleContrat",
+    component: BodyView,
+    children: [
+      
+      {
+        path: "liste-modeleContrat",
+        name: "ListeModeleContratPage",
+        component: ListeModeleContratPage,
+        meta: {
+          title: 'Liste des modeles contrats',
+        }
+      }
+    ]
+  },
+
+  // {
+  //   path: "/bulletinPaie",
+  //   component: BodyView,
+  //   children: [
+      
+  //     {
+  //       path: "liste-bulletinPaie",
+  //       name: "ListeBulletinPaiePage",
+  //       component: ListeBulletinPaiePage,
+  //       meta: {
+  //         title: 'Liste des bulletins de paie',
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: "/contrats",
     component: BodyView,
@@ -462,6 +497,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+  
      
   {
     path: "/typeRetenues",
@@ -509,6 +545,51 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
  
+
+   {
+        path: "/paies",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-paie",
+            name: "AddPaie",
+            component: AddPaiePage,
+            meta: {
+              title: 'Ajouter une paie',
+            }
+          },
+          {
+            path: "liste-paies",
+            name: "ListePaie",
+            component: ListePaiePage,
+            meta: {
+              title: 'Liste des paies',
+            },
+          }
+        ]
+      },
+      {
+        path: "/processus",
+        component: BodyView,
+        children: [
+          {
+            path: "ajouter-processus",
+            name: "AddProcessus",
+            component: AddProcessusPage,
+            meta: {
+              title: 'Ajouter un processus',
+            }
+          },
+          {
+            path: "liste-processus",
+            name: "ListeProcessus",
+            component: ListeProcessusPage,
+            meta: {
+              title: 'Liste des processus',
+            },
+          }
+        ]
+      },
   {
     path: "/typeContrats",
     component: BodyView,
@@ -524,7 +605,28 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
-  
+   {
+    path: "/modeTarifications",
+    component: BodyView,
+    children: [
+      // {
+      //   path: "ajouter-permission",
+      //   name: "AddPermissionPage",
+      //   component: AddPermissionPage,
+      //   meta: {
+      //     title: 'Ajouter une permission',
+      //   }
+      // },
+      {
+        path: "liste-modeTarification",
+        name: "ListeModeTarificationPage",
+        component: ListeModeTarificationPage,
+        meta: {
+          title: 'Liste des modes de tarifications',
+        }
+      }
+    ]
+  },
 
   {
     path: "/typeOrganisations",

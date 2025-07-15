@@ -104,11 +104,11 @@
             </thead>
             <tbody>
               <tr v-for="(horaire, index) in contrat?.horaire_personnels" :key="index">
-                <td>{{ horaire?.jour || 'Non renseigné' }}</td>
-                <td>{{ horaire?.heureArrivee || 'Non renseigné' }}</td>
-                <td>{{ horaire?.heureDebutPause || 'Non renseigné' }}</td>
-                <td>{{ horaire?.heureFinPause || 'Non renseigné' }}</td>
-                <td>{{ horaire?.heureDepart || 'Non renseigné' }}</td>
+                <td>{{ horaire?.jour || '-' }}</td>
+                <td>{{ horaire?.heureArrivee || '-' }}</td>
+                <td>{{ horaire?.heureDebutPause || '-' }}</td>
+                <td>{{ horaire?.heureFinPause || '-' }}</td>
+                <td>{{ horaire?.heureDepart || '-' }}</td>
               </tr>
             </tbody>
           </table>
@@ -133,11 +133,11 @@
                 </thead>
                 <tbody>
                   <tr v-for="(prime, index) in contrat?.contratprimes" :key="index">
-                    <td>{{ prime?.typeprime?.nomPrime || 'Non renseigné' }}</td>
-                    <td>{{ prime?.typeprime?.valeur || 'Non renseigné' }}</td>
-                    <td>{{ prime?.quantite || 'Non renseigné' }}</td>
-                    <td>{{ prime?.valeurUnitaire || 'Non renseigné' }}</td>
-                    <td>{{ prime?.montant || 'Non renseigné' }}</td>
+                    <td>{{ prime?.typeprime?.nomPrime || '-' }}</td>
+                    <td>{{ prime?.typeprime?.valeur || '-' }}</td>
+                    <td>{{ prime?.quantite || '-' }}</td>
+                    <td>{{ prime?.valeurUnitaire || '-' }}</td>
+                    <td>{{ prime?.montant || '-' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -157,11 +157,11 @@
                 </thead>
                 <tbody>
                   <tr v-for="(retenue, index) in contrat?.contratretenues" :key="index">
-                    <td>{{ retenue?.typesretenue?.nomRetenue || 'Non renseigné' }}</td>
-                    <td>{{ retenue?.typesretenue?.valeur || 'Non renseigné' }}</td>
-                    <td>{{ retenue?.quantite || 'Non renseigné' }}</td>
-                    <td>{{ retenue?.valeurUnitaire || 'Non renseigné' }}</td>
-                    <td>{{ retenue?.montant || 'Non renseigné' }}</td>
+                    <td>{{ retenue?.typesretenue?.nomRetenue || '-' }}</td>
+                    <td>{{ retenue?.typesretenue?.valeur || '-' }}</td>
+                    <td>{{ retenue?.quantite || '-' }}</td>
+                    <td>{{ retenue?.valeurUnitaire || '-' }}</td>
+                    <td>{{ retenue?.montant || '-' }}</td>
                   </tr>
                 </tbody>
               </table>

@@ -55,7 +55,6 @@ class ApiService {
  * @returns Promise<AxiosResponse>
  */
   public static get(resource: string, slug: string = ""): Promise<AxiosResponse> {
-
     // let rest = "";
     // if (JwtService.getUserId()) {
     //   const userId = JwtService.getUserId();
@@ -72,7 +71,6 @@ class ApiService {
     const url = `${resource}${slug}`;
     return ApiService.vueInstance.axios.get(url);
   }
-
 
   /**
    * @description set the POST HTTP request

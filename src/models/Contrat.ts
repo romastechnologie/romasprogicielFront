@@ -1,6 +1,7 @@
 export  interface Contrat {
     id: number;
-    refContrat: string;
+    reference: string;
+    estResilie?: boolean;
     dateDebut: Date;
     dateFin: Date;
     heuresTravaillees: Date;
@@ -10,17 +11,13 @@ export  interface Contrat {
     periodeDePaie:Date;
     typeContrat:number;
     employe:string;
-    createdAt:Date;
-    datePriseFonction: Date;
-    salaire: number;
-    dureeContrat: number;
-    conditionLicenciement: string;
     nbJourConge: number;
     salaireBase: number;
     nobreheuresTravail: Date;
     renouvelable: string;
     dureePeriodeEssai: string;
     dateFinperiodeEssai: Date;
-    personnelId: number,
+    personnelId: number;
+    createdAt:Date;
     setFieldValue: (field: string, value: any) => void;
   }
