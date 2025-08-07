@@ -16,7 +16,6 @@
         </div>
       </div>
     </div>
-
     <!--begin::Content-->
     <div class="col-md-8 col-xxl-8 col-sm-8">
       <div class="card mb-25 border-0 rounded-0 bg-white">
@@ -60,7 +59,6 @@
         </div>
       </div>
     </div>
-
     <div class="col-md-12 col-xxl-12 col-sm-12 mb-10">
       <div class="card-header">
       </div>
@@ -75,18 +73,12 @@
               <div class="col-6" v-for ="(pri, index) in roleData?.rolePermissions" :key="index">
                 <div class="d-flex align-items-center py-2">
                   <div class="col-8"><span class="bullet bg-primary me-3"></span><p class="shadow-none lh-1 fw-medium text-black-emphasis title ps-0">{{ pri?.permission?.description }}</p>   </div>
-                  <div class="col-4"><span class="bullet bg-primary me-3"></span>
+                  <div class="col-4">
+                    <span class="bullet bg-primary me-3"></span>
                     <span class="btn f-w-500 background-light-danger font-danger">
-                  <a
-                    class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
-                    @click="suppression(pri.id, roleData?.rolePermissions,'rolePermission',`la permission ${pri.permission.nom}`	)" 
-                    >
-                    <i class="fa fa-trash-o lh-2 me-8 position-relative top-1" ></i>
-                    Supprimer
-                  </a>
-                  </span>
-                </div>
-                  
+                      <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" @click="suppression(pri.id, roleData?.rolePermissions,'rolePermission',`la permission ${pri.permission.nom}`)"><i class="fa fa-trash-o lh-2 me-8 position-relative top-1" ></i>Supprimer</a>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,7 +87,6 @@
         </div>
       </div>
     </div>
-      
   </div>
 </template>
 
@@ -136,7 +127,7 @@ export default defineComponent({
     
     // Send login request
     function getRole(id:string) {
-      return ApiService.get("/roles",id)
+      return ApiService.get("/roles/",id)
       .then(({ data }) => {
         roleData.value = data.data;
         users.value=data.data.users;
@@ -147,7 +138,7 @@ export default defineComponent({
     } 
 
     function getUser(id: string) {
-      return ApiService.get("/users/"+id)
+      return ApiService.get("/users/role"+id)
         .then(({ data }) => {
           userData.value = data.data;
           user.value = data.data;

@@ -93,7 +93,7 @@
                     {{ contrat.estResilie ? 'Resilier' : 'Actif' }}
                   </span>
               </td>
-              <td class="shadow-none lh-1 fw-medium">{{ format_Date(contrat.createdAt) }}</td>
+              <td class="shadow-none lh-1 fw-medium">{{ format_Date(contrat.createdAat) }}</td>
               <td
                 class="shadow-none lh-1 fw-medium text-body-tertiary text pe-0"
               >
@@ -106,6 +106,14 @@
                         <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>
                         <!-- <p><strong></strong></p> -->
                         Détails
+                      </router-link>
+                    </li>
+
+                     <li class="dropdown-item d-flex align-items-center">
+                      <router-link :to="{ name: 'AddApercuContratPage', params: { id: contrat.id } }"
+                        class="dropdown-item d-flex align-items-center">
+                        <i class="flaticon-eye lh-1 me-8 position-relative top-1"></i>
+                        Aperçu
                       </router-link>
                     </li>
 
@@ -378,7 +386,7 @@ const rejectContrats = async () => {
       rechercher,
       searchTerm,
      format_Date,
-         openModal,
+     openModal,
     contratsForm,
     addContrats,
     contratsSchema,

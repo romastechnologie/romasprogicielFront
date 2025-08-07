@@ -1,9 +1,12 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white letter-spacing">
+    <div class="card-header">
+      <h3 class="text-black fw-semibold">Liste des utilisateurs</h3>
+    </div>
     <div
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
-      <div class="d-sm-flex align-items-center">
+      <div class="d-sm-flex align-items-center"  v-if="checkPermission('AddUser')">
         <router-link
           class="btn btn-primary"
           to="/utilisateurs/ajouter-utilisateur"
@@ -115,7 +118,7 @@
                 <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
                   <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                   <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                        <li class="dropdown-item d-flex align-items-center">
+                        <li class="dropdown-item d-flex align-items-center"  v-if="checkPermission('EditPassword')">
                           <a
                             href="#"
                             data-bs-toggle="modal"
@@ -126,7 +129,7 @@
                             Modifier le mot de passe
                           </a>
                         </li>
-                        <li class="dropdown-item d-flex align-items-center">
+                        <li class="dropdown-item d-flex align-items-center"  v-if="checkPermission('EditUser')">
                           <router-link
                             :to="{ name: 'EditUser',params: { id: user.id } }"
                           >
@@ -134,23 +137,34 @@
                             Voir ou Modifier les informations
                           </router-link>
                         </li>
-                        <li class="dropdown-item d-flex align-items-center">
+                        <li class="dropdown-item d-flex align-items-center"  v-if="checkPermission('AddUserRole')">
                           <a
                             href="#"
                             data-bs-toggle="modal"
                             data-bs-target="#AddRoleModal"
-                            @click="openAddRoleModal(user)"
+                            @click="openAddPointVenteModal(user)"
                           >
                           <i class="fa fa-lock lh-2 me-8 position-relative top-1"></i>
                           Ajouter un rôle
                           </a>
                         </li>
-                        <!-- <li class="dropdown-item d-flex align-items-center">
+                        <li class="dropdown-item d-flex align-items-center"  v-if="checkPermission('AddUserRole')">
+                          <a
+                            href="#"
+                            data-bs-toggle="modal"
+                            data-bs-target="#AddPointVenteModal"
+                            @click="openAddRoleModal(user)"
+                          >
+                          <i class="fa fa-lock lh-2 me-8 position-relative top-1"></i>
+                          Ajouter un point de vente
+                          </a>
+                        </li>
+                        <li class="dropdown-item d-flex align-items-center">
                           <router-link :to="{ name: 'ViewUser', params: { id: user.id } }" class="dropdown-item d-flex align-items-center">
                               <i class="fa fa-eye lh-1 me-8 position-relative top-1"></i>Détails
                           </router-link>
-                        </li> -->
-                        <li class="dropdown-item d-flex align-items-center">
+                        </li> 
+                        <li class="dropdown-item d-flex align-items-center" v-if="checkPermission('DeleteUserRole')">
                           <a
                             href="javascript:void(0);"
                             @click="suppression(user.id, users, 'users', 'un utilisateur')"
@@ -173,7 +187,8 @@
     </div>
   </div>
 <EditUserPassModal :selectedUser="selectedUser"/>
-<AddRoleModal :selectedUser="selectedUser" :selectedUserId="selectedUserId"/>
+<AddRoleModal :selectedUser="selectedUser" @close="rechercher"/>
+<AddPointVenteModal :selectedUser="selectedUser" :selectedUserId="selectedUserId"/>
 </template>
 
 <script lang="ts">
@@ -185,6 +200,7 @@ import EditUserPassModal from "./EditUserPassModal.vue";
 import PaginationComponent from '@/components/Utilities/Pagination.vue';
 import JwtService from "@/services/JwtService";
 import AddRoleModal from "./AddRoleModal.vue";
+import AddPointVenteModal from "./AddPointVenteModal.vue";
 import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
@@ -192,6 +208,7 @@ export default defineComponent({
   components: {
     AddRoleModal,
     EditUserPassModal,
+    AddPointVenteModal,
     PaginationComponent
   },
   setup(){
@@ -253,6 +270,11 @@ export default defineComponent({
       selectedUserId.value = user.id;
     };
 
+    const openAddPointVenteModal = (user: User) => {
+      selectedUser.value = { ...user };
+      selectedUserId.value = user.id;
+    };
+
     const openEditPassModal = (user: User) => {
       selectedUser.value = { ...user };
     };
@@ -279,6 +301,7 @@ export default defineComponent({
       searchTerm,
       rechercher,
       openAddRoleModal,
+      openAddPointVenteModal,
       selectedUserId,
 
     };

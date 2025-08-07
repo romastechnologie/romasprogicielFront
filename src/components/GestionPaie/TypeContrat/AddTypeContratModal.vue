@@ -10,6 +10,18 @@
                     <div class="modal-body">
                       <Form ref="typeContratForm" @submit="addTypeContrat" :validation-schema="typeContratSchema">
                         <div class="row">
+
+                            <div class="col-md-12 mb-3">
+                            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                              <label class="d-block text-black fw-semibold mb-10">
+                                Code<span class="text-danger">*</span>
+                              </label>
+                              <Field name="code" type="text" 
+                              class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le code"/>
+                              <ErrorMessage name="code" class="text-danger"/>
+                            </div>
+                          </div>
+                          
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
@@ -84,7 +96,7 @@
         const typeContratSchema = Yup.object().shape({
           description: Yup.string().required('La description est obligatoire'),
           libelle: Yup.string().required('Le libelle est obligatoire'),
-          //montant: Yup.number().required('Le montant est obligatoire'),
+          code: Yup.string().required('Le code est obligatoire'),
         });
     
     
@@ -110,6 +122,7 @@
           .then(({ data }) => {
             typeContratForm.value?.setFieldValue("id",data.data.id);
             typeContratForm.value?.setFieldValue("libelle",data.data.libelle);
+            typeContratForm.value?.setFieldValue("code",data.data.code);
             typeContratForm.value?.setFieldValue("description",data.data.description);
             emit('openmodal', addTypeContratModalRef.value);
           })

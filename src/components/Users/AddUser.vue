@@ -1,7 +1,10 @@
 <template>
   <div class="card mb-25 border-0 rounded-0 bg-white add-user-card">
+    <div class="card-header">
+      <h3 class="text-black fw-semibold">Ajouter un utilisateur</h3>
+    </div>
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing ">
-        <Form ref="userForm" @submit="addUser" :validation-schema="userSchema">
+      <Form ref="userForm" @submit="addUser" :validation-schema="userSchema">
         <div class="row">
           <div class="col-md-4 mb-3">
             <div class="form-group">
@@ -24,15 +27,27 @@
             </div>
           </div>
           <div class="col-md-4 mb-3">
-            <div class="form-group">
-              <label class="d-block text-black fw-semibold">
-                Téléphone <span class="text-danger">*</span>
-              </label>
-              <Field name="telephone" type="text" class="form-control"
-                placeholder="Entrer le numéro de téléphone" />
-              <ErrorMessage name="telephone" class="text-danger" />
+              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                <label class="d-block text-black fw-semibold mb-10">
+                  Téléphone <span class="text-danger">*</span>
+                </label>
+                <Field name="telephone" v-model="telephone"  v-slot="{ field }">
+                  <vue-tel-input
+                    placeholder="Entrer le numéro de téléphone"
+                    v-model = "field.value"
+                    v-bind = "field"
+                    defaultCountry="BJ"
+                    mode="international"
+                    @validate="validate"
+                    class ="shadow-none fs-md-15 text-black py-2">
+                  </vue-tel-input>
+                </Field>
+                <div v-if="!validPhone"  class="text-danger">Veuillez entrer un numéro correcte</div>
+                <!-- <Field name="telephone" type="text" 
+                class="form-control shadow-none fs-md-15 text-black" placeholder="Entrer le téléphone"/> -->
+                <ErrorMessage name="telephone" class="text-danger"/>
+              </div>
             </div>
-          </div>
           <div class="col-md-4 mb-3">
             <div class="form-group">
               <label class="d-block text-black fw-semibold">
@@ -84,6 +99,20 @@
               <span class="text-danger" v-if="showMErr">Le rôle est obligatoire</span>
             </div>
           </div>
+          <div class="col-md-8 mb-3">
+            <div class="form-group mb-15 mb-sm-20 mb-md-25">
+              <label class="d-block text-black fw-semibold mb-10">
+                Point de vente <span class="text-danger">*</span>
+              </label>
+              <Field name="pointDeVente" type="text" v-slot="{ field }">
+                <Multiselect
+                  mode="tags" v-model="field.value" v-bind="field" :options="pointDeVenteOptions"
+                  :close-on-select="true" :clear-on-select="false" placeholder="Sélectionner un point de vente" />
+              </Field>
+              <ErrorMessage name="pointDeVente" class="text-danger" />
+            </div>
+          </div>
+
           <div class="col-md-12">
             <div class="mt-4">
               <button class="btn btn-success me-3" type="submit">
@@ -111,6 +140,8 @@ import ApiService from '@/services/ApiService';
 import { error, success } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 import { User } from '@/models/users';
+import 'vue3-tel-input/dist/vue3-tel-input.css'
+import { VueTelInput } from 'vue3-tel-input'
 import VueMultiselect from 'vue-multiselect'
 
 export default defineComponent({
@@ -121,6 +152,7 @@ export default defineComponent({
     ErrorMessage,
     Multiselect,
     VueMultiselect,
+    VueTelInput
   },
 
   setup: () => {
@@ -130,14 +162,16 @@ export default defineComponent({
       sexe: Yup.string().required('Le sexe est obligatoire'),
       nom: Yup.string().required('Le nom est obligatoire'),
       prenom: Yup.string().required('Le prénom obligatoire'),
-      telephone: Yup.number()
-        .typeError('Le téléphone doit être un nombre')
-        .required('Le téléphone est obligatoire')
-        .test(
-          'is-six-digits',
-          'Le téléphone doit avoir exactement 6 chiffres',
-          value => (value ? /^[0-9]{8}$/.test(value.toString()) : true)
-        ),
+      pointDeVente: Yup.number().required('Le point de vente est obligatoire'),
+      telephone: Yup.string().typeError('Veuillez entrer des chiffres').required('Le telephone est obligatoire'),
+      // telephone: Yup.number()
+      //   .typeError('Le téléphone doit être un nombre')
+      //   .required('Le téléphone est obligatoire')
+      //   .test(
+      //     'is-six-digits',
+      //     'Le téléphone doit avoir exactement 8 chiffres',
+      //     value => (value ? /^[0-9]{8}$/.test(value.toString()) : true)
+      //   ),
       password: Yup.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères').required('Le mot de passe est obligatoire'),
       //roles: Yup.array().required('Le rôle est obligatoire'),
     });
@@ -150,7 +184,7 @@ export default defineComponent({
     })
 
     const roleOptions = ref([]);
-    // const personnelOptions = ref([]);
+    const personnelOptions = ref([]);
     const passwords = ref<string>("");
     const router = useRouter();
     const userForm = ref<User | null>(null);
@@ -162,49 +196,11 @@ export default defineComponent({
     const value = ref('')
     const personnels = ref([] as any[]);
 
-    // function onInput(phone, phoneObject, input) {
-    //   //
-    // }
-
-    // function validate(phoneObject) {
-    //   validPhone.value = phoneObject.valid;
-    //   if (phoneObject.valid == true) {
-    //     telephone.value = phoneObject.number;
-    //     codepay.value= phoneObject.countryCallingCode;
-    //     nationalnumlber.value = phoneObject.nationalNumber;
-    //     numberPhone.value = phoneObject.nationalNumber;
-
-    //   }else{
-    //     telephone.value="";
-    //     codepay.value= "";
-    //     nationalnumlber.value= "";
-    //     numberPhone.value="";
-    //   }
-    // }
-
     function password(): string {
       let charactersArray = 'a-z,A-Z,0-9,#'.split(',')
       let CharacterSet = '';
       let password = '';
       let size = 12;
-      /* switch (this.strengthLevel) {
-        case 12:
-            size = 10
-            charactersArray = 'a-z,A-Z'.split(',')
-            break
-        case 24:
-            size = 12
-            charactersArray = 'a-z,A-Z,0-9'.split(',')
-            break
-        case 36:
-            size = 14
-            charactersArray = 'a-z,A-Z,0-9,#'.split(',')
-            break
-        case 48:
-            size = 16
-            charactersArray = 'a-z,A-Z,0-9,#'.split(',')
-        break
-      }*/
 
       if (charactersArray.indexOf('a-z') >= 0) {
         CharacterSet += 'abcdefghijklmnopqrstuvwxyz'
@@ -250,7 +246,7 @@ export default defineComponent({
               success(data.message);
               //resetForm();
               console.log('flefelef')
-             router.push({ name: "ListeUser" });
+              router.push({ name: "ListeUser" });
             }
           }).catch(({ response }) => {
             error(response.data.message);
@@ -258,9 +254,26 @@ export default defineComponent({
       }
     };
 
+    function validate(phoneObject) {
+      validPhone.value = phoneObject.valid;
+      if (phoneObject.valid == true) {
+        telephone.value = phoneObject.number;
+        codepay.value= phoneObject.countryCallingCode;
+        nationalnumlber.value = phoneObject.nationalNumber;
+        numberPhone.value = phoneObject.nationalNumber;
+
+      }else{
+        telephone.value="";
+        codepay.value= "";
+        nationalnumlber.value= "";
+        numberPhone.value="";
+      }
+    }
+
     const fetchRoles = async () => {
       try {
-        const response = await axios.get('/roles');
+        const response = await axios.get("/roles");
+        console.log('Roles :', response);
         const rolesData = response.data.data;
         roles_ = rolesData;
         roleOptions.value = rolesData.map((role: any) => ({
@@ -269,42 +282,27 @@ export default defineComponent({
         }));
       } catch (error) {
         //
+        console.log("Erreur ", error)
+      }
+    };
+    const pointDeVenteOptions = ref([]);
+    const fetchPointDeVente = async () => {
+      try {
+        const response = await axios.get("/tout/pointventes");
+        console.log('Point de vente :', response);
+        const pointData = response.data.data;
+        pointDeVenteOptions.value = pointData.map((point: any) => ({
+          value: point.id,
+          label: `${point.nomPointVente}`
+        }));
+      } catch (error) {
+        console.log("Erreur ", error)
       }
     };
 
-    // const getAllPersonnel = async () => {
-    //   try {
-
-    //     const response = await ApiService.get('/all/personnels');
-    //     //console.log("personnels reccuperer avec succes", response.data.data.data);
-    //     personnels.value = response.data.data.data;
-
-    //     personnelOptions.value = response.data.data.data.map((personnel: any) => ({
-    //       value: personnel.id,
-    //       label: `${personnel.nom + " " + personnel.prenom}`
-    //     }));
-        
-    //   } catch (error) {
-    //     console.error('Erreur lors de la recupération des personnels:', error);
-    //     throw error;
-    //   }
-    // }
-
-    const selectPersonnel = (id: any) => {
-      console.log("L'id du personnel sélectionné: ", id);
-      const personnel = personnels.value.find(personnel => personnel.id == id);
-      console.log("Personnel sélectionné: ",  personnel );
-
-      selectpersonnel.value.nom = personnel.nom;
-      selectpersonnel.value.prenom = personnel.prenom;
-      selectpersonnel.value.telephone = personnel.telephone;
-      selectpersonnel.value.email = personnel.email;
-      console.log("Personnel sélectionné: ", personnel)
-    }
-
-    onMounted(() => {
-      // getAllPersonnel();
-       fetchRoles();
+    onMounted(async() => {
+      await fetchRoles();
+      await fetchPointDeVente()
       passwords.value = password();
       userForm.value?.setFieldValue("password", passwords.value);
     })
@@ -319,11 +317,12 @@ export default defineComponent({
       value,
       roles,
       showMErr,
-      // personnelOptions,
+      personnelOptions,
       personnelId,
-      selectpersonnel,
-      selectPersonnel
-      // validate,
+      pointDeVenteOptions,
+      
+        validate,
+      selectpersonnel      // validate,
       // onInput,
     };
   },

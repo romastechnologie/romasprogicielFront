@@ -1,10 +1,20 @@
-import type { App } from "vue";
+import { h, type App } from "vue";
 import type { AxiosResponse } from "axios";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import JwtService from "@/services/JwtService";
-import { User } from "./auth";
+import { config } from "@fullcalendar/core/internal";
 
+// Ajoutez ceci dans votre ApiService, juste après les imports
+axios.interceptors.request.use(config => {
+  const token = JwtService.getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
 /**
  * @description service to call HTTP request via Axios
  */
@@ -13,6 +23,7 @@ class ApiService {
    * @description property to share vue instance
    */
   public static vueInstance: App;
+  public static vueInstance2: App;
 
   /**
    * @description initialize vue axios
@@ -20,9 +31,10 @@ class ApiService {
   public static init(app: App<Element>) {
     ApiService.vueInstance = app;
     ApiService.vueInstance.use(VueAxios, axios);
-    ApiService.vueInstance.axios.defaults.baseURL ='http://localhost:3007/api';
-    ApiService.vueInstance.axios.defaults.headers.common["Accept"] ="application/json";
-    ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] ="application/json";
+    //ApiService.vueInstance.axios.defaults.baseURL ='https://gescom.somimas.com:3000/api';
+    ApiService.vueInstance.axios.defaults.baseURL = 'http://localhost:3007/api';
+    ApiService.vueInstance.axios.defaults.headers.common["Accept"] = "application/json";
+    ApiService.vueInstance.axios.defaults.headers.common["Content-Type"] = "application/json";
     ApiService.vueInstance.use(VueAxios, axios);
   }
 
@@ -30,10 +42,11 @@ class ApiService {
    * @description set the default HTTP request headers
    */
   public static setHeader(): void {
-    console.log(JwtService.getToken(),"JwtService.getToken()")
+    console.log(JwtService.getToken(), "JwtService.getToken()")
     ApiService.vueInstance.axios.defaults.headers.common["Authorization"] = `bearer ${JwtService.getToken()}`;
     ApiService.vueInstance.axios.defaults.headers.common["Accept"] = "application/json";
   }
+
 
   /**
    * @description send the GET HTTP request
@@ -45,9 +58,8 @@ class ApiService {
     // if (JwtService.getUserId()) {
     //   params["userId"] = JwtService.getUserId();
     // }
-    return ApiService.vueInstance.axios.get(resource, params);
+    return ApiService.vueInstance.axios.get(resource, params,);
   }
-
   /**
  * @description send the GET HTTP request
  * @param resource: string
@@ -55,22 +67,18 @@ class ApiService {
  * @returns Promise<AxiosResponse>
  */
   public static get(resource: string, slug: string = ""): Promise<AxiosResponse> {
-    // let rest = "";
-    // if (JwtService.getUserId()) {
-    //   const userId = JwtService.getUserId();
-    //   if (slug) {
-    //     // On remplace uniquement le premier '?' par '&' si présent dans le slug
-    //     const formattedSlug = slug.replace(/^\?/, "&");
-    //     rest = `/?userId=${userId}${formattedSlug}`;
-    //   } else {
-    //     rest = `/?userId=${userId}`;
-    //   }
-    // }
-
     // Construction finale de l'URL avec Axios GET
-    const url = `${resource}${slug}`;
+    console.log("testttt",JwtService.getPointDeVenteId())
+    let url = `${resource}${slug}`;
+    if (url.includes("?") && !url.includes("pointvente")) {
+      url = `${url}&pointvente=${JwtService.getPointDeVenteId()}`;
+    } else if (!url.includes("?") && !url.includes("pointvente")) {
+      url = `${url}?pointvente=${JwtService.getPointDeVenteId()}`;
+    }
+    console.log(url, "urlurlurlurlurlurlurl")
     return ApiService.vueInstance.axios.get(url);
   }
+
 
   /**
    * @description set the POST HTTP request
@@ -79,10 +87,29 @@ class ApiService {
    * @returns Promise<AxiosResponse>
    */
   public static post(resource: string, params: any): Promise<AxiosResponse> {
-    // if (JwtService.getUser()) {
-    //   params["userId"] = JwtService.getUser();
-    // }
+    if (JwtService.getPointDeVenteId()) {
+      params["pointvente"] = JwtService.getPointDeVenteId();
+    }
     return ApiService.vueInstance.axios.post(`${resource}`, params);
+  }
+
+  /**
+  * @description set the POST HTTP request
+  * @param resource: string
+  * @param params: AxiosRequestConfig
+  * @returns Promise<AxiosResponse>
+  */
+  public static postWithFile(resource: string, params: any): Promise<AxiosResponse> {
+    if (JwtService.getPointDeVenteId()) {
+      params["pointvente"] = JwtService.getPointDeVenteId();
+    }
+    return ApiService.vueInstance.axios.post(`${resource}`, params, {
+      headers: {
+        ...config.headers, // Garde les headers existants
+        "Content-Type": "multipart/form-data",
+        "Accept": "*/*"
+      }
+    });
   }
 
   /**

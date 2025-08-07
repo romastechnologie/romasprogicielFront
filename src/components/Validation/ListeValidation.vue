@@ -126,7 +126,7 @@
         target="_blank"
         download
       >
-        <i class="fa fa-download me-1"></i> 
+        <i class="fa fa-download me-1"></i> Télécharger
       </a>
         </td>
 
@@ -287,31 +287,19 @@ export default defineComponent({
 }
 const addValidations = async (values, { resetForm }) => {
   values["demandeId"] = validationii.value?.demande?.id;
-  values["statut"] = 'Validé';
+  values["statut"] = 'Validé'; // ou autre statut
   values["etapevalidation"] = validationii.value?.etapevalidation?.id; 
-  console.log("valeur", values);
-  Swal.fire({
-    title: 'Veuillez patienter...',
-    text: 'Validation en cours...',
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  });
-
+  console.log("valeur",values);
   ApiService.post("/validations", values)
     .then(({ data }) => {
-      Swal.close(); 
-
       if (data.code === 201) {
         success(data.message);
         resetForm();
         getAllValidations();
-        triggerButtonClick("close-modal");
+        triggerButtonClick("close-modal");       
       }
     })
     .catch(({ response }) => {
-      Swal.close(); 
       error(response.data.message);
     });
 };
@@ -326,17 +314,9 @@ const rejectValidations = async () => {
     commentaire: validationsForm.value?.values?.commentaire,
     etapevalidation: validationii.value?.etapevalidation?.id,
   };
-  Swal.fire({
-    title: 'Veuillez patienter...',
-    text: 'Rejet en cours...',
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  });
+
   ApiService.post("/validations/", values)
     .then(({ data }) => {
-      Swal.close(); 
       if (data.code === 201) {
         success(data.message);
         validationsForm.value?.resetForm();
@@ -345,7 +325,6 @@ const rejectValidations = async () => {
       }
     })
     .catch(({ response }) => {
-      Swal.close(); 
       error(response.data.message);
     });
 };
@@ -355,28 +334,21 @@ const rejectValidations = async () => {
       getAllValidations(page.value, limit.value, searchTerm.value );
     }
 
-  function getAllValidations(page = 1, limi = 10, searchTerm = '') {
-  return ApiService.get(`/all/validationcircuits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
-    .then(({ data }) => {
-      const rawData = data.data.data;
-      const statutOrder = { 'En attente': 0, 'Validé': 1, 'Rejeté': 2 };
-      rawData.sort((a, b) => {
-        const statutA = statutOrder[a.statut] ?? 99;
-        const statutB = statutOrder[b.statut] ?? 99;
-        return statutA - statutB;
+    function getAllValidations(page = 1, limi = 10, searchTerm = '') {
+      return ApiService.get(`/all/validationcircuits?page=${page}&limit=${limi}&mot=${searchTerm}&`)
+        .then(({ data }) => {
+          console.log("validation",data);
+          validations.value = data.data.data;
+          totalPages.value = data.data.totalPages;
+          limit.value = data.data.limit;
+          totalElements.value = data.data.totalElements;
+          return data.data;
+        })
+        .catch(({ response }) => {
+          error(response.data.message)
       });
-
-      validations.value = rawData;
-      totalPages.value = data.data.totalPages;
-      limit.value = data.data.limit;
-      totalElements.value = data.data.totalElements;
-      return data.data;
-    })
-    .catch(({ response }) => {
-      error(response.data.message);
-    });
-}
-
+      
+    }
     
     function moddifier(Editvalidations:Validation) {
       validation.value = Editvalidations;

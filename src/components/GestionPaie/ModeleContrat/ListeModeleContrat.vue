@@ -4,16 +4,14 @@
         class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
       >
         <div class="d-sm-flex align-items-center">
-          <a 
-            class="btn btn-primary"
-            href="#"
-            data-bs-toggle="modal"
-            data-bs-target="#AddModeleContratModal"
-          >
+        <router-link
+          class="btn btn-primary"
+          to="/modeleContrat/ajouter-modeleContrat"
+        >
           <i class="fa fa-plus-circle"></i>
-            <!-- <i class="fa fa-plus-circle"></i> -->
-            Ajouter un modele contrat
-          </a>
+          Ajouter un contrat
+        </router-link>
+        
           <!-- <button
             class="default-outline-btn position-relative transition fw-medium text-black pt-10 pb-10 ps-25 pe-25 pt-md-11 pb-md-11 ps-md-30 pe-md-30 rounded-1 bg-transparent fs-md-15 fs-lg-16 d-inline-block mb-10 mb-lg-0"
             type="button"
@@ -53,22 +51,17 @@
               <tr>
                 <th
                   scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Durée Defaut
-                </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Salaire Base Defaut
-                </th>
-
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Conditions Spécifiques
-                </th>
-
-                <th
-                  scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Type Contrat
                 </th>
+                <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Date
+                </th>
+
+              <!-- <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">Lieu 
+                </th>--> 
               
                 <th
                   scope="col"
@@ -78,32 +71,36 @@
             </thead>
             <tbody>
               <tr v-for="(modeleContrat, index) in modeleContrats" :key="index">
-                <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ modeleContrat.dureeDefaut }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ modeleContrat.salaireBaseDefaut }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black">
-                  {{ modeleContrat.conditionsSpecifiques }}
-                </td>
-                <td class="shadow-none lh-1 fw-medium text-black">
+                 <td class="shadow-none lh-1 fw-medium text-black">
                   {{ modeleContrat.typeContrat?.libelle }}
                 </td>
-                
+                <td class="shadow-none lh-1 fw-medium text-black">
+                  {{format_date(modeleContrat.createdAat) }}
+                </td>
+              <!-- <td class="shadow-none lh-1 fw-medium text-black">
+                  {{ modeleContrat.lieu }}
+                </td> -->       
                 <td
                   class="shadow-none lh-1 fw-medium text-black pe-0"
                 >
                 <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                 <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                  <li class="dropdown-item d-flex align-items-center">
+             <!--<li class="dropdown-item d-flex align-items-center">
                     <a  href="javascript:void(0);" @click="moddifier(modeleContrat)">
                     <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                     </a>
-                  </li>
+                  </li>--> 
+
+              <li >
+                        <router-link :to="{ name: 'EditModeleContratPage', params: { id:modeleContrat.id } }" 
+                            class="dropdown-item d-flex align-items-center"><i
+                            class="flaticon-pen lh-1 me-8 position-relative top-1"
+                          ></i>Modifier</router-link>
+                      </li>
+
                   <li class="dropdown-item d-flex align-items-center">
                     <a href="javascript:void(0);"
-                        @click="suppression(modeleContrat.id,modeleContrats,'modeleContrats',`le modeleContrat ${modeleContrat.libelle}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
+                        @click="suppression(modeleContrat.id,modeleContrats,'modeleContrats',`le modeleContrat ${modeleContrat.id}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                          Supprimer
                     </a>
                   </li>
@@ -188,10 +185,11 @@
         getAllModeleContrats();
       };
   
+
       function getAllModeleContrats(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/modeleContrats?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
-            console.log('valeurs',data.data.data);
+            console.log('valeurs',data);
             modeleContrats.value = data.data.data;
             totalPages.value = data.data.totalPages;
             limit.value = data.data.limit;
@@ -239,5 +237,5 @@
     },
   
    
-  });
+  })
   </script>

@@ -235,6 +235,25 @@ export const menu: MenuItem[] = [
         ]
     },
 
+    
+    {
+        title: "ITS",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+          
+            {
+                path: "/itss/liste-its",
+                title: "Liste des Its",
+                type: "link"
+            },
+        ]
+    },
+
     {
         title: "Type Contrat",
         icon: "stroke-task",
@@ -265,12 +284,21 @@ export const menu: MenuItem[] = [
         active: false,
         isPinned: false,
         children: [
-            
+           {
+                path: "/modeleContrat/ajouter-modeleContrat",
+                title: "Ajouter model contrat",
+                type: "link"
+            },
             {
                 path: "/modeleContrat/liste-modeleContrat",
                 title: "Liste des modeles contrats",
                 type: "link"
             },
+        /*      {
+                path: "/modeleContrat/apercu-modeleContrat",
+                title: "Apercu contrat",
+                type: "link"
+            },*/
         ]
     },
 
@@ -312,9 +340,26 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+     {
+        title: "ModePaiements",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+           
+            {
+                path: "/modepaiements/liste-modepaiement",
+                title: "Liste des modes paiements",
+                type: "link"
+            },
+        ]
+    },
 
 
-    {
+   /* {
         title: "Ethnies",
         icon: "stroke-task",
         icon1: "fill-task",
@@ -334,7 +379,7 @@ export const menu: MenuItem[] = [
                 type: "link"
             },
         ]
-    },
+    },*/
 
     {
         headTitle1: "Gestion du personnel",
@@ -704,6 +749,28 @@ export const menu: MenuItem[] = [
     },
 
 
+     {
+        title: "Societe",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/societes/ajouter-societe",
+                title: "Ajouter une societe",
+                type: "link"
+            },
+            {
+                path: "/societes/liste-societes",
+                title: "Liste des societes",
+                type: "link"
+            },
+        ]
+    },
+    
 
 
        {
@@ -817,6 +884,11 @@ export const menu: MenuItem[] = [
     },
 
     
+        {
+                path: "/banques/liste-banques",
+                title: "banques",
+                type: "link"
+            },
 
 
     {
@@ -836,6 +908,10 @@ export const menu: MenuItem[] = [
             },
         ]
     },
+
+
+    
+
 
 
 ]

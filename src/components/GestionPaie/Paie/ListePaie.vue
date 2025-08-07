@@ -54,6 +54,12 @@
                 >
                   Référence de la paie
                 </th>
+                  <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >
+                 Nom complet
+                </th>
                 <th scope="col" class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0">
                   Date paie
                 </th>
@@ -94,12 +100,7 @@
                 >
                 Mode de Paiement
                 </th>
-                <th
-                  scope="col"
-                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
-                >
-                 Date
-                </th>
+              
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0 pe-0"
@@ -109,20 +110,18 @@
             <tbody>
               <tr  v-for ="(paie, index) in paies" :key="index">
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.refPaie }} </td>
+                  <td class="shadow-none lh-1 fw-medium">{{ paie?.contrat?.personnel?.nom}} {{ paie?.contrat?.personnel?.prenom}}</td>
                   <td class="shadow-none lh-1 fw-medium ">{{ format_Date(paie?.datePaie) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.salaireBrut }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.salaireNet }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.totalRetenues }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.totalPrimes }} </td>
-                  <td class="shadow-none lh-1 fw-medium ">{{ format_Date(paie.periode) }} </td>
+                  <td class="shadow-none lh-1 fw-medium ">{{ format_monthYear(paie.periode) }} </td>
                   <td class="shadow-none lh-1 fw-medium ">{{ paie.modepaiement?.libelle }} </td>
-                  <td class="shadow-none lh-1 fw-medium">{{ format_Date(paie.createdAt) }} </td>
                   <td class="shadow-none lh-1 fw-medium text-body-tertiary pe-0">
                     <div class="dropdown">
                       <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                         <ul class="dropdown-menu">
-
-
                            <li  class="dropdown-item d-flex align-items-center">
                  <a :href="getUrlApiForFiles(paie.photoPaie, 'paie')" target="_blank" rel="noopener noreferrer">
   <i class="fa fa-eye lh-1 me-8 position-relative top-1"></i> Aperçu
@@ -162,7 +161,6 @@
   import ApiService from "@/services/ApiService";
   import { Paie } from "@/models/Paie";
   import { format_date, suppression, error,format_Date,getUrlApiForFiles } from "@/utils/utils";
-  
   import PaginationComponent from '@/components/Utilities/Pagination.vue';
   import JwtService from "@/services/JwtService";
   
@@ -216,6 +214,13 @@
             error(response.data.message)
         });
       }
+
+      function format_monthYear(dateString: string): string {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+}
+
   
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
   
@@ -236,7 +241,8 @@
         searchTerm,
         rechercher,
         format_Date,
-        getUrlApiForFiles
+        getUrlApiForFiles,
+        format_monthYear
 
       };
     },

@@ -395,7 +395,7 @@
                     <tbody>
                       <tr v-for="(prime, index) in primes" :key="index">
                         <td class="typePrime-col td-large">
-                          <Multiselect :options="typePrimeOptions" :searchable="true" track-by="label" label="label"
+                          <Multiselect :options="getAvailableTypePrimes(index)"  :searchable="true" track-by="label" label="label"
                             v-model="prime.typePrime" placeholder=""
                             @select="selectTypePrime(prime.typePrime, prime)" />
                           <span class="invalid-feedback" v-if="validateRowPrime(prime.typePrime)">
@@ -474,7 +474,7 @@
                     <tbody>
                       <tr v-for="(retenue, index) in retenues" :key="index">
                         <td class="typeRetenue-col td-large">
-                          <Multiselect :options="typeRetenueOptions" :searchable="true" track-by="label" label="label"
+                          <Multiselect :options="getAvailableTypeRetenues(index)"  :searchable="true" track-by="label" label="label"
                             v-model="retenue.typeRetenue" placeholder="" @select="
                               selectTypeRetenue(retenue.typeRetenue, retenue)
                               " />
@@ -1109,7 +1109,7 @@ const getAllPersonnel = async () => {
       });
     };
 
-    const updateValeurUnitaire = () => {
+   /* const updateValeurUnitaire = () => {
       const salaireBase = parseFloat(salaireDeBase.value) || 1;
 
       primes.forEach((prime) => {
@@ -1119,7 +1119,8 @@ const getAllPersonnel = async () => {
           if (typeDeValeur.includes("%")) {
             prime.valeurUnitaire = (salaireBase * valeurNum) / 100;
           } else if (typeDeValeur.includes("MT")) {
-            prime.valeurUnitaire = salaireBase + valeurNum;
+           // prime.valeurUnitaire = salaireBase + valeurNum;
+             prime.valeurUnitaire = valeurNum;
           }
           prime.montant = calculerMontant(prime);
         }
@@ -1132,12 +1133,41 @@ const getAllPersonnel = async () => {
           if (typeDeValeur.includes("%")) {
             retenue.valeurUnitaire = (salaireBase * valeurNum) / 100;
           } else if (typeDeValeur.includes("MT")) {
-            retenue.valeurUnitaire = salaireBase + valeurNum;
+       //     retenue.valeurUnitaire = salaireBase + valeurNum;
+            retenue.valeurUnitaire = valeurNum;
+
           }
           retenue.montant = calculerMontant(retenue);
         }
       });
-    };
+    };*/
+    const updateValeurUnitaire = () => {
+  const base = parseFloat(contrat.value.salaireBase) || 0;
+  
+  primes.forEach(prime => {
+    if (prime.typePrime) {
+      const [_, valeur, type] = prime.typePrime.split('|');
+      const val = parseFloat(valeur);
+      prime.valeurUnitaire = type.includes('%') ? (base * val / 100) : val;
+      prime.montant = prime.valeurUnitaire * (prime.quantite || 1);
+    }
+  });
+
+  retenues.forEach(retenue => {
+    if (retenue.typeRetenue) {
+      const [_, valeur, type] = retenue.typeRetenue.split('|');
+      const val = parseFloat(valeur);
+      retenue.valeurUnitaire = type.includes('%') ? (base * val / 100) : val;
+      retenue.montant = retenue.valeurUnitaire * (retenue.quantite || 1);
+    }
+  });
+};
+    watch(() => contrat.value.salaireBase, (newVal) => {
+  if (newVal) {
+    salaireDeBase.value = newVal; // Mettre à jour la ref
+    updateValeurUnitaire(); 
+  }
+}, { immediate: true }); 
 
     watch(salaireDeBase, () => {
       updateValeurUnitaire();
@@ -1161,6 +1191,21 @@ const getAllPersonnel = async () => {
       },
       { deep: true }
     );
+
+     const getAvailableTypePrimes = (currentIndex: number) => {
+  const selected = primes
+    .map((p, idx) => idx !== currentIndex ? p.typePrime : null)
+    .filter(Boolean);
+  return typePrimeOptions.value.filter(option => !selected.includes(option.value));
+};
+
+const getAvailableTypeRetenues = (currentIndex: number) => {
+  const selected = retenues
+    .map((r, idx) => idx !== currentIndex ? r.typeRetenue : null)
+    .filter(Boolean);
+  return typeRetenueOptions.value.filter(option => !selected.includes(option.value));
+};
+
 
     const selectTypePrime = (selectedTypePrime, prime) => {
       const [id, valeur, typeDeValeur] = selectedTypePrime.split("|");
@@ -1550,7 +1595,9 @@ const addContrat = async (values) => {
       addAttributionPoste,
       removeAttributionPoste,
       validateAttributionPoste,
-      salaireBaseLabel, // Retourner la propriété calculée
+      salaireBaseLabel,
+        getAvailableTypePrimes,
+       getAvailableTypeRetenues // Retourner la propriété calculée
     };
   },
 });

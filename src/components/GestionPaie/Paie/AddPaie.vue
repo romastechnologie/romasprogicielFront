@@ -3,7 +3,7 @@
     <div class="card-body p-15 p-sm-20 p-md-25 p-lg-30 letter-spacing">
       <Form ref="paieForm" @submit="addPaie" :validation-schema="paieSchema">
         <div class="row">
-          <div class="col-md-8 mb-3">
+          <div class="col-md-4 mb-3">
             <div class="form-group mb-15 mb-sm-20 mb-md-25">
               <label class="d-block text-black mb-10">
                 Contrat <span class="text-danger">*</span>
@@ -16,9 +16,20 @@
             </div>
           </div>
 
+           <div class="col-md-4 mb-3" v-if="cnss">
+            <label for="cnss" class="form-label"> Numéro cnss<span class="text-danger"></span></label>
+            <Field name="cnss" 
+             v-model="cnss"
+             :disabled="true"
+            class="form-control" type="text" />
+            <ErrorMessage name="cnss" class="text-danger" />
+          </div>
+
           <div class="col-md-4 mb-3">
             <label for="datePaie" class="form-label"> Date de Paie<span class="text-danger">*</span></label>
-            <Field name="datePaie" class="form-control" type="Date" />
+            <Field name="datePaie" 
+            :value="getCurrentDate()" 
+            class="form-control" type="Date" />
             <ErrorMessage name="datePaie" class="text-danger" />
           </div>
           <div class="col-md-4 mb-3">
@@ -50,10 +61,16 @@
           </div>
 
           <div class="col-md-4 mb-3">
-            <label for="salaireBrut" class="form-label">Salaire Brut<span class="text-danger">*</span></label>
+            <label for="salaireBrut" class="form-label">Salaire de base<span class="text-danger">*</span></label>
             <Field name="salaireBrut" class="form-control" type="number" id="salaireBrut" v-model="salaireDeBase" :readonly="true" />
             <ErrorMessage name="salaireBrut" class="text-danger" />
           </div>
+
+            <div class="col-md-4 mb-3">
+              <label for="montantITS" class="form-label">Montant ITS</label>
+              <Field name="montantITS" class="form-control" type="number" :readonly="true" v-model="montantITS" />
+            </div>
+
           <div class="col-md-4 mb-3">
             <label for="totalRetenues" class="form-label">Total des retenues<span class="text-danger">*</span></label>
             <Field name="totalRetenues" class="form-control" type="number" :readonly="true" v-model="totalRetenue" />
@@ -111,7 +128,7 @@
                           <tbody>
                             <tr v-for="(prime, index) in primes" :key="index" class="prime-row">
                               <td class="typePrime-col td-large">
-                                <Multiselect :options="typePrimeOptions" :searchable="true" track-by="label"
+                                <Multiselect   :options="getAvailableTypePrimes(index)" :searchable="true" track-by="label"
                                   label="label" v-model="prime.typePrime" placeholder=""
                                   @select="selectTypePrime(prime.typePrime, prime)" />
                                 <span class="invalid-feedback" v-if="validateRowPrime(prime.typePrime)">
@@ -194,7 +211,7 @@
                           <tbody>
                             <tr v-for="(retenue, index) in retenues" :key="index" class="retenue-row">
                               <td class="typeRetenue-col td-large">
-                                <Multiselect :options="typeRetenueOptions" :searchable="true" track-by="label"
+                                <Multiselect   :options="getAvailableTypeRetenues(index)" :searchable="true" track-by="label"
                                   label="label" v-model="retenue.typeRetenue" placeholder=""
                                   @select="selectTypeRetenue(retenue.typeRetenue, retenue)" />
                                 <span class="invalid-feedback" v-if="validateRowRetenue(retenue.typeRetenue)">
@@ -286,6 +303,11 @@ interface ModeOption {
   label: string;
 }
 
+interface ItsOption {
+  value: number;
+  label: string;
+}
+
 interface ProcessusOption {
   value: number;
   label: string;
@@ -329,6 +351,13 @@ interface Contrat {
   salaireBase?: number;
 }
 
+interface Its {
+  plafondMin: number;
+  plafondMax: number | null; // null = pas de plafond (ex : infini)
+  taux: number; // en pourcentage, ex: 10 = 10%
+}
+
+
 export default defineComponent({
   name: "AddPaie",
   components: {
@@ -338,7 +367,6 @@ export default defineComponent({
     Multiselect,
     VueMultiselect
   },
-
   setup: () => {
     const paieSchema = Yup.object().shape({
       contrat: Yup.string().required("Le contrat est obligatoire."),
@@ -355,20 +383,24 @@ export default defineComponent({
         })
         .required("La période est obligatoire."),
     });
-
     onMounted(() => {
       getAllModePaiements();
       getAllTypePrime();
       getAllTypeRetenue();
       getAllContrats();
+      getCurrentDate();
+      getAllIts();
+
     });
 
+    const itsBaremes = ref<Its[]>([]);
     const lesContrats = ref<any>([]);
     const paieForm = ref(null);
     const showMErr = ref<boolean>(false);
     const modepaiement = ref<string | null>(null);
     const processuspaie = ref<string | null>(null);
     const modeOptions = ref<ModeOption[]>([]);
+    const itsOptions = ref<ItsOption[]>([]);
     const processusOptions = ref<ProcessusOption[]>([]);
     const contrat = ref<string | null>(null);
     const newContrat = ref<number | null>(null);
@@ -379,6 +411,7 @@ export default defineComponent({
     const typePrimeOptions = ref<TypePrimeOption[]>([]);
     const typeRetenueOptions = ref<TypeRetenueOption[]>([]);
     const typeRetenues = ref<TypeRetenueOption[] | null>(null);
+    const montantITS = ref<number>(0);
 
     // Fonction pour formater une date
     const formatDate = (dateString: string | undefined | null): string => {
@@ -390,6 +423,16 @@ export default defineComponent({
       const year = date.getFullYear();
       return `${day}-${month}-${year}`;
     };
+
+    const getCurrentDate = () => {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const currentDate = `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
+      return currentDate;
+    };
+
 
     const getAllContrats = async () => {
       try {
@@ -404,6 +447,50 @@ export default defineComponent({
         console.error('Error fetching contrats:', error);
       }
     };
+const getAllIts = async () => {
+  try {
+    const response = await ApiService.get("/all/itss");
+    const canalsData = response.data.data.data;
+    itsBaremes.value = canalsData; // <-- très important !
+    itsOptions.value = canalsData.map((its) => ({
+      value: its.id,
+      label: its.libelle,
+    }));
+  } catch (error) {
+    // Gérer erreur
+  }
+};
+
+const calculerITS = (salaire: number): number => {
+  let totalITS = 0;
+
+  const sortedBaremes = [...itsBaremes.value].sort((a, b) => a.plafondMin - b.plafondMin);
+
+  for (const bareme of sortedBaremes) {
+    const plafondMin = bareme.plafondMin;
+    const plafondMax = bareme.plafondMax ?? Infinity;
+
+    // Si le salaire est en dessous du début de cette tranche, on s’arrête
+    if (salaire <= plafondMin) break;
+
+    const trancheSuperieure = Math.min(salaire, plafondMax);
+    const montantDansTranche = trancheSuperieure - plafondMin;
+
+    if (montantDansTranche > 0) {
+      const montantTranche = montantDansTranche * (bareme.taux / 100);
+      totalITS += montantTranche;
+      console.log(
+        `Tranche: ${plafondMin} - ${plafondMax}, taux: ${bareme.taux}%, montant: ${montantTranche}`
+      );
+    }
+
+    // Si le salaire est dans cette tranche, on arrête la boucle
+    if (salaire <= plafondMax) break;
+  }
+
+  console.log("Total ITS:", totalITS);
+  return Math.round(totalITS);
+};
 
     const selectedContrat = ref<number | null>(null);
 
@@ -433,20 +520,20 @@ export default defineComponent({
 
 fetchedRetenues.forEach((retenue: any) => {
   if (retenue.typesretenue) {
-    const typeRetenueString = `${retenue.typesretenue.id}|${retenue.typesretenue.valeur}|${retenue.typesretenue.typeDeValeur}`;
+    const { id, valeur, typeDeValeur, typeDeCharge } = retenue.typesretenue;
+    const typeRetenueString = `${id}|${valeur}|${typeDeValeur}|${typeDeCharge}`;
     retenues.push({
       typeRetenue: typeRetenueString,
       montant: retenue.montant,
       valeurUnitaire: retenue.valeurUnitaire,
       quantite: retenue.quantite,
-      valeur: `${parseInt(retenue.typesretenue.valeur)}`,
+      valeur: `${parseInt(valeur)}`,
       desactive: true,
     });
   } else {
     console.warn("Retenue ignorée car typesretenue est null :", retenue);
   }
 });
-
       } catch (error) {
         console.error('Error fetching primes and retenues:', error);
       }
@@ -456,7 +543,9 @@ fetchedRetenues.forEach((retenue: any) => {
       try {
         const response = await ApiService.get(`/contrat/${id}`);
         const contratData: Contrat = response.data.data;
+        console.log("Contrat data:",contratData);
         salaireDeBase.value = contratData.salaireBase || 0;
+      cnss.value = (contratData.personnel as any)?.cnss || '';
       } catch (error) {
         console.error('Error fetching contrat:', error);
       }
@@ -480,20 +569,36 @@ fetchedRetenues.forEach((retenue: any) => {
       try {
         const response = await ApiService.get('/all/typeRetenues');
         const typeRetenuesData: any[] = response.data.data.data;
-        typeRetenueOptions.value = typeRetenuesData.map(typeRetenue => ({
-          value: `${typeRetenue.id}|${typeRetenue.valeur}|${typeRetenue.typeDeValeur}`,
-          label: typeRetenue.nomRetenue,
-        }));
+       typeRetenueOptions.value = typeRetenuesData.map(typeRetenue => ({
+  value: `${typeRetenue.id}|${typeRetenue.valeur}|${typeRetenue.typeDeValeur}|${typeRetenue.typeDeCharge}`,
+  label: typeRetenue.nomRetenue,
+}));
+
         typeRetenues.value = typeRetenueOptions.value;
       } catch (error) {
         console.error('Error fetching type retenues:', error);
       }
     };
 
+    const getAvailableTypePrimes = (currentIndex: number) => {
+  const selected = primes
+    .map((p, idx) => idx !== currentIndex ? p.typePrime : null)
+    .filter(Boolean);
+  return typePrimeOptions.value.filter(option => !selected.includes(option.value));
+};
+
+const getAvailableTypeRetenues = (currentIndex: number) => {
+  const selected = retenues
+    .map((r, idx) => idx !== currentIndex ? r.typeRetenue : null)
+    .filter(Boolean);
+  return typeRetenueOptions.value.filter(option => !selected.includes(option.value));
+};
+
     const totalPrime = ref<number>(0);
     const totalRetenue = ref<number>(0);
     const salaireDeBase = ref<number>(0);
     const salaireNet = ref<number>(0);
+    const cnss = ref('');
     const isRetenueOverLimit = ref<boolean>(false);
 
     const totalPrimes = () => {
@@ -504,17 +609,35 @@ fetchedRetenues.forEach((retenue: any) => {
       });
     };
 
-    const totalRetenues = () => {
+   /* const totalRetenues = () => {
       totalRetenue.value = 0;
       retenues.forEach((retenue: Retenue) => {
         const montant = parseFloat(String(retenue.montant)) || 0;
         totalRetenue.value += montant;
       });
-    };
+    };*/
+
+    const totalRetenues = () => {
+  totalRetenue.value = 0;
+  retenues.forEach((retenue: Retenue) => {
+    if (retenue.typeRetenue) {
+      const parts = retenue.typeRetenue.split('|');
+      const typeDeCharge = parts[3];
+      const montant = parseFloat(String(retenue.montant)) || 0;
+
+      if (typeDeCharge === 'Charge ouvrière') {
+        totalRetenue.value += montant;
+      }
+    }
+  });
+};
+
+
+    
 
     const totalsalaireNet = () => {
       const salaireBaseValue = parseFloat(String(salaireDeBase.value)) || 0;
-      salaireNet.value = (totalPrime.value - totalRetenue.value) + salaireBaseValue;
+     salaireNet.value = (totalPrime.value - totalRetenue.value) + salaireBaseValue - montantITS.value;
     };
 
     const isDisable = ref<boolean>(true);
@@ -523,12 +646,9 @@ fetchedRetenues.forEach((retenue: any) => {
     const today = new Date();
     const currentYear = today.getFullYear();
     const previousYear = currentYear - 1;
-
     const periodeDefault = ref<string>(`${currentYear}-${String(today.getMonth() + 1).padStart(2, '0')}`);
-
-    const minDate = computed(() => `${previousYear}-01`);
+    const minDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
     const maxDate = computed(() => `${currentYear}-12`);
-
     const primes = reactive<Prime[]>([
       {
         typePrime: "",
@@ -539,7 +659,6 @@ fetchedRetenues.forEach((retenue: any) => {
         desactive: false,
       },
     ]);
-
     const retenues = reactive<Retenue[]>([
       {
         typeRetenue: "",
@@ -550,7 +669,6 @@ fetchedRetenues.forEach((retenue: any) => {
         desactive: false,
       },
     ]);
-
     const addRowPrime = () => {
       primes.push({
         typePrime: "",
@@ -561,7 +679,6 @@ fetchedRetenues.forEach((retenue: any) => {
         desactive: false,
       });
     };
-
     const addRowRetenue = () => {
       retenues.push({
         typeRetenue: "",
@@ -572,33 +689,27 @@ fetchedRetenues.forEach((retenue: any) => {
         desactive: false,
       });
     };
-
     const removeRowPrime = (index: number) => {
       if (!primes[index].desactive && primes.length > 1) {
         primes.splice(index, 1);
       }
     };
-
     const removeRowRetenue = (index: number) => {
       if (!retenues[index].desactive && retenues.length > 1) {
         retenues.splice(index, 1);
       }
     };
-
     const validateRowPrime = (value: any) => {
       return !value || parseFloat(String(value)) <= 0;
     };
-
     const validateRowRetenue = (value: any) => {
       return !value || parseFloat(String(value)) <= 0;
     };
-
     const calculerMontant = (item: Prime | Retenue) => {
       const valeurUnitaire = parseFloat(String(item.valeurUnitaire)) || 1;
       const quantite = parseFloat(String(item.quantite)) || 0;
       return valeurUnitaire * quantite;
     };
-
     const updateAllMontants = () => {
       primes.forEach(prime => {
         prime.montant = calculerMontant(prime);
@@ -611,10 +722,8 @@ fetchedRetenues.forEach((retenue: any) => {
       totalsalaireNet();
       checkRetenueLimit();
     };
-
     const updateValeurUnitaire = () => {
       const salaireBase = parseFloat(String(salaireDeBase.value)) || 1;
-
       primes.forEach(prime => {
         if (prime.typePrime) {
           const [id, valeur, typeDeValeur] = prime.typePrime.split('|');
@@ -622,7 +731,8 @@ fetchedRetenues.forEach((retenue: any) => {
           if (typeDeValeur.includes('%')) {
             prime.valeurUnitaire = salaireBase * valeurNum / 100;
           } else if (typeDeValeur.includes('MT')) {
-            prime.valeurUnitaire = salaireBase + valeurNum;
+            prime.valeurUnitaire =valeurNum;
+            
           }
           prime.montant = calculerMontant(prime);
         }
@@ -635,31 +745,60 @@ fetchedRetenues.forEach((retenue: any) => {
           if (typeDeValeur.includes('%')) {
             retenue.valeurUnitaire = salaireBase * valeurNum / 100;
           } else if (typeDeValeur.includes('MT')) {
-            retenue.valeurUnitaire = salaireBase + valeurNum;
+            retenue.valeurUnitaire =valeurNum;
           }
           retenue.montant = calculerMontant(retenue);
         }
       });
     };
 
-    watch(newContrat, (newValue: number | null) => {
-      if (newValue) {
-        selectedContrat.value = newValue;
-        fetchPrimeRetenue(newValue);
-        const count = lesContrats.value.find((el) => el.id === newValue);
-        if (count) {
-          salaireDeBase.value = parseFloat(String(count.salaireBase)) || 0;
-        } else {
-          console.warn('Aucun contrat trouvé avec cet ID');
-          salaireDeBase.value = 0;
-        }
-      }
-    });
+   watch(newContrat, (newValue: number | null) => {
+  if (newValue) {
+    selectedContrat.value = newValue;
+    fetchPrimeRetenue(newValue);
+    const contrat = lesContrats.value.find((el) => el.id === newValue);
+    if (contrat) {
+      salaireDeBase.value = parseFloat(String(contrat.salaireBase)) || 0;
+      cnss.value = contrat.cnss || ''; // si tu as cette info
+    } else {
+      salaireDeBase.value = 0;
+      cnss.value = '';
+    }
+  } else {
+    // Réinitialiser tous les champs liés au contrat
+    selectedContrat.value = null;
+    salaireDeBase.value = 0;
+    salaireNet.value = 0;
+    totalRetenue.value = 0;
+    totalPrime.value = 0;
+    cnss.value = ''; // ou null
 
-    watch(salaireDeBase, () => {
+    // Vider les tableaux de primes et retenues
+    primes.splice(0, primes.length);
+    retenues.splice(0, retenues.length);
+  }
+});
+
+    watch(newContrat, (val) => {
+  if (!val) {
+    cnss.value = null; // ou '' si tu veux vider le champ
+  }
+});
+
+watch(montantITS, (value) => {
+    totalsalaireNet();
+  if (value > 0) {
+    console.log(`Montant ITS calculé : ${value} FCFA`);
+  }
+});
+
+
+    watch(salaireDeBase,(newSalaire) => {
       updateValeurUnitaire();
       updateAllMontants();
       totalsalaireNet();
+      montantITS.value = calculerITS(newSalaire);
+
     });
 
     watch(primes, () => {
@@ -691,7 +830,7 @@ fetchedRetenues.forEach((retenue: any) => {
       updateAllMontants();
     };
 
-    const selectTypeRetenue = (selectedTypeRetenue: string, retenue: Retenue) => {
+   /* const selectTypeRetenue = (selectedTypeRetenue: string, retenue: Retenue) => {
       const [id, valeur, typeDeValeur] = selectedTypeRetenue.split('|');
       const valeurNum = parseFloat(valeur);
       retenue.valeur = String(valeurNum);
@@ -704,7 +843,23 @@ fetchedRetenues.forEach((retenue: any) => {
       }
       retenue.montant = calculerMontant(retenue);
       updateAllMontants();
-    };
+    };*/
+
+    const selectTypeRetenue = (selectedTypeRetenue: string, retenue: Retenue) => {
+  const [id, valeur, typeDeValeur, typeDeCharge] = selectedTypeRetenue.split('|');
+  const valeurNum = parseFloat(valeur);
+  retenue.valeur = String(valeurNum);
+
+  const salaireBase = parseFloat(String(salaireDeBase.value)) || 1;
+  if (typeDeValeur.includes('%')) {
+    retenue.valeurUnitaire = salaireBase * valeurNum / 100;
+  } else if (typeDeValeur.includes('MT')) {
+    retenue.valeurUnitaire = valeurNum;
+  }
+  retenue.montant = calculerMontant(retenue);
+  updateAllMontants();
+};
+
 
     watch(
       primes,
@@ -733,23 +888,23 @@ fetchedRetenues.forEach((retenue: any) => {
       },
       { deep: true }
     );
-const aDejaAfficheErreurRetenue = ref(false);
+      const aDejaAfficheErreurRetenue = ref(false);
 
-const checkRetenueLimit = () => {
-  const salaireBaseValue = parseFloat(String(salaireDeBase.value)) || 0;
-  const retenueLimit = salaireBaseValue / 3;
-  isRetenueOverLimit.value = totalRetenue.value > retenueLimit;
+      const checkRetenueLimit = () => {
+        const salaireBaseValue = parseFloat(String(salaireDeBase.value)) || 0;
+        const retenueLimit = salaireBaseValue / 3;
+        isRetenueOverLimit.value = totalRetenue.value > retenueLimit;
 
-  if (isRetenueOverLimit.value && !aDejaAfficheErreurRetenue.value) {
-    error(`Le total des retenues (${totalRetenue.value}) dépasse les 1/3 du salaire de base (${retenueLimit.toFixed(2)}). Veuillez revoir le montant des retenues.`);
-    aDejaAfficheErreurRetenue.value = true;
-  }
+        if (isRetenueOverLimit.value && !aDejaAfficheErreurRetenue.value) {
+          error(`Le total des retenues (${totalRetenue.value}) dépasse les 1/3 du salaire de base (${retenueLimit.toFixed(2)}). Veuillez revoir le montant des retenues.`);
+          aDejaAfficheErreurRetenue.value = true;
+        }
 
-  if (!isRetenueOverLimit.value && aDejaAfficheErreurRetenue.value) {
-    // Si ça repasse en dessous du seuil => on "réinitialise" le flag
-    aDejaAfficheErreurRetenue.value = false;
-  }
-};
+        if (!isRetenueOverLimit.value && aDejaAfficheErreurRetenue.value) {
+          // Si ça repasse en dessous du seuil => on "réinitialise" le flag
+          aDejaAfficheErreurRetenue.value = false;
+        }
+      };
 
 
     watch(totalRetenue, () => {
@@ -797,6 +952,7 @@ const checkRetenueLimit = () => {
     }
 
     values['modepaiement'] = modepaiement.value;
+    values['cnss'] = cnss.value;
     values['processuspaie'] = processuspaie.value;
     values['contrat'] = selectedContrat.value;
 
@@ -815,9 +971,7 @@ const checkRetenueLimit = () => {
       montant: retenue.montant,
       quantite: retenue.quantite,
     }));
-
-    const { data } = await ApiService.post("/gescom/paies", values);
-    
+    const { data } = await ApiService.post("/gescom/paies", values);    
     Swal.close();
 
     if (data.code == 201) {
@@ -842,7 +996,7 @@ const fullPdfUrl = `http://localhost:3007${pdfUrl}`;
   } catch (err: any) {
     Swal.close(); // Ferme le loading même en cas d'erreur
     console.error(err);
-    error('Erreur lors de la vérification ou de l\'ajout de la paie.');
+    error('Cette paie a déja été généré pour ce mois.');
   }
 };
 
@@ -884,6 +1038,7 @@ const fullPdfUrl = `http://localhost:3007${pdfUrl}`;
     matricule: contrat.reference || "N/A",
     poste: contrat.typeContrat?.libelle || "N/A",
     periode: periodeDefault.value,
+    cnss: cnss.value,
     salaire_brut: salaireDeBase.value,
     total_gains: totalPrime.value + salaireDeBase.value,
     total_retenues: totalRetenue.value,
@@ -1000,7 +1155,15 @@ const fullPdfUrl = `http://localhost:3007${pdfUrl}`;
       totalPrime,
       newContrat,
       isRetenueOverLimit,
-      generateBulletin
+      generateBulletin,
+       cnss,
+       getCurrentDate,
+       calculerITS,
+       montantITS,
+       getAvailableTypePrimes,
+       getAvailableTypeRetenues
+       
+
     };
   },
 });

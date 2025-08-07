@@ -27,6 +27,14 @@
                 <ErrorMessage name="description" class="text-danger"/>
               </div>
             </div>
+
+            <div class="col-md-2 mb-3">
+            <input type="checkbox" id="obligatoireCheckbox" v-model="isChecked" class="form-check-input" />
+            <label for="obligatoireCheckbox" class="form-check-label">
+              Est Inventaire
+            </label>
+            <p v-if="isChecked">L'option 'Est Inventaire' est cochée.</p>
+          </div>
           <!-- <div class="mb-7">
             <div class="row ">
               <div class="col-xl-3 col-md-3" v-for="(privilege, index) in permissions" :key="index">
@@ -97,13 +105,14 @@ export default defineComponent({
 
     onMounted(() => {
       id.value = route.params.id as string;
+      console.log(id.value, "ttttttttttttttttttttt")
       if (id.value) {
         getAllPermissions(id.value)
         getRole(id.value);
       }
     });
 
-
+    const isChecked = ref(false);    
     const privileges = ref<Array<string>>([]);
     const roleForm =  ref<Role>();
     const permissionOptions = ref([]);
@@ -137,7 +146,7 @@ export default defineComponent({
     } 
 
     async function getRole(id:string) {
-     await ApiService.get("/roles/simple",id)
+     await ApiService.get("/roles/simple/"+id)
       .then(({ data }) => {
           role.value = data.data;
           privileges.value = data.data.privileges;
@@ -150,7 +159,7 @@ export default defineComponent({
     });
   } 
 
-    return {role, roleSchema, editRole, roleForm, permissions, permissionOptions, privileges};
+    return {role, roleSchema, isChecked,editRole, roleForm, permissions, permissionOptions, privileges};
   }
 });
 </script>

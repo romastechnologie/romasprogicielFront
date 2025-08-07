@@ -142,7 +142,7 @@
                       Sexe <span class="text-danger">*</span>
                     </label>
                     <Field  name="sexe"  type="text"  v-slot="{ field }">
-                      <Multiselect
+                      <VueMultiselect
                       v-model = "field.value"
                       v-bind = "field"
                       :options="['Masculin', 'Féminin']"
@@ -266,7 +266,7 @@ setup: () => {
     }
 
   
-      function logout() {
+    function logout() {
       store.logout()
       if (!store.isAuthenticated) {
         router.push({name:'login'})

@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import ApiService from '@/services/ApiService';
 import ListeAttribution from "@/components/Attribution/ListeAttribution.vue";
-
+import { useAuthStore } from "@/services/auth";
+ 
 import BodyView from "@/layout/BodyView.vue"
 import AuthView from "@/components/common/block/auth/AuthView.vue"
 import LoginPage from "@/components/common/block/auth/LoginPage.vue"
+import ResetPasswordFirstPage from "@/components/common/block/auth/ResetPasswordFirstPage.vue"
 import indexDefault from "@/pages/dashbords/indexDefault.vue"
 import indexProject from "@/pages/dashbords/indexProject.vue"
 import loginSimple from "@/pages/authentication/loginSimple.vue"
@@ -114,9 +116,9 @@ import ListeInventairePage from "@/pages/GesCom/Inventaire/ListeInventairePage.v
 import ListeAdresseLivraisonPage from "@/pages/GesCom/AdresseLivraison/ListeAdresseLivraisonPage.vue";
 import AddCommandeFournisseurPage from "@/pages/GesCom/CommandeFournisseur/AddCommandeFournisseurPage.vue";
 import ListeCommandeFournisseurPage from "@/pages/GesCom/CommandeFournisseur/ListeCommandeFournisseurPage.vue";
-import AddSocietePage from "@/pages/GesCom/Societe/AddSocietePage.vue";
-import EditSocietePage from "@/pages/GesCom/Societe/EditSocietePage.vue";
-import ListeSocietePage from "@/pages/GesCom/Societe/ListeSocietePage.vue";
+//import AddSocietePage from "@/pages/GesCom/GestionPaie/Societe/AddSocietePage.vue";
+//import EditSocietePage from "@/pages/GesCom/GestionPaie/Societe/EditSocietePage.vue";
+//import ListeSocietePage from "@/pages/GesCom/GestionPaie/Societe/ListeSocietePage.vue";
 import ViewSocietePage from "@/pages/GesCom/Societe/ViewSocietePage.vue";
 import AddCommandeClientPage from "@/pages/GesCom/CommandeClient/AddCommandeClientPage.vue";
 import EditCommandeClientPage from "@/pages/GesCom/CommandeClient/EditCommandeClientPage.vue";
@@ -124,7 +126,7 @@ import ListeCommandeClientPage from "@/pages/GesCom/CommandeClient/ListeCommande
 import AddPaiementPage from "@/pages/GesCom/Paiement/AddPaiementPage.vue";
 import EditPaiementPage from "@/pages/GesCom/Paiement/EditPaiementPage.vue";
 import ListePaiementPage from "@/pages/GesCom/Paiement/ListePaiementPage.vue";
-import ListeModePaiementPage from "@/pages/GesCom/ModePaiement/ListeModePaiementPage.vue";
+//import ListeModePaiementPage from "@/pages/GesCom/ModePaiement/ListeModePaiementPage.vue";
 import AddBanquePage from "@/pages/GesCom/Banque/AddBanquePage.vue";
 import EditBanquePage from "@/pages/GesCom/Banque/EditBanquePage.vue";
 import ListeBanquePage from "@/pages/GesCom/Banque/ListeBanquePage.vue";
@@ -186,21 +188,30 @@ import ListeGroupeTaxePage from "@/pages/GesCom/GroupeTaxe/ListeGroupeTaxePage.v
 
 //Gestion de la Paie
 import ListeEthniePage from "@/pages/GestionPaie/Ethnie/ListeEthniePage.vue";
+import ListeModePaiementPage from "@/pages/GestionPaie/ModePaiement/ListeModePaiementPage.vue";
 import ListeTypeRetenuePage from "@/pages/GestionPaie/TypeRetenue/ListeTypeRetenuePage.vue";
 import ListeTypePrimePage from "@/pages/GestionPaie/TypePrime/ListeTypePrimePage.vue";
+import ListeItsPage from "@/pages/GestionPaie/Its/ListeItsPage.vue";
 import ListeTypeContratPage from "@/pages/GestionPaie/TypeContrat/ListeTypeContratPage.vue";
 import ListeModeTarificationPage from "@/pages/GestionPaie/ModeTarification/ListeModeTarificationPage.vue";
 import ListeReligionPage from "@/pages/GestionPaie/Religion/ListeReligionPage.vue";
 import AddContratPage from "@/pages/GestionPaie/Contrat/AddContratPage.vue";
 import ListeContratPage from "@/pages/GestionPaie/Contrat/ListeContratPage.vue";
 import ViewContratPage from "@/pages/GestionPaie/Contrat/ViewContratPage.vue";
-
+import AddSocietePage from "@/pages/GestionPaie/Societe/AddSocietePage.vue";
+import EditSocietePage from "@/pages/GestionPaie/Societe/EditSocietePage.vue";
+import ListeSocietePage from "@/pages/GestionPaie/Societe/ListeSocietePage.vue";
 import AddPaiePage from "@/pages/GestionPaie/Paie/AddPaiePage.vue";
 import ListePaiePage from "@/pages/GestionPaie/Paie/ListePaiePage.vue";
 import AddProcessusPage from "@/pages/GestionPaie/Processus/AddProcessusPage.vue";
 import ListeProcessusPage from "@/pages/GestionPaie/Processus/ListeProcessusPage.vue";
 import PersonnelDetailsPage from '@/pages/GesCom/Personnel/PersonnelDetailsPage.vue';
-import ListeModeleContratPage from "@/pages/GestionPaie/ModeleContrat/ListeModeleContratPage.vue"
+import AddModeleContratPage from "@/pages/GestionPaie/ModeleContrat/AddModeleContratPage.vue";
+import ListeModeleContratPage from "@/pages/GestionPaie/ModeleContrat/ListeModeleContratPage.vue";
+import AddApercuContratPage from "@/pages/GestionPaie/ModeleContrat/AddApercuContratPage.vue";
+import EditModeleContratPage from "@/pages/GestionPaie/ModeleContrat/EditModeleContratPage.vue"
+
+
 // import ListeBulletinPaiePage from "@/pages/GestionPaie/BulletinPaie/ListeBulletinPaiePage.vue"
 
 
@@ -413,6 +424,21 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+   {
+    path: "/modepaiements",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-modepaiement",
+        name: "ListeModePaiementPage",
+        component: ListeModePaiementPage,
+        meta: {
+          title: 'Liste des modes de paiements',
+        }
+      }
+    ]
+  },
+
   {
     path: "/ethnies",
     component: BodyView,
@@ -436,7 +462,55 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
-  {
+   {
+    path: "/modeleContrat",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-modelecontrat",
+        name: "AddModeleContratPage",
+        component: AddModeleContratPage,
+        meta: {
+          title: 'Ajouter un model contrat',
+        }
+      },
+      {
+        path: "liste-modeleContrat",
+        name: "ListeModeleContratPage",
+        component: ListeModeleContratPage,
+        meta: {
+          title: 'Liste des modeles contrats',
+        }
+      },
+       {
+        path: "apercu-modeleContrat/:id",
+        name: "AddApercuContratPage",
+        component: AddApercuContratPage,
+        meta: {
+          title: 'Aperçu contrat',
+        }
+      },
+
+        {
+        path: "modifier-modeleContrat/:id",
+        name: "EditModeleContratPage",
+        component: EditModeleContratPage,
+        meta: {
+          title: 'Modifier un modele de contrat ',
+        }
+      },
+   /*   {
+        path: "view-contrat/:id",
+        name: "ViewContrat",
+        component: ViewContratPage,
+        meta: {
+          title: 'Détails d\'un Contrat',
+        }
+      },*/
+    ]
+  },
+
+/*  {
     path: "/modeleContrat",
     component: BodyView,
     children: [
@@ -450,7 +524,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       }
     ]
-  },
+  },*/
 
   // {
   //   path: "/bulletinPaie",
@@ -498,6 +572,42 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   
+    
+  {
+    path: "/societes",
+    component: BodyView,
+    children: [
+    
+
+      {
+        path: "ajouter-societe",
+        name: "AddSocietePage",
+        component: AddSocietePage,
+        meta: {
+          title: 'Ajouter societe',
+        }
+      },
+        {
+        path: "modifier-societe/:id",
+        name: "EditSocietePage",
+        component: EditSocietePage,
+        meta: {
+          title: 'Modifier société',
+        }
+      },
+     
+      {
+        path: "liste-societes",
+        name: "ListeSocietePage",
+        component: ListeSocietePage,
+        meta: {
+          title: 'Liste des societes',
+        }
+      },
+    ]
+  },
+
+
      
   {
     path: "/typeRetenues",
@@ -540,6 +650,22 @@ const routes: Array<RouteRecordRaw> = [
         component: ListeTypePrimePage,
         meta: {
           title: 'Liste des types de primes',
+        }
+      }
+    ]
+  },
+ 
+  {
+    path: "/itss",
+    component: BodyView,
+    children: [
+     
+      {
+        path: "liste-its",
+        name: "ListeItsPage",
+        component: ListeItsPage,
+        meta: {
+          title: 'Liste des its',
         }
       }
     ]
@@ -1270,18 +1396,6 @@ const routes: Array<RouteRecordRaw> = [
   },
 
 
-
-  
-
-
-
-
- 
-
- 
- 
- 
- 
   {
     path: "/societes",
     component: BodyView,
@@ -1524,7 +1638,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'RomasProgiciel - Connexion',
         }
-      }
+      },
+       {
+        path: "reset_password_first",
+        name: "ResetPasswordFirst",
+        component: ResetPasswordFirstPage,
+        meta: {
+          title: 'Reset Password | SOMIMAS',
+        }
+      },
     ]
   },
   {
@@ -1661,18 +1783,19 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (typeof (to.meta.title) === 'string') {
     document.title = to.meta.title;
   }
   ApiService.setHeader();
-  const path = ['/auth/login', '/auth/register'];
-  if (path.includes(to.path) || localStorage.getItem('user')) {
-    //next('/auth/login');
-    return next();
-  }
-  //next();
-  next('/auth/login');
+  const authStore = useAuthStore();
+  await authStore.verifyAuth();
+  const path = ['/auth/login','/auth/register','/auth/reset_password_first'];
+    if (path.includes(to.path) || authStore.isAuthenticated) {
+      next();
+    } else {
+      next('/auth/login');
+    }
 });
 
 export default router

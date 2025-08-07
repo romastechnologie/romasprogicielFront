@@ -162,6 +162,12 @@
                   >
                     <div class="accordion-body">
                       <div class="row">
+                         <div class="col-md-6">
+                          <p>
+                            <strong>Cnss:</strong>
+                            {{ personnel?.cnss || "Nom inconnu" }}
+                          </p>
+                        </div>
                         <div class="col-md-6">
                           <p>
                             <strong>Boite postale:</strong>

@@ -20,6 +20,24 @@
                               <ErrorMessage name="nomRetenue" class="text-danger"/>
                             </div>
                           </div>
+                          
+                  <div class="col-md-12 mb-3">
+                        <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                        <label class="d-block text-black mb-10">
+                          Type de charge <span class="text-danger">*</span>
+                        </label>
+                        <Field  name="typeDeCharge"  type="text" v-model="typeCharge" v-slot="{ field }">
+                          <Multiselect
+                          :searchable = "true"
+                          :options = "['Charge Patronale', 'Charge ouvrière']"
+                          v-model = "field.value"
+                          v-bind = "field"
+                          placeholder="Sélectionner la charge"
+                          />
+                        </Field>
+                        <ErrorMessage name="typeDeCharge" class="text-danger"/>
+                      </div>
+                    </div>                       
                      <div class="col-md-12 mb-3">
                   <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
@@ -36,7 +54,7 @@
                   </Field>
                   <ErrorMessage name="typeDeValeur" class="text-danger"/>
                 </div>
-              </div>
+                    </div>
                           <div class="col-md-12 mb-3">
                             <div class="form-group mb-15 mb-sm-20 mb-md-25">
                               <label class="d-block text-black fw-semibold mb-10">
@@ -110,6 +128,7 @@
           description: Yup.string().required('La description est obligatoire'),
           nomRetenue: Yup.string().required('Le nom de la retenue est obligatoire'),
           typeDeValeur: Yup.string().required('Le type de la valeur est obligatoire'),
+          typeDeCharge: Yup.string().required('Le type de charge est obligatoire'),
           valeur: Yup.number().typeError('Veuillez entrer des chiffres').when([], (value, schema) => {
           return !valeurM.value
             ? schema.max(100, 'La valeur ne peut pas être supérieure à 100').required("La valeur est obligatoire")
@@ -127,6 +146,7 @@
         const isupdate=ref(false);
         const router = useRouter();
         const typeC = ref(null);
+        const typeCharge = ref(null);
         const valeurM = ref(false);
         const disable = ref(true);
 
@@ -151,6 +171,7 @@
             typeRetenueForm.value?.setFieldValue("description",data.data.description);
             typeRetenueForm.value?.setFieldValue("valeur",data.data.valeur);
             typeRetenueForm.value?.setFieldValue("typeDeValeur",data.data.typeDeValeur);
+            typeRetenueForm.value?.setFieldValue("typeDeCharge",data.data.typeDeCharge);
             emit('openmodal', addTypeRetenueModalRef.value);
           })
           .catch(({ response }) => {
@@ -214,7 +235,7 @@
     
         return {typeRetenues, title,btntext, resetValue, typeRetenueSchema,
            addTypeRetenue, typeRetenueForm,addTypeRetenueModalRef,typeRetenuenew,
-           typeC,valeurM,disable,
+           typeC,valeurM,disable,typeCharge
            };
       },
     };

@@ -4,9 +4,16 @@
             <div class="col-12">
                 <div class="login-card login-dark">
                     <div>
-                        <div><a class="logo"><router-link to="/"><img class="img-fluid for-light"
-                                        src="@/assets/images/logo/logo.png" alt="looginpage"><img class="img-fluid for-dark"
-                                        src="@/assets/images/logo/logo_dark.png" alt="looginpage"></router-link></a></div>
+                        <div>
+                            <a class="logo">
+                                <router-link to="/">
+                                    <img class="img-fluid for-light" src="@/assets/images/logo/logo.png"
+                                        alt="looginpage">
+                                    <img class="img-fluid for-dark" src="@/assets/images/logo/logo_dark.png"
+                                        alt="looginpage">
+                                </router-link>
+                            </a>
+                        </div>
                         <div class="login-main">
                             <form class="theme-form">
                                 <h4>Reset Your Password</h4>
@@ -21,12 +28,13 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="text-end">
-                                                <button class="btn btn-primary btn-block m-t-10" type="submit">Send</button>
+                                                <button class="btn btn-primary btn-block m-t-10"
+                                                    type="submit">Send</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-4 mb-4"><span class="reset-password-link">If don't receive OTP?  <a
+                                <div class="mt-4 mb-4"><span class="reset-password-link">If don't receive OTP?<a
                                             class="btn-link text-danger" href="#">Resend</a></span></div>
                                 <div class="form-group">
                                     <label class="col-form-label pt-0">Enter OTP</label>

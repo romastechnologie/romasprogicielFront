@@ -3,6 +3,10 @@ import { defineStore } from "pinia";
 import ApiService from "@/services/ApiService";
 import JwtService from "@/services/JwtService";
 import { arrow } from "@popperjs/core";
+import { addres } from "@/core/data/ecommerce";
+import {  useRouter } from 'vue-router';
+import { error } from "@/utils/utils";
+import router from "@/router";
 
 /*export interface User {
   nom?: string;
@@ -23,6 +27,7 @@ export interface Data {
   token: string;
   refreshToken: string;
 }
+
 // export interface User {
 //   id: number;
 //   nomComplet: string;
@@ -42,17 +47,30 @@ export interface User {
   telephone: string
   sexe: string
   email: string
-  personnel:string
+  firstConnectDate: string,
   createdAt: string
   updatedAt: string
   role: Role
+  userpointventes: Userpointvente[]
   userRoles: UserRole[];
+}
+
+export interface PointDeVente {
+  id: number
+  nomPointVente: string
+  adresse: string
+  code?: string
 }
 
 export interface UserRole {
   role: Role;
   roleId: number;
 }
+export interface Userpointvente {
+  id: number;
+  pointvente: PointDeVente;
+}
+
 export interface Role {
   id: number
   nom: string
@@ -78,48 +96,71 @@ export const useAuthStore = defineStore("auth", () => {
   const isAuthenticated = ref(!!JwtService.getToken());
 
 
-  function setAuth(authUser: any) {
-    isAuthenticated.value = true;
-    user.value = authUser.user;
-    errors.value = {};
-    formatRole(authUser.user)
-    formatPrivilege(authUser.user)
-    JwtService.saveUser(user.value.id.toString());
-    JwtService.saveToken(authUser.token);
-    JwtService.saveUserName(authUser.user.nom);
-    JwtService.saveUserLastName(authUser.user.prenom);
-    JwtService.saveUserPhone(authUser.user.telephone);
-    JwtService.setUserEmail(authUser.user.email);
+  function setAuth(authUser: Data) {
+    if (authUser.user.firstConnectDate != null) {
+      isAuthenticated.value = true;
+      user.value = authUser.user;
+      errors.value = {};
+      formatRole(authUser.user)
+      formatPrivilege(authUser.user)
+      formatPointVent(authUser.user)
+      JwtService.saveUser(user.value.id.toString());
+      JwtService.saveToken(authUser.token);
+      JwtService.saveUserName(authUser.user.nom);
+      JwtService.saveUserLastName(authUser.user.prenom);
+      JwtService.saveUserLastName(authUser.user.prenom);
+      JwtService.saveUserPhone(authUser.user.telephone);
+      JwtService.setUserEmail(authUser.user.email);
+      JwtService.saveUserFirstConnectDate(authUser.user.firstConnectDate);
+    } else {
+      JwtService.saveUserLastName(authUser.user.prenom);
+      JwtService.saveUserLastName(authUser.user.prenom);
+    }
+
   }
 
   function formatPrivilege(user: User) {
-      const privile = ref<Array<string>>([]);
+    const privile = ref<Array<string>>([]);
 
-      user.userRoles.forEach(userRole => {
-          if (userRole.role && userRole.role.rolePermissions) {
-              userRole.role.rolePermissions.forEach(element => {
-                  if (element.permission != null) {
-                      privile.value.push(element.permission.nom);
-                  }
-              });
+    user.userRoles.forEach(userRole => {
+      if (userRole.role && userRole.role.rolePermissions) {
+        userRole.role.rolePermissions.forEach(element => {
+          if (element.permission != null) {
+            privile.value.push(element.permission.nom);
           }
-      });
-      JwtService.savePrivilege(JSON.stringify(privile.value));
-  } 
+        });
+      }
+    });
+    JwtService.savePrivilege(JSON.stringify(privile.value));
+  }
 
   function formatRole(user: User) {
     const rol = ref<Array<string>>([]);
-    
+
     if (user && user.userRoles) {
-        user.userRoles.forEach(element => {
-            if (element.role != null) {
-                rol.value.push(element.role.nom);
-            }
-        });
-        
-        JwtService.saveRole(JSON.stringify(rol.value));
+      user.userRoles.forEach(element => {
+        if (element.role != null) {
+          rol.value.push(element.role.nom);
+        }
+      });
+
+      JwtService.saveRole(JSON.stringify(rol.value));
     }
-}
+  }
+
+  function formatPointVent(user: User) {
+    const point = ref<Array<PointDeVente>>([]);
+    if (user && user.userpointventes) {
+      user.userpointventes.forEach(element => {
+        if (element.pointvente != null) {
+          point.value.push({id:element.pointvente.id, nomPointVente: element.pointvente.nomPointVente,adresse: element.pointvente.adresse,code: element.pointvente.code} as PointDeVente);
+        }
+      });
+      JwtService.savePointDeVente(point.value[0].nomPointVente);
+      JwtService.savePointDeVenteId(point.value[0].id.toString());
+      JwtService.savePointDeVentes(JSON.stringify(point.value));
+    }
+  }
 
   function setError(error: any) {
     errors.value = { ...error };
@@ -131,14 +172,17 @@ export const useAuthStore = defineStore("auth", () => {
     errors.value = [];
     JwtService.destroyToken();
     JwtService.destroyUserPrivilege();
-    JwtService.destroyUserPersonnel();
+    JwtService.destroyPointVente();
+    JwtService.destroyPointVenteId();
   }
 
   function login(credentials: User) {
+    console.log("On est au début ==>", credentials);
     return ApiService.post("auth/login", credentials)
       .then(({ data }) => {
+        console.log("TYYYYTYTYYTYYTYTYTY ===> ", data);
         setAuth(data.data);
-        JwtService.setUserPersonnel((data.data.user?.personnel ? data.data.user?.personnel.id : "").toString());
+        return data;
       })
       .catch(({ response }) => {
         setError(response.data);
@@ -159,6 +203,17 @@ export const useAuthStore = defineStore("auth", () => {
       });
   }
 
+  function resetPassword(data: any) {
+    return ApiService.put("/auth/rest_password_first", data)
+      .then(({ data }) => {
+        setError({});
+        return data;
+      })
+      .catch(({ response }) => {
+        setError(response.data.errors);
+      });
+  }
+
   function forgotPassword(email: string) {
     return ApiService.post("auth/forgot_password", email)
       .then(() => {
@@ -166,19 +221,43 @@ export const useAuthStore = defineStore("auth", () => {
       })
       .catch(({ response }) => {
         setError(response.data.errors);
-    });
+      });
   }
 
-  function verifyAuth() {
+  /*function verifyAuth() {
+    console.log("On est dans le verifyAuth");
     if (JwtService.getToken()) {
       ApiService.setHeader();
       ApiService.post("auth/verify_token", { api_token: JwtService.getToken() })
         .then(({ data }) => {
-          setAuth(data);
+          //setAuth(data);
         })
         .catch(({ response }) => {
+          console.log("On est dans le catch");
+          console.log(response.data);
           setError(response.data.errors);
           purgeAuth();
+        });
+    } else {
+      purgeAuth();
+    }
+  }*/
+  function verifyAuth() {
+    if (JwtService.getToken()) {
+      console.log("On est dans le verifyAuth");
+      ApiService.setHeader();
+      ApiService.post("/auth/verify_token", { api_token: JwtService.getToken() })
+        .then(({ data }) => {
+          console.log("On est dans le then");
+          //setAuth(data);
+        })
+        .catch(({ response }) => {
+          console.log("On est dans le catch");
+          console.log(response);
+          error(response.data.message);
+          setError(response.data.errors);
+          purgeAuth();
+          router.push({ name: 'login'});
         });
     } else {
       purgeAuth();
@@ -194,5 +273,7 @@ export const useAuthStore = defineStore("auth", () => {
     register,
     forgotPassword,
     verifyAuth,
+    resetPassword,
+    purgeAuth
   };
 });

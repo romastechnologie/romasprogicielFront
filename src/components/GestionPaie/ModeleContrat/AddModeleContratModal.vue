@@ -10,62 +10,7 @@
         <div class="modal-body">
           <Form ref="modeleContratForm" @submit="addModeleContrat" :validation-schema="modeleContratSchema">
             <div class="row">
-              <div class="col-md-12 mb-3">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Description du Modèle <span class="text-danger">*</span>
-                  </label>
-                  <div class="tinymce-wrapper">
-                    <editor
-                      v-if="isEditorReady"
-                      v-model="description"
-                      :init="{
-                      plugins: 'advlist anchor autolink charmap code fullscreen help image insertdatetime link lists media preview searchreplace table visualblocks wordcount',
-                      toolbar: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-                      height: 500,
-                      }"
-                      :api-key="tinymceApiKey"
-                      @init="handleEditorInit"
-                    />
-                    <div v-else class="text-muted">Chargement de l'éditeur...</div>
-                  </div>
-                  <div v-if="descriptionError" class="text-danger">{{ descriptionError }}</div>
-                </div>
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Duree Defaut <span class="text-danger">*</span>
-                  </label>
-                  <Field name="dureeDefaut" type="number" class="form-control shadow-none fs-md-15 text-black"
-                    placeholder="Entrer la durée defaut" />
-                  <ErrorMessage name="dureeDefaut" class="text-danger" />
-                </div>
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Salaire de Base par Defaut <span class="text-danger">*</span>
-                  </label>
-                  <Field name="salaireBaseDefaut" type="text" class="form-control shadow-none fs-md-15 text-black"
-                    placeholder="Entrer le salaire de base defaut" />
-                  <ErrorMessage name="salaireBaseDefaut" class="text-danger" />
-                </div>
-              </div>
-              
-              <div class="col-md-12 mb-3">
-                <div class="form-group mb-15 mb-sm-20 mb-md-25">
-                  <label class="d-block text-black fw-semibold mb-10">
-                    Conditions Spécifiques <span class="text-danger">*</span>
-                  </label>
-                  <Field name="conditionsSpecifiques" as="textarea" class="form-control shadow-none fs-md-15 text-black" 
-                    placeholder="Entrer les conditions spécifiques" rows="4" />
-                  <ErrorMessage name="conditionsSpecifiques" class="text-danger" />
-                </div>
-              </div>
-              <div class="col-md-12 mb-3">
+                 <div class="col-md-12 mb-3">
                 <div class="form-group mb-15 mb-sm-20 mb-md-25">
                   <label class="d-block text-black mb-10">
                     Type Contrat <span class="text-danger">*</span>
@@ -88,7 +33,29 @@
                   <ErrorMessage name="typeContrat" class="text-danger" />
                 </div>
               </div>
-             
+
+              <div class="col-md-12 mb-3">
+                <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                  <label class="d-block text-black fw-semibold mb-10">
+                    Description du Modèle <span class="text-danger">*</span>
+                  </label>
+                  <div class="tinymce-wrapper">
+                    <editor
+                      v-if="isEditorReady"
+                      v-model="description"
+                      :init="{
+                      plugins: 'advlist anchor autolink charmap code fullscreen help image insertdatetime link lists media preview searchreplace table visualblocks wordcount',
+                      toolbar: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                      height: 500,
+                      }"
+                      :api-key="tinymceApiKey"
+                      @init="handleEditorInit"
+                    />
+                    <div v-else class="text-muted">Chargement de l'éditeur...</div>
+                  </div>
+                  <div v-if="descriptionError" class="text-danger">{{ descriptionError }}</div>
+                </div>
+              </div>      
               <button class="btn btn-primary" type="submit">
                 {{ btntext }}
               </button>
@@ -138,9 +105,9 @@ export default {
     const tinymceApiKey = ref('uz847a8s67ivk7r2bgs2dctztrtids7i68lucoaoja3btzk6'); // Remplace par ta clé API ou laisse vide pour le mode local
 
     const modeleContratSchema = Yup.object().shape({
-      dureeDefaut: Yup.number().required("la duree est obligatoire."),
-      salaireBaseDefaut: Yup.number().required("le salaire de base est obligatoire."),
-      conditionsSpecifiques: Yup.string().required("Les conditions specifiques sont obligatoires."),
+    //  dureeDefaut: Yup.number().required("la duree est obligatoire."),
+    //  salaireBaseDefaut: Yup.number().required("le salaire de base est obligatoire."),
+  //    conditionsSpecifiques: Yup.string().required("Les conditions specifiques sont obligatoires."),
       typeContrat: Yup.number().required("Le type de contrat est obligatoire."),
     });
 
@@ -150,15 +117,14 @@ export default {
     });
 
     const initializeEditor = async () => {
-      await nextTick(); // Attendre que le DOM soit prêt
-      isEditorReady.value = true; // Activer l'éditeur après le montage
+      await nextTick(); 
+      isEditorReady.value = true;
       console.log('TinyMCE Editor initialization triggered');
     };
 
     const handleEditorInit = (evt: any, editor: any) => {
       console.log('TinyMCE Editor initialized:', editor);
-      // Forcer le focus pour permettre la saisie
-      setTimeout(() => editor.focus(), 100); // Délai pour éviter les conflits avec la modale
+      setTimeout(() => editor.focus(), 100); 
     };
 
     const modeleContratnew = ref(props.id);
@@ -185,9 +151,9 @@ export default {
         if (modeleContratForm.value) {
           console.log('values',modeleContratForm.value);
           modeleContratForm.value.setFieldValue("id", data.data.id);
-          modeleContratForm.value.setFieldValue("dureeDefaut", data.data.dureeDefaut);
-          modeleContratForm.value.setFieldValue("salaireBaseDefaut", data.data.salaireBaseDefaut);
-          modeleContratForm.value.setFieldValue("conditionsSpecifiques", data.data.conditionsSpecifiques);
+       //   modeleContratForm.value.setFieldValue("dureeDefaut", data.data.dureeDefaut);
+      //    modeleContratForm.value.setFieldValue("salaireBaseDefaut", data.data.salaireBaseDefaut);
+       //   modeleContratForm.value.setFieldValue("conditionsSpecifiques", data.data.conditionsSpecifiques);
           modeleContratForm.value.setFieldValue("typeContrat", data.data.typeContrat?.id || null);
           description.value = data.data.description || '';
           typeContrat.value = data.data.typeContrat?.id || null;

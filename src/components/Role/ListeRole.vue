@@ -172,7 +172,7 @@
   <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2 g-xl-3">
     <div class="col-md-4">
       <div class="card h-md-100">
-        <div class="card-title m-15">
+        <div class="card-title m-15" >
           <h2 class="text-center">Ajouter un rôle</h2>
         </div>
         <!--begin::Card body-->

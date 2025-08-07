@@ -270,13 +270,15 @@
                         role="tabpanel"
                         aria-labelledby="adresse-contact-tab"
                       >
+
+                      
                         <div class="sidebar-body">
                           <div class="row g-2">
                             <div class="col-md-4 mb-3">
                               <div class="form-group mb-15 mb-sm-20 mb-md-25">
                                 <label class="d-block text-black mb-10">
                                   Boite Postale
-                                  <span class="text-danger">*</span>
+                                  <span class="text-danger"></span>
                                 </label>
                                 <Field
                                   name="boitePostale"
@@ -284,6 +286,21 @@
                                   type="text"
                                   class="form-control shadow-none fs-md-15 text-black"
                                   placeholder="Entrer votre adresse postale"
+                                />
+                              </div>
+                            </div>
+
+                             <div class="col-md-4 mb-3">
+                              <div class="form-group mb-15 mb-sm-20 mb-md-25">
+                                <label class="d-block text-black mb-10">
+                                  Numéro CNSS
+                                </label>
+                                <Field
+                                  name="cnss"
+                                  v-model="cnss"
+                                  type="text"
+                                  class="form-control shadow-none fs-md-15 text-black"
+                                  placeholder="Entrer votre numéro cnss"
                                 />
                               </div>
                             </div>
@@ -1727,7 +1744,7 @@ export default defineComponent({
     const telephone_m = ref();
     const nom_m = ref();
     const prenom_m = ref();
-
+   const cnss = ref();
 
 
 
@@ -1965,6 +1982,7 @@ export default defineComponent({
         telephonePersonneAContacter: telephonePersonneAContacter.value,
         relation: relation.value,
         personnels: personnels.value,
+        cnss: cnss.value,
       };
       console.log("Données élément:", elemt);
 
@@ -2451,7 +2469,7 @@ export default defineComponent({
       }
       if (currentStep.value === 2) {
         let element2 = {
-          boitePostale: boitePostale.value,
+        //  boitePostale: boitePostale.value,
           telephone: telephone.value,
           email: email.value,
           departement: departement.value,
@@ -2743,7 +2761,8 @@ export default defineComponent({
           telephone_p,
           nom_m,
           prenom_m,
-          telephone_m
+          telephone_m,
+          cnss
     };
   },
   computed: {

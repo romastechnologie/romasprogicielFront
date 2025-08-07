@@ -3,7 +3,7 @@
     <div
       class="card-head box-shadow bg-white d-lg-flex align-items-center justify-content-between p-15 p-sm-20 p-md-25"
     >
-      <div class="d-sm-flex align-items-center">
+      <div class="d-sm-flex align-items-center" v-if="checkPermission('AddPermission')">
         <a 
           class="btn btn-primary"
           href="#"
@@ -105,12 +105,12 @@
               >
               <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
               <ul class="dropdown-menu dropdown-block" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(267px, 305px);" data-popper-placement="bottom-start">
-                <li class="dropdown-item d-flex align-items-center">
+                <li class="dropdown-item d-flex align-items-center" v-if="checkPermission('EditPermission')">
                   <a  href="javascript:void(0);" @click="moddifier(permission)">
                   <i class="fa fa-pencil lh-2 me-8 position-relative top-1"></i> Modifier
                   </a>
                 </li>
-                <li class="dropdown-item d-flex align-items-center">
+                <li class="dropdown-item d-flex align-items-center" v-if="checkPermission('DeletePermission')">
                   <a href="javascript:void(0);"
                       @click="suppression(permission.id,permissions,'permissions',`la permission ${permission.nom}`)">  <i class="fa fa-trash-o lh-2 me-8 position-relative top-1"></i>
                        Supprimer

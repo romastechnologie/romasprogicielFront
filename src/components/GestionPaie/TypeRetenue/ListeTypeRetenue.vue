@@ -66,6 +66,12 @@
                 >Type de valeur
                   
                 </th>
+                 <th
+                  scope="col"
+                  class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
+                >Type de charge
+                  
+                </th>
                 <th
                   scope="col"
                   class="text-uppercase fw-medium shadow-none text-body-tertiary fs-13 pt-0"
@@ -94,6 +100,9 @@
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ typeRetenue.typeDeValeur}}
+                </td>
+                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
+                  {{ typeRetenue.typeDeCharge}}
                 </td>
                 <td class="shadow-none lh-1 fw-medium text-black-emphasis">
                   {{ typeRetenue.valeur}}
@@ -188,17 +197,13 @@
       const recharger = () => {
         getAllTypeRetenues();
       };
-      // END PAGINATE
-  
       onMounted(() => {
         loading.value=false;
         getAllTypeRetenues()
       });
-  
       const refreshTypeRetenues = () => {
           getAllTypeRetenues();
       };
-  
       function getAllTypeRetenues(page = 1, limi = 10, searchTerm = '') {
         return ApiService.get(`/all/typeRetenues?page=${page}&limit=${limi}&mot=${searchTerm}&`)
           .then(({ data }) => {
@@ -212,22 +217,17 @@
             error(response.data.message)
         });
       }
-      
       function moddifier(EdittypeRetenue:TypeRetenue) {
         idtypeRetenue.value = EdittypeRetenue.id;
       }
-  
       function showModalEdite(model:any){
         showModal(model);
         idtypeRetenue.value=0;
       }
-  
       const privileges = ref<Array<string>>(JwtService.getPrivilege());
-  
       const checkTypeRetenue = (name:string) => {
         return privileges.value.includes(name);
       }
-  
       return {suppression,
         checkTypeRetenue,
        typeRetenues,
@@ -246,8 +246,6 @@
         recharger,
         refreshTypeRetenues,
        };
-    },
-  
-   
+    },  
   });
   </script>

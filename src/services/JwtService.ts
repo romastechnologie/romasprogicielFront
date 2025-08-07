@@ -4,9 +4,12 @@ const ID_USERID_KEY = "id" as string;
 const USER_INFO = "user_info" as string;
 const ID_PHONE_KEY = "user_phone" as string;
 const USER_NAME = "user_name" as string;
+const USER_POINT_DE_VENTE = "user_point_de_vente" as string;
+const USER_POINT_DE_VENTE_ID = "user_point_de_vente_id" as string;
+const USER_POINT_DE_VENTES = "user_point_de_ventes" as string;
 const USER_LASTNAME = "user_lastname" as string;
+const USER_FIRST_CONNECT_DATE = "user_first_connect_date" as string;
 const USER_EMAIL = "user_email" as string;
-const USER_PERSONNEL = "user_personnel" as string;
 const USER_PRIVILEGE = "user_privilege" as string;
 const USER_ROLE = "user_role" as string;
 
@@ -25,9 +28,9 @@ export const saveUserPhone = (telephone: string): void => {
  */
 export const getPrivilege = () => {
   const privlg = window.localStorage.getItem(USER_PRIVILEGE);
-  let privlgTable= [];
+  let privlgTable = [];
   if (privlg != null) {
-     privlgTable = JSON.parse(privlg) ;
+    privlgTable = JSON.parse(privlg);
   }
   return privlgTable;
 };
@@ -41,9 +44,9 @@ export const savePrivilege = (privilege: string): void => {
 
 export const getRole = () => {
   const roll = window.localStorage.getItem(USER_ROLE);
-  let rollTable= [];
+  let rollTable = [];
   if (roll != null) {
-     rollTable = JSON.parse(roll) ;
+    rollTable = JSON.parse(roll);
   }
   return rollTable;
 };
@@ -67,20 +70,36 @@ export const getUserEmail = (): string | null => {
   return window.localStorage.getItem(USER_EMAIL);
 };
 
-export const destroyUserPersonnel = (): void => {
-  window.localStorage.removeItem(USER_PERSONNEL);
-};
-
-export const setUserPersonnel = (personnel_id: string): void => {
-  window.localStorage.setItem(USER_PERSONNEL, personnel_id);
-}
-
-export const getUserPersonnel = (): string | null => {
-  return window.localStorage.getItem(USER_PERSONNEL);
-};
-
 export const destroyUserEmail = (): void => {
   window.localStorage.removeItem(USER_EMAIL);
+};
+
+export const getPointDeVente = (): string | null => {
+  return window.localStorage.getItem(USER_POINT_DE_VENTE);
+};
+
+export const savePointDeVente = (pointDeVente: string): void => {
+  window.localStorage.setItem(USER_POINT_DE_VENTE, pointDeVente);
+};
+
+export const getPointDeVenteId = (): string | null => {
+  return window.localStorage.getItem(USER_POINT_DE_VENTE_ID);
+};
+
+export const savePointDeVenteId = (pointDeVente: string): void => {
+  window.localStorage.setItem(USER_POINT_DE_VENTE_ID, pointDeVente);
+};
+export const savePointDeVentes = (pointDeVentes: string): void => {
+  window.localStorage.setItem(USER_POINT_DE_VENTES, pointDeVentes);
+};
+
+export const getPointDeVentes = (): any => {
+  const point = window.localStorage.getItem(USER_POINT_DE_VENTES);
+  let points = [];
+  if (point != null) {
+    points = JSON.parse(point);
+  }
+  return points;
 };
 
 /**
@@ -113,12 +132,28 @@ export const saveUserLastName = (prenom: string): void => {
   window.localStorage.setItem(USER_LASTNAME, prenom);
 };
 
+export const saveUserFirstConnectDate = (firstConnectDate: string): void => {
+  window.localStorage.setItem(USER_FIRST_CONNECT_DATE, firstConnectDate);
+};
+
+export const  getUserFirstConnectDate = (): string | null => {
+  return window.localStorage.getItem(USER_FIRST_CONNECT_DATE);
+};
+
 export const destroyUserPhone = (): void => {
   window.localStorage.removeItem(ID_PHONE_KEY);
 };
 
 export const destroyUserName = (): void => {
   window.localStorage.removeItem(ID_PHONE_KEY);
+};
+
+export const destroyPointVenteId = (): void => {
+  window.localStorage.removeItem(USER_POINT_DE_VENTE_ID);
+};
+
+export const destroyPointVente = (): void => {
+  window.localStorage.removeItem(USER_POINT_DE_VENTE);
 };
 
 /**
@@ -162,8 +197,11 @@ export const destroyUser = (): void => {
   window.localStorage.removeItem(ID_USER_KEY);
 };
 
-export default {destroyUserPrivilege,getPrivilege, savePrivilege,
-   getToken,saveUserName,saveUserLastName,setUserEmail, getUserEmail,destroyUserEmail,
-   getUserName, getUserLastName, getUserPhone,saveUserPhone,destroyUserPhone,destroyUserName,
-    saveToken, destroyToken, saveUser ,destroyUser,getUser,setUserPersonnel,getUserPersonnel,destroyUserPersonnel,
-    destroyUserRole,getRole, saveRole, getUserId };
+export default {
+  destroyUserPrivilege, getPrivilege, savePrivilege,getUserFirstConnectDate, saveUserFirstConnectDate,destroyPointVenteId,destroyPointVente,
+  getToken, saveUserName, saveUserLastName, setUserEmail, getUserEmail, destroyUserEmail,
+  getUserName, getUserLastName, getUserPhone, saveUserPhone, destroyUserPhone, destroyUserName,
+  saveToken, destroyToken, saveUser, destroyUser, getUser,
+  destroyUserRole, getRole, saveRole, getUserId, getPointDeVente, savePointDeVente, getPointDeVentes, savePointDeVentes,
+  savePointDeVenteId, getPointDeVenteId, saveUserInfo, getUserInfo, destroyUserINfo
+};

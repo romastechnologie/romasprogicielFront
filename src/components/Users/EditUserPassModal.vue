@@ -21,6 +21,7 @@
                             </div>
                         </div>
                         <button
+                          ref="submitButton"
                           class="btn btn-primary"
                           type="submit"
                         >
@@ -114,6 +115,7 @@ export default {
 
       const passForm =  ref<User | null>(null);
       const addEditUserPassModalRef = ref<null | HTMLElement>(null);
+      const submitButton = ref<HTMLButtonElement | null>(null);
       //const router = useRouter();
       const userForm = ref<User>();
       const route = useRoute();
@@ -121,6 +123,12 @@ export default {
 
 
       const editUserPass = async (values:any) => {
+
+        if (submitButton.value) {
+        // eslint-disable-next-line
+        submitButton.value.disabled = true;
+      }
+
         const passData = {
           id: selectedUser.value?.id,
           newPassword: values.newPassword,
@@ -135,6 +143,7 @@ export default {
           emit('getAllUsers',data.data);
         }
         }).catch(({ response }) => {
+          submitButton.value!.disabled = false;
           error(response.data.message);
         });
     };
@@ -206,6 +215,7 @@ export default {
     return {passSchema,
       editUserPass,
       passForm,
+      submitButton,
       addEditUserPassModalRef,
       getUser,
       resetValue
