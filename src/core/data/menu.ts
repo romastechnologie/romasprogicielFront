@@ -191,6 +191,274 @@ export const menu: MenuItem[] = [
         ]
     },
 
+      {
+        headTitle1: "GesPack",
+        headTitle2: "GesPack",
+        type: "headtitle"
+    },
+    {
+        title: "Course",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/courses/ajouter-course",
+                title: "Ajouter une course",
+                type: "link"
+            },
+            {
+                path: "/courses/liste-courses",
+                title: "Liste des courses",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Entretien",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/entretiens/ajouter-entretien",
+                title: "Ajouter un entretien",
+                type: "link"
+            },
+            {
+                path: "/entretiens/liste-entretiens",
+                title: "Liste des entretiens",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Planification Réparation",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/planificationReparations/ajouter-planificationReparation",
+                title: "Declarer entretien",
+                type: "link"
+            },
+            {
+                path: "/planificationReparations/ajouter-planificationReparation2",
+                title: "Planifier panne ",
+                type: "link"
+            },
+            {
+                path: "/planificationReparations/liste-planificationReparations",
+                title: "Liste ",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Panne",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/pannes/liste-panne",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Type d'entretiens",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/typeEntretiens/ajouter-typeEntretien",
+                title: "Ajouter un type d'entretien",
+                type: "link"
+            },
+            {
+                path: "/typeEntretiens/liste-typeEntretien",
+                title: "Liste des types d'entretiens",
+                type: "link"
+            }
+        ]
+    },
+
+    {
+        title: "Type Moyen Roulant",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/TypeMoyenRoulant/listeTypeMoyenRoulant",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+    {
+        title: "Packing",
+        icon: "stroke-learning",
+        icon1: "fill-learning",
+        type: "link",
+        path: "/Packing/listePacking",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false
+    },
+
+     {
+        headTitle1: "Gestion des immobilisations",
+        headTitle2: "Bien, Amortissement,Mouvement des biens,Fournisseur,Type de Bien, Catégorie de Bien ",
+        type: "headtitle"
+    },
+    {
+        title: "Bien",
+        icon: "stroke-user",
+        icon1: "fill-user",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/biens/ajouter-bien",
+                title: "Ajouter un bien",
+                type: "link"
+            },
+            {
+                path: "/biens/liste-biens",
+                title: "Liste des biens",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Amortissement",
+        icon: "stroke-to-do",
+        icon1: "fill-to-do",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/amortissements/ajouter-amortissement",
+                title: "Ajouter un amortissement",
+                type: "link"
+            },
+            {
+                path: "/amortissements/liste-amortissements",
+                title: "Liste des amortissements",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Mouvement des biens",
+        icon: "stroke-to-do",
+        icon1: "fill-to-do",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            /* {
+                 path: "/mouvementBiens/ajouter-mouvementbien",
+                 title: "Ajouter un mouvement de bien",
+                 type: "link"
+             },*/
+            {
+                path: "/mouvementBiens/liste-mouvementbiens",
+                title: "Liste des mouvements",
+                type: "link"
+            }
+        ]
+    },
+    {
+        title: "Type Bien",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/typeBiens/liste-typeBiens",
+                title: "Liste des types de biens",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Magasin",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/magasins/liste-magasins",
+                title: "Liste des magasins",
+                type: "link"
+            },
+        ]
+    },
+    {
+        title: "Categorie Bien",
+        icon: "stroke-task",
+        icon1: "fill-task",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            
+            {
+                path: "/categorieBiens/liste-categorieBiens",
+                title: "Liste des catégories de biens",
+                type: "link"
+            },
+        ]
+    },
+    
+    {
+        title: "Fournisseurs",
+        icon: "stroke-calendar",
+        icon1: "fill-calendar",
+        type: "sub",
+        badgeType: "light-primary",
+        active: false,
+        isPinned: false,
+        children: [
+            {
+                path: "/fournisseurs/ajouter-fournisseur",
+                title: "Ajouter un fournisseur",
+                type: "link"
+            },
+            {
+                path: "/fournisseurs/liste-fournisseurs",
+                title: "Liste des fournisseurs",
+                type: "link"
+            },
+        ]
+    },
+
     {
         title: "Type Retenue",
         icon: "stroke-task",

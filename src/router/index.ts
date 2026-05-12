@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import ApiService from '@/services/ApiService';
 import ListeAttribution from "@/components/Attribution/ListeAttribution.vue";
 import { useAuthStore } from "@/services/auth";
- 
+
 import BodyView from "@/layout/BodyView.vue"
 import AuthView from "@/components/common/block/auth/AuthView.vue"
 import LoginPage from "@/components/common/block/auth/LoginPage.vue"
@@ -79,15 +79,13 @@ import ListeBienPage from "@/pages/GestionImmobilisation//Bien/ListeBienPage.vue
 import ViewBienPage from "@/pages/GestionImmobilisation//Bien/ViewBienPage.vue";
 import RetourneBienPage from "@/pages/GestionImmobilisation//Bien/RetourneBienPage.vue";
 //import ListeEcheancesPage from "@/pages/GestionPersonnel/Echeance/ListeEcheancesPage.vue";
-import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
-import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
-import ListeMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue";
+// import AddMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue";
+// import EditMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue";
+// import ListeMouvementBienPage from "@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue";
 import AddAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/AddAmortissementPage.vue";
 import EditAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/EditAmortissementPage.vue";
 import ListeAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/ListeAmortissementPage.vue";
 import ListeCategorieBienPage from "@/pages/GestionImmobilisation/CategorieBien/ListeCategorieBienPage.vue";
-import ListeTypeBienPage from "@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue";
-import ListeMagasinPage from "@/pages/GestionImmobilisation/Magasin/ListeMagasinPage.vue";
 import TableauAmortissementPage from "@/pages/GestionImmobilisation/Amortissement/TableauAmortissementPage.vue";
 import ListeFamillePage from "@/pages/GesCom/Familles/ListeFamillePage.vue";
 import AddMediaPage from "@/pages/GesCom/Medias/AddMediaPage.vue";
@@ -110,7 +108,6 @@ import ListeConditionnementPage from "@/pages/GesCom/Conditionnement/ListeCondit
 import AddProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/AddProduitConditionnePage.vue";
 import EditProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/EditProduitConditionnePage.vue";
 import ListeProduitConditionnePage from "@/pages/GesCom/ProduitConditionne/ListeProduitConditionnePage.vue";
-//import ListeMagasinPage from "@/pages/GesCom/Magasin/ListeMagasinPage.vue";
 import AddInventairePage from "@/pages/GesCom/Inventaire/AddInventairePage.vue";
 import ListeInventairePage from "@/pages/GesCom/Inventaire/ListeInventairePage.vue";
 import ListeAdresseLivraisonPage from "@/pages/GesCom/AdresseLivraison/ListeAdresseLivraisonPage.vue";
@@ -167,9 +164,9 @@ import AddDepensePage from "@/pages/GesCom/Depense/AddDepensePage.vue";
 import ListeDepensePage from "@/pages/GesCom/Depense/ListeDepensePage.vue";
 import AddDepotPage from "@/pages/GesCom/Depot/AddDepotPage.vue";
 import ListeDepotPage from "@/pages/GesCom/Depot/ListeDepotPage.vue";
-import AddFournisseurPage from "@/pages/GesCom/Fournisseur/AddFournisseurPage.vue";
-import EditFournisseurPage from "@/pages/GesCom/Fournisseur/EditFournisseurPage.vue";
-import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
+// import AddFournisseurPage from "@/pages/GesCom/Fournisseur/AddFournisseurPage.vue";
+// import EditFournisseurPage from "@/pages/GesCom/Fournisseur/EditFournisseurPage.vue";
+// import ListeFournisseurPage from "@/pages/GesCom/Fournisseur/ListeFournisseurPage.vue";
 import ViewFournisseurPage from "@/pages/GesCom/Fournisseur/ViewFournisseurPage.vue";
 import AddOperationDepotPage from "@/pages/GesCom/Operation/AddOperationDepotPage.vue";
 import AddOperationRetraitPage from "@/pages/GesCom/Operation/AddOperationRetraitPage.vue";
@@ -293,6 +290,32 @@ import AddValidationPage from '@/pages/Validation/AddValidationPage.vue';
 
 
 import ListeDemandePermissionPageCopy from '@/pages/GestionPersonnel/Demandes/ListeDemandePermissionPage copy.vue';
+import ListeCoursePage from '@/pages/GestionPack/Course/ListeCoursePage.vue';
+import EditCoursePage from '@/pages/GestionPack/Course/EditCoursePage.vue';
+import AddCoursePage from '@/pages/GestionPack/Course/AddCoursePage.vue';
+import AddEntretienPage from '@/pages/GestionPack/Entretien/AddEntretienPage.vue';
+import EditEntretienPage from '@/pages/GestionPack/Entretien/EditEntretienPage.vue';
+import ListeEntretienPage from '@/pages/GestionPack/Entretien/ListeEntretienPage.vue';
+import ListePackingPage from '@/pages/GestionPack/Packing/ListePackingPage.vue';
+import ListePannePage from '@/pages/GestionPack/Panne/ListePannePage.vue';
+import AddPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage.vue';
+import AddPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/AddPlanificationReparationPage2.vue';
+import EditPlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage.vue';
+import EditPlanificationReparationPage2 from '@/pages/GestionPack/PlanificationReparation/EditPlanificationReparationPage2.vue';
+import ListePlanificationReparationPage from '@/pages/GestionPack/PlanificationReparation/ListePlanificationReparationPage.vue';
+import AddTypeEntretienPage from '@/pages/GestionPack/TypeEntretien/AddTypeEntretienPage.vue';
+import EditTypeEntretienPage from '@/pages/GestionPack/TypeEntretien/EditTypeEntretienPage.vue';
+import ListeTypeEntretienPage from '@/pages/GestionPack/TypeEntretien/ListeTypeEntretienPage.vue';
+import ViewTypeEntretienPage from '@/pages/GestionPack/TypeEntretien/ViewTypeEntretienPage.vue';
+import ListeTypeMoyenRoulantPage from '@/pages/GestionPack/TypeMoyenRoulant/ListeTypeMoyenRoulantPage.vue';
+import AddFournisseurPage from '@/pages/GestionImmobilisation/Fournisseur/AddFournisseurPage.vue';
+import EditFournisseurPage from '@/pages/GestionImmobilisation/Fournisseur/EditFournisseurPage.vue';
+import ListeFournisseurPage from '@/pages/GestionImmobilisation/Fournisseur/ListeFournisseurPage.vue';
+import ListeMagasinPage from '@/pages/GestionImmobilisation/Magasin/ListeMagasinPage.vue';
+import ListeTypeBienPage from '@/pages/GestionImmobilisation/TypeBien/ListeTypeBienPage.vue';
+import EditMouvementBienPage from '@/pages/GestionImmobilisation/MouvementBien/EditMouvementBienPage.vue';
+import ListeMouvementBienPage from '@/pages/GestionImmobilisation/MouvementBien/ListeMouvementBienPage.vue';
+import AddMouvementBienPage from '@/pages/GestionImmobilisation/MouvementBien/AddMouvementBienPage.vue';
 // import EditChampsLibreFamillePage from "@/pages/ChampsLibre/EditChampsLibreFamillePage.vue"
 // import ListeChampsLibreFamillePage from "@/pages/ChampsLibre/ListeChampsLibreFamillePage.vue"
 // import AddChampsLibreFamillePage from "@/pages/ChampsLibre/AddChampsLibreFamillePage.vue"
@@ -333,8 +356,8 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
- 
- 
+
+
   /*{
     path: "/echeances",
     component: BodyView,
@@ -424,7 +447,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
-   {
+  {
     path: "/modepaiements",
     component: BodyView,
     children: [
@@ -462,7 +485,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
-   {
+  {
     path: "/modeleContrat",
     component: BodyView,
     children: [
@@ -482,7 +505,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des modeles contrats',
         }
       },
-       {
+      {
         path: "apercu-modeleContrat/:id",
         name: "AddApercuContratPage",
         component: AddApercuContratPage,
@@ -491,7 +514,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
 
-        {
+      {
         path: "modifier-modeleContrat/:id",
         name: "EditModeleContratPage",
         component: EditModeleContratPage,
@@ -499,38 +522,38 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Modifier un modele de contrat ',
         }
       },
-   /*   {
-        path: "view-contrat/:id",
-        name: "ViewContrat",
-        component: ViewContratPage,
-        meta: {
-          title: 'Détails d\'un Contrat',
-        }
-      },*/
+      /*   {
+           path: "view-contrat/:id",
+           name: "ViewContrat",
+           component: ViewContratPage,
+           meta: {
+             title: 'Détails d\'un Contrat',
+           }
+         },*/
     ]
   },
 
-/*  {
-    path: "/modeleContrat",
-    component: BodyView,
-    children: [
-      
-      {
-        path: "liste-modeleContrat",
-        name: "ListeModeleContratPage",
-        component: ListeModeleContratPage,
-        meta: {
-          title: 'Liste des modeles contrats',
+  /*  {
+      path: "/modeleContrat",
+      component: BodyView,
+      children: [
+        
+        {
+          path: "liste-modeleContrat",
+          name: "ListeModeleContratPage",
+          component: ListeModeleContratPage,
+          meta: {
+            title: 'Liste des modeles contrats',
+          }
         }
-      }
-    ]
-  },*/
+      ]
+    },*/
 
   // {
   //   path: "/bulletinPaie",
   //   component: BodyView,
   //   children: [
-      
+
   //     {
   //       path: "liste-bulletinPaie",
   //       name: "ListeBulletinPaiePage",
@@ -571,13 +594,13 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  
-    
+
+
   {
     path: "/societes",
     component: BodyView,
     children: [
-    
+
 
       {
         path: "ajouter-societe",
@@ -587,7 +610,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Ajouter societe',
         }
       },
-        {
+      {
         path: "modifier-societe/:id",
         name: "EditSocietePage",
         component: EditSocietePage,
@@ -595,7 +618,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Modifier société',
         }
       },
-     
+
       {
         path: "liste-societes",
         name: "ListeSocietePage",
@@ -608,7 +631,7 @@ const routes: Array<RouteRecordRaw> = [
   },
 
 
-     
+
   {
     path: "/typeRetenues",
     component: BodyView,
@@ -654,12 +677,12 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
- 
+
   {
     path: "/itss",
     component: BodyView,
     children: [
-     
+
       {
         path: "liste-its",
         name: "ListeItsPage",
@@ -670,52 +693,52 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
- 
 
-   {
-        path: "/paies",
-        component: BodyView,
-        children: [
-          {
-            path: "ajouter-paie",
-            name: "AddPaie",
-            component: AddPaiePage,
-            meta: {
-              title: 'Ajouter une paie',
-            }
-          },
-          {
-            path: "liste-paies",
-            name: "ListePaie",
-            component: ListePaiePage,
-            meta: {
-              title: 'Liste des paies',
-            },
-          }
-        ]
+
+  {
+    path: "/paies",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-paie",
+        name: "AddPaie",
+        component: AddPaiePage,
+        meta: {
+          title: 'Ajouter une paie',
+        }
       },
       {
-        path: "/processus",
-        component: BodyView,
-        children: [
-          {
-            path: "ajouter-processus",
-            name: "AddProcessus",
-            component: AddProcessusPage,
-            meta: {
-              title: 'Ajouter un processus',
-            }
-          },
-          {
-            path: "liste-processus",
-            name: "ListeProcessus",
-            component: ListeProcessusPage,
-            meta: {
-              title: 'Liste des processus',
-            },
-          }
-        ]
+        path: "liste-paies",
+        name: "ListePaie",
+        component: ListePaiePage,
+        meta: {
+          title: 'Liste des paies',
+        },
+      }
+    ]
+  },
+  {
+    path: "/processus",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-processus",
+        name: "AddProcessus",
+        component: AddProcessusPage,
+        meta: {
+          title: 'Ajouter un processus',
+        }
       },
+      {
+        path: "liste-processus",
+        name: "ListeProcessus",
+        component: ListeProcessusPage,
+        meta: {
+          title: 'Liste des processus',
+        },
+      }
+    ]
+  },
   {
     path: "/typeContrats",
     component: BodyView,
@@ -731,7 +754,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
-   {
+  {
     path: "/modeTarifications",
     component: BodyView,
     children: [
@@ -758,7 +781,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/typeOrganisations",
     component: BodyView,
     children: [
-     
+
       {
         path: "liste-typeOrganisation",
         name: "ListeTypeOrganisationPage",
@@ -773,7 +796,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/organisations",
     component: BodyView,
     children: [
-     
+
       {
         path: "liste-organisation",
         name: "ListeOrganisationPage",
@@ -784,8 +807,8 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-  
-  
+
+
   {
     path: "/religions",
     component: BodyView,
@@ -809,10 +832,409 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+  {
+    path: "/magasins",
+    component: BodyView,
+    children: [
+
+      {
+        path: "liste-magasins",
+        name: "ListeMagasin",
+        component: ListeMagasinPage,
+        meta: {
+          title: 'Liste des magasins',
+        }
+      },
+
+    ]
+  },
+
+  {
+    path: "/mouvementBiens",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-mouvementbien/:id",
+        name: "AddMouvementBien",
+        component: AddMouvementBienPage,
+        meta: {
+          title: 'Ajouter un mouvement',
+        }
+      },
+      {
+        path: "liste-mouvementbiens",
+        name: "ListeMouvementBien",
+        component: ListeMouvementBienPage,
+        meta: {
+          title: 'Liste des mouvements',
+        }
+      },
+      {
+        path: "edit-mouvementBien/:id",
+        name: "EditMouvementBien",
+        component: EditMouvementBienPage,
+        meta: {
+          title: 'Modifier un mouvement',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/typeBiens",
+    component: BodyView,
+    children: [
+
+      {
+        path: "liste-typebiens",
+        name: "ListeTypeBien",
+        component: ListeTypeBienPage,
+        meta: {
+          title: 'Liste des types de biens',
+        }
+      },
+
+    ]
+  },
+
+  {
+    path: "/biens",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-bien",
+        name: "AddBien",
+        component: AddBienPage,
+        meta: {
+          title: 'Ajouter un bien',
+        }
+      },
+      {
+        path: "liste-biens",
+        name: "ListeBien",
+        component: ListeBienPage,
+        meta: {
+          title: 'Liste des biens',
+        }
+      },
+      {
+        path: "tableau-amortissements/:id",
+        name: "TableauAmortissement",
+        component: TableauAmortissementPage,
+        meta: {
+          title: 'Tableau des amortissements',
+        }
+      },
+      {
+        path: "edit-bien/:id",
+        name: "EditBien",
+        component: EditBienPage,
+        meta: {
+          title: 'Modifier un bien',
+        }
+      },
+      {
+        path: "view-bien/:id",
+        name: "ViewBien",
+        component: ViewBienPage,
+        meta: {
+          title: 'Détails du bien',
+        }
+      },
+      {
+        path: "retourne-bien/:id",
+        name: "RetourneBien",
+        component: RetourneBienPage,
+        meta: {
+          title: 'Retourne bien',
+        }
+      }
+      // {
+      //   path: "view-utilisateur/:id",
+      //   name: "ViewUser",
+      //   component: ViewUserPage,
+      //   meta: {
+      //     title: 'Détails d\'un utilisateur',
+      //   }
+      // },
+    ]
+  },
+  {
+    path: "/fournisseurs",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-fournisseur",
+        name: "AddFournisseur",
+        component: AddFournisseurPage,
+        meta: {
+          title: 'Ajouter un fournisseur',
+        }
+      },
+
+      {
+        path: "edite-fournisseur/:id",
+        name: "EditFournisseur",
+        component: EditFournisseurPage,
+        meta: {
+          title: 'Modifier un fournisseur',
+        }
+      },
+      {
+        path: "liste-fournisseurs",
+        name: "ListeFournisseurPage",
+        component: ListeFournisseurPage,
+        meta: {
+          title: 'Liste des fournisseurs',
+        }
+      },
+
+    ]
+  },
+  {
+    path: "/amortissements",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-amortissement",
+        name: "AddAmortissement",
+        component: AddAmortissementPage,
+        meta: {
+          title: 'Ajouter un amortissement',
+        }
+      },
+      {
+        path: "liste-amortissements",
+        name: "ListeAmortissement",
+        component: ListeAmortissementPage,
+        meta: {
+          title: 'Liste des amortissements',
+        }
+      },
+      {
+        path: "edit-amortissement/:id",
+        name: "EditAmortissement",
+        component: EditAmortissementPage,
+        meta: {
+          title: 'Modifier un amortissement',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/categorieBiens",
+    component: BodyView,
+    children: [
+      {
+        path: "liste-categorieBiens",
+        name: "ListeCategorieBien",
+        component: ListeCategorieBienPage,
+        meta: {
+          title: 'Liste des catégories de biens',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/pannes",
+    component: BodyView,
+    children: [
+
+      {
+        path: "liste-panne",
+        name: "ListePannePage",
+        component: ListePannePage,
+        meta: {
+          title: 'Liste des pannes',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/courses",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-course",
+        name: "AddCoursePage",
+        component: AddCoursePage,
+        meta: {
+          title: 'Ajouter une course',
+        }
+      },
+      {
+        path: "editer-course/:id",
+        name: "EditCoursePage",
+        component: EditCoursePage,
+        meta: {
+          title: 'Editer une course',
+        }
+      },
+      {
+        path: "liste-courses",
+        name: "ListeCoursePage",
+        component: ListeCoursePage,
+        meta: {
+          title: 'Liste des courses',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/planificationReparations",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-planificationReparation",
+        name: "AddPlanificationReparationPage",
+        component: AddPlanificationReparationPage,
+        meta: {
+          title: 'planification entretien',
+        }
+      },
+      {
+        path: "ajouter-planificationReparation2",
+        name: "AddPlanificationReparationPage2",
+        component: AddPlanificationReparationPage2,
+        meta: {
+          title: 'planification bien ',
+        }
+      },
+      {
+        path: "editer-planificationReparation/:id",
+        name: "EditPlanificationReparationPage",
+        component: EditPlanificationReparationPage,
+        meta: {
+          title: 'Editer une planification de réparation',
+        }
+      },
+      {
+        path: "editer-planificationReparation2/:id",
+        name: "EditPlanificationReparationPage2",
+        component: EditPlanificationReparationPage2,
+        meta: {
+          title: 'Editer une planification de réparation',
+        }
+      },
+      {
+        path: "liste-planificationReparations",
+        name: "ListePlanificationReparationPage",
+        component: ListePlanificationReparationPage,
+        meta: {
+          title: 'Liste des planifications de réparation',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/entretiens",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-entretien",
+        name: "AddEntretienPage",
+        component: AddEntretienPage,
+        meta: {
+          title: 'Ajouter un entretien',
+        }
+      },
+      {
+        path: "editer-entretien/:id",
+        name: "EditEntretienPage",
+        component: EditEntretienPage,
+        meta: {
+          title: 'Editer un entretien',
+        }
+      },
+      {
+        path: "liste-entretiens",
+        name: "ListeEntretienPage",
+        component: ListeEntretienPage,
+        meta: {
+          title: 'Liste des entretiens',
+        }
+      }
+    ]
+  },
+
+  {
+    path: "/typeEntretiens",
+    component: BodyView,
+    children: [
+      {
+        path: "ajouter-typeEntretien",
+        name: "AddTypeEntretien",
+        component: AddTypeEntretienPage,
+        meta: {
+          title: "Ajouter un  type d'entretien",
+        }
+      },
+      {
+        path: "editer-typeEntretien/:id",
+        name: "EditTypeEntretien",
+        component: EditTypeEntretienPage,
+        meta: {
+          title: "Modifier un  type d'entretien",
+        }
+      },
+      {
+        path: "liste-typeEntretien",
+        name: "ListeTypeEntretienPage",
+        component: ListeTypeEntretienPage,
+        meta: {
+          title: "Liste des types d'entretien",
+        }
+      },
+      {
+        path: "view-typeEntretien/:id",
+        name: "ViewTypeEntretien",
+        component: ViewTypeEntretienPage,
+        meta: {
+          title: 'Détails d\'un type entretien',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/TypeMoyenRoulant",
+    component: BodyView,
+    children: [
+      {
+        path: "listeTypeMoyenRoulant",
+        name: "listeTypeMoyenRoulant",
+        component: ListeTypeMoyenRoulantPage,
+        meta: {
+          title: 'Liste Type Moyen Roulant',
+        }
+      },
+    ]
+  },
+
+  {
+    path: "/Packing",
+    component: BodyView,
+    children: [
+      {
+        path: "listePacking",
+        name: "listePacking",
+        component: ListePackingPage,
+        meta: {
+          title: 'Liste Packing',
+        }
+      },
+    ]
+  },
 
 
 
-    
+
+
   {
     path: "/roles",
     component: BodyView,
@@ -1034,8 +1456,8 @@ const routes: Array<RouteRecordRaw> = [
         }
       }
     ]
-    },
-      {
+  },
+  {
     path: "/demandes",
     component: BodyView,
     children: [
@@ -1215,8 +1637,8 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
- 
- 
+
+
   {
     path: "/horaires",
     component: BodyView,
@@ -1248,9 +1670,9 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
- 
- 
- 
+
+
+
   {
     path: "/circuits",
     component: BodyView,
@@ -1365,25 +1787,25 @@ const routes: Array<RouteRecordRaw> = [
     path: "/roleetaps",
     component: BodyView,
     children: [
-    
 
-    /*  {
-        path: "ajouter-roleetap",
-        name: "AddRoleEtapPage",
-        component: AddRoleEtapPage,
-        meta: {
-          title: 'Ajouter  roleetape',
-        }
-      },
-        {
-        path: "modifier-roleetap/:id",
-        name: "EditRoleEtapPage",
-        component: EditRoleEtapPage,
-        meta: {
-          title: 'Modifier role etape',
-        }
-      },*/
-     
+
+      /*  {
+          path: "ajouter-roleetap",
+          name: "AddRoleEtapPage",
+          component: AddRoleEtapPage,
+          meta: {
+            title: 'Ajouter  roleetape',
+          }
+        },
+          {
+          path: "modifier-roleetap/:id",
+          name: "EditRoleEtapPage",
+          component: EditRoleEtapPage,
+          meta: {
+            title: 'Modifier role etape',
+          }
+        },*/
+
       {
         path: "liste-roleetaps",
         name: "ListeRoleEtapPage",
@@ -1434,7 +1856,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
-  
+
   {
     path: "/banques",
     component: BodyView,
@@ -1477,7 +1899,8 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Voir les détails du  personnel',
         }
       },
-    ]},
+    ]
+  },
   {
     path: "/personnelles",
     component: BodyView,
@@ -1491,20 +1914,20 @@ const routes: Array<RouteRecordRaw> = [
         }
       }
     ],
-    },
+  },
+  {
+    path: "/personnels",
+    component: BodyView,
+    children: [
       {
-        path: "/personnels",
-        component: BodyView,
-        children: [
-          {
-            path: "ajouter-personnel",
-            name: "AddPersonnelNew",
-            component: AddPersonnelNewPage,
-            meta: {
-              title: 'Ajouter un personnel',
-            }
-          },
-          
+        path: "ajouter-personnel",
+        name: "AddPersonnelNew",
+        component: AddPersonnelNewPage,
+        meta: {
+          title: 'Ajouter un personnel',
+        }
+      },
+
       {
         path: "modifier-personnel/:id",
         name: "EditPersonnel",
@@ -1513,7 +1936,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Modifier un personnel',
         }
       },
-      
+
       /*{
         path: "view-personnel/:id",
         name: "ViewPersonnel",
@@ -1576,15 +1999,15 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
- 
-
-  
- 
 
 
 
- 
-  
+
+
+
+
+
+
   {
     path: "/",
     component: BodyView,
@@ -1597,7 +2020,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'Liste des quartiers',
         }
       },
-      
+
       {
         path: "/zones/liste-arrondissements",
         name: "ListeArrondissementPage",
@@ -1623,9 +2046,9 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
     ]
-  },  
-  
-  
+  },
+
+
 
   {
     path: "/auth",
@@ -1639,7 +2062,7 @@ const routes: Array<RouteRecordRaw> = [
           title: 'RomasProgiciel - Connexion',
         }
       },
-       {
+      {
         path: "reset_password_first",
         name: "ResetPasswordFirst",
         component: ResetPasswordFirstPage,
@@ -1790,12 +2213,12 @@ router.beforeEach(async (to, from, next) => {
   ApiService.setHeader();
   const authStore = useAuthStore();
   await authStore.verifyAuth();
-  const path = ['/auth/login','/auth/register','/auth/reset_password_first'];
-    if (path.includes(to.path) || authStore.isAuthenticated) {
-      next();
-    } else {
-      next('/auth/login');
-    }
+  const path = ['/auth/login', '/auth/register', '/auth/reset_password_first'];
+  if (path.includes(to.path) || authStore.isAuthenticated) {
+    next();
+  } else {
+    next('/auth/login');
+  }
 });
 
 export default router
